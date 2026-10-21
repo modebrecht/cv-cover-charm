@@ -1,0 +1,400 @@
+{
+  "date": "2026-10-21",
+  "scope": "CV only; cover is not under acceptance in this workstream",
+  "testedV2SourceCommit": "9c6fcece1f212f6315f519d4db20e24d633951e2",
+  "activeFidelityCheckedAt": "5bb37a9eceb5325c8cfa5763858d2e3ffbe4fcd0",
+  "activeFidelityDelta": "Seven later commits: cover avatar trial, page-fit UI, scripts/docs; no picture effectExtent fix",
+  "desktopWordV2PdfReturns": [
+    {
+      "file": "02-Foto-rechts.pdf",
+      "sha256": "132f395afda8b9d8e2782021b17d62fdca8ae4cb0139f6b0e79fe45320300ee1",
+      "creator": "Microsoft® Word for Microsoft 365",
+      "producer": "Microsoft® Word for Microsoft 365",
+      "pages": 3,
+      "blankPages": [],
+      "firstCvPage": 1
+    },
+    {
+      "file": "04-Foto-Portrait.pdf",
+      "sha256": "9e19d06d5620d94baab6b52863611c8493ab1d2b5cf02cde176f7fdf83b79d35",
+      "creator": "Microsoft® Word for Microsoft 365",
+      "producer": "Microsoft® Word for Microsoft 365",
+      "pages": 3,
+      "blankPages": [],
+      "firstCvPage": 1
+    },
+    {
+      "file": "05-Freies-Foto-rechts.pdf",
+      "sha256": "9d9c8a4d6f50b8e4f9643b9a6420a30beb407ddcbaa8bc12fe158006db66b71f",
+      "creator": "Microsoft® Word for Microsoft 365",
+      "producer": "Microsoft® Word for Microsoft 365",
+      "pages": 3,
+      "blankPages": [],
+      "firstCvPage": 1
+    },
+    {
+      "file": "06-Langer-CV-rechts.pdf",
+      "sha256": "7fbfd62fde0047811fd55ab32959cde36f8f0c9a66038854bb41e820273b76cf",
+      "creator": "Microsoft® Word for Microsoft 365",
+      "producer": "Microsoft® Word for Microsoft 365",
+      "pages": 11,
+      "blankPages": [],
+      "firstCvPage": 1
+    }
+  ],
+  "desktopWordV2DocxReturns": [
+    {
+      "source": "04-Foto-Portrait.docx",
+      "sourceSha256": "4dc3cabda398e7a8976d1905debcf4e9999f4d78e58eafe6dfa63f4ca872e5c0",
+      "saved": "04-Foto-Portrait.docx",
+      "savedSha256": "1bb068d3e9047d07609c9d950f419ecd3540ed6fff91493b83ceaaca37d45cc6",
+      "sourceFields": 80,
+      "savedFields": 80,
+      "missingIds": [],
+      "addedIds": [],
+      "cvFields": 48,
+      "allCvIdsAndTextPreserved": true,
+      "changedText": {
+        "cover.eyebrow": ["Bewerbung", "BewerbungGGG"]
+      },
+      "rawWholeDossierTextAndFieldsPass": false,
+      "exactGridsPreserved": true,
+      "pictures": {
+        "cv.person.photo": {
+          "pictureControlContainsImage": true,
+          "originalDrawingMLPreserved": true,
+          "originalPixelsPreserved": true,
+          "exactCropMarkupPreserved": true,
+          "source": {
+            "representation": "DrawingML",
+            "width": 120,
+            "height": 180,
+            "embeddedFileSha256": "265bf0882c3cacca519668160cf117ee82c33a662f7d4a582516bdb0a864fd02",
+            "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+            "crop": {
+              "l": "11818",
+              "t": "31313",
+              "r": "27576",
+              "b": "18182"
+            }
+          },
+          "saved": {
+            "representation": "DrawingML",
+            "width": 120,
+            "height": 180,
+            "embeddedFileSha256": "265bf0882c3cacca519668160cf117ee82c33a662f7d4a582516bdb0a864fd02",
+            "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+            "crop": {
+              "l": "11818",
+              "t": "31313",
+              "r": "27576",
+              "b": "18182"
+            }
+          }
+        }
+      }
+    },
+    {
+      "source": "06-Langer-CV-rechts.docx",
+      "sourceSha256": "c57b8f66e6f7885b928ed81ab28645f4fa0c9cade5d706fbee4aab033172189a",
+      "saved": "06-Langer-CV-rechtsss.docx",
+      "savedSha256": "93b643a75d59dfcd82803e2f18a9b1ddf9266990394c9021e1bb3304e314a8c1",
+      "sourceFields": 384,
+      "savedFields": 384,
+      "missingIds": [],
+      "addedIds": [],
+      "cvFields": 352,
+      "allCvIdsAndTextPreserved": true,
+      "changedText": {
+        "cover.eyebrow": ["Bewerbung", "BewerbungGGG"]
+      },
+      "rawWholeDossierTextAndFieldsPass": false,
+      "exactGridsPreserved": true,
+      "pictures": {}
+    }
+  ],
+  "confirmedWordVisibleDefect": {
+    "05": "Circle top outline is clipped at the inline paint box",
+    "04": "Portrait top and side outline are clipped at the inline paint box",
+    "sourceEffectExtents": "All zero despite nonzero outline",
+    "05PdfClipTopVersusStrokeTopPt": [775.14, 776.30695],
+    "04PdfClipTopVersusStrokeTopPt": [704.82, 708.2708]
+  },
+  "v3SourceInvariants": [
+    {
+      "file": "01-Links-ohne-Foto.docx",
+      "allIdsAndTextPreserved": true,
+      "exactPhotosAndCropPreserved": true,
+      "byteIdenticalToV2": true
+    },
+    {
+      "file": "02-Foto-rechts.docx",
+      "allIdsAndTextPreserved": true,
+      "exactPhotosAndCropPreserved": true,
+      "byteIdenticalToV2": false
+    },
+    {
+      "file": "03-Foto-links.docx",
+      "allIdsAndTextPreserved": true,
+      "exactPhotosAndCropPreserved": true,
+      "byteIdenticalToV2": false
+    },
+    {
+      "file": "04-Foto-Portrait.docx",
+      "allIdsAndTextPreserved": true,
+      "exactPhotosAndCropPreserved": true,
+      "byteIdenticalToV2": false
+    },
+    {
+      "file": "05-Freies-Foto-rechts.docx",
+      "allIdsAndTextPreserved": true,
+      "exactPhotosAndCropPreserved": true,
+      "byteIdenticalToV2": false
+    },
+    {
+      "file": "06-Langer-CV-rechts.docx",
+      "allIdsAndTextPreserved": true,
+      "exactPhotosAndCropPreserved": true,
+      "byteIdenticalToV2": true
+    }
+  ],
+  "v3FocusedCvRenders": [
+    {
+      "case": "04",
+      "pages": 1,
+      "pixelIdenticalToFullDossierCv": true,
+      "completeContourVisuallyInspected": true
+    },
+    {
+      "case": "05",
+      "pages": 1,
+      "pixelIdenticalToFullDossierCv": true,
+      "completeContourVisuallyInspected": true
+    }
+  ],
+  "v3WordAcceptance": "UNVERIFIED",
+  "writerOriginalPixelGate": "Not waived; still distinct from Word",
+  "productionVerdict": "NO-GO until remaining Word edit/reopen and full acceptance gates pass",
+  "v3Tests": {
+    "bunSuites": 7,
+    "bunTests": 54,
+    "failures": 0,
+    "focusedTypeScript": "PASS",
+    "applicationBuild": "NOT RUN",
+    "CI": "NOT DISPATCHED",
+    "retry": "The continuation determinism test exceeded the default 5-second resource timeout twice (5.14 s and 10.84 s). An isolated retry with a 30-second CLI allowance passed in 2.62 s. No source assertion or product acceptance gate changed.",
+    "completedPassingTests": 54,
+    "defaultTimeoutRun": {
+      "passed": 53,
+      "timedOut": 1,
+      "failedAssertions": 0
+    },
+    "isolatedRetry": {
+      "passed": 1,
+      "failed": 0,
+      "cliTimeoutMs": 30000,
+      "testDurationMs": 2615.78,
+      "assertionsUnchanged": true
+    }
+  },
+  "v3WriterSaveReopen": [
+    {
+      "file": "04-NUR-CV-Portrait-V3.docx",
+      "phases": {
+        "1": {
+          "sourceFields": 48,
+          "savedFields": 48,
+          "fieldIdsAndTextPreserved": true,
+          "completeTextPreserved": true,
+          "exactGridsPreserved": false,
+          "pictures": {
+            "cv.person.photo": {
+              "pictureControlContainsImage": true,
+              "originalDrawingMLPreserved": false,
+              "originalPixelsPreserved": false,
+              "exactCropMarkupPreserved": false,
+              "source": {
+                "representation": "DrawingML",
+                "width": 120,
+                "height": 180,
+                "embeddedFileSha256": "265bf0882c3cacca519668160cf117ee82c33a662f7d4a582516bdb0a864fd02",
+                "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+                "crop": {
+                  "l": "11818",
+                  "t": "31313",
+                  "r": "27576",
+                  "b": "18182"
+                }
+              },
+              "saved": {
+                "representation": "VML",
+                "width": 73,
+                "height": 91,
+                "embeddedFileSha256": "de07abf4466ea0207ae2b800673a7212ba4b82e91454908848dcbf2a83174ee4",
+                "rgbaSha256": "5c487ed740920bb94e9e42091e6e43ba5d31fc6a0194e3dca1cf14a489d48082",
+                "crop": null
+              }
+            }
+          }
+        },
+        "2": {
+          "sourceFields": 48,
+          "savedFields": 48,
+          "fieldIdsAndTextPreserved": true,
+          "completeTextPreserved": true,
+          "exactGridsPreserved": false,
+          "pictures": {
+            "cv.person.photo": {
+              "pictureControlContainsImage": true,
+              "originalDrawingMLPreserved": false,
+              "originalPixelsPreserved": false,
+              "exactCropMarkupPreserved": false,
+              "source": {
+                "representation": "DrawingML",
+                "width": 120,
+                "height": 180,
+                "embeddedFileSha256": "265bf0882c3cacca519668160cf117ee82c33a662f7d4a582516bdb0a864fd02",
+                "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+                "crop": {
+                  "l": "11818",
+                  "t": "31313",
+                  "r": "27576",
+                  "b": "18182"
+                }
+              },
+              "saved": {
+                "representation": "VML",
+                "width": 73,
+                "height": 91,
+                "embeddedFileSha256": "de07abf4466ea0207ae2b800673a7212ba4b82e91454908848dcbf2a83174ee4",
+                "rgbaSha256": "5c487ed740920bb94e9e42091e6e43ba5d31fc6a0194e3dca1cf14a489d48082",
+                "crop": null
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "file": "05-NUR-CV-Foto-rechts-V3.docx",
+      "phases": {
+        "1": {
+          "sourceFields": 48,
+          "savedFields": 48,
+          "fieldIdsAndTextPreserved": true,
+          "completeTextPreserved": true,
+          "exactGridsPreserved": false,
+          "pictures": {
+            "cv.person.photo": {
+              "pictureControlContainsImage": true,
+              "originalDrawingMLPreserved": true,
+              "originalPixelsPreserved": false,
+              "exactCropMarkupPreserved": false,
+              "source": {
+                "representation": "DrawingML",
+                "width": 120,
+                "height": 180,
+                "embeddedFileSha256": "265bf0882c3cacca519668160cf117ee82c33a662f7d4a582516bdb0a864fd02",
+                "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+                "crop": {
+                  "l": "8400",
+                  "t": "24400",
+                  "r": "11600",
+                  "b": "22267"
+                }
+              },
+              "saved": {
+                "representation": "DrawingML",
+                "width": 96,
+                "height": 96,
+                "embeddedFileSha256": "e03bd8e511b18bc850305389d41126ec66d4e00a4eaf09fe5a53a70be7ea72b5",
+                "rgbaSha256": "0414a71587a151a5bd29492a8e7a9f2cd7fe923dda44d5502229578413f4778e",
+                "crop": null
+              }
+            }
+          }
+        },
+        "2": {
+          "sourceFields": 48,
+          "savedFields": 48,
+          "fieldIdsAndTextPreserved": true,
+          "completeTextPreserved": true,
+          "exactGridsPreserved": false,
+          "pictures": {
+            "cv.person.photo": {
+              "pictureControlContainsImage": true,
+              "originalDrawingMLPreserved": true,
+              "originalPixelsPreserved": false,
+              "exactCropMarkupPreserved": false,
+              "source": {
+                "representation": "DrawingML",
+                "width": 120,
+                "height": 180,
+                "embeddedFileSha256": "265bf0882c3cacca519668160cf117ee82c33a662f7d4a582516bdb0a864fd02",
+                "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+                "crop": {
+                  "l": "8400",
+                  "t": "24400",
+                  "r": "11600",
+                  "b": "22267"
+                }
+              },
+              "saved": {
+                "representation": "DrawingML",
+                "width": 96,
+                "height": 96,
+                "embeddedFileSha256": "e03bd8e511b18bc850305389d41126ec66d4e00a4eaf09fe5a53a70be7ea72b5",
+                "rgbaSha256": "0414a71587a151a5bd29492a8e7a9f2cd7fe923dda44d5502229578413f4778e",
+                "crop": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "halfWidthSourceFix": {
+    "automaticOuterPaddingMm": 0,
+    "middleGapMm": 6,
+    "cases": [
+      "classic single",
+      "classic pair",
+      "left sidebar single",
+      "left sidebar pair",
+      "right sidebar single",
+      "right sidebar pair"
+    ],
+    "localRenderedHeadingXPt": 213.25,
+    "localRenderedTextXPt": 213.25,
+    "additionalIndentPt": 0
+  },
+  "referenceAlignmentInReturnedWordPdfs": {
+    "cases": ["02", "04", "05", "06"],
+    "textMinusHeadingXPt": [0, 0, 0, 0]
+  },
+  "deliveredPacket": {
+    "file": "CV-Sidebar-Fotofix-V3-21okt.zip",
+    "sha256": "024a0b9c6e9c13fb0c5a66e1e93d4081799c17480ed1c8fb34af3846bcb86514",
+    "manifest": {
+      "scope": "CV photo outline only; no cover or letter",
+      "extraction": "Unchanged native final CV section from fresh full model exports",
+      "desktopWordCandidateAcceptance": "UNVERIFIED",
+      "files": [
+        {
+          "file": "04-NUR-CV-Portrait-V3.docx",
+          "sha256": "71657436d41ccc5e7b7c94190afbe19606d663e33d2edb5f3bea67a2e3ff4bb6",
+          "cvFields": 48,
+          "source": "04-Foto-Portrait.docx",
+          "sourceSha256": "d8e53067ea222a82f6b0b3db703d811dacc03cc531d6b0738268bf81b89b3613"
+        },
+        {
+          "file": "05-NUR-CV-Foto-rechts-V3.docx",
+          "sha256": "b27ef3ecf48c6ccd337bb1a6e9b1782c3facfaa545dfb5e540802a0830835c9f",
+          "cvFields": 48,
+          "source": "05-Freies-Foto-rechts.docx",
+          "sourceSha256": "558a972d38a51b7f8cba113e3b3f321835c97bda34b15b44039870803d7378ef"
+        }
+      ]
+    }
+  }
+}

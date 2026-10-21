@@ -2,7 +2,7 @@
 
 21 October 2026. Branch: `fix/docx-next-sidebar-word-layout-21okt`. Base: `bc26a9472cf802828b5cd7e92d885954d82cec3c` from the active shared Fidelity branch. This isolated branch incorporates the earlier picture-control repair (`2813958f`) and reference alignment repair (`375075f`) without modifying either existing workstream.
 
-**Verdict: CONDITIONAL GO for the focused desktop Word test; NO-GO for production.** Source layout repairs and local semantic survival are verified. Desktop Word opening, replacement/cropping and Save/Reopen of this new candidate remain unverified. Writer still replaces original picture pixels. No acceptance gate is marked passed on the basis of visible text alone.
+**Update after desktop Word returns:** V2 original-image preservation in case 04 and the removed blank page in case 06 are now confirmed. Word also exposes clipped photo outlines. The subsequent shared repair and general half-width alignment correction are documented in [the current CV report](docx-next-sidebar-word-photo-21okt.md). **NO-GO for production remains.** The original pre-return verification record below describes V2 and must not be mistaken for the latest Word status.
 
 ## Changes
 
@@ -56,10 +56,10 @@ The [machine-readable evidence](docx-next-sidebar-word-layout-21okt-evidence.jso
 
 Writer's extreme long fixture overlaps hobby lines at one continuation boundary. The same overlap is present in the original supplied Writer reference. In the user's Microsoft 365 PDF (`06-Langer-CV-rechts-wtf.pdf`, SHA-256 `4e99beed9e802a0febad9b2acaf65dc869d40cfb400444147b54813067a76a99`), interest 15 and 16 instead begin about 76.68 pt apart on page 6. That is evidence of an editor-dependent layout difference for this fixture, not universal proof that Word is unaffected. Changing keep-lines or paragraph SDT placement did not resolve the Writer overlap and is not included in this repair.
 
-The apparent clipping in photos 02/03 must be compared with their saved crop: circle, zoom 1.25, pan 42/58, crop l/t/r/b 8400/24400/11600/22267. These values remain unchanged. A screenshot cannot establish an additional clipping defect or preservation of pixels outside the visible circle.
+The original photo assessment needed to distinguish the saved crop (circle, zoom 1.25, pan 42/58, crop l/t/r/b 8400/24400/11600/22267) from an additional paint defect. The subsequent Word PDFs now establish clipped outlines independently of those unchanged crop values; see the current CV report. A PDF alone still cannot establish preservation of the embedded original asset.
 
-## Smallest useful Word acceptance
+## Original V2 Word request now superseded by returns
 
-Use only the newly generated V2 packet. Initially open **04** and **06**: title/name must remain above/beside the portrait, and CV content must begin on page 3 without a blank opening page. Check **02** for aligned references and compare its circular crop with the supplied full PNG. Save 02, 04 and 06 in desktop Word, close and reopen them, and return those saved DOCX files. In 04, also select the picture inside the frame, replace it and reset crop; the underlying image must remain accessible and editable. Record the exact Word build with the final return.
+The V2 request covered portrait layout, the long CV's section transition, references, picture ownership and manual picture editing. PDFs for 02/04/05/06 and saved DOCX for 04/06 have since been returned and reviewed in the current CV report. Do not repeat the obsolete V2 batch. The new V3 packet contains only CV photo cases 04 and 05; manual Word picture replacement/crop-reset and the new candidate's Word render remain open.
 
 No production export switch, merge, deployment, historical-branch modification or CI dispatch was performed. Native Sidebar remains gated. Header-leading and broader template/22-case acceptance require subsequent verification after the focused Word result.

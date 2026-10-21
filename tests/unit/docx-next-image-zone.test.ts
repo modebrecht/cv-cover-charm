@@ -38,10 +38,16 @@ test("free photo owns a native zone and retains authored coordinates, frame and 
     source: "sidebar-photo",
     frame: { zoom: 1.25, xPct: 42, yPct: 58, borderWidthMm: 0.4 },
   });
-  expect(zone.topInsetMm).toBeCloseTo(24.8);
-  expect(zone.leftInsetMm + 75.2 + 0.2).toBeCloseTo(150);
+  expect(zone.topInsetMm).toBeCloseTo(24.6);
+  expect(zone.leftInsetMm + 75.2 + 0.4).toBeCloseTo(150);
   const table = imageZoneTable(zone, 114.8);
-  expect(table.widthMm).toBeCloseTo(34.4);
+  expect(table.widthMm).toBeCloseTo(34.8);
+  expect(table.rows[0].cellDecorations?.[0]).toEqual({
+    paddingXMm: 0,
+    paddingYMm: 0,
+    paddingTopMm: zone.topInsetMm,
+    paddingBottomMm: 0,
+  });
   expect(table.rows[0].keepTogether).toBe(false);
   expect(parallelFlowTable(flow, 170).rows[0].keepTogether).toBe(true);
   const ids = walkBlocks(model.cv.blocks).map((b) => b.id);
@@ -110,7 +116,7 @@ test("free-photo render fixtures declare following content fields, beyond an ope
 });
 
 test("invalid or unrepresentable image zones fail without resizing, crossing a gutter or losing the picture", () => {
-  for (const xMm of [0, 60, 185])
+  for (const xMm of [0, 60, 75.4, 185])
     expect(() => buildDossierDocModel(freeInput(xMm))).toThrow(
       "free photo must fit one native track",
     );

@@ -55,6 +55,17 @@ test("inline and wrapped photos have a typed run owner, preserving complete sour
     }
     assert.match(owner![0], /<pic:pic>/);
     assert.match(owner![0], /<a:srcRect\b/);
+    const stroke = kind === "photo-free-portrait" ? 43200 : 14400;
+    assert.ok(
+      owner![0].includes(
+        `<wp:effectExtent l="${stroke}" t="${stroke}" r="${stroke}" b="${stroke}"/>`,
+      ),
+      `${kind}: the line box must include the complete picture outline`,
+    );
+    if (kind === "photo-free-portrait") {
+      assert.match(document, /<wp:extent cx="1310400" cy="1652400"\/>/);
+      assert.match(document, /<wps:bodyPr lIns="0" rIns="0" tIns="0" bIns="0"/);
+    }
     assert.doesNotMatch(
       owner![0],
       /<w:p[ >]/,

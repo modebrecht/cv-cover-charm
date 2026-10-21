@@ -265,7 +265,10 @@ export async function renderDossierDocx(
         ? `<a:gd name="adj" fmla="val ${geometry.cornerAdjustment}"/>`
         : "";
     const picture = `<a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic><pic:nvPicPr><pic:cNvPr id="${id}" name="${xml(value.id)}"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="${rid}"/><a:srcRect l="${crop.left}" t="${crop.top}" r="${crop.right}" b="${crop.bottom}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm><a:prstGeom prst="${geometry.shape}"><a:avLst>${corners}</a:avLst></a:prstGeom>${outline}</pic:spPr></pic:pic></a:graphicData></a:graphic>`;
-    const extent = `<wp:extent cx="${cx}" cy="${cy}"/><wp:effectExtent l="0" t="0" r="0" b="0"/>`;
+    // Word paints picture outlines outside the image's fill bounds. Reserve the
+    // complete stroke on each edge so an inline line box cannot clip its paint.
+    const paintExtent = emu(geometry.borderWidthMm);
+    const extent = `<wp:extent cx="${cx}" cy="${cy}"/><wp:effectExtent l="${paintExtent}" t="${paintExtent}" r="${paintExtent}" b="${paintExtent}"/>`;
     const properties = `<wp:docPr id="${id}" name="${xml(value.id)}" descr="${xml(value.alt)}"/><wp:cNvGraphicFramePr><a:graphicFrameLocks noChangeAspect="1"/></wp:cNvGraphicFramePr>`;
     const distances = `distT="${emu(value.gapMm)}" distB="${emu(value.gapMm)}" distL="${emu(value.gapMm)}" distR="${emu(value.gapMm)}"`;
     let drawing: string;
@@ -692,9 +695,11 @@ export async function renderDossierDocx(
           {
             kind: "table",
             id: `${block.id}.half-row`,
-            widths: [1, 1],
+            widths: [1, 1, 1],
+            columnWidthsMm: [null, 6, null],
             indentMm,
-            rows: [{ cells, keepTogether: false }],
+            rows: [{ cells: [cells[0], [], cells[1]], keepTogether: false }],
+            decoration: { borderColor: "FFFFFF", borderWidthMm: 0, paddingXMm: 0, paddingYMm: 0 },
           },
           widthMm,
           page,

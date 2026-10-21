@@ -7,7 +7,8 @@ export function imageZoneExtent(image: ImageBlock) {
   const geometry = pictureGeometry(image, { widthPx: 1, heightPx: 1 }, image.widthMm);
   if (Math.abs(geometry.widthMm - image.widthMm) > 0.001)
     throw new Error(`DOCX Next image zone cannot shrink its authored frame ${image.id}`);
-  return { heightMm: geometry.heightMm, borderInsetMm: geometry.borderWidthMm / 2 };
+  // Word's picture outline extends one stroke beyond the image fill on each edge.
+  return { heightMm: geometry.heightMm, borderOutsetMm: geometry.borderWidthMm };
 }
 
 /** Project authored coordinates into one flow track. Above-body Y becomes body-start. */
@@ -16,15 +17,15 @@ export function imageZoneFromPage(
   track: { leftMm: number; topMm: number; widthMm: number; heightMm: number },
   physicalXmm = image.xMm,
 ): ImageZoneBlock {
-  const { heightMm, borderInsetMm } = imageZoneExtent(image);
+  const { heightMm, borderOutsetMm } = imageZoneExtent(image);
   if (image.placement !== "free" || image.coordinateOrigin !== "page")
     throw new Error(`DOCX Next page image zone requires page coordinates ${image.id}`);
-  const topInsetMm = Math.max(0, image.yMm - track.topMm - borderInsetMm);
+  const topInsetMm = Math.max(0, image.yMm - track.topMm - borderOutsetMm);
   if (
     ![physicalXmm, image.yMm, ...Object.values(track)].every(Number.isFinite) ||
     track.widthMm <= 0 ||
     track.heightMm <= 0 ||
-    topInsetMm + heightMm + borderInsetMm * 2 + 3 > track.heightMm + 0.001
+    topInsetMm + heightMm + borderOutsetMm * 2 + 3 > track.heightMm + 0.001
   )
     throw new Error(`DOCX Next image zone exceeds its first-page body ${image.id}`);
   const zone: ImageZoneBlock = {
@@ -38,7 +39,7 @@ export function imageZoneFromPage(
       yMm: 0,
       coordinateOrigin: "content",
     },
-    leftInsetMm: physicalXmm - track.leftMm - borderInsetMm,
+    leftInsetMm: physicalXmm - track.leftMm - borderOutsetMm,
     topInsetMm,
     sourceLayout: {
       xMm: image.xMm,
@@ -54,8 +55,8 @@ export function imageZoneFromPage(
 /** One flowing native cell owns its picture and insets. No XML or page reconstruction. */
 export function imageZoneTable(zone: ImageZoneBlock, availableWidthMm: number): TableBlock {
   const image = zone.image;
-  const { borderInsetMm } = imageZoneExtent(image);
-  const widthMm = image.widthMm + borderInsetMm * 2;
+  const { borderOutsetMm } = imageZoneExtent(image);
+  const widthMm = image.widthMm + borderOutsetMm * 2;
   if (
     image.placement !== "inline" ||
     ![zone.leftInsetMm, zone.topInsetMm, availableWidthMm].every(Number.isFinite) ||
@@ -75,10 +76,11 @@ export function imageZoneTable(zone: ImageZoneBlock, availableWidthMm: number): 
         keepTogether: false,
         cellDecorations: [
           {
-            paddingXMm: borderInsetMm,
+            // The inline drawing's effect extent already reserves its outline.
+            paddingXMm: 0,
             paddingYMm: 0,
-            paddingTopMm: zone.topInsetMm + borderInsetMm,
-            paddingBottomMm: borderInsetMm,
+            paddingTopMm: zone.topInsetMm,
+            paddingBottomMm: 0,
           },
         ],
       },
@@ -89,13 +91,13 @@ export function imageZoneTable(zone: ImageZoneBlock, availableWidthMm: number): 
 /** Preserve a free picture's coordinates while letting its track's text wrap around it. */
 export function imageZoneAnchor(zone: ImageZoneBlock, availableWidthMm: number): ImageBlock {
   imageZoneTable(zone, availableWidthMm);
-  const { borderInsetMm } = imageZoneExtent(zone.image);
+  const { borderOutsetMm } = imageZoneExtent(zone.image);
   return {
     ...zone.image,
     placement: "free",
     coordinateOrigin: "content",
-    xMm: zone.leftInsetMm + borderInsetMm,
-    yMm: zone.topInsetMm + borderInsetMm,
+    xMm: zone.leftInsetMm + borderOutsetMm,
+    yMm: zone.topInsetMm + borderOutsetMm,
     sourceLayout: zone.sourceLayout,
   };
 }

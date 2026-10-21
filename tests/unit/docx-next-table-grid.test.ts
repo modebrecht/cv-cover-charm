@@ -130,6 +130,48 @@ test("reference pairs align to the section edge and retain the preview gap in ei
     }
 });
 
+test("half-width sections retain their outer text edge with an empty 6 mm middle track", async () => {
+  for (const kind of ["left", "right", "classic"] as const)
+    for (const pair of [false, true]) {
+      const input = sidebarFixture(kind === "classic" ? "left" : kind);
+      if (kind === "classic") input.settings.cvLayout = "classic";
+      input.cv.data.sectionLayouts = {
+        "custom:familie": { width: "half", page: 1 },
+        ...(pair ? { schule: { width: "half" as const, page: 1 as const } } : {}),
+      };
+      const model = buildDossierDocModel(
+        input,
+        kind === "classic" ? {} : { cvSidebarComposition: "body-stories" },
+      );
+      const before = structuredClone(model);
+      const blob = await renderDossierDocx(model, { allowUnacceptedModelIssues: true });
+      const xml = new TextDecoder().decode(
+        readZipEntries(new Uint8Array(await blob.arrayBuffer())).find(
+          (part) => part.name === "word/document.xml",
+        )!.bytes,
+      );
+      const caption = xml.indexOf('w:tblCaption w:val="cv.section.custom:familie.half-row"');
+      expect(caption).toBeGreaterThan(0);
+      const start = xml.lastIndexOf("<w:tbl>", caption);
+      const properties = xml.slice(start, caption);
+      expect(properties).toContain('<w:left w:w="0" w:type="dxa"/>');
+      expect(properties).toContain('<w:right w:w="0" w:type="dxa"/>');
+      expect(properties).not.toContain("<w:tblInd");
+      const grid = [
+        ...xml
+          .slice(caption)
+          .split("</w:tblGrid>")[0]
+          .matchAll(/<w:gridCol w:w="(\d+)"\/>/g),
+      ].map((match) => Number(match[1]));
+      expect(grid).toHaveLength(3);
+      expect(Math.abs(grid[1] - twips(6))).toBeLessThanOrEqual(1);
+      expect(Math.abs(grid[0] - grid[2])).toBeLessThanOrEqual(1);
+      expect(xml.match(/w:tag w:val="cv.section.custom:familie.heading"/g)).toHaveLength(1);
+      expect(xml.match(/w:tag w:val="cv.section.schule.heading"/g)).toHaveLength(1);
+      expect(model).toEqual(before);
+    }
+});
+
 test("a narrow fixed spacer remains empty and cannot bypass the text-width gate", () => {
   const table: TableBlock = {
     kind: "table",
