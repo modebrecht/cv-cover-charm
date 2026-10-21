@@ -360,3 +360,20 @@ on a WHITE A4 sheet. The PDF text is geometrically centered but not
 visually contrast-readable without the real gradient background. Neon and
 Freundlich are visibly centered on white diagnostic pages. All complete
 app-cover and Word contrast/composition gates remain open.
+
+
+## Writer Save/Reopen of isolated native VML samples
+
+Further isolated A4 probe: LibreOffice Writer opened each of the three
+`*-sdt-vml.docx` files, saved it as a new DOCX, and the saved file
+was then **rendered again by Writer**. Geometric initials-centering test
+again returned **3/3 PASS** for Neon, Freundlich and Verlauf.
+The reopened DOCX still contains native `w:t=LM` editable text nodes,
+rather than flattened text pixels. This is a real Writer round-trip,
+not desktop Microsoft Word evidence, and not generated from the full app
+model; source Verlag white-on-white contrast remains untested until actual
+gradient cover rendering.
+
+**Status:** Writer isolated visual geometry 3/3; Writer Save/Reopen 3/3;
+full app ten-case exports 0/10; Desktop Microsoft Word 0/10. NO-GO
+production until a complete native DOCX/Word acceptance pass.
