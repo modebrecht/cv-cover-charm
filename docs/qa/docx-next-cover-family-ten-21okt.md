@@ -343,3 +343,20 @@ Only those explicitly requesting the trial receive VML. Normal app
 exports, non-photo badges, source JSON, default SVG/DrawingML and the
 feature gates remain unchanged. The full 10-case app run remains 0/10
 and desktop Word 0/10 in this chat.
+
+
+## Executed exact-source standalone VML smoke
+
+The executable `npm run test:docx-next-avatar-vml-smoke` is now tracked in
+the repository. The exact code blob `1d2fdda01b305850d298dac1835ac0f7aca1dbc5`
+was executed in Node 22 against the unchanged GitHub VML renderer source
+blob `b2e5a9500f41a1402d6069128586e793914be4d2`: **3/3 PASS**,
+plus invalid-mode guard PASS. It checks editable Word text/table markup,
+the source mm/page positions, center-cell geometry, fill, outline and
+XML tag pairing. No full app/Bun integration or Word Save/Reopen was run.
+
+Visual caveat: the isolated Verlauf shape has WHITE initials and no fill
+on a WHITE A4 sheet. The PDF text is geometrically centered but not
+visually contrast-readable without the real gradient background. Neon and
+Freundlich are visibly centered on white diagnostic pages. All complete
+app-cover and Word contrast/composition gates remain open.
