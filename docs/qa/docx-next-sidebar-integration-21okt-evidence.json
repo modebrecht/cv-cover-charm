@@ -1,0 +1,446 @@
+{
+  "sources": {
+    "base": "bc26a9472cf802828b5cd7e92d885954d82cec3c",
+    "sidebar": "91c6da178d6ba4bc01c4c32ba1f3dabb691850e0",
+    "fidelity": "3a6f5a11d5c13b3169cc136c4d7ad52e04dc6a38"
+  },
+  "sharedFilePreview": [
+    {
+      "file": "src/lib/docx-next/build-model.ts",
+      "textConflict": true,
+      "exitCode": 1
+    },
+    {
+      "file": "src/lib/docx-next/model.ts",
+      "textConflict": false,
+      "exitCode": 0
+    },
+    {
+      "file": "src/lib/docx-next/renderer.ts",
+      "textConflict": true,
+      "exitCode": 1
+    },
+    {
+      "file": "src/lib/docx-next/validation.ts",
+      "textConflict": false,
+      "exitCode": 0
+    }
+  ],
+  "verifiedInputBlobs": 43,
+  "reviewedConflictResolutions": [
+    {
+      "file": "build-model.ts",
+      "area": "avatar trial guard",
+      "rule": "Retain both explicit active avatar modes; Sidebar reference logic remains outside this hunk"
+    },
+    {
+      "file": "renderer.ts",
+      "area": "native shape imports",
+      "rule": "Retain both Sidebar picture-frame and active VML-avatar imports"
+    },
+    {
+      "file": "renderer.ts",
+      "area": "image paragraph serialization",
+      "rule": "Retain active exact non-wrapping page-picture branch, and the Sidebar-owned inline drawing branch otherwise"
+    }
+  ],
+  "textCombinationCompleted": true,
+  "previewAssembly": "Four shared files combined; Sidebar-only files retained; Fidelity-only files copied; no ref changed",
+  "activeCoverTestComparison": {
+    "sameOutcome": true,
+    "runs": [
+      {
+        "scope": "fidelity-baseline",
+        "exitCode": 1,
+        "passed": [
+          "shared opt-in native cover photo placeholder > verlauf preserves no-photo initials as editable native text",
+          "shared opt-in native cover photo placeholder > verlauf uses the user's uploaded photo without duplicating initials",
+          "shared opt-in native cover photo placeholder > verlauf keeps manually relative-positioned initials safe",
+          "shared opt-in native cover photo placeholder > verlauf does not resurrect an explicitly hidden photo placeholder",
+          "shared opt-in native cover photo placeholder > neon preserves no-photo initials as editable native text",
+          "shared opt-in native cover photo placeholder > neon uses the user's uploaded photo without duplicating initials",
+          "shared opt-in native cover photo placeholder > neon keeps manually relative-positioned initials safe",
+          "shared opt-in native cover photo placeholder > neon does not resurrect an explicitly hidden photo placeholder",
+          "shared opt-in native cover photo placeholder > freundlich preserves no-photo initials as editable native text",
+          "shared opt-in native cover photo placeholder > freundlich uses the user's uploaded photo without duplicating initials",
+          "shared opt-in native cover photo placeholder > freundlich keeps manually relative-positioned initials safe",
+          "shared opt-in native cover photo placeholder > freundlich does not resurrect an explicitly hidden photo placeholder",
+          "shared opt-in native cover photo placeholder > other templates retain their previously photo-free model semantics",
+          "single-owner native avatar experiment (never the default export) > gates unrelated templates, uploaded photos and relative photo anchors",
+          "guarded Writer-compatible VML avatar candidate > verlauf produces one editable circle with a vertically centered native table",
+          "guarded Writer-compatible VML avatar candidate > neon produces one editable circle with a vertically centered native table",
+          "guarded Writer-compatible VML avatar candidate > freundlich produces one editable circle with a vertically centered native table",
+          "guarded Writer-compatible VML avatar candidate > VML trial stays gated on explicit option and safe source geometry"
+        ],
+        "failed": [
+          "shared opt-in native cover photo placeholder > verlauf keeps round paint separate from editable initials",
+          "shared opt-in native cover photo placeholder > neon keeps round paint separate from editable initials",
+          "shared opt-in native cover photo placeholder > freundlich keeps round paint separate from editable initials",
+          "single-owner native avatar experiment (never the default export) > verlauf holds editable initials inside the same rounded Word shape",
+          "single-owner native avatar experiment (never the default export) > neon holds editable initials inside the same rounded Word shape",
+          "single-owner native avatar experiment (never the default export) > freundlich holds editable initials inside the same rounded Word shape"
+        ]
+      },
+      {
+        "scope": "combined-preview",
+        "exitCode": 1,
+        "passed": [
+          "shared opt-in native cover photo placeholder > verlauf preserves no-photo initials as editable native text",
+          "shared opt-in native cover photo placeholder > verlauf uses the user's uploaded photo without duplicating initials",
+          "shared opt-in native cover photo placeholder > verlauf keeps manually relative-positioned initials safe",
+          "shared opt-in native cover photo placeholder > verlauf does not resurrect an explicitly hidden photo placeholder",
+          "shared opt-in native cover photo placeholder > neon preserves no-photo initials as editable native text",
+          "shared opt-in native cover photo placeholder > neon uses the user's uploaded photo without duplicating initials",
+          "shared opt-in native cover photo placeholder > neon keeps manually relative-positioned initials safe",
+          "shared opt-in native cover photo placeholder > neon does not resurrect an explicitly hidden photo placeholder",
+          "shared opt-in native cover photo placeholder > freundlich preserves no-photo initials as editable native text",
+          "shared opt-in native cover photo placeholder > freundlich uses the user's uploaded photo without duplicating initials",
+          "shared opt-in native cover photo placeholder > freundlich keeps manually relative-positioned initials safe",
+          "shared opt-in native cover photo placeholder > freundlich does not resurrect an explicitly hidden photo placeholder",
+          "shared opt-in native cover photo placeholder > other templates retain their previously photo-free model semantics",
+          "single-owner native avatar experiment (never the default export) > gates unrelated templates, uploaded photos and relative photo anchors",
+          "guarded Writer-compatible VML avatar candidate > verlauf produces one editable circle with a vertically centered native table",
+          "guarded Writer-compatible VML avatar candidate > neon produces one editable circle with a vertically centered native table",
+          "guarded Writer-compatible VML avatar candidate > freundlich produces one editable circle with a vertically centered native table",
+          "guarded Writer-compatible VML avatar candidate > VML trial stays gated on explicit option and safe source geometry"
+        ],
+        "failed": [
+          "shared opt-in native cover photo placeholder > verlauf keeps round paint separate from editable initials",
+          "shared opt-in native cover photo placeholder > neon keeps round paint separate from editable initials",
+          "shared opt-in native cover photo placeholder > freundlich keeps round paint separate from editable initials",
+          "single-owner native avatar experiment (never the default export) > verlauf holds editable initials inside the same rounded Word shape",
+          "single-owner native avatar experiment (never the default export) > neon holds editable initials inside the same rounded Word shape",
+          "single-owner native avatar experiment (never the default export) > freundlich holds editable initials inside the same rounded Word shape"
+        ]
+      }
+    ]
+  },
+  "verificationCommands": [
+    {
+      "name": "sidebar-tests",
+      "exitCode": 0,
+      "sourceStable": true
+    },
+    {
+      "name": "typecheck",
+      "exitCode": 0,
+      "sourceStable": true
+    },
+    {
+      "name": "source-generation",
+      "exitCode": 0,
+      "sourceStable": true
+    }
+  ],
+  "sidebarUnitTests": {
+    "passed": 54,
+    "failed": 0,
+    "suites": 7,
+    "timeoutMs": 30000
+  },
+  "focusedTypeScript": "PASS",
+  "sourcePackages": [
+    {
+      "file": "01-Links-ohne-Foto.docx",
+      "sameBytesAsWordFixSource": true,
+      "sha256": "d219c0bbdb9d7a1f1be2e264da465f07fe14e157dadfcd7755c37eb23cf18491"
+    },
+    {
+      "file": "02-Foto-rechts.docx",
+      "sameBytesAsWordFixSource": true,
+      "sha256": "7677155a30ab3b9fddd04b6f09cdbf95df1c58e2bae818122e52e3b044313aa8"
+    },
+    {
+      "file": "03-Foto-links.docx",
+      "sameBytesAsWordFixSource": true,
+      "sha256": "6f2fb4dcfaae3e51746f4f7916b40f651c038a15234dfa248bf592b7ffe0fb70"
+    },
+    {
+      "file": "04-Foto-Portrait.docx",
+      "sameBytesAsWordFixSource": true,
+      "sha256": "d8e53067ea222a82f6b0b3db703d811dacc03cc531d6b0738268bf81b89b3613"
+    },
+    {
+      "file": "05-Freies-Foto-rechts.docx",
+      "sameBytesAsWordFixSource": true,
+      "sha256": "558a972d38a51b7f8cba113e3b3f321835c97bda34b15b44039870803d7378ef"
+    },
+    {
+      "file": "06-Langer-CV-rechts.docx",
+      "sameBytesAsWordFixSource": true,
+      "sha256": "c57b8f66e6f7885b928ed81ab28645f4fa0c9cade5d706fbee4aab033172189a"
+    }
+  ],
+  "WordReturnScope": "Only the exact corresponding previously returned files remain accepted; no new Word test is claimed",
+  "patch": {
+    "path": "docs/qa/docx-next-sidebar-integration-21okt.patch",
+    "sha256": "4caa20f8018ea8a5b8dc8db9da86d0aba941e1a4b70acb1dadd5e3ef87732b5a",
+    "files": [
+      {
+        "path": "src/lib/docx-next/build-model.ts",
+        "beforeBlob": "c50dd9f44cd80732c4941ce8fcdc7cddc84bdf66",
+        "afterSha256": "e0aba6ee9fea85d3c9d49de236085588d0a0259a20b234bee7410a02ce84cfda",
+        "new": false
+      },
+      {
+        "path": "src/lib/docx-next/cv-sidebar-body.ts",
+        "beforeBlob": "8cb896141465e18639315203e22edd304fb84a7f",
+        "afterSha256": "76bdc9ba90b540498c80b671f169866e67134f9ca7be73034255f7d0b5f08940",
+        "new": false
+      },
+      {
+        "path": "src/lib/docx-next/cv-sidebar-composition.ts",
+        "beforeBlob": "be9502686c2bc452b4eb85a7e6a7316bc286f0b3",
+        "afterSha256": "8282fff378436d22e811f9cf23343c35f893781cd1cb4657f24fcf586d42dd1b",
+        "new": false
+      },
+      {
+        "path": "src/lib/docx-next/image-zone.ts",
+        "beforeBlob": "e55d7c2c5b96c5246d5eb8b8b9ceec470297d1e3",
+        "afterSha256": "40e8529e24a33ce009ccc92fc802b827dfc4992809f23b45bb261db4eae0a490",
+        "new": false
+      },
+      {
+        "path": "src/lib/docx-next/layouts.ts",
+        "beforeBlob": "fb69781bac1dbcfa9ecd68f80f92c45ac973c3f9",
+        "afterSha256": "c26f4c82fe4d9699cf9d1c4c8132f77eb39f2ed5a32cdb0e95c2642873a7b5a0",
+        "new": false
+      },
+      {
+        "path": "src/lib/docx-next/model.ts",
+        "beforeBlob": "fd67dc99173e0eff496d6f55e7ba5dac488d7aa4",
+        "afterSha256": "359ebbb17da3ecb1738b36a389f101da6011622745705e1f23caf25fac859d9b",
+        "new": false
+      },
+      {
+        "path": "src/lib/docx-next/native-picture-frame.ts",
+        "beforeBlob": null,
+        "afterSha256": "ef716091a22f7a7bb6dd900db08769b0d1aa7b3a320c0e2ccc143fdb07416eb8",
+        "new": true
+      },
+      {
+        "path": "src/lib/docx-next/native-text.ts",
+        "beforeBlob": "ed3281397ba1d14ddf78eded628acbaef80778b5",
+        "afterSha256": "a8ecc54b48da1e8196024ae22268dd61520e4c4d34063563171163b2f3b59187",
+        "new": false
+      },
+      {
+        "path": "src/lib/docx-next/renderer.ts",
+        "beforeBlob": "e4907d6fd559ee3624046aa65136c346bdf19ffc",
+        "afterSha256": "4f0d5de79499ccd317af99862f1160eb6c7d54157f12a90945e7a3806a7d5d42",
+        "new": false
+      },
+      {
+        "path": "src/lib/docx-next/validation.ts",
+        "beforeBlob": "3e4e203e9f68e62c7c1bca6803649e31cf16f8e2",
+        "afterSha256": "78915470a8d1892b0f3d5548f40a11b9b689d6bc41e03773dee174688a88cfd4",
+        "new": false
+      },
+      {
+        "path": "scripts/docx-next-sidebar-cv-photo-packet.py",
+        "beforeBlob": null,
+        "afterSha256": "9d31b845f1d7862391319ccc954c6092aa0926bffe5e8bd8ed5380788b00bdb4",
+        "new": true
+      },
+      {
+        "path": "scripts/docx-next-sidebar-word-layout-qa.py",
+        "beforeBlob": null,
+        "afterSha256": "fc95df587a68116907770dfa2e79007db746cf681f5c4c01c989cb7dbfb5d258",
+        "new": true
+      },
+      {
+        "path": "scripts/docx-next-sidebar-word-layout-packet.ts",
+        "beforeBlob": null,
+        "afterSha256": "73387708a0d2ed830c5cb2771fbdb0e54b021e2931a88353a5e5190037c0a30a",
+        "new": true
+      },
+      {
+        "path": "scripts/docx-next-sidebar-word-layout-test.py",
+        "beforeBlob": null,
+        "afterSha256": "cb9aa80e22749f5a9b4b81fd86e46d54c2eef2d2c196629adbddbb361eb81b7f",
+        "new": true
+      },
+      {
+        "path": "tests/unit/docx-next-table-grid.test.ts",
+        "beforeBlob": "d798c13d2382dc3af102d86554a189371b51b738",
+        "afterSha256": "d4ae9e81d809a64a46b736fd065e1c619e3665eb6fcc629593a8806c44ec733f",
+        "new": false
+      },
+      {
+        "path": "tests/unit/docx-next-sidebar-body.test.ts",
+        "beforeBlob": "8844e673f5347863b2d2731b89380fb84678e085",
+        "afterSha256": "ba2e00bdb5471cb726bf2e15e0c28725912e999330c65996895b19aa8ee69e2d",
+        "new": false
+      },
+      {
+        "path": "tests/unit/docx-next-image-zone.test.ts",
+        "beforeBlob": "bdc768338944c836a79a02fccafd2d26aa984bac",
+        "afterSha256": "92ade68bee90709f424014a989c57116c7f3da64176938092c7f796216f8d0ed",
+        "new": false
+      },
+      {
+        "path": "tests/unit/docx-next-picture-ownership.test.ts",
+        "beforeBlob": null,
+        "afterSha256": "a54d65f9e09e5e153cb2ce7ede3ea3a7785fed5c4f555b7e70acdf22b4c4110d",
+        "new": true
+      },
+      {
+        "path": "tests/unit/docx-next-renderer.test.ts",
+        "beforeBlob": "e4e8315351d733e9169c909428437148a141cb44",
+        "afterSha256": "9a0eb5b007e1da8a5bc17b2d1699bcec57bd2625afed2fce28b0f5f4276ed0b6",
+        "new": false
+      },
+      {
+        "path": "tests/fixtures/docx-next/picture-ownership.ts",
+        "beforeBlob": null,
+        "afterSha256": "e655d8abf0241b60fa9729bc495adbc2b12dc8afb2e9557a23c9fea83b986fb1",
+        "new": true
+      },
+      {
+        "path": "tests/unit/docx-next-sidebar-fidelity-transport.test.ts",
+        "beforeBlob": null,
+        "afterSha256": "8be5d68e4f4dfb7a4a64104afb6611122e6bfc7ffee6ab519acb176b4a6b1be9",
+        "new": true
+      }
+    ],
+    "dryRun": "PASS",
+    "scratchApplyAndExactFileHashes": "PASS",
+    "remoteApplied": false,
+    "targetCommit": "3a6f5a11d5c13b3169cc136c4d7ad52e04dc6a38"
+  },
+  "serializationTransportTests": {
+    "passed": 2,
+    "failed": 0,
+    "leftAndRight": true,
+    "scope": "Authored-page cover photo and Sidebar free portrait in one serializer invocation; no visual Word claim",
+    "coverZOrder": "Foreground picture (behindDoc=0), no text wrap and overlap permitted, matching latest Fidelity"
+  },
+  "avatarSerializerSmoke": {
+    "DrawingML": {
+      "variants": 3,
+      "passed": 3
+    },
+    "VML": {
+      "variants": 3,
+      "passed": 3
+    },
+    "scope": "serialization only"
+  },
+  "additionalPinnedInputs": [
+    {
+      "kind": "sidebar-extra",
+      "path": "scripts/docx-next-sidebar-cv-photo-packet.py",
+      "status": "added",
+      "blob": "796aa3a77c7a96bb80cafee54706d57f2d4dbc92"
+    },
+    {
+      "kind": "sidebar-extra",
+      "path": "scripts/docx-next-sidebar-word-layout-packet.ts",
+      "status": "added",
+      "blob": "791b41a9fe75056dcbb0e78c94bb13b4cf28a62a"
+    },
+    {
+      "kind": "sidebar-extra",
+      "path": "scripts/docx-next-sidebar-word-layout-qa.py",
+      "status": "added",
+      "blob": "369983c2817cb105cff755bd09585d006ae68447"
+    },
+    {
+      "kind": "sidebar-extra",
+      "path": "scripts/docx-next-sidebar-word-layout-test.py",
+      "status": "added",
+      "blob": "5464b9384f3af4c97f66a7e35eac4835760253c9"
+    },
+    {
+      "kind": "sidebar-extra",
+      "path": "tests/fixtures/docx-next/picture-ownership.ts",
+      "status": "added",
+      "blob": "6ceb6256c54f0a6aebb24967a86652f4d13b56c2"
+    },
+    {
+      "kind": "sidebar-extra",
+      "path": "tests/unit/docx-next-image-zone.test.ts",
+      "status": "modified",
+      "blob": "b8aace87cf1a19ac5723f6e9cd8cbae01944de19"
+    },
+    {
+      "kind": "sidebar-extra",
+      "path": "tests/unit/docx-next-picture-ownership.test.ts",
+      "status": "added",
+      "blob": "e1a476e85987b2edd02cb4248ae57e1007035157"
+    },
+    {
+      "kind": "sidebar-extra",
+      "path": "tests/unit/docx-next-renderer.test.ts",
+      "status": "modified",
+      "blob": "819980289d0dd8705dfa5e8e0b709bae95044ecd"
+    },
+    {
+      "kind": "sidebar-extra",
+      "path": "tests/unit/docx-next-sidebar-body.test.ts",
+      "status": "modified",
+      "blob": "d2cf96c13b0fa1e638ac4b74cfda87ab1dbf0148"
+    },
+    {
+      "kind": "sidebar-extra",
+      "path": "tests/unit/docx-next-table-grid.test.ts",
+      "status": "modified",
+      "blob": "5b336c272f89d0f11c439c23c9ea621506facc81"
+    },
+    {
+      "kind": "fidelity-extra",
+      "path": "tests/unit/docx-next-image-zone.test.ts",
+      "status": "modified",
+      "blob": "bdc768338944c836a79a02fccafd2d26aa984bac"
+    },
+    {
+      "kind": "fidelity-extra",
+      "path": "tests/unit/docx-next-renderer.test.ts",
+      "status": "modified",
+      "blob": "e4e8315351d733e9169c909428437148a141cb44"
+    },
+    {
+      "kind": "fidelity-extra",
+      "path": "tests/unit/docx-next-sidebar-body.test.ts",
+      "status": "modified",
+      "blob": "8844e673f5347863b2d2731b89380fb84678e085"
+    },
+    {
+      "kind": "fidelity-extra",
+      "path": "tests/unit/docx-next-table-grid.test.ts",
+      "status": "modified",
+      "blob": "d798c13d2382dc3af102d86554a189371b51b738"
+    }
+  ],
+  "scope": "Isolated exporter integration preview and a portable patch; neither live branch was combined",
+  "fullApplicationBuild": "NOT RUN",
+  "CI": "NOT DISPATCHED",
+  "productionVerdict": "NO-GO; existing gates retained",
+  "initialFidelitySnapshot": "9f588959e41496d7b14a1a95ae59993f20ec766c",
+  "latestFidelityRendererBlob": "e4907d6fd559ee3624046aa65136c346bdf19ffc",
+  "latestHeadRecheck": "Six newer Fidelity commits: renderer re-combined to retain foreground no-wrap photos without changing Sidebar behavior; remaining changes are outside this exporter slice",
+  "combinedTests": {
+    "passed": 56,
+    "failed": 0,
+    "suites": 8,
+    "timeoutMs": 30000
+  },
+  "latestVerificationCommands": [
+    {
+      "name": "combined-tests",
+      "exitCode": 0
+    },
+    {
+      "name": "combined-typecheck",
+      "exitCode": 0
+    },
+    {
+      "name": "combined-source-generation",
+      "exitCode": 0
+    }
+  ],
+  "integrationVerdict": "READY FOR PINNED SOURCE REVIEW; NOT A MERGE/PRODUCTION ACCEPTANCE",
+  "remoteFidelityBranchModified": false,
+  "remoteProductBranchesCombined": false,
+  "sidebarPublication": "Documentation, status entry points and a transport patch only"
+}

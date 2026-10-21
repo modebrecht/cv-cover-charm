@@ -1,4 +1,12 @@
-# Minimal picture/cell identity controls
+# Native Sidebar picture identity — current assessment
+
+**October 21 update:** the importer/control observations below remain historical Writer evidence. They are not an established cause of a current Microsoft Word failure. The actual V3 Word-saved portrait 04 and free right photo 05 each retain all 48 canonical IDs and the typed picture control still owns one inline native drawing, without owning its paragraph. The original PNG bytes/pixels, exact crop and picture geometry are retained. The only field-text change is the observed title edit `Lebenslauf → Lebenslaufi`, preserved in the same canonical field.
+
+The earlier loss of original pixels and ownership in Writer is not generalized to Word. Manual Word picture replacement/crop reset and repeated reopen cycles have not been demonstrated. No complete template or 22-case acceptance is inferred.
+
+[Current source/Word evidence](../qa/docx-next-sidebar-word-photo-21okt.md), [current Sidebar checkpoint](sidebar-status.md), [integration preparation](../qa/docx-next-sidebar-integration-21okt.md).
+
+## Historical minimal identity controls
 
 Eight native controls compare plain/photo paragraphs in body flow, one ordinary zero-inset cell, and mirrored two-cell tables. Each has the same five complete CV paragraphs and canonical picture ID/source/crop/frame from the existing `photo-main` model. Absolute placement is removed once for all controls. No nested image zone, spanning cell, long boundary lead, XML patch or production change is introduced.
 

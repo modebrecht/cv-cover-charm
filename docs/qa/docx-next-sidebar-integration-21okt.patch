@@ -1,0 +1,1408 @@
+diff --git a/src/lib/docx-next/build-model.ts b/src/lib/docx-next/build-model.ts
+--- a/src/lib/docx-next/build-model.ts
++++ b/src/lib/docx-next/build-model.ts
+@@ -1057,9 +1057,11 @@
+         return {
+           kind: "table",
+           id: `cv.section.referenzen.pair:${pair.map((entry) => entry.id).join("|")}`,
+-          widths: [1, 1],
+-          rows: [{ cells: [pair.slice(0, 1), pair.slice(1)], keepTogether: false }],
+-          decoration: { borderColor: cvAccent, borderWidthMm: 0, paddingXMm: 3, paddingYMm: 0 },
++          // Match the preview's two equal tracks and 6 mm gap without an outer inset.
++          widths: [1, 1, 1],
++          columnWidthsMm: [null, 6, null],
++          rows: [{ cells: [pair.slice(0, 1), [], pair.slice(1)], keepTogether: false }],
++          decoration: { borderColor: cvAccent, borderWidthMm: 0, paddingXMm: 0, paddingYMm: 0 },
+         };
+       });
+     }
+diff --git a/src/lib/docx-next/cv-sidebar-body.ts b/src/lib/docx-next/cv-sidebar-body.ts
+--- a/src/lib/docx-next/cv-sidebar-body.ts
++++ b/src/lib/docx-next/cv-sidebar-body.ts
+@@ -1,19 +1,46 @@
+ import { walkBlocks, type ParallelFlowBlock, type TableBlock } from "./model";
+ import { parallelFlowTable } from "./parallel-flow";
++import { imageZoneAnchor } from "./image-zone";
+ 
+ /** Guarded shared lowering: complete independent native cell stories, never page fragments. */
+-export function sidebarBodyTable(flow: ParallelFlowBlock, widthMm: number): TableBlock {
++export function sidebarBodyTable(
++  flow: ParallelFlowBlock,
++  widthMm: number,
++  mainTrackIndex?: number,
++): TableBlock {
+   const independent = structuredClone(flow);
+   const leadingInsetMm = independent.leadingInsetMm ?? 0;
+   delete independent.rowAlignment;
+   delete independent.leadingInsetMm;
+   delete independent.spanningTracks;
+-  for (const block of walkBlocks(independent.tracks.flatMap((track) => track.blocks)))
++  for (const block of walkBlocks(independent.tracks.flatMap((track) => track.blocks))) {
+     if (block.kind === "entry") block.keepTogether = false;
++  }
+   const table = parallelFlowTable(independent, widthMm);
++  if (mainTrackIndex !== undefined) {
++    if (
++      !Number.isInteger(mainTrackIndex) ||
++      mainTrackIndex < 0 ||
++      mainTrackIndex >= flow.tracks.length
++    )
++      throw new Error("DOCX Next invalid Sidebar main track");
++    const cellIndex = mainTrackIndex * (flow.gapMm ? 2 : 1);
++    const cell = table.rows[0].cells[cellIndex];
++    const totalWeight = flow.tracks.reduce((sum, track) => sum + track.weight, 0);
++    const available = widthMm - flow.gapMm * (flow.tracks.length - 1);
++    const trackWidth = (available * flow.tracks[mainTrackIndex].weight) / totalWeight;
++    cell.splice(
++      0,
++      cell.length,
++      ...cell.map((block) =>
++        block.kind === "image-zone" ? imageZoneAnchor(block, trackWidth) : block,
++      ),
++    );
++  }
+   table.columnRounding = "cumulative";
+-  table.bodyBoundary = "paragraph";
+-  table.bodyBoundaryKeepNext = true;
++  // Start the section with its table. A separate preceding paragraph can strand
++  // itself on a blank page when the following independent row spans many pages.
++  table.bodyBoundary = "section-start";
+   if (leadingInsetMm) table.bodyBoundaryLeadMm = leadingInsetMm;
+   return table;
+ }
+diff --git a/src/lib/docx-next/cv-sidebar-composition.ts b/src/lib/docx-next/cv-sidebar-composition.ts
+--- a/src/lib/docx-next/cv-sidebar-composition.ts
++++ b/src/lib/docx-next/cv-sidebar-composition.ts
+@@ -44,15 +44,15 @@
+         // The saved free coordinates mirror with the app's physical Sidebar composition.
+         const physicalXmm =
+           part.layout.side === "right" ? part.page.widthMm - block.xMm - block.widthMm : block.xMm;
+-        const { borderInsetMm } = imageZoneExtent(block);
++        const { borderOutsetMm } = imageZoneExtent(block);
+         const tracks = [
+           { blocks: side, leftMm: sideLeft + paddingXMm, widthMm: sideWidth, topMm: bodyTopMm + 3 },
+           { blocks: main, leftMm: mainLeft, widthMm: mainWidth, topMm: bodyTopMm },
+         ];
+         const owner = tracks.find(
+           (track) =>
+-            physicalXmm - borderInsetMm >= track.leftMm - 0.001 &&
+-            physicalXmm + block.widthMm + borderInsetMm <= track.leftMm + track.widthMm + 0.001,
++            physicalXmm - borderOutsetMm >= track.leftMm - 0.001 &&
++            physicalXmm + block.widthMm + borderOutsetMm <= track.leftMm + track.widthMm + 0.001,
+         );
+         if (!owner) throw new Error(`DOCX Next free photo must fit one native track ${block.id}`);
+         owner.blocks.unshift(
+@@ -70,7 +70,8 @@
+         continue;
+       }
+       const target = block.placement === part.layout.side ? side : main;
+-      if (block.widthMm > (target === side ? sideWidth : mainWidth) + 0.001)
++      const paintedWidthMm = block.widthMm + 2 * (block.frame?.borderWidthMm ?? 0);
++      if (paintedWidthMm > (target === side ? sideWidth : mainWidth) + 0.001)
+         throw new Error(`DOCX Next sidebar photo exceeds its native track: ${block.id}`);
+       target.unshift({
+         ...block,
+@@ -115,5 +116,10 @@
+   };
+   // Explicit page starts/nested columns/floating semantic content fail at this boundary.
+   if (composition === "semantic-rows") parallelFlowTable(flow, width);
+-  part.blocks = [...outside, composition === "body-stories" ? sidebarBodyTable(flow, width) : flow];
++  part.blocks = [
++    ...outside,
++    composition === "body-stories"
++      ? sidebarBodyTable(flow, width, part.layout.side === "left" ? 1 : 0)
++      : flow,
++  ];
+ }
+diff --git a/src/lib/docx-next/image-zone.ts b/src/lib/docx-next/image-zone.ts
+--- a/src/lib/docx-next/image-zone.ts
++++ b/src/lib/docx-next/image-zone.ts
+@@ -7,7 +7,8 @@
+   const geometry = pictureGeometry(image, { widthPx: 1, heightPx: 1 }, image.widthMm);
+   if (Math.abs(geometry.widthMm - image.widthMm) > 0.001)
+     throw new Error(`DOCX Next image zone cannot shrink its authored frame ${image.id}`);
+-  return { heightMm: geometry.heightMm, borderInsetMm: geometry.borderWidthMm / 2 };
++  // Word's picture outline extends one stroke beyond the image fill on each edge.
++  return { heightMm: geometry.heightMm, borderOutsetMm: geometry.borderWidthMm };
+ }
+ 
+ /** Project authored coordinates into one flow track. Above-body Y becomes body-start. */
+@@ -16,15 +17,15 @@
+   track: { leftMm: number; topMm: number; widthMm: number; heightMm: number },
+   physicalXmm = image.xMm,
+ ): ImageZoneBlock {
+-  const { heightMm, borderInsetMm } = imageZoneExtent(image);
++  const { heightMm, borderOutsetMm } = imageZoneExtent(image);
+   if (image.placement !== "free" || image.coordinateOrigin !== "page")
+     throw new Error(`DOCX Next page image zone requires page coordinates ${image.id}`);
+-  const topInsetMm = Math.max(0, image.yMm - track.topMm - borderInsetMm);
++  const topInsetMm = Math.max(0, image.yMm - track.topMm - borderOutsetMm);
+   if (
+     ![physicalXmm, image.yMm, ...Object.values(track)].every(Number.isFinite) ||
+     track.widthMm <= 0 ||
+     track.heightMm <= 0 ||
+-    topInsetMm + heightMm + borderInsetMm * 2 + 3 > track.heightMm + 0.001
++    topInsetMm + heightMm + borderOutsetMm * 2 + 3 > track.heightMm + 0.001
+   )
+     throw new Error(`DOCX Next image zone exceeds its first-page body ${image.id}`);
+   const zone: ImageZoneBlock = {
+@@ -38,7 +39,7 @@
+       yMm: 0,
+       coordinateOrigin: "content",
+     },
+-    leftInsetMm: physicalXmm - track.leftMm - borderInsetMm,
++    leftInsetMm: physicalXmm - track.leftMm - borderOutsetMm,
+     topInsetMm,
+     sourceLayout: {
+       xMm: image.xMm,
+@@ -54,8 +55,8 @@
+ /** One flowing native cell owns its picture and insets. No XML or page reconstruction. */
+ export function imageZoneTable(zone: ImageZoneBlock, availableWidthMm: number): TableBlock {
+   const image = zone.image;
+-  const { borderInsetMm } = imageZoneExtent(image);
+-  const widthMm = image.widthMm + borderInsetMm * 2;
++  const { borderOutsetMm } = imageZoneExtent(image);
++  const widthMm = image.widthMm + borderOutsetMm * 2;
+   if (
+     image.placement !== "inline" ||
+     ![zone.leftInsetMm, zone.topInsetMm, availableWidthMm].every(Number.isFinite) ||
+@@ -75,13 +76,28 @@
+         keepTogether: false,
+         cellDecorations: [
+           {
+-            paddingXMm: borderInsetMm,
++            // The inline drawing's effect extent already reserves its outline.
++            paddingXMm: 0,
+             paddingYMm: 0,
+-            paddingTopMm: zone.topInsetMm + borderInsetMm,
+-            paddingBottomMm: borderInsetMm,
++            paddingTopMm: zone.topInsetMm,
++            paddingBottomMm: 0,
+           },
+         ],
+       },
+     ],
+   };
+ }
++
++/** Preserve a free picture's coordinates while letting its track's text wrap around it. */
++export function imageZoneAnchor(zone: ImageZoneBlock, availableWidthMm: number): ImageBlock {
++  imageZoneTable(zone, availableWidthMm);
++  const { borderOutsetMm } = imageZoneExtent(zone.image);
++  return {
++    ...zone.image,
++    placement: "free",
++    coordinateOrigin: "content",
++    xMm: zone.leftInsetMm + borderOutsetMm,
++    yMm: zone.topInsetMm + borderOutsetMm,
++    sourceLayout: zone.sourceLayout,
++  };
++}
+diff --git a/src/lib/docx-next/layouts.ts b/src/lib/docx-next/layouts.ts
+--- a/src/lib/docx-next/layouts.ts
++++ b/src/lib/docx-next/layouts.ts
+@@ -148,7 +148,16 @@
+     (width, index) => width ?? (remaining * value.widths[index]) / flexibleWeight,
+   );
+   const padding = (value.decoration?.paddingXMm ?? 2) * 2;
+-  if (value.columnWidthsMm && widths.some((width) => width - padding < 10))
++  if (
++    value.columnWidthsMm &&
++    widths.some(
++      (width, index) =>
++        !Number.isFinite(width) ||
++        width <= 0 ||
++        // Empty spacer tracks need no text width; populated tracks retain the existing gate.
++        (width - padding < 10 && value.rows.some((row) => row.cells[index]?.length)),
++    )
++  )
+     throw new Error(`DOCX Next fixed column leaves insufficient text width ${value.id}`);
+   return widths;
+ }
+diff --git a/src/lib/docx-next/model.ts b/src/lib/docx-next/model.ts
+--- a/src/lib/docx-next/model.ts
++++ b/src/lib/docx-next/model.ts
+@@ -150,11 +150,11 @@
+   indentMm?: number;
+   /** Spacing after the existing native table-ending paragraph; no new paragraph. */
+   afterMm?: number;
+-  /** Guarded body paragraph before a natural-flow table; no semantic text or fixed table height. */
+-  bodyBoundary?: "paragraph";
++  /** Guarded body start: legacy preceding paragraph or a table directly at section start. */
++  bodyBoundary?: "paragraph" | "section-start";
+   /** Guarded native attachment of the real boundary paragraph to the following table. */
+   bodyBoundaryKeepNext?: boolean;
+-  /** Guarded first-page inset on the one real body boundary; never repeated cell padding. */
++  /** First-page inset on the body paragraph or the first cell-start paragraphs. */
+   bodyBoundaryLeadMm?: number;
+   /** Unaccepted diagnostic native floating table; physical page coordinates, no fixed height. */
+   position?: {
+diff --git a/src/lib/docx-next/native-picture-frame.ts b/src/lib/docx-next/native-picture-frame.ts
+new file mode 100644
+--- /dev/null
++++ b/src/lib/docx-next/native-picture-frame.ts
+@@ -0,0 +1,21 @@
++import type { ImageBlock } from "./model";
++import { emu, xml } from "./xml";
++
++/** Native wrapping container; the picture remains inline in its own typed SDT. */
++export function nativePictureFrameRun(
++  image: ImageBlock,
++  heightMm: number,
++  picture: string,
++  instanceId: number,
++): string {
++  // The inline picture owns its stroke reserve through wp:effectExtent. The
++  // container encloses that box without applying the same padding a second time.
++  const outset = image.frame?.borderWidthMm ?? 0;
++  const cx = emu(image.widthMm + outset * 2);
++  // Leave room for the inline picture's paragraph baseline as well as its border.
++  const cy = emu(heightMm + outset * 2 + 1);
++  const ns = "http://schemas.microsoft.com/office/word/2010/wordprocessingShape";
++  const shape = `<a:graphic><a:graphicData uri="${ns}"><wps:wsp xmlns:wps="${ns}"><wps:cNvSpPr txBox="1"/><wps:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/><a:ln><a:noFill/></a:ln></wps:spPr><wps:txbx><w:txbxContent><w:p><w:pPr><w:spacing w:before="0" w:after="0" w:line="240" w:lineRule="auto"/><w:rPr><w:sz w:val="2"/><w:szCs w:val="2"/></w:rPr></w:pPr>${picture}</w:p></w:txbxContent></wps:txbx><wps:bodyPr lIns="0" rIns="0" tIns="0" bIns="0" anchor="t" anchorCtr="0" wrap="none" vertOverflow="overflow" horzOverflow="overflow"><a:noAutofit/></wps:bodyPr></wps:wsp></a:graphicData></a:graphic>`;
++  const gap = emu(image.gapMm);
++  return `<w:r><w:drawing><wp:anchor distT="${gap}" distB="${gap}" distL="${gap}" distR="${gap}" simplePos="0" relativeHeight="${instanceId}" behindDoc="0" locked="0" layoutInCell="1" allowOverlap="0"><wp:simplePos x="0" y="0"/><wp:positionH relativeFrom="column"><wp:posOffset>${emu(image.xMm - outset)}</wp:posOffset></wp:positionH><wp:positionV relativeFrom="paragraph"><wp:posOffset>${emu(image.yMm - outset)}</wp:posOffset></wp:positionV><wp:extent cx="${cx}" cy="${cy}"/><wp:effectExtent l="0" t="0" r="0" b="0"/><wp:wrapSquare wrapText="bothSides"/><wp:docPr id="${instanceId}" name="${xml(image.id)}.frame" descr="${xml(image.alt)}"/><wp:cNvGraphicFramePr/>${shape}</wp:anchor></w:drawing></w:r>`;
++}
+diff --git a/src/lib/docx-next/native-text.ts b/src/lib/docx-next/native-text.ts
+--- a/src/lib/docx-next/native-text.ts
++++ b/src/lib/docx-next/native-text.ts
+@@ -3,6 +3,13 @@
+ 
+ export function control(id: string, content: string) {
+   return `<w:sdt><w:sdtPr><w:alias w:val="${xml(id)}"/><w:tag w:val="${xml(id)}"/></w:sdtPr><w:sdtContent>${content}</w:sdtContent></w:sdt>`;
++}
++
++/** One native picture owns its drawing; its semantic tag is separate from the Word instance ID. */
++export function pictureControl(id: string, content: string, instanceId: number) {
++  if (!Number.isSafeInteger(instanceId) || instanceId <= 0 || instanceId > 2147483647)
++    throw new Error("DOCX Next invalid picture control identity");
++  return `<w:sdt><w:sdtPr><w:alias w:val="${xml(id)}"/><w:tag w:val="${xml(id)}"/><w:id w:val="${instanceId}"/><w:picture/></w:sdtPr><w:sdtContent>${content}</w:sdtContent></w:sdt>`;
+ }
+ function runProperties(style: TextRun["style"]): string {
+   return `<w:rPr><w:rFonts w:ascii="${xml(style.font)}" w:hAnsi="${xml(style.font)}"/><w:b w:val="${style.bold ? 1 : 0}"/><w:i w:val="${style.italic ? 1 : 0}"/>${style.allCaps !== undefined ? `<w:caps w:val="${style.allCaps ? 1 : 0}"/>` : ""}<w:color w:val="${xml(style.color)}"/>${style.trackingPt !== undefined ? `<w:spacing w:val="${Math.round(style.trackingPt * 20)}"/>` : ""}<w:sz w:val="${Math.round(style.sizePt * 2)}"/><w:szCs w:val="${Math.round(style.sizePt * 2)}"/><w:u w:val="${style.underline ? "single" : "none"}"/>${style.backgroundColor ? `<w:shd w:val="clear" w:color="auto" w:fill="${style.backgroundColor}"/>` : ""}</w:rPr>`;
+@@ -58,7 +65,7 @@
+   const props = `<w:pPr><w:pStyle w:val="${style}"/><w:keepNext w:val="${value.keepNext ? 1 : 0}"/><w:keepLines w:val="${value.keepLines ? 1 : 0}"/>${frameProperties}<w:widowControl/>${value.list ? `<w:numPr><w:ilvl w:val="0"/><w:numId w:val="${numberingId}"/></w:numPr>` : ""}${rule}${tabs}<w:spacing w:before="${twips(value.beforeMm)}" w:after="${twips(value.afterMm)}" ${lineSpacing}/>${value.indentMm !== undefined ? `<w:ind w:left="${twips(value.indentMm)}"/>` : ""}<w:jc w:val="${value.align === "justify" ? "both" : value.align}"/>${value.list && value.runs[0] ? runProperties(value.runs[0].style) : ""}</w:pPr>`;
+   if (frame || value.controlPlacement === "inline")
+     // Keep the complete field inside its native paragraph for frames or guarded placement probes.
+-    return `<w:p>${props}${control(value.id, drawingRuns + (runs || "<w:r/>"))}</w:p>`;
++    return `<w:p>${props}${drawingRuns}${control(value.id, runs || "<w:r/>")}</w:p>`;
+   return control(value.id, `<w:p>${props}${drawingRuns}${runs || "<w:r/>"}</w:p>`);
+ }
+ export function emptyParagraphWithRuns(
+diff --git a/src/lib/docx-next/renderer.ts b/src/lib/docx-next/renderer.ts
+--- a/src/lib/docx-next/renderer.ts
++++ b/src/lib/docx-next/renderer.ts
+@@ -33,6 +33,7 @@
+ import { planPartSections, type PlannedSection } from "./section-plan";
+ import { tableColumnWidths } from "./layouts";
+ import { nativeTextShapeRun } from "./native-text-shape";
++import { nativePictureFrameRun } from "./native-picture-frame";
+ import { nativeVMLAvatarRun } from "./native-vml-avatar";
+ import { flowSurfacePaint } from "./flow-surface";
+ import { parallelFlowTable } from "./parallel-flow";
+@@ -46,6 +47,7 @@
+ } from "./page-artwork";
+ import {
+   control,
++  pictureControl,
+   paragraph,
+   emptyParagraph,
+   emptyParagraphWithRuns,
+@@ -265,7 +267,10 @@
+         ? `<a:gd name="adj" fmla="val ${geometry.cornerAdjustment}"/>`
+         : "";
+     const picture = `<a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic><pic:nvPicPr><pic:cNvPr id="${id}" name="${xml(value.id)}"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="${rid}"/><a:srcRect l="${crop.left}" t="${crop.top}" r="${crop.right}" b="${crop.bottom}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm><a:prstGeom prst="${geometry.shape}"><a:avLst>${corners}</a:avLst></a:prstGeom>${outline}</pic:spPr></pic:pic></a:graphicData></a:graphic>`;
+-    const extent = `<wp:extent cx="${cx}" cy="${cy}"/><wp:effectExtent l="0" t="0" r="0" b="0"/>`;
++    // Word paints picture outlines outside the image's fill bounds. Reserve the
++    // complete stroke on each edge so an inline line box cannot clip its paint.
++    const paintExtent = emu(geometry.borderWidthMm);
++    const extent = `<wp:extent cx="${cx}" cy="${cy}"/><wp:effectExtent l="${paintExtent}" t="${paintExtent}" r="${paintExtent}" b="${paintExtent}"/>`;
+     const properties = `<wp:docPr id="${id}" name="${xml(value.id)}" descr="${xml(value.alt)}"/><wp:cNvGraphicFramePr><a:graphicFrameLocks noChangeAspect="1"/></wp:cNvGraphicFramePr>`;
+     const distances = `distT="${emu(value.gapMm)}" distB="${emu(value.gapMm)}" distL="${emu(value.gapMm)}" distR="${emu(value.gapMm)}"`;
+     let drawing: string;
+@@ -305,6 +310,23 @@
+       false,
+       value.wrapMode === "none",
+     );
++  }
++  function ownedImageRun(value: ImageBlock, widthMm: number, page: DocumentPart["page"]): string {
++    if (value.placement === "free" && value.coordinateOrigin === "content" && value.sourceLayout) {
++      const media = sources.get(value.source)!;
++      const geometry = pictureGeometry(value, media.asset, widthMm);
++      const inline = pictureRun(
++        { ...value, placement: "inline", gapMm: 0 },
++        media.rid,
++        geometry,
++        widthMm,
++        page,
++      );
++      const owned = pictureControl(value.id, inline, drawingId);
++      return nativePictureFrameRun(value, geometry.heightMm, owned, ++drawingId);
++    }
++    const drawing = imageRun(value, widthMm, page);
++    return value.placement === "inline" ? pictureControl(value.id, drawing, drawingId) : drawing;
+   }
+   function decorationRun(
+     value: DecorativeShape,
+@@ -394,15 +416,14 @@
+     );
+   }
+   function image(value: ImageBlock, widthMm: number, page: DocumentPart["page"]): string {
+-    // A page-anchored, non-wrapping cover picture must not insert an extra
+-    // paragraph of normal height (or a 3 mm after-gap) before the name/date.
+-    const spacing = value.wrapMode === "none"
+-      ? '<w:spacing w:before="0" w:after="0" w:line="20" w:lineRule="exact"/>'
+-      : `<w:spacing w:after="${twips(3)}"/>`;
+-    return control(
+-      value.id,
+-      `<w:p><w:pPr>${value.align ? `<w:jc w:val="${value.align}"/>` : ""}${spacing}</w:pPr>${imageRun(value, widthMm, page)}</w:p>`,
+-    );
++    if (value.wrapMode === "none") {
++      return control(
++        value.id,
++        `<w:p><w:pPr>${value.align ? `<w:jc w:val="${value.align}"/>` : ""}<w:spacing w:before="0" w:after="0" w:line="20" w:lineRule="exact"/></w:pPr>${imageRun(value, widthMm, page)}</w:p>`,
++      );
++    }
++    const drawing = ownedImageRun(value, widthMm, page);
++    return `<w:p><w:pPr><w:spacing w:after="${twips(3)}" w:line="240" w:lineRule="auto"/>${value.align ? `<w:jc w:val="${value.align}"/>` : ""}</w:pPr>${drawing}</w:p>`;
+   }
+   function table(
+     value: TableBlock,
+@@ -452,11 +473,15 @@
+                 "",
+                 row.cellEndKeepNext?.[index] ?? undefined,
+               );
++              const cellStart =
++                value.bodyBoundary === "section-start" && rowIndex === 0 && cell.length
++                  ? emptyParagraphWithRuns("", true, 20 + twips(value.bodyBoundaryLeadMm ?? 0))
++                  : "";
+               const ending =
+                 value.identityCarrier === "cell-ending" && rowIndex === 0 && index === 0
+                   ? control(value.id, emptyEnding)
+                   : emptyEnding;
+-              return `<w:tc><w:tcPr><w:tcW w:w="${gridWidths[index]}" w:type="dxa"/>${merge}${props}<w:vAlign w:val="top"/></w:tcPr>${renderBlocks(cell, Math.max(10, contentWidth), page, 0, cumulativeGrid)}${ending}</w:tc>`;
++              return `<w:tc><w:tcPr><w:tcW w:w="${gridWidths[index]}" w:type="dxa"/>${merge}${props}<w:vAlign w:val="top"/></w:tcPr>${cellStart}${renderBlocks(cell, Math.max(10, contentWidth), page, 0, cumulativeGrid)}${ending}</w:tc>`;
+             })
+             .join("")}</w:tr>`,
+       )
+@@ -631,6 +656,7 @@
+         (block.kind === "image" && block.placement !== "inline")
+       ) {
+         const drawings: string[] = [];
++        let ownsPicture = false;
+         let cursor = index;
+         while (
+           values[cursor]?.kind === "decorative-shape" ||
+@@ -638,16 +664,23 @@
+             (values[cursor] as ImageBlock).placement !== "inline")
+         ) {
+           const value = values[cursor];
++          if (value.kind === "image" && value.coordinateOrigin === "content" && value.sourceLayout)
++            ownsPicture = true;
+           drawings.push(
+             value.kind === "decorative-shape"
+               ? decorationRun(value, page)
+-              : imageRun(value as ImageBlock, widthMm, page),
++              : ownedImageRun(value as ImageBlock, widthMm, page),
+           );
+           cursor++;
+         }
+         const anchor = values[cursor];
+         if (anchor?.kind === "paragraph") {
+-          result += renderParagraph(anchor, drawings.join(""), indentMm);
++          // Keep text ownership separate from the native picture frame anchored here.
++          result += renderParagraph(
++            ownsPicture ? { ...anchor, controlPlacement: "inline" } : anchor,
++            drawings.join(""),
++            indentMm,
++          );
+           index = cursor;
+           continue;
+         }
+@@ -678,9 +711,11 @@
+           {
+             kind: "table",
+             id: `${block.id}.half-row`,
+-            widths: [1, 1],
++            widths: [1, 1, 1],
++            columnWidthsMm: [null, 6, null],
+             indentMm,
+-            rows: [{ cells, keepTogether: false }],
++            rows: [{ cells: [cells[0], [], cells[1]], keepTogether: false }],
++            decoration: { borderColor: "FFFFFF", borderWidthMm: 0, paddingXMm: 0, paddingYMm: 0 },
+           },
+           widthMm,
+           page,
+@@ -805,7 +840,7 @@
+   pkg.add(
+     "word/settings.xml",
+     WORD_PART_TYPES.settings,
+-    `${DECL}<w:settings xmlns:w="${W}"><w:embedTrueTypeFonts w:val="0"/><w:autoHyphenation w:val="0"/><w:doNotHyphenateCaps/><w:compat>${blocks.some((block) => block.kind === "table" && block.position) ? '<w:doNotBreakWrappedTables w:val="0"/>' : ""}<w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/>${model.floatingTableTextFlow === "all-pages" ? '<w:compatSetting w:name="allowTextAfterFloatingTableBreak" w:uri="http://schemas.microsoft.com/office/word" w:val="1"/>' : ""}</w:compat></w:settings>`,
++    `${DECL}<w:settings xmlns:w="${W}"><w:embedTrueTypeFonts w:val="0"/><w:autoHyphenation w:val="0"/><w:doNotHyphenateCaps/><w:compat>${blocks.some((block) => block.kind === "table" && block.position) ? '<w:doNotBreakWrappedTables w:val="0"/>' : ""}<w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/>${model.floatingTableTextFlow === "all-pages" ? '<w:compatSetting w:name="allowTextAfterFloatingTableBreak" w:uri="http://schemas.microsoft.com/office/word" w:val="1"/>' : ""}</w:compat>${sources.size ? "<w:doNotAutoCompressPictures/>" : ""}</w:settings>`,
+   );
+   const fonts = new Set<string>([model.theme.font]);
+   for (const part of parts)
+diff --git a/src/lib/docx-next/validation.ts b/src/lib/docx-next/validation.ts
+--- a/src/lib/docx-next/validation.ts
++++ b/src/lib/docx-next/validation.ts
+@@ -69,8 +69,9 @@
+           block.kind === "parallel-flow" ||
+           (block.kind === "table" &&
+             block.id === "cv.sidebar" &&
+-            block.bodyBoundary === "paragraph" &&
+-            block.bodyBoundaryKeepNext === true &&
++            ((block.bodyBoundary === "paragraph" && block.bodyBoundaryKeepNext === true) ||
++              (block.bodyBoundary === "section-start" &&
++                block.bodyBoundaryKeepNext === undefined)) &&
+             !block.position &&
+             block.rows.length === 1 &&
+             block.rows[0].cells.length === 3 &&
+@@ -228,7 +229,8 @@
+             (s.fillColor !== undefined && !/^[0-9A-F]{6}$/.test(s.fillColor)) ||
+             (s.borderColor !== undefined && !/^[0-9A-F]{6}$/.test(s.borderColor)) ||
+             (s.borderWidthMm !== undefined &&
+-              (!Number.isFinite(s.borderWidthMm) || s.borderWidthMm < 0 ||
++              (!Number.isFinite(s.borderWidthMm) ||
++                s.borderWidthMm < 0 ||
+                 s.borderWidthMm >= Math.min(block.widthMm, s.heightMm))) ||
+             (!!s.borderWidthMm && !s.borderColor) ||
+             (s.verticalAlign !== undefined && !["top", "center"].includes(s.verticalAlign)) ||
+@@ -373,7 +375,8 @@
+           throw Error("DOCX Next invalid table after-spacing");
+         if (
+           block.columnRounding !== undefined &&
+-          (block.columnRounding !== "cumulative" || block.bodyBoundary !== "paragraph")
++          (block.columnRounding !== "cumulative" ||
++            !["paragraph", "section-start"].includes(block.bodyBoundary ?? ""))
+         )
+           throw new Error(`DOCX Next invalid table column rounding ${block.id}`);
+         if (
+@@ -381,8 +384,8 @@
+           (!Number.isFinite(block.bodyBoundaryLeadMm) ||
+             block.bodyBoundaryLeadMm < 0 ||
+             block.bodyBoundaryLeadMm > part.page.heightMm - margins.top - margins.bottom - 30 ||
+-            block.bodyBoundary !== "paragraph" ||
+-            block.bodyBoundaryKeepNext !== true)
++            !["paragraph", "section-start"].includes(block.bodyBoundary ?? "") ||
++            (block.bodyBoundary === "paragraph" && block.bodyBoundaryKeepNext !== true))
+         )
+           throw new Error(`DOCX Next invalid table body boundary lead ${block.id}`);
+         if (
+@@ -392,11 +395,17 @@
+           throw new Error(`DOCX Next invalid table body boundary attachment ${block.id}`);
+         if (
+           block.bodyBoundary !== undefined &&
+-          (block.bodyBoundary !== "paragraph" ||
++          (!["paragraph", "section-start"].includes(block.bodyBoundary) ||
+             block.position !== undefined ||
+             !part.blocks.includes(block))
+         )
+           throw new Error(`DOCX Next invalid table body boundary ${block.id}`);
++        if (
++          block.bodyBoundary === "section-start" &&
++          (part.id !== "cv" ||
++            part.blocks.find((candidate) => candidate.kind !== "decorative-shape") !== block)
++        )
++          throw new Error(`DOCX Next section-start table must open the CV ${block.id}`);
+         if (
+           block.identityCarrier !== undefined &&
+           (block.identityCarrier !== "cell-ending" || !block.rows.length)
+diff --git a/scripts/docx-next-sidebar-cv-photo-packet.py b/scripts/docx-next-sidebar-cv-photo-packet.py
+new file mode 100644
+--- /dev/null
++++ b/scripts/docx-next-sidebar-cv-photo-packet.py
+@@ -0,0 +1,64 @@
++"""Extract the unchanged final CV section for focused photo QA, never product export."""
++import argparse
++import hashlib
++import importlib.util
++import json
++from pathlib import Path
++from zipfile import ZipFile
++
++from lxml import etree as ET
++
++_spec = importlib.util.spec_from_file_location(
++    "sidebar_qa", Path(__file__).with_name("docx-next-sidebar-word-layout-qa.py"))
++_qa = importlib.util.module_from_spec(_spec)
++_spec.loader.exec_module(_qa)
++inventory = _qa.inventory
++
++
++def extract_cv(source, target):
++    ns = {'w': 'http://schemas.openxmlformats.org/wordprocessingml/2006/main'}
++    with ZipFile(source) as archive:
++        root = ET.fromstring(archive.read('word/document.xml'))
++        body = root.find('w:body', ns)
++        boundaries = [i for i, node in enumerate(body)
++                      if node.find('w:pPr/w:sectPr', ns) is not None]
++        assert len(boundaries) == 2, 'Expected cover, letter and final CV sections'
++        assert body[-1].tag == '{'+ns['w']+'}sectPr', 'Expected final CV section properties'
++        for node in list(body)[:boundaries[-1]+1]:
++            body.remove(node)
++        assert len(root.findall('.//w:sectPr', ns)) == 1
++        tags = root.xpath('.//w:tag/@w:val', namespaces=ns)
++        assert tags and all(tag.startswith('cv.') for tag in tags), 'Non-CV content remains'
++        document = ET.tostring(root, xml_declaration=True, encoding='UTF-8')
++        with ZipFile(target, 'w') as output:
++            for entry in archive.infolist():
++                # Keep native CV resources and geometry exactly as generated.
++                output.writestr(entry, document if entry.filename == 'word/document.xml'
++                                else archive.read(entry.filename))
++    before, after = inventory(source), inventory(target)
++    cv_fields = {k: v for k, v in before['fields'].items() if k.startswith('cv.')}
++    assert after['fields'] == cv_fields, 'CV identity or text changed during extraction'
++    assert after['pictures'] == before['pictures'], 'Picture/crop changed during extraction'
++    return {'file': target.name, 'sha256': hashlib.sha256(target.read_bytes()).hexdigest(),
++            'cvFields': len(cv_fields), 'source': source.name,
++            'sourceSha256': hashlib.sha256(source.read_bytes()).hexdigest()}
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('source', type=Path)
++    parser.add_argument('output', type=Path)
++    args = parser.parse_args()
++    args.output.mkdir(parents=True, exist_ok=True)
++    rows = [extract_cv(args.source/(source+'.docx'), args.output/(target+'.docx'))
++            for source, target in [('04-Foto-Portrait', '04-NUR-CV-Portrait-V3'),
++                                   ('05-Freies-Foto-rechts', '05-NUR-CV-Foto-rechts-V3')]]
++    (args.output/'packet-manifest.json').write_text(json.dumps({
++        'scope': 'CV photo outline only; no cover or letter',
++        'extraction': 'Unchanged native final CV section from fresh full model exports',
++        'desktopWordCandidateAcceptance': 'UNVERIFIED', 'files': rows}, indent=2)+'\n')
++    print(json.dumps(rows))
++
++
++if __name__ == '__main__':
++    main()
+diff --git a/scripts/docx-next-sidebar-word-layout-qa.py b/scripts/docx-next-sidebar-word-layout-qa.py
+new file mode 100644
+--- /dev/null
++++ b/scripts/docx-next-sidebar-word-layout-qa.py
+@@ -0,0 +1,159 @@
++"""Read-only dossier inventory; semantic survival never implies pixel/Word acceptance."""
++import argparse
++import hashlib
++import io
++import json
++import posixpath
++from pathlib import Path
++from zipfile import ZipFile
++
++from lxml import etree as ET
++from PIL import Image
++
++W = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main'
++MC = 'http://schemas.openxmlformats.org/markup-compatibility/2006'
++R = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships'
++NS = {'w': W, 'mc': MC, 'a': 'http://schemas.openxmlformats.org/drawingml/2006/main',
++      'v': 'urn:schemas-microsoft-com:vml', 'r': R}
++CAPABILITIES = {'http://schemas.microsoft.com/office/word/2010/wordprocessingShape',
++                'http://schemas.microsoft.com/office/word/2010/wordprocessingGroup',
++                'http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing',
++                'http://schemas.microsoft.com/office/word/2010/wordml'}
++
++
++def effective_tree(data):
++    """Select one supported MC representation; fallback copies are not active controls."""
++    root = ET.fromstring(data)
++    while True:
++        alternatives = root.xpath('.//mc:AlternateContent', namespaces=NS)
++        if not alternatives:
++            return root
++        alternate = alternatives[0]
++        selected = None
++        for choice in alternate.findall('{'+MC+'}Choice'):
++            required = choice.get('Requires', '').split()
++            if required and all(choice.nsmap.get(prefix) in CAPABILITIES for prefix in required):
++                selected = choice
++                break
++        if selected is None:
++            selected = alternate.find('{'+MC+'}Fallback')
++        assert selected is not None, 'No supported markup-compatibility representation'
++        parent = alternate.getparent()
++        index = parent.index(alternate)
++        for child in list(selected):
++            parent.insert(index, child)
++            index += 1
++        parent.remove(alternate)
++
++
++def control_fields(root):
++    fields = {}
++    for control in root.xpath('.//w:sdt', namespaces=NS):
++        tag = control.find('w:sdtPr/w:tag', NS)
++        if tag is None:
++            continue
++        field = tag.get('{'+W+'}val')
++        assert field not in fields, f'Duplicate active field {field}'
++        fields[field] = ''.join(control.xpath('.//w:t/text()', namespaces=NS))
++    return fields
++
++
++def inventory(path):
++    fields, texts, pictures, grids = {}, [], {}, []
++    with ZipFile(path) as archive:
++        assert archive.testzip() is None, 'Corrupt package'
++        for story in sorted(archive.namelist()):
++            if not story.startswith('word/') or not story.endswith('.xml'):
++                continue
++            root = effective_tree(archive.read(story))
++            if root.tag not in ['{'+W+'}'+name for name in ['document', 'hdr', 'ftr']]:
++                continue
++            owned = control_fields(root)
++            assert not set(fields).intersection(owned), 'Duplicate active field across stories'
++            fields.update(owned)
++            text = ''.join(root.xpath('.//w:t/text()', namespaces=NS))
++            if text:
++                texts.append(text)
++            grids.extend([[int(c.get('{'+W+'}w')) for c in grid] for grid in root.findall('.//w:tblGrid', NS)])
++            relpath = posixpath.join(posixpath.dirname(story), '_rels', posixpath.basename(story)+'.rels')
++            rels = {} if relpath not in archive.namelist() else {
++                n.get('Id'): n.get('Target') for n in ET.fromstring(archive.read(relpath))
++                if n.get('TargetMode') != 'External'}
++            for control in root.xpath('.//w:sdt[w:sdtPr/w:tag/@w:val="cv.person.photo"]', namespaces=NS):
++                dml = control.xpath('.//a:blip/@r:embed', namespaces=NS)
++                vml = control.xpath('.//v:fill/@r:id | .//v:imagedata/@r:id', namespaces=NS)
++                targets = dml + vml
++                assert len(targets) <= 1, 'Ambiguous picture owner'
++                if not targets:
++                    pictures['cv.person.photo'] = None
++                    continue
++                target = rels[targets[0]]
++                media = target.lstrip('/') if target.startswith('/') else posixpath.normpath(posixpath.join(posixpath.dirname(story), target))
++                with Image.open(io.BytesIO(archive.read(media))) as im:
++                    rgba = im.convert('RGBA')
++                    crop = control.find('.//a:srcRect', NS)
++                    pictures['cv.person.photo'] = {
++                        'representation': 'DrawingML' if dml else 'VML',
++                        'width': rgba.width, 'height': rgba.height,
++                        'embeddedFileSha256': hashlib.sha256(archive.read(media)).hexdigest(),
++                        'rgbaSha256': hashlib.sha256(rgba.tobytes()).hexdigest(),
++                        'crop': None if crop is None else dict(crop.attrib),
++                    }
++    return {'fields': fields, 'texts': sorted(texts), 'pictures': pictures, 'grids': grids}
++
++
++def compare(source, saved):
++    before, after = inventory(source), inventory(saved)
++    photos = {}
++    for field, photo in before['pictures'].items():
++        restored = after['pictures'].get(field)
++        photos[field] = {
++            'pictureControlContainsImage': bool(restored),
++            'originalDrawingMLPreserved': bool(restored and restored['representation'] == 'DrawingML'),
++            'originalPixelsPreserved': bool(restored and all(photo[k] == restored[k] for k in ['width', 'height', 'rgbaSha256'])),
++            'exactCropMarkupPreserved': bool(restored and photo['crop'] == restored['crop']),
++            'source': photo, 'saved': restored,
++        }
++    return {'sourceFields': len(before['fields']), 'savedFields': len(after['fields']),
++            'fieldIdsAndTextPreserved': before['fields'] == after['fields'],
++            'completeTextPreserved': before['texts'] == after['texts'],
++            'exactGridsPreserved': before['grids'] == after['grids'], 'pictures': photos}
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('source', type=Path)
++    parser.add_argument('save1', type=Path)
++    parser.add_argument('save2', type=Path)
++    parser.add_argument('report', type=Path)
++    parser.add_argument('--require-pixels', action='store_true')
++    args = parser.parse_args()
++    manifest = json.loads((args.source/'packet-manifest.json').read_text())
++    cases = []
++    for case in manifest['fixtures']:
++        source = args.source/case['filename']
++        assert hashlib.sha256(source.read_bytes()).hexdigest() == case['docxSha256']
++        initial = inventory(source)['pictures']
++        assert set(initial) == ({'cv.person.photo'} if case['photo'] else set()), 'Source picture owner missing'
++        assert all(p and p['representation'] == 'DrawingML' and
++                   p['embeddedFileSha256'] == manifest['photoSha256'] for p in initial.values()), 'Source did not retain the complete original image'
++        cases.append({'file': case['filename'], 'phases': {
++            name: compare(source, directory/case['filename'])
++            for name, directory in [('save1', args.save1), ('save2', args.save2)]}})
++    rows = [phase for case in cases for phase in case['phases'].values()]
++    semantic = all(r['fieldIdsAndTextPreserved'] and r['completeTextPreserved'] and
++                   all(p['pictureControlContainsImage'] for p in r['pictures'].values()) for r in rows)
++    pixels = all(p['originalPixelsPreserved'] for r in rows for p in r['pictures'].values())
++    report = {'runtime': 'LibreOfficeDev 26.8.0.0.alpha0', 'wordAcceptance': 'UNVERIFIED',
++              'semanticSurvival': 'PASS' if semantic else 'FAIL',
++              'originalPixelGate': 'PASS' if pixels else 'FAIL',
++              'cases': cases, 'manifest': manifest}
++    args.report.write_text(json.dumps(report, indent=2)+'\n')
++    print(json.dumps({k: report[k] for k in ['semanticSurvival', 'originalPixelGate', 'wordAcceptance']}))
++    assert semantic, 'Native field or picture ownership did not survive'
++    if args.require_pixels:
++        assert pixels, 'Original picture pixels did not survive'
++
++
++if __name__ == '__main__':
++    main()
+diff --git a/scripts/docx-next-sidebar-word-layout-packet.ts b/scripts/docx-next-sidebar-word-layout-packet.ts
+new file mode 100644
+--- /dev/null
++++ b/scripts/docx-next-sidebar-word-layout-packet.ts
+@@ -0,0 +1,112 @@
++import { createHash } from "node:crypto";
++import { mkdir, readFile, writeFile } from "node:fs/promises";
++import path from "node:path";
++import { createRequire } from "node:module";
++import { validateDecoration, type DecorationRasterizer } from "../src/lib/docx-next/decoration";
++import { buildDossierDocModel } from "../src/lib/docx-next/build-model";
++import { renderDossierDocx } from "../src/lib/docx-next/renderer";
++import { pictureOwnershipFixture } from "../tests/fixtures/docx-next/picture-ownership";
++
++const [directory, pngFile] = process.argv.slice(2);
++if (!directory || !pngFile || process.argv.length !== 4)
++  throw new Error(
++    "Usage: bun scripts/docx-next-sidebar-word-layout-packet.ts OUTPUT FULL_PHOTO.png",
++  );
++const bytes = new Uint8Array(await readFile(pngFile));
++if (![137, 80, 78, 71, 13, 10, 26, 10].every((value, index) => bytes[index] === value))
++  throw new Error("A complete PNG source is required");
++const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
++const widthPx = view.getUint32(16),
++  heightPx = view.getUint32(20);
++// Explicit offline adapter for this packet's solid placeholder paint only.
++// Production continues to use the browser rasterizer. Unsupported paint fails closed.
++const sharp = createRequire(
++  path.join(process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES ?? process.cwd(), "package.json"),
++)("sharp");
++const rasterizeDecoration: DecorationRasterizer = async (shape) => {
++  validateDecoration(shape);
++  if (
++    !["rect", "circle"].includes(shape.shape) ||
++    shape.layers ||
++    shape.viewport ||
++    shape.fill?.endColor ||
++    shape.fill?.stops ||
++    shape.fill?.radialFade
++  )
++    throw new Error("Packet adapter supports solid rectangle/circle paint only");
++  const { widthMm: w, heightMm: h } = shape;
++  const inset = shape.stroke.widthMm / 2;
++  const geometry =
++    shape.shape === "circle"
++      ? `<ellipse cx="${w / 2}" cy="${h / 2}" rx="${w / 2 - inset}" ry="${h / 2 - inset}"/>`
++      : `<rect x="${inset}" y="${inset}" width="${w - 2 * inset}" height="${h - 2 * inset}" rx="${shape.radiusMm}"/>`;
++  const scale = Math.min(8, 1600 / Math.max(w, h));
++  const paintWidth = Math.round(w * scale),
++    paintHeight = Math.round(h * scale);
++  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${paintWidth}" height="${paintHeight}" viewBox="0 0 ${w} ${h}"><g opacity="${shape.opacity}" fill="${shape.fill ? "#" + shape.fill.color : "none"}" stroke="#${shape.stroke.color}" stroke-width="${shape.stroke.widthMm}">${geometry}</g></svg>`;
++  const paint = await sharp(Buffer.from(svg)).png().toBuffer();
++  return {
++    bytes: new Uint8Array(paint),
++    widthPx: paintWidth,
++    heightPx: paintHeight,
++    contentType: "image/png",
++    extension: "png",
++  };
++};
++await mkdir(directory, { recursive: true });
++const cases = [
++  ["left", "01-Links-ohne-Foto"],
++  ["photo-right", "02-Foto-rechts"],
++  ["photo-left", "03-Foto-links"],
++  ["photo-free-portrait", "04-Foto-Portrait"],
++  ["photo-free-mirrored-side", "05-Freies-Foto-rechts"],
++  ["both-long-right", "06-Langer-CV-rechts"],
++] as const;
++const manifest = [];
++for (const [kind, filename] of cases) {
++  const { input } = pictureOwnershipFixture(kind, "full-source-png");
++  const model = buildDossierDocModel(input, {
++    cvSidebarComposition: "body-stories",
++    chromeFirstPageIdentity: "distinct-stories",
++    coverComposition: "authored-frames",
++  });
++  const blob = await renderDossierDocx(model, {
++    allowUnacceptedModelIssues: true,
++    rasterizeDecoration,
++    onDecorationFailure: (id, error) => {
++      throw new Error(`Packet paint failed: ${id}`, { cause: error });
++    },
++    normalizeImage: async () => ({
++      bytes,
++      widthPx,
++      heightPx,
++      contentType: "image/png",
++      extension: "png",
++    }),
++  });
++  const docx = new Uint8Array(await blob.arrayBuffer());
++  await writeFile(path.join(directory, filename + ".docx"), docx);
++  manifest.push({
++    fixture: kind,
++    filename: filename + ".docx",
++    photo: kind.startsWith("photo"),
++    docxSha256: createHash("sha256").update(docx).digest("hex"),
++  });
++}
++await writeFile(
++  path.join(directory, "packet-manifest.json"),
++  JSON.stringify(
++    {
++      sourceBase: "bc26a9472cf802828b5cd7e92d885954d82cec3c",
++      coverComposition: "authored-frames",
++      imageAdapter: "Explicit complete PNG; not browser-normalized acceptance fixtures",
++      photoSha256: createHash("sha256").update(bytes).digest("hex"),
++      widthPx,
++      heightPx,
++      fixtures: manifest,
++    },
++    null,
++    2,
++  ) + "\n",
++);
++console.log(`${manifest.length} fresh dossier sources generated with the current authored cover.`);
+diff --git a/scripts/docx-next-sidebar-word-layout-test.py b/scripts/docx-next-sidebar-word-layout-test.py
+new file mode 100644
+--- /dev/null
++++ b/scripts/docx-next-sidebar-word-layout-test.py
+@@ -0,0 +1,36 @@
++import importlib.util
++from pathlib import Path
++import unittest
++
++spec = importlib.util.spec_from_file_location('qa', Path(__file__).with_name('docx-next-sidebar-word-layout-qa.py'))
++qa = importlib.util.module_from_spec(spec)
++spec.loader.exec_module(qa)
++
++
++def field(text):
++    return f'<w:sdt><w:sdtPr><w:tag w:val="same"/></w:sdtPr><w:sdtContent><w:r><w:t>{text}</w:t></w:r></w:sdtContent></w:sdt>'
++
++
++class EffectiveMarkupTests(unittest.TestCase):
++    def document(self, body):
++        return f'<w:document xmlns:w="{qa.W}" xmlns:mc="{qa.MC}" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" xmlns:unknown="urn:unknown"><w:body>{body}</w:body></w:document>'.encode()
++
++    def test_supported_choice_is_counted_once(self):
++        xml = self.document('<mc:AlternateContent><mc:Choice Requires="wps">'+field('active')+'</mc:Choice><mc:Fallback>'+field('fallback')+'</mc:Fallback></mc:AlternateContent>')
++        self.assertEqual(qa.control_fields(qa.effective_tree(xml)), {'same': 'active'})
++
++    def test_unknown_choice_uses_fallback(self):
++        xml = self.document('<mc:AlternateContent><mc:Choice Requires="unknown">'+field('unsupported')+'</mc:Choice><mc:Fallback>'+field('fallback')+'</mc:Fallback></mc:AlternateContent>')
++        self.assertEqual(qa.control_fields(qa.effective_tree(xml)), {'same': 'fallback'})
++
++    def test_real_duplicate_active_fields_still_reject(self):
++        with self.assertRaisesRegex(AssertionError, 'Duplicate active field'):
++            qa.control_fields(qa.effective_tree(self.document(field('one')+field('two'))))
++
++    def test_missing_usable_representation_rejects(self):
++        with self.assertRaisesRegex(AssertionError, 'No supported'):
++            qa.effective_tree(self.document('<mc:AlternateContent><mc:Choice Requires="unknown"/></mc:AlternateContent>'))
++
++
++if __name__ == '__main__':
++    unittest.main()
+diff --git a/tests/unit/docx-next-table-grid.test.ts b/tests/unit/docx-next-table-grid.test.ts
+--- a/tests/unit/docx-next-table-grid.test.ts
++++ b/tests/unit/docx-next-table-grid.test.ts
+@@ -5,7 +5,8 @@
+ import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
+ import { readZipEntries } from "../../src/lib/docx-next/zip";
+ import { sidebarFixture } from "../fixtures/docx-next/sidebar";
+-import type { TableBlock } from "../../src/lib/docx-next/model";
++import { walkBlocks, type TableBlock } from "../../src/lib/docx-next/model";
++import { tableColumnWidths } from "../../src/lib/docx-next/layouts";
+ 
+ test("shared integer column edges conserve total width in both physical orientations", () => {
+   expect(cumulativeColumnTwips([49.2, 6, 114.8], 170)).toEqual([2789, 340, 6509]);
+@@ -78,3 +79,112 @@
+   expect(grid.reduce((sum, width) => sum + width, 0)).toBe(total);
+   expect(model).toEqual(before);
+ });
++
++test("reference pairs align to the section edge and retain the preview gap in either sidebar orientation", async () => {
++  for (const kind of ["left", "right"] as const)
++    for (const count of [1, 2, 3]) {
++      const input = sidebarFixture(kind);
++      const reference = input.cv.data.referenzen[0];
++      input.cv.data.referenzen = Array.from({ length: count }, (_, index) => ({
++        ...reference,
++        id: `alignment-${index}`,
++      }));
++      const model = buildDossierDocModel(input, { cvSidebarComposition: "body-stories" });
++      const pairs = walkBlocks(model.cv.blocks).filter(
++        (block): block is TableBlock =>
++          block.kind === "table" && block.id.startsWith("cv.section.referenzen.pair:"),
++      );
++      expect(pairs.length).toBe(Math.ceil(count / 2));
++      for (const pair of pairs) {
++        expect(tableColumnWidths(pair, 114.8)).toEqual([54.4, 6, 54.4]);
++        expect(pair.decoration?.paddingXMm).toBe(0);
++        expect(pair.rows[0].cells[1]).toEqual([]);
++      }
++      const blob = await renderDossierDocx(model, { allowUnacceptedModelIssues: true });
++      const xml = new TextDecoder().decode(
++        readZipEntries(new Uint8Array(await blob.arrayBuffer())).find(
++          (part) => part.name === "word/document.xml",
++        )!.bytes,
++      );
++      for (let index = 0; index < count; index++)
++        for (const field of ["name", "role", "contact"])
++          expect(
++            xml.match(
++              new RegExp(`w:tag w:val="cv.entry.referenzen:alignment-${index}\\.${field}"`, "g"),
++            )?.length,
++          ).toBe(1);
++      const caption = xml.indexOf('w:tblCaption w:val="cv.section.referenzen.pair:');
++      const tableStart = xml.lastIndexOf("<w:tbl>", caption);
++      const properties = xml.slice(tableStart, caption);
++      expect(properties).toContain('<w:left w:w="0" w:type="dxa"/>');
++      expect(properties).toContain('<w:right w:w="0" w:type="dxa"/>');
++      const grid = [
++        ...xml
++          .slice(caption)
++          .split("</w:tblGrid>")[0]
++          .matchAll(/<w:gridCol w:w="(\d+)"\/>/g),
++      ].map((match) => Number(match[1]));
++      expect(grid.length).toBe(3);
++      expect(Math.abs(grid[1] - twips(6))).toBeLessThanOrEqual(1);
++      expect(Math.abs(grid[0] - grid[2])).toBeLessThanOrEqual(1);
++    }
++});
++
++test("half-width sections retain their outer text edge with an empty 6 mm middle track", async () => {
++  for (const kind of ["left", "right", "classic"] as const)
++    for (const pair of [false, true]) {
++      const input = sidebarFixture(kind === "classic" ? "left" : kind);
++      if (kind === "classic") input.settings.cvLayout = "classic";
++      input.cv.data.sectionLayouts = {
++        "custom:familie": { width: "half", page: 1 },
++        ...(pair ? { schule: { width: "half" as const, page: 1 as const } } : {}),
++      };
++      const model = buildDossierDocModel(
++        input,
++        kind === "classic" ? {} : { cvSidebarComposition: "body-stories" },
++      );
++      const before = structuredClone(model);
++      const blob = await renderDossierDocx(model, { allowUnacceptedModelIssues: true });
++      const xml = new TextDecoder().decode(
++        readZipEntries(new Uint8Array(await blob.arrayBuffer())).find(
++          (part) => part.name === "word/document.xml",
++        )!.bytes,
++      );
++      const caption = xml.indexOf('w:tblCaption w:val="cv.section.custom:familie.half-row"');
++      expect(caption).toBeGreaterThan(0);
++      const start = xml.lastIndexOf("<w:tbl>", caption);
++      const properties = xml.slice(start, caption);
++      expect(properties).toContain('<w:left w:w="0" w:type="dxa"/>');
++      expect(properties).toContain('<w:right w:w="0" w:type="dxa"/>');
++      expect(properties).not.toContain("<w:tblInd");
++      const grid = [
++        ...xml
++          .slice(caption)
++          .split("</w:tblGrid>")[0]
++          .matchAll(/<w:gridCol w:w="(\d+)"\/>/g),
++      ].map((match) => Number(match[1]));
++      expect(grid).toHaveLength(3);
++      expect(Math.abs(grid[1] - twips(6))).toBeLessThanOrEqual(1);
++      expect(Math.abs(grid[0] - grid[2])).toBeLessThanOrEqual(1);
++      expect(xml.match(/w:tag w:val="cv.section.custom:familie.heading"/g)).toHaveLength(1);
++      expect(xml.match(/w:tag w:val="cv.section.schule.heading"/g)).toHaveLength(1);
++      expect(model).toEqual(before);
++    }
++});
++
++test("a narrow fixed spacer remains empty and cannot bypass the text-width gate", () => {
++  const table: TableBlock = {
++    kind: "table",
++    id: "spacer-width",
++    widths: [1, 1, 1],
++    columnWidthsMm: [null, 6, null],
++    rows: [{ cells: [[], [], []], keepTogether: false }],
++    decoration: { borderColor: "FFFFFF", borderWidthMm: 0, paddingXMm: 0, paddingYMm: 0 },
++  };
++  expect(tableColumnWidths(table, 100)).toEqual([47, 6, 47]);
++  table.rows[0].cells[1] = [{ kind: "spacer", id: "populated-gap", heightMm: 1 }];
++  expect(() => tableColumnWidths(table, 100)).toThrow("insufficient text width");
++  table.rows[0].cells[1] = [];
++  table.columnWidthsMm![1] = 0;
++  expect(() => tableColumnWidths(table, 100)).toThrow("insufficient text width");
++});
+diff --git a/tests/unit/docx-next-sidebar-body.test.ts b/tests/unit/docx-next-sidebar-body.test.ts
+--- a/tests/unit/docx-next-sidebar-body.test.ts
++++ b/tests/unit/docx-next-sidebar-body.test.ts
+@@ -6,6 +6,8 @@
+ import { SIDEBAR_FIXTURES, sidebarFixture } from "../fixtures/docx-next/sidebar";
+ import { briefFixture } from "../fixtures/docx-next/brief";
+ import { paragraphSignature } from "../fixtures/docx-next/sidebar-floating";
++import { tableColumnWidths } from "../../src/lib/docx-next/layouts";
++import { readZipEntries } from "../../src/lib/docx-next/zip";
+ 
+ const diagnostic = { cvSidebarComposition: "body-stories" as const };
+ 
+@@ -24,8 +26,8 @@
+     expect(model.cv.page).toEqual(old.cv.page);
+     const flow = old.cv.blocks.find((block) => block.kind === "parallel-flow")!;
+     const table = model.cv.blocks.find((block) => block.kind === "table") as TableBlock;
+-    expect(table.bodyBoundary).toBe("paragraph");
+-    expect(table.bodyBoundaryKeepNext).toBe(true);
++    expect(table.bodyBoundary).toBe("section-start");
++    expect(table.bodyBoundaryKeepNext).toBeUndefined();
+     expect(table.position).toBeUndefined();
+     expect(table.rows).toHaveLength(1);
+     expect(table.rows[0].keepTogether).toBe(false);
+@@ -47,16 +49,64 @@
+   }
+ });
+ 
+-test("first-page lead rejects invalid geometry and a missing real kept boundary", async () => {
++test("legacy paragraph boundaries still reject invalid lead geometry", async () => {
+   for (const value of [NaN, Infinity, -1, 300, "64", null]) {
+     const model = buildDossierDocModel(sidebarFixture("chrome-leading"), diagnostic);
+     Object.assign(model.cv.blocks.find((block) => block.kind === "table")!, {
++      bodyBoundary: "paragraph",
++      bodyBoundaryKeepNext: true,
+       bodyBoundaryLeadMm: value,
+     });
+     await expect(renderDossierDocx(model, { allowUnacceptedModelIssues: true })).rejects.toThrow(
+       "invalid table body boundary lead",
+     );
+   }
++});
++
++test("free main-track photos keep authored coordinates and wrap instead of preceding the CV header", async () => {
++  for (const kind of [
++    "photo-free-portrait",
++    "photo-free-main",
++    "photo-free-mirrored-main",
++    "photo-free-low",
++  ] as const) {
++    const input = sidebarFixture(kind);
++    const before = structuredClone(input);
++    const model = buildDossierDocModel(input, diagnostic);
++    const table = model.cv.blocks.find((block) => block.kind === "table") as TableBlock;
++    const cellIndex = input.settings.sidebarSide === "right" ? 0 : 2;
++    const cell = table.rows[0].cells[cellIndex];
++    const image = cell[0];
++    expect(image.kind).toBe("image");
++    if (image.kind !== "image") throw new Error("Missing main-track picture");
++    expect(image.placement).toBe("free");
++    expect(image.coordinateOrigin).toBe("content");
++    expect(image.sourceLayout?.xMm).toBe(input.settings.cvPhotoPlacement!.xMm);
++    expect(image.sourceLayout?.yMm).toBe(input.settings.cvPhotoPlacement!.yMm);
++    expect(image.frame?.zoom).toBe(input.settings.cvPhotoStyle!.zoom);
++    const available =
++      model.cv.page.widthMm - model.cv.page.margins.left - model.cv.page.margins.right;
++    const widths = tableColumnWidths(table, available);
++    const mainLeft =
++      model.cv.page.margins.left + widths.slice(0, cellIndex).reduce((a, b) => a + b, 0);
++    const physicalX =
++      input.settings.sidebarSide === "right"
++        ? model.cv.page.widthMm - input.settings.cvPhotoPlacement!.xMm - image.widthMm
++        : input.settings.cvPhotoPlacement!.xMm;
++    expect(mainLeft + image.xMm).toBeCloseTo(physicalX, 8);
++    expect(cell[1].id).toBe("cv.documentTitle");
++    expect(input).toEqual(before);
++  }
++  const model = buildDossierDocModel(sidebarFixture("both-long"), diagnostic);
++  const bytes = new Uint8Array(
++    await (await renderDossierDocx(model, { allowUnacceptedModelIssues: true })).arrayBuffer(),
++  );
++  const xml = new TextDecoder().decode(
++    readZipEntries(bytes).find((part) => part.name === "word/document.xml")!.bytes,
++  );
++  const caption = xml.indexOf('w:tblCaption w:val="cv.sidebar"');
++  const start = xml.lastIndexOf("<w:tbl>", caption);
++  expect(xml.slice(0, start).endsWith("</w:sectPr></w:pPr></w:p>")).toBe(true);
+ });
+ 
+ test("diagnostic composition uses the shared export path and stays blocked without its explicit gate", async () => {
+@@ -85,7 +135,11 @@
+   const input = sidebarFixture("photo-free-mirrored-main");
+   // Body stories no longer use the old, picture-before-span restriction.
+   const model = buildDossierDocModel(input, diagnostic);
+-  expect(walkBlocks(model.cv.blocks).some((block) => block.kind === "image-zone")).toBe(true);
++  expect(
++    walkBlocks(model.cv.blocks).some(
++      (block) => block.kind === "image" && block.placement === "free",
++    ),
++  ).toBe(true);
+   input.settings.cvPhotoPlacement!.xMm = 60;
+   expect(() => buildDossierDocModel(input, diagnostic)).toThrow(
+     "free photo must fit one native track",
+diff --git a/tests/unit/docx-next-image-zone.test.ts b/tests/unit/docx-next-image-zone.test.ts
+--- a/tests/unit/docx-next-image-zone.test.ts
++++ b/tests/unit/docx-next-image-zone.test.ts
+@@ -38,10 +38,16 @@
+     source: "sidebar-photo",
+     frame: { zoom: 1.25, xPct: 42, yPct: 58, borderWidthMm: 0.4 },
+   });
+-  expect(zone.topInsetMm).toBeCloseTo(24.8);
+-  expect(zone.leftInsetMm + 75.2 + 0.2).toBeCloseTo(150);
++  expect(zone.topInsetMm).toBeCloseTo(24.6);
++  expect(zone.leftInsetMm + 75.2 + 0.4).toBeCloseTo(150);
+   const table = imageZoneTable(zone, 114.8);
+-  expect(table.widthMm).toBeCloseTo(34.4);
++  expect(table.widthMm).toBeCloseTo(34.8);
++  expect(table.rows[0].cellDecorations?.[0]).toEqual({
++    paddingXMm: 0,
++    paddingYMm: 0,
++    paddingTopMm: zone.topInsetMm,
++    paddingBottomMm: 0,
++  });
+   expect(table.rows[0].keepTogether).toBe(false);
+   expect(parallelFlowTable(flow, 170).rows[0].keepTogether).toBe(true);
+   const ids = walkBlocks(model.cv.blocks).map((b) => b.id);
+@@ -110,7 +116,7 @@
+ });
+ 
+ test("invalid or unrepresentable image zones fail without resizing, crossing a gutter or losing the picture", () => {
+-  for (const xMm of [0, 60, 185])
++  for (const xMm of [0, 60, 75.4, 185])
+     expect(() => buildDossierDocModel(freeInput(xMm))).toThrow(
+       "free photo must fit one native track",
+     );
+diff --git a/tests/unit/docx-next-picture-ownership.test.ts b/tests/unit/docx-next-picture-ownership.test.ts
+new file mode 100644
+--- /dev/null
++++ b/tests/unit/docx-next-picture-ownership.test.ts
+@@ -0,0 +1,116 @@
++import assert from "node:assert/strict";
++import { test } from "bun:test";
++import { pictureControl } from "../../src/lib/docx-next/native-text";
++import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
++import { readZipEntries } from "../../src/lib/docx-next/zip";
++import {
++  PICTURE_OWNERSHIP_CASES,
++  pictureOwnershipFixture,
++} from "../fixtures/docx-next/picture-ownership";
++
++const pixels = Uint8Array.from(
++  atob(
++    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a0X8AAAAASUVORK5CYII=",
++  ),
++  (char) => char.charCodeAt(0),
++);
++const options = {
++  allowUnacceptedModelIssues: true,
++  normalizeImage: async () => ({
++    bytes: pixels,
++    widthPx: 1,
++    heightPx: 1,
++    contentType: "image/png" as const,
++    extension: "png" as const,
++  }),
++};
++async function entries(model: ReturnType<typeof pictureOwnershipFixture>["model"]) {
++  return readZipEntries(
++    new Uint8Array(await (await renderDossierDocx(model, options)).arrayBuffer()),
++  );
++}
++const text = (values: Awaited<ReturnType<typeof entries>>, path: string) =>
++  new TextDecoder().decode(values.find((value) => value.name === path)!.bytes);
++
++test("inline and wrapped photos have a typed run owner, preserving complete source pixels", async () => {
++  for (const kind of PICTURE_OWNERSHIP_CASES.filter((value) => value.startsWith("photo"))) {
++    const { model } = pictureOwnershipFixture(kind, "source-pixels");
++    const before = structuredClone(model);
++    const values = await entries(model);
++    const document = text(values, "word/document.xml");
++    const owner = document.match(
++      /<w:sdt><w:sdtPr><w:alias w:val="cv.person.photo"\/>[\s\S]*?<\/w:sdt>/g,
++    );
++    assert.equal(owner?.length, 1, kind);
++    assert.match(
++      owner![0],
++      /<w:tag w:val="cv.person.photo"\/><w:id w:val="[1-9][0-9]*"\/><w:picture\/>/,
++    );
++    assert.equal((owner![0].match(/<w:drawing>/g) ?? []).length, 1);
++    assert.match(owner![0], /<wp:inline\b/);
++    if (kind === "photo-free-portrait") {
++      assert.match(document, /<wps:txbx><w:txbxContent><w:p>/);
++      assert.match(document, /name="cv.person.photo.frame"/);
++      assert.doesNotMatch(owner![0], /<wp:anchor\b/);
++    }
++    assert.match(owner![0], /<pic:pic>/);
++    assert.match(owner![0], /<a:srcRect\b/);
++    const stroke = kind === "photo-free-portrait" ? 43200 : 14400;
++    assert.ok(
++      owner![0].includes(
++        `<wp:effectExtent l="${stroke}" t="${stroke}" r="${stroke}" b="${stroke}"/>`,
++      ),
++      `${kind}: the line box must include the complete picture outline`,
++    );
++    if (kind === "photo-free-portrait") {
++      assert.match(document, /<wp:extent cx="1310400" cy="1652400"\/>/);
++      assert.match(document, /<wps:bodyPr lIns="0" rIns="0" tIns="0" bIns="0"/);
++    }
++    assert.doesNotMatch(
++      owner![0],
++      /<w:p[ >]/,
++      "The picture SDT must not own/dispose its paragraph",
++    );
++    assert.match(
++      document,
++      /<w:p><w:pPr>[\s\S]*?<\/w:pPr><w:sdt><w:sdtPr><w:alias w:val="cv.person.photo"/,
++    );
++    assert.deepEqual(
++      values.find((value) => value.name === "word/media/image-1.png")!.bytes,
++      pixels,
++    );
++    const settings = text(values, "word/settings.xml");
++    assert.match(settings, /<\/w:compat><w:doNotAutoCompressPictures\/><\/w:settings>/);
++    assert.deepEqual(model, before);
++    assert.deepEqual(await entries(JSON.parse(JSON.stringify(model))), values);
++  }
++});
++
++test("each inline picture has its own instance ID, tag, media relationship and paragraph", async () => {
++  const { model } = pictureOwnershipFixture("photo-left", "source-pixels");
++  const table = model.cv.blocks.find((block) => block.kind === "table")!;
++  const photo = table.rows[0].cells.flat().find((block) => block.kind === "image")!;
++  assert.equal(photo.kind, "image");
++  table.rows[0].cells[0].push({ ...photo, id: "cv.second.photo" });
++  const document = text(await entries(model), "word/document.xml");
++  const ids = [...document.matchAll(/<w:id w:val="([0-9]+)"\/><w:picture\/>/g)].map(
++    (match) => match[1],
++  );
++  assert.equal(ids.length, 2);
++  assert.equal(new Set(ids).size, 2);
++  assert.match(document, /<w:tag w:val="cv.second.photo"\/>/);
++  assert.equal((document.match(/<a:blip r:embed="image1"\/>/g) ?? []).length, 2);
++});
++
++test("no-photo exports keep their settings and diagnostic Sidebar guards", async () => {
++  const { model } = pictureOwnershipFixture("left", "unused");
++  const values = await entries(model);
++  assert.doesNotMatch(text(values, "word/settings.xml"), /doNotAutoCompressPictures/);
++  model.issues = [];
++  await assert.rejects(renderDossierDocx(model), /body boundary is unaccepted/);
++});
++
++test("invalid Word picture instance IDs reject instead of emitting ambiguous controls", () => {
++  for (const id of [0, -1, 1.5, NaN, Infinity, 2147483648])
++    assert.throws(() => pictureControl("photo", "<w:r/>", id), /picture control identity/);
++});
+diff --git a/tests/unit/docx-next-renderer.test.ts b/tests/unit/docx-next-renderer.test.ts
+--- a/tests/unit/docx-next-renderer.test.ts
++++ b/tests/unit/docx-next-renderer.test.ts
+@@ -99,6 +99,10 @@
+     );
+     expect(pkg["word/document.xml"]).toContain('prst="ellipse"');
+     expect(pkg["word/document.xml"]).toContain('<a:ln w="18000">');
++    expect(pkg["word/document.xml"]).toContain(
++      '<wp:effectExtent l="18000" t="18000" r="18000" b="18000"/>',
++    );
++    expect(pkg["word/document.xml"]).toContain('<wp:effectExtent l="0" t="0" r="0" b="0"/>');
+     expect(pkg["word/document.xml"]).toContain('relativeFrom="page"');
+     expect(pkg["word/document.xml"]).toContain("<wp:anchor");
+     expect(pkg["word/_rels/document.xml.rels"]).toContain('Target="media/image-1.png"');
+diff --git a/tests/fixtures/docx-next/picture-ownership.ts b/tests/fixtures/docx-next/picture-ownership.ts
+new file mode 100644
+--- /dev/null
++++ b/tests/fixtures/docx-next/picture-ownership.ts
+@@ -0,0 +1,27 @@
++import { buildDossierDocModel } from "../../../src/lib/docx-next/build-model";
++import { sidebarFixture, type SidebarFixture } from "./sidebar";
++
++export const PICTURE_OWNERSHIP_CASES = [
++  "left",
++  "both-long-right",
++  "photo-left",
++  "photo-right",
++  "photo-free-mirrored-side",
++  "photo-free-portrait",
++] as const;
++
++export function pictureOwnershipFixture(
++  kind: (typeof PICTURE_OWNERSHIP_CASES)[number],
++  source: string,
++) {
++  const input = sidebarFixture(
++    kind === "both-long-right" ? "both-long" : (kind as SidebarFixture),
++    source,
++  );
++  if (kind === "both-long-right") input.settings.sidebarSide = "right";
++  const model = buildDossierDocModel(input, {
++    cvSidebarComposition: "body-stories",
++    chromeFirstPageIdentity: "distinct-stories",
++  });
++  return { input, model };
++}
+diff --git a/tests/unit/docx-next-sidebar-fidelity-transport.test.ts b/tests/unit/docx-next-sidebar-fidelity-transport.test.ts
+new file mode 100644
+--- /dev/null
++++ b/tests/unit/docx-next-sidebar-fidelity-transport.test.ts
+@@ -0,0 +1,76 @@
++import assert from "node:assert/strict";
++import { test } from "bun:test";
++import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
++import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
++import { readZipEntries } from "../../src/lib/docx-next/zip";
++import { paintPng } from "../../src/lib/docx-next/artwork";
++import { walkBlocks } from "../../src/lib/docx-next/model";
++import { graphicCandidateFixture } from "../fixtures/docx-next/graphic-candidate";
++import { sidebarFixture } from "../fixtures/docx-next/sidebar";
++
++// Serialization regression for the combined branches, not a cover visual approval.
++for (const side of ["left", "right"] as const)
++  test(`authored cover picture and ${side} Sidebar picture keep their distinct owners and wrap`, async () => {
++    const input = graphicCandidateFixture("neon", "sidebar");
++    const portrait = sidebarFixture("photo-free-portrait");
++    input.settings.sidebarSide = side;
++    input.cv.design.sidebarPct = 0.3;
++    input.settings.margins = { cv: { top: 20, right: 20, bottom: 20, left: 20 } };
++    input.settings.cvPhotoPlacement = structuredClone(portrait.settings.cvPhotoPlacement);
++    input.settings.cvPhotoStyle = structuredClone(portrait.settings.cvPhotoStyle);
++    input.cover.data.foto = "transport-photo";
++    input.cv.data.person.foto = "transport-photo";
++    const before = structuredClone(input);
++    const model = buildDossierDocModel(input, {
++      cvSidebarComposition: "body-stories",
++      coverPhotoPlacement: "authored-page",
++    });
++    const cover = walkBlocks(model.cover.blocks).find((b) => b.kind === "image")!;
++    assert.equal(cover.kind, "image");
++    if (cover.kind !== "image") throw new Error("Missing cover picture");
++    assert.equal(cover.wrapMode, "none");
++    assert.equal(cover.coordinateOrigin, "page");
++    const png = paintPng({ color: "123456" });
++    let normalizations = 0;
++    const asset = {
++      bytes: png,
++      widthPx: 1,
++      heightPx: 1,
++      contentType: "image/png" as const,
++      extension: "png" as const,
++    };
++    const blob = await renderDossierDocx(model, {
++      allowUnacceptedModelIssues: true,
++      normalizeImage: async () => {
++        normalizations++;
++        return asset;
++      },
++      rasterizeDecoration: async () => asset,
++    });
++    const entries = readZipEntries(new Uint8Array(await blob.arrayBuffer()));
++    const xml = new TextDecoder().decode(
++      entries.find((p) => p.name === "word/document.xml")!.bytes,
++    );
++    const coverName = xml.indexOf(`name="${cover.id}"`);
++    assert.ok(coverName > 0);
++    const anchor = xml.slice(
++      xml.lastIndexOf("<wp:anchor", coverName),
++      xml.indexOf("</wp:anchor>", coverName),
++    );
++    assert.match(anchor, /behindDoc="0"/);
++    assert.match(anchor, /allowOverlap="1"/);
++    assert.match(anchor, /<wp:wrapNone\/>/);
++    assert.match(anchor, /<wp:positionH relativeFrom="page">/);
++    const owner = xml.match(
++      /<w:sdt><w:sdtPr><w:alias w:val="cv.person.photo"\/>[\s\S]*?<\/w:sdt>/g,
++    );
++    assert.equal(owner?.length, 1);
++    assert.match(owner![0], /<w:picture\/>/);
++    assert.match(owner![0], /<wp:inline\b/);
++    assert.doesNotMatch(owner![0], /<w:p[ >]/);
++    assert.match(xml, /name="cv.person.photo.frame"/);
++    assert.equal(normalizations, 1);
++    assert.deepEqual(entries.find((p) => p.name === "word/media/image-1.png")!.bytes, png);
++    assert.deepEqual(input, before);
++    await assert.rejects(renderDossierDocx(model), /unaccepted/);
++  });

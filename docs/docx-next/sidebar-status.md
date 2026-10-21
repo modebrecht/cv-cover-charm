@@ -1,4 +1,43 @@
-# Native Sidebar checkpoint — Brief first
+# Native Sidebar current checkpoint — 21 October 2026
+
+This is the current entry point for the Sidebar workstream. The preserved development report below predates the October 21 Word returns and is historical evidence, not the next implementation instruction.
+
+## Current implementation and Word evidence
+
+The isolated branch `fix/docx-next-sidebar-word-layout-21okt` adds an explicitly gated `body-stories` composition. It starts the CV with one native table containing independent cell stories; real cell-start paragraphs preserve ownership. Main-track free photos wrap in a native frame while the actual image stays inline in its own typed picture SDT. Rail photos retain flowing image zones. Source pixels and saved crop are separate from outline paint bounds.
+
+[Current Word evidence and source fix](../qa/docx-next-sidebar-word-photo-21okt.md) record:
+
+| Scope                                  | Confirmed result                                                                                      |
+| -------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| V3 portrait 04 and free right photo 05 | Visible outline truncation fixed in Microsoft Word PDFs; one CV page each                             |
+| Word-saved 04/05 pictures              | Exact original PNG bytes/pixels, crop, native picture structure and owner retained                    |
+| Word-saved 04/05 fields                | 48/48 IDs each; title edit `Lebenslauf → Lebenslaufi` retained in its field, all other text unchanged |
+| Long case 06                           | Word PDF has 11 pages without the earlier blank CV opening; saved DOCX retains 384/384 IDs            |
+| References                             | Text and heading share the left edge in the supplied Word PDFs                                        |
+| General half-width sections            | Automatic 2 mm outer cell inset removed; explicit 6 mm middle gap remains; locally verified           |
+| Legacy picture-before-later-span case  | Remains rejected in semantic-row mode; the gated body-story composition does not contain those spans  |
+
+These are bounded case results, not complete template-family or 22-case Word acceptance. The registry's complete-family acceptance count is not changed.
+
+## Remaining work and decisions
+
+- Manual Word picture replacement/crop reset and repeated close/save/reopen are unverified.
+- The complete Word Sidebar matrix, running-header combinations and remaining stress cases are unverified for this composition.
+- Writer still replaces original picture pixels; its failures must not be attributed to Word. A Writer compatibility requirement would remain a separate product constraint.
+- The historical exact-geometry gate remains open. Approximately one-twip Writer drift is not declared a visible release blocker without a demonstrated practical consequence.
+- Writer's known long-content overlap is recorded separately from the supplied Word pagination result.
+- Normal production export remains unchanged. Body-story diagnostics still require their explicit gate.
+
+## Integration preparation
+
+[The pinned integration review and portable patch](../qa/docx-next-sidebar-integration-21okt.md) combine the Sidebar serializer with the separately active Fidelity work in a scratch preview. They preserve the newer non-wrapping cover-picture path and both avatar serializers. Six known source packages remain byte-identical; 54 Sidebar tests plus two combined serializer tests pass. Existing cover-test failures are compared against the unchanged Fidelity baseline and are not silently accepted.
+
+The patch is prepared for a separate integration decision. No merge, target-branch modification, CI dispatch, deployment or production switch occurred. Do not resume the old engine/rounding investigation or regenerate the closed 04/05 photo micro-batch.
+
+## Historical development checkpoint
+
+Original checkpoint preserved below. Its “current” and “next task” wording refers to its original date only.
 
 **Current development:** [Native photo zones and the picture/span restriction](sidebar-photo-zone-status.md) extend [native semantic row flow](sidebar-row-flow-status.md), which supersedes the old one-row candidate below. Brief now has 31 verified render/save-reopen fixtures / 253 dossier pages, including supported free-photo zones, running headers and differing first/continuation margins. A native picture before a later spanning track is explicitly rejected after a visual counterexample. Continuous rails span semantic main rows; atomic rail entries use native paired rows. Microsoft Word acceptance remains pending and is separate from continued development, as explicitly instructed by the user. The earlier failure evidence below remains historical and reproducible.
 

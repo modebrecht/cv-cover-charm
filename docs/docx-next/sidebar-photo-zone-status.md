@@ -1,4 +1,12 @@
-# Shared native Sidebar picture zones
+# Native Sidebar photo zones — current assessment
+
+**October 21 update:** the development report below is historical. The gated body-story candidate now uses wrapping native frames for main-track free photos, with the image inline inside its own typed picture SDT; rail photos keep flowing zones. The complete outline is reserved once through picture effect extents, without duplicate cell/textbox padding. The old semantic-row picture/span restriction still applies to that old composition and must not be assumed to apply to every new body-story case.
+
+The returned V3 Microsoft Word portrait 04 and free right photo 05 retain their exact original PNG, crop, picture structure and all 48 field IDs. Their visible outline truncation is fixed. Long case 06 no longer has its blank opening in Word. Manual picture replacement/crop reset and broader Word combinations remain open.
+
+Use [the current Sidebar entry point](sidebar-status.md), [Word return evidence](../qa/docx-next-sidebar-word-photo-21okt.md) and [the pinned integration review](../qa/docx-next-sidebar-integration-21okt.md) for the next decision. The historical Writer pixel and geometry results are not rewritten or waived, and production export is not enabled.
+
+## Historical photo-zone development report
 
 Starting remote `dev`: `03b383c600b01659075cf38078963630aff0e842`, freshly fetched and independently verified. The older clean local checkout was advanced to that authoritative revision before editing. Registry remains 29/39 configured candidates and 0/39 Word accepted. Microsoft Word acceptance: pending; it is separate from the user's authorized continued development.
 
