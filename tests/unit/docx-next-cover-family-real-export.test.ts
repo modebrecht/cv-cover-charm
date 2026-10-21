@@ -15,14 +15,14 @@ describe("full saved-family native DOCX QA model", () => {
       expect(model.templateId).toBe(family);
       expect(model.issues).toEqual([]);
       expect(model.cover.blocks.find((block) =>
-        block.id === "cover.photo.native-avatar")).toMatchObject({
+        block.id === "cover.photo.initials.frame")).toMatchObject({
           kind: "paragraph-frame",
           wrapMode: "none",
         });
       expect(walkBlocks(model.cover.blocks).filter((block) =>
-        block.id === "cover.photo.native-avatar")).toHaveLength(1);
+        block.id === "cover.photo.initials.frame")).toHaveLength(1);
       const textFrame = model.cover.blocks.find((block) =>
-        block.id === "cover.photo.native-avatar");
+        block.id === "cover.photo.initials.frame");
       if (textFrame?.kind !== "paragraph-frame") throw Error("Missing frame");
       expect(textFrame.surface).toBeUndefined();
       expect(model.letter.blocks.length).toBeGreaterThan(0);
@@ -55,7 +55,7 @@ describe("full saved-family native DOCX QA model", () => {
       snapshot.cover.data.foto = "synthetic-photo-data";
       const model = buildFullCoverFamilyQaModel(snapshot);
       expect(walkBlocks(model.cover.blocks).some((block) =>
-        block.id === "cover.photo.native-avatar")).toBe(false);
+        block.id === "cover.photo.initials.frame")).toBe(false);
       const picture = walkBlocks(model.cover.blocks).find((block) =>
         block.id === "cover.photo");
       const photo = snapshot.cover.blocks.find((block) => block.id === "foto")!;
@@ -74,11 +74,8 @@ describe("full saved-family native DOCX QA model", () => {
           yPct: photo.style.imgY ?? 50,
         },
       });
-      expect(walkBlocks(model.cover.blocks).find((block) =>
-        block.id === "cover.photo.source-slot")).toMatchObject({
-          kind: "spacer",
-          heightMm: photo.style.w * (photo.style.ratio ?? 1),
-        });
+      expect(walkBlocks(model.cover.blocks).some((block) =>
+        block.id === "cover.photo.source-slot")).toBe(false);
       expect(walkBlocks(model.cover.blocks).filter((block) =>
         block.id === "cover.photo")).toHaveLength(1);
     });
