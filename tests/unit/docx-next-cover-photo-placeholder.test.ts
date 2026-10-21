@@ -13,9 +13,10 @@ describe("shared opt-in native cover photo placeholder", () => {
     test(template + " keeps round paint separate from editable initials", async () => {
       const input = graphicCandidateFixture(template);
       const model = buildDossierDocModel(input);
-      const paint = model.cover.blocks.find(
-        (block) => block.id === "cover.photo.placeholder-paint",
-      );
+      const paint = [
+        ...model.cover.blocks,
+        ...(model.cover.headerShapes ?? []),
+      ].find((block) => block.id === "cover.photo.placeholder-paint");
       expect(paint).toMatchObject({
         kind: "decorative-shape",
         shape: "circle",
@@ -108,91 +109,16 @@ describe("shared opt-in native cover photo placeholder", () => {
 });
 
 
-describe("single-owner native avatar experiment (never the default export)", () => {
+/** The DrawingML avatar rendered invisible in Writer; never revive that candidate. */
+describe("rejected DrawingML avatar candidate", () => {
   for (const template of ["verlauf", "neon", "freundlich"] as const) {
-    test(template + " holds editable initials inside the same rounded Word shape", async () => {
-      const input = graphicCandidateFixture(template);
-      const untouched = structuredClone(input);
-      const standard = buildDossierDocModel(input);
-      const trial = buildDossierDocModel(input, { nativeAvatarComposition: "single-owner" });
-      const photo = input.cover.blocks.find((block) => block.id === "foto")!;
-      expect(trial.cover.blocks.find((block) => block.id === "cover.photo.native-avatar")).toMatchObject({
-        kind: "paragraph-frame",
-        xMm: photo.style.x,
-        yMm: photo.style.y,
-        widthMm: photo.style.w,
-        surface: {
-          heightMm: photo.style.w * (photo.style.ratio ?? 1),
-          radiusMm: photo.style.w / 2,
-          borderColor: expect.any(String),
-          verticalAlign: "center",
-        },
-      });
-      expect(trial.cover.blocks.some((node) =>
-        node.id === "cover.photo.placeholder-paint")).toBe(false);
-      expect(walkBlocks(trial.cover.blocks).find((node) =>
-        node.id === "cover.photo")).toMatchObject({ kind: "spacer" });
-      expect(walkBlocks(trial.cover.blocks).some((node) =>
-        node.kind === "table" && node.id === "cover.photo")).toBe(false);
-      expect(input).toEqual(untouched);
-      expect(trial.letter).toEqual(standard.letter);
-      expect(trial.cv).toEqual(standard.cv);
-      validateDossierDocModel(trial);
-      await expect(renderDossierDocx(trial)).rejects.toThrow(
-        "paragraph frame pagination is unaccepted",
-      );
-      const bytes = new Uint8Array(await (await renderDossierDocx(trial, {
-        allowUnacceptedModelIssues: true,
-        rasterizeDecoration: async () => ({
-          bytes: paintPng({ color: "FFFFFF" }), widthPx: 1, heightPx: 1,
-          extension: "png" as const, contentType: "image/png" as const,
-        }),
-      })).arrayBuffer());
-      const xml = new TextDecoder().decode(readZipEntries(bytes).find(
-        (entry) => entry.name === "word/document.xml",
-      )!.bytes);
-      expect(xml).toContain('name="cover.photo.native-avatar"');
-      expect(xml).toContain("<wps:txbx><w:txbxContent>");
-      expect(xml).toContain('anchor="ctr"');
-      expect(xml).toContain("<a:arcTo");
-      expect(xml.split('name="cover.photo.native-avatar"')).toHaveLength(2);
-      if (template === "verlauf") {
-        const avatar = trial.cover.blocks.find(
-          (block) => block.id === "cover.photo.native-avatar",
-        );
-        expect(avatar?.kind).toBe("paragraph-frame");
-        if (avatar?.kind !== "paragraph-frame") throw Error("Missing native avatar");
-        expect(avatar.surface?.fillColor).toBeUndefined();
-        expect(xml).toContain("<a:noFill/>");
-      } else {
-        const avatar = trial.cover.blocks.find(
-          (block) => block.id === "cover.photo.native-avatar",
-        );
-        expect(avatar?.kind).toBe("paragraph-frame");
-        if (avatar?.kind !== "paragraph-frame") throw Error("Missing native avatar");
-        expect(avatar.surface?.fillColor).toMatch(/^[0-9A-F]{6}$/);
-      }
-      expect(xml).toContain('<w:t xml:space="preserve">LM</w:t>');
-      expect(xml).not.toContain('name="cover.photo.placeholder-paint"');
+    test(template + " rejects the obsolete single-owner experiment", () => {
+      expect(() => buildDossierDocModel(graphicCandidateFixture(template), {
+        nativeAvatarComposition: "single-owner" as never,
+      })).toThrow("requires an approved no-photo flow family");
     });
   }
-  test("gates unrelated templates, uploaded photos and relative photo anchors", () => {
-    expect(() => buildDossierDocModel(graphicCandidateFixture("klassisch"), {
-      nativeAvatarComposition: "single-owner",
-    })).toThrow("requires an approved no-photo flow family");
-    const photo = graphicCandidateFixture("neon");
-    photo.cover.data.foto = "synthetic-photo";
-    expect(() => buildDossierDocModel(photo, {
-      nativeAvatarComposition: "single-owner",
-    })).toThrow("requires an approved no-photo flow family");
-    const moved = graphicCandidateFixture("verlauf");
-    moved.cover.blocks.find((block) => block.id === "foto")!.style.follows = "name";
-    expect(() => buildDossierDocModel(moved, {
-      nativeAvatarComposition: "single-owner",
-    })).toThrow("requires an opaque, unanchored round source");
-  });
 });
-
 
 describe("guarded Writer-compatible VML avatar candidate", () => {
   for (const template of ["verlauf", "neon", "freundlich"] as const) {
