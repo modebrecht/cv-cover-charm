@@ -2,7 +2,8 @@ import type { Block } from "@/components/cover/types";
 import type { DocBlock, Paragraph, TextStyle, DecorativeShape, ImageBlock } from "./model";
 import { wordFont } from "./fonts";
 import { compositeTextColor } from "./colors";
-import { nativeTextHeightMm } from "./layouts";
+import { nativeTextHeightMm, nativeTextWidthMm } from "./layouts";
+import { hasUserStyle } from "@/components/cover/user-style-precedence";
 import { authoredPolygonPath } from "./decoration";
 
 type ElementContext = {
@@ -169,6 +170,39 @@ export function shapeElement(
     stroke: { color: resolve(s.color), widthMm: line ? 0 : (s.strokeWidth ?? 0.8) },
   };
 }
+/** A source-sized badge is a *maximum width*, not automatically the painted
+ * width of its one-line text. Word tables otherwise paint the entire authored
+ * text field (e.g. 166 mm for a ~58 mm date pill). This deliberately stays
+ * conservative: without browser glyph metrics it must not promise exact Web
+ * size, and explicit editor widths always win.
+ */
+export function nativeFlowBadgeWidthMm(
+  block: Block,
+  paragraphs: Paragraph[],
+  maxWidthMm: number,
+): number {
+  const padX = block.style.padX;
+  if (
+    !block.style.bg ||
+    hasUserStyle(block, "w") ||
+    paragraphs.length !== 1 ||
+    block.lines.length !== 1 ||
+    !Number.isFinite(padX) ||
+    padX < 0 ||
+    !Number.isFinite(maxWidthMm) ||
+    maxWidthMm <= 0 ||
+    paragraphs[0].runs.length === 0 ||
+    paragraphs[0].runs.some((run) => run.text.includes("\\n"))
+  )
+    return maxWidthMm;
+  // Native text advances are a reservation, not browser measurements.
+  // Extra space avoids line wrapping in Word's real installed font.
+  const desiredMm = nativeTextWidthMm(paragraphs[0]) + 2 * padX + 3;
+  return Number.isFinite(desiredMm) && desiredMm > 0
+    ? Math.min(maxWidthMm, Math.max(10, desiredMm))
+    : maxWidthMm;
+}
+
 export function flowingElementBox(
   block: Block,
   id: string,
@@ -181,7 +215,8 @@ export function flowingElementBox(
     : undefined;
   if (!paragraphs.length && !figure) return [];
   const available = page.widthMm - page.margins.left - page.margins.right;
-  const widthMm = Math.max(10, Math.min(available, block.style.w));
+  const maxWidthMm = Math.max(10, Math.min(available, block.style.w));
+  const widthMm = nativeFlowBadgeWidthMm(block, paragraphs, maxWidthMm);
   const indentMm = Math.max(0, Math.min(available - widthMm, block.style.x - page.margins.left));
   return [
     {

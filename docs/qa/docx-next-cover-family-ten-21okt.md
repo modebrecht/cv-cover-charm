@@ -108,3 +108,21 @@ requiring the next field to start at 49 mm and the source to remain unchanged.
 
 This corrects a real source-level mismatch, but is not a new app export or
 Word acceptance result. Users' explicit coordinates and links still win.
+
+
+## Default flow badge width — shared change, not family release
+
+The generic native `flowingElementBox` previously used the full authored
+field width as the painted table width for every one-line date badge (historical
+Verlauf 166 mm, Neon 110 mm, Warm 164 mm). It now applies one shared bounded
+width reservation using **existing `nativeTextWidthMm()`** plus the authored
+horizontal padding and 3 mm Word font fallback allowance, capped to the
+original width. It applies only to single-line background badges with no explicit
+user-saved `w` override. Multiline, empty and manually widened badges retain
+the old bounds; all semantic text stays native/editable.
+
+This is a **conservative Word font reservation**, not fresh browser `measureText`
+or round-corner acceptance. Expect a smaller and closer default native pill,
+not pixel-identical Web/Word styling. The actual native and Word screenshot
+must decide the final result. Tests have been authored for three families and
+manual-override preservation but **not executed** in Chat.
