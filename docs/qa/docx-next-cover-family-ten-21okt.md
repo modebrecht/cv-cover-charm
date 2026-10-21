@@ -158,3 +158,16 @@ reproduce the Web's circular border in desktop Word. Circle/position parity and
 save/reopen remain a **closed visual acceptance gate**. Only Verlauf, Neon and
 Warm/Freundlich enable this capability; this is a shared mechanism rather than
 three separate per-template renderers. Unit tests were added but not run here.
+
+
+## Ten-case source model assertions for actual photo and editable initials
+
+The existing 10-case restored-project runner now asserts against each *real
+case's diagnostic default native model*: V03/N03 have a native photo node and
+no duplicate initials; the other cases with no saved photo must have an
+editable `cover.photo.initials` paragraph and no fabricated image node.
+Results record both booleans in `fidelity-gaps.json`. These checks verify
+semantic-presence gates, **not** native export availability, target-Word
+rounded-avatar geometry or typography accuracy.
+
+Execution remains pending. No DOCX was produced by writing this test.

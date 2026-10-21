@@ -306,6 +306,19 @@ try {
         (node) => /^cover\.(photo|foto)(\.|$)/.test(node.id ?? ""),
       );
       const webPortrait = web.find((block) => block.id === "foto");
+      const editableInitials = nativeNodes.find(
+        (node) => node.id === "cover.photo.initials" && node.kind === "paragraph",
+      );
+      const nativePhoto = nativeNodes.find(
+        (node) => node.id === "cover.photo" && node.kind === "image",
+      );
+      if (item.variant === "photo") {
+        assert(nativePhoto, "Actual uploaded cover photo is missing from native diagnostic model");
+        assert(!editableInitials, "The native model duplicates initials behind a real photo");
+      } else if (!project.cover!.data.foto) {
+        assert(editableInitials, "Editable initials missing from the native diagnostic model");
+        assert(!nativePhoto, "Native model manufactured a photo for an initials-only cover");
+      }
       const nativePillWidth = dateBox?.widthMm ?? null;
       const webPillWidth = webDate?.badgeRect?.w ?? null;
       const gaps = {
@@ -320,6 +333,8 @@ try {
             : null,
         webInitials: webPortrait?.text?.trim() ?? null,
         nativePhotoOrInitialsNodes: nativePortrait.map((node) => node.id),
+        nativeEditableInitialsPresent: !!editableInitials,
+        actualNativePhotoNodePresent: !!nativePhoto,
         webBadgeCount: web.filter((node) => node.badgeRect).length,
         modelIssues: captured.model.issues,
         nativeEditableExportActuallyPerformed: false,
