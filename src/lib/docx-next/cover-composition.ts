@@ -16,7 +16,7 @@ export function composeCover(
   accent: string,
   color: CoverContext["color"],
   fallbackName: Paragraph,
-  avatarComposition?: "writer-vml",
+  avatarComposition?: "writer-vml" | "writer-frame",
   photoPlacement?: "authored-page",
 ): DocBlock[] {
   if (
@@ -222,8 +222,8 @@ export function composeCover(
             !style.follows &&
             !style.above &&
             !style.anchorBottom;
-          const singleOwner = avatarComposition === "writer-vml";
-          if (singleOwner && (!roundPaint || style.opacity !== 1))
+          const singleOwner = avatarComposition === "writer-vml" || avatarComposition === "writer-frame";
+          if (singleOwner && (!roundPaint || style.opacity !== 1 || Math.abs(widthMm - heightMm) > 0.001))
             throw Error("DOCX Next single-owner avatar requires an opaque, unanchored round source");
           if (roundPaint && !singleOwner) {
             const ink = color(
@@ -273,6 +273,23 @@ export function composeCover(
             { beforeMm: 0, afterMm: 0, keepNext: false, keepLines: true },
           );
           if (singleOwner) {
+            if (avatarComposition === "writer-frame") {
+              // Full-app Writer rendering proved VML text disappears underneath
+              // the first-header paint. A native editable Word paragraph frame
+              // instead stays in the foreground, on top of the existing circle.
+              // The 0.58 font-height fraction is measured from real A4 Writer
+              // page bboxes across all three cover families (error <0.35 mm).
+              coverDecoration.push({
+                kind: "paragraph-frame",
+                id: id + ".native-avatar",
+                xMm: style.x,
+                yMm: style.y + heightMm / 2 -
+                  (pointSize * 25.4 / 72) * 0.58,
+                widthMm,
+                wrapMode: "none",
+                paragraphs,
+              });
+            } else {
             // Explicit diagnostic candidate. One page-anchored editable Word shape
             // owns circle, stroke and letters; flow reserves its source height.
             coverDecoration.push({
@@ -301,6 +318,7 @@ export function composeCover(
                 paddingYMm: 0,
               },
             });
+            }
             blocks.push({ kind: "spacer", id, heightMm });
           } else blocks.push({
             kind: "table",
