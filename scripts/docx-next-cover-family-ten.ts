@@ -578,8 +578,27 @@ try {
           assert(xml.includes('<w:vAlign w:val="center"/>'),
             "Full application DOCX avatar lost vertical centering");
         } else {
-          assert(xml.includes('name="cover.photo"'),
-            "Full application DOCX lost uploaded source photo");
+          const marker = xml.indexOf('name="cover.photo"');
+          assert(marker >= 0, "Full application DOCX lost uploaded source photo");
+          const begin = xml.lastIndexOf("<wp:anchor", marker);
+          const end = xml.indexOf("</wp:anchor>", marker);
+          assert(begin >= 0 && end > marker,
+            "Full application cover photo is not anchored to the Word page");
+          const anchored = xml.slice(begin, end + "</wp:anchor>".length);
+          const photo = captured.snapshot.cover.blocks.find((block) => block.id === "foto");
+          assert(photo, "Saved cover photo block is missing");
+          const emu = (mm: number) => Math.round(mm * 36000);
+          assert(anchored.includes('<wp:positionH relativeFrom="page"><wp:posOffset>' +
+            emu(photo.style.x) + "</wp:posOffset>"),
+            "Saved photo X was lost in actual application Word export");
+          assert(anchored.includes('<wp:positionV relativeFrom="page"><wp:posOffset>' +
+            emu(photo.style.y) + "</wp:posOffset>"),
+            "Saved photo Y was lost in actual application Word export");
+          assert(anchored.includes('behindDoc="1"') &&
+            anchored.includes("<wp:wrapNone/>"),
+            "Full app photo still modifies the cover text flow");
+          assert(anchored.includes("<a:srcRect "),
+            "Full app photo crop representation is missing");
         }
         assert.deepEqual(await page.evaluate(() =>
           ["titelblatt:v3", "anschreiben:v1", "lebenslauf:v1"]
