@@ -25,7 +25,7 @@ export function paragraph(
   value: Paragraph,
   drawingRuns = "",
   numberingId?: number,
-  frame?: Pick<ParagraphFrameBlock, "xMm" | "yMm" | "widthMm">,
+  frame?: Pick<ParagraphFrameBlock, "xMm" | "yMm" | "widthMm" | "wrapMode">,
 ): string {
   if (value.flowSurface) {
     const s = value.flowSurface;
@@ -42,7 +42,7 @@ export function paragraph(
     ? `<w:pBdr><w:bottom w:val="single" w:sz="4" w:space="2" w:color="${xml(value.ruleColor)}"/></w:pBdr>`
     : "";
   const frameProperties = frame
-    ? `<w:framePr w:w="${twips(frame.widthMm)}" w:hRule="auto" w:hSpace="0" w:vSpace="0" w:wrap="around" w:vAnchor="page" w:hAnchor="page" w:x="${twips(frame.xMm)}" w:y="${twips(frame.yMm)}"/>`
+    ? `<w:framePr w:w="${twips(frame.widthMm)}" w:hRule="auto" w:hSpace="0" w:vSpace="0" w:wrap="${frame.wrapMode === "none" ? "none" : "around"}" w:vAnchor="page" w:hAnchor="page" w:x="${twips(frame.xMm)}" w:y="${twips(frame.yMm)}"/>`
     : "";
   const lineSpacing =
     value.minimumLineHeightPt === undefined
