@@ -220,8 +220,8 @@ export function buildDossierDocModel(
       : settings.placements;
   const template = nextTemplate(String(cover.template));
   if (options.coverComposition === "graphic-family-qa" &&
-      !["verlauf", "neon", "freundlich"].includes(template.id))
-    throw Error("DOCX Next graphic-family page positions are experimental and family-gated");
+      template.cover.nativePhotoPlaceholder !== "editable-initials")
+    throw Error("DOCX Next graphic-family page positions require a declared editable cover capability");
   if (options.nativeAvatarComposition !== undefined &&
       (!["writer-vml", "writer-frame"].includes(options.nativeAvatarComposition) ||
         options.coverComposition !== undefined ||
