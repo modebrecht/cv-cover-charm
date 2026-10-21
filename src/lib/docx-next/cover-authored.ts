@@ -24,7 +24,7 @@ export function composeAuthoredCover(
   graphicFamilyQa = false,
 ): DocBlock[] {
   if (!TEMPLATES.find((t) => t.id === cover.template)?.authoredCoverPresentation &&
-      !(graphicFamilyQa && ["verlauf", "neon", "freundlich"].includes(cover.template)))
+      !graphicFamilyQa)
     throw Error("DOCX Next authored cover presentation is not declared for this template");
   if (cover.template === "modern" && cover.customFieldIds?.length)
     throw Error("DOCX Next Modern prototype does not yet accept custom cover elements");
