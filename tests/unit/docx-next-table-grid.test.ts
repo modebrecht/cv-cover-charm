@@ -5,7 +5,8 @@ import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
 import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
 import { readZipEntries } from "../../src/lib/docx-next/zip";
 import { sidebarFixture } from "../fixtures/docx-next/sidebar";
-import type { TableBlock } from "../../src/lib/docx-next/model";
+import { walkBlocks, type TableBlock } from "../../src/lib/docx-next/model";
+import { tableColumnWidths } from "../../src/lib/docx-next/layouts";
 
 test("shared integer column edges conserve total width in both physical orientations", () => {
   expect(cumulativeColumnTwips([49.2, 6, 114.8], 170)).toEqual([2789, 340, 6509]);
@@ -77,4 +78,71 @@ test("the guarded body scope also conserves nested date columns without changing
   expect(grid).toEqual([1953, 4555]);
   expect(grid.reduce((sum, width) => sum + width, 0)).toBe(total);
   expect(model).toEqual(before);
+});
+
+test("reference pairs align to the section edge and retain the preview gap in either sidebar orientation", async () => {
+  for (const kind of ["left", "right"] as const)
+    for (const count of [1, 2, 3]) {
+      const input = sidebarFixture(kind);
+      const reference = input.cv.data.referenzen[0];
+      input.cv.data.referenzen = Array.from({ length: count }, (_, index) => ({
+        ...reference,
+        id: `alignment-${index}`,
+      }));
+      const model = buildDossierDocModel(input, { cvSidebarComposition: "body-stories" });
+      const pairs = walkBlocks(model.cv.blocks).filter(
+        (block): block is TableBlock =>
+          block.kind === "table" && block.id.startsWith("cv.section.referenzen.pair:"),
+      );
+      expect(pairs.length).toBe(Math.ceil(count / 2));
+      for (const pair of pairs) {
+        expect(tableColumnWidths(pair, 114.8)).toEqual([54.4, 6, 54.4]);
+        expect(pair.decoration?.paddingXMm).toBe(0);
+        expect(pair.rows[0].cells[1]).toEqual([]);
+      }
+      const blob = await renderDossierDocx(model, { allowUnacceptedModelIssues: true });
+      const xml = new TextDecoder().decode(
+        readZipEntries(new Uint8Array(await blob.arrayBuffer())).find(
+          (part) => part.name === "word/document.xml",
+        )!.bytes,
+      );
+      for (let index = 0; index < count; index++)
+        for (const field of ["name", "role", "contact"])
+          expect(
+            xml.match(
+              new RegExp(`w:tag w:val="cv.entry.referenzen:alignment-${index}\\.${field}"`, "g"),
+            )?.length,
+          ).toBe(1);
+      const caption = xml.indexOf('w:tblCaption w:val="cv.section.referenzen.pair:');
+      const tableStart = xml.lastIndexOf("<w:tbl>", caption);
+      const properties = xml.slice(tableStart, caption);
+      expect(properties).toContain('<w:left w:w="0" w:type="dxa"/>');
+      expect(properties).toContain('<w:right w:w="0" w:type="dxa"/>');
+      const grid = [
+        ...xml
+          .slice(caption)
+          .split("</w:tblGrid>")[0]
+          .matchAll(/<w:gridCol w:w="(\d+)"\/>/g),
+      ].map((match) => Number(match[1]));
+      expect(grid.length).toBe(3);
+      expect(Math.abs(grid[1] - twips(6))).toBeLessThanOrEqual(1);
+      expect(Math.abs(grid[0] - grid[2])).toBeLessThanOrEqual(1);
+    }
+});
+
+test("a narrow fixed spacer remains empty and cannot bypass the text-width gate", () => {
+  const table: TableBlock = {
+    kind: "table",
+    id: "spacer-width",
+    widths: [1, 1, 1],
+    columnWidthsMm: [null, 6, null],
+    rows: [{ cells: [[], [], []], keepTogether: false }],
+    decoration: { borderColor: "FFFFFF", borderWidthMm: 0, paddingXMm: 0, paddingYMm: 0 },
+  };
+  expect(tableColumnWidths(table, 100)).toEqual([47, 6, 47]);
+  table.rows[0].cells[1] = [{ kind: "spacer", id: "populated-gap", heightMm: 1 }];
+  expect(() => tableColumnWidths(table, 100)).toThrow("insufficient text width");
+  table.rows[0].cells[1] = [];
+  table.columnWidthsMm![1] = 0;
+  expect(() => tableColumnWidths(table, 100)).toThrow("insufficient text width");
 });

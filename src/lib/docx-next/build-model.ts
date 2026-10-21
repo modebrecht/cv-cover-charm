@@ -750,9 +750,11 @@ export function buildDossierDocModel(
         return {
           kind: "table",
           id: `cv.section.referenzen.pair:${pair.map((entry) => entry.id).join("|")}`,
-          widths: [1, 1],
-          rows: [{ cells: [pair.slice(0, 1), pair.slice(1)], keepTogether: false }],
-          decoration: { borderColor: cvAccent, borderWidthMm: 0, paddingXMm: 3, paddingYMm: 0 },
+          // Match the preview's two equal tracks and 6 mm gap without an outer inset.
+          widths: [1, 1, 1],
+          columnWidthsMm: [null, 6, null],
+          rows: [{ cells: [pair.slice(0, 1), [], pair.slice(1)], keepTogether: false }],
+          decoration: { borderColor: cvAccent, borderWidthMm: 0, paddingXMm: 0, paddingYMm: 0 },
         };
       });
     }
