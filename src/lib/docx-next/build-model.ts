@@ -86,7 +86,7 @@ export type BuildModelOptions = {
   /** Explicit candidate only: source-sized empty compact chrome, declared per template. */
   compactChromeComposition?: "source-bands";
   /** Guarded fixed-page candidate; not a production export switch. */
-  coverComposition?: "authored-frames";
+  coverComposition?: "authored-frames" | "graphic-family-qa";
   /** Explicit candidate: keep authored text badge paint in the active body story. */
   coverBadgePlacement?: "body";
   /** Explicit candidate: one native shape contains badge paint and editable text. */
@@ -161,7 +161,8 @@ export function buildDossierDocModel(
     (options.cvSidebarComposition !== "body-stories" || cvVariant !== "sidebar")
   )
     throw new Error("DOCX Next invalid diagnostic Sidebar composition");
-  if (options.coverComposition !== undefined && options.coverComposition !== "authored-frames")
+  if (options.coverComposition !== undefined &&
+      !["authored-frames", "graphic-family-qa"].includes(options.coverComposition))
     throw Error("DOCX Next invalid authored cover composition");
   if (
     options.coverBadgePlacement !== undefined &&
@@ -218,6 +219,9 @@ export function buildDossierDocModel(
       ? { ...DEFAULT_CV_PLACEMENTS, ...settings.placements }
       : settings.placements;
   const template = nextTemplate(String(cover.template));
+  if (options.coverComposition === "graphic-family-qa" &&
+      !["verlauf", "neon", "freundlich"].includes(template.id))
+    throw Error("DOCX Next graphic-family page positions are experimental and family-gated");
   if (options.nativeAvatarComposition !== undefined &&
       (!["writer-vml", "writer-frame"].includes(options.nativeAvatarComposition) ||
         options.coverComposition !== undefined ||
@@ -395,7 +399,8 @@ export function buildDossierDocModel(
     fieldStyles: settings.fieldStyles,
   });
   coverPart.blocks =
-    options.coverComposition === "authored-frames"
+    (options.coverComposition === "authored-frames" ||
+      options.coverComposition === "graphic-family-qa")
       ? composeAuthoredCover(
           cover,
           coverPart.page,
@@ -403,6 +408,7 @@ export function buildDossierDocModel(
           options.coverTextMetrics,
           template.cover.hiddenDecorationIds,
           options.coverBadgeComposition,
+          options.coverComposition === "graphic-family-qa",
         )
       : composeCover(
           cover,
