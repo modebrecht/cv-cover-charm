@@ -15,9 +15,20 @@ const appBase = process.env.DOCX_NEXT_APP_URL ?? "http://127.0.0.1:4173";
 // Explicitly diagnostic; never switches the actual application export path.
 const exportAvatarTrials = process.env.DOCX_NEXT_AVATAR_EXPERIMENT === "1";
 const require = createRequire(import.meta.url);
-const { chromium } = require(
-  path.join(process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES!, "playwright"),
-);
+let chromium: typeof import("playwright").chromium;
+try {
+  // Existing Codex runtime takes precedence; ordinary QA can use a local
+  // Playwright installation without CODEX_PRIMARY_* environment variables.
+  const moduleName = process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES
+    ? path.join(process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES, "playwright")
+    : "playwright";
+  ({ chromium } = require(moduleName));
+} catch (error) {
+  throw Error(
+    "DOCX Next browser QA requires Playwright. Install it in the test runtime " +
+      "or set CODEX_PRIMARY_RUNTIME_NODE_MODULES. Cause: " + String(error),
+  );
+}
 const sha256 = (data: Uint8Array | string) =>
   createHash("sha256").update(data).digest("hex");
 const expected = ["verlauf", "neon", "freundlich"];
@@ -36,7 +47,7 @@ const server = process.env.DOCX_NEXT_APP_URL
   ? undefined
   : Bun.spawn({
       cmd: [
-        process.env.CODEX_PRIMARY_RUNTIME_NODE!,
+        process.env.CODEX_PRIMARY_RUNTIME_NODE ?? "node",
         "node_modules/vite/bin/vite.js",
         "dev",
         "--host",

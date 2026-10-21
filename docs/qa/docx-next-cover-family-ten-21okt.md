@@ -252,3 +252,21 @@ The resulting files are **experimental DOCX packages**, **not productive UI
 downloads**, not pixel comparisons and not Desktop Word approval. The runner
 cannot itself prove Save/Reopen or visual geometry. This feature must not
 enable a product export switch or imply all ten are accepted.
+
+
+## Test-runner portability and test-suite inclusion
+
+The browser runner now resolves the original `CODEX_PRIMARY_RUNTIME_NODE_MODULES`
+Playwright first when configured, otherwise a project-local `playwright`
+module, and prints a precise setup error instead of crashing on a missing
+path environment variable. Vite uses `node` when no Codex-specific Node
+binary is supplied. **This does not install Chromium or bypass the runtime**;
+those tools remain prerequisites.
+
+The regular `bun run test:docx-next` now includes both
+`docx-next-cover-family-ten.test.ts` and
+`docx-next-cover-photo-placeholder.test.ts`. Previously, the project's
+focused DOCX test script silently omitted these new regressions.
+
+No test result is claimed from making the runner portable or adding tests to
+the command. This chat has no checked-out Vite app or Bun/Chromium installation.
