@@ -4162,8 +4162,8 @@ export const NEON: TemplateDefinition = {
   pagePaintComposition: "single-asset",
   colors: { ink: "F8FAFC", accent: "E11D8F", paper: "0D0B2B" },
   cover: {
-    nativePhotoPlaceholder: "editable-initials",
     ...CITRUS.cover,
+    nativePhotoPlaceholder: "editable-initials",
     align: "left",
     photoAlign: "right",
     margins: { top: 24, left: 22, right: 22, bottom: 22 },
@@ -4288,8 +4288,8 @@ export const VERLAUF: TemplateDefinition = {
   pagePaintComposition: "single-asset",
   colors: { ink: "FFFFFF", accent: "7F5AF0", paper: "FFFFFF" },
   cover: {
-    nativePhotoPlaceholder: "editable-initials",
     ...CITRUS.cover,
+    nativePhotoPlaceholder: "editable-initials",
     margins: { top: 20, left: 22, right: 22, bottom: 20 },
     rows: [
       { fields: ["eyebrow", "ortDatum"], widths: [1, 1] },
