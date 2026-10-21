@@ -18,10 +18,13 @@ describe("full saved-family native DOCX QA model", () => {
         block.id === "cover.photo.native-avatar")).toMatchObject({
           kind: "paragraph-frame",
           wrapMode: "none",
-          surface: undefined,
         });
       expect(walkBlocks(model.cover.blocks).filter((block) =>
         block.id === "cover.photo.native-avatar")).toHaveLength(1);
+      const textFrame = model.cover.blocks.find((block) =>
+        block.id === "cover.photo.native-avatar");
+      if (textFrame?.kind !== "paragraph-frame") throw Error("Missing frame");
+      expect(textFrame.surface).toBeUndefined();
       expect(model.letter.blocks.length).toBeGreaterThan(0);
       expect(model.cv.blocks.length).toBeGreaterThan(0);
       expect(snapshot).toEqual(before);
