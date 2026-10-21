@@ -192,7 +192,7 @@ export function nativeFlowBadgeWidthMm(
     !Number.isFinite(maxWidthMm) ||
     maxWidthMm <= 0 ||
     paragraphs[0].runs.length === 0 ||
-    paragraphs[0].runs.some((run) => run.text.includes("\\n"))
+    paragraphs[0].runs.some((run) => run.text.includes("\n"))
   )
     return maxWidthMm;
   // Native text advances are a reservation, not browser measurements.

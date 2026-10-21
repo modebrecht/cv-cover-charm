@@ -61,7 +61,7 @@ describe("measured-packet-independent native cover badge reservation", () => {
     };
     expect(nativeFlowBadgeWidthMm(badge, [short], 166)).toBeLessThan(100);
     expect(nativeFlowBadgeWidthMm(badge, [{ ...short,
-      runs: [{ ...short.runs[0], text: "August\\n2028" }] }], 166)).toBe(166);
+      runs: [{ ...short.runs[0], text: "August\n2028" }] }], 166)).toBe(166);
     expect(nativeFlowBadgeWidthMm({ ...badge, style: { ...badge.style, bg: null } },
       [short], 166)).toBe(166);
     expect(nativeFlowBadgeWidthMm(badge, [], 166)).toBe(166);
