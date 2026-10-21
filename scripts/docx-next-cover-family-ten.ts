@@ -233,15 +233,22 @@ try {
           const part = readZipEntries(bytes).find((entry) => entry.name === "word/document.xml");
           if (!part) throw Error("Diagnostic DOCX missing the actual Word document part");
           const xml = new TextDecoder().decode(part.bytes);
-          const hasAvatar = xml.includes('name="cover.photo.native-avatar"');
+          const avatarCount = xml.split('name="cover.photo.native-avatar"').length - 1;
+          const hasAvatar = avatarCount > 0;
           if (candidate) {
-            if (!hasAvatar || !xml.includes("<wps:txbx><w:txbxContent>") ||
+            if (avatarCount !== 1 || !xml.includes("<wps:txbx><w:txbxContent>") ||
                 !xml.includes("cover.photo.initials") || !xml.includes("<a:arcTo"))
-              throw Error("Single-owner DOCX is missing editability or round geometry");
+              throw Error("Single-owner DOCX must have exactly one editable circular avatar");
             if (xml.includes('name="cover.photo.placeholder-paint"'))
               throw Error("Diagnostic Word avatar still has two independent painted owners");
-          } else if (!xml.includes('name="cover.photo"') || hasAvatar) {
-            throw Error("Saved uploaded cover photo was lost or acquired a placeholder");
+          } else {
+            if (!xml.includes('name="cover.photo"') || hasAvatar)
+              throw Error("Saved uploaded cover photo was lost or acquired a placeholder");
+            const photoStart = xml.indexOf('name="cover.photo"');
+            const photoXml = xml.slice(photoStart, photoStart + 1900);
+            const crop = photoXml.match(/<a:srcRect l="(\\d+)" t="(\\d+)" r="(\\d+)" b="(\\d+)"/);
+            if (!crop || crop.slice(1).every((value) => Number(value) === 0))
+              throw Error("Uploaded photo lost its explicit saved cover crop");
           }
           // Browser returns actual native DOCX bytes, not a screenshot or stub.
           // Encode in bounded chunks: avoids BlobPart<ArrayBufferLike> TypeScript

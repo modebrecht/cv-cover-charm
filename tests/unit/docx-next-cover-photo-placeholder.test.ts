@@ -155,6 +155,23 @@ describe("single-owner native avatar experiment (never the default export)", () 
       expect(xml).toContain("<wps:txbx><w:txbxContent>");
       expect(xml).toContain('anchor="ctr"');
       expect(xml).toContain("<a:arcTo");
+      expect(xml.split('name="cover.photo.native-avatar"')).toHaveLength(2);
+      if (template === "verlauf") {
+        const avatar = trial.cover.blocks.find(
+          (block) => block.id === "cover.photo.native-avatar",
+        );
+        expect(avatar?.kind).toBe("paragraph-frame");
+        if (avatar?.kind !== "paragraph-frame") throw Error("Missing native avatar");
+        expect(avatar.surface?.fillColor).toBeUndefined();
+        expect(xml).toContain("<a:noFill/>");
+      } else {
+        const avatar = trial.cover.blocks.find(
+          (block) => block.id === "cover.photo.native-avatar",
+        );
+        expect(avatar?.kind).toBe("paragraph-frame");
+        if (avatar?.kind !== "paragraph-frame") throw Error("Missing native avatar");
+        expect(avatar.surface?.fillColor).toMatch(/^[0-9A-F]{6}$/);
+      }
       expect(xml).toContain('<w:t xml:space="preserve">LM</w:t>');
       expect(xml).not.toContain('name="cover.photo.placeholder-paint"');
     });
