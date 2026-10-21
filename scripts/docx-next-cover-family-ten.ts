@@ -538,6 +538,7 @@ try {
         snapshotSha256: sha256(JSON.stringify(captured.snapshot)),
         fidelityGaps: gaps,
         pdf,
+        diagnosticDocx: avatarTrial,
         nativeDocx: {
           status: "GATED_UNAVAILABLE",
           reason: "Current application allows native authored DOCX only for Brief/Modern",
@@ -546,17 +547,39 @@ try {
       };
       await writeFile(path.join(folder, "manifest.json"), JSON.stringify(result, null, 2));
       results.push(result);
+    } catch (error) {
+      // Continue other independent family cases. Preserve a machine-readable
+      // failure and still exit nonzero after writing the complete manifest.
+      const failure = { ...item, status: "FAILED", error: String(error),
+        wordAcceptance: "UNVERIFIED" };
+      results.push(failure);
+      await writeFile(path.join(folder, "failure.json"),
+        JSON.stringify(failure, null, 2));
     } finally {
       await context.close();
     }
   }
+  const passed = results.filter((result) =>
+    (result as { status?: string }).status === "WEB_REFERENCE_CAPTURED");
+  const generated = results.filter((result) =>
+    (result as { diagnosticDocx?: { status?: string } }).diagnosticDocx?.status ===
+      "DIAGNOSTIC_DOCX_GENERATED");
   await writeFile(path.join(out, "manifest.json"), JSON.stringify({
-    type: "cover-family-reference-only",
+    type: exportAvatarTrials
+      ? "cover-family-experimental-diagnostic-docx"
+      : "cover-family-reference-only",
     count: results.length,
+    passed: passed.length,
+    failed: results.length - passed.length,
+    diagnosticDocxGenerated: generated.length,
+    experimentalAvatarMode: exportAvatarTrials,
     realNativeApplicationDocxFiles: 0,
+    desktopWordAccepted: 0,
     notAnAcceptancePackage: true,
     results,
   }, null, 2));
+  if (passed.length !== cases.length)
+    throw Error(`DOCX Next cover ten-case runner: ${passed.length}/${cases.length} passed; consult manifest.json`);
 } finally {
   if (browser) await browser.close();
   server?.kill();
