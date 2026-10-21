@@ -547,7 +547,9 @@ try {
           ["titelblatt:v3", "anschreiben:v1", "lebenslauf:v1"]
             .map((key) => localStorage.getItem(key)),
         );
-        await page.getByRole("button").filter({ hasText: "Gesamtdossier herunterladen" }).click();
+        await page.locator('button[data-editor-ready]').click();
+        await page.locator("[data-editor-action-menu] button")
+          .filter({ hasText: "Ganzes Dossier als PDF" }).click();
         const exportDialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
         const qaButton = exportDialog.locator(
           "[data-cover-family-docx-next-qa] button",
@@ -617,9 +619,11 @@ try {
         ["titelblatt:v3", "anschreiben:v1", "lebenslauf:v1"]
           .map((key) => localStorage.getItem(key)),
       );
-      await page.getByRole("button").filter({ hasText: "Gesamtdossier herunterladen" }).click();
+      await page.locator('button[data-editor-ready]').click();
+        await page.locator("[data-editor-action-menu] button")
+          .filter({ hasText: "Ganzes Dossier als PDF" }).click();
       const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
-      const pdfButton = dialog.getByRole("button", { name: "PDF herunterladen", exact: true });
+      const pdfButton = dialog.getByRole("button", { name: "Dossier herunterladen", exact: true });
       let pdf: { status: string; sha256?: string; reason?: string } = {
         status: "NOT_EXPORTED",
       };
