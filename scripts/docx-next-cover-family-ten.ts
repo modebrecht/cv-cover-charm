@@ -246,7 +246,7 @@ try {
               throw Error("Saved uploaded cover photo was lost or acquired a placeholder");
             const photoStart = xml.indexOf('name="cover.photo"');
             const photoXml = xml.slice(photoStart, photoStart + 1900);
-            const crop = photoXml.match(/<a:srcRect l="(\\d+)" t="(\\d+)" r="(\\d+)" b="(\\d+)"/);
+            const crop = photoXml.match(/<a:srcRect l="(\d+)" t="(\d+)" r="(\d+)" b="(\d+)"/);
             if (!crop || crop.slice(1).every((value) => Number(value) === 0))
               throw Error("Uploaded photo lost its explicit saved cover crop");
           }
