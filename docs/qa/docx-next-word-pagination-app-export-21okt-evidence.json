@@ -232,21 +232,25 @@
     "wordEquivalent": false
   },
   "acceptanceTargets": {
-    "02": {
-      "action": "auto",
-      "webCvPages": 1,
-      "libreOfficeCvPages": 1,
-      "allReferencesOnSameCvPage": true,
-      "docxSha256": "98344ddb5f0543b293d263ab5172c96ea9239e05b387a437cf59902456b16ec0",
-      "desktopWord": "UNVERIFIED"
-    },
     "12": {
       "action": "auto",
       "webCvPages": 1,
       "libreOfficeCvPages": 1,
       "allReferencesOnSameCvPage": true,
       "docxSha256": "6461d9734ed324a2a8ece478efb6a41b9fb4898387c5a34c9b97802e3b3f3e54",
-      "desktopWord": "UNVERIFIED"
+      "desktopWord": "PASS — visual screenshots and explicit user-confirmed save/reopen",
+      "targetedReferencesOverflowP1": "CLOSED",
+      "furtherUserTestRequired": false
+    },
+    "02": {
+      "action": "auto",
+      "webCvPages": 1,
+      "libreOfficeCvPages": 1,
+      "allReferencesOnSameCvPage": true,
+      "docxSha256": "98344ddb5f0543b293d263ab5172c96ea9239e05b387a437cf59902456b16ec0",
+      "desktopWord": "PASS — visual screenshots and explicit user-confirmed save/reopen",
+      "targetedReferencesOverflowP1": "CLOSED",
+      "furtherUserTestRequired": false
     }
   },
   "explicitTwoPageControl": [
@@ -531,7 +535,7 @@
         }
       ],
       "pageCountMatchesWeb": true,
-      "wordAcceptance": "UNVERIFIED"
+      "wordAcceptance": "PASS — user confirmed layout after save/reopen"
     },
     {
       "id": "03-Modern-Kontakt-waagrecht",
@@ -1121,7 +1125,7 @@
       "originalPngSourcesPreserved": 0,
       "pillChecks": [],
       "pageCountMatchesWeb": true,
-      "wordAcceptance": "UNVERIFIED"
+      "wordAcceptance": "PASS — user confirmed layout after save/reopen"
     }
   ],
   "parallelFidelity": {
@@ -1140,10 +1144,61 @@
     "screenshotsIncluded": false,
     "focus": "02 and 12 CV from dossier page 3; other ten cases documented in subfolder"
   },
-  "desktopWord": "UNVERIFIED",
-  "verdict": "Targeted native-render result PASS; overall CONDITIONAL pending Desktop Word; batch-wide page equivalence NOT PASS",
+  "desktopWord": "02 and 12 targeted CV pagination and save/reopen PASS by user acceptance; other cases outside this accepted result",
+  "verdict": "02/12 References-overflow P1 CLOSED / PASS; separate 03/05/07 mismatches OPEN; no batch-wide PASS or merge",
   "merge": "NOT_PERFORMED",
   "ciDispatch": "NOT_PERFORMED",
   "deployment": "NOT_PERFORMED",
-  "productionExportSwitch": "NOT_PERFORMED"
+  "productionExportSwitch": "NOT_PERFORMED",
+  "userWordScreenshotReview": [
+    {
+      "case": "02",
+      "filename": "image(20261021-195247).png",
+      "libraryFileId": "libfile_27e10690fb2c8191a28ba38b5b3733b8",
+      "sha256": "12c4cbbde916be746ac5fd7627313960dd5c73d0fad8ccd609f268603e9af9f9",
+      "documentTitle": "02-Modern-Automatik-CV-ab-Seite-3",
+      "desktopWordVisible": true,
+      "completeCvOnDossierPage3": true,
+      "referencesHeadingAndNameRolePhoneOnSameCvPage": true,
+      "savedIndicatorVisible": true,
+      "initialVisualPagination": "PASS",
+      "saveReopen": "PASS — explicit user confirmation",
+      "nativeEditability": "UNVERIFIED",
+      "savedDocxBytesAvailable": false,
+      "packageIdentityVerified": false,
+      "sourceOfSaveReopenAcceptance": "User report accompanying screenshots; not inferred from Saved indicator"
+    },
+    {
+      "case": "12",
+      "filename": "image(20261021-195443).png",
+      "libraryFileId": "libfile_fcf0eb71c3b48191891642c9140b6667",
+      "sha256": "8c6f512da02a71d36fcba9e4025123885a2b18a48da54f0325c2f3ccbfe5dfc3",
+      "documentTitle": "12-Brief-Automatik-CV-ab-Seite-3",
+      "desktopWordVisible": true,
+      "completeCvOnDossierPage3": true,
+      "referencesHeadingAndNameRolePhoneOnSameCvPage": true,
+      "savedIndicatorVisible": true,
+      "initialVisualPagination": "PASS",
+      "saveReopen": "PASS — explicit user confirmation",
+      "nativeEditability": "UNVERIFIED",
+      "savedDocxBytesAvailable": false,
+      "packageIdentityVerified": false,
+      "sourceOfSaveReopenAcceptance": "User report accompanying screenshots; not inferred from Saved indicator"
+    }
+  ],
+  "userWordSaveReopenConfirmation": {
+    "date": "2026-10-21",
+    "cases": [
+      "02",
+      "12"
+    ],
+    "verbatim": "ich habe beide docx gespeichert u wieder geöffnet IST ALLES OKEY HIER",
+    "source": "Explicit user report in this conversation",
+    "result": "PASS",
+    "furtherTargetedUserTestRequired": false
+  },
+  "nextWork": [
+    "Classify and address separate unfitted cases 03, 05 and 07 without reopening accepted 02/12",
+    "Prepare isolated integration with current Fidelity and confirmed Sidebar repair; no merge"
+  ]
 }
