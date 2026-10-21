@@ -126,3 +126,16 @@ or round-corner acceptance. Expect a smaller and closer default native pill,
 not pixel-identical Web/Word styling. The actual native and Word screenshot
 must decide the final result. Tests have been authored for three families and
 manual-override preservation but **not executed** in Chat.
+
+
+## Shared horizontal placement of compact date badges
+
+A Web badge lives **inside** its source-wide text field, respecting the saved
+field's left/center/right alignment. After shrinking a 166 mm native table to
+a content reservation, preserving only its old left inset would place the
+Verlauf and Warm badges too far left. `nativeFlowBadgeIndentMm()` now computes
+the intrinsic box's offset within the authored original field and safely
+clamps it to the native content region. It retains the original inset when
+the saved width was explicitly overridden, or when no content-fit was applied.
+The three-family regression cases exercise center/left placement, including
+right alignment and manual width.

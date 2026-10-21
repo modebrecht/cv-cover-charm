@@ -203,6 +203,30 @@ export function nativeFlowBadgeWidthMm(
     : maxWidthMm;
 }
 
+/** Preserve the Web span's left/center/right alignment inside its authored
+ * parent field after the native painted box becomes narrower than that field.
+ * A saved manual width is deliberately not reinterpreted as content-fit.
+ */
+export function nativeFlowBadgeIndentMm(
+  block: Block,
+  widthMm: number,
+  maxWidthMm: number,
+  availableMm: number,
+  marginLeftMm: number,
+): number {
+  const autoFitted = !!block.style.bg && !hasUserStyle(block, "w") && widthMm < maxWidthMm;
+  const extraMm = autoFitted ? Math.max(0, block.style.w - widthMm) : 0;
+  const shiftMm = block.style.align === "center"
+    ? extraMm / 2
+    : block.style.align === "right"
+      ? extraMm
+      : 0;
+  return Math.max(
+    0,
+    Math.min(availableMm - widthMm, block.style.x - marginLeftMm + shiftMm),
+  );
+}
+
 export function flowingElementBox(
   block: Block,
   id: string,
@@ -217,7 +241,9 @@ export function flowingElementBox(
   const available = page.widthMm - page.margins.left - page.margins.right;
   const maxWidthMm = Math.max(10, Math.min(available, block.style.w));
   const widthMm = nativeFlowBadgeWidthMm(block, paragraphs, maxWidthMm);
-  const indentMm = Math.max(0, Math.min(available - widthMm, block.style.x - page.margins.left));
+  const indentMm = nativeFlowBadgeIndentMm(
+    block, widthMm, maxWidthMm, available, page.margins.left,
+  );
   return [
     {
       kind: "table",

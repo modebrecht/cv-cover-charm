@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { nativeFlowBadgeWidthMm } from "../../src/lib/docx-next/elements";
+import { nativeFlowBadgeIndentMm, nativeFlowBadgeWidthMm } from "../../src/lib/docx-next/elements";
 import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
 import { walkBlocks, type TableBlock } from "../../src/lib/docx-next/model";
 import { graphicCandidateFixture } from "../fixtures/docx-next/graphic-candidate";
@@ -31,6 +31,8 @@ describe("measured-packet-independent native cover badge reservation", () => {
       expect(badge.kind).toBe("table");
       expect(badge.widthMm).toBeGreaterThan(30);
       expect(badge.widthMm).toBeLessThan(100);
+      if (template === "neon") expect(badge.indentMm ?? 0).toBeLessThan(5);
+      else expect(badge.indentMm).toBeGreaterThan(30);
       expect(fixture).toEqual(before);
       expect(model.letter).toEqual(buildDossierDocModel(before).letter);
       expect(model.cv).toEqual(buildDossierDocModel(before).cv);
@@ -45,6 +47,20 @@ describe("measured-packet-independent native cover badge reservation", () => {
     const box = walkBlocks(buildDossierDocModel(fixture).cover.blocks)
       .find((block) => block.id === "cover.lehrbeginn.flow-box") as TableBlock;
     expect(box.widthMm).toBe(104);
+  });
+
+  test("automatic pills follow their authored alignment but manual widths win", () => {
+    const fixture = graphicCandidateFixture("verlauf");
+    const badge = fixture.cover.blocks.find((block) => block.id === "lehrbeginn")!;
+    expect(nativeFlowBadgeIndentMm(badge, 70, 166, 166, 22)).toBe(48);
+    expect(nativeFlowBadgeIndentMm(
+      { ...badge, style: { ...badge.style, align: "left" } }, 70, 166, 166, 22,
+    )).toBe(0);
+    expect(nativeFlowBadgeIndentMm(
+      { ...badge, style: { ...badge.style, align: "right" } }, 70, 166, 166, 22,
+    )).toBe(96);
+    (badge as UserStyledBlock).userStyleKeys = ["w"];
+    expect(nativeFlowBadgeIndentMm(badge, 70, 166, 166, 22)).toBe(0);
   });
 
   test("autofit fails closed for multiline/empty metrics and non-badge fields", () => {
