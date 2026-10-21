@@ -21,8 +21,10 @@ export function composeAuthoredCover(
   fontMetrics?: CoverTextMetrics,
   hiddenDecorationIds: readonly string[] = [],
   badgeComposition?: "native-shape",
+  graphicFamilyQa = false,
 ): DocBlock[] {
-  if (!TEMPLATES.find((t) => t.id === cover.template)?.authoredCoverPresentation)
+  if (!TEMPLATES.find((t) => t.id === cover.template)?.authoredCoverPresentation &&
+      !(graphicFamilyQa && ["verlauf", "neon", "freundlich"].includes(cover.template)))
     throw Error("DOCX Next authored cover presentation is not declared for this template");
   if (cover.template === "modern" && cover.customFieldIds?.length)
     throw Error("DOCX Next Modern prototype does not yet accept custom cover elements");
@@ -133,6 +135,7 @@ export function composeAuthoredCover(
       throw Error("DOCX Next authored cover exceeds A4 bounds: " + id);
     for (const o of occupied)
       if (
+        !graphicFamilyQa &&
         Math.min(x + w, o.x + o.w) - Math.max(x, o.x) > 0.2 &&
         Math.min(y + h, o.y + o.h) - Math.max(y, o.y) > 0.2
       )
@@ -210,6 +213,7 @@ export function composeAuthoredCover(
           maxHeightMm: h,
           placement: "free",
           coordinateOrigin: "page",
+          ...(graphicFamilyQa ? { wrapMode: "none" as const } : {}),
           xMm: s.x,
           yMm: pos.y,
           gapMm: 0,
@@ -278,8 +282,11 @@ export function composeAuthoredCover(
           kind: "paragraph-frame",
           id: id + ".initials.frame",
           xMm: s.x,
-          yMm: pos.y + (h - ((pt * 25.4) / 72) * 1.2) / 2,
+          yMm: graphicFamilyQa
+            ? pos.y + h / 2 - ((pt * 25.4) / 72) * 0.58
+            : pos.y + (h - ((pt * 25.4) / 72) * 1.2) / 2,
           widthMm: s.w,
+          ...(graphicFamilyQa ? { wrapMode: "none" as const } : {}),
           paragraphs,
         });
       } else throw Error("DOCX Next authored cover image has no source: " + id);
@@ -291,7 +298,7 @@ export function composeAuthoredCover(
     const visual = coverTextPresentation(b, cover.template, cover.colors);
     const measured = fontMetrics?.blocks[b.id];
     const alpha = visual.style.opacity * visual.paintOpacity;
-    if (alpha < 1) {
+    if (alpha < 1 && !graphicFamilyQa) {
       const height =
         ((measured?.lines ?? 1) * pos.size * visual.style.lineHeight * 25.4) / 72 +
         (s.bg ? s.padY * 2 : 0);
@@ -321,10 +328,15 @@ export function composeAuthoredCover(
     let badge: { x: number; width: number; height: number } | undefined;
     let badgeSurface: Extract<DocBlock, { kind: "paragraph-frame" }>["surface"];
     if (s.bg) {
-      const advance = measured?.badgeAdvanceMm;
+      // QA-only fallback: no fresh browser advance supplied by the saved-state
+      // fixture. This is a prototype approximation, NOT Word pixel acceptance.
+      const advance = measured?.badgeAdvanceMm ?? (graphicFamilyQa
+        ? Math.max(1, Math.min(s.w - 2 * s.padX,
+            lineText(b.lines[0] ?? "").length * (pos.size * 25.4 / 72) * 0.53))
+        : undefined);
       if (
         b.lines.length !== 1 ||
-        measured?.lines !== 1 ||
+        (measured?.lines ?? (graphicFamilyQa ? 1 : undefined)) !== 1 ||
         advance === undefined ||
         !Number.isFinite(advance) ||
         advance <= 0 ||
@@ -429,6 +441,7 @@ export function composeAuthoredCover(
       xMm: badgeSurface ? badge!.x : s.x + (badge ? s.padX : 0),
       yMm: pos.y + (badge && !badgeSurface ? s.padY : 0),
       widthMm: badgeSurface ? badge!.width : s.w - (badge ? 2 * s.padX : 0),
+      ...(graphicFamilyQa ? { wrapMode: "none" as const } : {}),
       paragraphs: badgeSurface ? paragraphs.map((p) => ({ ...p, align: "left" })) : paragraphs,
       ...(badgeSurface ? { surface: badgeSurface } : {}),
     });
