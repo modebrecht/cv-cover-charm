@@ -336,6 +336,10 @@ export function validateDossierDocModel(model: DossierDocModel): void {
         throw new Error(`DOCX Next unsupported image opacity ${block.id}`);
       if (block.kind === "image" && !block.source.trim())
         throw new Error(`DOCX Next missing image source ${block.id}`);
+      if (block.kind === "image" && block.wrapMode !== undefined &&
+          (block.wrapMode !== "none" || block.placement !== "free" ||
+            block.coordinateOrigin !== "page" || block.gapMm !== 0))
+        throw new Error(`DOCX Next invalid authored page picture wrap ${block.id}`);
 
       if (
         block.kind === "image" &&
