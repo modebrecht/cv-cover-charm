@@ -299,6 +299,7 @@ export async function renderDossierDocx(
       pictureGeometry(value, media.asset, widthMm),
       widthMm,
       page,
+      value.wrapMode === "none",
     );
   }
   function decorationRun(
