@@ -113,9 +113,17 @@ try {
           return canvas.toDataURL("image/png");
         });
         project.cover!.data.foto = photo;
+        // The case adds a crop while preserving every previously authored override.
         project.cover!.layout = {
+          ...project.cover!.layout,
           [item.family]: {
-            foto: { imgZoom: 1.3, imgX: 30, imgY: 65 },
+            ...project.cover!.layout?.[item.family],
+            foto: {
+              ...project.cover!.layout?.[item.family]?.foto,
+              imgZoom: 1.3,
+              imgX: 30,
+              imgY: 65,
+            },
           },
         };
         await writeFile(path.join(folder, "synthetic-input-photo.txt"),
@@ -127,7 +135,16 @@ try {
         project.cover!.data.beruf = "Informatiker/in EFZ Applikationsentwicklung";
       }
       if (item.variant === "hidden-rule")
-        project.cover!.layout = { [item.family]: { trenner: { hidden: true } } };
+        project.cover!.layout = {
+          ...project.cover!.layout,
+          [item.family]: {
+            ...project.cover!.layout?.[item.family],
+            trenner: {
+              ...project.cover!.layout?.[item.family]?.trenner,
+              hidden: true,
+            },
+          },
+        };
       if (item.variant === "long-name") {
         project.cover!.data.vorname = "Lea Sophie";
         project.cover!.data.nachname = "Müller-Meier";
@@ -174,6 +191,20 @@ try {
       });
       assert.equal(captured.snapshot.cover.template, item.family);
       assert.deepEqual(captured.snapshot.cover.data, project.cover!.data);
+      if (item.variant === "photo") {
+        const photo = captured.snapshot.cover.blocks.find((block: { id: string }) => block.id === "foto");
+        assert(photo, "Saved photo block is missing");
+        assert.equal(photo.style.imgZoom, 1.3, "Saved zoom ignored by export snapshot");
+        assert.equal(photo.style.imgX, 30, "Saved x crop ignored by export snapshot");
+        assert.equal(photo.style.imgY, 65, "Saved y crop ignored by export snapshot");
+        assert.equal(captured.snapshot.cover.data.foto, project.cover!.data.foto);
+      }
+      if (item.variant === "hidden-rule") {
+        const separator = captured.snapshot.cover.blocks.find(
+          (block: { id: string }) => block.id === "trenner",
+        );
+        assert(separator?.style.hidden, "Explicit saved separator visibility was lost");
+      }
       await writeFile(path.join(folder, "snapshot.json"), JSON.stringify(captured.snapshot, null, 2));
       await writeFile(path.join(folder, "default-native-model.json"),
         JSON.stringify(captured.model, null, 2));
@@ -189,6 +220,10 @@ try {
           const style = getComputedStyle(node);
           const span = node.querySelector("span");
           const parent = node.firstElementChild;
+          const img = node.querySelector("img");
+          const photo = img ? getComputedStyle(img) : null;
+          const inner = parent ? getComputedStyle(parent) : null;
+          const badge = span ? getComputedStyle(span) : null;
           return {
             id: node.dataset.blockId,
             text: node.innerText,
@@ -198,11 +233,93 @@ try {
             opacity: style.opacity,
             font: style.fontFamily,
             fontSize: style.fontSize,
+            effectiveInk: style.color,
+            effectiveWeight: style.fontWeight,
+            effectiveTracking: style.letterSpacing,
+            effectiveLineHeight: style.lineHeight,
+            innerPaint: inner
+              ? {
+                  background: inner.backgroundColor,
+                  gradient: inner.backgroundImage,
+                  radius: inner.borderRadius,
+                  opacity: inner.opacity,
+                  strokeColor: inner.borderColor,
+                  strokeWidth: inner.borderWidth,
+                }
+              : null,
+            badgePaint: badge
+              ? {
+                  background: badge.backgroundColor,
+                  gradient: badge.backgroundImage,
+                  radius: badge.borderRadius,
+                  paddingX: badge.paddingLeft,
+                  paddingY: badge.paddingTop,
+                }
+              : null,
+            imageCrop: photo
+              ? {
+                  width: photo.width,
+                  height: photo.height,
+                  left: photo.left,
+                  top: photo.top,
+                  objectFit: photo.objectFit,
+                  objectPosition: photo.objectPosition,
+                  renderedRect: mm(img!.getBoundingClientRect()),
+                  frameRadius: inner?.borderRadius ?? null,
+                }
+              : null,
           };
         });
       });
       await root.screenshot({ path: path.join(folder, "web-cover.png"), animations: "disabled" });
       await writeFile(path.join(folder, "web-cover.json"), JSON.stringify(web, null, 2));
+      // Compare with the archived *real* Web baseline, without silently treating
+      // differences as Word results or imposing equality on intentionally changed cases.
+      if (item.variant === "baseline") {
+        const original = JSON.parse(await readFile(path.resolve(
+          "docs/qa/docx-next-design-fidelity-16okt/audit",
+          item.family,
+          "web.json",
+        ), "utf8")) as Array<{ id: string; rect: { x: number; y: number; w: number; h: number } }>;
+        const previous = new Map(original.map((block) => [block.id, block.rect]));
+        const delta = web.map((block) => {
+          const was = previous.get(block.id);
+          return {
+            id: block.id,
+            missingHistoricalReference: !was,
+            ...(was ? {
+              dxMm: block.rect.x - was.x,
+              dyMm: block.rect.y - was.y,
+              dwMm: block.rect.w - was.w,
+              dhMm: block.rect.h - was.h,
+            } : {}),
+          };
+        });
+        await writeFile(path.join(folder, "historical-web-drift.json"), JSON.stringify({
+          disclaimer: "Comparison to archived 16 October Web only, not Word acceptance",
+          delta,
+        }, null, 2));
+      }
+      // Both neighboring documents must be captured in the same restored app
+      // session; otherwise the cover alone can conceal Letter/CV regressions.
+      for (const [part, route, selector] of [
+        ["letter", "anschreiben", "[data-letter-page]"],
+        ["cv", "lebenslauf", "[data-cv-page]"],
+      ] as const) {
+        await page.goto(appBase + "/" + route, { waitUntil: "networkidle" });
+        await page.evaluate(() => document.fonts.ready);
+        const sheets = page.locator(selector + ":visible");
+        const n = await sheets.count();
+        assert(n > 0, part + " has no visible app pages");
+        for (let i = 0; i < Math.min(n, 4); i++)
+          await sheets.nth(i).screenshot({
+            path: path.join(folder, `web-${part}-page-${i + 1}.png`),
+            animations: "disabled",
+          });
+        await writeFile(path.join(folder, `web-${part}-pages.json`),
+          JSON.stringify({ observedPages: n, screenshots: Math.min(n, 4) }, null, 2));
+      }
+      await page.goto(appBase + "/titelblatt", { waitUntil: "networkidle" });
       const beforePdf = await page.evaluate(() =>
         ["titelblatt:v3", "anschreiben:v1", "lebenslauf:v1"]
           .map((key) => localStorage.getItem(key)),
