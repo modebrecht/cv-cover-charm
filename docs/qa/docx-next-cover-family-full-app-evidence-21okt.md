@@ -70,3 +70,54 @@ DOCX_NEXT_FULL_APP_QA=1 \
 ```
 
 Requires Playwright/Chromium in the runtime; the batch honors `CODEX_PRIMARY_RUNTIME_NODE_MODULES` for installations outside project `node_modules`.
+
+
+## Follow-up: source-positioned FULL cover QA and real visual evidence (21 Oct evening)
+
+**Background:** Rendering the first genuine 10-document batch in LibreOffice Writer
+confirmed valid four-page dossier packages and 8/8 centered, visible editable
+initials. However, the default semantic-flow cover clustered the title,
+name, date pill and contact/footer far above their stored Web locations.
+Web vs Word was visibly **NO-GO** despite a green structural test suite.
+
+**Fix:** The opt-in full-dossier cover-family QA path now selects
+`coverComposition: "graphic-family-qa"` and reuses the shared
+`composeAuthoredCover` implementation. Author-owned x/y positioning,
+anchored name/title/contact/dates, decorative background paint, rounded
+initials and uploaded photos are retained in one source-coordinate layout.
+This option is **explicitly gated by the registered**
+`nativePhotoPlaceholder: "editable-initials"` template capability, not
+a hard-coded list of template IDs in the shared model. Intentionally layered
+graphics and semitransparent cover text are handled only in this guarded
+candidate, with default authored acceptance rules retained elsewhere.
+No ordinary production export activates the flag. Relative/out-of-page
+uploaded photo positions are still rejected.
+
+**Actually executed in a separate Sandbox checkout:**
+
+- DOCX test suite **492 PASS, 0 FAIL**, 8,817 assertions over 72 files,
+  after resolving three architecture tests that correctly rejected an
+  initial template-ID conditional in the shared model.
+- Bun TypeScript `--noEmit` PASS and application build PASS earlier in this
+  development round, before the final capability-gate refactor; the
+  refactor's full DOCX suite passed separately.
+- A new full-app browser pass produced **10 full native DOCX files with
+  zero case failure files** before the sandbox stopped. The final
+  runner-command exit/manifest was not captured, so do **not** treat this
+  as a newly signed-off 10/10 complete acceptance result.
+- Genuine app-generated V01, N01, W01 **complete DOCX files** were converted
+  to full LibreOffice PDFs and first-page Web/Writer comparison images were
+  generated. The visually inspected V01 comparison shows a major improvement:
+  the text block, rounded date pill, initials with their circle, contact
+  footer and gradient are now close to their original Web positions rather
+  than clustered near the top. N01 and W01 comparisons were generated but
+  not individually reviewed before session expiration.
+- The earlier flow-mode full batch had Writer/PDF rendering **10/10**,
+  **four pages per dossier**, and visible centered initials **8/8**, but
+  failed overall source-layout parity; those successes must not be
+  conflated with this new position-aware build.
+
+**Still NO-GO:** exact pixel parity across all 10 full title pages,
+photo crop/overlap visual reviews, Microsoft Word Save/Reopen, and
+user-facing product export enablement. Writer is not Desktop Word.
+No merge, main/dev changes, CI run, or Vercel deployment.
