@@ -194,3 +194,14 @@ passes. Explicit hidden and uploaded-photo paths are unaffected.
 Regression cases inspect all three families, that paint is independent of
 editable initials, preserve the fallback, and request the standard renderer
 with a test raster adapter. Tests have not been executed here.
+
+## Native avatar geometry assertion in the 10-case runner
+
+For cases using the visible, unanchored, fully rounded initial avatar, the
+saved-state browser QA runner now checks that the native diagnostic model has
+an independent circular decoration at the saved source X/Y. It also rejects
+a duplicated rectangular table fill/border; initials must remain editable.
+Real uploaded photo cases explicitly reject leftover avatar paint. The
+machine-readable gap report records avatar paint geometry and whether it was
+expected. This is a **source/model geometry check only**; it is not desktop
+Word save/reopen acceptance. Actual app DOCX and desktop Word remain outstanding.

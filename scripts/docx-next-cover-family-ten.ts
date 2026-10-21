@@ -312,12 +312,42 @@ try {
       const nativePhoto = nativeNodes.find(
         (node) => node.id === "cover.photo" && node.kind === "image",
       );
+      const nativePlaceholderPaint = nativeNodes.find(
+        (node) => node.id === "cover.photo.placeholder-paint" &&
+          node.kind === "decorative-shape",
+      );
+      const nativeInitialsTable = nativeNodes.find(
+        (node) => node.id === "cover.photo" && node.kind === "table",
+      );
+      const authoredPhoto = captured.snapshot.cover.blocks.find(
+        (block: { id: string }) => block.id === "foto",
+      );
+      const expectedCircle = !!authoredPhoto &&
+        !authoredPhoto.style.hidden &&
+        (authoredPhoto.style.radius ?? 0) >= 999 &&
+        !authoredPhoto.style.follows &&
+        !authoredPhoto.style.above &&
+        !authoredPhoto.style.anchorBottom;
       if (item.variant === "photo") {
         assert(nativePhoto, "Actual uploaded cover photo is missing from native diagnostic model");
         assert(!editableInitials, "The native model duplicates initials behind a real photo");
+        assert(!nativePlaceholderPaint, "The real photo still has a placeholder circle");
       } else if (!project.cover!.data.foto) {
         assert(editableInitials, "Editable initials missing from the native diagnostic model");
         assert(!nativePhoto, "Native model manufactured a photo for an initials-only cover");
+        assert(nativeInitialsTable, "The editable initials do not own a native flow table");
+        if (expectedCircle) {
+          assert(nativePlaceholderPaint?.shape === "circle",
+            "The native no-photo fallback has lost its circular outline");
+          assert(nativeInitialsTable?.decoration?.borderWidthMm === 0,
+            "The circle is backed by a duplicate rectangular table border");
+          assert(!nativeInitialsTable?.decoration?.fillColor,
+            "The circle is blocked by a rectangular table background");
+          assert(Math.abs(nativePlaceholderPaint.xMm - authoredPhoto.style.x) < 0.01,
+            "Native circular photo frame X no longer follows saved cover geometry");
+          assert(Math.abs(nativePlaceholderPaint.yMm - authoredPhoto.style.y) < 0.01,
+            "Native circular photo frame Y no longer follows saved cover geometry");
+        }
       }
       const nativePillWidth = dateBox?.widthMm ?? null;
       const webPillWidth = webDate?.badgeRect?.w ?? null;
@@ -335,6 +365,13 @@ try {
         nativePhotoOrInitialsNodes: nativePortrait.map((node) => node.id),
         nativeEditableInitialsPresent: !!editableInitials,
         actualNativePhotoNodePresent: !!nativePhoto,
+        expectedCircularAvatarPaint: expectedCircle && !project.cover!.data.foto,
+        nativeCircularAvatarPaintPresent: nativePlaceholderPaint?.shape === "circle",
+        nativeAvatarPaintGeometry: nativePlaceholderPaint
+          ? { xMm: nativePlaceholderPaint.xMm, yMm: nativePlaceholderPaint.yMm,
+              widthMm: nativePlaceholderPaint.widthMm,
+              heightMm: nativePlaceholderPaint.heightMm }
+          : null,
         webBadgeCount: web.filter((node) => node.badgeRect).length,
         modelIssues: captured.model.issues,
         nativeEditableExportActuallyPerformed: false,
