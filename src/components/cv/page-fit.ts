@@ -11,7 +11,7 @@ import {
   type CvSectionWidth,
 } from "./types";
 
-export type CvPageFitMode = "one" | "two";
+export type CvPageFitMode = "one" | "two" | "auto";
 
 /** Legacy key retained only so upgraded clients can remove stale persisted modes. */
 export const CV_PAGE_FIT_STORAGE_KEY = "lebenslauf:page-fit:v1";
@@ -206,6 +206,69 @@ export function measureCvPageFitSectionHeights(
     if (Number.isFinite(height) && height > 0) heights[key] = (heights[key] ?? 0) + height;
   }
   return heights;
+}
+
+/**
+ * Use the existing layout engine as the authority for an intelligent 1–2 page
+ * fit. Do not force two nearly empty sheets for a short CV. A conservative
+ * headroom budget allows font differences and later Word rendering.
+ *
+ * Missing/incomplete measurements resolve to two pages rather than risking
+ * clipped CV content. Manually positioned content on page two is not moved.
+ */
+export function chooseCvSmartPageFitMode(
+  data: CvData,
+  measured: Partial<Record<CvLayoutSectionKey, number>> | null,
+  usableFirstPagePx: number | null,
+  currentlyOnePage = false,
+): "one" | "two" {
+  const active = cvSectionOrder(data).filter(
+    (key) => key === "person" || cvPageFitSectionWeight(data, key) > 0,
+  );
+  if (
+    active.some((key) => {
+      const layout = data.sectionLayouts?.[key];
+      return layout?.positioning === "free" && layout.page === 2;
+    })
+  )
+    return "two";
+  if (!active.length) return "one";
+  if (!measured || !Number.isFinite(usableFirstPagePx) || (usableFirstPagePx ?? 0) <= 0)
+    return "two";
+  let sum = 0;
+  let complete = true;
+  for (const key of active) {
+    const height = measured[key];
+    if (typeof height !== "number" || !Number.isFinite(height) || height <= 0) {
+      complete = false;
+      continue;
+    }
+    sum += height;
+  }
+  if (complete) return sum <= usableFirstPagePx! * 0.9 ? "one" : "two";
+  // Compact one-page masonry can merge multiple short rubrics into a
+  // single measured row. If the *current* page already fits, keep it on a
+  // repeated automatic action instead of creating a second blank page.
+  if (currentlyOnePage) {
+    const values = Object.values(measured);
+    if (
+      values.length &&
+      values.every((h) => typeof h === "number" && Number.isFinite(h) && h > 0)
+    ) {
+      return values.reduce<number>((total, h) => total + (h as number), 0) <=
+        usableFirstPagePx! * 0.9
+        ? "one"
+        : "two";
+    }
+  }
+  return "two";
+}
+
+/** Actual safe A4 body height, including custom top/bottom document margins. */
+export function measureCvPageFitCapacityPx(canvas: HTMLElement | null): number | null {
+  const main = canvas?.querySelector<HTMLElement>('[data-cv-page="0"] [data-cv-main]');
+  const height = main?.getBoundingClientRect().height;
+  return typeof height === "number" && Number.isFinite(height) && height > 0 ? height : null;
 }
 
 function onePageScale(weight: number) {

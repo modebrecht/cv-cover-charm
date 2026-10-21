@@ -268,26 +268,53 @@ try {
     ]);
     await page.goto(base + "/lebenslauf" + query, { waitUntil: "networkidle" });
     await page.evaluate(() => document.fonts.ready);
+    let expectedCvPages = item.mode === "one" ? 1 : 2;
     if ("mode" in item) {
-      const plan = await page.evaluate(async (mode) => {
-        const { buildCvPageFitPlan, measureCvPageFitSectionHeights } =
-          await import("/src/components/cv/page-fit.ts");
+      const requestedMode =
+        process.env.WORD_BATCH_SMART_FIT === "1" && item.mode === "two" ? "auto" : item.mode;
+      const { plan, resolvedMode } = await page.evaluate(async (mode) => {
+        const {
+          buildCvPageFitPlan,
+          measureCvPageFitSectionHeights,
+          measureCvPageFitCapacityPx,
+          chooseCvSmartPageFitMode,
+        } = await import("/src/components/cv/page-fit.ts");
         const sheet =
           document.querySelector<HTMLElement>('main [data-dossier-document="cv"]')?.parentElement ??
           null;
-        const measuredSectionHeightsPx =
-          mode === "two" ? measureCvPageFitSectionHeights(sheet) : undefined;
-        return buildCvPageFitPlan(JSON.parse(localStorage.getItem("lebenslauf:v1")!).data, mode, {
-          measuredSectionHeightsPx: measuredSectionHeightsPx ?? undefined,
-        });
-      }, item.mode);
+        const original = JSON.parse(localStorage.getItem("lebenslauf:v1")!);
+        const data = original.data;
+        const measuredSectionHeightsPx = measureCvPageFitSectionHeights(sheet);
+        const resolvedMode =
+          mode === "auto"
+            ? chooseCvSmartPageFitMode(
+                data,
+                measuredSectionHeightsPx,
+                measureCvPageFitCapacityPx(sheet),
+                sheet?.querySelectorAll("[data-cv-page]").length === 1,
+              )
+            : mode;
+        return {
+          resolvedMode,
+          plan: {
+            ...buildCvPageFitPlan(data, resolvedMode, {
+              measuredSectionHeightsPx: measuredSectionHeightsPx ?? undefined,
+              allowHalfWidth: mode === "auto" && resolvedMode === "one" ? false : undefined,
+            }),
+            checkScale: mode !== "auto",
+            originalBodyScale: original.design?.bodyScale ?? null,
+          },
+        };
+      }, requestedMode);
+      expectedCvPages = resolvedMode === "one" ? 1 : 2;
       if (!(await page.locator("[data-editor-action-menu]").isVisible()))
         await page.locator("button[data-editor-ready]").click();
-      await page.locator(`[data-cv-page-fit-mode-control="${item.mode}"]`).click();
+      await page.locator(`[data-cv-page-fit-mode-control="${requestedMode}"]`).click();
       await page.waitForFunction((expected) => {
         const cv = JSON.parse(localStorage.getItem("lebenslauf:v1") ?? "{}");
         return (
-          cv.design?.bodyScale === expected.bodyScaleFactor &&
+          (cv.design?.bodyScale ?? null) ===
+            (expected.checkScale ? expected.bodyScaleFactor : expected.originalBodyScale) &&
           Object.entries(expected.pageBySection).every(
             ([k, v]) =>
               cv.data?.sectionLayouts?.[k]?.page === v &&
@@ -337,7 +364,7 @@ try {
         await page.waitForFunction(
           (expected: number) =>
             document.querySelectorAll("main [data-cv-page]").length === expected,
-          item.mode === "one" ? 1 : 2,
+          expectedCvPages,
           { timeout: 15000 },
         );
       }
@@ -390,7 +417,7 @@ try {
         );
       }
     }
-    if ("mode" in item) assert.equal(webCvPages, item.mode === "one" ? 1 : 2);
+    if ("mode" in item) assert.equal(webCvPages, expectedCvPages);
     if (item.id.startsWith("04")) assert.equal(webCvPages, 2);
     await page.goto(base + "/" + query, { waitUntil: "networkidle" });
     console.log(`${item.id}: restored and Web references captured`);

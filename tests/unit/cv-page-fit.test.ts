@@ -4,6 +4,8 @@ import {
   cvPageFitSectionWeight,
   measureCvPageFitSectionHeights,
   cvPageFitKeepsManualPosition,
+  chooseCvSmartPageFitMode,
+  measureCvPageFitCapacityPx,
 } from "../../src/components/cv/page-fit";
 import {
   DEMO_CV,
@@ -203,5 +205,68 @@ describe("measured two-page CV balancing", () => {
         measuredSectionHeightsPx: { person: 140, schule: 112 },
       }).pageBySection,
     ).toEqual(fallback);
+  });
+});
+
+describe("intelligent 1–2 page choice", () => {
+  const measured = {
+    person: 140,
+    "custom:familie": 56,
+    schule: 112,
+    erfahrung: 131,
+    sprachen: 73,
+    hobbys: 75,
+    staerken: 75,
+    referenzen: 79,
+  };
+  test("keeps a short CV on one page instead of creating two mostly empty sheets", () => {
+    const data = structuredClone(DEMO_CV);
+    const before = JSON.stringify(data);
+    expect(chooseCvSmartPageFitMode(data, measured, 900)).toBe("one");
+    expect(buildCvPageFitPlan(data, "one").pageBySection.referenzen).toBe(1);
+    expect(JSON.stringify(data)).toBe(before);
+  });
+  test("repeating automatic fit keeps an already-fitting compact one-page layout", () => {
+    const compacted = {
+      person: 114,
+      "custom:familie": 50,
+      schule: 94,
+      erfahrung: 238,
+      referenzen: 69,
+    };
+    expect(chooseCvSmartPageFitMode(DEMO_CV, compacted, 875, true)).toBe("one");
+    expect(chooseCvSmartPageFitMode(DEMO_CV, compacted, 875, false)).toBe("two");
+    expect(chooseCvSmartPageFitMode(DEMO_CV, compacted, 610, true)).toBe("two");
+  });
+  test("uses two pages when the actual content exceeds conservative available capacity", () => {
+    expect(chooseCvSmartPageFitMode(DEMO_CV, measured, 740)).toBe("two");
+    expect(chooseCvSmartPageFitMode(DEMO_CV, measured, 0)).toBe("two");
+    expect(chooseCvSmartPageFitMode(DEMO_CV, null, 900)).toBe("two");
+    expect(chooseCvSmartPageFitMode(DEMO_CV, { ...measured, schule: NaN }, 900)).toBe("two");
+  });
+  test("keeps a manually free-positioned second-page section on page two", () => {
+    const data = structuredClone(DEMO_CV);
+    data.sectionLayouts = {
+      ...data.sectionLayouts,
+      erfahrung: {
+        ...normalizeCvSectionLayout(data.sectionLayouts?.erfahrung),
+        positioning: "free",
+        page: 2,
+        x: 25,
+        y: 40,
+      },
+    };
+    expect(chooseCvSmartPageFitMode(data, measured, 900)).toBe("two");
+  });
+  test("reads the effective first A4 content area, not the entire paper height", () => {
+    const elem = { getBoundingClientRect: () => ({ height: 912 }) };
+    const canvas = {
+      querySelector: (selector: string) => {
+        expect(selector).toBe('[data-cv-page="0"] [data-cv-main]');
+        return elem;
+      },
+    } as unknown as HTMLElement;
+    expect(measureCvPageFitCapacityPx(canvas)).toBe(912);
+    expect(measureCvPageFitCapacityPx(null)).toBeNull();
   });
 });

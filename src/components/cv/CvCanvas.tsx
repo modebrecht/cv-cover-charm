@@ -33,6 +33,8 @@ import { resolveCvRubricOptions } from "./citrus-rubric";
 import {
   buildCvPageFitPlan,
   measureCvPageFitSectionHeights,
+  measureCvPageFitCapacityPx,
+  chooseCvSmartPageFitMode,
   cvPageFitKeepsManualPosition,
   consumeCvPageFitMode,
   getCvPageFitMode,
@@ -264,7 +266,7 @@ export function CvCanvas({
   const pageFitPlan = useMemo(
     () =>
       pageFitMode && !props.exportMode
-        ? buildCvPageFitPlan(props.data, pageFitMode, {
+        ? buildCvPageFitPlan(props.data, pageFitMode === "auto" ? "two" : pageFitMode, {
             allowHalfWidth: pageFitLayout === "classic",
           })
         : null,
@@ -272,7 +274,9 @@ export function CvCanvas({
   );
   const baseDesign = useMemo(() => cvDesignWithFullSectionRules(props.design), [props.design]);
   const design = useMemo<CvDesign>(() => {
-    if (!pageFitPlan) return baseDesign;
+    // Intelligent fitting measures the user's actual typography. It must not
+    // silently scale down already-fitting text during its temporary action.
+    if (!pageFitPlan || pageFitMode === "auto") return baseDesign;
     // Page-fit actions are deterministic and idempotent: clicking the same
     // action again targets the same density instead of multiplying a prior fit.
     return {
@@ -281,7 +285,7 @@ export function CvCanvas({
       headingScale: clampCvScale(CV_TYPE_DEFAULTS.headingScale * pageFitPlan.headingScaleFactor),
       bodyScale: clampCvScale(CV_TYPE_DEFAULTS.bodyScale * pageFitPlan.bodyScaleFactor),
     };
-  }, [baseDesign, pageFitPlan]);
+  }, [baseDesign, pageFitMode, pageFitPlan]);
   const rubric = useMemo(() => resolveCvRubricOptions(design), [design]);
   const chromeDocumentContent = useMemo(
     () =>
@@ -335,14 +339,34 @@ export function CvCanvas({
       if (!pageFitPlan) appliedPageFit.current = null;
       return;
     }
+    const heights = measureCvPageFitSectionHeights(geometryScopeRef.current);
+    const chosenMode =
+      pageFitMode === "auto"
+        ? chooseCvSmartPageFitMode(
+            props.data,
+            heights,
+            measureCvPageFitCapacityPx(geometryScopeRef.current),
+            geometryScopeRef.current?.querySelectorAll("[data-cv-page]").length === 1,
+          )
+        : pageFitPlan.mode;
     const measuredPlan =
-      pageFitPlan.mode === "two"
+      chosenMode === "two"
         ? buildCvPageFitPlan(props.data, "two", {
             allowHalfWidth: pageFitLayout === "classic",
-            measuredSectionHeightsPx:
-              measureCvPageFitSectionHeights(geometryScopeRef.current) ?? undefined,
+            measuredSectionHeightsPx: heights ?? undefined,
           })
-        : pageFitPlan;
+        : buildCvPageFitPlan(props.data, "one", {
+            // Short CVs have enough space without shrinking or forcing
+            // small sections into half-width masonry. Existing manually
+            // compacted layouts stay compact on a repeated auto action.
+            allowHalfWidth:
+              pageFitMode === "auto" &&
+              !Object.values(props.data.sectionLayouts ?? {}).some(
+                (layout) => layout?.packing === "masonry",
+              )
+                ? false
+                : pageFitLayout === "classic",
+          });
     const requestKey = `${pageFitRevision}:${measuredPlan.assignmentSignature}`;
     if (appliedPageFit.current === requestKey) return;
     appliedPageFit.current = requestKey;
@@ -364,15 +388,20 @@ export function CvCanvas({
       });
     }
 
-    props.onPageFitDesign?.({
-      titleScale: clampCvScale(CV_TYPE_DEFAULTS.titleScale * pageFitPlan.titleScaleFactor),
-      headingScale: clampCvScale(CV_TYPE_DEFAULTS.headingScale * pageFitPlan.headingScaleFactor),
-      bodyScale: clampCvScale(CV_TYPE_DEFAULTS.bodyScale * pageFitPlan.bodyScaleFactor),
-    });
-    consumeCvPageFitMode(pageFitPlan.mode);
+    if (pageFitMode !== "auto") {
+      props.onPageFitDesign?.({
+        titleScale: clampCvScale(CV_TYPE_DEFAULTS.titleScale * measuredPlan.titleScaleFactor),
+        headingScale: clampCvScale(CV_TYPE_DEFAULTS.headingScale * measuredPlan.headingScaleFactor),
+        bodyScale: clampCvScale(CV_TYPE_DEFAULTS.bodyScale * measuredPlan.bodyScaleFactor),
+      });
+    }
+    consumeCvPageFitMode(pageFitMode!);
   }, [
     pageFitPlan,
+    pageFitMode,
+    pageFitLayout,
     pageFitRevision,
+    props.data,
     props.exportMode,
     props.onPageFitDesign,
     props.onSectionLayout,
