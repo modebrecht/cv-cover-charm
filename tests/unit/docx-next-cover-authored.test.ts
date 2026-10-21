@@ -210,7 +210,9 @@ test("authored shape anchor geometry agrees with the Web and preserves user posi
     y: 71,
   });
   expect(
-    buildDossierDocModel(moved, option).cover.blocks.find((block) => block.id === "cover.art-circle"),
+    buildDossierDocModel(moved, option).cover.blocks.find(
+      (block) => block.id === "cover.art-circle",
+    ),
   ).toMatchObject({ yMm: 71 });
   const neighbors = buildDossierDocModel(authoredCoverFixture(), option);
   expect(model.letter).toEqual(neighbors.letter);
@@ -223,7 +225,8 @@ test("authored native frames accept gradient capsules and non-square rounded pho
   const gradientCircle = structuredClone(
     briefElementsFixture("shapes").cover.blocks.find((block) => block.id === "art-circle")!,
   );
-  Object.assign(gradientCircle.style, { x: 5, y: 20, w: 40, ratio: 0.75 });
+  // Keep the decorative gradient away from translucent text: that overlap is still rejected.
+  Object.assign(gradientCircle.style, { x: 5, y: 180, w: 40, ratio: 0.75 });
   input.cover.blocks.push(gradientCircle);
   const immutableInput = structuredClone(input);
   const model = buildDossierDocModel(input, option);
@@ -231,7 +234,7 @@ test("authored native frames accept gradient capsules and non-square rounded pho
     kind: "decorative-shape",
     shape: "circle",
     xMm: 5,
-    yMm: 20,
+    yMm: 180,
     widthMm: 40,
     heightMm: 30,
     fill: { color: "FF0000", endColor: "0000FF" },

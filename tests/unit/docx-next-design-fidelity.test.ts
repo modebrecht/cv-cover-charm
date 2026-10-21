@@ -225,7 +225,15 @@ test("unsupported paint and transparent text crossing artwork cannot silently lo
       normalizedCoverLabels(s.cover.blocks, s.cover.data.labelKontakt),
       s.cover.fontScale,
     );
-    expect(() => buildDossierDocModel(s, options(m))).toThrow("non-square CSS");
+    // Native non-square shape and photo placeholders are now supported geometrically.
+    // Retain an explicit check that the authored 0.8 ratio survives the export model.
+    const model = buildDossierDocModel(s, options(m));
+    const paintId = id === "foto" ? "cover.photo.placeholder-paint" : "cover.modernAccentCircle";
+    const paint = model.cover.headerShapes?.find((shape) => shape.id === paintId);
+    expect(paint).toMatchObject({
+      kind: "decorative-shape",
+      heightMm: 0.8 * s.cover.blocks.find((block) => block.id === id)!.style.w,
+    });
   }
   for (const patch of [{ borderWidth: 1 }, { h: 20 }, { list: "bullet" }]) {
     const s = input();

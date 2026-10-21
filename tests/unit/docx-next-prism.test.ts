@@ -108,10 +108,14 @@ describe("Prism declarative architecture stress", () => {
     );
     expect(badge).toMatchObject({
       kind: "table",
-      widthMm: 105.4,
-      indentMm: 0,
       sourceLayout: { widthMm: 170 },
     });
+    // The automatically fitted badge now follows its saved alignment within the
+    // original field instead of reserving the entire old 105.4 mm width.
+    if (badge?.kind !== "table") throw new Error("Missing native flowing badge table");
+    expect(badge.widthMm).toBeGreaterThan(10);
+    expect(badge.widthMm).toBeLessThan(105.4);
+    expect(badge.indentMm).toBeGreaterThan(0);
     expect(model.cover.blocks.find((b) => b.id === "cover.composition.lead:1")).toMatchObject({
       kind: "spacer",
       heightMm: 90,

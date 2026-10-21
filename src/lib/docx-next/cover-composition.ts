@@ -195,7 +195,6 @@ export function composeCover(
             widths: [1],
             widthMm,
             indentMm,
-            afterMm: 0,
             rows: [{ cells: [paragraphs], keepTogether: true }],
             decoration: {
               ...(block.style.fill
