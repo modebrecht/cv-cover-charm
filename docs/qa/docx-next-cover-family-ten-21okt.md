@@ -281,3 +281,34 @@ their GitHub blob SHAs; Verlauf, Neon and Warm/Freundlich: **3/3 PASS**.
 The missing-surface guard also passed and generated XML fragments were
 independently parsed as well-formed XML. This does not validate app DOCX
 export, pagination, Microsoft Word display, or Save/Reopen.
+
+
+## 21 October: real Writer no-go, source-only tests not sufficient
+
+3 new isolated A4 DOCX samples based on the current gated
+`native-text-shape.ts` WordprocessingShape were rendered using LibreOffice
+Writer 25.2.3.2. All three circular shapes appear at their expected page
+positions, but the **editable `LM` text is invisible in all 3** (0/3).
+A comparison using editable legacy VML circles renders `LM` but places it
+at the TOP, not the vertical center. Writer ignored tested
+`v-text-anchor:middle` and paragraph spacing variations.
+**This is evidence for Writer, not for Microsoft Word.**
+Neither implementation meets Writer visual acceptance. Preserve the
+production and explicit diagnostic gates until Desktop Word Save/Reopen.
+
+An optional standalone gate `scripts/docx-next-avatar-writer-gate.py`
+converts the real 10-case diagnostic DOCX through Writer and verifies actual
+initials lie in the **central half of their saved photo frame**, using
+`pdftotext -bbox`. An accidental mention of LM elsewhere on the page cannot
+pass. Diagnostic isolated Neon checks in this environment returned FAIL for
+both DrawingML (invisible) and VML (positioned at the top). No actual app
+10-case exports have yet been generated here.
+
+Example:
+
+```bash
+python scripts/docx-next-avatar-writer-gate.py --packet /tmp/docx-next-cover-family-ten --output /tmp/avatar-writer-report.json
+```
+
+The isolated 3-family diagnostic DOCX packet is available in this chat for
+testing in **desktop Microsoft Word**; it is not a product release artifact.
