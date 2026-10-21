@@ -303,7 +303,7 @@ try {
       const dateBox = nativeNodes.find((node) => node.id === "cover.lehrbeginn.flow-box");
       const webDate = web.find((block) => block.id === "lehrbeginn");
       const nativePortrait = nativeNodes.filter(
-        (node) => /^cover\\.(photo|foto)(\\.|$)/.test(node.id ?? ""),
+        (node) => /^cover\.(photo|foto)(\.|$)/.test(node.id ?? ""),
       );
       const webPortrait = web.find((block) => block.id === "foto");
       const nativePillWidth = dateBox?.widthMm ?? null;
