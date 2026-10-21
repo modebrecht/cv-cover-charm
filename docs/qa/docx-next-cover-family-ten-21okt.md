@@ -205,3 +205,26 @@ Real uploaded photo cases explicitly reject leftover avatar paint. The
 machine-readable gap report records avatar paint geometry and whether it was
 expected. This is a **source/model geometry check only**; it is not desktop
 Word save/reopen acceptance. Actual app DOCX and desktop Word remain outstanding.
+
+## One-owner native avatar candidate (21 October, experimental)
+
+The default can drift because the circle is page-anchored while initials
+remain in a flowing Word table. An explicit opt-in model flag
+`nativeAvatarComposition: "single-owner"` now builds one page-anchored
+WordprocessingShape with **editable initials**, one circular vector contour,
+optional transparent background and a visible native outline. Centered text
+and paint share the same DrawingML object. A semantic flow spacer retains
+the original source photo slot height.
+
+This is NOT a production export change: regular renderDossierDocx() still
+rejects paragraph frames without allowUnacceptedModelIssues: true. The model
+gate rejects other templates, uploaded photos, and unsupported relative
+or translucent circle sources. Saved model JSON and CV/Letter stay untouched.
+
+New test cases verify all three families, source coordinates, round shape XML,
+editability markup, and that the standard gate still rejects the candidate.
+**The new unit tests and diagnostic DOCX have not been run in this chat.**
+
+Remaining acceptance: app exports, real desktop Word edit/save/reopen, visual
+position, correct fonts and the complete 10-case specialty matrix. Do not
+activate or merge the candidate based on markup assertions alone.
