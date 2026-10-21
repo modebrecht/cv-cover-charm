@@ -94,7 +94,11 @@ export type ParagraphFrameBlock = {
   surface?: {
     heightMm: number;
     radiusMm: number;
-    fillColor: string;
+    /** Optional fill: absence means transparent, never painted page white. */
+    fillColor?: string;
+    borderColor?: string;
+    borderWidthMm?: number;
+    verticalAlign?: "top" | "center";
     paddingXMm: number;
     paddingYMm: number;
   };

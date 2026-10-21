@@ -225,7 +225,13 @@ export function validateDossierDocModel(model: DossierDocModel): void {
             2 * s.paddingXMm >= block.widthMm ||
             2 * s.paddingYMm >= s.heightMm ||
             block.yMm + s.heightMm > part.page.heightMm ||
-            !/^[0-9A-F]{6}$/.test(s.fillColor) ||
+            (s.fillColor !== undefined && !/^[0-9A-F]{6}$/.test(s.fillColor)) ||
+            (s.borderColor !== undefined && !/^[0-9A-F]{6}$/.test(s.borderColor)) ||
+            (s.borderWidthMm !== undefined &&
+              (!Number.isFinite(s.borderWidthMm) || s.borderWidthMm < 0 ||
+                s.borderWidthMm >= Math.min(block.widthMm, s.heightMm))) ||
+            (!!s.borderWidthMm && !s.borderColor) ||
+            (s.verticalAlign !== undefined && !["top", "center"].includes(s.verticalAlign)) ||
             block.paragraphs.length !== 1 ||
             block.paragraphs.some(
               (p) =>
