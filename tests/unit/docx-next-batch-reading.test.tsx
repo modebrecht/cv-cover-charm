@@ -63,7 +63,7 @@ test("reading rows use the Web's narrow rail for half-width dates and language l
     tables.find((t) => t.id.startsWith("cv.entry.schule:") && t.id.endsWith(".dateRail"))
       ?.columnWidthsMm,
   ).toEqual([20, null]);
-  expect(tables.find((t) => t.id.endsWith(".languageRow"))?.columnWidthsMm).toEqual([20, null]);
+  expect(tables.find((t) => t.id.endsWith(".languageRow"))?.columnWidthsMm).toEqual([24, null]);
   expect(
     tables.find((t) => t.id.startsWith("cv.entry.erfahrung:") && t.id.endsWith(".dateRail"))
       ?.columnWidthsMm,
@@ -72,5 +72,36 @@ test("reading rows use the Web's narrow rail for half-width dates and language l
   // The ordinary composition is unchanged and retains its established gating.
   expect(
     walkBlocks(buildDossierDocModel(source).cv.blocks).some((b) => b.id.endsWith(".languageRow")),
+  ).toBe(false);
+});
+
+test("Word attachments retain the visible Beilagen heading without inventing it when hidden", () => {
+  const source = briefFixture();
+  source.letter.data.beilagen = ["Lebenslauf", "Zeugnis"];
+  source.letter.data.showBeilagen = true;
+  const before = JSON.stringify(source);
+  const model = buildDossierDocModel(source);
+  const headingIndex = model.letter.blocks.findIndex(
+    (block) => block.id === "letter.attachments-heading",
+  );
+  expect(headingIndex).toBeGreaterThan(-1);
+  const heading = model.letter.blocks[headingIndex];
+  expect(heading.kind).toBe("paragraph");
+  if (heading.kind === "paragraph") {
+    expect(heading.runs[0]?.text).toBe("Beilagen");
+    expect(heading.runs[0]?.style.bold).toBe(true);
+    expect(heading.keepNext).toBe(true);
+  }
+  expect(model.letter.blocks[headingIndex + 1]?.id.startsWith("letter.attachment:")).toBe(true);
+  expect(JSON.stringify(source)).toBe(before);
+
+  source.letter.data.showBeilagen = false;
+  expect(
+    buildDossierDocModel(source).letter.blocks.some((b) => b.id === "letter.attachments-heading"),
+  ).toBe(false);
+  source.letter.data.showBeilagen = true;
+  source.letter.data.beilagen = [];
+  expect(
+    buildDossierDocModel(source).letter.blocks.some((b) => b.id === "letter.attachments-heading"),
   ).toBe(false);
 });

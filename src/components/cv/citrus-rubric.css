@@ -40,10 +40,12 @@
 
 [data-cv-rubric-pill="true"] [data-dossier-document="cv"] [data-cv-section-title] {
   display: inline-block !important;
-  padding: 0.8mm 2.4mm !important;
+  box-sizing: border-box !important;
+  /* Match the legible, breathable native Word capsule without changing its text settings. */
+  padding: 0.8mm 2.9mm !important;
   border-radius: 9999px !important;
-  background: color-mix(in srgb, currentColor 14%, transparent) !important;
-  box-shadow: inset 0 0 0 0.2mm color-mix(in srgb, currentColor 30%, transparent) !important;
+  background: color-mix(in srgb, currentColor 10%, transparent) !important;
+  box-shadow: inset 0 0 0 0.15mm color-mix(in srgb, currentColor 30%, transparent) !important;
 }
 
 /* Citrus historically drew a pill by default. The new shared default is off,
