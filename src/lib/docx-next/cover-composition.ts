@@ -16,6 +16,7 @@ export function composeCover(
   accent: string,
   color: CoverContext["color"],
   fallbackName: Paragraph,
+  avatarComposition?: "single-owner",
 ): DocBlock[] {
   if (
     Object.values(template.cover.fieldSpaceBeforeMm ?? {}).some(
@@ -180,7 +181,10 @@ export function composeCover(
             !style.follows &&
             !style.above &&
             !style.anchorBottom;
-          if (roundPaint) {
+          const singleOwner = avatarComposition === "single-owner";
+          if (singleOwner && (!roundPaint || style.opacity !== 1))
+            throw Error("DOCX Next single-owner avatar requires an opaque, unanchored round source");
+          if (roundPaint && !singleOwner) {
             const ink = color(
               cover.colors[style.color] ?? style.color,
               coverContext.ink,
@@ -227,7 +231,34 @@ export function composeCover(
             { ...coverContext, fontScale: 1 },
             { beforeMm: 0, afterMm: 0, keepNext: false, keepLines: true },
           );
-          blocks.push({
+          if (singleOwner) {
+            // Explicit diagnostic candidate. One page-anchored editable Word shape
+            // owns circle, stroke and letters; flow reserves its source height.
+            coverDecoration.push({
+              kind: "paragraph-frame",
+              id: id + ".native-avatar",
+              xMm: style.x,
+              yMm: style.y,
+              widthMm,
+              paragraphs,
+              surface: {
+                heightMm,
+                radiusMm: Math.min(widthMm, heightMm) / 2,
+                ...(style.fill ? { fillColor: color(
+                  cover.colors[style.fill] ?? style.fill,
+                  coverContext.paper ?? "FFFFFF",
+                ) } : {}),
+                borderColor: color(
+                  cover.colors[style.color] ?? style.color, coverContext.ink,
+                ),
+                borderWidthMm: style.borderWidth ?? 25.4 / 96,
+                verticalAlign: "center",
+                paddingXMm: 0,
+                paddingYMm: 0,
+              },
+            });
+            blocks.push({ kind: "spacer", id, heightMm });
+          } else blocks.push({
             kind: "table",
             id,
             widths: [1],
