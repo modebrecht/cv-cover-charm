@@ -390,9 +390,14 @@ export async function renderDossierDocx(
     );
   }
   function image(value: ImageBlock, widthMm: number, page: DocumentPart["page"]): string {
+    // A page-anchored, non-wrapping cover picture must not insert an extra
+    // paragraph of normal height (or a 3 mm after-gap) before the name/date.
+    const spacing = value.wrapMode === "none"
+      ? '<w:spacing w:before="0" w:after="0" w:line="20" w:lineRule="exact"/>'
+      : `<w:spacing w:after="${twips(3)}"/>`;
     return control(
       value.id,
-      `<w:p><w:pPr>${value.align ? `<w:jc w:val="${value.align}"/>` : ""}<w:spacing w:after="${twips(3)}"/></w:pPr>${imageRun(value, widthMm, page)}</w:p>`,
+      `<w:p><w:pPr>${value.align ? `<w:jc w:val="${value.align}"/>` : ""}${spacing}</w:pPr>${imageRun(value, widthMm, page)}</w:p>`,
     );
   }
   function table(
