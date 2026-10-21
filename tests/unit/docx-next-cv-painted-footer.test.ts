@@ -91,4 +91,10 @@ test("painted-footer adjustment rejects a live native footer instead of exposing
   const letterBefore = structuredClone(model.letter);
   applyCvPaintedFooterReserve(model.letter, chrome);
   expect(model.letter).toEqual(letterBefore);
+  const sidebar = structuredClone(model.cv);
+  sidebar.layout.mode = "sidebar";
+  sidebar.footer = [];
+  const sidebarBefore = structuredClone(sidebar);
+  applyCvPaintedFooterReserve(sidebar, chrome);
+  expect(sidebar).toEqual(sidebarBefore);
 });

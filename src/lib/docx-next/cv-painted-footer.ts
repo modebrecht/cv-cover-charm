@@ -13,7 +13,7 @@ export function applyCvPaintedFooterReserve(
   part: DocumentPart,
   options: DossierChromeOptions,
 ) {
-  if (part.id !== "cv") return;
+  if (part.id !== "cv" || part.layout.mode !== "classic") return;
   if (part.footer.length || part.firstFooter?.length)
     throw Error(
       "DOCX Next: Eine Textfusszeile darf ihre native Reserve nicht verlieren.",
