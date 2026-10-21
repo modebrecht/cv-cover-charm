@@ -93,6 +93,8 @@ export type BuildModelOptions = {
   coverBadgeComposition?: "native-shape";
   /** Diagnostic no-photo candidate: one anchored Word shape owns outline and editable initials. */
   nativeAvatarComposition?: "single-owner" | "writer-vml";
+  /** Explicit three-family QA only: respect saved photo page positioning. */
+  coverPhotoPlacement?: "authored-page";
   /** Explicit classic-CV candidate: one shared native content-sized contact grid. */
   cvContactComposition?: "compact-grid";
   /** Diagnostic font measurements only; source/renderer never read live browser state. */
@@ -222,6 +224,12 @@ export function buildDossierDocModel(
         template.cover.nativePhotoPlaceholder !== "editable-initials" ||
         !!cover.data.foto))
     throw Error("DOCX Next native avatar trial requires an approved no-photo flow family");
+  if (options.coverPhotoPlacement !== undefined &&
+      (options.coverPhotoPlacement !== "authored-page" ||
+        options.coverComposition !== undefined ||
+        template.cover.nativePhotoPlaceholder !== "editable-initials" ||
+        !cover.data.foto))
+    throw Error("DOCX Next authored photo positioning requires an approved photo QA candidate");
   if (
     options.compactChromeComposition !== undefined &&
     (options.compactChromeComposition !== "source-bands" ||
@@ -408,6 +416,7 @@ export function buildDossierDocModel(
             bold: true,
           }),
           options.nativeAvatarComposition,
+          options.coverPhotoPlacement,
         );
 
   if (template.cover.decorationPlacement === "first-header") {
