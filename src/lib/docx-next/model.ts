@@ -92,6 +92,8 @@ export type ParagraphFrameBlock = {
   yMm: number;
   widthMm: number;
   paragraphs: Paragraph[];
+  /** Gated native page-frame text can opt out of Word text wrapping. */
+  wrapMode?: "none";
   /** Explicit candidate: one native editable shape owns text and its solid surface. */
   surface?: {
     heightMm: number;
