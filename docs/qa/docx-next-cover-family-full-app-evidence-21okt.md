@@ -178,3 +178,43 @@ and Writer on the **right**:
 no 10-case Word visual confirmation, no production export activation.
 Writer visual agreement is valuable evidence, not a replacement for Word.
 No user test is requested at this stage.
+
+
+## Automated real-DOCX visual audit — added after source-positioned cover work
+
+A standalone, **read-only source-data** visual auditor now lives at
+\`scripts/docx-next-cover-writer-visual.py\`. It processes the **real**
+\`full-app-native.docx\`, \`snapshot.json\`, \`web-cover.json\`, and
+\`web-cover.png\` files from the 10-case application download. For each
+case it invokes LibreOffice Writer headless (not Microsoft Word), renders
+the complete document to PDF, counts pages, extracts first-page glyph
+positions using Poppler, compares major editable cover fields against
+the captured Web coordinates, checks no-photo initials against their
+saved avatar center (2 mm tolerance), and writes
+\`writer-visual/web-vs-writer.jpg\` and batch-level
+\`writer-visual-evidence.json\`. Missing comparison text and large
+position drift explicitly require review: successfully opening a DOCX
+is **not** considered visual acceptance.
+
+To run in a prepared sandbox with LibreOffice, Python Pillow, Poppler,
+Playwright and Chromium, without touching the productive export:
+
+\`\`\`bash
+DOCX_NEXT_FULL_APP_QA=1 \
+  bun scripts/docx-next-cover-family-ten.ts /tmp/docx-family-complete
+python3 scripts/docx-next-cover-writer-visual.py \
+  /tmp/docx-family-complete --soffice /opt/libreoffice26.2/program/soffice
+\`\`\`
+
+**Verification status:** the Python algorithm was syntax-checked and
+smoke-tested locally against a synthetic four-page DOCX; it deliberately
+returns REVIEW when Web comparison fields are absent. The committed
+version and the complete genuine 10-case batch were **not rerun** after
+this addition. New Vercel Sandbox creation returned HTTP 402 because
+the Hobby account's snapshot-storage allowance is exhausted until
+1 November 2026. No snapshots or billing settings were changed.
+The earlier genuine full-app and Writer evidence and **NO-GO** remain.
+
+Writer evidence never substitutes for Microsoft Word edit/save/reopen
+and the output report intentionally says \`PASS_WITH_LIMITATIONS\`, not
+product approval.
