@@ -16,9 +16,9 @@ const appBase = process.env.DOCX_NEXT_APP_URL ?? "http://127.0.0.1:4173";
 const exportAvatarTrials = process.env.DOCX_NEXT_AVATAR_EXPERIMENT === "1";
 // A real full three-part DOCX downloaded by clicking the app's QA UI button.
 const exportFullAppDocx = process.env.DOCX_NEXT_FULL_APP_QA === "1";
-const avatarFormat = process.env.DOCX_NEXT_AVATAR_FORMAT ?? "single-owner";
-assert(["single-owner", "writer-vml"].includes(avatarFormat),
-  "Unknown diagnostic avatar format; use single-owner or writer-vml");
+const avatarFormat = process.env.DOCX_NEXT_AVATAR_FORMAT ?? "writer-vml";
+assert(avatarFormat === "writer-vml",
+  "The DrawingML avatar is rejected; only writer-vml remains available");
 const require = createRequire(import.meta.url);
 // The project intentionally does not declare Playwright as a dependency.
 // Use the runtime-loaded module shape so TypeScript does not require its types.
@@ -232,7 +232,7 @@ try {
         status: "DIAGNOSTIC_DOCX_GENERATED" | "NOT_REQUESTED";
         sha256?: string;
         sizeBytes?: number;
-        mode?: "single-owner" | "writer-vml" | "photo-flow";
+        mode?: "writer-vml" | "photo-flow";
         nativeTextShape?: boolean;
         file?: string;
       } = { status: "NOT_REQUESTED" };
@@ -247,7 +247,7 @@ try {
           const { readZipEntries } = await import("/src/lib/docx-next/zip.ts");
           const candidate = !snapshot.cover.data.foto;
           const model = buildDossierDocModel(snapshot,
-            candidate ? { nativeAvatarComposition: avatarFormat as "single-owner" | "writer-vml" } : {});
+            candidate ? { nativeAvatarComposition: "writer-vml" as const } : {});
           const bytes = new Uint8Array(await (await renderDossierDocx(model, {
             // Explicitly allow the isolated Word shape candidate; NO production gate change.
             allowUnacceptedModelIssues: true,
@@ -297,7 +297,7 @@ try {
         avatarTrial = {
           status: "DIAGNOSTIC_DOCX_GENERATED",
           sha256: sha256(bytes), sizeBytes: bytes.length,
-          mode: result.mode as "single-owner" | "writer-vml" | "photo-flow",
+          mode: result.mode as "writer-vml" | "photo-flow",
           nativeTextShape: result.nativeTextShape, file: name,
         };
         await writeFile(path.join(folder, "diagnostic-avatar.json"),
