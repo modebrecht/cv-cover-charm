@@ -45,6 +45,11 @@ export type TemplateDefinition = {
     heroSpaceMm: number;
     photoWidthMm: number;
     photoAlign?: Alignment;
+    /** Shared, opt-in native fallback for a photo not uploaded yet.
+     * Source data and user-hidden photo controls retain precedence.
+     * Editable text is not a claim of Word geometry/rounding acceptance.
+     */
+    nativePhotoPlaceholder?: "editable-initials";
     /** Native paragraph defaults; explicit saved field alignment keeps precedence. */
     fieldAlignments?: Readonly<Record<string, Alignment>>;
     /** Palette roles for native field defaults; explicit saved colors retain precedence. */
@@ -170,6 +175,7 @@ export const WARM: TemplateDefinition = {
   colors: { ink: "0B1F24", accent: "0F766E", paper: "FFF9EF" },
   margins: { top: 20, right: 22, bottom: 22, left: 24 },
   cover: {
+    nativePhotoPlaceholder: "editable-initials",
     order: [
       "eyebrow",
       "ortDatum",
@@ -4156,6 +4162,7 @@ export const NEON: TemplateDefinition = {
   pagePaintComposition: "single-asset",
   colors: { ink: "F8FAFC", accent: "E11D8F", paper: "0D0B2B" },
   cover: {
+    nativePhotoPlaceholder: "editable-initials",
     ...CITRUS.cover,
     align: "left",
     photoAlign: "right",
@@ -4281,6 +4288,7 @@ export const VERLAUF: TemplateDefinition = {
   pagePaintComposition: "single-asset",
   colors: { ink: "FFFFFF", accent: "7F5AF0", paper: "FFFFFF" },
   cover: {
+    nativePhotoPlaceholder: "editable-initials",
     ...CITRUS.cover,
     margins: { top: 20, left: 22, right: 22, bottom: 20 },
     rows: [

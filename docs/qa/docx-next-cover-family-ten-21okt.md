@@ -139,3 +139,22 @@ clamps it to the native content region. It retains the original inset when
 the saved width was explicitly overridden, or when no content-fit was applied.
 The three-family regression cases exercise center/left placement, including
 right alignment and manual width.
+
+
+## Editable native initials when no cover photo is uploaded
+
+The three currently gated families now opt into a **shared native-flow photo
+placeholder** via the declarative `nativePhotoPlaceholder` capability. If the
+saved photo field is visible but contains no image, the default composer adds
+the real initials (for example **LM**) as native editable text
+(`cover.photo.initials`) in a bounded table at the original photo field's
+position in the semantic order. The source-saved width, color, palette slot,
+font-weight and visibility determine its styling. A real uploaded photo retains
+the original image path without duplicated initials, and an explicitly hidden
+photo stays hidden. Existing CV and Letter models are untouched.
+
+The table background and border are **rectangular**, so this does not claim to
+reproduce the Web's circular border in desktop Word. Circle/position parity and
+save/reopen remain a **closed visual acceptance gate**. Only Verlauf, Neon and
+Warm/Freundlich enable this capability; this is a shared mechanism rather than
+three separate per-template renderers. Unit tests were added but not run here.

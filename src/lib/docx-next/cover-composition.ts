@@ -145,6 +145,75 @@ export function composeCover(
     }
     if (block.kind === "photo" || block.kind === "image") {
       const source = block.kind === "photo" ? cover.data.foto : block.src;
+      if (!source && block.kind === "photo" &&
+          template.cover.nativePhotoPlaceholder === "editable-initials") {
+        const initials = [cover.data.vorname, cover.data.nachname]
+          .map((value) => value?.trim().charAt(0) ?? "")
+          .filter(Boolean)
+          .join("")
+          .toUpperCase();
+        if (initials) {
+          // The semantic fallback participates in ordinary Word flow and the
+          // existing cover row/hero ordering. The source photo stays untouched.
+          const maxAvailable = page.widthMm - page.margins.left - page.margins.right;
+          const widthMm = Math.min(maxAvailable, Math.max(10, block.style.w || template.cover.photoWidthMm));
+          const heightMm = widthMm * (block.style.ratio ?? 1);
+          const pointSize = Math.max(14, block.style.w * 0.42) * cover.fontScale;
+          const lineHeightMm = (pointSize * 1.2 * 25.4) / 72;
+          const paddingYMm = Math.max(0, (heightMm - lineHeightMm) / 2);
+          const ownerRow = template.cover.rows?.find((row) =>
+            row.fields.flat().includes(block.id),
+          );
+          const indentMm = ownerRow
+            ? 0
+            : Math.max(0, Math.min(
+                maxAvailable - widthMm, block.style.x - page.margins.left,
+              ));
+          const paragraphs = textElement(
+            {
+              ...block,
+              kind: "text",
+              lines: [initials],
+              style: {
+                ...block.style,
+                size: pointSize,
+                align: "center",
+                lineHeight: 1.2,
+                tracking: 0,
+                uppercase: false,
+                weight: block.style.weight >= 600 ? block.style.weight : 400,
+                bg: null,
+              },
+            },
+            id + ".initials",
+            { ...coverContext, fontScale: 1 },
+            { beforeMm: 0, afterMm: 0, keepNext: false, keepLines: true },
+          );
+          blocks.push({
+            kind: "table",
+            id,
+            widths: [1],
+            widthMm,
+            indentMm,
+            afterMm: 0,
+            rows: [{ cells: [paragraphs], keepTogether: true }],
+            decoration: {
+              ...(block.style.fill
+                ? { fillColor: color(
+                    cover.colors[block.style.fill] ?? block.style.fill,
+                    coverContext.paper ?? "FFFFFF",
+                  ) }
+                : {}),
+              borderColor: color(
+                cover.colors[block.style.color] ?? block.style.color, coverContext.ink,
+              ),
+              borderWidthMm: block.style.borderWidth ?? 25.4 / 96,
+              paddingXMm: 0,
+              paddingYMm,
+            },
+          });
+        }
+      }
       if (source)
         blocks.push({
           kind: "image",
