@@ -1,0 +1,44 @@
+{
+  "sourceIntegrity": {
+    "branch": "fix/docx-next-word-pagination-21okt",
+    "commit": "1ae6bd9a155d179b146aee4c99fed18a1aa647c2",
+    "expectedFiles": 431,
+    "exactFiles": 431,
+    "mismatches": [],
+    "sortedBlobManifestSha256": "727f062b86373f8092e05f87f8f3f37781c2fa54a072f965e17e650a43c1a57c"
+  },
+  "qaBundle": {
+    "status": "PASS",
+    "transformedModules": 2450,
+    "scope": "QA-only SPA bootstrap; exact application sources; alternate cached tooling; not the original Lovable/TanStack production build"
+  },
+  "runtime": {
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "vite": "8.2.1",
+    "@vitejs/plugin-react": "6.0.5",
+    "@tanstack/react-router": "1.170.30",
+    "@tanstack/react-start": "1.168.47",
+    "@tailwindcss/postcss": "4.2.1"
+  },
+  "vendorSources": {
+    "@tanstack/react-query": "5.101.1, TanStack/query commit b80929716f9ae36104245da9d99e8af3550e6f58",
+    "html2canvas-pro": "yorickshan/html2canvas-pro v2.3.0",
+    "jspdf": "parallax/jsPDF v4.2.1 UMD",
+    "css-line-break": "niklasvh/css-line-break v2.1.0",
+    "text-segmentation": "niklasvh/text-segmentation v1.0.3",
+    "utrie": "niklasvh/utrie v1.0.2",
+    "base64-arraybuffer": "niklasvh/base64-arraybuffer v1.0.2"
+  },
+  "browser": {
+    "localPlaywright": "Unavailable: no installed Chromium executable",
+    "cloudLocalhost": "ERR_CONNECTION_REFUSED",
+    "cloudLocalFile": "Explicit browser URL policy denial: only http/https protocols allowed; no workaround attempted"
+  },
+  "freshAppDocxExports": 0,
+  "freshAppPdfExports": 0,
+  "desktopWord": "UNVERIFIED",
+  "merge": "NOT_PERFORMED",
+  "ciDispatch": "NOT_PERFORMED",
+  "deployment": "NOT_PERFORMED"
+}
