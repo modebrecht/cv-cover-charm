@@ -594,9 +594,10 @@ try {
           assert(anchored.includes('<wp:positionV relativeFrom="page"><wp:posOffset>' +
             emu(photo.style.y) + "</wp:posOffset>"),
             "Saved photo Y was lost in actual application Word export");
-          assert(anchored.includes('behindDoc="1"') &&
+          assert(anchored.includes('behindDoc="0"') &&
+            anchored.includes('allowOverlap="1"') &&
             anchored.includes("<wp:wrapNone/>"),
-            "Full app photo still modifies the cover text flow");
+            "Full app photo must sit above page artwork without wrapping the text");
           assert(anchored.includes("<a:srcRect "),
             "Full app photo crop representation is missing");
         }
