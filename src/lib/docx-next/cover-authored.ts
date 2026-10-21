@@ -169,6 +169,12 @@ export function composeAuthoredCover(
       // capsules; explicit user radius, crop and aspect ratio remain authoritative.
       const source = b.kind === "photo" ? cover.data.foto : b.src,
         h = s.w * (s.ratio ?? 1);
+      if (graphicFamilyQa && b.kind === "photo" && source &&
+          (s.follows || s.above || s.anchorBottom ||
+            ![s.x, s.y, s.w, h].every(Number.isFinite) ||
+            Math.min(s.x, s.y, s.w, h) < 0 ||
+            s.x + s.w > page.widthMm || s.y + h > page.heightMm))
+        throw Error("DOCX Next saved photo requires safe absolute page coordinates");
       check(id, s.x, pos.y, s.w, h);
       if (s.w > page.widthMm - page.margins.left - page.margins.right)
         throw Error("DOCX Next authored cover picture exceeds native content width: " + id);
