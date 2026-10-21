@@ -17,6 +17,7 @@ export function composeCover(
   color: CoverContext["color"],
   fallbackName: Paragraph,
   avatarComposition?: "single-owner" | "writer-vml",
+  photoPlacement?: "authored-page",
 ): DocBlock[] {
   if (
     Object.values(template.cover.fieldSpaceBeforeMm ?? {}).some(
@@ -146,6 +147,46 @@ export function composeCover(
     }
     if (block.kind === "photo" || block.kind === "image") {
       const source = block.kind === "photo" ? cover.data.foto : block.src;
+      if (source && block.kind === "photo" && photoPlacement === "authored-page") {
+        const s = block.style;
+        const widthMm = s.w, heightMm = s.w * (s.ratio ?? 1);
+        if (s.hidden || s.opacity !== 1 || s.follows || s.above || s.anchorBottom ||
+            ![s.x, s.y, widthMm, heightMm].every(Number.isFinite) ||
+            Math.min(s.x, s.y) < 0 || Math.min(widthMm, heightMm) <= 0 ||
+            s.x + widthMm > page.widthMm || s.y + heightMm > page.heightMm)
+          throw Error("DOCX Next saved photo requires safe absolute page coordinates");
+        // The actual uploaded image is anchored to the saved Web x/y.
+        // A semantic spacer continues to occupy the original hero row slot.
+        // This avoids wrapSquare moving other text around the picture.
+        coverDecoration.push({
+          kind: "image",
+          id,
+          source,
+          alt: block.label,
+          widthMm,
+          maxHeightMm: heightMm,
+          placement: "free",
+          coordinateOrigin: "page",
+          wrapMode: "none",
+          xMm: s.x,
+          yMm: s.y,
+          gapMm: 0,
+          frame: {
+            heightRatio: s.ratio ?? 1,
+            radiusMm: s.radius ?? 0,
+            zoom: s.imgZoom ?? 1,
+            xPct: s.imgX ?? 50,
+            yPct: s.imgY ?? 50,
+            borderWidthMm: s.borderWidth ?? 0,
+            borderColor: color(
+              cover.colors[s.borderColor ?? ""] ?? s.borderColor,
+              accent,
+            ),
+          },
+        });
+        blocks.push({ kind: "spacer", id: id + ".source-slot", heightMm });
+        continue;
+      }
       if (!source && block.kind === "photo" &&
           template.cover.nativePhotoPlaceholder === "editable-initials") {
         const initials = [cover.data.vorname, cover.data.nachname]
@@ -482,10 +523,12 @@ export function composeCover(
     const first = starts
       .map((id) => `cover.${aliases[id] ?? id}`)
       .find((id) => heroBlocks.some((block) => block.id === id));
-    const photo = heroBlocks.some((block) => block.id === "cover.photo");
+    const photo = heroBlocks.some((block) =>
+      block.id === "cover.photo" || block.id.startsWith("cover.photo."));
     const hero = blocks.findIndex((block) =>
       (template.cover.heroInRows ? walkBlocks([block]) : [block]).some(
-        (child) => child.id === "cover.photo" || child.id === first,
+        (child) => child.id === "cover.photo" ||
+          child.id.startsWith("cover.photo.") || child.id === first,
       ),
     );
     if (hero >= 0)
