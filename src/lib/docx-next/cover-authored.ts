@@ -157,7 +157,8 @@ export function composeAuthoredCover(
       }
       if (b.shape === "circle" && Math.abs((s.ratio ?? 1) - 1) > 0.000001)
         throw Error("DOCX Next non-square CSS circle needs capsule acceptance: " + id);
-      result.push(shapeElement(b, id, context));
+      // Web uses the resolved anchor, not the stored top; leave the source immutable.
+      result.push(shapeElement({ ...b, style: { ...s, y: pos.y } }, id, context));
       continue;
     }
     if (b.kind === "photo" || b.kind === "image") {

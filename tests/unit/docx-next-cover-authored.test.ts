@@ -4,6 +4,8 @@ import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
 import { walkBlocks, type Paragraph } from "../../src/lib/docx-next/model";
 import { readZipEntries } from "../../src/lib/docx-next/zip";
 import { authoredCoverFixture, AUTHORED_COVER_CASES } from "../fixtures/docx-next/cover-authored";
+import { briefElementsFixture } from "../fixtures/docx-next/brief";
+import { resolveLayout } from "../../src/components/cover/resolve";
 import { graphicCandidateFixture } from "../fixtures/docx-next/graphic-candidate";
 import captured from "../fixtures/docx-next/cover-text-metrics.json";
 import type { CoverTextMetrics } from "../../src/components/cover/text-metrics";
@@ -148,6 +150,53 @@ test("authored page uses shared visible labels and typography without altering a
   expect(find(m, "cover.photo.initials").runs[0].text).toBe("LM");
   expect(m.letter).toEqual(buildDossierDocModel(input).letter);
   expect(m.cv).toEqual(buildDossierDocModel(input).cv);
+});
+test("authored shape anchor geometry agrees with the Web and preserves user positions", () => {
+  const input = authoredCoverFixture();
+  const shapes = briefElementsFixture("shapes").cover.blocks;
+  const rect = structuredClone(shapes.find((block) => block.id === "art-rect")!);
+  const circle = structuredClone(shapes.find((block) => block.id === "art-circle")!);
+  circle.style = {
+    ...circle.style,
+    y: 180,
+    follows: "art-rect",
+    above: null,
+    anchorBottom: false,
+    gap: 3,
+  };
+  input.cover.blocks.push(rect, circle);
+  input.cover.customFieldIds = ["art-rect", "art-circle"];
+  const saved = structuredClone(input);
+  const webY = resolveLayout(input.cover.blocks, input.cover.fontScale)["art-circle"].y;
+  expect(webY).toBe(29);
+  const model = buildDossierDocModel(input, option);
+  expect(model.cover.blocks.find((block) => block.id === "cover.art-circle")).toMatchObject({
+    kind: "decorative-shape",
+    xMm: 5,
+    yMm: webY,
+    opacity: 1,
+    fill: {
+      color: "FF0000",
+      endColor: "0000FF",
+      angleDeg: 90,
+      startPct: 20,
+      endPct: 80,
+    },
+  });
+  expect(input).toEqual(saved);
+  const moved = structuredClone(input);
+  Object.assign(moved.cover.blocks.find((block) => block.id === "art-circle")!.style, {
+    follows: null,
+    above: null,
+    anchorBottom: false,
+    y: 71,
+  });
+  expect(
+    buildDossierDocModel(moved, option).cover.blocks.find((block) => block.id === "cover.art-circle"),
+  ).toMatchObject({ yMm: 71 });
+  const neighbors = buildDossierDocModel(authoredCoverFixture(), option);
+  expect(model.letter).toEqual(neighbors.letter);
+  expect(model.cv).toEqual(neighbors.cv);
 });
 test("explicit saved element styles and manual coordinates win over role defaults", () => {
   const m = buildDossierDocModel(authoredCoverFixture("moved"), option);
