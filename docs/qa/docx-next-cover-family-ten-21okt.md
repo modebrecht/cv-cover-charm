@@ -51,3 +51,22 @@ evidence of native DOCX rendering or Word acceptance.
 
 This addition remains a *script change*, not a successful run. Unsupported native
 family exports stay gated.
+
+
+## Baseline numerical evidence independently re-read from the archived project data
+
+These are **16 October** matched Web / native-default-model measurements
+(reconfirmed by inspecting the stored model JSON), not new Word or DOCX results:
+
+| Template | Web date badge | Native default table | Difference | Native photo / initials nodes |
+| --- | ---: | ---: | ---: | --- |
+| Verlauf | 57.76 mm | 166 mm | +108.24 mm | None |
+| Neon | 55.88 mm | 110 mm | +54.12 mm | None |
+| Warm/Freundlich | 60.45 mm | 164 mm | +103.55 mm | None |
+
+The existing stored Web covers show the initials **LM** in all three. The new
+runner now recomputes each case's `fidelity-gaps.json` from that **case's live
+restored Web** and its **default native model**: date badge widths, difference,
+web initials, native photo/initial identity, total Web badge count and model issues.
+The values diagnose known defects; they do **not** imply a successful authored
+DOCX export or grant these families acceptance.

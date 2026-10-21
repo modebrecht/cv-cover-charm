@@ -271,6 +271,60 @@ try {
           };
         });
       });
+      // Diagnose the default native model only; this is NOT a newly exported DOCX.
+      // Its semantic fields and container widths are compared with the actual
+      // restored Web state to make the family gates measurable, not to bypass them.
+      const nativeNodes = (function walk(value: unknown): Array<{
+        id?: string;
+        kind?: string;
+        widthMm?: number;
+      }> {
+        if (Array.isArray(value)) return value.flatMap(walk);
+        if (!value || typeof value !== "object") return [];
+        const node = value as Record<string, unknown>;
+        return [
+          ...(typeof node.kind === "string" ? [node as {
+            id?: string;
+            kind?: string;
+            widthMm?: number;
+          }] : []),
+          ...walk(node.blocks),
+          ...walk(node.rows),
+          ...walk(node.cells),
+        ];
+      })([
+        captured.model.cover.blocks,
+        captured.model.cover.header,
+        captured.model.cover.firstHeader,
+        captured.model.cover.headerFrames,
+        captured.model.cover.headerImages,
+        captured.model.cover.headerShapes,
+      ]);
+      const dateBox = nativeNodes.find((node) => node.id === "cover.lehrbeginn.flow-box");
+      const webDate = web.find((block) => block.id === "lehrbeginn");
+      const nativePortrait = nativeNodes.filter(
+        (node) => /^cover\\.(photo|foto)(\\.|$)/.test(node.id ?? ""),
+      );
+      const webPortrait = web.find((block) => block.id === "foto");
+      const nativePillWidth = dateBox?.widthMm ?? null;
+      const webPillWidth = webDate?.badgeRect?.w ?? null;
+      const gaps = {
+        analysisKind: "saved Web versus default native diagnostic model; NOT a DOCX render",
+        family: item.family,
+        caseId: item.id,
+        webDateBadgeWidthMm: webPillWidth,
+        nativeDateContainerWidthMm: nativePillWidth,
+        differenceMm:
+          webPillWidth !== null && nativePillWidth !== null
+            ? nativePillWidth - webPillWidth
+            : null,
+        webInitials: webPortrait?.text?.trim() ?? null,
+        nativePhotoOrInitialsNodes: nativePortrait.map((node) => node.id),
+        webBadgeCount: web.filter((node) => node.badgeRect).length,
+        modelIssues: captured.model.issues,
+        nativeEditableExportActuallyPerformed: false,
+      };
+      await writeFile(path.join(folder, "fidelity-gaps.json"), JSON.stringify(gaps, null, 2));
       await root.screenshot({ path: path.join(folder, "web-cover.png"), animations: "disabled" });
       await writeFile(path.join(folder, "web-cover.json"), JSON.stringify(web, null, 2));
       // Compare with the archived *real* Web baseline, without silently treating
@@ -359,6 +413,7 @@ try {
         status: "WEB_REFERENCE_CAPTURED",
         projectSha256: sha256(projectJson),
         snapshotSha256: sha256(JSON.stringify(captured.snapshot)),
+        fidelityGaps: gaps,
         pdf,
         nativeDocx: {
           status: "GATED_UNAVAILABLE",
