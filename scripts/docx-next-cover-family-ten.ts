@@ -243,15 +243,13 @@ try {
           } else if (!xml.includes('name="cover.photo"') || hasAvatar) {
             throw Error("Saved uploaded cover photo was lost or acquired a placeholder");
           }
-          // Browser returns the *actual* native DOCX bytes, not a screenshot or stub.
-          const blob = new Blob([bytes.slice().buffer],
-            { type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" });
-          const base64 = await new Promise<string>((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(String(reader.result).split(",")[1]);
-            reader.onerror = () => reject(reader.error);
-            reader.readAsDataURL(blob);
-          });
+          // Browser returns actual native DOCX bytes, not a screenshot or stub.
+          // Encode in bounded chunks: avoids BlobPart<ArrayBufferLike> TypeScript
+          // ambiguity and call-stack overflow with larger DOCX packages.
+          const fragments: string[] = [];
+          for (let offset = 0; offset < bytes.length; offset += 8192)
+            fragments.push(String.fromCharCode(...bytes.subarray(offset, offset + 8192)));
+          const base64 = btoa(fragments.join(""));
           return { base64, mode: candidate ? "single-owner" : "photo-flow",
             nativeTextShape: hasAvatar };
         }, captured.snapshot);
