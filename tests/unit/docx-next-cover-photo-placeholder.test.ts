@@ -47,8 +47,14 @@ describe("shared opt-in native cover photo placeholder", () => {
       const xml = new TextDecoder().decode(word.bytes);
       expect(xml).toContain("LM");
       expect(xml).toContain("cover.photo");
-      // Artwork and native editable text must not be flattened together.
-      expect(xml).toContain('name="cover.photo.placeholder-paint"');
+      // First-page cover paint is correctly owned by the native header story,
+      // not the editable document body. Search package stories, not only document.xml.
+      const paintStories = readZipEntries(bytes).filter((entry) =>
+        /^word\/cover-header(?:-first)?\.xml$/.test(entry.name));
+      expect(paintStories.some((entry) =>
+        new TextDecoder().decode(entry.bytes).includes(
+          'name="cover.photo.placeholder-paint"',
+        ))).toBe(true);
     });
 
     test(template + " preserves no-photo initials as editable native text", () => {
