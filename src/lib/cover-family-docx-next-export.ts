@@ -17,6 +17,7 @@ import { captureDossierDocxNextSnapshot } from "@/lib/docx-next/snapshot";
 import { buildDossierDocModel, type DossierAppSnapshot } from "@/lib/docx-next/build-model";
 import { renderDossierDocx } from "@/lib/docx-next/renderer";
 import { walkBlocks } from "@/lib/docx-next/model";
+import { cvWordLayout } from "@/lib/docx-next/layouts";
 
 import { coverFamilyDocxQaEnabled, isCoverFamilyDocxQaTemplate } from "./docx-next/cover-family-visibility";
 
@@ -27,7 +28,7 @@ export function buildFullCoverFamilyQaModel(snapshot: DossierAppSnapshot) {
       snapshot.letter.design.template !== family ||
       snapshot.cv.design.template !== family)
     throw Error("DOCX Next Cover QA: Titelblatt, Anschreiben und CV müssen dieselbe geprüfte Vorlage verwenden.");
-  if (snapshot.settings.cvLayout !== "classic")
+  if (cvWordLayout(snapshot.settings.cvLayout) !== "classic")
     throw Error("DOCX Next Cover QA: Das Sidebar-CV ist hier nicht freigegeben.");
 
   const photo = snapshot.cover.blocks.find((block) => block.kind === "photo");
