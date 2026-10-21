@@ -5,6 +5,7 @@ import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
 import { readZipEntries } from "../../src/lib/docx-next/zip";
 import { paintPng } from "../../src/lib/docx-next/artwork";
 import { graphicCandidateFixture } from "../fixtures/docx-next/graphic-candidate";
+import { validateDossierDocModel } from "../../src/lib/docx-next/validation";
 
 /** The saved Web family states without a picture display native editable initials. */
 describe("shared opt-in native cover photo placeholder", () => {
@@ -103,5 +104,74 @@ describe("shared opt-in native cover photo placeholder", () => {
     const original = graphicCandidateFixture("klassisch");
     const model = buildDossierDocModel(original);
     expect(walkBlocks(model.cover.blocks).some((block) => block.id === "cover.photo")).toBe(false);
+  });
+});
+
+
+describe("single-owner native avatar experiment (never the default export)", () => {
+  for (const template of ["verlauf", "neon", "freundlich"] as const) {
+    test(template + " holds editable initials inside the same rounded Word shape", async () => {
+      const input = graphicCandidateFixture(template);
+      const untouched = structuredClone(input);
+      const standard = buildDossierDocModel(input);
+      const trial = buildDossierDocModel(input, { nativeAvatarComposition: "single-owner" });
+      const photo = input.cover.blocks.find((block) => block.id === "foto")!;
+      expect(trial.cover.blocks.find((block) => block.id === "cover.photo.native-avatar")).toMatchObject({
+        kind: "paragraph-frame",
+        xMm: photo.style.x,
+        yMm: photo.style.y,
+        widthMm: photo.style.w,
+        surface: {
+          heightMm: photo.style.w * (photo.style.ratio ?? 1),
+          radiusMm: photo.style.w / 2,
+          borderColor: expect.any(String),
+          verticalAlign: "center",
+        },
+      });
+      expect(trial.cover.blocks.some((node) =>
+        node.id === "cover.photo.placeholder-paint")).toBe(false);
+      expect(walkBlocks(trial.cover.blocks).find((node) =>
+        node.id === "cover.photo")).toMatchObject({ kind: "spacer" });
+      expect(walkBlocks(trial.cover.blocks).some((node) =>
+        node.kind === "table" && node.id === "cover.photo")).toBe(false);
+      expect(input).toEqual(untouched);
+      expect(trial.letter).toEqual(standard.letter);
+      expect(trial.cv).toEqual(standard.cv);
+      validateDossierDocModel(trial);
+      await expect(renderDossierDocx(trial)).rejects.toThrow(
+        "paragraph frame pagination is unaccepted",
+      );
+      const bytes = new Uint8Array(await (await renderDossierDocx(trial, {
+        allowUnacceptedModelIssues: true,
+        rasterizeDecoration: async () => ({
+          bytes: paintPng({ color: "FFFFFF" }), widthPx: 1, heightPx: 1,
+          extension: "png" as const, contentType: "image/png" as const,
+        }),
+      })).arrayBuffer());
+      const xml = new TextDecoder().decode(readZipEntries(bytes).find(
+        (entry) => entry.name === "word/document.xml",
+      )!.bytes);
+      expect(xml).toContain('name="cover.photo.native-avatar"');
+      expect(xml).toContain("<wps:txbx><w:txbxContent>");
+      expect(xml).toContain('anchor="ctr"');
+      expect(xml).toContain("<a:arcTo");
+      expect(xml).toContain('<w:t xml:space="preserve">LM</w:t>');
+      expect(xml).not.toContain('name="cover.photo.placeholder-paint"');
+    });
+  }
+  test("gates unrelated templates, uploaded photos and relative photo anchors", () => {
+    expect(() => buildDossierDocModel(graphicCandidateFixture("klassisch"), {
+      nativeAvatarComposition: "single-owner",
+    })).toThrow("requires an approved no-photo flow family");
+    const photo = graphicCandidateFixture("neon");
+    photo.cover.data.foto = "synthetic-photo";
+    expect(() => buildDossierDocModel(photo, {
+      nativeAvatarComposition: "single-owner",
+    })).toThrow("requires an approved no-photo flow family");
+    const moved = graphicCandidateFixture("verlauf");
+    moved.cover.blocks.find((block) => block.id === "foto")!.style.follows = "name";
+    expect(() => buildDossierDocModel(moved, {
+      nativeAvatarComposition: "single-owner",
+    })).toThrow("requires an opaque, unanchored round source");
   });
 });
