@@ -60,7 +60,16 @@ export function pictureGeometry(
       right: percent((drawnWidth - widthMm - left) / drawnWidth),
       bottom: percent((drawnHeight - heightMm - top) / drawnHeight),
     },
-    shape: frame && frame.radiusMm >= 999 ? "ellipse" : frame?.radiusMm ? "roundRect" : "rect",
+    // In Web a 9999px border radius creates a pill on non-square crops,
+    // but a true circle on square crops. DrawingML must use the same contour.
+    shape:
+      frame && frame.radiusMm >= 999
+        ? Math.abs(widthMm - heightMm) < 0.001
+          ? "ellipse"
+          : "roundRect"
+        : frame?.radiusMm
+          ? "roundRect"
+          : "rect",
     cornerAdjustment: frame
       ? Math.min(50000, Math.round((frame.radiusMm / Math.min(widthMm, heightMm)) * 100000))
       : 0,

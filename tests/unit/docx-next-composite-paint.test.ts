@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
-import { decorationAssetKey, validateDecoration } from "../../src/lib/docx-next/decoration";
+import { cssCapsuleContour, decorationAssetKey, validateDecoration } from "../../src/lib/docx-next/decoration";
 import { compositePagePaint, ensureFirstHeader } from "../../src/lib/docx-next/page-artwork";
 import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
 import { readZipEntries } from "../../src/lib/docx-next/zip";
@@ -67,6 +67,18 @@ function paintModel() {
 }
 
 describe("opt-in nonsemantic composite page paint", () => {
+  test("CSS capsule paint uses rounded-rectangle geometry with stroke inset", () => {
+    expect(cssCapsuleContour(150, 130, 0)).toEqual({
+      xMm: 0, yMm: 0, widthMm: 150, heightMm: 130, radiusMm: 65,
+    });
+    expect(cssCapsuleContour(40, 60, 0.6)).toEqual({
+      xMm: 0.3, yMm: 0.3, widthMm: 39.4, heightMm: 59.4, radiusMm: 19.7,
+    });
+    expect(cssCapsuleContour(40, 40, 0)).toEqual({
+      xMm: 0, yMm: 0, widthMm: 40, heightMm: 40, radiusMm: 20,
+    });
+  });
+
   test("keeps authored layer order, page clipping and first/continuation scopes", () => {
     const part = paintModel().cover;
     const first = compositePagePaint(part, true)!;

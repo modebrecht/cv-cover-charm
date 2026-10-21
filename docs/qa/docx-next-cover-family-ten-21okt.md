@@ -70,3 +70,26 @@ restored Web** and its **default native model**: date badge widths, difference,
 web initials, native photo/initial identity, total Web badge count and model issues.
 The values diagnose known defects; they do **not** imply a successful authored
 DOCX export or grant these families acceptance.
+
+
+## Shared capsule geometry correction (21 October)
+
+The actual Web shape renderer `ShapeElement` uses `border-radius: 9999px`
+for a "circle" shape. On a 150 × 130 mm Neon blob, CSS produces a
+**stadium / capsule contour**, not an ellipse. The previous native Canvas
+rasterizer used `ellipse()`, creating a visible outline mismatch.
+The shared `decoration.ts` contour now uses a CSS-equivalent rounded rectangle
+with half the shorter side as radius, adjusted for stroke inset. Square circles
+remain circles. Gradient stops, opacity, page clipping, saved coordinates and
+all editable text remain unchanged.
+
+Likewise, fully rounded photographs with unequal width/height now produce a
+native DrawingML `roundRect` with 50% corner adjustment, while square images
+continue to use `ellipse`. The authored compositor's two blanket non-square
+rejections were removed because the shared shape and image primitives now
+represent those geometries. It remains behind the existing template-family
+gate; this patch alone **does not enable** Verlauf/Neon/Warm native DOCX.
+
+Added pure/unit assertions for 150×130 and 40×60 contour geometry, two
+picture corner behaviours, and authored gradient and picture-frame preservation.
+**Not run in GPT-6 Chat:** Bun, screenshot comparisons, real app DOCX/PDF, Word.

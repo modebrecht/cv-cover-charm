@@ -122,6 +122,20 @@ export function decorationPathSegments(path: string): DecorationPathSegment[] {
     throw new Error("DOCX Next invalid decorative path");
   return segments;
 }
+/** CSS border-radius: 9999px on a non-square shape is a capsule, not an ellipse.
+ * The stroke is centered on the same inset contour used by native paint.
+ */
+export function cssCapsuleContour(widthMm: number, heightMm: number, strokeWidthMm: number) {
+  const insetMm = strokeWidthMm / 2;
+  return {
+    xMm: insetMm,
+    yMm: insetMm,
+    widthMm: widthMm - strokeWidthMm,
+    heightMm: heightMm - strokeWidthMm,
+    radiusMm: Math.max(0, (Math.min(widthMm, heightMm) - strokeWidthMm) / 2),
+  };
+}
+
 export function validateDecoration(shape: DecorationPaint): void {
   if (shape.layers) {
     if (
@@ -321,17 +335,18 @@ function drawDecoration(context: CanvasRenderingContext2D, shape: DecorativeShap
     context.fillStyle = shape.fill ? paint : context.strokeStyle;
     context.fillRect(0, 0, shape.widthMm, shape.heightMm);
   } else {
-    if (shape.shape === "circle")
-      context.ellipse(
-        shape.widthMm / 2,
-        shape.heightMm / 2,
-        shape.widthMm / 2 - inset,
-        shape.heightMm / 2 - inset,
-        0,
-        0,
-        Math.PI * 2,
+    if (shape.shape === "circle") {
+      // Web ShapeElement uses border-radius:9999px. For a non-square frame
+      // this is a rounded capsule, whereas canvas.ellipse() pinches its sides.
+      const capsule = cssCapsuleContour(shape.widthMm, shape.heightMm, shape.stroke.widthMm);
+      context.roundRect(
+        capsule.xMm,
+        capsule.yMm,
+        capsule.widthMm,
+        capsule.heightMm,
+        capsule.radiusMm,
       );
-    else if (shape.shape === "rect")
+    } else if (shape.shape === "rect")
       context.roundRect(
         inset,
         inset,

@@ -198,6 +198,39 @@ test("authored shape anchor geometry agrees with the Web and preserves user posi
   expect(model.letter).toEqual(neighbors.letter);
   expect(model.cv).toEqual(neighbors.cv);
 });
+test("authored native frames accept gradient capsules and non-square rounded photo crops", () => {
+  const input = authoredCoverFixture("photo-portrait");
+  const savedPhoto = input.cover.blocks.find((block) => block.id === "foto")!;
+  Object.assign(savedPhoto.style, { radius: 999, ratio: 1.5 });
+  const gradientCircle = structuredClone(
+    briefElementsFixture("shapes").cover.blocks.find((block) => block.id === "art-circle")!,
+  );
+  Object.assign(gradientCircle.style, { x: 5, y: 20, w: 40, ratio: 0.75 });
+  input.cover.blocks.push(gradientCircle);
+  const immutableInput = structuredClone(input);
+  const model = buildDossierDocModel(input, option);
+  expect(model.cover.blocks.find((block) => block.id === "cover.art-circle")).toMatchObject({
+    kind: "decorative-shape",
+    shape: "circle",
+    xMm: 5,
+    yMm: 20,
+    widthMm: 40,
+    heightMm: 30,
+    fill: { color: "FF0000", endColor: "0000FF" },
+  });
+  expect(model.cover.blocks.find((block) => block.id === "cover.photo")).toMatchObject({
+    kind: "image",
+    xMm: 125,
+    widthMm: 40,
+    maxHeightMm: 60,
+    frame: { radiusMm: 999, heightRatio: 1.5, zoom: 1.3, xPct: 30, yPct: 65 },
+  });
+  expect(input).toEqual(immutableInput);
+  const baseline = buildDossierDocModel(authoredCoverFixture("photo-portrait"), option);
+  expect(model.letter).toEqual(baseline.letter);
+  expect(model.cv).toEqual(baseline.cv);
+});
+
 test("explicit saved element styles and manual coordinates win over role defaults", () => {
   const m = buildDossierDocModel(authoredCoverFixture("moved"), option);
   expect(m.cover.blocks.find((b) => b.id === "cover.ortDatum.frame")).toMatchObject({

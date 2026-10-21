@@ -155,15 +155,15 @@ export function composeAuthoredCover(
           throw Error("DOCX Next CSS-hidden decoration override needs separate acceptance: " + id);
         continue;
       }
-      if (b.shape === "circle" && Math.abs((s.ratio ?? 1) - 1) > 0.000001)
-        throw Error("DOCX Next non-square CSS circle needs capsule acceptance: " + id);
+      // ShapeElement renders both square circles and non-square capsules using
+      // CSS border radius. Shared native paint uses that identical contour.
       // Web uses the resolved anchor, not the stored top; leave the source immutable.
       result.push(shapeElement({ ...b, style: { ...s, y: pos.y } }, id, context));
       continue;
     }
     if (b.kind === "photo" || b.kind === "image") {
-      if ((s.radius ?? 0) >= 999 && Math.abs((s.ratio ?? 1) - 1) > 0.000001)
-        throw Error("DOCX Next non-square CSS picture needs capsule acceptance: " + id);
+      // The shared picture geometry now preserves fully rounded portrait
+      // capsules; explicit user radius, crop and aspect ratio remain authoritative.
       const source = b.kind === "photo" ? cover.data.foto : b.src,
         h = s.w * (s.ratio ?? 1);
       check(id, s.x, pos.y, s.w, h);
