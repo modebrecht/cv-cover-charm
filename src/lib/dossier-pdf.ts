@@ -2,6 +2,7 @@ import type { jsPDF as JsPdf } from "jspdf";
 import { letterPageOverflows, printableTextClips } from "@/components/letter/preflight";
 import { PAGE, PDF } from "@/default-config";
 import { addCvTextLayer } from "@/lib/cv-pdf-text";
+import { normalizeCvRubricPillsForPdf } from "@/lib/cv-pdf-rubric";
 import { normalizeCssZoomForHtml2Canvas } from "@/lib/html2canvas-export";
 import { downloadBlob } from "@/lib/download";
 import { registerCabinPdfFonts } from "@/lib/pdf-fonts";
@@ -334,6 +335,7 @@ async function addRasterPage(
     scrollY: 0,
     onclone: (_clonedDocument, clonedPage) => {
       normalizeCssZoomForHtml2Canvas(clonedPage as HTMLElement);
+      normalizeCvRubricPillsForPdf(clonedPage as HTMLElement);
       if (
         rebuildLetterVectors
           ? letterPageOverflows(clonedPage as HTMLElement)
