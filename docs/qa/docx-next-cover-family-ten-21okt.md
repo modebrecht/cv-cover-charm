@@ -451,3 +451,28 @@ export always reads saved content and must not quietly discard the draft.
 **Run status:** changes committed and source-checked; no Bun, full Vite app
 download, or Desktop Word test executed in this session. The normal
 production DOCX/PDF export is unchanged; no branch merge or Vercel deploy.
+
+## DOCX page photo foreground and export gate repair (21 October evening)
+
+The previous uploaded-photo QA implementation incorrectly equated
+`wrapMode: none` with a **behind-document** Word anchor. On cover pages
+with first-header artwork/background, that can hide the uploaded portrait.
+Shared `pictureRun` now independently controls `noTextWrap` and `behindDoc`:
+the three-family QA photo receives `behindDoc=0`, `allowOverlap=1`,
+`wp:wrapNone`, and saved page x/y. All pre-existing decorative background
+calls continue using `behindDoc=1`, so the source Web layering is preserved.
+
+A second product bug was fixed in the QA dialog: its `coverChanged` property
+means the title-page fingerprint differs from the last data transfer to CV;
+it **does not** mean the current title page contains unsaved changes.
+The QA download can proceed with valid saved content again. The correct
+cross-part mismatch explanation is shown instead of a false autosave error.
+
+Three additional actual-DOCX serializer regressions were committed.
+Each uses the full cover/letter/CV model and a deterministic normalized
+photo adapter to inspect the DOCX XML for portrait foreground layer,
+saved page x/y, native circular clip, nonwrapping anchor, original crop
+and package content. **Tests authored, not executed**: no local Bun app
+checkout is available. Desktop Word and 10-case real app run remain 0/10.
+
+Do not mark this as Word-approved or activate this QA export in production.
