@@ -172,10 +172,41 @@ export type CvPageFitPlan = {
   bodyScaleFactor: number;
 };
 
+/** Preserve an explicitly free-positioned section when a pupil invokes a page preset. */
+export function cvPageFitKeepsManualPosition(data: CvData, key: CvLayoutSectionKey): boolean {
+  return data.sectionLayouts?.[key]?.positioning === "free";
+}
+
 export type CvPageFitOptions = {
   /** Sidebar columns are already space-efficient and must not be split again. */
   allowHalfWidth?: boolean;
+  /** Actual row heights from the canvas measurement sheet, not character counts. */
+  measuredSectionHeightsPx?: Partial<Record<CvLayoutSectionKey, number>>;
 };
+
+/**
+ * Read section heights from the existing *unpaginated* canvas measurement
+ * sheet. Each row is measured once, including the person/header row. A saved
+ * two-page split must not bias the next balancing action.
+ */
+export function measureCvPageFitSectionHeights(
+  canvas: HTMLElement | null,
+): Partial<Record<CvLayoutSectionKey, number>> | null {
+  if (!canvas) return null;
+  const rows = canvas.querySelectorAll<HTMLElement>("[data-cv-measure-page] [data-cv-content-row]");
+  if (!rows.length) return null;
+  const heights: Partial<Record<CvLayoutSectionKey, number>> = {};
+  let key: CvLayoutSectionKey = "person";
+  for (const row of rows) {
+    const id = row.dataset.cvContentRow;
+    if (id?.startsWith("h-")) key = id.slice(2) as CvLayoutSectionKey;
+    else if (id?.startsWith("layout-")) key = id.slice("layout-".length) as CvLayoutSectionKey;
+    else if (id === "kopf" || id === "kopf-modern" || id === "person-layout") key = "person";
+    const height = row.getBoundingClientRect().height;
+    if (Number.isFinite(height) && height > 0) heights[key] = (heights[key] ?? 0) + height;
+  }
+  return heights;
+}
 
 function onePageScale(weight: number) {
   if (weight <= 18) return 1;
@@ -302,8 +333,20 @@ export function buildCvPageFitPlan(
     if (!active.length) {
       for (const key of order) pageBySection[key] = 1;
     } else {
-      const personWeight = weights.get("person") ?? 0;
-      const activeWeights = active.map((key) => weights.get(key) ?? 0);
+      // Prefer measured pixel heights from the real unpaginated browser sheet.
+      // Text-length weights are a deterministic fallback for SSR/tests and for
+      // measurements that cannot cover every populated section.
+      const measured = options.measuredSectionHeightsPx;
+      const hasMeasuredHeights =
+        !!measured &&
+        ["person", ...active].every((key) => {
+          const height = measured[key as CvLayoutSectionKey];
+          return typeof height === "number" && Number.isFinite(height) && height > 0;
+        });
+      const heightOf = (key: CvLayoutSectionKey) =>
+        hasMeasuredHeights ? measured![key]! : (weights.get(key) ?? 0);
+      const personWeight = heightOf("person");
+      const activeWeights = active.map(heightOf);
       const activeTotal = activeWeights.reduce((sum, value) => sum + value, 0);
       let bestSplit = 0;
       let bestCost = Number.POSITIVE_INFINITY;
@@ -316,7 +359,11 @@ export function buildCvPageFitPlan(
         const pageOneWeight = personWeight + before;
         const pageTwoWeight = activeTotal - before;
         const emptinessPenalty = split === 0 && active.length >= 3 ? 1.5 : 0;
-        const cost = Math.abs(pageOneWeight - pageTwoWeight) + emptinessPenalty;
+        // Aim just beyond the midpoint on the first page. Its introductory
+        // details should not leave an almost empty first sheet while all
+        // following short rubrics pile up on the second sheet.
+        const targetFirstPage = 0.55 * (personWeight + activeTotal);
+        const cost = 2 * Math.abs(pageOneWeight - targetFirstPage) + emptinessPenalty;
         if (cost < bestCost) {
           bestCost = cost;
           bestSplit = split;

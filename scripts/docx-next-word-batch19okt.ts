@@ -270,8 +270,16 @@ try {
     await page.evaluate(() => document.fonts.ready);
     if ("mode" in item) {
       const plan = await page.evaluate(async (mode) => {
-        const { buildCvPageFitPlan } = await import("/src/components/cv/page-fit.ts");
-        return buildCvPageFitPlan(JSON.parse(localStorage.getItem("lebenslauf:v1")!).data, mode);
+        const { buildCvPageFitPlan, measureCvPageFitSectionHeights } =
+          await import("/src/components/cv/page-fit.ts");
+        const sheet =
+          document.querySelector<HTMLElement>('main [data-dossier-document="cv"]')?.parentElement ??
+          null;
+        const measuredSectionHeightsPx =
+          mode === "two" ? measureCvPageFitSectionHeights(sheet) : undefined;
+        return buildCvPageFitPlan(JSON.parse(localStorage.getItem("lebenslauf:v1")!).data, mode, {
+          measuredSectionHeightsPx: measuredSectionHeightsPx ?? undefined,
+        });
       }, item.mode);
       if (!(await page.locator("[data-editor-action-menu]").isVisible()))
         await page.locator("button[data-editor-ready]").click();
@@ -298,6 +306,19 @@ try {
         ),
       );
     const beforeReload = await storage();
+    if ("mode" in item) {
+      // Keep an importable project of the actual fitted state, not only the
+      // untouched source fixture from before clicking the two-page preset.
+      const fittedCv = JSON.parse(beforeReload["lebenslauf:v1"] ?? "{}");
+      assert.ok(fittedCv.data?.sectionLayouts && fittedCv.design);
+      const fittedProject = structuredClone(project);
+      fittedProject.cv!.data = fittedCv.data;
+      fittedProject.cv!.design = fittedCv.design;
+      await writeFile(
+        path.join(folder, "fitted-project.json"),
+        JSON.stringify(fittedProject, null, 2),
+      );
+    }
     await page.reload({ waitUntil: "networkidle" });
     assert.deepEqual(await storage(), beforeReload, "Saved settings changed on reload");
     let webCvPages = 0;
@@ -310,6 +331,16 @@ try {
     ]) {
       await page.goto(base + route + query, { waitUntil: "networkidle" });
       await page.evaluate(() => document.fonts.ready);
+      if (label === "CV" && "mode" in item) {
+        // The live paginator uses measured React rows and may settle after
+        // network idle / font readiness. Do not capture an interim one-page DOM.
+        await page.waitForFunction(
+          (expected: number) =>
+            document.querySelectorAll("main [data-cv-page]").length === expected,
+          item.mode === "one" ? 1 : 2,
+          { timeout: 15000 },
+        );
+      }
       const root = page
         .locator(
           `main [data-dossier-document="${label === "CV" ? "cv" : label === "Letter" ? "letter" : "cover"}"]`,

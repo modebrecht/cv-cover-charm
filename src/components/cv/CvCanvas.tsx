@@ -32,6 +32,8 @@ import { CvCanvas as BaseCvCanvas } from "./CvCanvasBase";
 import { resolveCvRubricOptions } from "./citrus-rubric";
 import {
   buildCvPageFitPlan,
+  measureCvPageFitSectionHeights,
+  cvPageFitKeepsManualPosition,
   consumeCvPageFitMode,
   getCvPageFitMode,
   getCvPageFitRevision,
@@ -253,6 +255,7 @@ export function CvCanvas({
   const pageFitLayout = presentation.layoutChoice === "modern" ? "modern" : "classic";
   const pageFitMode = useSyncExternalStore(subscribeCvPageFit, getCvPageFitMode, () => null);
   const pageFitRevision = useSyncExternalStore(subscribeCvPageFit, getCvPageFitRevision, () => 0);
+  const geometryScopeRef = useRef<HTMLDivElement>(null);
   const localContact = useMemo(() => contactFromCv(props.data), [props.data]);
   const resolvedContact = useMemo(
     () => resolveCvChromeContact(localContact, chromeContact),
@@ -332,18 +335,28 @@ export function CvCanvas({
       if (!pageFitPlan) appliedPageFit.current = null;
       return;
     }
-    const requestKey = `${pageFitRevision}:${pageFitPlan.assignmentSignature}`;
+    const measuredPlan =
+      pageFitPlan.mode === "two"
+        ? buildCvPageFitPlan(props.data, "two", {
+            allowHalfWidth: pageFitLayout === "classic",
+            measuredSectionHeightsPx:
+              measureCvPageFitSectionHeights(geometryScopeRef.current) ?? undefined,
+          })
+        : pageFitPlan;
+    const requestKey = `${pageFitRevision}:${measuredPlan.assignmentSignature}`;
     if (appliedPageFit.current === requestKey) return;
     appliedPageFit.current = requestKey;
 
-    for (const key of Object.keys(pageFitPlan.pageBySection) as CvLayoutSectionKey[]) {
-      const page = pageFitPlan.pageBySection[key];
+    for (const key of Object.keys(measuredPlan.pageBySection) as CvLayoutSectionKey[]) {
+      // Absolute user-positioned sections must never be reset by a preset.
+      if (cvPageFitKeepsManualPosition(props.data, key)) continue;
+      const page = measuredPlan.pageBySection[key];
       if (!page) continue;
       props.onSectionLayout(key, {
         page,
-        width: pageFitPlan.widthBySection[key] ?? "full",
+        width: measuredPlan.widthBySection[key] ?? "full",
         positioning: "flow",
-        packing: pageFitPlan.packingBySection[key] ?? "rows",
+        packing: measuredPlan.packingBySection[key] ?? "rows",
         x: null,
         y: null,
         widthMm: null,
@@ -464,7 +477,6 @@ export function CvCanvas({
     "--dossier-motif-opacity": String(Math.max(0, Math.min(1, design.bgOpacity))),
   } as CSSProperties;
 
-  const geometryScopeRef = useRef<HTMLDivElement>(null);
   useLayoutEffect(() => {
     const scope = geometryScopeRef.current;
     if (!scope) return;
