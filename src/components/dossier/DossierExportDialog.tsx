@@ -540,12 +540,12 @@ export function DossierExportDialog({
             <p className="text-xs text-muted-foreground">
               Vollständiges DOCX-Testdossier mit Titelblatt, Anschreiben und CV
               aus dem gespeicherten Projekt. Nur QA, keine Produktfreigabe.
-              {coverChanged ? " Änderungen am Titelblatt müssen vor dem DOCX-Export gespeichert werden." : ""}
+              {coverChanged ? " Hinweis: Titelblatt und zuletzt übernommene CV-Kopfdaten unterscheiden sich." : ""}
             </p>
             <button
               type="button"
               onClick={() => void onCoverFamilyDocxNext()}
-              disabled={busy || coverChanged || missingParts.length > 0 || !letterState.readyToSend}
+              disabled={busy || missingParts.length > 0 || !letterState.readyToSend}
               className="mt-2 rounded-md border px-3 py-2 text-sm font-medium disabled:opacity-50"
             >
               {downloading ? "Dossier wird erstellt…" : "Ganzes DOCX-Testdossier herunterladen"}
