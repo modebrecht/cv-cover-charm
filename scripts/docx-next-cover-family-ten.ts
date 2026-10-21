@@ -353,9 +353,9 @@ try {
             "The circle is backed by a duplicate rectangular table border");
           assert(!nativeInitialsTable?.decoration?.fillColor,
             "The circle is blocked by a rectangular table background");
-          assert(Math.abs(nativePlaceholderPaint.xMm - authoredPhoto.style.x) < 0.01,
+          assert(Math.abs((nativePlaceholderPaint.xMm ?? NaN) - authoredPhoto.style.x) < 0.01,
             "Native circular photo frame X no longer follows saved cover geometry");
-          assert(Math.abs(nativePlaceholderPaint.yMm - authoredPhoto.style.y) < 0.01,
+          assert(Math.abs((nativePlaceholderPaint.yMm ?? NaN) - authoredPhoto.style.y) < 0.01,
             "Native circular photo frame Y no longer follows saved cover geometry");
         }
       }
