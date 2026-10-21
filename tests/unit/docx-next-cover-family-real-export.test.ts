@@ -17,13 +17,35 @@ describe("full saved-family native DOCX QA model", () => {
       expect(model.cover.blocks.find((block) =>
         block.id === "cover.photo.native-avatar")).toMatchObject({
           kind: "paragraph-frame",
-          surface: { diagnosticShapeFormat: "legacy-vml" },
+          wrapMode: "none",
+          surface: undefined,
         });
       expect(walkBlocks(model.cover.blocks).filter((block) =>
         block.id === "cover.photo.native-avatar")).toHaveLength(1);
       expect(model.letter.blocks.length).toBeGreaterThan(0);
       expect(model.cv.blocks.length).toBeGreaterThan(0);
       expect(snapshot).toEqual(before);
+    });
+    test(family + " serializes centered editable initials in real Word page frame", async () => {
+      const model = buildFullCoverFamilyQaModel(graphicCandidateFixture(family));
+      const blob = await renderDossierDocx(model, {
+        allowUnacceptedModelIssues: true,
+        rasterizeDecoration: async () => ({
+          bytes: paintPng({ color: "AABBCC" }),
+          widthPx: 2,
+          heightPx: 2,
+          extension: "png",
+          contentType: "image/png",
+        }),
+      });
+      const data = readZipEntries(new Uint8Array(await blob.arrayBuffer()));
+      const word = new TextDecoder().decode(data.find((part) =>
+        part.name === "word/document.xml")!.bytes);
+      expect(word).toContain('<w:framePr w:w="');
+      expect(word).toContain('w:wrap="none" w:vAnchor="page" w:hAnchor="page"');
+      expect(word).toContain('cover.photo.initials');
+      expect(word).toContain('<w:t xml:space="preserve">LM</w:t>');
+      expect(word).not.toContain('id="cover.photo.native-avatar-');
     });
     test(family + " retains uploaded photo without initials", () => {
       const snapshot = graphicCandidateFixture(family);
