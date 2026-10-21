@@ -424,3 +424,30 @@ No browser or Bun execution happened in this Chat environment. This is a
 real app integration path prepared for the 10-case batch, **not a successful
 export or release**. Production export remains unchanged and feature URL
 gated. Do not ask the user to test isolated assets.
+
+## QA saved-photo placement and unsaved-cover protection (21 October)
+
+The opt-in **real three-part application QA export** now uses
+`coverPhotoPlacement: "authored-page"` whenever there is a saved uploaded
+cover photo. In shared native primitives, this renders the image at the
+actual saved page x/y, with the source radius, ratio, zoom, x/y crop and
+border. `wrapMode: "none"` uses an anchored nonwrapping drawing rather than
+Word `wrapSquare` and avoids a normal paragraph after-gap. A lightweight
+flow slot continues to reserve the original hero area, without putting
+the photo bitmap into the semantic row table. This reduces the known
+photo-versus-Web source geometry mismatch in V03 and N03.
+
+Unsafe/out-of-page/relative photo geometry is rejected instead of silently
+clamped. A diagnostic test verifies these rejection gates, unique native
+image identity, saved positions, original crop settings and semantic slot.
+The 10-case full-application download runner now checks actual DOCX XML
+for page x/y in EMU, no-wrap and crop representation. It is not a Word
+visual acceptance until actual app downloads are produced.
+
+Additionally, if there are **unsaved changes to the current title page**,
+the QA download button is disabled with an explicit explanation. The
+export always reads saved content and must not quietly discard the draft.
+
+**Run status:** changes committed and source-checked; no Bun, full Vite app
+download, or Desktop Word test executed in this session. The normal
+production DOCX/PDF export is unchanged; no branch merge or Vercel deploy.
