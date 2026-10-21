@@ -51,10 +51,12 @@ describe("shared opt-in native cover photo placeholder", () => {
       // not the editable document body. Search package stories, not only document.xml.
       const paintStories = readZipEntries(bytes).filter((entry) =>
         /^word\/cover-header(?:-first)?\.xml$/.test(entry.name));
+      const expectedNativePaint = model.cover.pagePaintComposition === "single-asset"
+        ? 'name="cover.page-paint.first"'
+        : 'name="cover.photo.placeholder-paint"';
       expect(paintStories.some((entry) =>
-        new TextDecoder().decode(entry.bytes).includes(
-          'name="cover.photo.placeholder-paint"',
-        ))).toBe(true);
+        new TextDecoder().decode(entry.bytes).includes(expectedNativePaint),
+      )).toBe(true);
     });
 
     test(template + " preserves no-photo initials as editable native text", () => {
