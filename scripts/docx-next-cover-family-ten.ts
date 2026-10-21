@@ -12,6 +12,8 @@ import type { DossierProject } from "../src/lib/dossier-project";
 
 const out = path.resolve(process.argv[2] ?? "/tmp/docx-next-cover-family-ten");
 const appBase = process.env.DOCX_NEXT_APP_URL ?? "http://127.0.0.1:4173";
+// Explicitly diagnostic; never switches the actual application export path.
+const exportAvatarTrials = process.env.DOCX_NEXT_AVATAR_EXPERIMENT === "1";
 const require = createRequire(import.meta.url);
 const { chromium } = require(
   path.join(process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES!, "playwright"),
@@ -208,6 +210,66 @@ try {
       await writeFile(path.join(folder, "snapshot.json"), JSON.stringify(captured.snapshot, null, 2));
       await writeFile(path.join(folder, "default-native-model.json"),
         JSON.stringify(captured.model, null, 2));
+      let avatarTrial: {
+        status: "DIAGNOSTIC_DOCX_GENERATED" | "NOT_REQUESTED";
+        sha256?: string;
+        sizeBytes?: number;
+        mode?: "single-owner" | "photo-flow";
+        nativeTextShape?: boolean;
+        file?: string;
+      } = { status: "NOT_REQUESTED" };
+      if (exportAvatarTrials) {
+        const result = await page.evaluate(async (snapshot: typeof captured.snapshot) => {
+          const { buildDossierDocModel } = await import("/src/lib/docx-next/build-model.ts");
+          const { renderDossierDocx } = await import("/src/lib/docx-next/renderer.ts");
+          const { readZipEntries } = await import("/src/lib/docx-next/zip.ts");
+          const candidate = !snapshot.cover.data.foto;
+          const model = buildDossierDocModel(snapshot,
+            candidate ? { nativeAvatarComposition: "single-owner" } : {});
+          const bytes = new Uint8Array(await (await renderDossierDocx(model, {
+            // Explicitly allow the isolated Word shape candidate; NO production gate change.
+            allowUnacceptedModelIssues: true,
+          })).arrayBuffer());
+          const part = readZipEntries(bytes).find((entry) => entry.name === "word/document.xml");
+          if (!part) throw Error("Diagnostic DOCX missing the actual Word document part");
+          const xml = new TextDecoder().decode(part.bytes);
+          const hasAvatar = xml.includes('name="cover.photo.native-avatar"');
+          if (candidate) {
+            if (!hasAvatar || !xml.includes("<wps:txbx><w:txbxContent>") ||
+                !xml.includes("cover.photo.initials") || !xml.includes("<a:arcTo"))
+              throw Error("Single-owner DOCX is missing editability or round geometry");
+            if (xml.includes('name="cover.photo.placeholder-paint"'))
+              throw Error("Diagnostic Word avatar still has two independent painted owners");
+          } else if (!xml.includes('name="cover.photo"') || hasAvatar) {
+            throw Error("Saved uploaded cover photo was lost or acquired a placeholder");
+          }
+          // Browser returns the *actual* native DOCX bytes, not a screenshot or stub.
+          const blob = new Blob([bytes.slice().buffer],
+            { type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" });
+          const base64 = await new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(String(reader.result).split(",")[1]);
+            reader.onerror = () => reject(reader.error);
+            reader.readAsDataURL(blob);
+          });
+          return { base64, mode: candidate ? "single-owner" : "photo-flow",
+            nativeTextShape: hasAvatar };
+        }, captured.snapshot);
+        const bytes = Buffer.from(result.base64, "base64");
+        assert(bytes.length > 2000 && bytes.subarray(0, 2).toString() === "PK",
+          "Diagnostic DOCX is not a real ZIP package");
+        const name = "diagnostic-avatar.docx";
+        await writeFile(path.join(folder, name), bytes);
+        avatarTrial = {
+          status: "DIAGNOSTIC_DOCX_GENERATED",
+          sha256: sha256(bytes), sizeBytes: bytes.length,
+          mode: result.mode as "single-owner" | "photo-flow",
+          nativeTextShape: result.nativeTextShape, file: name,
+        };
+        await writeFile(path.join(folder, "diagnostic-avatar.json"),
+          JSON.stringify({ ...avatarTrial, warning:
+            "Experimental DOCX. Native Microsoft Word edit/save/reopen not accepted." }, null, 2));
+      }
       const web = await root.evaluate((element: HTMLElement) => {
         const sheet = element.getBoundingClientRect();
         const mm = (target: DOMRect) => ({
@@ -384,7 +446,8 @@ try {
           : null,
         webBadgeCount: web.filter((node) => node.badgeRect).length,
         modelIssues: captured.model.issues,
-        nativeEditableExportActuallyPerformed: false,
+        nativeEditableExportActuallyPerformed: avatarTrial.status === "DIAGNOSTIC_DOCX_GENERATED",
+        avatarTrial,
       };
       await writeFile(path.join(folder, "fidelity-gaps.json"), JSON.stringify(gaps, null, 2));
       await root.screenshot({ path: path.join(folder, "web-cover.png"), animations: "disabled" });

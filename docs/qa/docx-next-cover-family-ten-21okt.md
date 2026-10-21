@@ -228,3 +228,27 @@ editability markup, and that the standard gate still rejects the candidate.
 Remaining acceptance: app exports, real desktop Word edit/save/reopen, visual
 position, correct fonts and the complete 10-case specialty matrix. Do not
 activate or merge the candidate based on markup assertions alone.
+
+
+## Explicit experimental DOCX output (not a production app export)
+
+The 10-case browser runner now supports opt-in DOCX generation with:
+
+```bash
+DOCX_NEXT_AVATAR_EXPERIMENT=1 bun scripts/docx-next-cover-family-ten.ts /tmp/docx-next-cover-family-ten
+```
+
+For the **eight** saved-state cases without a cover photo it constructs the
+new `single-owner` model, calls the real `renderDossierDocx` serializer
+in Chromium with the deliberate diagnostic allowance, verifies the generated
+`word/document.xml` for an editable WordprocessingShape and native circular
+geometry, and writes the actual `diagnostic-avatar.docx` with size + SHA-256.
+For the **two** uploaded-photo cases it uses the standard flow composition,
+requires the actual cover image and rejects duplicate initials/shape.
+When the environment switch is absent, the original default runner behavior
+remains untouched and does not generate a diagnostic DOCX.
+
+The resulting files are **experimental DOCX packages**, **not productive UI
+downloads**, not pixel comparisons and not Desktop Word approval. The runner
+cannot itself prove Save/Reopen or visual geometry. This feature must not
+enable a product export switch or imply all ten are accepted.
