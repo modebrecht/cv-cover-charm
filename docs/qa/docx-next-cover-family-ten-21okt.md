@@ -171,3 +171,26 @@ semantic-presence gates, **not** native export availability, target-Word
 rounded-avatar geometry or typography accuracy.
 
 Execution remains pending. No DOCX was produced by writing this test.
+
+
+## Circular placeholder artwork (native text retained)
+
+For an unanchored square/rounded photo frame with no uploaded picture, the
+generic composer now paints a **circular native nonsemantic decoration** at the
+authored source coordinates, and keeps the initials in the existing separate
+**editable Word table**. The table has transparent fill and no rectangular
+border when the circular artwork is used. This removes the known **square
+background/border** mismatch without turning initials into an image. The
+shared decoration renderer already provides circle clipping, optional solid
+fill, border, original palette colors and source alpha.
+
+If a user sets a relative `follows` / `above` or bottom anchor, the system
+retains the rectangular fallback instead of fabricating final coordinates:
+**roundness and text alignment in desktop Word are still unverified**. Because
+the text remains in flow while the circle paint uses the saved page position,
+these are not declared visually identical until the actual Word export
+passes. Explicit hidden and uploaded-photo paths are unaffected.
+
+Regression cases inspect all three families, that paint is independent of
+editable initials, preserve the fallback, and request the standard renderer
+with a test raster adapter. Tests have not been executed here.

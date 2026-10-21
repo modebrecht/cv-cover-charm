@@ -1,11 +1,54 @@
 import { describe, expect, test } from "bun:test";
 import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
 import { walkBlocks } from "../../src/lib/docx-next/model";
+import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
+import { readZipEntries } from "../../src/lib/docx-next/zip";
+import { paintPng } from "../../src/lib/docx-next/artwork";
 import { graphicCandidateFixture } from "../fixtures/docx-next/graphic-candidate";
 
 /** The saved Web family states without a picture display native editable initials. */
 describe("shared opt-in native cover photo placeholder", () => {
   for (const template of ["verlauf", "neon", "freundlich"] as const) {
+    test(template + " keeps round paint separate from editable initials", async () => {
+      const input = graphicCandidateFixture(template);
+      const model = buildDossierDocModel(input);
+      const paint = model.cover.blocks.find(
+        (block) => block.id === "cover.photo.placeholder-paint",
+      );
+      expect(paint).toMatchObject({
+        kind: "decorative-shape",
+        shape: "circle",
+        widthMm: template === "verlauf" ? 54 : template === "neon" ? 50 : 60,
+        heightMm: template === "verlauf" ? 54 : template === "neon" ? 50 : 60,
+      });
+      const holder = walkBlocks(model.cover.blocks).find(
+        (block) => block.id === "cover.photo",
+      );
+      expect(holder).toMatchObject({
+        kind: "table",
+        decoration: { borderWidthMm: 0 },
+      });
+      if (holder?.kind !== "table") throw Error("No editable initials table");
+      expect(holder.decoration?.fillColor).toBeUndefined();
+      const bytes = new Uint8Array(await (await renderDossierDocx(model, {
+        rasterizeDecoration: async () => ({
+          bytes: paintPng({ color: "FFFFFF" }),
+          widthPx: 1,
+          heightPx: 1,
+          extension: "png" as const,
+          contentType: "image/png" as const,
+        }),
+      })).arrayBuffer());
+      const word = readZipEntries(bytes).find(
+        (entry) => entry.name === "word/document.xml",
+      )!;
+      const xml = new TextDecoder().decode(word.bytes);
+      expect(xml).toContain("LM");
+      expect(xml).toContain("cover.photo");
+      // Artwork and native editable text must not be flattened together.
+      expect(xml).toContain('name="cover.photo.placeholder-paint"');
+    });
+
     test(template + " preserves no-photo initials as editable native text", () => {
       const input = graphicCandidateFixture(template);
       const source = structuredClone(input);
@@ -33,6 +76,21 @@ describe("shared opt-in native cover photo placeholder", () => {
         source: "synthetic-photo-data",
       });
       expect(blocks.find((block) => block.id === "cover.photo.initials")).toBeUndefined();
+    });
+    test(template + " keeps manually relative-positioned initials safe", () => {
+      const input = graphicCandidateFixture(template);
+      const block = input.cover.blocks.find((item) => item.id === "foto")!;
+      block.style.follows = "name";
+      const model = buildDossierDocModel(input);
+      expect(model.cover.blocks.find(
+        (item) => item.id === "cover.photo.placeholder-paint",
+      )).toBeUndefined();
+      const holder = walkBlocks(model.cover.blocks).find(
+        (item) => item.id === "cover.photo",
+      );
+      expect(holder).toMatchObject({ kind: "table" });
+      if (holder?.kind !== "table") throw Error("No fallback table");
+      expect(holder.decoration?.borderWidthMm).toBeGreaterThan(0);
     });
     test(template + " does not resurrect an explicitly hidden photo placeholder", () => {
       const input = graphicCandidateFixture(template);

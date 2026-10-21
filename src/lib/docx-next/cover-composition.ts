@@ -169,6 +169,44 @@ export function composeCover(
             : Math.max(0, Math.min(
                 maxAvailable - widthMm, block.style.x - page.margins.left,
               ));
+          // A Word table can only shade a rectangle. For a genuinely round
+          // source placeholder, put nonsemantic circular paint at its saved
+          // page position and keep only editable initials inside the table.
+          // For relative anchors (whose final Y requires font layout), keep
+          // the conservative table fallback instead of guessing a page Y.
+          const style = block.style;
+          const roundPaint =
+            (style.radius ?? 0) >= 999 &&
+            !style.follows &&
+            !style.above &&
+            !style.anchorBottom;
+          if (roundPaint) {
+            const ink = color(
+              cover.colors[style.color] ?? style.color,
+              coverContext.ink,
+            );
+            const borderWidth = style.borderWidth ?? 25.4 / 96;
+            coverDecoration.push({
+              kind: "decorative-shape",
+              id: id + ".placeholder-paint",
+              semanticText: false,
+              clipToPage: true,
+              shape: "circle",
+              xMm: style.x,
+              yMm: style.y,
+              widthMm,
+              heightMm,
+              radiusMm: 0,
+              opacity: style.opacity,
+              fill: style.fill
+                ? { color: color(
+                    cover.colors[style.fill] ?? style.fill,
+                    coverContext.paper ?? "FFFFFF",
+                  ) }
+                : undefined,
+              stroke: { color: ink, widthMm: borderWidth },
+            });
+          }
           const paragraphs = textElement(
             {
               ...block,
@@ -197,7 +235,7 @@ export function composeCover(
             indentMm,
             rows: [{ cells: [paragraphs], keepTogether: true }],
             decoration: {
-              ...(block.style.fill
+              ...(!roundPaint && block.style.fill
                 ? { fillColor: color(
                     cover.colors[block.style.fill] ?? block.style.fill,
                     coverContext.paper ?? "FFFFFF",
@@ -206,7 +244,7 @@ export function composeCover(
               borderColor: color(
                 cover.colors[block.style.color] ?? block.style.color, coverContext.ink,
               ),
-              borderWidthMm: block.style.borderWidth ?? 25.4 / 96,
+              borderWidthMm: roundPaint ? 0 : (block.style.borderWidth ?? 25.4 / 96),
               paddingXMm: 0,
               paddingYMm,
             },
