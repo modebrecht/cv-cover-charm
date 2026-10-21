@@ -18,18 +18,7 @@ import { buildDossierDocModel, type DossierAppSnapshot } from "@/lib/docx-next/b
 import { renderDossierDocx } from "@/lib/docx-next/renderer";
 import { walkBlocks } from "@/lib/docx-next/model";
 
-/** Three unaccepted cover families. This flag never changes normal PDF/DOCX export. */
-const families = ["verlauf", "neon", "freundlich"] as const;
-export function isCoverFamilyDocxQaTemplate(
-  value: unknown,
-): value is (typeof families)[number] {
-  return typeof value === "string" && families.some((family) => family === value);
-}
-
-export function coverFamilyDocxQaEnabled() {
-  return typeof window !== "undefined" &&
-    new URLSearchParams(window.location.search).get("docx-next-cover-family-qa") === "1";
-}
+import { coverFamilyDocxQaEnabled, isCoverFamilyDocxQaTemplate } from "./docx-next/cover-family-visibility";
 
 /** Only the explicit developer QA path may build a full unaccepted family dossier. */
 export function buildFullCoverFamilyQaModel(snapshot: DossierAppSnapshot) {

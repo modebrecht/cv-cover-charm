@@ -23,7 +23,7 @@ import {
 } from "@/lib/dossier-project";
 import { nativePrintUiEnabled } from "@/lib/native-print-visibility";
 import { briefDocxNextUiEnabled } from "@/lib/docx-next/brief-visibility";
-import { coverFamilyDocxQaEnabled, isCoverFamilyDocxQaTemplate } from "@/lib/cover-family-docx-next-export";
+import { coverFamilyDocxQaEnabled, isCoverFamilyDocxQaTemplate } from "@/lib/docx-next/cover-family-visibility";
 import {
   designDocxNextUiEnabled,
   designNativeBadgeUiEnabled,

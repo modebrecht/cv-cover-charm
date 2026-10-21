@@ -59,7 +59,6 @@ import {
 } from "@/components/cover/layouts";
 import { downloadBlob, safeFileName } from "@/lib/download";
 import { downloadCombinedDossierPdf } from "@/lib/dossier-pdf";
-import { downloadSavedCoverFamilyDocxNext } from "@/lib/cover-family-docx-next-export";
 import type { PdfAdvisoryConsent } from "@/lib/pdf-preflight";
 import { normalizeCssZoomForHtml2Canvas } from "@/lib/html2canvas-export";
 import {
@@ -933,6 +932,9 @@ function Titelblatt() {
     setSelected(null);
     setDownloading(true);
     try {
+      // Keep the large editable DOCX serializer out of the normal cover UI bundle.
+      const { downloadSavedCoverFamilyDocxNext } =
+        await import("@/lib/cover-family-docx-next-export");
       await downloadSavedCoverFamilyDocxNext();
       setStatus({ kind: "ok", text: "Vollständiges DOCX-Dossier (QA) heruntergeladen" });
     } catch (error) {
