@@ -663,7 +663,13 @@ export function buildDossierDocModel(
       {
         role: "heading",
         beforeMm: sectionGapMm,
-        afterMm: ((cd.sectionTitleMarginBottomPx ?? 7) * 25.4) / 96,
+        // Match default-pagination-density.css in the shared classic reading flow.
+        // The old 7 px fallback added 1.35 mm per heading to Word. Keep an
+        // explicit user value (including zero); null in older JSON means unset.
+        afterMm:
+          cd.sectionTitleMarginBottomPx == null && readingRows
+            ? 0.5
+            : ((cd.sectionTitleMarginBottomPx ?? 7) * 25.4) / 96,
         keepNext: true,
         keepLines: true,
         ...(cd.headingRule !== "none" && template.cv.headingRule ? { ruleColor: cvAccent } : {}),

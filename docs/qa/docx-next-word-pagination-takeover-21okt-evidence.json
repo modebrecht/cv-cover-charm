@@ -1,0 +1,129 @@
+{
+  "base": "99e053068bbe28f39fda3861591be997b1bb0b09",
+  "branch": "fix/docx-next-word-pagination-21okt",
+  "scope": "Supplementary native model serialization and LibreOffice reproduction; not current full-app export or Desktop Word acceptance",
+  "unitTests": {
+    "passed": 87,
+    "failed": 0,
+    "suites": 10
+  },
+  "focusedTypecheck": "PASS",
+  "desktopWord": "UNVERIFIED",
+  "fullAppExport": "NOT_RUN",
+  "cases": [
+    {
+      "family": "modern",
+      "modelChanges": [
+        [
+          "/cv/blocks/3/heading/afterMm",
+          1.852083333333333,
+          0.5
+        ],
+        [
+          "/cv/blocks/4/heading/afterMm",
+          1.852083333333333,
+          0.5
+        ],
+        [
+          "/cv/blocks/5/heading/afterMm",
+          1.852083333333333,
+          0.5
+        ],
+        [
+          "/cv/blocks/6/heading/afterMm",
+          1.852083333333333,
+          0.5
+        ],
+        [
+          "/cv/blocks/7/heading/afterMm",
+          1.852083333333333,
+          0.5
+        ],
+        [
+          "/cv/blocks/8/heading/afterMm",
+          1.852083333333333,
+          0.5
+        ],
+        [
+          "/cv/blocks/9/heading/afterMm",
+          1.852083333333333,
+          0.5
+        ]
+      ],
+      "differentPackageParts": [
+        "word/document.xml"
+      ],
+      "identicalPackagePartCount": 27,
+      "fieldControls": 82,
+      "allFieldsAndTextExact": true,
+      "beforeCvPages": 2,
+      "afterCvPages": 1,
+      "referenceOnFirstPageAfter": true,
+      "sha256": {
+        "modern-baseline.docx": "67cf286e255c754b0e226c073a40e7f344a568afc6499af10e74199c92ac1934",
+        "modern-candidate.docx": "83db664f9e29d1916d618fd12ebbb06a72153bbd4eed8ba0e640ed8417ea0035"
+      }
+    },
+    {
+      "family": "brief",
+      "modelChanges": [
+        [
+          "/cv/blocks/3/heading/afterMm",
+          1.852083333333333,
+          0.5
+        ],
+        [
+          "/cv/blocks/4/heading/afterMm",
+          1.852083333333333,
+          0.5
+        ],
+        [
+          "/cv/blocks/5/heading/afterMm",
+          1.852083333333333,
+          0.5
+        ],
+        [
+          "/cv/blocks/6/heading/afterMm",
+          1.852083333333333,
+          0.5
+        ],
+        [
+          "/cv/blocks/7/heading/afterMm",
+          1.852083333333333,
+          0.5
+        ],
+        [
+          "/cv/blocks/8/heading/afterMm",
+          1.852083333333333,
+          0.5
+        ],
+        [
+          "/cv/blocks/9/heading/afterMm",
+          1.852083333333333,
+          0.5
+        ]
+      ],
+      "differentPackageParts": [
+        "word/document.xml"
+      ],
+      "identicalPackagePartCount": 14,
+      "fieldControls": 80,
+      "allFieldsAndTextExact": true,
+      "beforeCvPages": 2,
+      "afterCvPages": 1,
+      "referenceOnFirstPageAfter": true,
+      "sha256": {
+        "brief-baseline.docx": "cc5e6b0a2f801b31487c2f60db5390e2f638108cd45c73de0f88f76d41667a6f",
+        "brief-candidate.docx": "c8a8c097da5b4ccb5ccbf6fad4837d5f14836c23d5590c3b0e498c6e04d4cbc9"
+      }
+    }
+  ],
+  "inputProject": {
+    "path": "docs/qa/docx-next-modern-defaults-footer-18okt/project.json",
+    "sha256": "8f0e339f632d34ab554efe4e7e9d6bc7b57cb31bf07f0469edbcef8110aa7dac"
+  },
+  "productionFile": {
+    "path": "src/lib/docx-next/build-model.ts",
+    "sha256": "a66daf220fd2f4221712ac508acef7e3ca5723eef73da597eef16edc1bf9d9cc"
+  }
+}
