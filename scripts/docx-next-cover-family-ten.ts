@@ -278,6 +278,11 @@ try {
         id?: string;
         kind?: string;
         widthMm?: number;
+        heightMm?: number;
+        xMm?: number;
+        yMm?: number;
+        shape?: string;
+        decoration?: { borderWidthMm?: number; fillColor?: string };
       }> {
         if (Array.isArray(value)) return value.flatMap(walk);
         if (!value || typeof value !== "object") return [];
@@ -287,6 +292,11 @@ try {
             id?: string;
             kind?: string;
             widthMm?: number;
+            heightMm?: number;
+            xMm?: number;
+            yMm?: number;
+            shape?: string;
+            decoration?: { borderWidthMm?: number; fillColor?: string };
           }] : []),
           ...walk(node.blocks),
           ...walk(node.rows),
