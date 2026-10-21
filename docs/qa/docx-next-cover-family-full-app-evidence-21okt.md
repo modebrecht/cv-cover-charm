@@ -218,3 +218,35 @@ The earlier genuine full-app and Writer evidence and **NO-GO** remain.
 Writer evidence never substitutes for Microsoft Word edit/save/reopen
 and the output report intentionally says \`PASS_WITH_LIMITATIONS\`, not
 product approval.
+
+
+## Consolidation: actual ten-case Writer visual report (same branch)
+
+A separate executed Writer visual-evidence packet has since been committed
+under \`docs/qa/docx-next-cover-graphic-visual-21okt/\`, including five
+representative **full-document** Web/Writer JPG comparisons and
+\`writer-visual-report.json\`.
+
+The executed report has **10/10 four-page Writer documents**. Its
+all-page-one RGB pixel similarity ranges from **98.91% to 99.26%**
+at equal 686×970 resolution; **8/8 no-photo initial pairs** report
+measured centers within 0.09 mm on each axis, while V03/N03 are the
+uploaded-photo cases. These are report-measured results, **not** a
+substitute for opening the images, inspecting all text/photo contours,
+or Desktop Microsoft Word Save/Reopen. The image similarity is a broad
+mean RGB metric heavily weighted by background pixels; do not silently
+translate it into 99% semantic fidelity. The earlier notation that
+only V01 was visually inspected refers to the first session; it is
+superseded for the set of measured cases by this later evidence packet.
+
+The newly committed \`scripts/docx-next-cover-writer-visual.py\` is
+an **independent, stricter future QA harness**, not the producer of
+this already published ten-case report. It explicitly flags missing
+major cover text, gross x/y drift, missing avatar glyphs, or an
+unexpected page count; its own ten-case run remains unexecuted because
+fresh sandbox creation is currently blocked by the Vercel storage
+quota. The historic and newly added source evidence must not be
+combined into an imaginary new test execution.
+
+**Status: Writer visual evidence 10/10; Desktop Microsoft Word 0/10;
+production still NO-GO.** No CI rerun, branch merge, or deployment.
