@@ -342,5 +342,45 @@
     "CI dispatch",
     "production export switch",
     "LibreOffice engine patch"
-  ]
+  ],
+  "remoteVerification": {
+    "codeCommit": "90216cb21ffeaf3b555ebde48b5e65c7bc64f602",
+    "branch": "fix/docx-next-shared-integration-22okt",
+    "deploymentId": "dpl_J1oekFwwk8BZZaSY4xN6ym4NAoRp",
+    "deploymentUrl": "https://cv-cover-charm-4tvjpk8js-modebrechts-projects.vercel.app",
+    "dashboardUrl": "https://vercel.com/modebrechts-projects/cv-cover-charm/J1oekFwwk8BZZaSY4xN6ym4NAoRp",
+    "target": "PREVIEW",
+    "source": "git",
+    "readyState": "READY",
+    "readyAt": "2026-10-22T09:50:24.718Z",
+    "build": {
+      "status": "PASS",
+      "command": "bun run build / vite build",
+      "clientBuildSeconds": 5.96,
+      "ssrBuildSeconds": 1.81,
+      "outputListingReviewed": true,
+      "nitroOutputManifestGenerated": true,
+      "artifactContentInspected": false
+    },
+    "httpSmoke": {
+      "status": "UNVERIFIED",
+      "vercelConnector": "MCP request timed out",
+      "webFetch": "URL is not accessible via this tool",
+      "productFailureInferred": false
+    },
+    "appExports": "NOT_RUN",
+    "wordAcceptance": "UNVERIFIED",
+    "agentTriggeredDeployment": false,
+    "agentTriggeredCiDispatch": false,
+    "reviewedLogStatements": [
+      "Cloning github.com/modebrecht/cv-cover-charm (Branch: fix/docx-next-shared-integration-22okt, Commit: 90216cb)",
+      "Running \"bun run build\"",
+      "$ vite build",
+      "✓ built in 5.96s",
+      "✓ built in 1.81s",
+      "Generated .vercel/output/nitro.json",
+      "Build Completed in .vercel/build-output [16s]",
+      "Deployment completed"
+    ]
+  }
 }

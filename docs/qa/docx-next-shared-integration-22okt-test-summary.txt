@@ -7,3 +7,12 @@ Ran 206 tests across 27 files. [1.73s]
 
 Focused strict TypeScript: PASS.
 Original build process: exit code 0 observed; log and generated artifacts not inspected after runtime disconnection.
+
+REMOTE BUILD VERIFICATION (existing deployment, read-only)
+Code commit: 90216cb21ffeaf3b555ebde48b5e65c7bc64f602
+Vercel: dpl_J1oekFwwk8BZZaSY4xN6ym4NAoRp, preview, READY
+Client build: PASS (5.96s); SSR build: PASS (1.81s)
+Output generated and listed; artifact contents not inspected.
+Preview HTTP fetch: UNVERIFIED (connector timeout; separate web access unavailable).
+Combined app exports, rendering and Word acceptance: still pending.
+No deployment or CI dispatch triggered by this verification.

@@ -2,7 +2,7 @@
 
 22. Oktober 2026. Branch: `fix/docx-next-shared-integration-22okt`. Basis: aktueller Fidelity-Kopf `7be40063856d1376acb60e917fe85599a6033dad`.
 
-Die gesicherten Sidebar-, Pagination-, Seitenflächen- und Dokument-Skalierungs-Fixes sind hier zu einem gemeinsamen Quellstand zusammengeführt. Die lokale Projektion bestand 206 gezielte Tests und eine fokussierte strikte Typprüfung. Nach dem Ausfall der Ausführungsumgebung wurde die gleiche dokumentierte Patchfolge über die verifizierten GitHub-Quellen erneut zusammengesetzt und auf diesem Branch gesichert. Neue App-Exporte und eine vollständige Produktionsfreigabe sind damit noch nicht nachgewiesen.
+Die gesicherten Sidebar-, Pagination-, Seitenflächen- und Dokument-Skalierungs-Fixes sind hier zu einem gemeinsamen Quellstand zusammengeführt. Die lokale Projektion bestand 206 gezielte Tests und eine fokussierte strikte Typprüfung. Nach dem Ausfall der Ausführungsumgebung wurde die gleiche dokumentierte Patchfolge über die verifizierten GitHub-Quellen erneut zusammengesetzt und auf diesem Branch gesichert. Für den veröffentlichten Code-Commit `90216cb21ffeaf3b555ebde48b5e65c7bc64f602` ist inzwischen auch der vorhandene Vercel-Build anhand seiner Metadaten und Buildprotokolle bestätigt. Neue App-Exporte und eine vollständige Produktionsfreigabe sind damit noch nicht nachgewiesen.
 
 ## Gepinnte Quellen
 
@@ -33,6 +33,7 @@ Die CV-Seitenfläche ist seitengebundene Dekoration. Tabellenbreiten, Content Co
 | Unveränderte Übernahme der beiden neuen Quell-Checkpoints | 7 betroffene Quell-/Testdateien exakt gleich; Builder bewusst kombiniert |
 | Repository-Lockdatei | Originalabhängigkeiten eingefroren installiert, 463 Pakete |
 | Originaler Vite-Buildbefehl | Prozess meldete Exit 0; Buildlog und Artefakte danach nicht mehr lesbar |
+| Vorhandener Vercel-Build für Code-Commit `90216cb` | PASS: Client und SSR gebaut, Ausgabe erzeugt, Preview READY |
 | Neue UI-Downloads des integrierten Branches | Noch nicht ausgeführt |
 | Neues natives Rendering des integrierten Branches | Noch nicht ausgeführt |
 | Microsoft Word für diesen gemeinsamen Stand | Unbestätigt |
@@ -42,6 +43,12 @@ Die erste Testausführung enthielt zwei Modul-Ladefehler wegen der fehlenden jsP
 Die Auswahl umfasst die vorhandenen CV-/Pagination-/Modelltests, Sidebar-/Foto-/Tabellen-Tests, die kombinierte Cover-/Sidebar-Ownership-Prüfung und angrenzende Cover-/Brief-Tests. Das Repository hat weitere Unit-Testdateien; eine vollständige Repository-Suite wird nicht als bestanden erklärt.
 
 Nach Installation der unveränderten Repository-Lockdatei wurde `vite build` mit der Originalkonfiguration gestartet. Die Prozessschnittstelle lieferte Exit 0. Beim anschliessenden Lesen des Protokolls brach die Verbindung ab; danach meldet die Umgebung ausdrücklich `environment_offline`. Deshalb wird der Build hier nur als erfolgreich beendeter Prozess, nicht als vollständig geprüfter Produktionsbuild mit inspizierten Artefakten geführt.
+
+### Nachträglich bestätigter Remote-Build
+
+Die bestehenden Vercel-Metadaten nennen exakt `90216cb21ffeaf3b555ebde48b5e65c7bc64f602` und `fix/docx-next-shared-integration-22okt`; Ziel ist eine Preview, nicht Produktion. Das vorhandene Deployment `dpl_J1oekFwwk8BZZaSY4xN6ym4NAoRp` ist `READY`. Die Protokolle bestätigen `bun run build` / `vite build`, einen erfolgreichen Client-Build in 5,96 Sekunden, SSR in 1,81 Sekunden, erzeugtes `nitro.json`, `Build Completed` und `Deployment completed`. Damit ist der Build-Nachweis für diesen Code-Stand geschlossen. Die Dateien der Ausgabe wurden nicht inhaltlich inspiziert; Bundle-Auflistungen ersetzen keine Exportprüfung.
+
+Der direkte Preview-Abruf über den Vercel-Connector endete mit einem Timeout. Ein separater Web-Abruf konnte die URL ebenfalls nicht erreichen. Das belegt keine Störung der Anwendung und keine erfolgreiche Browser-Prüfung. Frische UI-Downloads, natives Rendering und die Word-Abnahme dieses gemeinsamen Standes bleiben offen. Es wurden nur bestehende Deployment-Daten gelesen; weder Redeploy noch CI-Dispatch oder eine Produktionsänderung wurden ausgelöst. Der folgende Dokumentations-Commit ändert den geprüften Produktcode nicht.
 
 Die Rekonstruktion nach dem Ausfall nutzt dieselben drei veröffentlichten Patches in derselben Reihenfolge und die oben beschriebene gezielte Builder-Auflösung. Die 17 benötigten Basis-Blobs wurden unabhängig gegen ihre Git-IDs geprüft. Die veröffentlichten Dateihashes stehen im [Integrationsnachweis](docx-next-shared-integration-22okt-evidence.json). Der vollständige lokale Baum konnte nach dem Ausfall nicht erneut ausgelesen werden.
 
@@ -54,8 +61,8 @@ Die vollständige Sidebar-Geometrie, Bildbearbeitbarkeit, All-39-Fidelity und al
 ## Nächster ausführbarer Schritt
 
 1. Diesen gepinnten Integrationsbranch in einer wieder verfügbaren Laufzeit laden und die Quellhashes aus dem Nachweis prüfen.
-2. Originale Typ-/Buildprüfungen mit der Lockdatei vollständig protokollieren und die Build-Artefakte kontrollieren.
+2. Mit der unveränderten Lockdatei eine lauffähige Browser-Umgebung herstellen. Der bestehende erfolgreiche Remote-Build bleibt dem Code-Commit `90216cb` zugeordnet.
 3. Einen gebündelten App-Smoke ausführen: Modern 05 ohne Seitenanpassungsaktion, Modern 02 und Brief 12 mit ihren bestehenden Seitenaktionen sowie die bereits problematischen Sidebar-Fotofälle 04/05 und eine Fortsetzung. Texte, Controls, Originalbilder und Seitendekoration im gemeinsamen Paket prüfen.
 4. Erst danach einen konsolidierten Word-Kandidaten bereitstellen. Keine Wiederholung einzelner bereits abgenommener Zwischenpakete.
 
-**Status: gemeinsamer Code-Checkpoint veröffentlicht, lokale gezielte Tests bestanden, integrierte App-/Word-Abnahme offen.** Kein Merge nach `dev`, `main`, `render` oder in die aktiven Fidelity-/Reparaturbranches. Kein Deployment, CI-Dispatch, Produktionsschalter oder Engine-Patch.
+**Status: gemeinsamer Code-Checkpoint veröffentlicht, 206 gezielte Tests und bestehender Remote-Build bestanden, integrierte App-/Word-Abnahme offen.** Kein Merge nach `dev`, `main`, `render` oder in die aktiven Fidelity-/Reparaturbranches. Kein manuell ausgelöstes Deployment, CI-Dispatch, Produktionsschalter oder Engine-Patch. Die bestehende Vercel-Preview wurde automatisch aus dem Git-Commit erzeugt.
