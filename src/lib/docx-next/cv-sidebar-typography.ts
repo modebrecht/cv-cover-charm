@@ -10,6 +10,8 @@ import {
 import { interiorMetricsKey } from "./interior-metrics";
 import { resolveDossierChromeSnapshot } from "@/lib/dossier-resolved-chrome";
 import { resolveCvRubricOptions } from "@/components/cv/citrus-rubric";
+import { cvFrameFor, cvSurface } from "@/components/cv/archetype";
+import { MODERN_SHEET_CIRCLE } from "@/components/dossier/sheet-geometry";
 import {
   DEFAULT_DOSSIER_CHROME_STATE,
   effectiveDossierHeaderModeForOptions,
@@ -24,7 +26,7 @@ export function applyCvSidebarTypography(
   if (
     part.id !== "cv" ||
     part.layout.mode !== "sidebar" ||
-    metrics.version !== 1 ||
+    metrics.version !== 2 ||
     metrics.sourceKey !== interiorMetricsKey(source) ||
     !metrics.profile.startsWith("brief-sans-v1;")
   )
@@ -146,6 +148,13 @@ export function applyCvSidebarTypography(
       p.list = "bullet";
       p.listGroupId = p.id.split(":")[0] + ".list";
       p.listIndentMm = field.listIndentMm;
+      if (
+        !field.listMarkerStyle ||
+        !/^[A-F0-9]{6}$/.test(field.listMarkerStyle.color) ||
+        typeof field.listMarkerStyle.bold !== "boolean"
+      )
+        fail(p.id);
+      p.listMarkerStyle = { ...field.listMarkerStyle! };
     }
     const heading = metrics.headings[p.id];
     if (p.id.startsWith("cv.section.") && p.id.endsWith(".heading") && !heading)
@@ -353,6 +362,95 @@ export function applyCvSidebarTypography(
     }),
   );
 
+  // Page motifs sit behind the reading plane and the opaque rail in the App.
+  // Keep them as decoration; no semantic text or photo is flattened into paint.
+  const railWidth = body.columnWidthsMm![part.layout.side === "right" ? 2 : 0]!;
+  const rail = part.artwork.find(
+    (a) => a.id === "cv.artwork.sidebar-surface",
+  ) ?? {
+    kind: "decorative-artwork" as const,
+    id: "cv.artwork.sidebar-surface",
+    semanticText: false as const,
+    xMm:
+      part.layout.side === "right"
+        ? part.page.widthMm - part.page.margins.right - railWidth
+        : part.page.margins.left,
+    yMm: 0,
+    widthMm: railWidth,
+    heightMm: part.page.heightMm,
+    fill: { color: "FFFFFF" },
+  };
+  if (!metrics.surfaces) fail("surfaces");
+  part.artwork = part.artwork.filter(
+    (a) =>
+      !["cv.artwork.sidebar-surface", "cv.artwork.sidebar-edge"].includes(a.id),
+  );
+  part.headerShapes = (part.headerShapes ?? []).map((shape) => {
+    if (
+      source.cv.design.template === "modern" &&
+      shape.id.startsWith("cv.artwork.motif.")
+    ) {
+      const circle = MODERN_SHEET_CIRCLE;
+      return {
+        ...shape,
+        xMm: part.page.widthMm - circle.rightMm - circle.sizeMm,
+        yMm: circle.topMm,
+        widthMm: circle.sizeMm,
+        heightMm: circle.sizeMm,
+        opacity: circle.opacity * source.cv.design.bgOpacity,
+        paintLayer: 10,
+      };
+    }
+    return { ...shape, paintLayer: 10 };
+  });
+  for (const [pageIndex, repeat] of (
+    ["first", "continuation"] as const
+  ).entries()) {
+    const paint = metrics.surfaces[repeat];
+    if (
+      !paint ||
+      !/^[A-F0-9]{6}$/.test(paint.sidebarColor) ||
+      !/^[A-F0-9]{6}$/.test(paint.readingPlane.color) ||
+      !Number.isFinite(paint.readingPlane.opacity) ||
+      paint.readingPlane.opacity < 0 ||
+      paint.readingPlane.opacity > 1
+    )
+      fail("surfaces");
+    const box = cvSurface(
+      cvFrameFor(source.cv.design.template),
+      pageIndex,
+      "modern",
+      source.cv.design.sidebarPct,
+      resolved.options,
+    );
+    const left = part.layout.side === "right" ? box.right : box.left;
+    const right = part.layout.side === "right" ? box.left : box.right;
+    part.headerShapes.push({
+      kind: "decorative-shape",
+      id: `cv.artwork.reading-plane.${repeat}`,
+      semanticText: false,
+      shape: "rect",
+      repeat,
+      xMm: left,
+      yMm: box.top,
+      widthMm: part.page.widthMm - left - right,
+      heightMm: part.page.heightMm - box.top - box.bottom,
+      radiusMm: 0,
+      opacity: paint.readingPlane.opacity,
+      fill: { color: paint.readingPlane.color },
+      stroke: { color: paint.readingPlane.color, widthMm: 0 },
+      paintLayer: 20,
+    });
+    part.artwork.push({
+      ...rail,
+      id: repeat === "first" ? rail.id : `${rail.id}.${repeat}`,
+      fill: { color: paint.sidebarColor },
+      repeat,
+      paintLayer: 30,
+    });
+  }
+  part.paintOrder = "layer";
+
   // Empty compact Web chrome owns paint, with no implicit contact-name story.
   const bands = metrics.compactChrome;
   part.artwork = part.artwork.filter(
@@ -398,6 +496,9 @@ export function applyCvSidebarTypography(
   }
   // App compact bands span both tracks and paint above the Sidebar surface.
   part.artwork.push(...paint);
+  part.artwork.forEach((a) => {
+    if (a.paintLayer === undefined) a.paintLayer = 40;
+  });
   part.footer = [];
   if (part.firstFooter) part.firstFooter = [];
   part.page.headerDistanceMm = 0;

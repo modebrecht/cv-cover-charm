@@ -860,7 +860,7 @@
     }
   },
   "metrics": {
-    "version": 1,
+    "version": 2,
     "profile": "brief-sans-v1; browser=Liberation Sans; Word=Arial; target-font-identity=unverified",
     "fields": {
       "cv.documentTitle": {
@@ -1559,7 +1559,11 @@
         "lineHeightPt": 14.364825,
         "beforeMm": 0,
         "afterMm": 0,
-        "listIndentMm": 3.1820809114583333
+        "listIndentMm": 3.1820809114583333,
+        "listMarkerStyle": {
+          "color": "244A61",
+          "bold": true
+        }
       },
       "cv.entry.staerken:1": {
         "text": "Arbeitet gern im Team",
@@ -1577,7 +1581,11 @@
         "lineHeightPt": 14.364825,
         "beforeMm": 0,
         "afterMm": 0,
-        "listIndentMm": 3.1820809114583333
+        "listIndentMm": 3.1820809114583333,
+        "listMarkerStyle": {
+          "color": "244A61",
+          "bold": true
+        }
       },
       "cv.entry.staerken:2": {
         "text": "Lernt schnell Neues",
@@ -1595,7 +1603,11 @@
         "lineHeightPt": 14.364825,
         "beforeMm": 0,
         "afterMm": 0,
-        "listIndentMm": 3.1820809114583333
+        "listIndentMm": 3.1820809114583333,
+        "listMarkerStyle": {
+          "color": "244A61",
+          "bold": true
+        }
       },
       "cv.section.hobbys.heading": {
         "text": "Hobbys & Interessen",
@@ -1816,6 +1828,22 @@
         "borderColor": "244A61"
       }
     },
-    "referenceGapMm": 5.400008249999999
+    "referenceGapMm": 5.400008249999999,
+    "surfaces": {
+      "first": {
+        "sidebarColor": "F3F5F6",
+        "readingPlane": {
+          "color": "FFFFFF",
+          "opacity": 0.875
+        }
+      },
+      "continuation": {
+        "sidebarColor": "F3F5F6",
+        "readingPlane": {
+          "color": "FFFFFF",
+          "opacity": 0.875
+        }
+      }
+    }
   }
 }

@@ -34,6 +34,8 @@ export type Paragraph = {
   listGroupId?: string;
   /** Source-sized native hanging list; absent retains the shared numbering default. */
   listIndentMm?: number;
+  /** Marker formatting is independent of the editable list item's text. */
+  listMarkerStyle?: Pick<TextStyle, "color" | "bold">;
   ruleColor?: string;
   indentMm?: number;
   rightIndentMm?: number;

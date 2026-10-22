@@ -1,8 +1,8 @@
 import type { TextStyle } from "./model";
 
-/** Fresh effective CSS styles only. No page counts, field rectangles or text heights. */
+/** Fresh effective CSS styles. No page counts, field rectangles or text heights. */
 export type CvSidebarTextMetrics = {
-  version: 1;
+  version: 2;
   sourceKey: string;
   profile: string;
   fields: Record<
@@ -13,6 +13,7 @@ export type CvSidebarTextMetrics = {
       lineHeightPt: number;
       documentScale: number;
       listIndentMm?: number;
+      listMarkerStyle?: Pick<TextStyle, "color" | "bold">;
       beforeMm: number;
       afterMm: number;
     }
@@ -40,6 +41,13 @@ export type CvSidebarTextMetrics = {
   >;
   headerAfterMm: number;
   referenceGapMm?: number;
+  surfaces: Record<
+    "first" | "continuation",
+    {
+      sidebarColor: string;
+      readingPlane: { color: string; opacity: number };
+    }
+  >;
   compactChrome: {
     header: {
       heightMm: number;

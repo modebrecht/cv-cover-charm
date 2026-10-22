@@ -105,6 +105,9 @@ export function compositePagePaint(
   return {
     kind: "decorative-shape",
     id: `${part.id}.page-paint.${first ? "first" : "continuation"}`,
+    // The composed page is an underlay. Its XML emission order must never
+    // put opaque reading planes above line-relative body decorations.
+    paintLayer: 0,
     semanticText: false,
     shape: "rect",
     xMm: 0,

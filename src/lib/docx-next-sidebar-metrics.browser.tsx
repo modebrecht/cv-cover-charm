@@ -34,6 +34,53 @@ function rgb(value: string): string {
     .toUpperCase();
 }
 
+function solidSurface(el: HTMLElement) {
+  const css = getComputedStyle(el);
+  if (
+    css.backgroundImage !== "none" ||
+    css.mixBlendMode !== "normal" ||
+    css.filter !== "none"
+  )
+    throw Error("DOCX Next: Sidebar-Fläche benötigt eine geprüfte Vollfarbe.");
+  return { color: rgb(css.backgroundColor), opacity: Number(css.opacity) };
+}
+
+function sidebarColor(el: HTMLElement): string {
+  const base = solidSurface(el),
+    css = getComputedStyle(el);
+  if (
+    base.opacity !== 1 ||
+    [
+      css.borderLeftWidth,
+      css.borderRightWidth,
+      css.borderTopWidth,
+      css.borderBottomWidth,
+    ].some((v) => number(v) !== 0)
+  )
+    throw Error("DOCX Next: Sidebar-Flächenrahmen ist nicht geprüft.");
+  const tint = el.querySelector<HTMLElement>("[data-cv-sidebar-tint]");
+  if (!tint || getComputedStyle(tint).display === "none") return base.color;
+  const s = getComputedStyle(tint);
+  if (
+    s.backgroundImage !== "none" ||
+    s.mixBlendMode !== "normal" ||
+    s.filter !== "none"
+  )
+    throw Error("DOCX Next: Sidebar-Tönung ist nicht geprüft.");
+  const rgba = s.backgroundColor.match(/[\d.]+/g)?.map(Number);
+  if (!rgba || rgba.length < 3) throw Error("DOCX Next: Sidebar-Tönung fehlt.");
+  const color = rgba
+    .slice(0, 3)
+    .map((n) => Math.round(n).toString(16).padStart(2, "0"))
+    .join("")
+    .toUpperCase();
+  return compositeTextColor(
+    color,
+    base.color,
+    (rgba[3] ?? 1) * Number(s.opacity),
+  );
+}
+
 /** Measure effective authored text styles, never positions, page counts or fragments. */
 export async function captureCvSidebarTextMetrics(
   source: DossierAppSnapshot,
@@ -74,13 +121,14 @@ export async function captureCvSidebarTextMetrics(
       "DOCX Next: Sidebar-Schriftprüfung benötigt leere kompakte Kopf-/Fusszonen ohne Verlauf.",
     );
   const result: CvSidebarTextMetrics = {
-    version: 1,
+    version: 2,
     sourceKey: interiorMetricsKey(source),
     profile,
     fields: {},
     headings: {},
     entries: {},
     headerAfterMm: 0,
+    surfaces: { first: null!, continuation: null! },
     compactChrome: { header: null!, footer: null! },
   };
   const host = document.createElement("div");
@@ -243,6 +291,10 @@ export async function captureCvSidebarTextMetrics(
             canvas.measureText(marker.textContent ?? "").width +
               number(getComputedStyle(marker.parentElement!).columnGap),
           ) * zoom;
+        result.fields[id].listMarkerStyle = {
+          color: rgb(s.color),
+          bold: Number(s.fontWeight) >= 600,
+        };
       }
       if (el.hasAttribute("data-cv-section-title")) {
         const section = el.closest<HTMLElement>("[data-cv-section]")!,
@@ -313,6 +365,17 @@ export async function captureCvSidebarTextMetrics(
       result.referenceGapMm =
         mm(number(getComputedStyle(references).columnGap)) *
         cvDocumentZoom(references);
+    const pages = host.querySelectorAll<HTMLElement>("[data-cv-page]");
+    for (const [index, repeat] of ["first", "continuation"].entries()) {
+      const page = pages[Math.min(index, pages.length - 1)];
+      const rail = page?.querySelector<HTMLElement>("[data-cv-sidebar]");
+      const plane = page?.querySelector<HTMLElement>("[data-cv-surface]");
+      if (!rail || !plane) throw Error("DOCX Next: Sidebar-Flächen fehlen.");
+      result.surfaces[repeat as "first" | "continuation"] = {
+        sidebarColor: sidebarColor(rail),
+        readingPlane: solidSurface(plane),
+      };
+    }
     for (const zone of ["header", "footer"] as const) {
       const el = host.querySelector<HTMLElement>(
         zone === "header"

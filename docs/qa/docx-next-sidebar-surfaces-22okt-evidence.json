@@ -1,0 +1,545 @@
+{
+  "wordAcceptance": "UNVERIFIED",
+  "verticalTextFidelity": "OPEN; original typography and flow retained",
+  "cases": [
+    {
+      "case": "03-Sidebar-rechts-Folgeseite",
+      "unchanged": {
+        "snapshot": true,
+        "metrics": true,
+        "originalTextMetrics": true,
+        "coverModel": true,
+        "letterModel": true,
+        "WebScreenshots": true,
+        "coverAndLetterRenders": true
+      },
+      "activeFields": 128,
+      "allCanonicalTextVisible": true,
+      "picturesAndCropsUnchanged": {},
+      "pictureBboxMm": [],
+      "railSamples": [
+        {
+          "cvPage": 1,
+          "xMm": 208,
+          "yMm": 10,
+          "appRgb": [
+            244,
+            245,
+            247
+          ],
+          "nativeRgb": [
+            244,
+            245,
+            247
+          ]
+        },
+        {
+          "cvPage": 1,
+          "xMm": 208,
+          "yMm": 60,
+          "appRgb": [
+            244,
+            245,
+            247
+          ],
+          "nativeRgb": [
+            244,
+            245,
+            247
+          ]
+        },
+        {
+          "cvPage": 1,
+          "xMm": 208,
+          "yMm": 180,
+          "appRgb": [
+            244,
+            245,
+            247
+          ],
+          "nativeRgb": [
+            244,
+            245,
+            247
+          ]
+        },
+        {
+          "cvPage": 1,
+          "xMm": 208,
+          "yMm": 280,
+          "appRgb": [
+            244,
+            245,
+            247
+          ],
+          "nativeRgb": [
+            244,
+            245,
+            247
+          ]
+        },
+        {
+          "cvPage": 2,
+          "xMm": 208,
+          "yMm": 10,
+          "appRgb": [
+            244,
+            245,
+            247
+          ],
+          "nativeRgb": [
+            244,
+            245,
+            247
+          ]
+        },
+        {
+          "cvPage": 2,
+          "xMm": 208,
+          "yMm": 60,
+          "appRgb": [
+            244,
+            245,
+            247
+          ],
+          "nativeRgb": [
+            244,
+            245,
+            247
+          ]
+        },
+        {
+          "cvPage": 2,
+          "xMm": 208,
+          "yMm": 180,
+          "appRgb": [
+            244,
+            245,
+            247
+          ],
+          "nativeRgb": [
+            244,
+            245,
+            247
+          ]
+        },
+        {
+          "cvPage": 2,
+          "xMm": 208,
+          "yMm": 280,
+          "appRgb": [
+            244,
+            245,
+            247
+          ],
+          "nativeRgb": [
+            244,
+            245,
+            247
+          ]
+        }
+      ],
+      "nativeMarkerColors": [
+        2378337,
+        2378337,
+        2378337
+      ],
+      "backgroundAnchors": [
+        {
+          "story": "word/cv-header.xml",
+          "zOrder": 0
+        },
+        {
+          "story": "word/cv-header-first.xml",
+          "zOrder": 0
+        }
+      ],
+      "nativeCvPages": 2,
+      "appCvPages": 2,
+      "baselineDocxSha256": "bbd4c9c1b4890dabc528cf5fd6c1d16eeccf0938de45da0c450914ed1cc86e3b",
+      "candidateDocxSha256": "97fe6c68633dae8d21bf388d32a55d8493e302b3989c851ceee3936946864fa9"
+    },
+    {
+      "case": "05-Sidebar-links-Foto-frei",
+      "unchanged": {
+        "snapshot": true,
+        "metrics": true,
+        "originalTextMetrics": true,
+        "coverModel": true,
+        "letterModel": true,
+        "WebScreenshots": true,
+        "coverAndLetterRenders": true
+      },
+      "activeFields": 88,
+      "allCanonicalTextVisible": true,
+      "picturesAndCropsUnchanged": {
+        "cv.person.photo": {
+          "representation": "DrawingML",
+          "width": 120,
+          "height": 180,
+          "embeddedFileSha256": "b55b592a4b251518601207931566e1fe63b77ed8294163ea519a7fe33dc4ab0f",
+          "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+          "crop": {
+            "l": "11818",
+            "t": "31313",
+            "r": "27576",
+            "b": "18182"
+          }
+        }
+      },
+      "pictureBboxMm": [
+        [
+          24.99431,
+          209.9736,
+          59.00208,
+          252.46568
+        ]
+      ],
+      "railSamples": [
+        {
+          "cvPage": 1,
+          "xMm": 5,
+          "yMm": 10,
+          "appRgb": [
+            244,
+            245,
+            247
+          ],
+          "nativeRgb": [
+            244,
+            245,
+            247
+          ]
+        },
+        {
+          "cvPage": 1,
+          "xMm": 5,
+          "yMm": 60,
+          "appRgb": [
+            244,
+            245,
+            247
+          ],
+          "nativeRgb": [
+            244,
+            245,
+            247
+          ]
+        },
+        {
+          "cvPage": 1,
+          "xMm": 5,
+          "yMm": 180,
+          "appRgb": [
+            244,
+            245,
+            247
+          ],
+          "nativeRgb": [
+            244,
+            245,
+            247
+          ]
+        },
+        {
+          "cvPage": 1,
+          "xMm": 5,
+          "yMm": 280,
+          "appRgb": [
+            244,
+            245,
+            247
+          ],
+          "nativeRgb": [
+            244,
+            245,
+            247
+          ]
+        }
+      ],
+      "nativeMarkerColors": [
+        2378337,
+        2378337,
+        2378337
+      ],
+      "backgroundAnchors": [
+        {
+          "story": "word/cv-header.xml",
+          "zOrder": 0
+        },
+        {
+          "story": "word/cv-header-first.xml",
+          "zOrder": 0
+        }
+      ],
+      "nativeCvPages": 1,
+      "appCvPages": 1,
+      "baselineDocxSha256": "5c10be562b5d1d2535184246efeba70adfaa5420582c9abec9f057b323f7737c",
+      "candidateDocxSha256": "5e5afac051c4b7c0cb347bc1c5763645f033f147e4f332aa62bb1f41a1de28b7"
+    },
+    {
+      "case": "06-Sidebar-rechts-Foto-frei",
+      "unchanged": {
+        "snapshot": true,
+        "metrics": true,
+        "originalTextMetrics": true,
+        "coverModel": true,
+        "letterModel": true,
+        "WebScreenshots": true,
+        "coverAndLetterRenders": true
+      },
+      "activeFields": 88,
+      "allCanonicalTextVisible": true,
+      "picturesAndCropsUnchanged": {
+        "cv.person.photo": {
+          "representation": "DrawingML",
+          "width": 1920,
+          "height": 2880,
+          "embeddedFileSha256": "f8ba8f4b000d9aa4f18a5f476a630615232905810aec92c69d4e128cbfdec69c",
+          "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6",
+          "crop": {
+            "l": "8400",
+            "t": "24400",
+            "r": "11600",
+            "b": "22267"
+          }
+        }
+      },
+      "pictureBboxMm": [
+        [
+          151.00652,
+          209.99123,
+          185.01431,
+          243.99902
+        ]
+      ],
+      "railSamples": [
+        {
+          "cvPage": 1,
+          "xMm": 208,
+          "yMm": 10,
+          "appRgb": [
+            244,
+            245,
+            247
+          ],
+          "nativeRgb": [
+            244,
+            245,
+            247
+          ]
+        },
+        {
+          "cvPage": 1,
+          "xMm": 208,
+          "yMm": 60,
+          "appRgb": [
+            244,
+            245,
+            247
+          ],
+          "nativeRgb": [
+            244,
+            245,
+            247
+          ]
+        },
+        {
+          "cvPage": 1,
+          "xMm": 208,
+          "yMm": 180,
+          "appRgb": [
+            244,
+            245,
+            247
+          ],
+          "nativeRgb": [
+            244,
+            245,
+            247
+          ]
+        },
+        {
+          "cvPage": 1,
+          "xMm": 208,
+          "yMm": 280,
+          "appRgb": [
+            244,
+            245,
+            247
+          ],
+          "nativeRgb": [
+            244,
+            245,
+            247
+          ]
+        }
+      ],
+      "nativeMarkerColors": [
+        2378337,
+        2378337,
+        2378337
+      ],
+      "backgroundAnchors": [
+        {
+          "story": "word/cv-header.xml",
+          "zOrder": 0
+        },
+        {
+          "story": "word/cv-header-first.xml",
+          "zOrder": 0
+        }
+      ],
+      "nativeCvPages": 1,
+      "appCvPages": 1,
+      "baselineDocxSha256": "1d297660689d4154e758520bd78cc05b4cc9fca11e0ea36c7c9bf9a120d8cb7c",
+      "candidateDocxSha256": "9634fd7418cba16fa257832b2169ae2f0e7289bf99203e8cb89992f46f3a405b"
+    },
+    {
+      "case": "07-Sidebar-rechts-Eigene-Typografie",
+      "unchanged": {
+        "snapshot": true,
+        "metrics": true,
+        "originalTextMetrics": true,
+        "coverModel": true,
+        "letterModel": true,
+        "WebScreenshots": true,
+        "coverAndLetterRenders": true
+      },
+      "activeFields": 91,
+      "allCanonicalTextVisible": true,
+      "picturesAndCropsUnchanged": {
+        "cv.person.photo": {
+          "representation": "DrawingML",
+          "width": 1920,
+          "height": 2880,
+          "embeddedFileSha256": "f8ba8f4b000d9aa4f18a5f476a630615232905810aec92c69d4e128cbfdec69c",
+          "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6",
+          "crop": {
+            "l": "8400",
+            "t": "24400",
+            "r": "11600",
+            "b": "22267"
+          }
+        }
+      },
+      "pictureBboxMm": [
+        [
+          151.00652,
+          209.99123,
+          185.01431,
+          243.99902
+        ]
+      ],
+      "railSamples": [
+        {
+          "cvPage": 1,
+          "xMm": 208,
+          "yMm": 10,
+          "appRgb": [
+            244,
+            245,
+            247
+          ],
+          "nativeRgb": [
+            244,
+            245,
+            247
+          ]
+        },
+        {
+          "cvPage": 1,
+          "xMm": 208,
+          "yMm": 60,
+          "appRgb": [
+            244,
+            245,
+            247
+          ],
+          "nativeRgb": [
+            244,
+            245,
+            247
+          ]
+        },
+        {
+          "cvPage": 1,
+          "xMm": 208,
+          "yMm": 180,
+          "appRgb": [
+            244,
+            245,
+            247
+          ],
+          "nativeRgb": [
+            244,
+            245,
+            247
+          ]
+        },
+        {
+          "cvPage": 1,
+          "xMm": 208,
+          "yMm": 280,
+          "appRgb": [
+            244,
+            245,
+            247
+          ],
+          "nativeRgb": [
+            244,
+            245,
+            247
+          ]
+        }
+      ],
+      "nativeMarkerColors": [
+        2378337,
+        2378337,
+        2378337
+      ],
+      "backgroundAnchors": [
+        {
+          "story": "word/cv-header.xml",
+          "zOrder": 0
+        },
+        {
+          "story": "word/cv-header-first.xml",
+          "zOrder": 0
+        }
+      ],
+      "nativeCvPages": 1,
+      "appCvPages": 1,
+      "baselineDocxSha256": "9955ae8900f5eec3a0808121564d1ae827962c0ad090faceb5b351119af1e9ca",
+      "candidateDocxSha256": "f3f8997b83867e94b246dc10229eda3394a59462b35b551751c89c4f5eb053d9"
+    }
+  ],
+  "viewScaleComparison": {
+    "snapshot": true,
+    "metrics": true,
+    "sidebarMetrics": true,
+    "model": true,
+    "docxByteEqual": true
+  },
+  "baseCommit": "5c79a08bd4a637431908eb132739b005fddb2718",
+  "candidateScope": "Explicit shared-body-stories + fresh V2 metrics; regular Sidebar guard remains closed",
+  "environment": {
+    "chrome": "156.0.8078.47",
+    "nativeRenderer": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+    "font": "Liberation Sans 2.1.5 for Arial",
+    "appRuntime": "Temporary CSR entry using real App sources and unmodified frozen bun.lock dependencies",
+    "microsoftWord": "Not executed"
+  },
+  "checks": {
+    "targetedTests": 113,
+    "testFiles": 13,
+    "expectations": 1755,
+    "failures": 0,
+    "strictTypes": "Passed including browser capture and sheet component",
+    "finalCvPagesVisuallyOpened": 5,
+    "sameCoverAndLetterPagePngs": 8,
+    "newWordSaveReopen": "UNVERIFIED",
+    "longEntryRegressionRerun": false,
+    "existingAcceptanceGatesChanged": false
+  }
+}

@@ -12,6 +12,10 @@ import { flowSurfacePaint } from "../../src/lib/docx-next/flow-surface";
 import { validateDossierDocModel } from "../../src/lib/docx-next/validation";
 import { paragraph } from "../../src/lib/docx-next/native-text";
 import { twips } from "../../src/lib/docx-next/xml";
+import {
+  orderedPagePaint,
+  compositePagePaint,
+} from "../../src/lib/docx-next/page-artwork";
 
 function setup() {
   const source = structuredClone(fixture.source) as DossierAppSnapshot;
@@ -136,11 +140,70 @@ test("source bullet spacing and reference columns keep native semantic owners", 
   expect(paragraph(bullet, "", 1)).toContain(
     `w:hanging="${twips(bullet.listIndentMm!)}"`,
   );
+  expect(bullet.listMarkerStyle).toEqual({ color: "244A61", bold: true });
+  const xml = paragraph(bullet, "", 1);
+  expect(xml.split("</w:pPr>")[0]).toContain('<w:color w:val="244A61"/>');
+  expect(bullet.runs[0].style.color).toBe("111111");
   const pair = walkBlocks(model.cv.blocks).find((b) =>
     b.id.startsWith("cv.section.referenzen.pair:"),
   ) as TableBlock;
   expect(pair.columnWidthsMm).toEqual([null, metrics.referenceGapMm!, null]);
   expect(pair.rows[0].cells[0][0].id).toBe("cv.entry.referenzen:demo-r1");
+});
+
+test("Sidebar tint is structural and page motifs remain below the reading plane and rail", () => {
+  for (const opacity of [0, 0.25, 1]) {
+    const { source, metrics } = setup();
+    source.cv.design.bgOpacity = opacity;
+    metrics.sourceKey = JSON.stringify(source);
+    const model = build(source, metrics);
+    validateDossierDocModel(model);
+    for (const first of [true, false]) {
+      expect(compositePagePaint(model.cv, first)?.paintLayer).toBe(0);
+      const paints = orderedPagePaint(model.cv, first);
+      const rail = paints.find((a) =>
+        a.id.startsWith("cv.artwork.sidebar-surface"),
+      )!;
+      expect(rail.fill?.color).toBe("F3F5F6");
+      expect(paints.some((a) => a.id === "cv.artwork.sidebar-edge")).toBe(
+        false,
+      );
+      const plane = paints.findIndex((a) =>
+        a.id.startsWith("cv.artwork.reading-plane"),
+      );
+      const side = paints.indexOf(rail);
+      expect(plane).toBeLessThan(side);
+      expect(side).toBeLessThan(
+        paints.findIndex((a) => a.id === "cv.artwork.header"),
+      );
+      const motif = paints.find((a) => a.id.startsWith("cv.artwork.motif."));
+      if (motif) {
+        expect(paints.indexOf(motif)).toBeLessThan(plane);
+        expect(motif.xMm).toBe(168);
+        expect(motif.yMm).toBe(14);
+        expect("opacity" in motif && motif.opacity).toBeCloseTo(0.07 * opacity);
+      }
+    }
+  }
+});
+
+test("invalid surfaces and marker formatting reject before rendering", () => {
+  for (const mutation of [
+    "missing-surfaces",
+    "invalid-alpha",
+    "invalid-marker",
+  ] as const) {
+    const { source, metrics } = setup();
+    if (mutation === "missing-surfaces")
+      delete (metrics as Partial<CvSidebarTextMetrics>).surfaces;
+    if (mutation === "invalid-alpha")
+      metrics.surfaces.first.readingPlane.opacity = 2;
+    if (mutation === "invalid-marker")
+      Object.values(metrics.fields).find(
+        (f) => f.listMarkerStyle,
+      )!.listMarkerStyle!.color = "not-a-color";
+    expect(() => build(source, metrics)).toThrow(/Sidebar/);
+  }
 });
 
 test("invalid native insets reject rather than emitting malformed list paragraphs", () => {

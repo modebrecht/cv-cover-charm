@@ -279,6 +279,8 @@ export function validateDossierDocModel(model: DossierDocModel): void {
         decorationPageGeometry(block, part.page);
       }
       if (block.kind === "paragraph") {
+        if (block.listMarkerStyle && (!block.list || !/^[0-9A-F]{6}$/.test(block.listMarkerStyle.color) || typeof block.listMarkerStyle.bold !== "boolean"))
+          throw new Error(`DOCX Next invalid list marker style ${block.id}`);
         if (block.controlPlacement !== undefined && block.controlPlacement !== "inline")
           throw new Error(`DOCX Next invalid paragraph control placement ${block.id}`);
         block.runs.forEach((run) => fontDefinition(run.style.font));

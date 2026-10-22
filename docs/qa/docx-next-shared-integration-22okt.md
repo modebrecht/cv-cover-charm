@@ -1,5 +1,7 @@
 # Gemeinsamer DOCX Integrationsstand
 
+Aktueller Reparaturschritt: [Sidebar-Flächen und Aufzählungen](docx-next-sidebar-surfaces-22okt.md), auf Basis `5c79a08bd4a637431908eb132739b005fddb2718`. Effektive Tönung, Motiv-/Leseflächen-Schichtung und native Markerfarbe sind in vier gespeicherten App-Projekten gegen PDF/Writer geprüft. Fotos, Crops, kurze Einträge, Titelblatt und Anschreiben behalten ihren gesicherten Stand. 113 gezielte Tests und fokussiertes striktes TypeScript bestehen. Vertikaler Textfluss und Word Save/Reopen bleiben offen; der folgende Text bewahrt die früheren Checkpoints.
+
 22. Oktober 2026. Branch: `fix/docx-next-shared-integration-22okt`. Basis: aktueller Fidelity-Kopf `7be40063856d1376acb60e917fe85599a6033dad`.
 
 Die gesicherten Sidebar-, Pagination-, Seitenflächen- und Dokument-Skalierungs-Fixes sind hier zu einem gemeinsamen Quellstand zusammengeführt. Die lokale Projektion bestand 206 gezielte Tests und eine fokussierte strikte Typprüfung. Nach dem Ausfall der Ausführungsumgebung wurde die gleiche dokumentierte Patchfolge über die verifizierten GitHub-Quellen erneut zusammengesetzt und auf diesem Branch gesichert. Für den veröffentlichten Code-Commit `90216cb21ffeaf3b555ebde48b5e65c7bc64f602` ist inzwischen auch der vorhandene Vercel-Build anhand seiner Metadaten und Buildprotokolle bestätigt. Nach Wiederherstellung der Laufzeit wurden die unten beschriebenen fünf App-Downloads und drei primären PDF-Downloads frisch geprüft. Eine vollständige Produktions- oder Microsoft-Word-Freigabe folgt daraus weiterhin nicht.
