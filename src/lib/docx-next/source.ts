@@ -42,6 +42,7 @@ export type DossierAppSnapshot = {
     cvAlignment?: Alignment;
     cvSectionGapMm?: number | null;
     cvContinuationTopMarginMm?: number;
+    cvDocumentTitleMarginTopPx?: number;
     /** Resolved from authored settings and pure Web geometry, never DOM/page fragments. */
     flowPageTops?: Partial<Record<"letter" | "cv", { firstMm: number; continuationMm: number }>>;
     cvPhotoStyle?: DossierPhotoStyle;

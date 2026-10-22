@@ -4,6 +4,8 @@
 
 Die unterschiedliche Bezugsbreite ist im neuen internen Kandidaten `shared-body-stories` beseitigt. App und DOCX beziehen die Sidebar jetzt aus derselben reinen A4-Geometrie. In den gespeicherten Modern-Projekten sind es links und rechts 63 mm. Das ist ein verifizierter Reparaturschritt, keine vollständige Sidebar- oder Word-Freigabe.
 
+Nachtrag: Die im [späteren Typografie-Checkpoint](docx-next-sidebar-typography-22okt.md) ergänzten gültigen Foto-Projekte zeigen im direkten App-/Writer-PDF-Vergleich einen sichtbaren Versatz von ungefähr 10 mm nach unten. Erhaltene Modellkoordinaten und Seitenanker beweisen somit keine korrekte sichtbare Bildposition in Writer oder Word. Die folgenden historischen Geometrie- und Paketbefunde behalten ihren jeweils ausdrücklich genannten Umfang.
+
 ## Was geändert wurde
 
 `src/components/cv/sidebar-geometry.ts` löst die bisher im Web-Renderer verteilten Regeln für Rail, Innenabstände, Haupttextzone, Spiegelung und automatische Portraitbreite auf. Der Web-Renderer verwendet diese Funktionen. Der neue native Kandidat erhält dieselben Regeln aus dem gespeicherten Entwurf, aufgelöster Chrome und Benutzerrändern. Keine DOM-Rechtecke oder Browser-Seitenfragmente bestimmen den Word-Fluss.

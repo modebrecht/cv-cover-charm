@@ -997,7 +997,7 @@ export function CvCanvas({
                 color: pal.ink,
               }}
             >
-              <span style={{ color: pal.accent, fontWeight: 700 }}>•</span>
+              <span data-cv-list-marker style={{ color: pal.accent, fontWeight: 700 }}>•</span>
               <span data-dossier-field-id={cvLineFieldId(key, i, data.lineIds?.[key])}>{v}</span>
             </div>
           ),
@@ -1856,7 +1856,7 @@ export function CvCanvas({
     overflowWrap: "anywhere",
   });
 
-  const sideHeading = (text: string, first = false) => (
+  const sideHeading = (key: CvLayoutSectionKey, text: string, first = false) => (
     <div
       data-cv-section="sidebar"
       data-cv-user-section-margin={sectionTitleMarginBottomPx === null ? undefined : "true"}
@@ -1884,7 +1884,18 @@ export function CvCanvas({
       <div style={{ display: "flex", alignItems: "center", gap: "2mm", minWidth: 0 }}>
         <div
           data-cv-section-title
+          data-dossier-field-id={`cv.section.${key}.heading`}
+          data-cv-user-section-size={sectionTitleFontSizePx === null ? undefined : "true"}
+          data-cv-user-section-color={sectionTitleColor ? "true" : undefined}
+          data-cv-user-section-weight={design.sectionTitleBold === undefined ? undefined : "true"}
+          data-cv-user-section-style={design.sectionTitleItalic === undefined ? undefined : "true"}
+          data-cv-user-section-decoration={design.sectionTitleUnderline === undefined ? undefined : "true"}
           style={{
+            ["--cv-user-section-font-size" as string]: sectionTitleFontSizePx === null ? undefined : `${sectionTitleFontSizePx}px`,
+            ["--cv-user-section-color" as string]: sectionTitleColor || undefined,
+            ["--cv-user-section-weight" as string]: `${sectionTitleWeight}`,
+            ["--cv-user-section-style" as string]: sectionTitleFontStyle,
+            ["--cv-user-section-decoration" as string]: sectionTitleDecoration,
             fontSize:
               sectionTitleFontSizePx === null
                 ? ptHead(
@@ -2677,7 +2688,7 @@ export function CvCanvas({
               )}
               {hasContact && (
                 <div style={{ gridColumn: customSectionLayout ? "1 / -1" : undefined, order: 1 }}>
-                  {sideHeading(label(data, "kontakt"), firstSide === "contact")}
+                  {sideHeading("person", label(data, "kontakt"), firstSide === "contact")}
                   <div
                     data-cv-entry
                     data-cv-body
@@ -2724,19 +2735,19 @@ export function CvCanvas({
               )}
               {hasSchool && (
                 <div style={sideSectionStyle("schule")}>
-                  {sideHeading(label(data, "schule"), firstSide === "school")}
+                  {sideHeading("schule", label(data, "schule"), firstSide === "school")}
                   {sideEntries("schule")}
                 </div>
               )}
               {hasExperience && (
                 <div style={sideSectionStyle("erfahrung")}>
-                  {sideHeading(label(data, "erfahrung"), firstSide === "experience")}
+                  {sideHeading("erfahrung", label(data, "erfahrung"), firstSide === "experience")}
                   {sideEntries("erfahrung")}
                 </div>
               )}
               {hasLanguages && (
                 <div style={sideSectionStyle("sprachen")}>
-                  {sideHeading(label(data, "sprachen"), firstSide === "languages")}
+                  {sideHeading("sprachen", label(data, "sprachen"), firstSide === "languages")}
                   {data.sprachen
                     .filter((s) => s.name.trim() || s.niveau.trim())
                     .map((s) => (
@@ -2782,7 +2793,7 @@ export function CvCanvas({
               )}
               {hasStrengths && (
                 <div style={sideSectionStyle("staerken")}>
-                  {sideHeading(label(data, "staerken"), firstSide === "strengths")}
+                  {sideHeading("staerken", label(data, "staerken"), firstSide === "strengths")}
                   {data.staerken
                     .map((text, index) => ({ text, index }))
                     .filter(({ text }) => text.trim())
@@ -2801,7 +2812,7 @@ export function CvCanvas({
                               : "1.45mm",
                         }}
                       >
-                        <span style={{ color: side.accent, fontWeight: 800 }}>•</span>
+                        <span data-cv-list-marker style={{ color: side.accent, fontWeight: 800 }}>•</span>
                         <span
                           data-dossier-field-id={cvLineFieldId(
                             "staerken",
@@ -2822,7 +2833,7 @@ export function CvCanvas({
               )}
               {hasHobbies && (
                 <div style={sideSectionStyle("hobbys")}>
-                  {sideHeading(label(data, "hobbys"), firstSide === "hobbies")}
+                  {sideHeading("hobbys", label(data, "hobbys"), firstSide === "hobbies")}
                   {data.hobbys
                     .map((text, index) => ({ text, index }))
                     .filter(({ text }) => text.trim())
@@ -2850,7 +2861,7 @@ export function CvCanvas({
               )}
               {hasReferences && (
                 <div style={sideSectionStyle("referenzen")}>
-                  {sideHeading(label(data, "referenzen"), firstSide === "references")}
+                  {sideHeading("referenzen", label(data, "referenzen"), firstSide === "references")}
                   {data.referenzen
                     .filter((r) => r.name.trim() || r.funktion.trim() || r.kontakt.trim())
                     .map((r) => (
@@ -2914,7 +2925,7 @@ export function CvCanvas({
                 if (!custom) return null;
                 return (
                   <div key={key} style={sideSectionStyle(key)}>
-                    {sideHeading(custom.title.trim() || "Eigene Rubrik", firstSideKey === key)}
+                    {sideHeading(key, custom.title.trim() || "Eigene Rubrik", firstSideKey === key)}
                     {sideCustomEntries(key)}
                   </div>
                 );

@@ -32,8 +32,11 @@ export type Paragraph = {
   keepLines: boolean;
   list?: (typeof SEMANTIC_LIST_KINDS)[number];
   listGroupId?: string;
+  /** Source-sized native hanging list; absent retains the shared numbering default. */
+  listIndentMm?: number;
   ruleColor?: string;
   indentMm?: number;
+  rightIndentMm?: number;
   /** Unaccepted native run-level control placement; the whole paragraph remains intact. */
   controlPlacement?: "inline";
   /** Authored native tab stops within one measured line; no spacer paragraphs. */
@@ -43,6 +46,8 @@ export type Paragraph = {
   /** Explicit flow candidate. Native heading text owns a line-relative
    * decorative capsule; it does not become a fixed-page textbox. */
   flowSurface?: {
+    /** Plain native heading with a decorative rule; absent keeps the capsule. */
+    variant?: "rule";
     /** Explicit trial: a preceding flow block or the cell/page origin owns the before-gap. */
     spacingOwner?: "previous-block" | "origin";
     widthMm: number;

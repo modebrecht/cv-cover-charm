@@ -1,0 +1,342 @@
+import { createRoot } from "react-dom/client";
+import { flushSync } from "react-dom";
+import { CvCanvas } from "@/components/cv/CvCanvas";
+import { resolveCvRubricOptions } from "@/components/cv/citrus-rubric";
+import { DEFAULT_CV_PLACEMENTS } from "@/components/cv/types";
+import { FONT_STACKS } from "@/components/cover/types";
+import { normalizeCvPhotoPlacement } from "@/components/cv/photo-place";
+import { normalizeDossierPhotoStyle } from "./dossier-photo";
+import { resolveCvPalette } from "@/components/cv/cv-paper";
+import { resolveDossierChromeSnapshot } from "./dossier-resolved-chrome";
+import {
+  DEFAULT_DOSSIER_CHROME_STATE,
+  effectiveDossierHeaderModeForOptions,
+} from "./dossier-chrome";
+import { cvDocumentZoom } from "./docx-next-cv-zoom.browser";
+import { briefFontTextSupported } from "./docx-next/brief-fonts.browser";
+import { interiorMetricsKey } from "./docx-next/interior-metrics";
+import { compositeTextColor } from "./docx-next/colors";
+import { cvWordLayout } from "./docx-next/layouts";
+import type { CvSidebarTextMetrics } from "./docx-next/cv-sidebar-text-metrics";
+import type { DossierAppSnapshot } from "./docx-next/source";
+
+const mm = (px: number) => (px * 25.4) / 96;
+const number = (value: string) =>
+  Number.isFinite(parseFloat(value)) ? parseFloat(value) : 0;
+function rgb(value: string): string {
+  const parts = value.match(/[\d.]+/g)?.map(Number);
+  if (!parts || parts.length < 3 || (parts[3] !== undefined && parts[3] !== 1))
+    throw Error("DOCX Next: Nicht unterstützte Sidebar-Farbe.");
+  return parts
+    .slice(0, 3)
+    .map((n) => Math.round(n).toString(16).padStart(2, "0"))
+    .join("")
+    .toUpperCase();
+}
+
+/** Measure effective authored text styles, never positions, page counts or fragments. */
+export async function captureCvSidebarTextMetrics(
+  source: DossierAppSnapshot,
+  profile: string,
+): Promise<CvSidebarTextMetrics> {
+  if (
+    cvWordLayout(source.settings.cvLayout) !== "sidebar" ||
+    source.cv.design.font !== "sans" ||
+    !profile.startsWith("brief-sans-v1;")
+  )
+    throw Error(
+      "DOCX Next: Sidebar-Schriftprüfung benötigt einen gespeicherten Sans-Entwurf.",
+    );
+  const resolved = resolveDossierChromeSnapshot(
+    source,
+    source.settings.chrome ?? DEFAULT_DOSSIER_CHROME_STATE,
+  );
+  const { options, contact, content } = resolved.cv;
+  const rubric = resolveCvRubricOptions(source.cv.design);
+  if (rubric.pill || rubric.horizontalMm !== 0 || rubric.contentIndentMm !== 0)
+    throw Error(
+      "DOCX Next: Sidebar-Schriftprüfung unterstützt nur unverrückte Rubriken ohne Pills.",
+    );
+  const bodyAlignment = source.settings.cvAlignment ?? "left";
+  if (bodyAlignment !== "left" && bodyAlignment !== "justify")
+    throw Error(
+      "DOCX Next: Sidebar-Schriftprüfung unterstützt linksbündigen Text und Blocksatz.",
+    );
+  if (
+    options.headerMode !== "compact" ||
+    effectiveDossierHeaderModeForOptions(options, 1) !== "compact" ||
+    options.footerMode !== "compact" ||
+    Object.values(content).some((v) => v?.trim()) ||
+    options.headerGradientColor ||
+    options.footerGradientColor
+  )
+    throw Error(
+      "DOCX Next: Sidebar-Schriftprüfung benötigt leere kompakte Kopf-/Fusszonen ohne Verlauf.",
+    );
+  const result: CvSidebarTextMetrics = {
+    version: 1,
+    sourceKey: interiorMetricsKey(source),
+    profile,
+    fields: {},
+    headings: {},
+    entries: {},
+    headerAfterMm: 0,
+    compactChrome: { header: null!, footer: null! },
+  };
+  const host = document.createElement("div");
+  host.style.cssText =
+    "position:fixed;left:-20000px;top:0;width:210mm;pointer-events:none";
+  document.body.append(host);
+  // Keep the isolated measuring surface at physical scale 1. Browser previews
+  // can zoom ancestors; Chrome otherwise quantizes used border/track widths at
+  // that display scale. Authored zoom inside the CV page remains untouched.
+  let outerZoom = 1;
+  for (
+    let node: HTMLElement | null = host.parentElement;
+    node;
+    node = node.parentElement
+  ) {
+    const cssZoom = getComputedStyle(node).zoom;
+    const own = cssZoom === "normal" ? 1 : Number(cssZoom);
+    if (!Number.isFinite(own) || own <= 0) {
+      host.remove();
+      throw Error("DOCX Next: Ungültiger Vorschau-Zoom.");
+    }
+    outerZoom *= own;
+  }
+  host.style.zoom = String(1 / outerZoom);
+  const root = createRoot(host);
+  try {
+    flushSync(() =>
+      root.render(
+        <CvCanvas
+          data={source.cv.data}
+          design={source.cv.design}
+          elements={source.cv.elements}
+          elementStyles={source.cv.elementStyles}
+          chromeOptions={options}
+          chromeContact={contact}
+          manageGlobalTemplateScope={false}
+          exportMode
+          presentation={{
+            layoutChoice: "modern",
+            infoPosition:
+              source.settings.sidebarSide === "right" ? "mirrored" : "standard",
+            placements: {
+              ...DEFAULT_CV_PLACEMENTS,
+              ...source.settings.placements,
+            },
+            photoStyle: normalizeDossierPhotoStyle(
+              source.settings.cvPhotoStyle,
+            ),
+            photoPlacement: normalizeCvPhotoPlacement(
+              source.settings.cvPhotoPlacement,
+            ),
+            sectionGapMm: source.settings.cvSectionGapMm ?? null,
+            documentTitleMarginTopPx:
+              source.settings.cvDocumentTitleMarginTopPx ?? 0,
+            continuationTopMarginMm:
+              source.settings.cvContinuationTopMarginMm ?? null,
+            pageMargins: source.settings.margins?.cv ?? null,
+            bodyAlignment,
+          }}
+        />,
+      ),
+    );
+    await document.fonts.ready;
+    await new Promise<void>((resolve) =>
+      requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+    );
+    const canvas = document.createElement("canvas").getContext("2d");
+    if (!canvas)
+      throw Error("DOCX Next: Sidebar-Schriftmessung nicht verfügbar.");
+    const paper = resolveCvPalette(source.cv.design)
+      .paper.replace("#", "")
+      .toUpperCase();
+    // Original complete measurement rows take precedence over visible page fragments.
+    const fields = [
+      ...host.querySelectorAll<HTMLElement>(
+        "[data-cv-measure-page] [data-cv-name], [data-cv-measure-page] [data-dossier-field-id], [data-cv-page] [data-cv-name], [data-cv-page] [data-dossier-field-id]",
+      ),
+    ].sort(
+      (a, b) =>
+        Number(!!b.closest("[data-cv-measure-page]")) -
+        Number(!!a.closest("[data-cv-measure-page]")),
+    );
+    for (const el of fields) {
+      if (!el.closest("[data-cv-main], [data-cv-sidebar]")) continue;
+      const id = el.hasAttribute("data-cv-name")
+        ? "cv.person.name"
+        : el.dataset.dossierFieldId!;
+      if (result.fields[id]) continue;
+      const text = (el.textContent ?? "").trim();
+      if (!text) continue;
+      if (!briefFontTextSupported(text))
+        throw Error(`DOCX Next: Nicht unterstützte Schriftzeichen (${id}).`);
+      const css = getComputedStyle(el),
+        zoom = cvDocumentZoom(el);
+      const sizePx = parseFloat(css.fontSize),
+        linePx = parseFloat(css.lineHeight),
+        weight = Number(css.fontWeight);
+      if (
+        ![sizePx, linePx, weight, zoom].every(Number.isFinite) ||
+        !["normal", "italic"].includes(css.fontStyle)
+      )
+        throw Error(
+          `DOCX Next: Nicht unterstützte Sidebar-Typografie (${id}).`,
+        );
+      const shown =
+        css.textTransform === "uppercase" ? text.toUpperCase() : text;
+      canvas.font = `${css.fontStyle} ${weight} 48px ${css.fontFamily}`;
+      const sourceWidth = canvas.measureText(shown).width;
+      canvas.font = `${css.fontStyle} ${weight >= 600 ? 700 : 400} 48px ${FONT_STACKS.sans}`;
+      if (Math.abs(sourceWidth - canvas.measureText(shown).width) > 0.01)
+        throw Error(
+          `DOCX Next: Sidebar-Ersatzschrift ist nicht geprüft (${id}).`,
+        );
+      let opacity = 1;
+      for (
+        let node: HTMLElement | null = el;
+        node && !node.matches("[data-cv-page], [data-cv-measure-page]");
+        node = node.parentElement
+      )
+        opacity *= Number(getComputedStyle(node).opacity);
+      const style = {
+        font: "Arial",
+        sizePt: sizePx * 0.75 * zoom,
+        color: compositeTextColor(rgb(css.color), paper, opacity),
+        bold: weight >= 600,
+        italic: css.fontStyle === "italic",
+        underline: css.textDecorationLine.includes("underline"),
+        allCaps: css.textTransform === "uppercase",
+        trackingPt: number(css.letterSpacing) * 0.75 * zoom,
+      };
+      let beforeMm = mm(number(css.marginTop) + number(css.paddingTop)) * zoom;
+      // Inherited group top margins belong to their first semantic field once.
+      for (
+        let node = el.parentElement;
+        node &&
+        !node.matches(
+          "[data-cv-entry], [data-cv-main], [data-cv-sidebar], [data-cv-section], [data-cv-header]",
+        );
+        node = node.parentElement
+      )
+        if (node.querySelector("[data-dossier-field-id]") === el)
+          beforeMm +=
+            mm(number(getComputedStyle(node).marginTop)) * cvDocumentZoom(node);
+      result.fields[id] = {
+        text,
+        style,
+        documentScale: zoom,
+        lineHeightPt: linePx * 0.75 * zoom,
+        beforeMm,
+        afterMm: mm(number(css.marginBottom)) * zoom,
+      };
+      const marker = el
+        .closest("[data-cv-entry]")
+        ?.querySelector<HTMLElement>("[data-cv-list-marker]");
+      if (marker) {
+        const s = getComputedStyle(marker);
+        canvas.font = `${s.fontStyle} ${s.fontWeight} ${s.fontSize} ${s.fontFamily}`;
+        result.fields[id].listIndentMm =
+          mm(
+            canvas.measureText(marker.textContent ?? "").width +
+              number(getComputedStyle(marker.parentElement!).columnGap),
+          ) * zoom;
+      }
+      if (el.hasAttribute("data-cv-section-title")) {
+        const section = el.closest<HTMLElement>("[data-cv-section]")!,
+          s = getComputedStyle(section);
+        const rule = el.parentElement?.querySelector<HTMLElement>(
+          "[data-cv-accent='section']",
+        );
+        const ruleCss = rule ? getComputedStyle(rule) : null;
+        canvas.font = `${css.fontStyle} ${weight >= 600 ? 700 : 400} ${sizePx}px ${FONT_STACKS.sans}`;
+        result.headings[id] = {
+          beforeMm: mm(number(s.marginTop)) * zoom,
+          afterMm: mm(number(s.marginBottom)) * zoom,
+          ...(ruleCss && ruleCss.display !== "none"
+            ? {
+                rule: {
+                  textWidthMm: mm(number(css.width)) * zoom,
+                  gapMm:
+                    mm(number(getComputedStyle(el.parentElement!).columnGap)) *
+                    zoom,
+                  heightMm: mm(number(ruleCss.height)) * zoom,
+                  color: rgb(ruleCss.backgroundColor),
+                  opacity: Number(ruleCss.opacity),
+                },
+              }
+            : {}),
+        };
+      }
+    }
+    const measurement = host.querySelector<HTMLElement>(
+      "[data-cv-measure-page]",
+    )!;
+    for (const entry of [
+      ...measurement.querySelectorAll<HTMLElement>("[data-cv-entry]"),
+      ...host.querySelectorAll<HTMLElement>(
+        "[data-cv-page] [data-cv-sidebar] [data-cv-entry]",
+      ),
+    ]) {
+      if (entry.hasAttribute("data-dossier-field-id")) continue;
+      const first = entry.querySelector<HTMLElement>("[data-dossier-field-id]");
+      const id = first?.dataset.dossierFieldId?.replace(/\.[^.]+$/, "");
+      if (!id?.startsWith("cv.entry.") || result.entries[id]) continue;
+      const css = getComputedStyle(entry),
+        zoom = cvDocumentZoom(entry);
+      const date = entry.querySelector<HTMLElement>(
+        "[data-cv-rail][data-cv-date]",
+      );
+      result.entries[id] = {
+        afterMm: mm(number(css.marginBottom)) * zoom,
+        ...(date
+          ? {
+              dateRail: {
+                widthMm: mm(number(getComputedStyle(date).width)) * zoom,
+                gapMm: mm(number(css.columnGap)) * zoom,
+              },
+            }
+          : {}),
+      };
+    }
+    const header = measurement.querySelector<HTMLElement>("[data-cv-header]");
+    if (header)
+      result.headerAfterMm =
+        mm(number(getComputedStyle(header).marginBottom)) *
+        cvDocumentZoom(header);
+    const references = measurement.querySelector<HTMLElement>(
+      "[data-cv-reference-grid]",
+    );
+    if (references)
+      result.referenceGapMm =
+        mm(number(getComputedStyle(references).columnGap)) *
+        cvDocumentZoom(references);
+    for (const zone of ["header", "footer"] as const) {
+      const el = host.querySelector<HTMLElement>(
+        zone === "header"
+          ? "[data-cv-page] [data-dossier-compact-header]"
+          : "[data-cv-page] [data-dossier-footer='compact']",
+      );
+      if (!el) throw Error("DOCX Next: Kompakte Sidebar-Zone fehlt.");
+      const css = getComputedStyle(el);
+      const border =
+        zone === "header" ? css.borderBottomWidth : css.borderTopWidth;
+      result.compactChrome[zone] = {
+        heightMm: mm(number(css.height)),
+        color: rgb(css.backgroundColor),
+        borderMm: mm(number(border)),
+        borderColor: rgb(
+          zone === "header" ? css.borderBottomColor : css.borderTopColor,
+        ),
+      };
+    }
+    if (!result.fields["cv.person.name"])
+      throw Error("DOCX Next: Sidebar-Schriftwerte fehlen.");
+    return result;
+  } finally {
+    flushSync(() => root.unmount());
+    host.remove();
+  }
+}

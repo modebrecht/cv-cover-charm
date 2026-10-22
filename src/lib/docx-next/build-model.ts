@@ -49,6 +49,8 @@ import { composeCover } from "./cover-composition";
 import { applyContinuationMargin, applyFlowPageTops } from "./continuation-margin";
 import { composeCvSidebar } from "./cv-sidebar-composition";
 import { composeSharedCvSidebar } from "./cv-sidebar-shared";
+import { applyCvSidebarTypography } from "./cv-sidebar-typography";
+import type { CvSidebarTextMetrics } from "./cv-sidebar-text-metrics";
 import {
   cvSidebarGeometry,
   cvSidebarPhotoWidthMm,
@@ -109,6 +111,8 @@ export type BuildModelOptions = {
   coverTextMetrics?: CoverTextMetrics;
   /** Unaccepted shared native Sidebar body composition; renderer opt-in is also required. */
   cvSidebarComposition?: "body-stories" | "shared-body-stories";
+  /** Fresh source-bound Web typography; internal shared Sidebar candidate only. */
+  cvSidebarTextMetrics?: CvSidebarTextMetrics;
   /** Unaccepted native identity separation for first-page header/footer stories. */
   chromeFirstPageIdentity?: "distinct-stories";
 };
@@ -159,6 +163,8 @@ export function buildDossierDocModel(
   if (options.coverTextMetrics && options.coverComposition !== "authored-frames")
     throw Error("DOCX Next cover metrics require authored frame composition");
   const cvVariant = cvWordLayout(settings.cvLayout);
+  if (options.cvSidebarTextMetrics && options.cvSidebarComposition !== "shared-body-stories")
+    throw Error("DOCX Next: Sidebar-Schriftwerte benötigen den expliziten gemeinsamen Kandidaten.");
   if (
     options.chromeFirstPageIdentity !== undefined &&
     options.chromeFirstPageIdentity !== "distinct-stories"
@@ -1865,6 +1871,7 @@ export function buildDossierDocModel(
   }
   if (readingRows && capturedInteriorMetrics?.cvFlowScale !== undefined)
     cvPart.blocks = scaleCvReadingFlow(cvPart, capturedInteriorMetrics.cvFlowScale);
+  if (options.cvSidebarTextMetrics) applyCvSidebarTypography(cvPart, input, options.cvSidebarTextMetrics);
   return {
     version: 1,
     metadata: {

@@ -93,10 +93,16 @@ Auf Basis von `037bceb5c506685be25fb8c20b9283591f06fcd1` verwenden Web und `shar
 
 Die bisherige Dokumentation zu 71,4/69,4 mm beschreibt den älteren Kandidaten, nicht diesen neuen Geometriepfad. Sichtbare Typografie-/Chrome-Abweichungen, überdeckende Foto-Quellzustände und Word Save/Reopen bleiben offen. Der [neue Bericht](docx-next-sidebar-shared-geometry-22okt.md) enthält Umfang, Grenzen und den zusätzlichen gespeicherten x25-Grenzfall.
 
+## Sidebar-Typografie und kompakte Zonen
+
+Der nachfolgende [Typografie-Checkpoint](docx-next-sidebar-typography-22okt.md) bindet den internen gemeinsamen Kandidaten an frische kanonische App-Schriftwerte, Rubrikabstände, native Datums-/Referenzspalten und leere kompakte Kopf-/Fussstreifen. Drei zusätzliche gültige Foto-/Typografie-Projekte bestehen zusammen mit dem Langfall die normale PDF-Vorprüfung. 95 gezielte Tests und fokussierte strikte Typen bestehen; der Anzeige-Skalierungsvergleich liefert bytegleiche DOCX. Alle CV-Feldtexte und vollständigen Bildpixel sind in den frischen Paketen erhalten. Titelblatt und Anschreiben bleiben modellgleich.
+
+Die neue direkte PDF-Gegenüberstellung bestätigt zugleich sichtbare Restfehler: Writer rendert freie Fotos bei rund y=220 statt authored y=210 mm, der Textfluss unterscheidet sich und ein kurzer Schuleintrag wird am Seitenende geteilt. Das korrigiert keine Word-Freigabe und überträgt auch keine alte Abnahme auf neue Bytes. Die vollständige Sidebar bleibt NO-GO; Messwerte und Bilder nach Word Save/Reopen sind weiter unbestätigt.
+
 ## Nächster ausführbarer Schritt
 
-1. Native Sidebar-Typografie und Kopf-/Fusszonen mit den authored Bereichen abgleichen; die aktuell schlecht lesbare linke Fusszeile ausdrücklich einschliessen.
-2. Nicht überdeckende gespeicherte Foto-Projekte mit normalem App-PDF ergänzen. Danach ein einziges konsolidiertes Word-Paket für Bildbearbeitung und Save/Reopen vorbereiten. Keine neue Zwischenrunde für die ursprünglichen Modern-02-/Brief-12-Dateien.
+1. Den sichtbaren Bildversatz sowie die Gruppierung kurzer Einträge an der Seitengrenze am gemeinsamen Unterbau untersuchen; kein pauschaler Gegenversatz und keine Engine-Patches.
+2. Verbleibende Flächen-/Textflussabweichungen gegen dieselben gültigen Speicherprojekte bewerten. Erst danach ein einziges konsolidiertes Word-Paket für Bildbearbeitung und Save/Reopen vorbereiten. Keine neue Zwischenrunde für die ursprünglichen Modern-02-/Brief-12-Dateien.
 3. Erst nach vollständiger Abnahme über Merge und die weiteren Fidelity-Gates entscheiden.
 
 **Status: gemeinsamer Integrations-Checkpoint gesichert; Sidebar-Geometrie im neuen internen Kandidaten geprüft, visuelle Gesamt- und Word-Abnahme offen.** Kein Merge nach `dev`, `main`, `render` oder in aktive Quellbranches. Kein manuell ausgelöstes Deployment, CI-Dispatch, Produktionsschalter oder Engine-Patch.

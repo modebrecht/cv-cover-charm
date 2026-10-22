@@ -20,12 +20,15 @@ try {
   {id:'01-Sidebar-links-Portrait',side:'left',file:'01-left-portrait.json'},
   {id:'02-Sidebar-rechts-Foto',side:'right',file:'02-right-free-photo.json'},
   {id:'03-Sidebar-rechts-Folgeseite',side:'right',file:'03-right-continuation.json'},
-  {id:'04-Sidebar-rechts-Foto-x25',side:'right',file:'04-right-photo-x25.json'}
- ].filter(item=>!process.env.DOCX_NEXT_SIDEBAR_CASE||item.id.startsWith(process.env.DOCX_NEXT_SIDEBAR_CASE))) {
+  {id:'04-Sidebar-rechts-Foto-x25',side:'right',file:'04-right-photo-x25.json'},
+  {id:'05-Sidebar-links-Foto-frei',side:'left',file:'05-left-clear-portrait.json'},
+  {id:'06-Sidebar-rechts-Foto-frei',side:'right',file:'06-right-clear-photo.json'},
+  {id:'07-Sidebar-rechts-Eigene-Typografie',side:'right',file:'07-right-user-typography.json'}
+ ].filter(item=>!process.env.DOCX_NEXT_SIDEBAR_CASE||process.env.DOCX_NEXT_SIDEBAR_CASE.split(',').some(prefix=>item.id.startsWith(prefix)))) {
   const folder=path.join(output,item.id);await mkdir(folder,{recursive:true});
   const input=JSON.parse(await readFile(path.join(projectDirectory,item.file),'utf8'));
   if(input.cv.data.person.foto)await writeFile(path.join(folder,'Originalfoto.png'),Buffer.from(input.cv.data.person.foto.split(',')[1],'base64'));
-  const context=await browser.newContext({viewport:{width:1440,height:1200},deviceScaleFactor:1});
+  const context=await browser.newContext({viewport:{width:Number(process.env.DOCX_NEXT_VIEWPORT_WIDTH??1440),height:1200},deviceScaleFactor:Number(process.env.DOCX_NEXT_DEVICE_SCALE_FACTOR??1)});
   try {
    const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>void d.accept());
    await page.route('**/*',r=>r.request().url().startsWith(base)?r.continue():r.abort());
@@ -43,6 +46,7 @@ try {
    await(await savedDownload).saveAs(path.join(folder,'Projekt.json'));
    const saved=JSON.parse(await readFile(path.join(folder,'Projekt.json'),'utf8'));
    assert.equal(saved.cv.portableState.layout,'modern');assert.equal(saved.cv.portableState.infoPosition,item.side==='right'?'mirrored':'standard');
+   if(process.env.DOCX_NEXT_OUTER_ZOOM)await page.evaluate(zoom=>{document.body.style.zoom=zoom;},process.env.DOCX_NEXT_OUTER_ZOOM);
    const before=await page.evaluate(()=>JSON.stringify(Object.fromEntries(Object.keys(localStorage).sort().map(k=>[k,localStorage.getItem(k)]))));
    const generated=await page.evaluate(async(composition)=>{
     const p=await import('/src/lib/dossier-project.ts'),documents=await import('/src/lib/dossier-pdf-document.ts');
@@ -59,7 +63,8 @@ try {
      const metrics=captureCoverTextMetrics(blocks,snapshot.cover.fontScale,fonts.profile);
      (await import('/src/lib/docx-next/cover-badges.browser.ts')).captureCoverBadgeAdvances(blocks,'modern',snapshot.cover.colors,metrics);
      const {buildDossierDocModel}=await import('/src/lib/docx-next/build-model.ts');
-     const model=buildDossierDocModel(snapshot,{coverComposition:'authored-frames',coverTextMetrics:metrics,coverBadgePlacement:'body',cvSidebarComposition:composition,chromeFirstPageIdentity:'distinct-stories'});
+     const sidebarMetrics=composition==='shared-body-stories'?await(await import('/src/lib/docx-next-sidebar-metrics.browser.tsx')).captureCvSidebarTextMetrics(snapshot,fonts.profile):undefined;
+     const model=buildDossierDocModel(snapshot,{coverComposition:'authored-frames',coverTextMetrics:metrics,coverBadgePlacement:'body',cvSidebarComposition:composition,cvSidebarTextMetrics:sidebarMetrics,chromeFirstPageIdentity:'distinct-stories'});
      if(model.issues.length)throw Error('Unrelated model gates: '+JSON.stringify(model.issues));
      let picture;
      if(snapshot.cv.data.person.foto){
@@ -72,7 +77,9 @@ try {
      }
      const blob=await(await import('/src/lib/docx-next/renderer.ts')).renderDossierDocx(model,{allowUnacceptedModelIssues:true,onDecorationFailure:(id,error)=>{throw Error('Decoration failed '+id,{cause:error});}});
      const bytes=Array.from(new Uint8Array(await blob.arrayBuffer()));
-     return {snapshot,metrics,model,picture,guardError,bytes};
+     const adjacent=buildDossierDocModel(snapshot,{coverComposition:'authored-frames',coverTextMetrics:metrics,coverBadgePlacement:'body',cvSidebarComposition:composition,chromeFirstPageIdentity:'distinct-stories'});
+     if(JSON.stringify(model.cover)!==JSON.stringify(adjacent.cover)||JSON.stringify(model.letter)!==JSON.stringify(adjacent.letter))throw Error('Sidebar typography altered cover or letter');
+     return {snapshot,metrics,sidebarMetrics,adjacentPartsUnchanged:true,model,picture,guardError,bytes};
     } finally {fonts.dispose();}
    },composition);
    assert.equal(generated.snapshot.settings.cvLayout,'sidebar');assert.equal(generated.snapshot.settings.sidebarSide,item.side);
@@ -90,7 +97,7 @@ try {
    if(pdfAvailable){const pdf=page.waitForEvent('download',{timeout:60000});await pdfButton.click();await(await pdf).saveAs(path.join(folder,'App-Referenz.pdf'));}
    const after=await page.evaluate(()=>JSON.stringify(Object.fromEntries(Object.keys(localStorage).sort().map(k=>[k,localStorage.getItem(k)]))));assert.equal(after,before);assert.deepEqual(errors,[]);
    if(composition==='shared-body-stories'){const surface=generated.model.cv.artwork.find(x=>x.id==='cv.artwork.sidebar-surface');assert(Math.abs(surface.widthMm-webSidebarGeometry.widthMm)<0.05,'App/native rail width differs');assert(Math.abs(surface.xMm-webSidebarGeometry.leftMm)<0.05,'App/native rail position differs');}
-   const result={id:item.id,composition,side:item.side,webCvPages,webSidebarGeometry,nativeSidebarSurface:generated.model.cv.artwork.find(x=>x.id==='cv.artwork.sidebar-surface'),appRestoredProject:true,actualProjectSave:true,primaryPdfDownloaded:pdfAvailable,pdfPreflight,nativeScope:'Explicit internal candidate from fresh saved-app capture; guarded regular export remains rejected',productGuardPreserved:true,savedStateUnchanged:true,jsErrors:errors,picture:generated.picture,pixelsPreserved:!generated.picture||JSON.stringify(generated.picture.source)===JSON.stringify(generated.picture.normalized),docxSha256:createHash('sha256').update(native).digest('hex')};
+   const result={id:item.id,composition,side:item.side,webCvPages,webSidebarGeometry,nativeSidebarSurface:generated.model.cv.artwork.find(x=>x.id==='cv.artwork.sidebar-surface'),appRestoredProject:true,actualProjectSave:true,primaryPdfDownloaded:pdfAvailable,pdfPreflight,freshSidebarStyles:!!generated.sidebarMetrics,adjacentPartsUnchanged:generated.adjacentPartsUnchanged,nativeScope:'Explicit internal candidate from fresh saved-app capture; guarded regular export remains rejected',productGuardPreserved:true,savedStateUnchanged:true,jsErrors:errors,picture:generated.picture,pixelsPreserved:!generated.picture||JSON.stringify(generated.picture.source)===JSON.stringify(generated.picture.normalized),docxSha256:createHash('sha256').update(native).digest('hex')};
    results.push(result);console.log(JSON.stringify(result));await writeFile(path.join(output,'results.json'),JSON.stringify(results,null,2));
   } finally {await context.close();}
  }

@@ -26,6 +26,7 @@ import { cvContentBox, cvFrameFor } from "@/components/cv/archetype";
 import { letterPageGeometry } from "@/components/letter/layout-system";
 import { resolveDossierChromeSnapshot } from "@/lib/dossier-resolved-chrome";
 import { frozenCvReadingLayout } from "@/lib/dossier-reading-settings";
+import { getCvDocumentTitleMarginTopPx } from "@/lib/cv-document-title-spacing";
 
 /** Capture ambient state once. Old anonymous field IDs require explicit semantic bindings. */
 export function captureDossierDocxNextSnapshot(
@@ -84,6 +85,8 @@ export function captureDossierDocxNextSnapshot(
         ...(cvTops ? { cv: { firstMm: cvTops[0], continuationMm: cvTops[1] } } : {}),
       },
       cvLayout: cvWordLayout(layoutChoice),
+      ...(cvWordLayout(layoutChoice) === "sidebar"
+        ? { cvDocumentTitleMarginTopPx: getCvDocumentTitleMarginTopPx() } : {}),
       sidebarSide: getCvInfoPosition() === "mirrored" ? "right" : "left",
       placements: getCvPlacements(),
       cvAlignment: getCvTextAlignment(),

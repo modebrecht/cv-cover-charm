@@ -1,0 +1,501 @@
+{
+  "date": "2026-10-22",
+  "branch": "fix/docx-next-shared-integration-22okt",
+  "baseCommit": "aaaf88ac1e3587d3e377505abab2fae59002141a",
+  "scope": "Explicit internal shared-body-stories with source-bound Sidebar typography; regular product guard preserved",
+  "verdict": "NO-GO for production Sidebar",
+  "wordAcceptance": "UNVERIFIED",
+  "saveReopen": "Not run in this checkpoint",
+  "unitTests": {
+    "passed": 95,
+    "failed": 0,
+    "files": 9,
+    "expectations": 1120,
+    "processExit": 0
+  },
+  "focusedStrictTypecheck": {
+    "result": "PASS",
+    "processExit": 0,
+    "fullRepositoryClaim": false
+  },
+  "runtimes": {
+    "chromium": "156.0.8078.47",
+    "font": "Liberation Sans; model uses Arial",
+    "nativeRender": "LibreOfficeDev 26.8.0.0.alpha0",
+    "nativeBuild": "2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+    "app": "Reconstructed Vite QA SPA with real App sources and jsPDF 4.2.1 UMD; not clean original lockfile SSR runtime"
+  },
+  "sourceCodeAndFixtureSha256": {
+    "src/components/cv/CvCanvasBase.tsx": "7753140d3f9b7f55fdc4eb54a2ccf19a7432551b216f77eec588e5dc142422ec",
+    "src/lib/docx-next-cv-zoom.browser.ts": "abdd71c7ecacb8ff877b604e46c89d8cc9b4413cead16304a7110275ceb2c5e7",
+    "src/lib/docx-next/source.ts": "0a13287f64637ba0513db8d243db6716bd0da1cc1c77da232b852d3d8d521810",
+    "src/lib/docx-next/snapshot.ts": "d98f92e782c214e4bfbe1d40ce2423c21fd7e88d1cf79112d91b0819b78a1d87",
+    "src/lib/docx-next/build-model.ts": "da97d29d6bfca487891b7b1a61310321b7d760bef656080fd51eeadaf0bff4ac",
+    "src/lib/docx-next/model.ts": "f14ddab997d2130425996a0b4600f6c881dbbb6c1c559d2de9a4346f34e414c6",
+    "src/lib/docx-next/flow-surface.ts": "cef4bd26ef8ddc65c860b2983a6d3896f6e55cda39cb5e17b373e5b8cf3eadb4",
+    "src/lib/docx-next/native-text.ts": "8dbaba3c84e04b290567003765be4b9f8b0def0e97cc96b7242ac1c19ccb830d",
+    "src/lib/docx-next/validation.ts": "5dec304dfca75a16710b87b649e195d06cfed4499ae5ad12abf1636a9a591f80",
+    "src/lib/docx-next/cv-sidebar-text-metrics.ts": "8f1715691b04b5b09616f907930e839806d8ce2cc16ea9f28f1348d6e66e6952",
+    "src/lib/docx-next-sidebar-metrics.browser.tsx": "8b04db5fe6d47c83b4ef1d5c2adbfdcf3a0488e06bbbe5ba26e6f8b260ddbd7a",
+    "src/lib/docx-next/cv-sidebar-typography.ts": "722b7cec0af1cb3211dcdba18750fe5bb93fa256d2c2919896d6347870604b43",
+    "scripts/qa-sidebar-saved-projects-22okt.mjs": "3ed45fe430fe06cbc00505e2363f0c89423bc4f6752e37667448b4b11a43f4dc",
+    "tests/unit/docx-next-sidebar-typography.test.ts": "3de2d8dde89f095bafdcc5d17f770234437cc419fa1cd6abee03590ef7a512e2",
+    "tests/fixtures/docx-next/sidebar-typography-22okt.json": "46e277341d633f342a2fd2e8a4ad6df7e9d23f85180604152ea29a1675cb017b",
+    "tests/fixtures/docx-next/sidebar-saved-app-22okt/05-left-clear-portrait.json": "f2b8ef4d1b72e8faab8c75c88d3a6292cbb7c89c938d116b209c21a9e6d233d5",
+    "tests/fixtures/docx-next/sidebar-saved-app-22okt/06-right-clear-photo.json": "e405910a66b66ca2e8122b2b0a26ece8f41b59046bf02dc6d72d5ee41df3e6aa",
+    "tests/fixtures/docx-next/sidebar-saved-app-22okt/07-right-user-typography.json": "095ba4677ea8b7f3736bac56f194de78ea77595b5c071f1501d93449dc03f624"
+  },
+  "cases": [
+    {
+      "id": "03-Sidebar-rechts-Folgeseite",
+      "composition": "shared-body-stories",
+      "side": "right",
+      "webCvPages": 2,
+      "webSidebarGeometry": {
+        "leftMm": 147.02393691436578,
+        "widthMm": 62.97606308563422
+      },
+      "nativeSidebarSurface": {
+        "kind": "decorative-artwork",
+        "id": "cv.artwork.sidebar-surface",
+        "semanticText": false,
+        "fill": {
+          "color": "FBFBFC"
+        },
+        "xMm": 147,
+        "yMm": 0,
+        "widthMm": 63,
+        "heightMm": 297
+      },
+      "appRestoredProject": true,
+      "actualProjectSave": true,
+      "primaryPdfDownloaded": true,
+      "pdfPreflight": "Dossier herunterladenNur lokal auf deinem Gerät · kein Upload.JSONProjekt speichern (*.json)ZwischenstandPDFFertiges Dossier (PDF)BereitDOCXBearbeitbares Dossier (DOCX)Bereit · Vorlage ModernAlles bereit▾PDF: bereit.Word (DOCX): bereit.Vor dem Versenden Inhalt, Rechtschreibung und Kontaktdaten selbst kontrollieren.Modern-Testexport · editierbares Word-Dossier mit leeren kompakten Kopf- und Fussstreifen. Vor der Verwendung in Word prüfen.Modern DOCX Next testenZurück zum BearbeitenPDF herunterladen",
+      "freshSidebarStyles": true,
+      "adjacentPartsUnchanged": true,
+      "nativeScope": "Explicit internal candidate from fresh saved-app capture; guarded regular export remains rejected",
+      "productGuardPreserved": true,
+      "savedStateUnchanged": true,
+      "jsErrors": [],
+      "pixelsPreserved": true,
+      "docxSha256": "9f75760ce340cf496ff6955fb0c802456d11d8378b5a22f1fe7985764c1d3d0a",
+      "nativeDossierPages": 4,
+      "nativeCvPages": 2,
+      "appDossierPages": 4,
+      "activeSdtFields": 128,
+      "cvTextFields": 88,
+      "canonicalCvFieldsAndTextInPackage": true,
+      "pictureModelsUnchanged": true,
+      "embeddedPicture": null,
+      "pdfTextExtractionUnmatchedFields": [],
+      "appPdfSha256": "9972f3546b0043d00df2bac39d4c7ac5e8292f2c82130c466f9cf7a5b1a69bdc"
+    },
+    {
+      "id": "05-Sidebar-links-Foto-frei",
+      "composition": "shared-body-stories",
+      "side": "left",
+      "webCvPages": 1,
+      "webSidebarGeometry": {
+        "leftMm": 0,
+        "widthMm": 62.97602570756682
+      },
+      "nativeSidebarSurface": {
+        "kind": "decorative-artwork",
+        "id": "cv.artwork.sidebar-surface",
+        "semanticText": false,
+        "fill": {
+          "color": "FBFBFC"
+        },
+        "xMm": 0,
+        "yMm": 0,
+        "widthMm": 63,
+        "heightMm": 297
+      },
+      "appRestoredProject": true,
+      "actualProjectSave": true,
+      "primaryPdfDownloaded": true,
+      "pdfPreflight": "Dossier herunterladenNur lokal auf deinem Gerät · kein Upload.JSONProjekt speichern (*.json)ZwischenstandPDFFertiges Dossier (PDF)BereitDOCXBearbeitbares Dossier (DOCX)Bereit · Vorlage ModernAlles bereit▾PDF: bereit.Word (DOCX): bereit.Vor dem Versenden Inhalt, Rechtschreibung und Kontaktdaten selbst kontrollieren.Modern-Testexport · editierbares Word-Dossier mit leeren kompakten Kopf- und Fussstreifen. Vor der Verwendung in Word prüfen.Modern DOCX Next testenZurück zum BearbeitenPDF herunterladen",
+      "freshSidebarStyles": true,
+      "adjacentPartsUnchanged": true,
+      "nativeScope": "Explicit internal candidate from fresh saved-app capture; guarded regular export remains rejected",
+      "productGuardPreserved": true,
+      "savedStateUnchanged": true,
+      "jsErrors": [],
+      "picture": {
+        "source": {
+          "width": 120,
+          "height": 180,
+          "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+        },
+        "normalized": {
+          "width": 120,
+          "height": 180,
+          "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+        },
+        "normalizedFileSha256": "b55b592a4b251518601207931566e1fe63b77ed8294163ea519a7fe33dc4ab0f"
+      },
+      "pixelsPreserved": true,
+      "docxSha256": "a74dced15436c5622482b06b8553813d4c7ea241318bbbc0814ad21f20761389",
+      "nativeDossierPages": 3,
+      "nativeCvPages": 1,
+      "appDossierPages": 3,
+      "activeSdtFields": 88,
+      "cvTextFields": 47,
+      "canonicalCvFieldsAndTextInPackage": true,
+      "pictureModelsUnchanged": true,
+      "embeddedPicture": {
+        "representation": "DrawingML",
+        "width": 120,
+        "height": 180,
+        "embeddedFileSha256": "b55b592a4b251518601207931566e1fe63b77ed8294163ea519a7fe33dc4ab0f",
+        "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+        "crop": {
+          "l": "11818",
+          "t": "31313",
+          "r": "27576",
+          "b": "18182"
+        }
+      },
+      "pdfTextExtractionUnmatchedFields": [],
+      "appPdfSha256": "cb30b97458ff93b86fba4c2f62b9b7367aa2cb00d5f663592963c07463fef92a"
+    },
+    {
+      "id": "06-Sidebar-rechts-Foto-frei",
+      "composition": "shared-body-stories",
+      "side": "right",
+      "webCvPages": 1,
+      "webSidebarGeometry": {
+        "leftMm": 147.02393691436578,
+        "widthMm": 62.97606308563422
+      },
+      "nativeSidebarSurface": {
+        "kind": "decorative-artwork",
+        "id": "cv.artwork.sidebar-surface",
+        "semanticText": false,
+        "fill": {
+          "color": "FBFBFC"
+        },
+        "xMm": 147,
+        "yMm": 0,
+        "widthMm": 63,
+        "heightMm": 297
+      },
+      "appRestoredProject": true,
+      "actualProjectSave": true,
+      "primaryPdfDownloaded": true,
+      "pdfPreflight": "Dossier herunterladenNur lokal auf deinem Gerät · kein Upload.JSONProjekt speichern (*.json)ZwischenstandPDFFertiges Dossier (PDF)BereitDOCXBearbeitbares Dossier (DOCX)Bereit · Vorlage ModernAlles bereit▾PDF: bereit.Word (DOCX): bereit.Vor dem Versenden Inhalt, Rechtschreibung und Kontaktdaten selbst kontrollieren.Modern-Testexport · editierbares Word-Dossier mit leeren kompakten Kopf- und Fussstreifen. Vor der Verwendung in Word prüfen.Modern DOCX Next testenZurück zum BearbeitenPDF herunterladen",
+      "freshSidebarStyles": true,
+      "adjacentPartsUnchanged": true,
+      "nativeScope": "Explicit internal candidate from fresh saved-app capture; guarded regular export remains rejected",
+      "productGuardPreserved": true,
+      "savedStateUnchanged": true,
+      "jsErrors": [],
+      "picture": {
+        "source": {
+          "width": 1920,
+          "height": 2880,
+          "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6"
+        },
+        "normalized": {
+          "width": 1920,
+          "height": 2880,
+          "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6"
+        },
+        "normalizedFileSha256": "f8ba8f4b000d9aa4f18a5f476a630615232905810aec92c69d4e128cbfdec69c"
+      },
+      "pixelsPreserved": true,
+      "docxSha256": "dbdb00739239143e0f3091536843d8280f355321512af03acbccb76902169698",
+      "nativeDossierPages": 3,
+      "nativeCvPages": 1,
+      "appDossierPages": 3,
+      "activeSdtFields": 88,
+      "cvTextFields": 47,
+      "canonicalCvFieldsAndTextInPackage": true,
+      "pictureModelsUnchanged": true,
+      "embeddedPicture": {
+        "representation": "DrawingML",
+        "width": 1920,
+        "height": 2880,
+        "embeddedFileSha256": "f8ba8f4b000d9aa4f18a5f476a630615232905810aec92c69d4e128cbfdec69c",
+        "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6",
+        "crop": {
+          "l": "8400",
+          "t": "24400",
+          "r": "11600",
+          "b": "22267"
+        }
+      },
+      "pdfTextExtractionUnmatchedFields": [],
+      "appPdfSha256": "3149e3910750bb077cf3882386a8e25f37c9f91bae0a1baec4ab00a85db064ce"
+    },
+    {
+      "id": "07-Sidebar-rechts-Eigene-Typografie",
+      "composition": "shared-body-stories",
+      "side": "right",
+      "webCvPages": 1,
+      "webSidebarGeometry": {
+        "leftMm": 147.02393691436578,
+        "widthMm": 62.97606308563422
+      },
+      "nativeSidebarSurface": {
+        "kind": "decorative-artwork",
+        "id": "cv.artwork.sidebar-surface",
+        "semanticText": false,
+        "fill": {
+          "color": "FBFBFC"
+        },
+        "xMm": 147,
+        "yMm": 0,
+        "widthMm": 63,
+        "heightMm": 297
+      },
+      "appRestoredProject": true,
+      "actualProjectSave": true,
+      "primaryPdfDownloaded": true,
+      "pdfPreflight": "Dossier herunterladenNur lokal auf deinem Gerät · kein Upload.JSONProjekt speichern (*.json)ZwischenstandPDFFertiges Dossier (PDF)BereitDOCXBearbeitbares Dossier (DOCX)Bereit · Vorlage ModernAlles bereit▾PDF: bereit.Word (DOCX): bereit.Vor dem Versenden Inhalt, Rechtschreibung und Kontaktdaten selbst kontrollieren.Modern-Testexport · editierbares Word-Dossier mit leeren kompakten Kopf- und Fussstreifen. Vor der Verwendung in Word prüfen.Modern DOCX Next testenZurück zum BearbeitenPDF herunterladen",
+      "freshSidebarStyles": true,
+      "adjacentPartsUnchanged": true,
+      "nativeScope": "Explicit internal candidate from fresh saved-app capture; guarded regular export remains rejected",
+      "productGuardPreserved": true,
+      "savedStateUnchanged": true,
+      "jsErrors": [],
+      "picture": {
+        "source": {
+          "width": 1920,
+          "height": 2880,
+          "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6"
+        },
+        "normalized": {
+          "width": 1920,
+          "height": 2880,
+          "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6"
+        },
+        "normalizedFileSha256": "f8ba8f4b000d9aa4f18a5f476a630615232905810aec92c69d4e128cbfdec69c"
+      },
+      "pixelsPreserved": true,
+      "docxSha256": "5e8f0d9e0c0432e507c9c5e7e901879da09fe982177d74635ed262e770709039",
+      "nativeDossierPages": 3,
+      "nativeCvPages": 1,
+      "appDossierPages": 3,
+      "activeSdtFields": 91,
+      "cvTextFields": 50,
+      "canonicalCvFieldsAndTextInPackage": true,
+      "pictureModelsUnchanged": true,
+      "embeddedPicture": {
+        "representation": "DrawingML",
+        "width": 1920,
+        "height": 2880,
+        "embeddedFileSha256": "f8ba8f4b000d9aa4f18a5f476a630615232905810aec92c69d4e128cbfdec69c",
+        "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6",
+        "crop": {
+          "l": "8400",
+          "t": "24400",
+          "r": "11600",
+          "b": "22267"
+        }
+      },
+      "pdfTextExtractionUnmatchedFields": [],
+      "appPdfSha256": "9f587f68267195290c32f4ee1b3aac9010e06cd047f279a38441086e89f0dc67"
+    }
+  ],
+  "viewScale": {
+    "baseline": {
+      "dpr": 1,
+      "viewportWidth": 1440,
+      "outerCssZoom": 1
+    },
+    "comparison": {
+      "dpr": 2,
+      "viewportWidth": 390,
+      "outerCssZoom": 0.75
+    },
+    "result": {
+      "snapshot": true,
+      "metrics": true,
+      "sidebarMetrics": true,
+      "model": true,
+      "docxByteEqual": true
+    },
+    "limitedTo": "One shared Sidebar saved project; not every browser/OS zoom combination"
+  },
+  "compactPaintSamples": [
+    {
+      "case": "03-Sidebar-rechts-Folgeseite",
+      "page": "page-3.png",
+      "compactBandSamplesRgb": [
+        [
+          17,
+          24,
+          40
+        ],
+        [
+          17,
+          24,
+          40
+        ],
+        [
+          17,
+          24,
+          40
+        ],
+        [
+          17,
+          24,
+          40
+        ]
+      ]
+    },
+    {
+      "case": "03-Sidebar-rechts-Folgeseite",
+      "page": "page-4.png",
+      "compactBandSamplesRgb": [
+        [
+          17,
+          24,
+          40
+        ],
+        [
+          17,
+          24,
+          40
+        ],
+        [
+          17,
+          24,
+          40
+        ],
+        [
+          17,
+          24,
+          40
+        ]
+      ]
+    },
+    {
+      "case": "05-Sidebar-links-Foto-frei",
+      "page": "page-3.png",
+      "compactBandSamplesRgb": [
+        [
+          17,
+          24,
+          40
+        ],
+        [
+          17,
+          24,
+          40
+        ],
+        [
+          17,
+          24,
+          40
+        ],
+        [
+          17,
+          24,
+          40
+        ]
+      ]
+    },
+    {
+      "case": "06-Sidebar-rechts-Foto-frei",
+      "page": "page-3.png",
+      "compactBandSamplesRgb": [
+        [
+          17,
+          24,
+          40
+        ],
+        [
+          17,
+          24,
+          40
+        ],
+        [
+          17,
+          24,
+          40
+        ],
+        [
+          17,
+          24,
+          40
+        ]
+      ]
+    },
+    {
+      "case": "07-Sidebar-rechts-Eigene-Typografie",
+      "page": "page-3.png",
+      "compactBandSamplesRgb": [
+        [
+          17,
+          24,
+          40
+        ],
+        [
+          17,
+          24,
+          40
+        ],
+        [
+          17,
+          24,
+          40
+        ],
+        [
+          17,
+          24,
+          40
+        ]
+      ]
+    }
+  ],
+  "confirmedVisiblePhotoOffsets": [
+    {
+      "case": "05-Sidebar-links-Foto-frei",
+      "authoredImageTopMm": 210,
+      "writerVisibleImageBboxMm": [
+        24.99431,
+        219.97486,
+        59.00208,
+        262.46695
+      ],
+      "writerVisibleVerticalDifferenceMm": 9.97486,
+      "wordBehavior": "UNVERIFIED"
+    },
+    {
+      "case": "06-Sidebar-rechts-Foto-frei",
+      "authoredImageTopMm": 210,
+      "writerVisibleImageBboxMm": [
+        151.00652,
+        219.99249,
+        185.01431,
+        254.00028
+      ],
+      "writerVisibleVerticalDifferenceMm": 9.99249,
+      "wordBehavior": "UNVERIFIED"
+    },
+    {
+      "case": "07-Sidebar-rechts-Eigene-Typografie",
+      "authoredImageTopMm": 210,
+      "writerVisibleImageBboxMm": [
+        151.00652,
+        219.99249,
+        185.01431,
+        254.00028
+      ],
+      "writerVisibleVerticalDifferenceMm": 9.99249,
+      "wordBehavior": "UNVERIFIED"
+    }
+  ],
+  "confirmedRemainingVisualFindings": [
+    "Writer free-picture image top near 220 mm despite source/model y=210; cause not isolated; Word unverified",
+    "Main text starts lower and accumulated vertical flow differs from App PDF",
+    "Short entry Schulstation 12 splits metadata from place/description over two CV pages in case 03",
+    "Native sidebar tone, motifs, divider and bullet color still differ from App PDF"
+  ],
+  "imageLimit": "Full decoded RGBA pixels and complete normalized PNG preserved in fresh picture SDT; original JPEG bytes/EXIF/ICC and editing/save stability are not proven",
+  "photoFixtureKind": "Synthetic test PNGs, not user portraits",
+  "originalWord02And12Acceptance": "Retained only for their original bytes; not transferred to this checkpoint",
+  "historical22CaseGate": "Not rerun and not weakened"
+}

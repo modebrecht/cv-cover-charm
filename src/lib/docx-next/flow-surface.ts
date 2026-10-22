@@ -16,7 +16,7 @@ export function flowSurfacePaint(p: Paragraph): DecorationPaint {
     opacity: 1,
     stroke: { color: "000000", widthMm: 0 },
   };
-  const layers: DecorativeShape[] = [
+  const layers: DecorativeShape[] = s.variant === "rule" ? [] : [
     {
       ...base,
       id: base.id + ".fill",

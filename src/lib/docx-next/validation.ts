@@ -163,6 +163,8 @@ export function validateDossierDocModel(model: DossierDocModel): void {
       if (block.kind === "paragraph" && block.flowSurface) {
         const s = block.flowSurface;
         if (
+          (s.variant !== undefined &&
+            (s.variant !== "rule" || s.paddingXMm !== 0 || s.paddingYMm !== 0 || s.outlineMm !== 0)) ||
           part.id !== "cv" ||
           block.role !== "heading" ||
           block.align !== "left" ||
@@ -194,6 +196,10 @@ export function validateDossierDocModel(model: DossierDocModel): void {
         )
           throw Error("DOCX Next invalid flowing rubric rule");
       }
+      if (block.kind === "paragraph" &&
+          ((block.rightIndentMm !== undefined && (!Number.isFinite(block.rightIndentMm) || block.rightIndentMm < 0)) ||
+            (block.listIndentMm !== undefined && (!block.list || !Number.isFinite(block.listIndentMm) || block.listIndentMm <= 0))))
+        throw Error(`DOCX Next invalid paragraph inset ${block.id}`);
       if (block.kind === "paragraph-frame") {
         if (block.wrapMode !== undefined &&
             (block.wrapMode !== "none" || block.surface !== undefined))

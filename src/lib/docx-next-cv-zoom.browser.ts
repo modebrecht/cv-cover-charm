@@ -1,6 +1,6 @@
 /** CSS document zoom, excluding the page's outer preview and browser display scale. */
 export function cvDocumentZoom(el: HTMLElement): number {
-  const page = el.closest<HTMLElement>("[data-cv-page]");
+  const page = el.closest<HTMLElement>("[data-cv-page], [data-cv-measure-page]");
   if (!page) throw Error("DOCX Next: CV document page is missing.");
   let zoom = 1;
   for (let node: HTMLElement | null = el; node && node !== page; node = node.parentElement) {
