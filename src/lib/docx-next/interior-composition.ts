@@ -2,6 +2,7 @@ import type { DossierAppSnapshot } from "./source";
 import type { DocumentPart, DecorativeShape } from "./model";
 import { interiorMetricsKey, type InteriorTextMetrics } from "./interior-metrics";
 import type { DossierChromeContact, DossierChromeOptions } from "@/lib/dossier-chrome";
+import { applyCvPaintedFooterReserve } from "./cv-painted-footer";
 
 /** Reuses fixed-page native paragraphs and the existing decorative page asset.
  * No browser services, HTML, PDF pagination or renderer markup enters here. */
@@ -25,6 +26,7 @@ export function composeMeasuredHeaders(
   part.header = [];
   part.firstHeader = [];
   part.footer = [];
+  applyCvPaintedFooterReserve(part, options);
   part.page.headerDistanceMm = 0;
   part.chrome.borderColor = undefined;
   part.artwork = part.artwork.filter(

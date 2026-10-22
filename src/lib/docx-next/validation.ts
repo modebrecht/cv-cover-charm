@@ -69,8 +69,9 @@ export function validateDossierDocModel(model: DossierDocModel): void {
           block.kind === "parallel-flow" ||
           (block.kind === "table" &&
             block.id === "cv.sidebar" &&
-            block.bodyBoundary === "paragraph" &&
-            block.bodyBoundaryKeepNext === true &&
+            ((block.bodyBoundary === "paragraph" && block.bodyBoundaryKeepNext === true) ||
+              (block.bodyBoundary === "section-start" &&
+                block.bodyBoundaryKeepNext === undefined)) &&
             !block.position &&
             block.rows.length === 1 &&
             block.rows[0].cells.length === 3 &&
@@ -231,7 +232,8 @@ export function validateDossierDocModel(model: DossierDocModel): void {
             (s.fillColor !== undefined && !/^[0-9A-F]{6}$/.test(s.fillColor)) ||
             (s.borderColor !== undefined && !/^[0-9A-F]{6}$/.test(s.borderColor)) ||
             (s.borderWidthMm !== undefined &&
-              (!Number.isFinite(s.borderWidthMm) || s.borderWidthMm < 0 ||
+              (!Number.isFinite(s.borderWidthMm) ||
+                s.borderWidthMm < 0 ||
                 s.borderWidthMm >= Math.min(block.widthMm, s.heightMm))) ||
             (!!s.borderWidthMm && !s.borderColor) ||
             (s.verticalAlign !== undefined && !["top", "center"].includes(s.verticalAlign)) ||
@@ -376,7 +378,8 @@ export function validateDossierDocModel(model: DossierDocModel): void {
           throw Error("DOCX Next invalid table after-spacing");
         if (
           block.columnRounding !== undefined &&
-          (block.columnRounding !== "cumulative" || block.bodyBoundary !== "paragraph")
+          (block.columnRounding !== "cumulative" ||
+            !["paragraph", "section-start"].includes(block.bodyBoundary ?? ""))
         )
           throw new Error(`DOCX Next invalid table column rounding ${block.id}`);
         if (
@@ -384,8 +387,8 @@ export function validateDossierDocModel(model: DossierDocModel): void {
           (!Number.isFinite(block.bodyBoundaryLeadMm) ||
             block.bodyBoundaryLeadMm < 0 ||
             block.bodyBoundaryLeadMm > part.page.heightMm - margins.top - margins.bottom - 30 ||
-            block.bodyBoundary !== "paragraph" ||
-            block.bodyBoundaryKeepNext !== true)
+            !["paragraph", "section-start"].includes(block.bodyBoundary ?? "") ||
+            (block.bodyBoundary === "paragraph" && block.bodyBoundaryKeepNext !== true))
         )
           throw new Error(`DOCX Next invalid table body boundary lead ${block.id}`);
         if (
@@ -395,11 +398,17 @@ export function validateDossierDocModel(model: DossierDocModel): void {
           throw new Error(`DOCX Next invalid table body boundary attachment ${block.id}`);
         if (
           block.bodyBoundary !== undefined &&
-          (block.bodyBoundary !== "paragraph" ||
+          (!["paragraph", "section-start"].includes(block.bodyBoundary) ||
             block.position !== undefined ||
             !part.blocks.includes(block))
         )
           throw new Error(`DOCX Next invalid table body boundary ${block.id}`);
+        if (
+          block.bodyBoundary === "section-start" &&
+          (part.id !== "cv" ||
+            part.blocks.find((candidate) => candidate.kind !== "decorative-shape") !== block)
+        )
+          throw new Error(`DOCX Next section-start table must open the CV ${block.id}`);
         if (
           block.identityCarrier !== undefined &&
           (block.identityCarrier !== "cell-ending" || !block.rows.length)

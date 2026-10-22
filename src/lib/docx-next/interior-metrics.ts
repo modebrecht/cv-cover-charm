@@ -19,6 +19,8 @@ export type HeaderMeasurement = {
   icons: ImageBlock[];
 };
 export type InteriorTextMetrics = {
+  /** Document-owned CSS zoom, independent of the editor/browser view. */
+  cvFlowScale?: number;
   version: 1;
   sourceKey: string;
   profile: string;

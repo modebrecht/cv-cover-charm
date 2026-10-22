@@ -44,15 +44,15 @@ export function composeCvSidebar(
         // The saved free coordinates mirror with the app's physical Sidebar composition.
         const physicalXmm =
           part.layout.side === "right" ? part.page.widthMm - block.xMm - block.widthMm : block.xMm;
-        const { borderInsetMm } = imageZoneExtent(block);
+        const { borderOutsetMm } = imageZoneExtent(block);
         const tracks = [
           { blocks: side, leftMm: sideLeft + paddingXMm, widthMm: sideWidth, topMm: bodyTopMm + 3 },
           { blocks: main, leftMm: mainLeft, widthMm: mainWidth, topMm: bodyTopMm },
         ];
         const owner = tracks.find(
           (track) =>
-            physicalXmm - borderInsetMm >= track.leftMm - 0.001 &&
-            physicalXmm + block.widthMm + borderInsetMm <= track.leftMm + track.widthMm + 0.001,
+            physicalXmm - borderOutsetMm >= track.leftMm - 0.001 &&
+            physicalXmm + block.widthMm + borderOutsetMm <= track.leftMm + track.widthMm + 0.001,
         );
         if (!owner) throw new Error(`DOCX Next free photo must fit one native track ${block.id}`);
         owner.blocks.unshift(
@@ -70,7 +70,8 @@ export function composeCvSidebar(
         continue;
       }
       const target = block.placement === part.layout.side ? side : main;
-      if (block.widthMm > (target === side ? sideWidth : mainWidth) + 0.001)
+      const paintedWidthMm = block.widthMm + 2 * (block.frame?.borderWidthMm ?? 0);
+      if (paintedWidthMm > (target === side ? sideWidth : mainWidth) + 0.001)
         throw new Error(`DOCX Next sidebar photo exceeds its native track: ${block.id}`);
       target.unshift({
         ...block,
@@ -115,5 +116,43 @@ export function composeCvSidebar(
   };
   // Explicit page starts/nested columns/floating semantic content fail at this boundary.
   if (composition === "semantic-rows") parallelFlowTable(flow, width);
-  part.blocks = [...outside, composition === "body-stories" ? sidebarBodyTable(flow, width) : flow];
+  if (opacity > 0) {
+    // Cell shading ends with the story. The structural rail belongs to the
+    // page, including its outer margin and the space after the final entry.
+    // Reuse the same native content edge; do not resize or stretch the table.
+    const edgeMm =
+      part.layout.side === "left"
+        ? part.page.margins.left + sideWidth + 2 * paddingXMm
+        : part.page.widthMm - part.page.margins.right - sideWidth - 2 * paddingXMm;
+    const leftMm = part.layout.side === "left" ? 0 : edgeMm;
+    const widthMm = part.layout.side === "left" ? edgeMm : part.page.widthMm - edgeMm;
+    part.artwork.push(
+      {
+        kind: "decorative-artwork",
+        id: "cv.artwork.sidebar-surface",
+        semanticText: false,
+        fill: { color: compositeTextColor(accent, paper, 0.08 * opacity) },
+        xMm: leftMm,
+        yMm: 0,
+        widthMm,
+        heightMm: part.page.heightMm,
+      },
+      {
+        kind: "decorative-artwork",
+        id: "cv.artwork.sidebar-edge",
+        semanticText: false,
+        fill: { color: compositeTextColor(accent, paper, opacity) },
+        xMm: edgeMm - 0.125,
+        yMm: 0,
+        widthMm: 0.25,
+        heightMm: part.page.heightMm,
+      },
+    );
+  }
+  part.blocks = [
+    ...outside,
+    composition === "body-stories"
+      ? sidebarBodyTable(flow, width, part.layout.side === "left" ? 1 : 0)
+      : flow,
+  ];
 }

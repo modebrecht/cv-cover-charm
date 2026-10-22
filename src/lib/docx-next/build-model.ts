@@ -42,6 +42,7 @@ import { composeSourceCompactBands } from "./compact-chrome";
 import { composeMeasuredHeaders } from "./interior-composition";
 import { ownFlowSurfaceSpacing } from "./flow-surface-spacing";
 import { composeCvReadingColumns } from "./cv-reading-columns";
+import { scaleCvReadingFlow } from "./cv-flow-scale";
 import type { InteriorTextMetrics, CvPersonalHeaderMetrics } from "./interior-metrics";
 import type { CoverTextMetrics } from "@/components/cover/text-metrics";
 import { composeCover } from "./cover-composition";
@@ -669,7 +670,13 @@ export function buildDossierDocModel(
       {
         role: "heading",
         beforeMm: sectionGapMm,
-        afterMm: ((cd.sectionTitleMarginBottomPx ?? 7) * 25.4) / 96,
+        // Match default-pagination-density.css in the shared classic reading flow.
+        // The old 7 px fallback added 1.35 mm per heading to Word. Keep an
+        // explicit user value (including zero); null in older JSON means unset.
+        afterMm:
+          cd.sectionTitleMarginBottomPx == null && readingRows
+            ? 0.5
+            : ((cd.sectionTitleMarginBottomPx ?? 7) * 25.4) / 96,
         keepNext: true,
         keepLines: true,
         ...(cd.headingRule !== "none" && template.cv.headingRule ? { ruleColor: cvAccent } : {}),
@@ -1063,9 +1070,11 @@ export function buildDossierDocModel(
         return {
           kind: "table",
           id: `cv.section.referenzen.pair:${pair.map((entry) => entry.id).join("|")}`,
-          widths: [1, 1],
-          rows: [{ cells: [pair.slice(0, 1), pair.slice(1)], keepTogether: false }],
-          decoration: { borderColor: cvAccent, borderWidthMm: 0, paddingXMm: 3, paddingYMm: 0 },
+          // Match the preview's two equal tracks and 6 mm gap without an outer inset.
+          widths: [1, 1, 1],
+          columnWidthsMm: [null, 6, null],
+          rows: [{ cells: [pair.slice(0, 1), [], pair.slice(1)], keepTogether: false }],
+          decoration: { borderColor: cvAccent, borderWidthMm: 0, paddingXMm: 0, paddingYMm: 0 },
         };
       });
     }
@@ -1796,6 +1805,8 @@ export function buildDossierDocModel(
     block.lineHeight = role.lineHeightPt / role.style.sizePt;
     if (role.afterMm !== undefined) block.afterMm = role.afterMm;
   }
+  if (readingRows && capturedInteriorMetrics?.cvFlowScale !== undefined)
+    cvPart.blocks = scaleCvReadingFlow(cvPart, capturedInteriorMetrics.cvFlowScale);
   return {
     version: 1,
     metadata: {

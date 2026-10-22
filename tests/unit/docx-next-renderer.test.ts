@@ -99,6 +99,10 @@ describe("DOCX Next independent renderer", () => {
     );
     expect(pkg["word/document.xml"]).toContain('prst="ellipse"');
     expect(pkg["word/document.xml"]).toContain('<a:ln w="18000">');
+    expect(pkg["word/document.xml"]).toContain(
+      '<wp:effectExtent l="18000" t="18000" r="18000" b="18000"/>',
+    );
+    expect(pkg["word/document.xml"]).toContain('<wp:effectExtent l="0" t="0" r="0" b="0"/>');
     expect(pkg["word/document.xml"]).toContain('relativeFrom="page"');
     expect(pkg["word/document.xml"]).toContain("<wp:anchor");
     expect(pkg["word/_rels/document.xml.rels"]).toContain('Target="media/image-1.png"');

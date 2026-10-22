@@ -1,3 +1,4 @@
+import { cvReadingFlowZoom } from "./docx-next-cv-zoom.browser";
 import { createRoot } from "react-dom/client";
 import { flushSync } from "react-dom";
 import { DossierHeaderFooterChrome } from "@/components/dossier/DossierHeaderFooterChrome";
@@ -367,6 +368,7 @@ export async function captureInteriorTextMetrics(
       await new Promise<void>((resolve) =>
         requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
       );
+      result.cvFlowScale = cvReadingFlowZoom(host);
       if (hasPills) result.rubrics = {};
       for (const el of hasPills
         ? Array.from(

@@ -1,0 +1,9 @@
+Recorded tool-output summary from the completed focused run; the full local log was not retrievable after environment_offline.
+
+206 pass
+0 fail
+2851 expect() calls
+Ran 206 tests across 27 files. [1.73s]
+
+Focused strict TypeScript: PASS.
+Original build process: exit code 0 observed; log and generated artifacts not inspected after runtime disconnection.

@@ -1,0 +1,411 @@
+--- /dev/null
++++ b/src/lib/docx-next/cv-flow-scale.ts
+@@ -0,0 +1,166 @@
++import type { CellDecoration, DocBlock, DocumentPart, Paragraph, TableBlock } from "./model";
++import { tableColumnWidths } from "./layouts";
++
++/** Convert the captured CSS document scale to physical Word units exactly once.
++ * Page-owned geometry and the available paper width are independent of this scale.
++ */
++export function scaleCvReadingFlow(part: DocumentPart, scale: number): DocBlock[] {
++  if (part.id !== "cv" || part.layout.mode !== "classic")
++    throw Error("DOCX Next: Document scale requires classic CV reading flow.");
++  if (!Number.isFinite(scale) || scale < 0.5 || scale > 2)
++    throw Error("DOCX Next: Unsupported CV document scale.");
++  if (scale === 1) return part.blocks;
++  const cellPaint = (value: CellDecoration): CellDecoration => ({
++    ...value,
++    paddingXMm: value.paddingXMm * scale,
++    paddingYMm: value.paddingYMm * scale,
++    ...(value.paddingTopMm === undefined ? {} : { paddingTopMm: value.paddingTopMm * scale }),
++    ...(value.paddingBottomMm === undefined
++      ? {}
++      : { paddingBottomMm: value.paddingBottomMm * scale }),
++    ...(value.border ? { border: { ...value.border, widthMm: value.border.widthMm * scale } } : {}),
++  });
++  function paragraph(p: Paragraph, oldWidth: number, newWidth: number): Paragraph {
++    const surface = p.flowSurface;
++    const rowWidth = surface
++      ? surface.rowWidthMm + newWidth - oldWidth + (p.indentMm ?? 0) * (1 - scale)
++      : 0;
++    if (surface && rowWidth + 0.001 < surface.widthMm * scale)
++      throw Error(`DOCX Next: Scaled CV heading exceeds its flow width (${p.id}).`);
++    return {
++      ...p,
++      runs: p.runs.map((run) => ({
++        ...run,
++        style: {
++          ...run.style,
++          sizePt: run.style.sizePt * scale,
++          ...(run.style.trackingPt === undefined
++            ? {}
++            : { trackingPt: run.style.trackingPt * scale }),
++        },
++      })),
++      beforeMm: p.beforeMm * scale,
++      afterMm: p.afterMm * scale,
++      ...(p.minimumLineHeightPt === undefined
++        ? {}
++        : { minimumLineHeightPt: p.minimumLineHeightPt * scale }),
++      ...(p.indentMm === undefined ? {} : { indentMm: p.indentMm * scale }),
++      ...(p.tabStopsMm ? { tabStopsMm: p.tabStopsMm.map((value) => value * scale) } : {}),
++      ...(surface
++        ? {
++            flowSurface: {
++              ...surface,
++              widthMm: surface.widthMm * scale,
++              rowWidthMm: rowWidth,
++              heightMm: surface.heightMm * scale,
++              paddingXMm: surface.paddingXMm * scale,
++              paddingYMm: surface.paddingYMm * scale,
++              outlineMm: surface.outlineMm * scale,
++              ...(surface.rule
++                ? {
++                    rule: {
++                      ...surface.rule,
++                      gapMm: surface.rule.gapMm * scale,
++                      heightMm: surface.rule.heightMm * scale,
++                    },
++                  }
++                : {}),
++            },
++          }
++        : {}),
++    };
++  }
++  function table(value: TableBlock, oldAvailable: number, newAvailable: number): TableBlock {
++    if (value.position)
++      throw Error(`DOCX Next: Positioned table is not CV reading flow (${value.id}).`);
++    const oldWidth = value.widthMm ?? oldAvailable - (value.indentMm ?? 0);
++    const newWidth =
++      value.widthMm === undefined
++        ? newAvailable - (value.indentMm ?? 0) * scale
++        : value.widthMm * scale;
++    const decoration = value.decoration ?? {
++      borderColor: "000000",
++      borderWidthMm: 0,
++      paddingXMm: 2,
++      paddingYMm: 0,
++    };
++    const next: TableBlock = {
++      ...value,
++      ...(value.widthMm === undefined ? {} : { widthMm: newWidth }),
++      ...(value.indentMm === undefined ? {} : { indentMm: value.indentMm * scale }),
++      ...(value.afterMm === undefined ? {} : { afterMm: value.afterMm * scale }),
++      ...(value.bodyBoundaryLeadMm === undefined
++        ? {}
++        : { bodyBoundaryLeadMm: value.bodyBoundaryLeadMm * scale }),
++      ...(value.columnWidthsMm
++        ? { columnWidthsMm: value.columnWidthsMm.map((v) => (v === null ? null : v * scale)) }
++        : {}),
++      decoration: {
++        ...decoration,
++        borderWidthMm: decoration.borderWidthMm * scale,
++        paddingXMm: decoration.paddingXMm * scale,
++        paddingYMm: decoration.paddingYMm * scale,
++      },
++      rows: [],
++    };
++    const oldColumns = tableColumnWidths(value, oldWidth),
++      newColumns = tableColumnWidths(next, newWidth);
++    next.rows = value.rows.map((row) => ({
++      ...row,
++      ...(row.cellDecorations
++        ? { cellDecorations: row.cellDecorations.map((p) => (p ? cellPaint(p) : undefined)) }
++        : {}),
++      cells: row.cells.map((blocks, index) => {
++        const padding = row.cellDecorations?.[index]?.paddingXMm ?? decoration.paddingXMm;
++        return blocks.map((block) =>
++          visit(block, oldColumns[index] - 2 * padding, newColumns[index] - 2 * padding * scale),
++        );
++      }),
++    }));
++    return next;
++  }
++  function visit(block: DocBlock, oldWidth: number, newWidth: number): DocBlock {
++    switch (block.kind) {
++      case "paragraph":
++        return paragraph(block, oldWidth, newWidth);
++      case "section": {
++        const indent = block.contentIndentMm ?? 0;
++        return {
++          ...block,
++          ...(block.contentIndentMm === undefined ? {} : { contentIndentMm: indent * scale }),
++          ...(block.heading ? { heading: paragraph(block.heading, oldWidth, newWidth) } : {}),
++          blocks: block.blocks.map((b) => visit(b, oldWidth - indent, newWidth - indent * scale)),
++        };
++      }
++      case "entry":
++      case "group":
++        return { ...block, blocks: block.blocks.map((b) => visit(b, oldWidth, newWidth)) };
++      case "table":
++        return table(block, oldWidth, newWidth);
++      case "spacer":
++        return { ...block, heightMm: block.heightMm * scale };
++      case "rule":
++        return {
++          ...block,
++          lengthMm: block.lengthMm * scale,
++          afterMm: block.afterMm * scale,
++          ...(block.indentMm === undefined ? {} : { indentMm: block.indentMm * scale }),
++          ...(block.strokeWidthMm === undefined
++            ? {}
++            : { strokeWidthMm: block.strokeWidthMm * scale }),
++        };
++      case "page-break":
++      case "image":
++      case "decorative-shape":
++      case "paragraph-frame":
++        return block;
++      case "columns":
++      case "column-flow":
++      case "parallel-flow":
++      case "image-zone":
++        throw Error(`DOCX Next: Unsupported scaled CV flow owner (${block.id}).`);
++    }
++  }
++  const width = part.page.widthMm - part.page.margins.left - part.page.margins.right;
++  return part.blocks.map((block) => visit(block, width, width));
++}
+--- /dev/null
++++ b/src/lib/docx-next-cv-zoom.browser.ts
+@@ -0,0 +1,21 @@
++/** CSS document zoom, excluding the page's outer preview and browser display scale. */
++export function cvDocumentZoom(el: HTMLElement): number {
++  const page = el.closest<HTMLElement>("[data-cv-page]");
++  if (!page) throw Error("DOCX Next: CV document page is missing.");
++  let zoom = 1;
++  for (let node: HTMLElement | null = el; node && node !== page; node = node.parentElement) {
++    const value = getComputedStyle(node).zoom;
++    const own = value === "normal" ? 1 : Number(value);
++    if (!Number.isFinite(own) || own <= 0) throw Error("DOCX Next: Invalid document CSS zoom.");
++    zoom *= own;
++  }
++  return zoom;
++}
++export function cvReadingFlowZoom(host: HTMLElement): number {
++  const rows = [...host.querySelectorAll<HTMLElement>("[data-cv-page] [data-cv-content-row]")];
++  if (!rows.length) return 1;
++  const zoom = cvDocumentZoom(rows[0]);
++  if (rows.some((row) => Math.abs(cvDocumentZoom(row) - zoom) > 1e-6))
++    throw Error("DOCX Next: Inconsistent CV flow zoom.");
++  return zoom;
++}
+--- a/src/lib/docx-next/interior-metrics.ts
++++ b/src/lib/docx-next/interior-metrics.ts
+@@ -19,6 +19,8 @@
+   icons: ImageBlock[];
+ };
+ export type InteriorTextMetrics = {
++  /** Document-owned CSS zoom, independent of the editor/browser view. */
++  cvFlowScale?: number;
+   version: 1;
+   sourceKey: string;
+   profile: string;
+--- a/src/lib/docx-next/build-model.ts
++++ b/src/lib/docx-next/build-model.ts
+@@ -42,6 +42,7 @@
+ import { composeMeasuredHeaders } from "./interior-composition";
+ import { ownFlowSurfaceSpacing } from "./flow-surface-spacing";
+ import { composeCvReadingColumns } from "./cv-reading-columns";
++import { scaleCvReadingFlow } from "./cv-flow-scale";
+ import type { InteriorTextMetrics, CvPersonalHeaderMetrics } from "./interior-metrics";
+ import type { CoverTextMetrics } from "@/components/cover/text-metrics";
+ import { composeCover } from "./cover-composition";
+@@ -218,17 +219,21 @@
+       ? { ...DEFAULT_CV_PLACEMENTS, ...settings.placements }
+       : settings.placements;
+   const template = nextTemplate(String(cover.template));
+-  if (options.nativeAvatarComposition !== undefined &&
+-      (options.nativeAvatarComposition !== "writer-vml" ||
+-        options.coverComposition !== undefined ||
+-        template.cover.nativePhotoPlaceholder !== "editable-initials" ||
+-        !!cover.data.foto))
++  if (
++    options.nativeAvatarComposition !== undefined &&
++    (options.nativeAvatarComposition !== "writer-vml" ||
++      options.coverComposition !== undefined ||
++      template.cover.nativePhotoPlaceholder !== "editable-initials" ||
++      !!cover.data.foto)
++  )
+     throw Error("DOCX Next native avatar trial requires an approved no-photo flow family");
+-  if (options.coverPhotoPlacement !== undefined &&
+-      (options.coverPhotoPlacement !== "authored-page" ||
+-        options.coverComposition !== undefined ||
+-        template.cover.nativePhotoPlaceholder !== "editable-initials" ||
+-        !cover.data.foto))
++  if (
++    options.coverPhotoPlacement !== undefined &&
++    (options.coverPhotoPlacement !== "authored-page" ||
++      options.coverComposition !== undefined ||
++      template.cover.nativePhotoPlaceholder !== "editable-initials" ||
++      !cover.data.foto)
++  )
+     throw Error("DOCX Next authored photo positioning requires an approved photo QA candidate");
+   if (
+     options.compactChromeComposition !== undefined &&
+@@ -1796,6 +1801,8 @@
+     block.lineHeight = role.lineHeightPt / role.style.sizePt;
+     if (role.afterMm !== undefined) block.afterMm = role.afterMm;
+   }
++  if (readingRows && capturedInteriorMetrics?.cvFlowScale !== undefined)
++    cvPart.blocks = scaleCvReadingFlow(cvPart, capturedInteriorMetrics.cvFlowScale);
+   return {
+     version: 1,
+     metadata: {
+--- a/src/lib/docx-next-interior-metrics.browser.tsx
++++ b/src/lib/docx-next-interior-metrics.browser.tsx
+@@ -1,3 +1,4 @@
++import { cvReadingFlowZoom } from "./docx-next-cv-zoom.browser";
+ import { createRoot } from "react-dom/client";
+ import { flushSync } from "react-dom";
+ import { DossierHeaderFooterChrome } from "@/components/dossier/DossierHeaderFooterChrome";
+@@ -367,6 +368,7 @@
+       await new Promise<void>((resolve) =>
+         requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+       );
++      result.cvFlowScale = cvReadingFlowZoom(host);
+       if (hasPills) result.rubrics = {};
+       for (const el of hasPills
+         ? Array.from(
+--- /dev/null
++++ b/tests/unit/docx-next-cv-flow-scale.test.ts
+@@ -0,0 +1,138 @@
++import { expect, test } from "bun:test";
++import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
++import { scaleCvReadingFlow } from "../../src/lib/docx-next/cv-flow-scale";
++import { tableColumnWidths } from "../../src/lib/docx-next/layouts";
++import { walkBlocks, type Paragraph, type TableBlock } from "../../src/lib/docx-next/model";
++import { briefFixture } from "../fixtures/docx-next/brief";
++const part = () => buildDossierDocModel(briefFixture()).cv;
++const para: Paragraph = {
++  kind: "paragraph",
++  id: "cv.test",
++  role: "body",
++  runs: [
++    {
++      id: "cv.test.value",
++      fieldId: "cv.test",
++      text: "Unveränderter Text",
++      style: {
++        font: "Arial",
++        sizePt: 12,
++        color: "000000",
++        bold: false,
++        italic: false,
++        underline: false,
++        trackingPt: 1,
++      },
++    },
++  ],
++  align: "left",
++  beforeMm: 2,
++  afterMm: 3,
++  lineHeight: 1.2,
++  minimumLineHeightPt: 14.4,
++  keepNext: false,
++  keepLines: true,
++  indentMm: 2,
++  tabStopsMm: [10],
++};
++
++test("physical text units scale once while IDs, text, page geometry and source stay unchanged", () => {
++  const cv = part();
++  cv.blocks = [structuredClone(para)];
++  const before = structuredClone(cv);
++  const scaled = scaleCvReadingFlow(cv, 0.9);
++  const p = scaled[0] as Paragraph;
++  expect(cv).toEqual(before);
++  expect(p.id).toBe(para.id);
++  expect(p.runs[0].fieldId).toBe("cv.test");
++  expect(p.runs[0].text).toBe(para.runs[0].text);
++  expect(p.runs[0].style.sizePt).toBeCloseTo(10.8, 10);
++  expect(p.runs[0].style.trackingPt).toBe(0.9);
++  expect(p.beforeMm).toBe(1.8);
++  expect(p.afterMm).toBe(2.7);
++  expect(p.minimumLineHeightPt).toBeCloseTo(12.96, 10);
++  expect(p.lineHeight).toBe(1.2);
++  expect(p.tabStopsMm).toEqual([9]);
++  expect(p.indentMm).toBe(1.8);
++  expect(scaleCvReadingFlow(cv, 0.9)).toEqual(scaled);
++});
++
++test("fixed rails and gaps scale while flexible columns retain the physical available width", () => {
++  const cv = part();
++  const width = cv.page.widthMm - cv.page.margins.left - cv.page.margins.right;
++  const t: TableBlock = {
++    kind: "table",
++    id: "cv.table",
++    widths: [1, 1, 1],
++    columnWidthsMm: [25, 12, null],
++    decoration: { borderColor: "000000", borderWidthMm: 0, paddingXMm: 0, paddingYMm: 0 },
++    rows: [{ keepTogether: false, cells: [[structuredClone(para)], [], [structuredClone(para)]] }],
++  };
++  cv.blocks = [t];
++  const scaled = scaleCvReadingFlow(cv, 0.9)[0] as TableBlock;
++  expect(scaled.columnWidthsMm).toEqual([22.5, 10.8, null]);
++  expect(scaled.widthMm).toBeUndefined();
++  expect(tableColumnWidths(scaled, width).reduce((a, b) => a + b, 0)).toBeCloseTo(width, 10);
++  expect(tableColumnWidths(scaled, width)[2]).toBeGreaterThan(tableColumnWidths(t, width)[2]);
++  expect(t.columnWidthsMm).toEqual([25, 12, null]);
++});
++
++test("heading capsules and minimum leading use the scaled text size without shrinking available paper", () => {
++  const cv = part(),
++    width = cv.page.widthMm - cv.page.margins.left - cv.page.margins.right;
++  const p = structuredClone(para);
++  p.flowSurface = {
++    widthMm: 30,
++    rowWidthMm: width - 2,
++    heightMm: 6,
++    paddingXMm: 2,
++    paddingYMm: 1,
++    ink: "123456",
++    outlineMm: 0.2,
++    rule: { color: "123456", gapMm: 2, heightMm: 0.2, opacity: 1 },
++  };
++  cv.blocks = [p];
++  const next = scaleCvReadingFlow(cv, 0.9)[0] as Paragraph;
++  expect(next.flowSurface!.widthMm).toBe(27);
++  expect(next.flowSurface!.rowWidthMm).toBeCloseTo(width - 1.8, 10);
++  expect(next.flowSurface!.heightMm).toBe(5.4);
++  expect(next.flowSurface!.paddingXMm).toBe(1.8);
++  expect(next.flowSurface!.rule!.gapMm).toBe(1.8);
++  expect(next.keepLines).toBe(true);
++  expect(next.lineHeight).toBe(1.2);
++});
++
++test("unscaled and unsupported owners fail safely without changing page-owned images or classic opt-out", () => {
++  const cv = part();
++  expect(scaleCvReadingFlow(cv, 1)).toBe(cv.blocks);
++  for (const s of [NaN, Infinity, 0, 0.49, 2.01])
++    expect(() => scaleCvReadingFlow(cv, s)).toThrow("scale");
++  const sidebar = structuredClone(cv);
++  sidebar.layout.mode = "sidebar";
++  expect(() => scaleCvReadingFlow(sidebar, 0.9)).toThrow("classic");
++  cv.blocks = [{ kind: "column-flow", id: "bad.columns", count: 2, gapMm: 6, blocks: [] }];
++  expect(() => scaleCvReadingFlow(cv, 0.9)).toThrow("Unsupported");
++  cv.blocks = [
++    {
++      kind: "image",
++      id: "cv.photo",
++      source: "photo",
++      alt: "original",
++      widthMm: 30,
++      maxHeightMm: 40,
++      placement: "free",
++      xMm: 150,
++      yMm: 20,
++      gapMm: 0,
++      coordinateOrigin: "page",
++    },
++  ];
++  expect(scaleCvReadingFlow(cv, 0.9)).toEqual(cv.blocks);
++  const model = buildDossierDocModel(briefFixture()),
++    before = structuredClone(model);
++  scaleCvReadingFlow(model.cv, 0.9);
++  expect(model).toEqual(before);
++  expect(
++    walkBlocks(scaleCvReadingFlow(model.cv, 0.9)).filter((b) => b.kind === "paragraph").length,
++  ).toBeGreaterThan(0);
++});

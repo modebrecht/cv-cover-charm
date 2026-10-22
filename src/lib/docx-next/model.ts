@@ -152,11 +152,11 @@ export type TableBlock = {
   indentMm?: number;
   /** Spacing after the existing native table-ending paragraph; no new paragraph. */
   afterMm?: number;
-  /** Guarded body paragraph before a natural-flow table; no semantic text or fixed table height. */
-  bodyBoundary?: "paragraph";
+  /** Guarded body start: legacy preceding paragraph or a table directly at section start. */
+  bodyBoundary?: "paragraph" | "section-start";
   /** Guarded native attachment of the real boundary paragraph to the following table. */
   bodyBoundaryKeepNext?: boolean;
-  /** Guarded first-page inset on the one real body boundary; never repeated cell padding. */
+  /** First-page inset on the body paragraph or the first cell-start paragraphs. */
   bodyBoundaryLeadMm?: number;
   /** Unaccepted diagnostic native floating table; physical page coordinates, no fixed height. */
   position?: {
