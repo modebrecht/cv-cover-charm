@@ -42,6 +42,7 @@ import { composeSourceCompactBands } from "./compact-chrome";
 import { composeMeasuredHeaders } from "./interior-composition";
 import { ownFlowSurfaceSpacing } from "./flow-surface-spacing";
 import { composeCvReadingColumns } from "./cv-reading-columns";
+import { scaleCvReadingFlow } from "./cv-flow-scale";
 import type { InteriorTextMetrics, CvPersonalHeaderMetrics } from "./interior-metrics";
 import type { CoverTextMetrics } from "@/components/cover/text-metrics";
 import { composeCover } from "./cover-composition";
@@ -218,17 +219,21 @@ export function buildDossierDocModel(
       ? { ...DEFAULT_CV_PLACEMENTS, ...settings.placements }
       : settings.placements;
   const template = nextTemplate(String(cover.template));
-  if (options.nativeAvatarComposition !== undefined &&
-      (options.nativeAvatarComposition !== "writer-vml" ||
-        options.coverComposition !== undefined ||
-        template.cover.nativePhotoPlaceholder !== "editable-initials" ||
-        !!cover.data.foto))
+  if (
+    options.nativeAvatarComposition !== undefined &&
+    (options.nativeAvatarComposition !== "writer-vml" ||
+      options.coverComposition !== undefined ||
+      template.cover.nativePhotoPlaceholder !== "editable-initials" ||
+      !!cover.data.foto)
+  )
     throw Error("DOCX Next native avatar trial requires an approved no-photo flow family");
-  if (options.coverPhotoPlacement !== undefined &&
-      (options.coverPhotoPlacement !== "authored-page" ||
-        options.coverComposition !== undefined ||
-        template.cover.nativePhotoPlaceholder !== "editable-initials" ||
-        !cover.data.foto))
+  if (
+    options.coverPhotoPlacement !== undefined &&
+    (options.coverPhotoPlacement !== "authored-page" ||
+      options.coverComposition !== undefined ||
+      template.cover.nativePhotoPlaceholder !== "editable-initials" ||
+      !cover.data.foto)
+  )
     throw Error("DOCX Next authored photo positioning requires an approved photo QA candidate");
   if (
     options.compactChromeComposition !== undefined &&
@@ -1796,6 +1801,8 @@ export function buildDossierDocModel(
     block.lineHeight = role.lineHeightPt / role.style.sizePt;
     if (role.afterMm !== undefined) block.afterMm = role.afterMm;
   }
+  if (readingRows && capturedInteriorMetrics?.cvFlowScale !== undefined)
+    cvPart.blocks = scaleCvReadingFlow(cvPart, capturedInteriorMetrics.cvFlowScale);
   return {
     version: 1,
     metadata: {
