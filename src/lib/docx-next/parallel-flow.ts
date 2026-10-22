@@ -13,12 +13,16 @@ export function validateCellDecoration(value: CellDecoration, id: string): void 
     ![
       value.paddingXMm,
       value.paddingYMm,
+      value.paddingLeftMm ?? 0,
+      value.paddingRightMm ?? 0,
       value.paddingTopMm ?? 0,
       value.paddingBottomMm ?? 0,
     ].every(Number.isFinite) ||
     Math.min(
       value.paddingXMm,
       value.paddingYMm,
+      value.paddingLeftMm ?? 0,
+      value.paddingRightMm ?? 0,
       value.paddingTopMm ?? 0,
       value.paddingBottomMm ?? 0,
     ) < 0 ||
@@ -63,7 +67,10 @@ export function parallelFlowTable(value: ParallelFlowBlock, widthMm: number): Ta
   value.tracks.forEach((track, index) => {
     if (track.decoration) validateCellDecoration(track.decoration, value.id);
     const width = (available * track.weight) / totalWeight;
-    if (width - 2 * (track.decoration?.paddingXMm ?? 0) < 20)
+    const textWidth = width -
+      (track.decoration?.paddingLeftMm ?? track.decoration?.paddingXMm ?? 0) -
+      (track.decoration?.paddingRightMm ?? track.decoration?.paddingXMm ?? 0);
+    if (textWidth < 20)
       throw new Error(`DOCX Next parallel track leaves insufficient text width ${value.id}`);
     for (const block of walkBlocks(track.blocks)) {
       // A preceding picture row with a later vertical span leaves large empty
@@ -71,7 +78,7 @@ export function parallelFlowTable(value: ParallelFlowBlock, widthMm: number): Ta
       if (block.kind === "image" && value.spanningTracks?.some((span) => span > index))
         throw new Error(`DOCX Next picture before a spanning track is unsupported ${block.id}`);
       if (block.kind === "image-zone")
-        imageZoneTable(block, width - 2 * (track.decoration?.paddingXMm ?? 0));
+        imageZoneTable(block, textWidth);
       if (
         value.spanningTracks?.includes(index) &&
         ((block.kind === "entry" && block.keepTogether) ||

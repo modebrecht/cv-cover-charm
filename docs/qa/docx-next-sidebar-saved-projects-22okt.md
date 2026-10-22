@@ -4,6 +4,8 @@
 
 Die neue Prüfung bestätigt einen vom Exporter verursachten Bildverlust vor jeder Office-Anwendung. Dieser Fehler ist in dieser Runde behoben. Gleichzeitig zeigen aus der App gespeicherte Projekte einen wesentlich grösseren Geometrieunterschied als den historischen Writer-Versatz: Die App und der native Sidebar-Unterbau berechnen die Seitenspalte aus verschiedenen Bezugsflächen. Native Sidebar bleibt deshalb NO-GO. Ein weiteres Word-Zwischenpaket wäre verfrüht.
 
+Der nachfolgende [Geometrie-Checkpoint](docx-next-sidebar-shared-geometry-22okt.md) behebt diese Breitenabweichung in einem neuen internen Kandidaten. Die folgenden Messwerte dokumentieren weiterhin den damaligen Aufbau und werden nicht als aktueller Kandidaten-PASS umgedeutet.
+
 ## Was tatsächlich geprüft wurde
 
 Aus dem bereits verwendeten Modern-Demoprojekt wurden in der App drei Varianten geöffnet, gespeichert und erneut geladen: freies Portrait links, freies gespiegeltes Foto rechts und ein rechter CV mit zwölf Schuleinträgen und Folgeseite. Die JSON-Dateien unter tests/fixtures/docx-next/sidebar-saved-app-22okt sind tatsächliche App-Speicherdateien. Sie enthalten weiterhin die bekannte Demo-Person und das bekannte synthetische Testfoto, keine neu erfundenen Kundendaten oder echten Portraits.

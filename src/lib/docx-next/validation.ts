@@ -341,6 +341,11 @@ export function validateDossierDocModel(model: DossierDocModel): void {
         throw new Error(`DOCX Next unsupported image opacity ${block.id}`);
       if (block.kind === "image" && !block.source.trim())
         throw new Error(`DOCX Next missing image source ${block.id}`);
+      if (block.kind === "image" && block.nativeOwner !== undefined &&
+          (block.nativeOwner !== "page-frame" || part.id !== "cv" ||
+            part.layout.mode !== "sidebar" || block.placement !== "free" ||
+            block.coordinateOrigin !== "page" || !block.sourceLayout || !block.frame))
+        throw Error(`DOCX Next invalid page picture ownership ${block.id}`);
       if (block.kind === "image" && block.wrapMode !== undefined &&
           (block.wrapMode !== "none" || block.placement !== "free" ||
             block.coordinateOrigin !== "page" || block.gapMm !== 0))
@@ -368,6 +373,12 @@ export function validateDossierDocModel(model: DossierDocModel): void {
       )
         throw new Error(`DOCX Next invalid table geometry ${block.id}`);
       if (block.kind === "table") {
+        if (block.bodyBoundaryLeadByCellMm !== undefined &&
+            (block.bodyBoundary !== "section-start" || block.bodyBoundaryLeadMm !== undefined ||
+              block.bodyBoundaryLeadByCellMm.length !== block.widths.length ||
+              block.bodyBoundaryLeadByCellMm.some(n => !Number.isFinite(n) || n < 0 ||
+                n > part.page.heightMm - margins.top - margins.bottom - 30)))
+          throw Error(`DOCX Next invalid cell body boundary lead ${block.id}`);
         if (
           block.afterMm !== undefined &&
           (!Number.isFinite(block.afterMm) ||

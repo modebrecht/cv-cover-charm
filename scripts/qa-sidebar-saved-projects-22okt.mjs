@@ -9,6 +9,8 @@ const {chromium}=require(process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES+'/playwr
 const output=path.resolve(process.argv[2]);
 const base=process.env.DOCX_NEXT_APP_URL;
 const projectDirectory=path.resolve(process.env.DOCX_NEXT_SIDEBAR_PROJECTS??'tests/fixtures/docx-next/sidebar-saved-app-22okt');
+const composition=process.env.DOCX_NEXT_SIDEBAR_COMPOSITION??'shared-body-stories';
+assert(['body-stories','shared-body-stories'].includes(composition));
 const query='?docx-next-design-qa=1';
 await mkdir(output,{recursive:true});
 const browser=await chromium.launch({executablePath:process.env.DOCX_NEXT_CHROMIUM_PATH,headless:true,args:['--no-sandbox','--disable-gpu']});
@@ -17,8 +19,9 @@ try {
  for(const item of [
   {id:'01-Sidebar-links-Portrait',side:'left',file:'01-left-portrait.json'},
   {id:'02-Sidebar-rechts-Foto',side:'right',file:'02-right-free-photo.json'},
-  {id:'03-Sidebar-rechts-Folgeseite',side:'right',file:'03-right-continuation.json'}
- ]) {
+  {id:'03-Sidebar-rechts-Folgeseite',side:'right',file:'03-right-continuation.json'},
+  {id:'04-Sidebar-rechts-Foto-x25',side:'right',file:'04-right-photo-x25.json'}
+ ].filter(item=>!process.env.DOCX_NEXT_SIDEBAR_CASE||item.id.startsWith(process.env.DOCX_NEXT_SIDEBAR_CASE))) {
   const folder=path.join(output,item.id);await mkdir(folder,{recursive:true});
   const input=JSON.parse(await readFile(path.join(projectDirectory,item.file),'utf8'));
   if(input.cv.data.person.foto)await writeFile(path.join(folder,'Originalfoto.png'),Buffer.from(input.cv.data.person.foto.split(',')[1],'base64'));
@@ -41,7 +44,7 @@ try {
    const saved=JSON.parse(await readFile(path.join(folder,'Projekt.json'),'utf8'));
    assert.equal(saved.cv.portableState.layout,'modern');assert.equal(saved.cv.portableState.infoPosition,item.side==='right'?'mirrored':'standard');
    const before=await page.evaluate(()=>JSON.stringify(Object.fromEntries(Object.keys(localStorage).sort().map(k=>[k,localStorage.getItem(k)]))));
-   const generated=await page.evaluate(async()=>{
+   const generated=await page.evaluate(async(composition)=>{
     const p=await import('/src/lib/dossier-project.ts'),documents=await import('/src/lib/dossier-pdf-document.ts');
     const {captureDossierDocxNextSnapshot}=await import('/src/lib/docx-next/snapshot.ts');
     const snapshot=captureDossierDocxNextSnapshot(documents.coverPdfDocumentFromSaved(p.readStoredDossierPart(p.COVER_STORAGE_KEY)),documents.letterPdfDocumentFromSaved(p.readStoredDossierPart(p.LETTER_STORAGE_KEY)),documents.cvPdfDocumentFromSaved(p.readStoredDossierPart(p.CV_STORAGE_KEY)));
@@ -56,7 +59,7 @@ try {
      const metrics=captureCoverTextMetrics(blocks,snapshot.cover.fontScale,fonts.profile);
      (await import('/src/lib/docx-next/cover-badges.browser.ts')).captureCoverBadgeAdvances(blocks,'modern',snapshot.cover.colors,metrics);
      const {buildDossierDocModel}=await import('/src/lib/docx-next/build-model.ts');
-     const model=buildDossierDocModel(snapshot,{coverComposition:'authored-frames',coverTextMetrics:metrics,coverBadgePlacement:'body',cvSidebarComposition:'body-stories',chromeFirstPageIdentity:'distinct-stories'});
+     const model=buildDossierDocModel(snapshot,{coverComposition:'authored-frames',coverTextMetrics:metrics,coverBadgePlacement:'body',cvSidebarComposition:composition,chromeFirstPageIdentity:'distinct-stories'});
      if(model.issues.length)throw Error('Unrelated model gates: '+JSON.stringify(model.issues));
      let picture;
      if(snapshot.cv.data.person.foto){
@@ -71,7 +74,7 @@ try {
      const bytes=Array.from(new Uint8Array(await blob.arrayBuffer()));
      return {snapshot,metrics,model,picture,guardError,bytes};
     } finally {fonts.dispose();}
-   });
+   },composition);
    assert.equal(generated.snapshot.settings.cvLayout,'sidebar');assert.equal(generated.snapshot.settings.sidebarSide,item.side);
    const download=page.waitForEvent('download');
    await page.evaluate(async({bytes,name})=>{const {downloadBlob}=await import('/src/lib/download.ts');downloadBlob(new Blob([new Uint8Array(bytes)],{type:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'}),name);},{bytes:generated.bytes,name:item.id+'.docx'});
@@ -86,7 +89,8 @@ try {
    const pdfPreflight=await dialog.textContent();await writeFile(path.join(folder,'PDF-Pruefung.txt'),pdfPreflight);
    if(pdfAvailable){const pdf=page.waitForEvent('download',{timeout:60000});await pdfButton.click();await(await pdf).saveAs(path.join(folder,'App-Referenz.pdf'));}
    const after=await page.evaluate(()=>JSON.stringify(Object.fromEntries(Object.keys(localStorage).sort().map(k=>[k,localStorage.getItem(k)]))));assert.equal(after,before);assert.deepEqual(errors,[]);
-   const result={id:item.id,side:item.side,webCvPages,webSidebarGeometry,nativeSidebarSurface:generated.model.cv.artwork.find(x=>x.id==='cv.artwork.sidebar-surface'),appRestoredProject:true,actualProjectSave:true,primaryPdfDownloaded:pdfAvailable,pdfPreflight,nativeScope:'Explicit internal candidate from fresh saved-app capture; guarded regular export remains rejected',productGuardPreserved:true,savedStateUnchanged:true,jsErrors:errors,picture:generated.picture,pixelsPreserved:!generated.picture||JSON.stringify(generated.picture.source)===JSON.stringify(generated.picture.normalized),docxSha256:createHash('sha256').update(native).digest('hex')};
+   if(composition==='shared-body-stories'){const surface=generated.model.cv.artwork.find(x=>x.id==='cv.artwork.sidebar-surface');assert(Math.abs(surface.widthMm-webSidebarGeometry.widthMm)<0.05,'App/native rail width differs');assert(Math.abs(surface.xMm-webSidebarGeometry.leftMm)<0.05,'App/native rail position differs');}
+   const result={id:item.id,composition,side:item.side,webCvPages,webSidebarGeometry,nativeSidebarSurface:generated.model.cv.artwork.find(x=>x.id==='cv.artwork.sidebar-surface'),appRestoredProject:true,actualProjectSave:true,primaryPdfDownloaded:pdfAvailable,pdfPreflight,nativeScope:'Explicit internal candidate from fresh saved-app capture; guarded regular export remains rejected',productGuardPreserved:true,savedStateUnchanged:true,jsErrors:errors,picture:generated.picture,pixelsPreserved:!generated.picture||JSON.stringify(generated.picture.source)===JSON.stringify(generated.picture.normalized),docxSha256:createHash('sha256').update(native).digest('hex')};
    results.push(result);console.log(JSON.stringify(result));await writeFile(path.join(output,'results.json'),JSON.stringify(results,null,2));
   } finally {await context.close();}
  }

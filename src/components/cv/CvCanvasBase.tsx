@@ -18,6 +18,7 @@ import {
   type CustomField,
 } from "@/components/cover/types";
 import { resolveCvPlacement } from "./placement";
+import { cvSidebarGeometry, cvSidebarPhotoWidthMm } from "./sidebar-geometry";
 import type { CvPresentation } from "./presentation";
 import { cvSectionTitleFontSizePx } from "./reading-defaults";
 import { alphaHex, cvVisualPolicy, sidebarPlan, smartNameSize } from "./intelligence";
@@ -2130,11 +2131,7 @@ export function CvCanvas({
   };
 
   const onColumn = frame.id === "column";
-  const sidebarWidth = sidebarWidthMm(frame, layout, sidebarPct);
-  const sidePhotoMm = Math.min(
-    sidePlan.veryCompact ? 25 : 28,
-    sidebarWidth - (onColumn ? 19 : 15.5),
-  );
+  const sidePhotoMm = cvSidebarPhotoWidthMm(frame, sidebarPct, sidePlan.veryCompact);
 
   const freeSectionKeys = orderedSectionKeys.filter((key) => {
     if (cvSectionLayout(data, key).positioning !== "free") return false;
@@ -2582,22 +2579,17 @@ export function CvCanvas({
   }, [elementBlocks, elements, exportMode, onLayoutWarnings, pages, shape]);
 
   const modernSidebar = (pageIndex: number) => {
-    const surface = cvSurface(frame, pageIndex, layout, sidebarPct, chromeOptions);
-    const contentBox = cvContentBox(
+    const sidebarPhoto = pageIndex === 0 && automaticPhotoInSidebar;
+    const { rail } = cvSidebarGeometry(
       frame,
       pageIndex,
-      layout,
       sidebarPct,
       chromeOptions,
       presentation,
+      sidebarPhysicalSide,
+      sidebarPhoto,
+      personLayoutCustomized,
     );
-    const cardHeaderClearanceMm =
-      frame.id === "card" && pageIndex === 0 && !personLayoutCustomized
-        ? contentBox.top + 38
-        : surface.top;
-    const sidebarTopMm = onColumn ? 0 : Math.max(surface.top, cardHeaderClearanceMm);
-    const sidebarLeftMm = onColumn ? 0 : frame.id === "card" ? surface.left : 0;
-    const sidebarRightMm = onColumn ? 0 : frame.id === "card" ? surface.right : 0;
     const {
       hasContact,
       hasSchool,
@@ -2619,24 +2611,21 @@ export function CvCanvas({
       hasHobbies ||
       hasReferences ||
       customSideKeys.length > 0;
-    const sidebarPhoto = pageIndex === 0 && automaticPhotoInSidebar;
     return (
       <div
         data-cv-sidebar
         data-cv-sidebar-side={sidebarPhysicalSide}
         style={{
           position: "absolute",
-          left: infoMirrored ? undefined : `${sidebarLeftMm}mm`,
-          right: infoMirrored ? `${sidebarRightMm}mm` : undefined,
-          top: `${sidebarTopMm}mm`,
-          bottom: onColumn ? 0 : `${surface.bottom}mm`,
-          width: `${sidebarWidth}mm`,
-          ["--cv-sidebar-edge" as string]: `${sidebarRightMm}mm`,
+          left: infoMirrored ? undefined : `${rail.leftMm}mm`,
+          right: infoMirrored ? `${rail.insetMm}mm` : undefined,
+          top: `${rail.topMm}mm`,
+          bottom: `${rail.bottomMm}mm`,
+          width: `${rail.widthMm}mm`,
+          ["--cv-sidebar-edge" as string]: `${rail.insetMm}mm`,
           ["--cv-sidebar-mirrored-bg" as string]: side.bg,
           ["--cv-sidebar-section-color" as string]: side.accent,
-          padding: onColumn
-            ? `${sidebarPhoto ? "16mm" : "13mm"} 9mm ${Math.max(12, frame.footMm + 8)}mm 10mm`
-            : `${sidebarPhoto ? "12.5mm" : "9.5mm"} 7.5mm 12mm 8mm`,
+          padding: `${rail.padding.top}mm ${rail.padding.right}mm ${rail.padding.bottom}mm ${rail.padding.left}mm`,
           boxSizing: "border-box",
           background: onColumn && !infoMirrored ? "transparent" : side.bg,
           fontFamily: SHEET_FONT,

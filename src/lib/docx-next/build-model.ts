@@ -48,6 +48,13 @@ import type { CoverTextMetrics } from "@/components/cover/text-metrics";
 import { composeCover } from "./cover-composition";
 import { applyContinuationMargin, applyFlowPageTops } from "./continuation-margin";
 import { composeCvSidebar } from "./cv-sidebar-composition";
+import { composeSharedCvSidebar } from "./cv-sidebar-shared";
+import {
+  cvSidebarGeometry,
+  cvSidebarPhotoWidthMm,
+} from "@/components/cv/sidebar-geometry";
+import { sidebarPlan } from "@/components/cv/intelligence";
+import { cvFrameFor } from "@/components/cv/archetype";
 import {
   chromeTextHeight,
   composeCompactMasthead,
@@ -101,7 +108,7 @@ export type BuildModelOptions = {
   /** Diagnostic font measurements only; source/renderer never read live browser state. */
   coverTextMetrics?: CoverTextMetrics;
   /** Unaccepted shared native Sidebar body composition; renderer opt-in is also required. */
-  cvSidebarComposition?: "body-stories";
+  cvSidebarComposition?: "body-stories" | "shared-body-stories";
   /** Unaccepted native identity separation for first-page header/footer stories. */
   chromeFirstPageIdentity?: "distinct-stories";
 };
@@ -159,7 +166,8 @@ export function buildDossierDocModel(
     throw new Error("DOCX Next invalid diagnostic first-page story identity");
   if (
     options.cvSidebarComposition !== undefined &&
-    (options.cvSidebarComposition !== "body-stories" || cvVariant !== "sidebar")
+    (!["body-stories", "shared-body-stories"].includes(options.cvSidebarComposition) ||
+      cvVariant !== "sidebar")
   )
     throw new Error("DOCX Next invalid diagnostic Sidebar composition");
   if (options.coverComposition !== undefined &&
@@ -1681,13 +1689,63 @@ export function buildDossierDocModel(
         cvMinimumFirstTopMm,
       ),
     );
-  composeCvSidebar(
-    cvPart,
-    cvAccent,
-    color(cv.design.paperColor, color(cvPalette?.paper, theme.paper)),
-    cv.design.bgOpacity,
-    options.cvSidebarComposition,
-  );
+  if (options.cvSidebarComposition === "shared-body-stories") {
+    const chrome = resolveDossierChromeSnapshot(
+      { cover, letter, cv },
+      chromeState ?? DEFAULT_DOSSIER_CHROME_STATE,
+    );
+    const personLayout = cvSectionLayout(cv.data, "person");
+    const personCustomized =
+      cvSectionOrder(cv.data)[0] !== "person" ||
+      personLayout.page !== 1 ||
+      personLayout.width !== "full" ||
+      personLayout.positioning !== "flow" ||
+      personLayout.packing !== "rows";
+    const photoSide = resolveCvPhotoPosition(normalizeCvPhotoPlacement(settings.cvPhotoPlacement), {
+      template: cv.design.template,
+      layout: "modern",
+      legacyMirrored: cvPart.layout.side === "right",
+    });
+    const sidebarPhoto =
+      !!cv.data.person.foto && !personCustomized && photoSide === cvPart.layout.side;
+    const geometry = (pageIndex: number) =>
+      cvSidebarGeometry(
+        cvFrameFor(cv.design.template),
+        pageIndex,
+        cv.design.sidebarPct,
+        chrome.cv.options,
+        {
+          pageMargins: settings.margins?.cv ?? null,
+          continuationTopMarginMm: settings.cvContinuationTopMarginMm ?? null,
+        },
+        cvPart.layout.side,
+        pageIndex === 0 && sidebarPhoto,
+        personCustomized,
+      );
+    composeSharedCvSidebar(
+      cvPart,
+      geometry(0),
+      geometry(1),
+      cvAccent,
+      color(cv.design.paperColor, color(cvPalette?.paper, theme.paper)),
+      cv.design.bgOpacity,
+      sidebarPhoto
+        ? cvSidebarPhotoWidthMm(
+            cvFrameFor(cv.design.template),
+            cv.design.sidebarPct,
+            sidebarPlan(cv.data).veryCompact,
+          )
+        : undefined,
+    );
+  } else {
+    composeCvSidebar(
+      cvPart,
+      cvAccent,
+      color(cv.design.paperColor, color(cvPalette?.paper, theme.paper)),
+      cv.design.bgOpacity,
+      options.cvSidebarComposition,
+    );
+  }
   for (const target of [coverPart, letterPart, cvPart]) {
     const policies = template.pageMotifs?.[target.id];
     if (policies)

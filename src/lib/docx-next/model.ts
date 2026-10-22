@@ -80,6 +80,8 @@ export type ImageBlock = {
     borderColor: string;
   };
   coordinateOrigin?: "content" | "page";
+  /** Unaccepted Sidebar candidate: page-positioned frame owns an inline picture SDT. */
+  nativeOwner?: "page-frame";
   /** Explicitly opted-in QA page picture: no Word text wrap. */
   wrapMode?: "none";
   sourceLayout?: ElementSourceLayout;
@@ -158,6 +160,8 @@ export type TableBlock = {
   bodyBoundaryKeepNext?: boolean;
   /** First-page inset on the body paragraph or the first cell-start paragraphs. */
   bodyBoundaryLeadMm?: number;
+  /** Candidate first-page cell starts; continuation padding remains independent. */
+  bodyBoundaryLeadByCellMm?: number[];
   /** Unaccepted diagnostic native floating table; physical page coordinates, no fixed height. */
   position?: {
     xMm: number;
@@ -185,6 +189,8 @@ export type CellDecoration = {
   paddingXMm: number;
   paddingYMm: number;
   /** Optional asymmetric native cell insets; absent retains symmetric padding. */
+  paddingLeftMm?: number;
+  paddingRightMm?: number;
   paddingTopMm?: number;
   paddingBottomMm?: number;
   border?: { color: string; widthMm: number; side: "left" | "right" };

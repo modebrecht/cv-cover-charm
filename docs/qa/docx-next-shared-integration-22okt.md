@@ -87,10 +87,16 @@ Die vollständige Sidebar-Geometrie, Bildbearbeitbarkeit, All-39-Fidelity und al
 
 Die anschliessende Prüfung aus gespeicherten App-Projekten fand eine exporterinterne Verkleinerung von 1920 × 2880 auf 1067 × 1600 Pixel vor jedem Office-Import. Diese 1600-Pixel-Grenze ist im gemeinsamen Normalisierer entfernt; die vollständigen Pixel sind im erzeugten DOCX bestätigt. 38 angrenzende Tests bestehen. Gleichzeitig ist die Seitenspalte in der App 63 mm breit, im bisherigen nativen Aufbau bei diesen Einstellungen aber 71,4 mm links und 69,4 mm rechts. Zwei freie Fotozustände scheitern schon an der PDF-Vorprüfung. Native Sidebar bleibt NO-GO; es wird kein fertiges Word-Paket behauptet. Details und die drei reproduzierbaren App-Speicherdateien sind im [neuen Befund](docx-next-sidebar-saved-projects-22okt.md) beschrieben.
 
+## Gemeinsame Sidebar-Geometrie als neuer interner Kandidat
+
+Auf Basis von `037bceb5c506685be25fb8c20b9283591f06fcd1` verwenden Web und `shared-body-stories` dieselben authored Rail- und Textzonen. Links/rechts ergeben sich nun jeweils 63 mm Sidebar und 8 mm Standardgutter. Der ursprüngliche freie x25-Fotofall exportiert ohne Verschiebung oder Verkleinerung. Volle Bildpixel, Crops und Feld-IDs bleiben erhalten; Titelblatt- und Anschreiben-Modelle sind in den drei wiederholten App-Fällen unverändert. 74 gezielte Tests und die fokussierte strikte Typprüfung bestehen. Die normale Sidebar-Sperre bleibt geschlossen.
+
+Die bisherige Dokumentation zu 71,4/69,4 mm beschreibt den älteren Kandidaten, nicht diesen neuen Geometriepfad. Sichtbare Typografie-/Chrome-Abweichungen, überdeckende Foto-Quellzustände und Word Save/Reopen bleiben offen. Der [neue Bericht](docx-next-sidebar-shared-geometry-22okt.md) enthält Umfang, Grenzen und den zusätzlichen gespeicherten x25-Grenzfall.
+
 ## Nächster ausführbarer Schritt
 
-1. Die drei frisch geprüften App-Projekte und Paket-Hashes für eine abschliessende konsolidierte Word-Abnahme verwenden. Die ursprüngliche 02/12-Abnahme bleibt geschlossen; neue Bytes erhalten keine übertragene Freigabe.
-2. Für Sidebar eine aus echten gespeicherten App-Daten abgeleitete Abnahme vorbereiten, insbesondere Originalfoto, Bildausschnitt und Bearbeitbarkeit nach Word Save/Reopen. Die interne synthetische Diagnose dafür nicht als Produkt-PASS ausgeben. Die bestehende Layout-Sperre bleibt erhalten.
-3. Erst nach dieser Abnahme über einen Merge entscheiden. Vollständige Sidebar-Geometrie, All-39-Fidelity und Produktionsumschaltung bleiben getrennt.
+1. Native Sidebar-Typografie und Kopf-/Fusszonen mit den authored Bereichen abgleichen; die aktuell schlecht lesbare linke Fusszeile ausdrücklich einschliessen.
+2. Nicht überdeckende gespeicherte Foto-Projekte mit normalem App-PDF ergänzen. Danach ein einziges konsolidiertes Word-Paket für Bildbearbeitung und Save/Reopen vorbereiten. Keine neue Zwischenrunde für die ursprünglichen Modern-02-/Brief-12-Dateien.
+3. Erst nach vollständiger Abnahme über Merge und die weiteren Fidelity-Gates entscheiden.
 
-**Status: gemeinsamer Code-Checkpoint, 206 frühere gezielte Tests und Remote-Build bestätigt; begrenzte frische App-Exportprüfung bestanden; Sidebar-App- und Word-Abnahme offen.** Kein Merge nach `dev`, `main`, `render` oder in die aktiven Fidelity-/Reparaturbranches. Kein manuell ausgelöstes Deployment, CI-Dispatch, Produktionsschalter oder Engine-Patch.
+**Status: gemeinsamer Integrations-Checkpoint gesichert; Sidebar-Geometrie im neuen internen Kandidaten geprüft, visuelle Gesamt- und Word-Abnahme offen.** Kein Merge nach `dev`, `main`, `render` oder in aktive Quellbranches. Kein manuell ausgelöstes Deployment, CI-Dispatch, Produktionsschalter oder Engine-Patch.

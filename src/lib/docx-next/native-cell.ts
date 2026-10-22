@@ -33,5 +33,5 @@ export function cellProperties(value: CellDecoration): string {
   const shading = value.fillColor
     ? `<w:shd w:val="clear" w:color="auto" w:fill="${value.fillColor}"/>`
     : "";
-  return `${border}${shading}<w:tcMar><w:top w:w="${twips(value.paddingTopMm ?? value.paddingYMm)}" w:type="dxa"/><w:left w:w="${twips(value.paddingXMm)}" w:type="dxa"/><w:bottom w:w="${twips(value.paddingBottomMm ?? value.paddingYMm)}" w:type="dxa"/><w:right w:w="${twips(value.paddingXMm)}" w:type="dxa"/></w:tcMar>`;
+  return `${border}${shading}<w:tcMar><w:top w:w="${twips(value.paddingTopMm ?? value.paddingYMm)}" w:type="dxa"/><w:left w:w="${twips(value.paddingLeftMm ?? value.paddingXMm)}" w:type="dxa"/><w:bottom w:w="${twips(value.paddingBottomMm ?? value.paddingYMm)}" w:type="dxa"/><w:right w:w="${twips(value.paddingRightMm ?? value.paddingXMm)}" w:type="dxa"/></w:tcMar>`;
 }

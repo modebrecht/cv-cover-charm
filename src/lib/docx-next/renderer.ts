@@ -127,6 +127,9 @@ export async function renderDossierDocx(
       ...(part.headerImages ?? []),
     ]),
   );
+  if (storyBlocks.some(block => block.kind === "image" && block.nativeOwner) &&
+      !options.allowUnacceptedModelIssues)
+    throw Error("DOCX Next page picture ownership is unaccepted; diagnostic opt-in required");
   if (
     storyBlocks.some((b) => b.kind === "table" && b.afterMm !== undefined) &&
     !options.allowUnacceptedModelIssues
@@ -312,9 +315,11 @@ export async function renderDossierDocx(
     );
   }
   function ownedImageRun(value: ImageBlock, widthMm: number, page: DocumentPart["page"]): string {
-    if (value.placement === "free" && value.coordinateOrigin === "content" && value.sourceLayout) {
+    if (value.placement === "free" && value.sourceLayout &&
+        (value.coordinateOrigin === "content" || value.nativeOwner === "page-frame")) {
       const media = sources.get(value.source)!;
-      const geometry = pictureGeometry(value, media.asset, widthMm);
+      const geometry = pictureGeometry(value, media.asset,
+        value.nativeOwner === "page-frame" ? value.widthMm : widthMm);
       const inline = pictureRun(
         { ...value, placement: "inline", gapMm: 0 },
         media.rid,
@@ -464,8 +469,9 @@ export async function renderDossierDocx(
                 ? `<w:vMerge w:val="${merges[rowIndex][index]}"/>`
                 : "";
               const paint = row.cellDecorations?.[index];
-              const inset = paint?.paddingXMm ?? paddingX;
-              const contentWidth = widths[index] - inset * 2;
+              const contentWidth = widths[index] -
+                (paint?.paddingLeftMm ?? paint?.paddingXMm ?? paddingX) -
+                (paint?.paddingRightMm ?? paint?.paddingXMm ?? paddingX);
               if (paint && cell.length && contentWidth < 10)
                 throw new Error(`DOCX Next cell leaves insufficient text width ${value.id}`);
               const props = paint ? cellProperties(paint) : shading;
@@ -475,7 +481,8 @@ export async function renderDossierDocx(
               );
               const cellStart =
                 value.bodyBoundary === "section-start" && rowIndex === 0 && cell.length
-                  ? emptyParagraphWithRuns("", true, 20 + twips(value.bodyBoundaryLeadMm ?? 0))
+                  ? emptyParagraphWithRuns("", true, 20 + twips(
+                      value.bodyBoundaryLeadByCellMm?.[index] ?? value.bodyBoundaryLeadMm ?? 0))
                   : "";
               const ending =
                 value.identityCarrier === "cell-ending" && rowIndex === 0 && index === 0
@@ -664,7 +671,8 @@ export async function renderDossierDocx(
             (values[cursor] as ImageBlock).placement !== "inline")
         ) {
           const value = values[cursor];
-          if (value.kind === "image" && value.coordinateOrigin === "content" && value.sourceLayout)
+          if (value.kind === "image" && value.sourceLayout &&
+              (value.coordinateOrigin === "content" || value.nativeOwner === "page-frame"))
             ownsPicture = true;
           drawings.push(
             value.kind === "decorative-shape"
