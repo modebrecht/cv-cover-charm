@@ -1200,5 +1200,24 @@
   "nextWork": [
     "Classify and address separate unfitted cases 03, 05 and 07 without reopening accepted 02/12",
     "Prepare isolated integration with current Fidelity and confirmed Sidebar repair; no merge"
-  ]
+  ],
+  "followUpFooterReserveRepair": {
+    "productCommit": "1c4afca24e66471b635e404f18fd3b034987a145",
+    "implementationCommit": "70a10ed14eb01066119f21a5f7e8d01a548326f6",
+    "report": "docs/qa/docx-next-cv-footer-reserve-21okt.md",
+    "evidence": "docs/qa/docx-next-cv-footer-reserve-21okt-evidence.json",
+    "historicalPacketAndMatrixUnchanged": true,
+    "currentStatus": {
+      "03": "One CV page locally; no fresh Word acceptance claimed",
+      "07": "One CV page locally; no fresh Word acceptance claimed",
+      "05": "Auto two / explicit one verified locally; unfitted Web one/native two remains OPEN",
+      "02/12": "Prior user Word save/reopen PASS retained; 02 CV PNG identical and 12 entire DOCX identical"
+    },
+    "integrationSourceTestedAt": "dfa787f983166d9b3b4831069f306819c6de4a4f",
+    "integrationTargetRecheckedAt": "7be40063856d1376acb60e917fe85599a6033dad",
+    "newTargetDelta": "One documentation-only commit; application/test source unchanged",
+    "cvIntegrationFocusedTests": 97,
+    "cvIntegrationCoverTests": 15,
+    "completeSidebarIntegration": "PENDING transport refresh; no merge"
+  }
 }

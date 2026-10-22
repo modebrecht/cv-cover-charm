@@ -1,0 +1,272 @@
+--- a/src/lib/docx-next/build-model.ts
++++ b/src/lib/docx-next/build-model.ts
+@@ -669,7 +669,13 @@
+       {
+         role: "heading",
+         beforeMm: sectionGapMm,
+-        afterMm: ((cd.sectionTitleMarginBottomPx ?? 7) * 25.4) / 96,
++        // Match default-pagination-density.css in the shared classic reading flow.
++        // The old 7 px fallback added 1.35 mm per heading to Word. Keep an
++        // explicit user value (including zero); null in older JSON means unset.
++        afterMm:
++          cd.sectionTitleMarginBottomPx == null && readingRows
++            ? 0.5
++            : ((cd.sectionTitleMarginBottomPx ?? 7) * 25.4) / 96,
+         keepNext: true,
+         keepLines: true,
+         ...(cd.headingRule !== "none" && template.cv.headingRule ? { ruleColor: cvAccent } : {}),
+--- a/src/lib/docx-next/compact-chrome.ts
++++ b/src/lib/docx-next/compact-chrome.ts
+@@ -7,9 +7,10 @@
+ import type { DossierChromeDocumentContent } from "@/lib/dossier-chrome-content";
+ import type { DocumentPart } from "./model";
+ import { color } from "./colors";
++import { applyCvPaintedFooterReserve } from "./cv-painted-footer";
+ 
+ /** Source-owned decorative bands. Word story distances never enlarge their paint.
+- * Empty compact Web chrome has no implicit name. Body reservations stay unchanged.
++ * Empty compact Web chrome has no implicit name. CV uses the shared band reserve.
+  * Semantic/custom chrome requires a separate measured acceptance gate.
+  */
+ export function composeSourceCompactBands(
+@@ -62,6 +63,7 @@
+       "DOCX Next compact chrome: Nichtleere Kopfzeile benötigt eine eigene Layoutprüfung.",
+     );
+   part.footer = [];
++  applyCvPaintedFooterReserve(part, options);
+   // Word PDF output can scale separately anchored shallow paint differently
+   // despite equal saved extents. Reuse the existing single decorative page
+   // asset so compact surfaces and their edge rules share one native transform.
+--- a/src/lib/docx-next/interior-composition.ts
++++ b/src/lib/docx-next/interior-composition.ts
+@@ -2,6 +2,7 @@
+ import type { DocumentPart, DecorativeShape } from "./model";
+ import { interiorMetricsKey, type InteriorTextMetrics } from "./interior-metrics";
+ import type { DossierChromeContact, DossierChromeOptions } from "@/lib/dossier-chrome";
++import { applyCvPaintedFooterReserve } from "./cv-painted-footer";
+ 
+ /** Reuses fixed-page native paragraphs and the existing decorative page asset.
+  * No browser services, HTML, PDF pagination or renderer markup enters here. */
+@@ -25,6 +26,7 @@
+   part.header = [];
+   part.firstHeader = [];
+   part.footer = [];
++  applyCvPaintedFooterReserve(part, options);
+   part.page.headerDistanceMm = 0;
+   part.chrome.borderColor = undefined;
+   part.artwork = part.artwork.filter(
+--- /dev/null
++++ b/src/lib/docx-next/cv-painted-footer.ts
+@@ -0,0 +1,23 @@
++import {
++  dossierFooterVisualHeightMmForOptions,
++  type DossierChromeOptions,
++} from "@/lib/dossier-chrome";
++import { CV_PAGE_MARGIN_BOTTOM_MM } from "@/lib/dossier-page-margins";
++import type { DocumentPart } from "./model";
++
++/** A painted CV footer owns its visible band, with no native footer text story.
++ * Reuse the shared CV policy: physical bottom margin plus the band exactly once.
++ * The former template/text-story reserve must not survive the replacement.
++ */
++export function applyCvPaintedFooterReserve(
++  part: DocumentPart,
++  options: DossierChromeOptions,
++) {
++  if (part.id !== "cv" || part.layout.mode !== "classic") return;
++  if (part.footer.length || part.firstFooter?.length)
++    throw Error(
++      "DOCX Next: Eine Textfusszeile darf ihre native Reserve nicht verlieren.",
++    );
++  part.page.margins.bottom =
++    CV_PAGE_MARGIN_BOTTOM_MM + dossierFooterVisualHeightMmForOptions(options);
++}
+--- /dev/null
++++ b/tests/unit/docx-next-reading-spacing.test.ts
+@@ -0,0 +1,83 @@
++import { expect, test } from "bun:test";
++import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
++import { walkBlocks } from "../../src/lib/docx-next/model";
++import { paragraph } from "../../src/lib/docx-next/native-text";
++import { coverPdfDocumentFromSaved } from "../../src/lib/dossier-pdf-document";
++import { briefFixture } from "../fixtures/docx-next/brief";
++import saved from "../../docs/qa/docx-next-modern-defaults-footer-18okt/project.json";
++
++function sourceFor(family: "modern" | "brief") {
++  const source = briefFixture("normal");
++  source.cv = structuredClone(saved.cv) as typeof source.cv;
++  source.cover = coverPdfDocumentFromSaved({
++    ...saved.cover,
++    template: family,
++  })!;
++  source.cv.design.template = source.letter.design.template = family;
++  return source;
++}
++const headings = (m: ReturnType<typeof buildDossierDocModel>) =>
++  walkBlocks(m.cv.blocks).filter((b) => b.kind === "paragraph" && b.id.endsWith(".heading"));
++
++for (const family of ["modern", "brief"] as const) {
++  test(`${family}: default reading headings match Web spacing without shrinking text`, () => {
++    const source = sourceFor(family);
++    const before = JSON.stringify(source);
++    const legacy = buildDossierDocModel(source);
++    const reading = buildDossierDocModel(source, {
++      cvContentComposition: "reading-rows",
++    });
++    const hs = headings(reading);
++    expect(hs).toHaveLength(7);
++    for (const h of hs) {
++      if (h.kind !== "paragraph") throw Error("Missing heading");
++      expect(h.afterMm).toBe(0.5);
++      expect(h.beforeMm).toBe(1.2);
++      expect(h.runs).toEqual(headings(legacy).find((b) => b.id === h.id)?.runs);
++      expect(paragraph(h)).toContain('w:after="28"');
++      expect(paragraph(h)).toContain('<w:keepNext w:val="1"/>');
++    }
++    expect(reading.cover).toEqual(legacy.cover);
++    expect(reading.letter).toEqual(legacy.letter);
++    expect(reading.cv.page).toEqual(legacy.cv.page);
++    expect(JSON.stringify(source)).toBe(before);
++    expect(headings(legacy).every((h) => h.kind === "paragraph" && h.afterMm > 1.8)).toBe(true);
++    const priorSource = structuredClone(source);
++    priorSource.cv.design.sectionTitleMarginBottomPx = 7;
++    const priorReading = buildDossierDocModel(priorSource, {
++      cvContentComposition: "reading-rows",
++    });
++    const restored = structuredClone(reading);
++    for (const h of headings(restored)) h.afterMm = (7 * 25.4) / 96;
++    expect(restored).toEqual(priorReading);
++    // Old JSON can contain null for an unset optional slider.
++    source.cv.design.sectionTitleMarginBottomPx = null as unknown as number;
++    expect(
++      headings(buildDossierDocModel(source, { cvContentComposition: "reading-rows" })).every(
++        (h) => h.afterMm === 0.5,
++      ),
++    ).toBe(true);
++  });
++
++  test(`${family}: explicit rubric gaps and the two-page choice survive`, () => {
++    for (const px of [0, 7, 12]) {
++      const source = sourceFor(family);
++      source.cv.design.sectionTitleMarginBottomPx = px;
++      source.cv.data.sectionLayouts = {
++        referenzen: { page: 2, width: "full" },
++      };
++      source.settings.cvSectionGapMm = 5;
++      const model = buildDossierDocModel(source, {
++        cvContentComposition: "reading-rows",
++      });
++      expect(
++        headings(model).every(
++          (h) => h.kind === "paragraph" && h.afterMm === (px * 25.4) / 96 && h.beforeMm === 5,
++        ),
++      ).toBe(true);
++      expect(model.cv.blocks.find((b) => b.id === "cv.section.referenzen")).toMatchObject({
++        startPage: 2,
++      });
++    }
++  });
++}
+--- /dev/null
++++ b/tests/unit/docx-next-cv-painted-footer.test.ts
+@@ -0,0 +1,100 @@
++import { expect, test } from "bun:test";
++import { cvContentBox, cvFrameFor } from "../../src/components/cv/archetype";
++import { resolveDossierChromeSnapshot } from "../../src/lib/dossier-resolved-chrome";
++import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
++import { applyCvPaintedFooterReserve } from "../../src/lib/docx-next/cv-painted-footer";
++import { type InteriorTextMetrics } from "../../src/lib/docx-next/interior-metrics";
++import type { DossierAppSnapshot } from "../../src/lib/docx-next/source";
++import type { CoverTextMetrics } from "../../src/components/cover/text-metrics";
++import compactSource from "../fixtures/docx-next/modern-rubric-snapshot.json";
++import compactCover from "../fixtures/docx-next/modern-rubric-metrics.json";
++import contactSource from "../fixtures/docx-next/modern-header-snapshot.json";
++import contactCover from "../fixtures/docx-next/modern-header-metrics.json";
++import contactMetrics from "../fixtures/docx-next/modern-header-interior-metrics.json";
++
++function webBottom(input: DossierAppSnapshot) {
++  const chrome = resolveDossierChromeSnapshot(input, input.settings.chrome!).cv
++    .options;
++  return cvContentBox(
++    cvFrameFor(input.cv.design.template),
++    0,
++    "classic",
++    undefined,
++    chrome,
++    {
++      pageMargins: input.settings.margins?.cv ?? null,
++      continuationTopMarginMm: input.settings.cvContinuationTopMarginMm ?? null,
++    },
++  ).bottom;
++}
++
++test("painted compact CV uses the Web footer budget and retains custom footer heights and saved values", () => {
++  for (const height of [null, 8, 18]) {
++    const input = structuredClone(
++      compactSource,
++    ) as unknown as DossierAppSnapshot;
++    input.settings.chrome!.shared.footerHeightMm = height;
++    const before = JSON.stringify(input);
++    const model = buildDossierDocModel(input, {
++      coverComposition: "authored-frames",
++      coverTextMetrics: structuredClone(compactCover) as CoverTextMetrics,
++      compactChromeComposition: "source-bands",
++      cvContentComposition: "reading-rows",
++    });
++    expect(model.cv.page.margins.bottom).toBe(webBottom(input));
++    expect(model.cv.page.margins.bottom).toBe(1 + (height ?? 4));
++    expect(model.cv.footer).toEqual([]);
++    expect(JSON.stringify(input)).toBe(before);
++    const band = model.cv.headerShapes!.find(
++      (shape) => shape.id === "cv.compact.footer",
++    )!;
++    expect(band.yMm + band.heightMm).toBe(297);
++  }
++});
++
++test("measured contact CV replaces the old text-footer reserve and leaves Letter and Cover margins intact", () => {
++  const input = structuredClone(contactSource) as unknown as DossierAppSnapshot;
++  const before = JSON.stringify(input);
++  const options = {
++    coverComposition: "authored-frames" as const,
++    coverTextMetrics: structuredClone(contactCover) as CoverTextMetrics,
++    interiorTextMetrics: structuredClone(
++      contactMetrics,
++    ) as unknown as InteriorTextMetrics,
++  };
++  const model = buildDossierDocModel(input, options);
++  const prior = buildDossierDocModel(input, {
++    ...options,
++    interiorTextMetrics: undefined,
++  });
++  expect(model.cv.page.margins.bottom).toBe(webBottom(input));
++  expect(model.cv.page.margins.bottom).toBe(5);
++  expect(model.letter.page.margins.bottom).toBe(
++    prior.letter.page.margins.bottom,
++  );
++  expect(model.cover).toEqual(prior.cover);
++  expect(JSON.stringify(input)).toBe(before);
++  expect(model.cv.headerFrames?.length).toBeGreaterThan(0);
++});
++
++test("painted-footer adjustment rejects a live native footer instead of exposing it to body text", () => {
++  const input = structuredClone(contactSource) as unknown as DossierAppSnapshot;
++  const model = buildDossierDocModel(input);
++  const before = structuredClone(model.cv);
++  const chrome = resolveDossierChromeSnapshot(input, input.settings.chrome!).cv
++    .options;
++  expect(model.cv.footer.length).toBeGreaterThan(0);
++  expect(() => applyCvPaintedFooterReserve(model.cv, chrome)).toThrow(
++    "Textfusszeile",
++  );
++  expect(model.cv).toEqual(before);
++  const letterBefore = structuredClone(model.letter);
++  applyCvPaintedFooterReserve(model.letter, chrome);
++  expect(model.letter).toEqual(letterBefore);
++  const sidebar = structuredClone(model.cv);
++  sidebar.layout.mode = "sidebar";
++  sidebar.footer = [];
++  const sidebarBefore = structuredClone(sidebar);
++  applyCvPaintedFooterReserve(sidebar, chrome);
++  expect(sidebar).toEqual(sidebarBefore);
++});

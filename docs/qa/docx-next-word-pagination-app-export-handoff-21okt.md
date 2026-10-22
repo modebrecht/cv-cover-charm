@@ -1,5 +1,7 @@
 # CV pagination app exports and Word handoff
 
+> Follow-up (2026-10-22): the painted-footer reserve repair is implemented in `70a10ed` / `1c4afca`. Modern 03 and 07 now fit one native CV page in supplementary local rendering. 05 automatic fit uses two pages and explicit one-page fit uses one; its unfitted Web/native mismatch remains OPEN. The packet and table below are historical acceptance evidence. See [the footer-reserve report](docx-next-cv-footer-reserve-21okt.md), [evidence](docx-next-cv-footer-reserve-21okt-evidence.json) and [checked CV integration patch](docx-next-cv-pagination-integration-21okt.patch) for the current results. The user-confirmed 02/12 Desktop Word save/reopen PASS remains closed.
+
 ## Current result
 
 The browser blocker is resolved. Twelve fresh DOCX files and twelve matching application PDFs were downloaded through the application using official Chrome for Testing headless shell 156.0.8078.47. Modern 02 and Brief 12, using the real automatic-fit action, each contain one complete CV page including References in the supplementary LibreOffice rendering. Their complete dossiers have three pages: cover, letter, CV.
@@ -74,3 +76,4 @@ The targeted 02/12 Word pagination acceptance is complete, including user-confir
 Next, classify and address the separate open unfitted cases 03, 05 and 07 without reopening 02/12 or overriding explicit user settings. Then prepare the isolated integration with current Fidelity and the previously confirmed Sidebar repair, rechecking its old transport against the current base. This targeted PASS does not close the complete twelve-case page-equivalence gate or the wider Sidebar/All-39 acceptance. No merge, deployment, CI dispatch, production export switch or active-branch modification was performed.
 
 Machine-readable evidence is in `docx-next-word-pagination-app-export-21okt-evidence.json`. The earlier 87 focused tests and strict focused TypeScript check remain recorded in `docx-next-word-pagination-takeover-21okt.md`; unchanged code did not justify rerunning them merely for this documentation update.
+
