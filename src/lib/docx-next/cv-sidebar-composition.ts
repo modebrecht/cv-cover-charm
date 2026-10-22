@@ -116,6 +116,39 @@ export function composeCvSidebar(
   };
   // Explicit page starts/nested columns/floating semantic content fail at this boundary.
   if (composition === "semantic-rows") parallelFlowTable(flow, width);
+  if (opacity > 0) {
+    // Cell shading ends with the story. The structural rail belongs to the
+    // page, including its outer margin and the space after the final entry.
+    // Reuse the same native content edge; do not resize or stretch the table.
+    const edgeMm =
+      part.layout.side === "left"
+        ? part.page.margins.left + sideWidth + 2 * paddingXMm
+        : part.page.widthMm - part.page.margins.right - sideWidth - 2 * paddingXMm;
+    const leftMm = part.layout.side === "left" ? 0 : edgeMm;
+    const widthMm = part.layout.side === "left" ? edgeMm : part.page.widthMm - edgeMm;
+    part.artwork.push(
+      {
+        kind: "decorative-artwork",
+        id: "cv.artwork.sidebar-surface",
+        semanticText: false,
+        fill: { color: compositeTextColor(accent, paper, 0.08 * opacity) },
+        xMm: leftMm,
+        yMm: 0,
+        widthMm,
+        heightMm: part.page.heightMm,
+      },
+      {
+        kind: "decorative-artwork",
+        id: "cv.artwork.sidebar-edge",
+        semanticText: false,
+        fill: { color: compositeTextColor(accent, paper, opacity) },
+        xMm: edgeMm - 0.125,
+        yMm: 0,
+        widthMm: 0.25,
+        heightMm: part.page.heightMm,
+      },
+    );
+  }
   part.blocks = [
     ...outside,
     composition === "body-stories"
