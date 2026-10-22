@@ -1,7 +1,7 @@
 {
   "date": "2026-10-22",
   "branch": "fix/docx-next-shared-integration-22okt",
-  "status": "INTEGRATED_CODE_CHECKPOINT_APP_QA_PENDING",
+  "status": "INTEGRATED_CODE_CHECKPOINT_BOUNDED_APP_QA_PASS_WORD_PENDING",
   "base": {
     "commit": "7be40063856d1376acb60e917fe85599a6033dad",
     "tree": "3afcccd2b52b345926ba3897e76033120fa989d7"
@@ -52,10 +52,15 @@
     }
   },
   "runtime": {
-    "status": "OFFLINE",
-    "reportedError": "409 Conflict, environment_offline: Environment is not connected",
-    "newCombinedAppDownloads": "NOT_RUN",
-    "newCombinedNativeRenders": "NOT_RUN",
+    "status": "RECOVERED",
+    "previousReportedError": "409 Conflict, environment_offline: Environment is not connected",
+    "newCombinedAppDownloads": 5,
+    "newCombinedPrimaryPdfDownloads": 3,
+    "newCombinedNativeRenders": {
+      "uniqueDossiers": 6,
+      "pages": 26,
+      "engine": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5"
+    },
     "newWordAcceptance": "UNVERIFIED"
   },
   "inheritedAcceptance": {
@@ -382,5 +387,11 @@
       "Build Completed in .vercel/build-output [16s]",
       "Deployment completed"
     ]
-  }
+  },
+  "currentMaterialization": {
+    "files": 432,
+    "mismatchesAfterQa": [],
+    "originalCabinFontFilesVerified": 4
+  },
+  "currentAppQaEvidence": "docx-next-shared-integration-app-qa-22okt.json"
 }

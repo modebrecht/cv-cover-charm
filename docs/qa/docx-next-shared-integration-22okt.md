@@ -2,7 +2,7 @@
 
 22. Oktober 2026. Branch: `fix/docx-next-shared-integration-22okt`. Basis: aktueller Fidelity-Kopf `7be40063856d1376acb60e917fe85599a6033dad`.
 
-Die gesicherten Sidebar-, Pagination-, Seitenflächen- und Dokument-Skalierungs-Fixes sind hier zu einem gemeinsamen Quellstand zusammengeführt. Die lokale Projektion bestand 206 gezielte Tests und eine fokussierte strikte Typprüfung. Nach dem Ausfall der Ausführungsumgebung wurde die gleiche dokumentierte Patchfolge über die verifizierten GitHub-Quellen erneut zusammengesetzt und auf diesem Branch gesichert. Für den veröffentlichten Code-Commit `90216cb21ffeaf3b555ebde48b5e65c7bc64f602` ist inzwischen auch der vorhandene Vercel-Build anhand seiner Metadaten und Buildprotokolle bestätigt. Neue App-Exporte und eine vollständige Produktionsfreigabe sind damit noch nicht nachgewiesen.
+Die gesicherten Sidebar-, Pagination-, Seitenflächen- und Dokument-Skalierungs-Fixes sind hier zu einem gemeinsamen Quellstand zusammengeführt. Die lokale Projektion bestand 206 gezielte Tests und eine fokussierte strikte Typprüfung. Nach dem Ausfall der Ausführungsumgebung wurde die gleiche dokumentierte Patchfolge über die verifizierten GitHub-Quellen erneut zusammengesetzt und auf diesem Branch gesichert. Für den veröffentlichten Code-Commit `90216cb21ffeaf3b555ebde48b5e65c7bc64f602` ist inzwischen auch der vorhandene Vercel-Build anhand seiner Metadaten und Buildprotokolle bestätigt. Nach Wiederherstellung der Laufzeit wurden die unten beschriebenen fünf App-Downloads und drei primären PDF-Downloads frisch geprüft. Eine vollständige Produktions- oder Microsoft-Word-Freigabe folgt daraus weiterhin nicht.
 
 ## Gepinnte Quellen
 
@@ -34,8 +34,8 @@ Die CV-Seitenfläche ist seitengebundene Dekoration. Tabellenbreiten, Content Co
 | Repository-Lockdatei | Originalabhängigkeiten eingefroren installiert, 463 Pakete |
 | Originaler Vite-Buildbefehl | Prozess meldete Exit 0; Buildlog und Artefakte danach nicht mehr lesbar |
 | Vorhandener Vercel-Build für Code-Commit `90216cb` | PASS: Client und SSR gebaut, Ausgabe erzeugt, Preview READY |
-| Neue UI-Downloads des integrierten Branches | Noch nicht ausgeführt |
-| Neues natives Rendering des integrierten Branches | Noch nicht ausgeführt |
+| Neue UI-Downloads des integrierten Branches | 5 bestanden, 3 unterschiedliche Dossiers; temporäre QA-SPA mit unveränderten App-Quellen |
+| Neues natives Rendering des integrierten Branches | 3 App-Dossiers und 3 interne Sidebar-Diagnosen; 26 LibreOffice-Seiten erzeugt |
 | Microsoft Word für diesen gemeinsamen Stand | Unbestätigt |
 
 Die erste Testausführung enthielt zwei Modul-Ladefehler wegen der fehlenden jsPDF-Abhängigkeit in der partiellen Prüfumgebung. Nach Verknüpfung mit der vorhandenen echten jsPDF-4.2.1-UMD-Abhängigkeit lief die vollständige hier materialisierte 27-Dateien-Auswahl grün. Das ist kein Mock und keine Produktänderung. Diese anfänglichen Läufe werden nicht als PASS gezählt.
@@ -52,6 +52,31 @@ Der direkte Preview-Abruf über den Vercel-Connector endete mit einem Timeout. E
 
 Die Rekonstruktion nach dem Ausfall nutzt dieselben drei veröffentlichten Patches in derselben Reihenfolge und die oben beschriebene gezielte Builder-Auflösung. Die 17 benötigten Basis-Blobs wurden unabhängig gegen ihre Git-IDs geprüft. Die veröffentlichten Dateihashes stehen im [Integrationsnachweis](docx-next-shared-integration-22okt-evidence.json). Der vollständige lokale Baum konnte nach dem Ausfall nicht erneut ausgelesen werden.
 
+## Frische App-Prüfung nach Wiederherstellung der Laufzeit
+
+Der Remote-Kopf wurde vor Arbeitsbeginn erneut geprüft: `59ec45f740c45b1277d33b5b719f1cc9af1313c0`. Ein späterer Commit auf diesem Branch war nicht vorhanden. Die Laufzeit enthielt ältere Arbeitsverzeichnisse. Diese wurden erhalten; der aktuelle Remote-Stand wurde in einem neuen Prüfverzeichnis materialisiert. 432 Quell-, Konfigurations- und Prüfdateien stimmen vor und nach der QA mit ihren Git-Blobs überein. Zusätzlich wurden alle vier verwendeten Cabin-TTF-Dateien gegen die Remote-Hashes geprüft.
+
+| Fall | Frisches Ergebnis |
+| --- | --- |
+| Modern 05 mit eigenen Werten, ohne Seitenanpassung | 1 CV-Seite im Browser, App-PDF und LibreOffice-Rendering; beide Referenzen auf dieser Seite |
+| Modern 05 bei DPR 1, DPR 2 und schmaler Ansicht mit Vorschau-Zoom | 3 bytegleiche UI-DOCX; Modell und Messwerte gleich; gespeicherte Werte unverändert |
+| Modern 02 mit bestehender intelligenter Seitenaktion | Automatik wählt 1 CV-Seite; Browser, App-PDF und LibreOffice stimmen bei der Seitenzahl überein; Referenz bleibt im CV |
+| Brief 12 mit derselben Seitenaktion | Ebenfalls 1 CV-Seite; Seitenzahlen stimmen überein; Referenz bleibt im CV |
+| Aktive SDT-IDs in den drei unterschiedlichen App-Paketen | 88 / 85 / 85; keine doppelten aktiven IDs |
+| Sidebar-Portrait 04 und gespiegeltes freies Foto 05 | Interne Diagnose: Original-PNG vollständig und bytegleich im zuständigen Bild-Control; 80 eindeutige Controls je Paket |
+| Rechter Sidebar-Langfall | Interne Diagnose mit 8 Hobbys und bestehender langer Schulliste: 9 CV-Seiten; 337 eindeutige Controls; vollständiger CV-Text |
+| Durchgehende Sidebar-Fläche | Auf allen 11 CV-Seiten der drei Diagnosen am oberen, mittleren und unteren Aussenrand bestätigt |
+
+Die drei App-Dossiers wurden aus gespeicherten Projekten über die vorhandenen App-Importe restauriert. Die bestehenden Download-Schaltflächen lieferten exakt die zuvor frisch vom jeweiligen Export-Einstieg erzeugten Bytes. Alle fünf DOCX-Downloads und drei normalen PDF-Downloads liessen die gespeicherten Eingaben unverändert und hatten keine erfassten JavaScript-Seitenfehler. Die neun nativen Seiten dieser drei App-Dossiers wurden visuell geöffnet; das bestätigt für diese Fälle lesbare Seiten ohne verlorene Referenzen, aber keine vollständige Web/Word-Fidelity.
+
+Die QA nutzte Chrome for Testing 156.0.8078.47 und eine temporäre Vite-SPA mit den unveränderten App-Quellen. Echte vorhandene jsPDF-4.2.1-UMD- und quellbasierte Query-/html2canvas-Abhängigkeiten ersetzten fehlende Installationspakete der Prüfumgebung. Es gab keine gemockten App-Komponenten oder Exporter. Dies ist keine neue saubere Installation der Original-Lockdatei und keine Browser-Abnahme des produktiven SSR-Servers. Dessen bestehender Build-Nachweis bleibt separat gepinnt. Im Browser wurde Liberation Sans verwendet; identische Arial-Schriftmetriken in Word sind nicht bewiesen.
+
+Die Sidebar-Fälle sind ausdrücklich interne Modell-/Renderer-Diagnosen mit einem vollständigen synthetischen 120×180-PNG. Sie sind keine regulären Sidebar-App-Downloads und kein Ersatz für ein echtes Benutzerfoto. Der vorhandene geschützte App-Einstieg akzeptiert weiterhin nur das klassische CV-Layout. Der Portrait- und Spiegelungsfall wurden visuell geprüft; beim langen Fall wurden alle Seitenflächen und Feldtexte automatisiert sowie eine Gesamtübersicht geprüft. Die Feldtextprüfung berücksichtigt getrennte Spalten über Seiten hinweg: Der zunächst scheinbar fehlende Text von Hobby 5 steht vollständig am Ende der ersten und Anfang der zweiten Sidebar-Seite. Das war eine Einschränkung der seitenweisen Textextraktion.
+
+Speichern und erneutes Öffnen in Word oder LibreOffice wurde in dieser Runde nicht ausgeführt. Die Originalbilder sind in den frisch erzeugten Diagnosepaketen erhalten; das beweist ihre Word-Bearbeitbarkeit oder den Erhalt nach Save/Reopen noch nicht. Der 22-Fälle-Lauf und die Unit-Suite wurden nicht erneut ausgeführt, weil kein Produktcode verändert wurde. Bestehende Unterschiede bei Überschriften und Pills werden nicht als neue vollständige visuelle Abnahme geführt.
+
+Die Dateihashes, Laufzeitgrenzen und Einzelergebnisse stehen im [App-QA-Nachweis](docx-next-shared-integration-app-qa-22okt.json).
+
 ## Bestehende Word-Ergebnisse bleiben begrenzt
 
 Die ursprüngliche 02/12-Word-Abnahme einschliesslich Speichern und erneutem Öffnen bleibt geschlossen. Sie wird nicht auf neue Paketbytes übertragen. Die bisherigen Sidebar-Foto-Ergebnisse behalten ihren genauen bisherigen Umfang. Die drei App-Downloads der rekonstruierten Skalierung und die früheren Seitenflächen-Render sind Ergebnisse der jeweiligen Einzel-Checkpoints und keine neue Abnahme dieses gemeinsamen Branches.
@@ -60,9 +85,8 @@ Die vollständige Sidebar-Geometrie, Bildbearbeitbarkeit, All-39-Fidelity und al
 
 ## Nächster ausführbarer Schritt
 
-1. Diesen gepinnten Integrationsbranch in einer wieder verfügbaren Laufzeit laden und die Quellhashes aus dem Nachweis prüfen.
-2. Mit der unveränderten Lockdatei eine lauffähige Browser-Umgebung herstellen. Der bestehende erfolgreiche Remote-Build bleibt dem Code-Commit `90216cb` zugeordnet.
-3. Einen gebündelten App-Smoke ausführen: Modern 05 ohne Seitenanpassungsaktion, Modern 02 und Brief 12 mit ihren bestehenden Seitenaktionen sowie die bereits problematischen Sidebar-Fotofälle 04/05 und eine Fortsetzung. Texte, Controls, Originalbilder und Seitendekoration im gemeinsamen Paket prüfen.
-4. Erst danach einen konsolidierten Word-Kandidaten bereitstellen. Keine Wiederholung einzelner bereits abgenommener Zwischenpakete.
+1. Die drei frisch geprüften App-Projekte und Paket-Hashes für eine abschliessende konsolidierte Word-Abnahme verwenden. Die ursprüngliche 02/12-Abnahme bleibt geschlossen; neue Bytes erhalten keine übertragene Freigabe.
+2. Für Sidebar eine aus echten gespeicherten App-Daten abgeleitete Abnahme vorbereiten, insbesondere Originalfoto, Bildausschnitt und Bearbeitbarkeit nach Word Save/Reopen. Die interne synthetische Diagnose dafür nicht als Produkt-PASS ausgeben. Die bestehende Layout-Sperre bleibt erhalten.
+3. Erst nach dieser Abnahme über einen Merge entscheiden. Vollständige Sidebar-Geometrie, All-39-Fidelity und Produktionsumschaltung bleiben getrennt.
 
-**Status: gemeinsamer Code-Checkpoint veröffentlicht, 206 gezielte Tests und bestehender Remote-Build bestanden, integrierte App-/Word-Abnahme offen.** Kein Merge nach `dev`, `main`, `render` oder in die aktiven Fidelity-/Reparaturbranches. Kein manuell ausgelöstes Deployment, CI-Dispatch, Produktionsschalter oder Engine-Patch. Die bestehende Vercel-Preview wurde automatisch aus dem Git-Commit erzeugt.
+**Status: gemeinsamer Code-Checkpoint, 206 frühere gezielte Tests und Remote-Build bestätigt; begrenzte frische App-Exportprüfung bestanden; Sidebar-App- und Word-Abnahme offen.** Kein Merge nach `dev`, `main`, `render` oder in die aktiven Fidelity-/Reparaturbranches. Kein manuell ausgelöstes Deployment, CI-Dispatch, Produktionsschalter oder Engine-Patch.
