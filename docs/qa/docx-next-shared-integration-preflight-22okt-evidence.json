@@ -1,0 +1,1127 @@
+{
+  "date": "2026-10-22",
+  "publishedOn": "fix/docx-next-word-pagination-21okt",
+  "scope": "Isolated current-source preflight and reviewable transport; no remote integration/product-code commit",
+  "pins": {
+    "fidelity": "7be40063856d1376acb60e917fe85599a6033dad",
+    "fidelityCodeTestedAt": "dfa787f983166d9b3b4831069f306819c6de4a4f",
+    "fidelityLastDelta": "Documentation only",
+    "sidebar": "f73c776e2eca6b9b0d858ee2ab997230259797ac",
+    "cvRepairCheckpoint": "b3eb19eea86e2f658d89f0aeed7f7d6005f6730a",
+    "oldSidebarTransportTarget": "3a6f5a11d5c13b3169cc136c4d7ad52e04dc6a38",
+    "fidelityCommitsAfterOldTransport": 32,
+    "headsRecheckedAfterAppRuns": true
+  },
+  "inputs": {
+    "fidelityHead": "7be40063856d1376acb60e917fe85599a6033dad",
+    "verifiedBlobs": [
+      {
+        "path": "src/lib/docx-next/build-model.ts",
+        "sha": "95dba448d4d24d39b16acc639afe7586d6b371bd"
+      },
+      {
+        "path": "src/lib/docx-next/cv-sidebar-body.ts",
+        "sha": "8cb896141465e18639315203e22edd304fb84a7f"
+      },
+      {
+        "path": "src/lib/docx-next/cv-sidebar-composition.ts",
+        "sha": "be9502686c2bc452b4eb85a7e6a7316bc286f0b3"
+      },
+      {
+        "path": "src/lib/docx-next/image-zone.ts",
+        "sha": "e55d7c2c5b96c5246d5eb8b8b9ceec470297d1e3"
+      },
+      {
+        "path": "src/lib/docx-next/layouts.ts",
+        "sha": "fb69781bac1dbcfa9ecd68f80f92c45ac973c3f9"
+      },
+      {
+        "path": "src/lib/docx-next/model.ts",
+        "sha": "e76a6aee1f805c6f6050654a5f8346e75745ce4e"
+      },
+      {
+        "path": "src/lib/docx-next/native-text.ts",
+        "sha": "a1ee2c5efbfbedade6b96c160732d97f416bb7d3"
+      },
+      {
+        "path": "src/lib/docx-next/renderer.ts",
+        "sha": "e4907d6fd559ee3624046aa65136c346bdf19ffc"
+      },
+      {
+        "path": "src/lib/docx-next/validation.ts",
+        "sha": "574bed434a9f0ebf5c94a3d987652c9a71b8fd9c"
+      },
+      {
+        "path": "tests/unit/docx-next-table-grid.test.ts",
+        "sha": "d798c13d2382dc3af102d86554a189371b51b738"
+      },
+      {
+        "path": "tests/unit/docx-next-sidebar-body.test.ts",
+        "sha": "8844e673f5347863b2d2731b89380fb84678e085"
+      },
+      {
+        "path": "tests/unit/docx-next-image-zone.test.ts",
+        "sha": "bdc768338944c836a79a02fccafd2d26aa984bac"
+      },
+      {
+        "path": "tests/unit/docx-next-renderer.test.ts",
+        "sha": "e4e8315351d733e9169c909428437148a141cb44"
+      },
+      {
+        "path": "tests/unit/docx-next-cover-photo-placeholder.test.ts",
+        "sha": "44e6506e6fd9b782a732c6dcb2b4de829a59de87"
+      }
+    ]
+  },
+  "patch": {
+    "fidelityTarget": "7be40063856d1376acb60e917fe85599a6033dad",
+    "sidebarSource": "f73c776e2eca6b9b0d858ee2ab997230259797ac",
+    "cvSource": "b3eb19eea86e2f658d89f0aeed7f7d6005f6730a",
+    "patchSha256": "b025bc88d5270768c89cc94146a76f84f10e2d470c5cddf3977153ec8cc4c8ff",
+    "files": [
+      {
+        "path": "src/lib/docx-next/build-model.ts",
+        "source": "modified",
+        "sha256": "c03134a685a2656dc91238886f08a8ab074c9bc16c5d0c54afa480a15800441b"
+      },
+      {
+        "path": "src/lib/docx-next/compact-chrome.ts",
+        "source": "modified",
+        "sha256": "bca7e0aac9865d8180369c3b3b8048f65df51a1ac03d87ab8e748568640fd4f8"
+      },
+      {
+        "path": "src/lib/docx-next/interior-composition.ts",
+        "source": "modified",
+        "sha256": "82fd6e2022ebf7cb081443e1aabd71f884f294bc6b24bf92a7db440c61b4dc12"
+      },
+      {
+        "path": "src/lib/docx-next/cv-painted-footer.ts",
+        "source": "new",
+        "sha256": "235b98a606f5bc3321fd7a41b042b4aef0499cca1feee52b67dae37edf06eb6a"
+      },
+      {
+        "path": "tests/unit/docx-next-reading-spacing.test.ts",
+        "source": "new",
+        "sha256": "ae70900cf3a081eaff29fad0ca54bd56c0bd4dab492c27ce047abc231a33fcd7"
+      },
+      {
+        "path": "tests/unit/docx-next-cv-painted-footer.test.ts",
+        "source": "new",
+        "sha256": "fbe746bf742af8f76e2498561bacafc007fc8df39e7cfc472e1e2e2a7c30ff73"
+      },
+      {
+        "path": "src/lib/docx-next/cv-sidebar-body.ts",
+        "source": "modified",
+        "sha256": "76bdc9ba90b540498c80b671f169866e67134f9ca7be73034255f7d0b5f08940"
+      },
+      {
+        "path": "src/lib/docx-next/cv-sidebar-composition.ts",
+        "source": "modified",
+        "sha256": "8282fff378436d22e811f9cf23343c35f893781cd1cb4657f24fcf586d42dd1b"
+      },
+      {
+        "path": "src/lib/docx-next/image-zone.ts",
+        "source": "modified",
+        "sha256": "40e8529e24a33ce009ccc92fc802b827dfc4992809f23b45bb261db4eae0a490"
+      },
+      {
+        "path": "src/lib/docx-next/layouts.ts",
+        "source": "modified",
+        "sha256": "c26f4c82fe4d9699cf9d1c4c8132f77eb39f2ed5a32cdb0e95c2642873a7b5a0"
+      },
+      {
+        "path": "src/lib/docx-next/model.ts",
+        "source": "modified",
+        "sha256": "1a7a98a392c90ac22f9a4f7c72d0930de8d9c9fa2bf403a6dd6fec7fc74f6ec0"
+      },
+      {
+        "path": "src/lib/docx-next/native-picture-frame.ts",
+        "source": "new",
+        "sha256": "ef716091a22f7a7bb6dd900db08769b0d1aa7b3a320c0e2ccc143fdb07416eb8"
+      },
+      {
+        "path": "src/lib/docx-next/native-text.ts",
+        "source": "modified",
+        "sha256": "f6458ed8be782ac126df3d97e9237a36668bfbeaa5f3c655a1e80833f35103ce"
+      },
+      {
+        "path": "src/lib/docx-next/renderer.ts",
+        "source": "modified",
+        "sha256": "4f0d5de79499ccd317af99862f1160eb6c7d54157f12a90945e7a3806a7d5d42"
+      },
+      {
+        "path": "src/lib/docx-next/validation.ts",
+        "source": "modified",
+        "sha256": "a0a44ccc63c2c650967923c73bb767f5424221d3a6109fdef8cac92b1f8b451a"
+      },
+      {
+        "path": "scripts/docx-next-sidebar-cv-photo-packet.py",
+        "source": "new",
+        "sha256": "9d31b845f1d7862391319ccc954c6092aa0926bffe5e8bd8ed5380788b00bdb4"
+      },
+      {
+        "path": "scripts/docx-next-sidebar-word-layout-qa.py",
+        "source": "new",
+        "sha256": "fc95df587a68116907770dfa2e79007db746cf681f5c4c01c989cb7dbfb5d258"
+      },
+      {
+        "path": "scripts/docx-next-sidebar-word-layout-packet.ts",
+        "source": "new",
+        "sha256": "73387708a0d2ed830c5cb2771fbdb0e54b021e2931a88353a5e5190037c0a30a"
+      },
+      {
+        "path": "scripts/docx-next-sidebar-word-layout-test.py",
+        "source": "new",
+        "sha256": "cb9aa80e22749f5a9b4b81fd86e46d54c2eef2d2c196629adbddbb361eb81b7f"
+      },
+      {
+        "path": "tests/unit/docx-next-table-grid.test.ts",
+        "source": "modified",
+        "sha256": "d4ae9e81d809a64a46b736fd065e1c619e3665eb6fcc629593a8806c44ec733f"
+      },
+      {
+        "path": "tests/unit/docx-next-sidebar-body.test.ts",
+        "source": "modified",
+        "sha256": "ba2e00bdb5471cb726bf2e15e0c28725912e999330c65996895b19aa8ee69e2d"
+      },
+      {
+        "path": "tests/unit/docx-next-image-zone.test.ts",
+        "source": "modified",
+        "sha256": "92ade68bee90709f424014a989c57116c7f3da64176938092c7f796216f8d0ed"
+      },
+      {
+        "path": "tests/unit/docx-next-picture-ownership.test.ts",
+        "source": "new",
+        "sha256": "a54d65f9e09e5e153cb2ce7ede3ea3a7785fed5c4f555b7e70acdf22b4c4110d"
+      },
+      {
+        "path": "tests/unit/docx-next-renderer.test.ts",
+        "source": "modified",
+        "sha256": "9a0eb5b007e1da8a5bc17b2d1699bcec57bd2625afed2fce28b0f5f4276ed0b6"
+      },
+      {
+        "path": "tests/fixtures/docx-next/picture-ownership.ts",
+        "source": "new",
+        "sha256": "e655d8abf0241b60fa9729bc495adbc2b12dc8afb2e9557a23c9fea83b986fb1"
+      },
+      {
+        "path": "tests/unit/docx-next-sidebar-fidelity-transport.test.ts",
+        "source": "new",
+        "sha256": "8be5d68e4f4dfb7a4a64104afb6611122e6bfc7ffee6ab519acb176b4a6b1be9"
+      }
+    ],
+    "cleanPatchCheck": "PASS",
+    "replayAllFilesExact": true,
+    "remoteProductBranchesModified": false
+  },
+  "automatedChecks": {
+    "scopes": {
+      "cv": {
+        "pass": 97,
+        "fail": 0,
+        "expectations": 1025,
+        "files": 12
+      },
+      "sidebar": {
+        "pass": 56,
+        "fail": 0,
+        "expectations": 1354,
+        "files": 8
+      },
+      "cover": {
+        "pass": 38,
+        "fail": 0,
+        "expectations": 208,
+        "files": 2
+      },
+      "brief": {
+        "pass": 3,
+        "fail": 0,
+        "expectations": 14,
+        "files": 1
+      }
+    },
+    "executedTestsWithOverlap": 194,
+    "distinctTestNames": 179,
+    "focusedTypescript": "PASS",
+    "scopeLimitation": "Focused restored suites only; not full repository CI. One initial all-loaded probe ended without its final summary and is not treated as a full-suite PASS. Three missing-fixture import errors were resolved before the four final bounded scopes."
+  },
+  "coverBaselineWithoutSidebar": {
+    "pass": 38,
+    "fail": 0,
+    "expectations": 208,
+    "files": 2,
+    "scope": "Current Fidelity plus CV repairs, before Sidebar transport; same cover tests and outcomes as combined projection"
+  },
+  "sourceIntegrity": {
+    "applicationSourceFiles": 418,
+    "appProjectionMismatches": [],
+    "sourceManifestSha256": "4ca62e5bb2610fd6bc7e2b271b2098635c81ff64def65401135dff33116bd3ad",
+    "derivation": "SHA-verified 1c4afca projection plus current Fidelity seven-source overlay plus verified Sidebar transport; CV helper bypasses Sidebar.",
+    "inputSnapshots": [
+      {
+        "run": "combined-integration-app-exports-22okt",
+        "case": "05-Modern-Eigene-Werte-Referenzen",
+        "snapshotIdentical": true
+      },
+      {
+        "run": "combined-integration-app-exports-22okt",
+        "case": "03-Modern-Kontakt-waagrecht",
+        "snapshotIdentical": true
+      },
+      {
+        "run": "combined-integration-app-exports-22okt",
+        "case": "12-Brief-Zwei-CV-Seiten",
+        "snapshotIdentical": true
+      },
+      {
+        "run": "combined-integration-app-exports-22okt",
+        "case": "02-Modern-Zwei-CV-Seiten",
+        "snapshotIdentical": true
+      },
+      {
+        "run": "combined-integration-05-auto-22okt",
+        "case": "05-Modern-Eigene-Werte-Referenzen",
+        "snapshotIdentical": true
+      },
+      {
+        "run": "combined-integration-05-one-22okt",
+        "case": "05-Modern-Eigene-Werte-Referenzen",
+        "snapshotIdentical": true
+      }
+    ]
+  },
+  "sidebarDiagnosticPackages": {
+    "fidelityTarget": "7be40063856d1376acb60e917fe85599a6033dad",
+    "sidebarSource": "f73c776e2eca6b9b0d858ee2ab997230259797ac",
+    "cvRepair": "1c4afca24e66471b635e404f18fd3b034987a145",
+    "source": "Existing diagnostic fixture script, no new user acceptance packet",
+    "cases": [
+      {
+        "file": "01-Links-ohne-Foto.docx",
+        "sha256": "d219c0bbdb9d7a1f1be2e264da465f07fe14e157dadfcd7755c37eb23cf18491",
+        "previousSha256": "d219c0bbdb9d7a1f1be2e264da465f07fe14e157dadfcd7755c37eb23cf18491",
+        "byteIdentical": true,
+        "changedParts": []
+      },
+      {
+        "file": "02-Foto-rechts.docx",
+        "sha256": "7677155a30ab3b9fddd04b6f09cdbf95df1c58e2bae818122e52e3b044313aa8",
+        "previousSha256": "7677155a30ab3b9fddd04b6f09cdbf95df1c58e2bae818122e52e3b044313aa8",
+        "byteIdentical": true,
+        "changedParts": []
+      },
+      {
+        "file": "03-Foto-links.docx",
+        "sha256": "6f2fb4dcfaae3e51746f4f7916b40f651c038a15234dfa248bf592b7ffe0fb70",
+        "previousSha256": "6f2fb4dcfaae3e51746f4f7916b40f651c038a15234dfa248bf592b7ffe0fb70",
+        "byteIdentical": true,
+        "changedParts": []
+      },
+      {
+        "file": "04-Foto-Portrait.docx",
+        "sha256": "d8e53067ea222a82f6b0b3db703d811dacc03cc531d6b0738268bf81b89b3613",
+        "previousSha256": "d8e53067ea222a82f6b0b3db703d811dacc03cc531d6b0738268bf81b89b3613",
+        "byteIdentical": true,
+        "changedParts": []
+      },
+      {
+        "file": "05-Freies-Foto-rechts.docx",
+        "sha256": "558a972d38a51b7f8cba113e3b3f321835c97bda34b15b44039870803d7378ef",
+        "previousSha256": "558a972d38a51b7f8cba113e3b3f321835c97bda34b15b44039870803d7378ef",
+        "byteIdentical": true,
+        "changedParts": []
+      },
+      {
+        "file": "06-Langer-CV-rechts.docx",
+        "sha256": "c57b8f66e6f7885b928ed81ab28645f4fa0c9cade5d706fbee4aab033172189a",
+        "previousSha256": "c57b8f66e6f7885b928ed81ab28645f4fa0c9cade5d706fbee4aab033172189a",
+        "byteIdentical": true,
+        "changedParts": []
+      }
+    ]
+  },
+  "actualAppExports": {
+    "downloads": 6,
+    "textFieldsChecked": 498,
+    "normalAppPdfs": 6,
+    "scope": "JSON upload, actual page action, reload, guarded UI native download byte equality and source-state preservation; not the production build",
+    "main": {
+      "status": "PARTIAL pending Microsoft Word",
+      "renderer": "Unmodified runtime LibreOfficeDev 26.8 supplemental rendering",
+      "results": [
+        {
+          "id": "02-Modern-Zwei-CV-Seiten",
+          "webCvPages": 1,
+          "webPdfPages": 3,
+          "supplementalNativePages": 3,
+          "supplementalNativeCvPages": 1,
+          "semanticFieldsChecked": 83,
+          "allNativeFieldsPresent": true,
+          "letterCvWebPdfFieldsPresentExceptRecordedNativeLabels": true,
+          "knownNativeOnlyLabels": [],
+          "webPdfNonExtractableCoverFields": [
+            {
+              "source": "same-source-Web-PDF",
+              "field": "cover.photo.initials",
+              "text": "LM"
+            },
+            {
+              "source": "same-source-Web-PDF",
+              "field": "cover.lehrbeginn",
+              "text": "Lehrbeginn August 2028"
+            },
+            {
+              "source": "same-source-Web-PDF",
+              "field": "cover.kontaktTitel",
+              "text": "Kontakt"
+            },
+            {
+              "source": "same-source-Web-PDF",
+              "field": "cover.beilagen",
+              "text": "Motivationsschreiben"
+            }
+          ],
+          "nativeContentControls": 81,
+          "originalPngSourcesPreserved": 0,
+          "pillChecks": [
+            {
+              "field": "cv.section.custom:familie.heading",
+              "page": 3,
+              "inkInsideSurface": true
+            },
+            {
+              "field": "cv.section.schule.heading",
+              "page": 3,
+              "inkInsideSurface": true
+            },
+            {
+              "field": "cv.section.erfahrung.heading",
+              "page": 3,
+              "inkInsideSurface": true
+            },
+            {
+              "field": "cv.section.sprachen.heading",
+              "page": 3,
+              "inkInsideSurface": true
+            },
+            {
+              "field": "cv.section.hobbys.heading",
+              "page": 3,
+              "inkInsideSurface": true
+            },
+            {
+              "field": "cv.section.staerken.heading",
+              "page": 3,
+              "inkInsideSurface": true
+            },
+            {
+              "field": "cv.section.referenzen.heading",
+              "page": 3,
+              "inkInsideSurface": true
+            }
+          ],
+          "pageCountMatchesWeb": true,
+          "wordAcceptance": "UNVERIFIED"
+        },
+        {
+          "id": "03-Modern-Kontakt-waagrecht",
+          "webCvPages": 1,
+          "webPdfPages": 3,
+          "supplementalNativePages": 3,
+          "supplementalNativeCvPages": 1,
+          "semanticFieldsChecked": 74,
+          "allNativeFieldsPresent": true,
+          "letterCvWebPdfFieldsPresentExceptRecordedNativeLabels": true,
+          "knownNativeOnlyLabels": [],
+          "webPdfNonExtractableCoverFields": [
+            {
+              "source": "same-source-Web-PDF",
+              "field": "cover.photo.initials",
+              "text": "LM"
+            },
+            {
+              "source": "same-source-Web-PDF",
+              "field": "cover.lehrbeginn",
+              "text": "Lehrbeginn August 2028"
+            },
+            {
+              "source": "same-source-Web-PDF",
+              "field": "cover.kontaktTitel",
+              "text": "Kontakt"
+            },
+            {
+              "source": "same-source-Web-PDF",
+              "field": "cover.beilagen",
+              "text": "Motivationsschreiben"
+            }
+          ],
+          "nativeContentControls": 71,
+          "originalPngSourcesPreserved": 0,
+          "pillChecks": [
+            {
+              "field": "cv.section.custom:familie.heading",
+              "page": 3,
+              "inkInsideSurface": true
+            },
+            {
+              "field": "cv.section.schule.heading",
+              "page": 3,
+              "inkInsideSurface": true
+            },
+            {
+              "field": "cv.section.erfahrung.heading",
+              "page": 3,
+              "inkInsideSurface": true
+            },
+            {
+              "field": "cv.section.sprachen.heading",
+              "page": 3,
+              "inkInsideSurface": true
+            },
+            {
+              "field": "cv.section.hobbys.heading",
+              "page": 3,
+              "inkInsideSurface": true
+            },
+            {
+              "field": "cv.section.staerken.heading",
+              "page": 3,
+              "inkInsideSurface": true
+            },
+            {
+              "field": "cv.section.referenzen.heading",
+              "page": 3,
+              "inkInsideSurface": true
+            }
+          ],
+          "pageCountMatchesWeb": true,
+          "wordAcceptance": "UNVERIFIED"
+        },
+        {
+          "id": "05-Modern-Eigene-Werte-Referenzen",
+          "webCvPages": 1,
+          "webPdfPages": 3,
+          "supplementalNativePages": 4,
+          "supplementalNativeCvPages": 2,
+          "semanticFieldsChecked": 86,
+          "allNativeFieldsPresent": true,
+          "letterCvWebPdfFieldsPresentExceptRecordedNativeLabels": true,
+          "knownNativeOnlyLabels": [],
+          "webPdfNonExtractableCoverFields": [
+            {
+              "source": "same-source-Web-PDF",
+              "field": "cover.photo.initials",
+              "text": "LM"
+            },
+            {
+              "source": "same-source-Web-PDF",
+              "field": "cover.lehrbeginn",
+              "text": "Lehrbeginn August 2028"
+            },
+            {
+              "source": "same-source-Web-PDF",
+              "field": "cover.kontaktTitel",
+              "text": "Kontakt"
+            },
+            {
+              "source": "same-source-Web-PDF",
+              "field": "cover.beilagen",
+              "text": "Motivationsschreiben"
+            }
+          ],
+          "nativeContentControls": 84,
+          "originalPngSourcesPreserved": 0,
+          "pillChecks": [
+            {
+              "field": "cv.section.custom:familie.heading",
+              "page": 3,
+              "inkInsideSurface": true
+            },
+            {
+              "field": "cv.section.schule.heading",
+              "page": 3,
+              "inkInsideSurface": true
+            },
+            {
+              "field": "cv.section.erfahrung.heading",
+              "page": 3,
+              "inkInsideSurface": true
+            },
+            {
+              "field": "cv.section.sprachen.heading",
+              "page": 3,
+              "inkInsideSurface": true
+            },
+            {
+              "field": "cv.section.hobbys.heading",
+              "page": 3,
+              "inkInsideSurface": true
+            },
+            {
+              "field": "cv.section.staerken.heading",
+              "page": 3,
+              "inkInsideSurface": true
+            },
+            {
+              "field": "cv.section.referenzen.heading",
+              "page": 4,
+              "inkInsideSurface": true
+            }
+          ],
+          "pageCountMatchesWeb": false,
+          "wordAcceptance": "UNVERIFIED"
+        },
+        {
+          "id": "12-Brief-Zwei-CV-Seiten",
+          "webCvPages": 1,
+          "webPdfPages": 3,
+          "supplementalNativePages": 3,
+          "supplementalNativeCvPages": 1,
+          "semanticFieldsChecked": 83,
+          "allNativeFieldsPresent": true,
+          "letterCvWebPdfFieldsPresentExceptRecordedNativeLabels": true,
+          "knownNativeOnlyLabels": [],
+          "webPdfNonExtractableCoverFields": [
+            {
+              "source": "same-source-Web-PDF",
+              "field": "cover.photo.initials",
+              "text": "LM"
+            },
+            {
+              "source": "same-source-Web-PDF",
+              "field": "cover.lehrbeginn",
+              "text": "Lehrbeginn August 2028"
+            },
+            {
+              "source": "same-source-Web-PDF",
+              "field": "cover.kontaktTitel",
+              "text": "Kontakt"
+            },
+            {
+              "source": "same-source-Web-PDF",
+              "field": "cover.beilagen",
+              "text": "Motivationsschreiben"
+            }
+          ],
+          "nativeContentControls": 81,
+          "originalPngSourcesPreserved": 0,
+          "pillChecks": [],
+          "pageCountMatchesWeb": true,
+          "wordAcceptance": "UNVERIFIED"
+        }
+      ]
+    },
+    "automatic05": {
+      "status": "PARTIAL pending Microsoft Word",
+      "renderer": "Unmodified runtime LibreOfficeDev 26.8 supplemental rendering",
+      "results": [
+        {
+          "id": "05-Modern-Eigene-Werte-Referenzen",
+          "webCvPages": 2,
+          "webPdfPages": 4,
+          "supplementalNativePages": 4,
+          "supplementalNativeCvPages": 2,
+          "semanticFieldsChecked": 86,
+          "allNativeFieldsPresent": true,
+          "letterCvWebPdfFieldsPresentExceptRecordedNativeLabels": true,
+          "knownNativeOnlyLabels": [],
+          "webPdfNonExtractableCoverFields": [
+            {
+              "source": "same-source-Web-PDF",
+              "field": "cover.photo.initials",
+              "text": "LM"
+            },
+            {
+              "source": "same-source-Web-PDF",
+              "field": "cover.lehrbeginn",
+              "text": "Lehrbeginn August 2028"
+            },
+            {
+              "source": "same-source-Web-PDF",
+              "field": "cover.kontaktTitel",
+              "text": "Kontakt"
+            },
+            {
+              "source": "same-source-Web-PDF",
+              "field": "cover.beilagen",
+              "text": "Motivationsschreiben"
+            }
+          ],
+          "nativeContentControls": 84,
+          "originalPngSourcesPreserved": 0,
+          "pillChecks": [
+            {
+              "field": "cv.section.custom:familie.heading",
+              "page": 3,
+              "inkInsideSurface": true
+            },
+            {
+              "field": "cv.section.schule.heading",
+              "page": 3,
+              "inkInsideSurface": true
+            },
+            {
+              "field": "cv.section.erfahrung.heading",
+              "page": 3,
+              "inkInsideSurface": true
+            },
+            {
+              "field": "cv.section.sprachen.heading",
+              "page": 4,
+              "inkInsideSurface": true
+            },
+            {
+              "field": "cv.section.hobbys.heading",
+              "page": 4,
+              "inkInsideSurface": true
+            },
+            {
+              "field": "cv.section.staerken.heading",
+              "page": 4,
+              "inkInsideSurface": true
+            },
+            {
+              "field": "cv.section.referenzen.heading",
+              "page": 4,
+              "inkInsideSurface": true
+            }
+          ],
+          "wordAcceptance": "UNVERIFIED"
+        }
+      ]
+    },
+    "explicitOne05": {
+      "status": "PARTIAL pending Microsoft Word",
+      "renderer": "Unmodified runtime LibreOfficeDev 26.8 supplemental rendering",
+      "results": [
+        {
+          "id": "05-Modern-Eigene-Werte-Referenzen",
+          "webCvPages": 1,
+          "webPdfPages": 3,
+          "supplementalNativePages": 3,
+          "supplementalNativeCvPages": 1,
+          "semanticFieldsChecked": 86,
+          "allNativeFieldsPresent": true,
+          "letterCvWebPdfFieldsPresentExceptRecordedNativeLabels": true,
+          "knownNativeOnlyLabels": [],
+          "webPdfNonExtractableCoverFields": [
+            {
+              "source": "same-source-Web-PDF",
+              "field": "cover.photo.initials",
+              "text": "LM"
+            },
+            {
+              "source": "same-source-Web-PDF",
+              "field": "cover.lehrbeginn",
+              "text": "Lehrbeginn August 2028"
+            },
+            {
+              "source": "same-source-Web-PDF",
+              "field": "cover.kontaktTitel",
+              "text": "Kontakt"
+            },
+            {
+              "source": "same-source-Web-PDF",
+              "field": "cover.beilagen",
+              "text": "Motivationsschreiben"
+            }
+          ],
+          "nativeContentControls": 84,
+          "originalPngSourcesPreserved": 0,
+          "pillChecks": [
+            {
+              "field": "cv.section.custom:familie.heading",
+              "page": 3,
+              "inkInsideSurface": true
+            },
+            {
+              "field": "cv.section.schule.heading",
+              "page": 3,
+              "inkInsideSurface": true
+            },
+            {
+              "field": "cv.section.erfahrung.heading",
+              "page": 3,
+              "inkInsideSurface": true
+            },
+            {
+              "field": "cv.section.sprachen.heading",
+              "page": 3,
+              "inkInsideSurface": true
+            },
+            {
+              "field": "cv.section.staerken.heading",
+              "page": 3,
+              "inkInsideSurface": true
+            },
+            {
+              "field": "cv.section.hobbys.heading",
+              "page": 3,
+              "inkInsideSurface": true
+            },
+            {
+              "field": "cv.section.referenzen.heading",
+              "page": 3,
+              "inkInsideSurface": true
+            }
+          ],
+          "wordAcceptance": "UNVERIFIED"
+        }
+      ]
+    }
+  },
+  "controls": {
+    "main": [
+      {
+        "id": "02-Modern-Zwei-CV-Seiten",
+        "mappedCvControlTagsExpected": 47,
+        "mappedCvControlTagsPresent": 47,
+        "exactCvTextByMappedTag": true,
+        "uniqueExpectedTagsWithinEachPart": true,
+        "existingOwnerMappings": [
+          "cv.person.firstName + cv.person.lastName -> cv.person.name",
+          "cv.footer.name -> cv.footer.content"
+        ],
+        "allXmlWellFormed": true,
+        "wordSaveReopen": "UNVERIFIED"
+      },
+      {
+        "id": "03-Modern-Kontakt-waagrecht",
+        "mappedCvControlTagsExpected": 47,
+        "mappedCvControlTagsPresent": 47,
+        "exactCvTextByMappedTag": true,
+        "uniqueExpectedTagsWithinEachPart": true,
+        "existingOwnerMappings": [
+          "cv.person.firstName + cv.person.lastName -> cv.person.name",
+          "cv.footer.name -> cv.footer.content"
+        ],
+        "allXmlWellFormed": true,
+        "wordSaveReopen": "UNVERIFIED"
+      },
+      {
+        "id": "05-Modern-Eigene-Werte-Referenzen",
+        "mappedCvControlTagsExpected": 50,
+        "mappedCvControlTagsPresent": 50,
+        "exactCvTextByMappedTag": true,
+        "uniqueExpectedTagsWithinEachPart": true,
+        "existingOwnerMappings": [
+          "cv.person.firstName + cv.person.lastName -> cv.person.name",
+          "cv.footer.name -> cv.footer.content"
+        ],
+        "allXmlWellFormed": true,
+        "wordSaveReopen": "UNVERIFIED"
+      },
+      {
+        "id": "12-Brief-Zwei-CV-Seiten",
+        "mappedCvControlTagsExpected": 48,
+        "mappedCvControlTagsPresent": 48,
+        "exactCvTextByMappedTag": true,
+        "uniqueExpectedTagsWithinEachPart": true,
+        "existingOwnerMappings": [
+          "cv.person.firstName + cv.person.lastName -> cv.person.name",
+          "cv.footer.name -> cv.footer.content"
+        ],
+        "allXmlWellFormed": true,
+        "wordSaveReopen": "UNVERIFIED"
+      }
+    ],
+    "automatic05": [
+      {
+        "id": "05-Modern-Eigene-Werte-Referenzen",
+        "mappedCvControlTagsExpected": 50,
+        "mappedCvControlTagsPresent": 50,
+        "exactCvTextByMappedTag": true,
+        "uniqueExpectedTagsWithinEachPart": true,
+        "existingOwnerMappings": [
+          "cv.person.firstName + cv.person.lastName -> cv.person.name",
+          "cv.footer.name -> cv.footer.content"
+        ],
+        "allXmlWellFormed": true,
+        "wordSaveReopen": "UNVERIFIED"
+      }
+    ],
+    "explicitOne05": [
+      {
+        "id": "05-Modern-Eigene-Werte-Referenzen",
+        "mappedCvControlTagsExpected": 50,
+        "mappedCvControlTagsPresent": 50,
+        "exactCvTextByMappedTag": true,
+        "uniqueExpectedTagsWithinEachPart": true,
+        "existingOwnerMappings": [
+          "cv.person.firstName + cv.person.lastName -> cv.person.name",
+          "cv.footer.name -> cv.footer.content"
+        ],
+        "allXmlWellFormed": true,
+        "wordSaveReopen": "UNVERIFIED"
+      }
+    ]
+  },
+  "mainPackageDiffs": [
+    {
+      "file": "02-Modern-Zwei-CV-Seiten.docx",
+      "sha256": "e2fe86fd1369431a697ecfd1f9d32d2557dcea0b0bdeae51222725d05699de16",
+      "previousSha256": "acf46e5f7aaf3a6ff3c6640173aa1ebc0bd49bbfc709005a64aa3c65fe5c960a",
+      "changedParts": [
+        "word/document.xml"
+      ]
+    },
+    {
+      "file": "03-Modern-Kontakt-waagrecht.docx",
+      "sha256": "813b84d2e67c273a3be831db4f6587b06f36d4591c092c179ae4de320a2a9581",
+      "previousSha256": "f5e9b2ded0c6ce962f3d42893c62d8198fcc61e6dd4bedf3e31151ab8397b663",
+      "changedParts": [
+        "word/document.xml"
+      ]
+    },
+    {
+      "file": "05-Modern-Eigene-Werte-Referenzen.docx",
+      "sha256": "f4c666fd088fe3b5d5fad25358c75f9987c0a35c700f6eceab1ef22098a27bef",
+      "previousSha256": "60d3febb05b084f367f4c9a559ede4188785d69f97e4c72a162b5c4d2b3ebe85",
+      "changedParts": [
+        "word/document.xml"
+      ]
+    },
+    {
+      "file": "12-Brief-Zwei-CV-Seiten.docx",
+      "sha256": "e68fd62a2b9d56dc72fe36dcbf6af0492699e978705044c1b4cfc22f79cd0ada",
+      "previousSha256": "6461d9734ed324a2a8ece478efb6a41b9fb4898387c5a34c9b97802e3b3f3e54",
+      "changedParts": [
+        "word/document.xml"
+      ]
+    }
+  ],
+  "mainXmlSectionDiffs": [
+    {
+      "file": "02-Modern-Zwei-CV-Seiten.docx",
+      "changedSections": [
+        3
+      ],
+      "cvXmlIdentical": false
+    },
+    {
+      "file": "03-Modern-Kontakt-waagrecht.docx",
+      "changedSections": [
+        3
+      ],
+      "cvXmlIdentical": false
+    },
+    {
+      "file": "05-Modern-Eigene-Werte-Referenzen.docx",
+      "changedSections": [
+        3
+      ],
+      "cvXmlIdentical": false
+    },
+    {
+      "file": "12-Brief-Zwei-CV-Seiten.docx",
+      "changedSections": [
+        3
+      ],
+      "cvXmlIdentical": false
+    }
+  ],
+  "mainXmlOnlyReferencesChanged": [
+    {
+      "file": "02-Modern-Zwei-CV-Seiten.docx",
+      "onlyChangedStructure": "cv.section.referenzen.pair table",
+      "referencePairTables": [
+        1,
+        1
+      ],
+      "allOtherDocumentXmlIdentical": true
+    },
+    {
+      "file": "03-Modern-Kontakt-waagrecht.docx",
+      "onlyChangedStructure": "cv.section.referenzen.pair table",
+      "referencePairTables": [
+        1,
+        1
+      ],
+      "allOtherDocumentXmlIdentical": true
+    },
+    {
+      "file": "05-Modern-Eigene-Werte-Referenzen.docx",
+      "onlyChangedStructure": "cv.section.referenzen.pair table",
+      "referencePairTables": [
+        1,
+        1
+      ],
+      "allOtherDocumentXmlIdentical": true
+    },
+    {
+      "file": "12-Brief-Zwei-CV-Seiten.docx",
+      "onlyChangedStructure": "cv.section.referenzen.pair table",
+      "referencePairTables": [
+        1,
+        1
+      ],
+      "allOtherDocumentXmlIdentical": true
+    }
+  ],
+  "visualReview": {
+    "pages": 20,
+    "unchangedPages": 14,
+    "changedPages": [
+      {
+        "run": "main",
+        "page": "02/page-3.png",
+        "byteIdentical": false
+      },
+      {
+        "run": "main",
+        "page": "03/page-3.png",
+        "byteIdentical": false
+      },
+      {
+        "run": "main",
+        "page": "05/page-4.png",
+        "byteIdentical": false
+      },
+      {
+        "run": "main",
+        "page": "12/page-3.png",
+        "byteIdentical": false
+      },
+      {
+        "run": "auto05",
+        "page": "05/page-4.png",
+        "byteIdentical": false
+      },
+      {
+        "run": "one05",
+        "page": "05/page-3.png",
+        "byteIdentical": false
+      }
+    ],
+    "allChangedPagesVisuallyInspected": true,
+    "comparison": [
+      {
+        "run": "main",
+        "page": "02/page-1.png",
+        "byteIdentical": true
+      },
+      {
+        "run": "main",
+        "page": "02/page-2.png",
+        "byteIdentical": true
+      },
+      {
+        "run": "main",
+        "page": "02/page-3.png",
+        "byteIdentical": false
+      },
+      {
+        "run": "main",
+        "page": "03/page-1.png",
+        "byteIdentical": true
+      },
+      {
+        "run": "main",
+        "page": "03/page-2.png",
+        "byteIdentical": true
+      },
+      {
+        "run": "main",
+        "page": "03/page-3.png",
+        "byteIdentical": false
+      },
+      {
+        "run": "main",
+        "page": "05/page-1.png",
+        "byteIdentical": true
+      },
+      {
+        "run": "main",
+        "page": "05/page-2.png",
+        "byteIdentical": true
+      },
+      {
+        "run": "main",
+        "page": "05/page-3.png",
+        "byteIdentical": true
+      },
+      {
+        "run": "main",
+        "page": "05/page-4.png",
+        "byteIdentical": false
+      },
+      {
+        "run": "main",
+        "page": "12/page-1.png",
+        "byteIdentical": true
+      },
+      {
+        "run": "main",
+        "page": "12/page-2.png",
+        "byteIdentical": true
+      },
+      {
+        "run": "main",
+        "page": "12/page-3.png",
+        "byteIdentical": false
+      },
+      {
+        "run": "auto05",
+        "page": "05/page-1.png",
+        "byteIdentical": true
+      },
+      {
+        "run": "auto05",
+        "page": "05/page-2.png",
+        "byteIdentical": true
+      },
+      {
+        "run": "auto05",
+        "page": "05/page-3.png",
+        "byteIdentical": true
+      },
+      {
+        "run": "auto05",
+        "page": "05/page-4.png",
+        "byteIdentical": false
+      },
+      {
+        "run": "one05",
+        "page": "05/page-1.png",
+        "byteIdentical": true
+      },
+      {
+        "run": "one05",
+        "page": "05/page-2.png",
+        "byteIdentical": true
+      },
+      {
+        "run": "one05",
+        "page": "05/page-3.png",
+        "byteIdentical": false
+      }
+    ]
+  },
+  "acceptedEvidence": {
+    "cv02and12": "Original targeted Desktop Word pagination plus save/reopen PASS remains CLOSED; unchanged original packet",
+    "sidebar": "Six regenerated diagnostic packages are byte-identical; prior confirmed Word photo-case scope is retained",
+    "combinedOutputWord": "UNVERIFIED. Four combined app DOCX packages intentionally change the shared reference table; prior Word acceptance is not transferred to those bytes",
+    "intermediateUserWordRequest": false
+  },
+  "openGates": [
+    "Modern custom-values05 without a page action: Web oneCV/native twoCV remains OPEN",
+    "Full production build and repository CI not certified",
+    "Combined-source Word and broader Sidebar/All-39 acceptance not established",
+    "Original-picture editing/crop-reset scope remains as documented in prior Sidebar reports"
+  ],
+  "runtime": {
+    "app": "Same temporary QA-only SPA/runtime documented in preceding report",
+    "browser": "Official Chrome for Testing156.0.8078.47",
+    "nativeRenderer": "Unmodified LibreOfficeDev26.8, supplemental only",
+    "font": "Local Liberation Sans; requested WordArial identity not machine-certified",
+    "syntheticSidebarSources": "Existing explicit complete PNG adapter, not browser/UI photo acceptance"
+  },
+  "verdict": "CONDITIONAL GO for controlled integration review; no general page-equivalence production GO",
+  "merge": "NOT_PERFORMED",
+  "deployment": "NOT_PERFORMED",
+  "ciDispatch": "NOT_PERFORMED",
+  "productionExportSwitch": "NOT_PERFORMED",
+  "enginePatch": "NOT_PERFORMED",
+  "activeFidelityModification": "NOT_PERFORMED"
+}

@@ -1,5 +1,7 @@
 # CV footer reserve repair and integration preflight
 
+> Follow-up (2026-10-22): the Sidebar transport refresh and combined application smoke are now complete in an isolated source projection. See the [shared integration preflight](docx-next-shared-integration-preflight-22okt.md), [machine evidence](docx-next-shared-integration-preflight-22okt-evidence.json) and [26-file transport](docx-next-shared-integration-preflight-22okt.patch). The chronological preflight and next-step text below describes the preceding CV-only checkpoint. No branch merge occurred.
+
 ## Result
 
 The remaining Modern 03 and 07 overflow was caused by an exporter body-budget error. After replacing the native text footer with painted footer artwork, the exporter retained the old template/text-story bottom reserve. The shared browser CV contract uses a 1 mm physical bottom margin plus the visible footer band once. With the standard 4 mm band, the correct reserve is 5 mm, not 26.733 mm.

@@ -1303,5 +1303,17 @@
   "ciDispatch": "NOT_PERFORMED",
   "productionExportSwitch": "NOT_PERFORMED",
   "implementationCommit": "70a10ed14eb01066119f21a5f7e8d01a548326f6",
-  "sourceExecutionNote": "Eight regression exports and one explicit-one control used70a10ed; the final scope guard only bypasses nonclassic/Sidebar parts. All exported candidate parts are classic; their model/package deltas remain unchanged. Both final source projections reran97 tests after the guard."
+  "sourceExecutionNote": "Eight regression exports and one explicit-one control used70a10ed; the final scope guard only bypasses nonclassic/Sidebar parts. All exported candidate parts are classic; their model/package deltas remain unchanged. Both final source projections reran97 tests after the guard.",
+  "combinedPreflightFollowUp": {
+    "report": "docs/qa/docx-next-shared-integration-preflight-22okt.md",
+    "evidence": "docs/qa/docx-next-shared-integration-preflight-22okt-evidence.json",
+    "patch": "docs/qa/docx-next-shared-integration-preflight-22okt.patch",
+    "fidelityTarget": "7be40063856d1376acb60e917fe85599a6033dad",
+    "sidebarTransportRefreshed": true,
+    "distinctTestsPass": 179,
+    "actualAppExports": 6,
+    "sidebarPackagesByteIdentical": 6,
+    "unfittedCustom05StillOpen": true,
+    "remoteBranchIntegration": "NOT_PERFORMED"
+  }
 }
