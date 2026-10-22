@@ -4,6 +4,8 @@
 
 Der interne gemeinsame Sidebar-Kandidat übernimmt jetzt die effektive App-Typografie, Rubrikabstände, Datums-Spalten und leere kompakte Kopf-/Fussstreifen. Die zuvor zusätzlich erfundene Namens-Fusszeile entfällt. Vier gespeicherte Modern-Projekte bestehen die normale PDF-Vorprüfung; ihre nativen Pakete behalten alle kanonischen CV-Texte und vollständigen Bildpixel. Die sichtbare Gesamtabnahme bleibt offen: Writer versetzt die freien Fotos ungefähr 10 mm nach unten, der vertikale Textfluss weicht ab und kurze Einträge können an der Seitengrenze auseinanderfallen. Das sind deutlich wichtigere Befunde als ein unsichtbarer Twip. Für diese neuen Bytes liegt keine Microsoft-Word-Abnahme vor.
 
+Nachtrag: Der [folgende Reparaturschritt](docx-next-sidebar-anchor-entry-22okt.md) behebt den sichtbaren Bildversatz und die getrennte Schulstation im neuen Writer-Vergleich. Die nachstehenden Angaben dokumentieren weiterhin den damaligen Typografie-Checkpoint; insbesondere bleiben Gesamt-Fidelity und Word Save/Reopen offen.
+
 ## Änderung und Geltungsbereich
 
 Der neue, ausdrücklich anzufordernde Parameter `cvSidebarTextMetrics` gilt ausschliesslich zusammen mit `cvSidebarComposition: "shared-body-stories"`. Er öffnet weder den regulären Sidebar-Export noch den Produktionsschalter. Die historischen Sidebar-Kompositionen und der klassische CV-Pfad erhalten keine neuen Messwerte.

@@ -99,10 +99,14 @@ Der nachfolgende [Typografie-Checkpoint](docx-next-sidebar-typography-22okt.md) 
 
 Die neue direkte PDF-Gegenüberstellung bestätigt zugleich sichtbare Restfehler: Writer rendert freie Fotos bei rund y=220 statt authored y=210 mm, der Textfluss unterscheidet sich und ein kurzer Schuleintrag wird am Seitenende geteilt. Das korrigiert keine Word-Freigabe und überträgt auch keine alte Abnahme auf neue Bytes. Die vollständige Sidebar bleibt NO-GO; Messwerte und Bilder nach Word Save/Reopen sind weiter unbestätigt.
 
+## Bildanker und Einträge am Seitenende
+
+Der [anschliessende Reparaturschritt](docx-next-sidebar-anchor-entry-22okt.md) legt freie Seitenbilder mit unveränderten Offsets vor die kontinuierliche Sidebar-Tabelle. Im Writer-Vergleich verschwindet damit der etwa 10 mm grosse Versatz links und rechts. Kurze Datums-Einträge werden über die vorhandene Tabellenzeile zusammengehalten; überlange Beschreibungen bleiben teilbar. 111 gezielte Tests und fokussierte strikte Typen bestehen. Die vier Vergleichsfälle behalten ihre vollständigen Bilder, Crops, Feldtexte und Seitenzahlen; Titelblatt und Anschreiben sind auch im nativen Render pixelgleich. Ein zusätzlicher 90-Zeilen-Eintrag fliesst vollständig über vier CV-Seiten. Word Save/Reopen und die Gesamt-Fidelity bleiben offen.
+
 ## Nächster ausführbarer Schritt
 
-1. Den sichtbaren Bildversatz sowie die Gruppierung kurzer Einträge an der Seitengrenze am gemeinsamen Unterbau untersuchen; kein pauschaler Gegenversatz und keine Engine-Patches.
-2. Verbleibende Flächen-/Textflussabweichungen gegen dieselben gültigen Speicherprojekte bewerten. Erst danach ein einziges konsolidiertes Word-Paket für Bildbearbeitung und Save/Reopen vorbereiten. Keine neue Zwischenrunde für die ursprünglichen Modern-02-/Brief-12-Dateien.
+1. Verbleibende Flächen-, Motif- und Textflussabweichungen gegen dieselben gültigen Speicherprojekte am gemeinsamen Unterbau abgleichen.
+2. Erst danach ein einziges konsolidiertes Word-Paket für Bildbearbeitung und Save/Reopen vorbereiten. Keine neue Zwischenrunde für die ursprünglichen Modern-02-/Brief-12-Dateien.
 3. Erst nach vollständiger Abnahme über Merge und die weiteren Fidelity-Gates entscheiden.
 
 **Status: gemeinsamer Integrations-Checkpoint gesichert; Sidebar-Geometrie im neuen internen Kandidaten geprüft, visuelle Gesamt- und Word-Abnahme offen.** Kein Merge nach `dev`, `main`, `render` oder in aktive Quellbranches. Kein manuell ausgelöstes Deployment, CI-Dispatch, Produktionsschalter oder Engine-Patch.

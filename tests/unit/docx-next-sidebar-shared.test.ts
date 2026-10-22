@@ -5,6 +5,7 @@ import { DEFAULT_DOSSIER_CHROME_OPTIONS } from "../../src/lib/dossier-chrome";
 import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
 import { walkBlocks, type TableBlock } from "../../src/lib/docx-next/model";
 import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
+import { validateDossierDocModel } from "../../src/lib/docx-next/validation";
 import { readZipEntries } from "../../src/lib/docx-next/zip";
 import { sidebarFixture } from "../fixtures/docx-next/sidebar";
 
@@ -59,6 +60,12 @@ for (const side of ["left", "right"] as const) {
     expect(photo.yMm).toBe(20);
     expect(photo.widthMm).toBe(34);
     expect(photo.frame?.zoom).toBe(1.25);
+    expect(model.cv.blocks).toContain(photo);
+    expect(
+      walkBlocks(table.rows.flatMap((row) => row.cells.flat())).some(
+        (b) => b.id === photo.id,
+      ),
+    ).toBe(false);
     await expect(renderDossierDocx(model)).rejects.toThrow(/unaccepted/);
     const blob = await renderDossierDocx(model, {
       allowUnacceptedModelIssues: true,
@@ -152,6 +159,27 @@ test("shared Sidebar retains the explicit page-start gate", () => {
       cvSidebarComposition: "shared-body-stories",
     }),
   ).toThrow(/unsupported shared Sidebar content cv.section.schule/);
+});
+
+test("page picture carriers never admit ordinary text ahead of the section-start table", () => {
+  const model = buildDossierDocModel(sidebarFixture("photo-free-side"), {
+    cvSidebarComposition: "shared-body-stories",
+  });
+  const paragraph = walkBlocks(model.cv.blocks).find(
+    (b) => b.kind === "paragraph",
+  );
+  if (!paragraph || paragraph.kind !== "paragraph")
+    throw Error("Missing source paragraph");
+  model.cv.blocks.unshift({
+    ...paragraph,
+    id: "cv.unexpected-opening",
+    runs: [
+      { text: "Zusätzlicher Flusstext", style: { ...paragraph.runs[0].style } },
+    ],
+  });
+  expect(() => validateDossierDocModel(model)).toThrow(
+    /section-start table must open/,
+  );
 });
 
 test("automatic rail photos use Web compact sizing while free-photo width stays authored", () => {

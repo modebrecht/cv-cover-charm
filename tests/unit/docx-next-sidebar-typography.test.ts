@@ -76,7 +76,32 @@ test("native date tracks retain complete field owners instead of stacked metadat
   expect(table.rows[0].cells[0][0].id).toBe("cv.entry.schule:demo-s1.date");
   expect(table.rows[0].cells[1][0].id).toBe("cv.entry.schule:demo-s1.title");
   expect((table.rows[0].cells[1][0] as Paragraph).indentMm).toBeCloseTo(3.6, 3);
-  expect(table.rows[0].keepTogether).toBe(false);
+  expect(table.rows[0].keepTogether).toBe(true);
+});
+
+test("long descriptions remain splittable while short dated entries stay together", () => {
+  const { source, metrics } = setup();
+  const text = Array.from(
+    { length: 90 },
+    (_, i) => `Langer Abschnitt ${i + 1} mit vollständig erhaltenem Inhalt.`,
+  ).join("\n");
+  source.cv.data.schule[0].beschreibung = text;
+  metrics.fields["cv.entry.schule:demo-s1.description"].text = text;
+  metrics.sourceKey = JSON.stringify(source);
+  const model = build(source, metrics);
+  const rail = walkBlocks(model.cv.blocks).find(
+    (b) => b.id === "cv.entry.schule:demo-s1.dateRail",
+  ) as TableBlock;
+  expect(rail.rows[0].keepTogether).toBe(false);
+  expect(
+    p(model, "cv.entry.schule:demo-s1.description")
+      .runs.map((r) => r.text)
+      .join(""),
+  ).toBe(text);
+  const other = walkBlocks(model.cv.blocks).find(
+    (b) => b.id === "cv.entry.schule:demo-s2.dateRail",
+  ) as TableBlock;
+  expect(other.rows[0].keepTogether).toBe(true);
 });
 
 test("plain heading rules use decoration while heading text remains a native paragraph", () => {

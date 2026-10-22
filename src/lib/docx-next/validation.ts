@@ -423,7 +423,10 @@ export function validateDossierDocModel(model: DossierDocModel): void {
         if (
           block.bodyBoundary === "section-start" &&
           (part.id !== "cv" ||
-            part.blocks.find((candidate) => candidate.kind !== "decorative-shape") !== block)
+            part.blocks.find(
+              (candidate) => candidate.kind !== "decorative-shape" &&
+                !(candidate.kind === "image" && candidate.nativeOwner === "page-frame"),
+            ) !== block)
         )
           throw new Error(`DOCX Next section-start table must open the CV ${block.id}`);
         if (

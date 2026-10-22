@@ -2,7 +2,11 @@ import type { CvSidebarTextMetrics } from "./cv-sidebar-text-metrics";
 import type { DocBlock, DocumentPart, Paragraph, TableBlock } from "./model";
 import type { DossierAppSnapshot } from "./source";
 import { cvPersonalInfoRows } from "@/lib/cv-personal-info";
-import { datedEntryBlocks, tableColumnWidths } from "./layouts";
+import {
+  datedEntryBlocks,
+  tableColumnWidths,
+  nativeTextHeightMm,
+} from "./layouts";
 import { interiorMetricsKey } from "./interior-metrics";
 import { resolveDossierChromeSnapshot } from "@/lib/dossier-resolved-chrome";
 import { resolveCvRubricOptions } from "@/components/cv/citrus-rubric";
@@ -231,6 +235,33 @@ export function applyCvSidebarTypography(
         );
       }
       block.blocks.forEach((b) => visit(b, widthMm));
+      if (entry?.dateRail) {
+        const rail = block.blocks[0] as TableBlock;
+        if (
+          !rail ||
+          rail.kind !== "table" ||
+          rail.id !== `${block.id}.dateRail` ||
+          rail.rows.length !== 1
+        )
+          fail(block.id);
+        const widths = tableColumnWidths(rail, widthMm);
+        const height = Math.max(
+          ...rail.rows[0].cells.map((cell, index) =>
+            nativeTextHeightMm(
+              cell as Paragraph[],
+              widths[index] - (index === 1 ? entry.dateRail!.gapMm : 0),
+            ),
+          ),
+        );
+        // Only bounded short entries get cantSplit. An oversized cantSplit row
+        // can clip in Word; long descriptions must retain ordinary native flow.
+        const shortBudget =
+          (part.page.heightMm -
+            part.page.margins.top -
+            part.page.margins.bottom) /
+          4;
+        rail.rows[0].keepTogether = height <= shortBudget;
+      }
       if (entry) {
         if (!Number.isFinite(entry.afterMm) || entry.afterMm < 0)
           fail(block.id);

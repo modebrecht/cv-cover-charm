@@ -59,6 +59,7 @@ export function composeSharedCvSidebar(
 
   const main: DocBlock[] = [],
     side: DocBlock[] = [],
+    pagePictures: DocBlock[] = [],
     outside: DocBlock[] = [];
   for (const block of part.blocks) {
     if (block.id === "cv.firstPageLead") continue;
@@ -72,10 +73,7 @@ export function composeSharedCvSidebar(
           ? part.page.widthMm - block.xMm - block.widthMm
           : block.xMm;
         // A free photo belongs to the complete rail or main area, not its text padding.
-        const owner = [
-          { blocks: side, leftMm: rail.leftMm, widthMm: rail.widthMm },
-          { blocks: main, leftMm: mainText.leftMm, widthMm: mainText.widthMm },
-        ].find(
+        const owner = [rail, mainText].find(
           (area) =>
             xMm - borderOutsetMm >= area.leftMm - 0.001 &&
             xMm + block.widthMm + borderOutsetMm <=
@@ -90,7 +88,9 @@ export function composeSharedCvSidebar(
           throw Error(
             `DOCX Next free photo must fit one shared Sidebar area ${block.id}`,
           );
-        owner.blocks.unshift({
+        // A page-owned drawing needs a body paragraph outside the continuous
+        // table; page coordinates must not depend on a cell's imported origin.
+        pagePictures.push({
           ...block,
           xMm,
           nativeOwner: "page-frame",
@@ -232,5 +232,5 @@ export function composeSharedCvSidebar(
       },
     );
   }
-  part.blocks = [...outside, table];
+  part.blocks = [...outside, ...pagePictures, table];
 }
