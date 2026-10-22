@@ -39,6 +39,16 @@ try {
    const cv=page.locator('main [data-dossier-document="cv"]').first(),sheets=cv.locator('[data-cv-page]');
    const webCvPages=await sheets.count();assert(webCvPages>0);
    const webSidebarGeometry=await sheets.first().evaluate(sheet=>{const page=sheet.getBoundingClientRect(),side=sheet.querySelector('[data-cv-sidebar]').getBoundingClientRect();return {leftMm:210*(side.x-page.x)/page.width,widthMm:210*side.width/page.width};});
+   const webFlowBaselines=await sheets.first().evaluate(sheet=>{
+    const page=sheet.getBoundingClientRect(),factor=210/page.width,result={};
+    for(const el of sheet.querySelectorAll('[data-cv-main] [data-cv-doc-title], [data-cv-main] [data-cv-name], [data-cv-main] [data-cv-section-title]')){
+     const css=getComputedStyle(el),zoom=Array.from((function*(e){for(let n=e;n&&n!==sheet;n=n.parentElement)yield n;})(el)).reduce((v,n)=>v*(getComputedStyle(n).zoom==='normal'?1:Number(getComputedStyle(n).zoom)),1);
+     if(el.getBoundingClientRect().height>parseFloat(css.lineHeight)*zoom*1.1)continue;
+     const text=el.textContent,id=el.dataset.dossierFieldId??'cv.person.name';
+     const mark=document.createElement('span');mark.style.cssText='display:inline-block;width:0;height:0;vertical-align:baseline;padding:0;margin:0';el.append(mark);
+     result[id]={text,page:1,xMm:(el.getBoundingClientRect().left-page.left)*factor,baselineMm:(mark.getBoundingClientRect().top-page.top)*factor};mark.remove();
+    }return result;
+   });
    for(let i=0;i<webCvPages;i++)await sheets.nth(i).screenshot({path:path.join(folder,'Web-CV-'+(i+1)+'.png')});
    await page.goto(base+'/'+query,{waitUntil:'networkidle'});
    const savedDownload=page.waitForEvent('download');
@@ -87,7 +97,7 @@ try {
    await page.evaluate(async({bytes,name})=>{const {downloadBlob}=await import('/src/lib/download.ts');downloadBlob(new Blob([new Uint8Array(bytes)],{type:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'}),name);},{bytes:generated.bytes,name:item.id+'.docx'});
    await(await download).saveAs(path.join(folder,item.id+'.docx'));
    const native=await readFile(path.join(folder,item.id+'.docx'));assert.deepEqual(native,Buffer.from(generated.bytes));
-   const {bytes,...proof}=generated;await writeFile(path.join(folder,'proof.json'),JSON.stringify(proof,null,2));
+   const {bytes,...proof}=generated;proof.webFlowBaselines=webFlowBaselines;await writeFile(path.join(folder,'proof.json'),JSON.stringify(proof,null,2));
    await page.getByRole('button').filter({hasText:'Gesamtdossier herunterladen'}).click();
    const dialog=page.getByRole('dialog',{name:'Dossier herunterladen'});await dialog.getByRole('radio',{name:'Fertiges Dossier (PDF)'}).click();
    const pdfButton=dialog.getByRole('button',{name:'PDF herunterladen',exact:true});

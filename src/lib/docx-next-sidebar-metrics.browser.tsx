@@ -121,7 +121,7 @@ export async function captureCvSidebarTextMetrics(
       "DOCX Next: Sidebar-Schriftprüfung benötigt leere kompakte Kopf-/Fusszonen ohne Verlauf.",
     );
   const result: CvSidebarTextMetrics = {
-    version: 2,
+    version: 3,
     sourceKey: interiorMetricsKey(source),
     profile,
     fields: {},
@@ -201,6 +201,27 @@ export async function captureCvSidebarTextMetrics(
     const paper = resolveCvPalette(source.cv.design)
       .paper.replace("#", "")
       .toUpperCase();
+    const normalFactors = new Map<string, number>();
+    const normalFactor = (css: CSSStyleDeclaration, weight: number) => {
+      const font = `${css.fontStyle} ${weight >= 600 ? 700 : 400} 2048px ${FONT_STACKS.sans}`;
+      if (!normalFactors.has(font)) {
+        const probe = document.createElement("span");
+        probe.style.cssText =
+          "position:fixed;left:-100000px;top:0;display:block;white-space:nowrap;margin:0;padding:0;border:0;zoom:1";
+        probe.style.font = font;
+        probe.style.lineHeight = "normal";
+        probe.textContent = "Hg";
+        host.append(probe);
+        const factor = probe.getBoundingClientRect().height / 2048;
+        probe.remove();
+        if (!Number.isFinite(factor) || factor < 1 || factor > 2)
+          throw Error(
+            "DOCX Next: Natürliche Sidebar-Zeilenhöhe ist nicht geprüft.",
+          );
+        normalFactors.set(font, factor);
+      }
+      return normalFactors.get(font)!;
+    };
     // Original complete measurement rows take precedence over visible page fragments.
     const fields = [
       ...host.querySelectorAll<HTMLElement>(
@@ -258,6 +279,7 @@ export async function captureCvSidebarTextMetrics(
         underline: css.textDecorationLine.includes("underline"),
         allCaps: css.textTransform === "uppercase",
         trackingPt: number(css.letterSpacing) * 0.75 * zoom,
+        kerning: css.fontKerning !== "none",
       };
       let beforeMm = mm(number(css.marginTop) + number(css.paddingTop)) * zoom;
       // Inherited group top margins belong to their first semantic field once.
@@ -277,6 +299,7 @@ export async function captureCvSidebarTextMetrics(
         style,
         documentScale: zoom,
         lineHeightPt: linePx * 0.75 * zoom,
+        normalLineHeightFactor: normalFactor(css, weight),
         beforeMm,
         afterMm: mm(number(css.marginBottom)) * zoom,
       };

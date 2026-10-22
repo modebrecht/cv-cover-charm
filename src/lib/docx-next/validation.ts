@@ -288,6 +288,11 @@ export function validateDossierDocModel(model: DossierDocModel): void {
           ![block.beforeMm, block.afterMm, block.lineHeight].every(Number.isFinite) ||
           Math.min(block.beforeMm, block.afterMm) < 0 ||
           block.lineHeight <= 0 ||
+          (block.fontLineHeightFactor !== undefined &&
+            (!Number.isFinite(block.fontLineHeightFactor) ||
+              block.fontLineHeightFactor < 1 ||
+              block.fontLineHeightFactor > 2 ||
+              block.minimumLineHeightPt !== undefined)) ||
           (block.minimumLineHeightPt !== undefined &&
             (!Number.isFinite(block.minimumLineHeightPt) || block.minimumLineHeightPt <= 0)) ||
           (block.indentMm !== undefined &&
@@ -298,6 +303,8 @@ export function validateDossierDocModel(model: DossierDocModel): void {
           throw new Error(`DOCX Next invalid paragraph geometry ${block.id}`);
         for (const run of block.runs) {
           if (
+            (run.style.kerning !== undefined &&
+              typeof run.style.kerning !== "boolean") ||
             !Number.isFinite(run.style.sizePt) ||
             run.style.sizePt <= 0 ||
             !/^[0-9A-F]{6}$/.test(run.style.color) ||

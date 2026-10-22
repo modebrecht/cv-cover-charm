@@ -11,6 +11,8 @@ export type TextStyle = {
   /** Formatting only: preserve the original editable text. */
   allCaps?: boolean;
   trackingPt?: number;
+  /** Explicit source kerning; absent preserves the existing native default. */
+  kerning?: boolean;
   /** Native editable run shading, used for Word-oriented heading badges. */
   backgroundColor?: string;
 };
@@ -26,6 +28,8 @@ export type Paragraph = {
   beforeMm: number;
   afterMm: number;
   lineHeight: number;
+  /** Intrinsic normal-line advance / font size, for measured proportional flow estimates. */
+  fontLineHeightFactor?: number;
   /** Absolute minimum leading in points; content may grow to avoid clipping. */
   minimumLineHeightPt?: number;
   keepNext: boolean;

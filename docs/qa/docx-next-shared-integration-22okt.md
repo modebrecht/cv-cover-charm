@@ -105,10 +105,14 @@ Die neue direkte PDF-Gegenüberstellung bestätigt zugleich sichtbare Restfehler
 
 Der [anschliessende Reparaturschritt](docx-next-sidebar-anchor-entry-22okt.md) legt freie Seitenbilder mit unveränderten Offsets vor die kontinuierliche Sidebar-Tabelle. Im Writer-Vergleich verschwindet damit der etwa 10 mm grosse Versatz links und rechts. Kurze Datums-Einträge werden über die vorhandene Tabellenzeile zusammengehalten; überlange Beschreibungen bleiben teilbar. 111 gezielte Tests und fokussierte strikte Typen bestehen. Die vier Vergleichsfälle behalten ihre vollständigen Bilder, Crops, Feldtexte und Seitenzahlen; Titelblatt und Anschreiben sind auch im nativen Render pixelgleich. Ein zusätzlicher 90-Zeilen-Eintrag fliesst vollständig über vier CV-Seiten. Word Save/Reopen und die Gesamt-Fidelity bleiben offen.
 
+## Flächen und Textfluss: konsolidierte Word-Abnahme vorbereitet
+
+Der [Flächen-Checkpoint](docx-next-sidebar-surfaces-22okt.md) und der anschliessende [Textfluss-Fix](docx-next-sidebar-flow-22okt.md) sind auf demselben Branch integriert. Unabhängige vertikale Spaltenränder, gemessene native Zeilenhöhe, vorhandene Datumsbreite und native Absatzgrenzen sind korrigiert. Die Überschrift bleibt bei ihrem ersten kurzen Eintrag; lange Beschreibungen bleiben teilbar. 118 gezielte Tests, fokussierte strikte Typen sowie vier frische App-/Writer-Fälle bestehen. Ein echtes JPEG ist in zwei zusätzlichen Foto-Demo-Fällen mit allen 1200 × 994 browserdekodierten Pixeln im exportierten Bild-Control erhalten. Einzelheiten und verbleibende Millimeter-Abweichungen stehen im Bericht.
+
 ## Nächster ausführbarer Schritt
 
-1. Verbleibende Flächen-, Motif- und Textflussabweichungen gegen dieselben gültigen Speicherprojekte am gemeinsamen Unterbau abgleichen.
-2. Erst danach ein einziges konsolidiertes Word-Paket für Bildbearbeitung und Save/Reopen vorbereiten. Keine neue Zwischenrunde für die ursprünglichen Modern-02-/Brief-12-Dateien.
-3. Erst nach vollständiger Abnahme über Merge und die weiteren Fidelity-Gates entscheiden.
+1. Das konsolidierte Word-Paket mit linkem Foto, rechtem Foto und langem CV prüfen; Schwerpunkt ist der CV ab Dossierseite 3.
+2. Unbearbeitetes Save/Reopen von absichtlicher Text-/Bildbearbeitung trennen. Danach die gespeicherten DOCX auf Bildpixel, Crops, Feld- und Absatzbesitz prüfen.
+3. Erst anhand dieses Word-Befunds die weitere Vereinfachung des Bildbesitzers und die noch offenen Fidelity-/Produktgates entscheiden.
 
-**Status: gemeinsamer Integrations-Checkpoint gesichert; Sidebar-Geometrie im neuen internen Kandidaten geprüft, visuelle Gesamt- und Word-Abnahme offen.** Kein Merge nach `dev`, `main`, `render` oder in aktive Quellbranches. Kein manuell ausgelöstes Deployment, CI-Dispatch, Produktionsschalter oder Engine-Patch.
+**Status: Kandidat bereit für konsolidierte Word-Triage; vollständige Sidebar weiterhin NO-GO.** Kein Merge nach `dev`, `main`, `render` oder in aktive Quellbranches. Kein manuell ausgelöstes Deployment, CI-Dispatch, Produktionsschalter oder Engine-Patch. Historische Word-Abnahmen werden nicht auf neue Bytes übertragen.

@@ -1,5 +1,6 @@
 import type { Paragraph, ParagraphFrameBlock, TextRun } from "./model";
 import { xml, twips } from "./xml";
+import { NATIVE_BOUNDARY_HEIGHT_MM } from "./flow-boundaries";
 
 export function control(id: string, content: string) {
   return `<w:sdt><w:sdtPr><w:alias w:val="${xml(id)}"/><w:tag w:val="${xml(id)}"/></w:sdtPr><w:sdtContent>${content}</w:sdtContent></w:sdt>`;
@@ -12,7 +13,7 @@ export function pictureControl(id: string, content: string, instanceId: number) 
   return `<w:sdt><w:sdtPr><w:alias w:val="${xml(id)}"/><w:tag w:val="${xml(id)}"/><w:id w:val="${instanceId}"/><w:picture/></w:sdtPr><w:sdtContent>${content}</w:sdtContent></w:sdt>`;
 }
 function runProperties(style: TextRun["style"]): string {
-  return `<w:rPr><w:rFonts w:ascii="${xml(style.font)}" w:hAnsi="${xml(style.font)}"/><w:b w:val="${style.bold ? 1 : 0}"/><w:i w:val="${style.italic ? 1 : 0}"/>${style.allCaps !== undefined ? `<w:caps w:val="${style.allCaps ? 1 : 0}"/>` : ""}<w:color w:val="${xml(style.color)}"/>${style.trackingPt !== undefined ? `<w:spacing w:val="${Math.round(style.trackingPt * 20)}"/>` : ""}<w:sz w:val="${Math.round(style.sizePt * 2)}"/><w:szCs w:val="${Math.round(style.sizePt * 2)}"/><w:u w:val="${style.underline ? "single" : "none"}"/>${style.backgroundColor ? `<w:shd w:val="clear" w:color="auto" w:fill="${style.backgroundColor}"/>` : ""}</w:rPr>`;
+  return `<w:rPr><w:rFonts w:ascii="${xml(style.font)}" w:hAnsi="${xml(style.font)}"/><w:b w:val="${style.bold ? 1 : 0}"/><w:i w:val="${style.italic ? 1 : 0}"/>${style.allCaps !== undefined ? `<w:caps w:val="${style.allCaps ? 1 : 0}"/>` : ""}<w:color w:val="${xml(style.color)}"/>${style.trackingPt !== undefined ? `<w:spacing w:val="${Math.round(style.trackingPt * 20)}"/>` : ""}${style.kerning === undefined ? "" : `<w:kern w:val="${style.kerning ? 0 : 32767}"/>`}<w:sz w:val="${Math.round(style.sizePt * 2)}"/><w:szCs w:val="${Math.round(style.sizePt * 2)}"/><w:u w:val="${style.underline ? "single" : "none"}"/>${style.backgroundColor ? `<w:shd w:val="clear" w:color="auto" w:fill="${style.backgroundColor}"/>` : ""}</w:rPr>`;
 }
 function run(value: TextRun): string {
   const tokens = value.text
@@ -71,7 +72,7 @@ export function paragraph(
 export function emptyParagraphWithRuns(
   runs = "",
   keepNext?: boolean,
-  lineTwips = 20,
+  lineTwips = twips(NATIVE_BOUNDARY_HEIGHT_MM),
   afterTwips = 0,
 ) {
   return `<w:p><w:pPr>${keepNext === undefined ? "" : `<w:keepNext w:val="${keepNext ? 1 : 0}"/>`}<w:spacing w:after="${afterTwips}" w:line="${lineTwips}" w:lineRule="exact"/></w:pPr>${runs}</w:p>`;

@@ -2,7 +2,7 @@ import type { TextStyle } from "./model";
 
 /** Fresh effective CSS styles. No page counts, field rectangles or text heights. */
 export type CvSidebarTextMetrics = {
-  version: 2;
+  version: 3;
   sourceKey: string;
   profile: string;
   fields: Record<
@@ -11,6 +11,7 @@ export type CvSidebarTextMetrics = {
       text: string;
       style: TextStyle;
       lineHeightPt: number;
+      normalLineHeightFactor: number;
       documentScale: number;
       listIndentMm?: number;
       listMarkerStyle?: Pick<TextStyle, "color" | "bold">;

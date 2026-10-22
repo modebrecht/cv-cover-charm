@@ -12,6 +12,7 @@ import { flowSurfacePaint } from "../../src/lib/docx-next/flow-surface";
 import { validateDossierDocModel } from "../../src/lib/docx-next/validation";
 import { paragraph } from "../../src/lib/docx-next/native-text";
 import { twips } from "../../src/lib/docx-next/xml";
+import { NATIVE_BOUNDARY_HEIGHT_MM } from "../../src/lib/docx-next/flow-boundaries";
 import {
   orderedPagePaint,
   compositePagePaint,
@@ -76,11 +77,112 @@ test("native date tracks retain complete field owners instead of stacked metadat
   const table = walkBlocks(model.cv.blocks).find(
     (b) => b.id === "cv.entry.schule:demo-s1.dateRail",
   ) as TableBlock;
-  expect(table.columnWidthsMm![0]).toBeCloseTo(20.7, 3);
+  expect(table.columnWidthsMm![0]).toBeCloseTo(24.3, 3);
   expect(table.rows[0].cells[0][0].id).toBe("cv.entry.schule:demo-s1.date");
   expect(table.rows[0].cells[1][0].id).toBe("cv.entry.schule:demo-s1.title");
-  expect((table.rows[0].cells[1][0] as Paragraph).indentMm).toBeCloseTo(3.6, 3);
+  expect((table.rows[0].cells[1][0] as Paragraph).indentMm ?? 0).toBe(0);
+  expect(
+    table.columnWidthsMm![0]! +
+      ((table.rows[0].cells[1][0] as Paragraph).indentMm ?? 0),
+  ).toBeCloseTo(
+    metrics.entries["cv.entry.schule:demo-s1"].dateRail!.widthMm +
+      metrics.entries["cv.entry.schule:demo-s1"].dateRail!.gapMm,
+  );
   expect(table.rows[0].keepTogether).toBe(true);
+});
+
+test("vertical insets have independent one-cell owners and the authored entry gap includes native boundaries", () => {
+  const { source, metrics } = setup(),
+    model = build(source, metrics);
+  const body = model.cv.blocks.find(
+    (b) => b.kind === "table" && b.id === "cv.sidebar",
+  ) as TableBlock;
+  expect(
+    body.rows[0].cellDecorations!.every(
+      (d) => !d?.paddingTopMm && !d?.paddingBottomMm,
+    ),
+  ).toBe(true);
+  const side = walkBlocks(model.cv.blocks).find(
+    (b) => b.id === "cv.sidebar.side-story",
+  ) as TableBlock;
+  expect(side.rows[0].cellDecorations![0]!.paddingTopMm).toBeGreaterThan(0);
+  expect(side.rows[0].keepTogether).toBe(false);
+  const row = walkBlocks(model.cv.blocks).find(
+    (b) => b.id === "cv.entry.schule:demo-s1.dateRail",
+  ) as TableBlock;
+  expect(row.afterMm! + 4 * NATIVE_BOUNDARY_HEIGHT_MM).toBeCloseTo(
+    Math.max(
+      metrics.entries["cv.entry.schule:demo-s1"].afterMm,
+      4 * NATIVE_BOUNDARY_HEIGHT_MM,
+    ),
+  );
+});
+
+test("source kerning stays native without changing the text or selecting a smaller font", () => {
+  const { source, metrics } = setup();
+  metrics.fields["cv.person.name"].style.kerning = true;
+  const value = p(build(source, metrics), "cv.person.name");
+  expect(paragraph(value)).toContain('<w:kern w:val="0"/>');
+  expect(value.runs.map((r) => r.text).join("")).toBe("Lea Müller");
+  expect(value.runs[0].style.sizePt).toBe(32.4);
+});
+
+test("measured normal font metrics convert CSS leading to editable native multiples", () => {
+  const { source, metrics } = setup(),
+    model = build(source, metrics);
+  for (const id of [
+    "cv.documentTitle",
+    "cv.person.name",
+    "cv.entry.schule:demo-s1.title",
+  ]) {
+    const value = p(model, id),
+      field = metrics.fields[id];
+    const nativeSize = Math.max(
+      ...value.runs.map((r) => Math.round(r.style.sizePt * 2) / 2),
+    );
+    expect(value.minimumLineHeightPt).toBeUndefined();
+    expect(
+      value.lineHeight * nativeSize * value.fontLineHeightFactor!,
+    ).toBeCloseTo(field.lineHeightPt);
+    expect(paragraph(value)).toContain('w:lineRule="auto"');
+    expect(paragraph(value)).not.toContain('w:lineRule="exact"');
+    expect(value.runs[0].style.sizePt).toBe(field.style.sizePt);
+  }
+});
+
+test("old measurement versions and invalid natural line metrics remain rejected", () => {
+  for (const invalid of [
+    "old-version",
+    "missing-normal",
+    "invalid-normal",
+  ] as const) {
+    const { source, metrics } = setup();
+    if (invalid === "old-version") Object.assign(metrics, { version: 2 });
+    if (invalid === "missing-normal")
+      delete (
+        metrics.fields["cv.person.name"] as Partial<
+          (typeof metrics.fields)[string]
+        >
+      ).normalLineHeightFactor;
+    if (invalid === "invalid-normal")
+      metrics.fields["cv.person.name"].normalLineHeightFactor = 0.5;
+    expect(() => build(source, metrics)).toThrow(/Sidebar/);
+  }
+});
+
+test("a bounded section lead groups its heading with the first short native row", () => {
+  const { source, metrics } = setup();
+  const model = build(source, metrics);
+  const lead = walkBlocks(model.cv.blocks).find(
+    (b) => b.id === "cv.section.schule.lead",
+  );
+  expect(lead?.kind).toBe("entry");
+  if (lead?.kind !== "entry") throw Error("Missing bounded lead");
+  expect(lead.keepTogether).toBe(true);
+  expect(lead.blocks.map((b) => b.id)).toEqual([
+    "cv.section.schule.heading",
+    "cv.entry.schule:demo-s1",
+  ]);
 });
 
 test("long descriptions remain splittable while short dated entries stay together", () => {
@@ -97,6 +199,9 @@ test("long descriptions remain splittable while short dated entries stay togethe
     (b) => b.id === "cv.entry.schule:demo-s1.dateRail",
   ) as TableBlock;
   expect(rail.rows[0].keepTogether).toBe(false);
+  expect(
+    walkBlocks(model.cv.blocks).some((b) => b.id === "cv.section.schule.lead"),
+  ).toBe(false);
   expect(
     p(model, "cv.entry.schule:demo-s1.description")
       .runs.map((r) => r.text)

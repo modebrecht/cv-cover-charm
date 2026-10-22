@@ -12,6 +12,7 @@ import { resolveDossierChromeSnapshot } from "@/lib/dossier-resolved-chrome";
 import { resolveCvRubricOptions } from "@/components/cv/citrus-rubric";
 import { cvFrameFor, cvSurface } from "@/components/cv/archetype";
 import { MODERN_SHEET_CIRCLE } from "@/components/dossier/sheet-geometry";
+import { datedFlowAfterMm, NATIVE_BOUNDARY_HEIGHT_MM } from "./flow-boundaries";
 import {
   DEFAULT_DOSSIER_CHROME_STATE,
   effectiveDossierHeaderModeForOptions,
@@ -26,7 +27,7 @@ export function applyCvSidebarTypography(
   if (
     part.id !== "cv" ||
     part.layout.mode !== "sidebar" ||
-    metrics.version !== 2 ||
+    metrics.version !== 3 ||
     metrics.sourceKey !== interiorMetricsKey(source) ||
     !metrics.profile.startsWith("brief-sans-v1;")
   )
@@ -71,6 +72,8 @@ export function applyCvSidebarTypography(
     );
   };
   const seen = new Set<string>();
+  const paragraphWidths = new Map<Paragraph, number>();
+  const dateHeights = new Map<TableBlock, number>();
   for (const [id, field] of Object.entries(metrics.fields)) {
     const s = field.style;
     if (
@@ -81,6 +84,7 @@ export function applyCvSidebarTypography(
         s.sizePt,
         s.trackingPt ?? 0,
         field.lineHeightPt,
+        field.normalLineHeightFactor,
         field.beforeMm,
         field.afterMm,
         field.documentScale,
@@ -88,6 +92,8 @@ export function applyCvSidebarTypography(
       s.sizePt < 5 ||
       s.sizePt > 72 ||
       field.lineHeightPt <= 0 ||
+      field.normalLineHeightFactor < 1 ||
+      field.normalLineHeightFactor > 2 ||
       Math.min(field.beforeMm, field.afterMm) < 0 ||
       field.documentScale < 0.5 ||
       field.documentScale > 2 ||
@@ -96,6 +102,7 @@ export function applyCvSidebarTypography(
       fail(id);
   }
   function paragraph(p: Paragraph, widthMm: number) {
+    paragraphWidths.set(p, widthMm);
     const field = metrics.fields[p.id];
     if (!field) fail(p.id);
     const text = p.runs
@@ -132,8 +139,16 @@ export function applyCvSidebarTypography(
     });
     p.beforeMm = field.beforeMm;
     p.afterMm = field.afterMm;
-    p.minimumLineHeightPt = field.lineHeightPt;
-    p.lineHeight = field.lineHeightPt / field.style.sizePt;
+    if (p.runs.some((r) => r.style.font !== "Arial")) fail(p.id);
+    // CSS specifies baseline advance in font-size units. Native "multiple"
+    // uses the font's normal line, including its intrinsic leading. Convert
+    // between those bases without exact line boxes or smaller text.
+    p.fontLineHeightFactor = field.normalLineHeightFactor;
+    p.lineHeight =
+      field.lineHeightPt /
+      (Math.max(...p.runs.map((r) => Math.round(r.style.sizePt * 2) / 2)) *
+        field.normalLineHeightFactor);
+    delete p.minimumLineHeightPt;
     // Remove the old template paragraph border/capsule; the source owns its rule.
     delete p.ruleColor;
     delete p.flowSurface;
@@ -233,10 +248,12 @@ export function applyCvSidebarTypography(
             entryGapMm: 0,
             indentMm: 0,
             dateRail: {
-              textWidthMm: entry.dateRail.widthMm,
+              // The authored gap is usable by a no-wrap date. Move only the
+              // cell boundary: the adjacent content starts at the same x.
+              textWidthMm: entry.dateRail.widthMm + entry.dateRail.gapMm,
               paddingXMm: 0,
               axisWidthMm: 0,
-              contentGapMm: entry.dateRail.gapMm,
+              contentGapMm: 0,
               allowSplit: true,
             },
           },
@@ -256,10 +273,7 @@ export function applyCvSidebarTypography(
         const widths = tableColumnWidths(rail, widthMm);
         const height = Math.max(
           ...rail.rows[0].cells.map((cell, index) =>
-            nativeTextHeightMm(
-              cell as Paragraph[],
-              widths[index] - (index === 1 ? entry.dateRail!.gapMm : 0),
-            ),
+            nativeTextHeightMm(cell as Paragraph[], widths[index]),
           ),
         );
         // Only bounded short entries get cantSplit. An oversized cantSplit row
@@ -270,12 +284,16 @@ export function applyCvSidebarTypography(
             part.page.margins.bottom) /
           4;
         rail.rows[0].keepTogether = height <= shortBudget;
+        dateHeights.set(rail, height);
       }
       if (entry) {
         if (!Number.isFinite(entry.afterMm) || entry.afterMm < 0)
           fail(block.id);
         const last = lastFlow(block.blocks);
-        if (last) last.afterMm = (last.afterMm ?? 0) + entry.afterMm;
+        if (last)
+          last.afterMm =
+            (last.afterMm ?? 0) +
+            (entry.dateRail ? datedFlowAfterMm(entry.afterMm) : entry.afterMm);
       }
     } else if (block.kind === "table") {
       if (
@@ -348,7 +366,17 @@ export function applyCvSidebarTypography(
         b.blocks.forEach(one);
       else if (b.kind === "table") {
         b.rows.forEach((row) =>
-          row.cells.forEach((cell) => fold(cell, () => false)),
+          row.cells.forEach((cell) =>
+            fold(
+              cell,
+              !previous &&
+                ["cv.sidebar.side-story", "cv.sidebar.main-story"].includes(
+                  b.id,
+                )
+                ? origin
+                : () => false,
+            ),
+          ),
         );
         previous = b;
       }
@@ -361,6 +389,56 @@ export function applyCvSidebarTypography(
       return true;
     }),
   );
+
+  // keepNext alone does not reliably bind a heading across a nested table.
+  // Use the existing flowing entry owner only for a bounded heading + short
+  // first row. Long entries remain splittable, with no fixed text-box height.
+  const leadBudget =
+    (part.page.heightMm - part.page.margins.top - part.page.margins.bottom) / 4;
+  const attachLeads = (blocks: DocBlock[]) => {
+    for (const block of blocks) {
+      if (block.kind === "section") {
+        const first = block.blocks[0];
+        const rail =
+          first?.kind === "entry" && first.blocks[0]?.kind === "table"
+            ? first.blocks[0]
+            : undefined;
+        if (
+          block.heading &&
+          first &&
+          rail &&
+          dateHeights.has(rail) &&
+          rail.rows[0].keepTogether &&
+          dateHeights.get(rail)! +
+            nativeTextHeightMm(
+              [block.heading],
+              paragraphWidths.get(block.heading)!,
+            ) <=
+            leadBudget
+        ) {
+          const heading = block.heading;
+          delete block.heading;
+          block.blocks[0] = {
+            kind: "entry",
+            id: `${block.id}.lead`,
+            keepTogether: true,
+            blocks: [heading, first],
+          };
+          // The grouping owner adds two native one-point boundaries. Spend
+          // available authored after-space, retaining any unavoidable minimum.
+          rail.afterMm = Math.max(
+            0,
+            (rail.afterMm ?? 0) - 2 * NATIVE_BOUNDARY_HEIGHT_MM,
+          );
+        }
+        attachLeads(block.blocks);
+      } else if (block.kind === "entry" || block.kind === "group")
+        attachLeads(block.blocks);
+      else if (block.kind === "table")
+        block.rows.forEach((row) => row.cells.forEach(attachLeads));
+    }
+  };
+  body.rows[0].cells.forEach(attachLeads);
 
   // Page motifs sit behind the reading plane and the opaque rail in the App.
   // Keep them as decoration; no semantic text or photo is flattened into paint.

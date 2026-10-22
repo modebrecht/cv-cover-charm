@@ -860,7 +860,7 @@
     }
   },
   "metrics": {
-    "version": 2,
+    "version": 3,
     "profile": "brief-sans-v1; browser=Liberation Sans; Word=Arial; target-font-identity=unverified",
     "fields": {
       "cv.documentTitle": {
@@ -873,12 +873,14 @@
           "italic": false,
           "underline": false,
           "allCaps": true,
-          "trackingPt": 1.9440000000000002
+          "trackingPt": 1.9440000000000002,
+          "kerning": true
         },
         "documentScale": 0.9,
         "lineHeightPt": 18.225,
         "beforeMm": 0,
-        "afterMm": 2.38125
+        "afterMm": 2.38125,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.person.name": {
         "text": "Lea Müller",
@@ -890,12 +892,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": -1.1340000000000001
+          "trackingPt": -1.1340000000000001,
+          "kerning": true
         },
         "documentScale": 0.9,
         "lineHeightPt": 32.076,
         "beforeMm": 0,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.section.custom:familie.heading": {
         "text": "Familie",
@@ -907,12 +911,14 @@
           "italic": false,
           "underline": false,
           "allCaps": true,
-          "trackingPt": 1.2117600000000002
+          "trackingPt": 1.2117600000000002,
+          "kerning": true
         },
         "documentScale": 0.9,
         "lineHeightPt": 11.787119999999998,
         "beforeMm": 0,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.custom:familie:demo-familie.place": {
         "text": "Sohn von Monika Müller, Detailhandelsfachfrau und Peter Müller, Maurer",
@@ -924,12 +930,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 0.9,
         "lineHeightPt": 14.4342,
         "beforeMm": 0,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.custom:familie:demo-familie.description": {
         "text": "Bruder von Aline, 2004, Medizinische Praxisassistentin und Jaro, 2015, Schüler",
@@ -941,12 +949,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 0.9,
         "lineHeightPt": 12.080880000000002,
         "beforeMm": 0.2700004125,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.section.schule.heading": {
         "text": "Schulbildung",
@@ -958,12 +968,14 @@
           "italic": false,
           "underline": false,
           "allCaps": true,
-          "trackingPt": 1.2117600000000002
+          "trackingPt": 1.2117600000000002,
+          "kerning": true
         },
         "documentScale": 0.9,
         "lineHeightPt": 11.787119999999998,
         "beforeMm": 0,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.schule:demo-s1.date": {
         "text": "2023 – heute",
@@ -975,12 +987,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 0.9,
         "lineHeightPt": 11.95236,
         "beforeMm": 0.40500061875,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.schule:demo-s1.title": {
         "text": "Sekundarschule, Niveau A",
@@ -992,12 +1006,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 0.9,
         "lineHeightPt": 13.912560000000001,
         "beforeMm": 0,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.schule:demo-s1.place": {
         "text": "Schulhaus Zentrum, Hubersdorf",
@@ -1009,12 +1025,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 0.9,
         "lineHeightPt": 12.466440000000002,
         "beforeMm": 0.31499889374999995,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.schule:demo-s1.description": {
         "text": "Schwerpunkt Mathematik und Informatik",
@@ -1026,12 +1044,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 0.9,
         "lineHeightPt": 13.15116,
         "beforeMm": 0.6750010312499999,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.schule:demo-s2.date": {
         "text": "2017 – 2023",
@@ -1043,12 +1063,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 0.9,
         "lineHeightPt": 11.95236,
         "beforeMm": 0.40500061875,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.schule:demo-s2.title": {
         "text": "Primarschule",
@@ -1060,12 +1082,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 0.9,
         "lineHeightPt": 13.912560000000001,
         "beforeMm": 0,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.schule:demo-s2.place": {
         "text": "Primarschule Hubersdorf",
@@ -1077,12 +1101,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 0.9,
         "lineHeightPt": 12.466440000000002,
         "beforeMm": 0.31499889374999995,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.section.erfahrung.heading": {
         "text": "Praktika & Schnuppertage",
@@ -1094,12 +1120,14 @@
           "italic": false,
           "underline": false,
           "allCaps": true,
-          "trackingPt": 1.2117600000000002
+          "trackingPt": 1.2117600000000002,
+          "kerning": true
         },
         "documentScale": 0.9,
         "lineHeightPt": 11.787119999999998,
         "beforeMm": 0,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.erfahrung:demo-p1.date": {
         "text": "Sept. 2026",
@@ -1111,12 +1139,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 0.9,
         "lineHeightPt": 11.95236,
         "beforeMm": 0.40500061875,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.erfahrung:demo-p1.title": {
         "text": "Schnupperlehre Informatik",
@@ -1128,12 +1158,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 0.9,
         "lineHeightPt": 13.912560000000001,
         "beforeMm": 0,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.erfahrung:demo-p1.place": {
         "text": "Beispiel AG, Hubersdorf",
@@ -1145,12 +1177,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 0.9,
         "lineHeightPt": 12.466440000000002,
         "beforeMm": 0.31499889374999995,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.erfahrung:demo-p1.description": {
         "text": "Support, kleine Automatisierungen mit Python",
@@ -1162,12 +1196,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 0.9,
         "lineHeightPt": 13.15116,
         "beforeMm": 0.6750010312499999,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.erfahrung:demo-p2.date": {
         "text": "März 2026",
@@ -1179,12 +1215,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 0.9,
         "lineHeightPt": 11.95236,
         "beforeMm": 0.40500061875,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.erfahrung:demo-p2.title": {
         "text": "Schnupperlehre Mediamatik",
@@ -1196,12 +1234,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 0.9,
         "lineHeightPt": 13.912560000000001,
         "beforeMm": 0,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.erfahrung:demo-p2.place": {
         "text": "Muster GmbH, Hubersdorf",
@@ -1213,12 +1253,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 0.9,
         "lineHeightPt": 12.466440000000002,
         "beforeMm": 0.31499889374999995,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.erfahrung:demo-p2.description": {
         "text": "Website-Pflege, Bildbearbeitung",
@@ -1230,12 +1272,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 0.9,
         "lineHeightPt": 13.15116,
         "beforeMm": 0.6750010312499999,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.section.referenzen.heading": {
         "text": "Referenzen",
@@ -1247,12 +1291,14 @@
           "italic": false,
           "underline": false,
           "allCaps": true,
-          "trackingPt": 1.2117600000000002
+          "trackingPt": 1.2117600000000002,
+          "kerning": true
         },
         "documentScale": 0.9,
         "lineHeightPt": 11.787119999999998,
         "beforeMm": 0,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.referenzen:demo-r1.name": {
         "text": "Herr Thomas Weber",
@@ -1264,12 +1310,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 0.9,
         "lineHeightPt": 13.18032,
         "beforeMm": 0,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.referenzen:demo-r1.role": {
         "text": "Klassenlehrer, Schulhaus Zentrum",
@@ -1281,12 +1329,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 0.9,
         "lineHeightPt": 12.466440000000002,
         "beforeMm": 0.2700004125,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.referenzen:demo-r1.contact": {
         "text": "079 555 12 34",
@@ -1298,12 +1348,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 0.9,
         "lineHeightPt": 12.88548,
         "beforeMm": 0.31499889374999995,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.section.person.heading": {
         "text": "Kontakt",
@@ -1315,12 +1367,14 @@
           "italic": false,
           "underline": false,
           "allCaps": true,
-          "trackingPt": 1.1616
+          "trackingPt": 1.1616,
+          "kerning": true
         },
         "documentScale": 1,
         "lineHeightPt": 11.299199999999999,
         "beforeMm": 0,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.person.address": {
         "text": "Dorfstrasse 12",
@@ -1332,12 +1386,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 1,
         "lineHeightPt": 13.4316,
         "beforeMm": 0,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.person.place": {
         "text": "4535 Hubersdorf",
@@ -1349,12 +1405,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 1,
         "lineHeightPt": 13.4316,
         "beforeMm": 0,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.person.phone": {
         "text": "079 123 45 67",
@@ -1366,12 +1424,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 1,
         "lineHeightPt": 13.4316,
         "beforeMm": 1.0000006458333333,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.person.email": {
         "text": "lea.mueller@example.ch",
@@ -1383,12 +1443,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 1,
         "lineHeightPt": 13.4316,
         "beforeMm": 0,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.person.geburtsdatum": {
         "text": "14.03.2010",
@@ -1400,12 +1462,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 1,
         "lineHeightPt": 12.9948,
         "beforeMm": 1.1999991874999998,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.section.sprachen.heading": {
         "text": "Sprachen",
@@ -1417,12 +1481,14 @@
           "italic": false,
           "underline": false,
           "allCaps": true,
-          "trackingPt": 1.1616
+          "trackingPt": 1.1616,
+          "kerning": true
         },
         "documentScale": 1,
         "lineHeightPt": 11.299199999999999,
         "beforeMm": 0,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.sprachen:demo-l1.name": {
         "text": "Deutsch",
@@ -1434,12 +1500,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 1,
         "lineHeightPt": 12.452625000000001,
         "beforeMm": 0,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.sprachen:demo-l1.level": {
         "text": "Muttersprache",
@@ -1451,12 +1519,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 1,
         "lineHeightPt": 12.280800000000001,
         "beforeMm": 0.20000012916666665,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.sprachen:demo-l2.name": {
         "text": "Englisch",
@@ -1468,12 +1538,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 1,
         "lineHeightPt": 12.452625000000001,
         "beforeMm": 0,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.sprachen:demo-l2.level": {
         "text": "Gute Schulkenntnisse (B1)",
@@ -1485,12 +1557,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 1,
         "lineHeightPt": 12.280800000000001,
         "beforeMm": 0.20000012916666665,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.sprachen:demo-l3.name": {
         "text": "Französisch",
@@ -1502,12 +1576,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 1,
         "lineHeightPt": 12.452625000000001,
         "beforeMm": 0,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.sprachen:demo-l3.level": {
         "text": "Grundkenntnisse (A2)",
@@ -1519,12 +1595,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 1,
         "lineHeightPt": 12.280800000000001,
         "beforeMm": 0.20000012916666665,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.section.staerken.heading": {
         "text": "Stärken",
@@ -1536,12 +1614,14 @@
           "italic": false,
           "underline": false,
           "allCaps": true,
-          "trackingPt": 1.1616
+          "trackingPt": 1.1616,
+          "kerning": true
         },
         "documentScale": 1,
         "lineHeightPt": 11.299199999999999,
         "beforeMm": 0,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.staerken:0": {
         "text": "Zuverlässig und pünktlich",
@@ -1553,7 +1633,8 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 1,
         "lineHeightPt": 14.364825,
@@ -1563,7 +1644,8 @@
         "listMarkerStyle": {
           "color": "244A61",
           "bold": true
-        }
+        },
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.staerken:1": {
         "text": "Arbeitet gern im Team",
@@ -1575,7 +1657,8 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 1,
         "lineHeightPt": 14.364825,
@@ -1585,7 +1668,8 @@
         "listMarkerStyle": {
           "color": "244A61",
           "bold": true
-        }
+        },
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.staerken:2": {
         "text": "Lernt schnell Neues",
@@ -1597,7 +1681,8 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 1,
         "lineHeightPt": 14.364825,
@@ -1607,7 +1692,8 @@
         "listMarkerStyle": {
           "color": "244A61",
           "bold": true
-        }
+        },
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.section.hobbys.heading": {
         "text": "Hobbys & Interessen",
@@ -1619,12 +1705,14 @@
           "italic": false,
           "underline": false,
           "allCaps": true,
-          "trackingPt": 1.1616
+          "trackingPt": 1.1616,
+          "kerning": true
         },
         "documentScale": 1,
         "lineHeightPt": 11.299199999999999,
         "beforeMm": 0,
-        "afterMm": 0
+        "afterMm": 0,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.hobbys:0": {
         "text": "Volleyball im Verein",
@@ -1636,12 +1724,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 1,
         "lineHeightPt": 13.1856,
         "beforeMm": 0,
-        "afterMm": 0.7999994583333333
+        "afterMm": 0.7999994583333333,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.hobbys:1": {
         "text": "Programmieren kleiner Spiele",
@@ -1653,12 +1743,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 1,
         "lineHeightPt": 13.1856,
         "beforeMm": 0,
-        "afterMm": 0.7999994583333333
+        "afterMm": 0.7999994583333333,
+        "normalLineHeightFactor": 1.14990234375
       },
       "cv.entry.hobbys:2": {
         "text": "Fotografieren",
@@ -1670,12 +1762,14 @@
           "italic": false,
           "underline": false,
           "allCaps": false,
-          "trackingPt": 0
+          "trackingPt": 0,
+          "kerning": true
         },
         "documentScale": 1,
         "lineHeightPt": 13.1856,
         "beforeMm": 0,
-        "afterMm": 0.7999994583333333
+        "afterMm": 0.7999994583333333,
+        "normalLineHeightFactor": 1.14990234375
       }
     },
     "headings": {

@@ -173,6 +173,48 @@ export function composeSharedCvSidebar(
     throw Error(
       "DOCX Next shared Sidebar needs a smaller first-page inset than continuation",
     );
+  // Word processors can apply the largest vertical cell margin to the whole
+  // row. Give each independent story its own one-cell inset owner, so a rail
+  // inset cannot move or shorten the adjacent main story.
+  const insetStory = (
+    name: "side" | "main",
+    blocks: DocBlock[],
+    paint: CellDecoration,
+  ): DocBlock[] => {
+    const top = paint.paddingTopMm ?? 0,
+      bottom = paint.paddingBottomMm ?? 0;
+    if (!blocks.length || (!top && !bottom)) return blocks;
+    paint.paddingTopMm = paint.paddingBottomMm = 0;
+    return [
+      {
+        kind: "table",
+        id: `cv.sidebar.${name}-story`,
+        widths: [1],
+        decoration: {
+          borderColor: "000000",
+          borderWidthMm: 0,
+          paddingXMm: 0,
+          paddingYMm: 0,
+        },
+        rows: [
+          {
+            cells: [blocks],
+            keepTogether: false,
+            cellDecorations: [
+              {
+                paddingXMm: 0,
+                paddingYMm: 0,
+                paddingTopMm: top,
+                paddingBottomMm: bottom,
+              },
+            ],
+          },
+        ],
+      },
+    ];
+  };
+  const mainStory = insetStory("main", main, mainPaint);
+  const sideStory = insetStory("side", side, sidePaint);
   const leftMm = sideRight ? mainText.leftMm : rail.leftMm;
   const widths = sideRight
     ? [mainText.widthMm, gapMm, rail.widthMm]
@@ -200,7 +242,9 @@ export function composeSharedCvSidebar(
     rows: [
       {
         keepTogether: false,
-        cells: sideRight ? [main, [], side] : [side, [], main],
+        cells: sideRight
+          ? [mainStory, [], sideStory]
+          : [sideStory, [], mainStory],
         cellDecorations: sideRight
           ? [mainPaint, { paddingXMm: 0, paddingYMm: 0 }, sidePaint]
           : [sidePaint, { paddingXMm: 0, paddingYMm: 0 }, mainPaint],

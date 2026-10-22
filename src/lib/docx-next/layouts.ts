@@ -39,7 +39,7 @@ export function nativeTextHeightMm(
       .reduce((n, line) => n + Math.max(1, Math.ceil(line.length / chars)), 0);
     const height =
       p.minimumLineHeightPt === undefined
-        ? ((lines * pt * 25.4) / 72) * p.lineHeight * lineMetricFactor
+        ? ((lines * (p.fontLineHeightFactor ? Math.round(pt * 2) / 2 : pt) * 25.4) / 72) * p.lineHeight * (p.fontLineHeightFactor ?? 1) * lineMetricFactor
         : ((lines * p.minimumLineHeightPt * 25.4) / 72) * lineMetricFactor;
     return sum + p.beforeMm + p.afterMm + height;
   }, 0);
