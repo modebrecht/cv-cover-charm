@@ -83,6 +83,10 @@ Die ursprüngliche 02/12-Word-Abnahme einschliesslich Speichern und erneutem Öf
 
 Die vollständige Sidebar-Geometrie, Bildbearbeitbarkeit, All-39-Fidelity und allgemeine Browser-/Word-Seitengleichheit bleiben getrennte Gates. Es wurde kein Gate abgesenkt und keine Zwischenrunde beim Benutzer angefordert.
 
+## Neuer Bildfix und tatsächliche Sidebar-Geometrie
+
+Die anschliessende Prüfung aus gespeicherten App-Projekten fand eine exporterinterne Verkleinerung von 1920 × 2880 auf 1067 × 1600 Pixel vor jedem Office-Import. Diese 1600-Pixel-Grenze ist im gemeinsamen Normalisierer entfernt; die vollständigen Pixel sind im erzeugten DOCX bestätigt. 38 angrenzende Tests bestehen. Gleichzeitig ist die Seitenspalte in der App 63 mm breit, im bisherigen nativen Aufbau bei diesen Einstellungen aber 71,4 mm links und 69,4 mm rechts. Zwei freie Fotozustände scheitern schon an der PDF-Vorprüfung. Native Sidebar bleibt NO-GO; es wird kein fertiges Word-Paket behauptet. Details und die drei reproduzierbaren App-Speicherdateien sind im [neuen Befund](docx-next-sidebar-saved-projects-22okt.md) beschrieben.
+
 ## Nächster ausführbarer Schritt
 
 1. Die drei frisch geprüften App-Projekte und Paket-Hashes für eine abschliessende konsolidierte Word-Abnahme verwenden. Die ursprüngliche 02/12-Abnahme bleibt geschlossen; neue Bytes erhalten keine übertragene Freigabe.

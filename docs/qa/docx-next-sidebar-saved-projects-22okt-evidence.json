@@ -1,0 +1,344 @@
+{
+  "date": "2026-10-22",
+  "baseCommit": "dfef6297f1b145c56140723957f092b659dde2d1",
+  "status": "IMAGE_RESOLUTION_FIX_PASS_SIDEBAR_NO_GO",
+  "productChange": {
+    "path": "src/lib/docx-next/images.ts",
+    "baseGitBlob": "e5bf4efeb82e22c6a195d90c1a01525634eff895",
+    "fixedGitBlob": "1f2562a6f90d90aa8703fcdceec0c686f2695783",
+    "description": "Preserve full decoded image dimensions; remove silent 1600-pixel downsampling",
+    "preservesOriginalEncodedBytes": false,
+    "wordSaveReopenAcceptance": "UNVERIFIED"
+  },
+  "checks": {
+    "unitTests": {
+      "pass": 38,
+      "fail": 0,
+      "expectations": 306,
+      "files": 2
+    },
+    "browserBeforeFix": "FAIL: 1920x2880 became 1067x1600",
+    "browserAfterFix": "PASS for decoded pixel preservation in both photo packages",
+    "savedProjectReplay": "3 packages byte-identical to the first post-fix run",
+    "savedInputsUnchanged": true,
+    "normalSidebarGuardStillRejects": true,
+    "pdfPreflightBypassed": false
+  },
+  "before": [
+    {
+      "id": "01-Sidebar-links-Portrait",
+      "side": "left",
+      "webCvPages": 1,
+      "appRestoredProject": true,
+      "actualProjectSave": true,
+      "primaryPdfDownloaded": false,
+      "pdfPreflight": "Dossier herunterladenNur lokal auf deinem Gerät · kein Upload.JSONProjekt speichern (*.json)ZwischenstandPDFFertiges Dossier (PDF)Briefinhalt prüfenDOCXBearbeitbares Dossier (DOCX)Bereit · Vorlage ModernWas fehlt noch? · 1 Punkt▾Motivationsschreiben kann nicht sicher exportiert werden. Lebenslauf Seite 1: Text wird abgeschnitten oder überlappt.Lebenslauf Seite 1: Text wird abgeschnitten oder überlappt.Vor dem Versenden Inhalt, Rechtschreibung und Kontaktdaten selbst kontrollieren.Modern-Testexport · editierbares Word-Dossier mit leeren kompakten Kopf- und Fussstreifen. Vor der Verwendung in Word prüfen.Modern DOCX Next testenZurück zum BearbeitenPDF herunterladen",
+      "nativeScope": "Explicit internal candidate from fresh saved-app capture; guarded regular export remains rejected",
+      "productGuardPreserved": true,
+      "savedStateUnchanged": true,
+      "jsErrors": [],
+      "picture": {
+        "source": {
+          "width": 120,
+          "height": 180,
+          "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+        },
+        "normalized": {
+          "width": 120,
+          "height": 180,
+          "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+        },
+        "normalizedFileSha256": "b55b592a4b251518601207931566e1fe63b77ed8294163ea519a7fe33dc4ab0f"
+      },
+      "pixelsPreserved": true,
+      "docxSha256": "8f7a6b67c2a6175701bdcb21f315a11c457bec25bd050c0d81f902e279dc1268",
+      "projectSha256": "094ac165ea229cb00ba99d3dfa802814728ae028c45a2277043f09f31262629e"
+    },
+    {
+      "id": "02-Sidebar-rechts-Foto",
+      "side": "right",
+      "webCvPages": 1,
+      "appRestoredProject": true,
+      "actualProjectSave": true,
+      "primaryPdfDownloaded": false,
+      "pdfPreflight": "Dossier herunterladenNur lokal auf deinem Gerät · kein Upload.JSONProjekt speichern (*.json)ZwischenstandPDFFertiges Dossier (PDF)Briefinhalt prüfenDOCXBearbeitbares Dossier (DOCX)Bereit · Vorlage ModernWas fehlt noch? · 1 Punkt▾Motivationsschreiben kann nicht sicher exportiert werden. Lebenslauf Seite 1: Text wird abgeschnitten oder überlappt.Lebenslauf Seite 1: Text wird abgeschnitten oder überlappt.Vor dem Versenden Inhalt, Rechtschreibung und Kontaktdaten selbst kontrollieren.Modern-Testexport · editierbares Word-Dossier mit leeren kompakten Kopf- und Fussstreifen. Vor der Verwendung in Word prüfen.Modern DOCX Next testenZurück zum BearbeitenPDF herunterladen",
+      "nativeScope": "Explicit internal candidate from fresh saved-app capture; guarded regular export remains rejected",
+      "productGuardPreserved": true,
+      "savedStateUnchanged": true,
+      "jsErrors": [],
+      "picture": {
+        "source": {
+          "width": 1920,
+          "height": 2880,
+          "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6"
+        },
+        "normalized": {
+          "width": 1067,
+          "height": 1600,
+          "rgbaSha256": "9bba4fe887c3f0ec5e87ffba20c87873f8554e439ef2fabe9bf0461cb4a45a33"
+        },
+        "normalizedFileSha256": "a1b74e958a0003e8d04edc8288e2a08ca7aec5f403a05d43f94734c446aa47cc"
+      },
+      "pixelsPreserved": false,
+      "docxSha256": "550b56dc8faa152eb215a22bfa88fdac92dd7658ac0ae4e8e99be83158b06816",
+      "projectSha256": "5b01f2cb0c783d43d15b73e1bb017c094afee712780748722610eb28fc0852f9"
+    },
+    {
+      "id": "03-Sidebar-rechts-Folgeseite",
+      "side": "right",
+      "webCvPages": 2,
+      "appRestoredProject": true,
+      "actualProjectSave": true,
+      "primaryPdfDownloaded": true,
+      "pdfPreflight": "Dossier herunterladenNur lokal auf deinem Gerät · kein Upload.JSONProjekt speichern (*.json)ZwischenstandPDFFertiges Dossier (PDF)BereitDOCXBearbeitbares Dossier (DOCX)Bereit · Vorlage ModernAlles bereit▾PDF: bereit.Word (DOCX): bereit.Vor dem Versenden Inhalt, Rechtschreibung und Kontaktdaten selbst kontrollieren.Modern-Testexport · editierbares Word-Dossier mit leeren kompakten Kopf- und Fussstreifen. Vor der Verwendung in Word prüfen.Modern DOCX Next testenZurück zum BearbeitenPDF herunterladen",
+      "nativeScope": "Explicit internal candidate from fresh saved-app capture; guarded regular export remains rejected",
+      "productGuardPreserved": true,
+      "savedStateUnchanged": true,
+      "jsErrors": [],
+      "pixelsPreserved": true,
+      "docxSha256": "df03cd64bcd713026c6854c3c86d4b14113fc8ce1417e6a463916cf87ba18d2c",
+      "projectSha256": "45f778b71ff7c371d2b994e7d9bc57d73be003ec42faf3003d4d2f549d2b2a7a",
+      "primaryPdfSha256": "07fc4893297d5367b10cd346521c5d4a668e8d4b5d3ad3b0443c4b7f0d51b71f"
+    }
+  ],
+  "after": [
+    {
+      "id": "01-Sidebar-links-Portrait",
+      "side": "left",
+      "webCvPages": 1,
+      "webSidebarGeometry": {
+        "leftMm": 0,
+        "widthMm": 62.97602570756682
+      },
+      "nativeSidebarSurface": {
+        "kind": "decorative-artwork",
+        "id": "cv.artwork.sidebar-surface",
+        "semanticText": false,
+        "fill": {
+          "color": "FBFBFC"
+        },
+        "xMm": 0,
+        "yMm": 0,
+        "widthMm": 71.4,
+        "heightMm": 297
+      },
+      "appRestoredProject": true,
+      "actualProjectSave": true,
+      "primaryPdfDownloaded": false,
+      "pdfPreflight": "Dossier herunterladenNur lokal auf deinem Gerät · kein Upload.JSONProjekt speichern (*.json)ZwischenstandPDFFertiges Dossier (PDF)Briefinhalt prüfenDOCXBearbeitbares Dossier (DOCX)Bereit · Vorlage ModernWas fehlt noch? · 1 Punkt▾Motivationsschreiben kann nicht sicher exportiert werden. Lebenslauf Seite 1: Text wird abgeschnitten oder überlappt.Lebenslauf Seite 1: Text wird abgeschnitten oder überlappt.Vor dem Versenden Inhalt, Rechtschreibung und Kontaktdaten selbst kontrollieren.Modern-Testexport · editierbares Word-Dossier mit leeren kompakten Kopf- und Fussstreifen. Vor der Verwendung in Word prüfen.Modern DOCX Next testenZurück zum BearbeitenPDF herunterladen",
+      "nativeScope": "Explicit internal candidate from fresh saved-app capture; guarded regular export remains rejected",
+      "productGuardPreserved": true,
+      "savedStateUnchanged": true,
+      "jsErrors": [],
+      "picture": {
+        "source": {
+          "width": 120,
+          "height": 180,
+          "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+        },
+        "normalized": {
+          "width": 120,
+          "height": 180,
+          "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+        },
+        "normalizedFileSha256": "b55b592a4b251518601207931566e1fe63b77ed8294163ea519a7fe33dc4ab0f"
+      },
+      "pixelsPreserved": true,
+      "docxSha256": "8f7a6b67c2a6175701bdcb21f315a11c457bec25bd050c0d81f902e279dc1268",
+      "projectSha256": "8b7bde996ca64f87081289e8d29fd038b209ac821665355dc224f19940892bcb"
+    },
+    {
+      "id": "02-Sidebar-rechts-Foto",
+      "side": "right",
+      "webCvPages": 1,
+      "webSidebarGeometry": {
+        "leftMm": 147.02393691436578,
+        "widthMm": 62.97606308563422
+      },
+      "nativeSidebarSurface": {
+        "kind": "decorative-artwork",
+        "id": "cv.artwork.sidebar-surface",
+        "semanticText": false,
+        "fill": {
+          "color": "FBFBFC"
+        },
+        "xMm": 140.6,
+        "yMm": 0,
+        "widthMm": 69.4,
+        "heightMm": 297
+      },
+      "appRestoredProject": true,
+      "actualProjectSave": true,
+      "primaryPdfDownloaded": false,
+      "pdfPreflight": "Dossier herunterladenNur lokal auf deinem Gerät · kein Upload.JSONProjekt speichern (*.json)ZwischenstandPDFFertiges Dossier (PDF)Briefinhalt prüfenDOCXBearbeitbares Dossier (DOCX)Bereit · Vorlage ModernWas fehlt noch? · 1 Punkt▾Motivationsschreiben kann nicht sicher exportiert werden. Lebenslauf Seite 1: Text wird abgeschnitten oder überlappt.Lebenslauf Seite 1: Text wird abgeschnitten oder überlappt.Vor dem Versenden Inhalt, Rechtschreibung und Kontaktdaten selbst kontrollieren.Modern-Testexport · editierbares Word-Dossier mit leeren kompakten Kopf- und Fussstreifen. Vor der Verwendung in Word prüfen.Modern DOCX Next testenZurück zum BearbeitenPDF herunterladen",
+      "nativeScope": "Explicit internal candidate from fresh saved-app capture; guarded regular export remains rejected",
+      "productGuardPreserved": true,
+      "savedStateUnchanged": true,
+      "jsErrors": [],
+      "picture": {
+        "source": {
+          "width": 1920,
+          "height": 2880,
+          "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6"
+        },
+        "normalized": {
+          "width": 1920,
+          "height": 2880,
+          "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6"
+        },
+        "normalizedFileSha256": "f8ba8f4b000d9aa4f18a5f476a630615232905810aec92c69d4e128cbfdec69c"
+      },
+      "pixelsPreserved": true,
+      "docxSha256": "7a47bc050d04e0e1de39652b52aa7a6810d7cbb939e17deccca38ce19eddd7c9",
+      "projectSha256": "d0ab80f27343c6834548a297929cd63cf3e5617770965018d41e77f7264ff62b"
+    },
+    {
+      "id": "03-Sidebar-rechts-Folgeseite",
+      "side": "right",
+      "webCvPages": 2,
+      "webSidebarGeometry": {
+        "leftMm": 147.02393691436578,
+        "widthMm": 62.97606308563422
+      },
+      "nativeSidebarSurface": {
+        "kind": "decorative-artwork",
+        "id": "cv.artwork.sidebar-surface",
+        "semanticText": false,
+        "fill": {
+          "color": "FBFBFC"
+        },
+        "xMm": 140.6,
+        "yMm": 0,
+        "widthMm": 69.4,
+        "heightMm": 297
+      },
+      "appRestoredProject": true,
+      "actualProjectSave": true,
+      "primaryPdfDownloaded": true,
+      "pdfPreflight": "Dossier herunterladenNur lokal auf deinem Gerät · kein Upload.JSONProjekt speichern (*.json)ZwischenstandPDFFertiges Dossier (PDF)BereitDOCXBearbeitbares Dossier (DOCX)Bereit · Vorlage ModernAlles bereit▾PDF: bereit.Word (DOCX): bereit.Vor dem Versenden Inhalt, Rechtschreibung und Kontaktdaten selbst kontrollieren.Modern-Testexport · editierbares Word-Dossier mit leeren kompakten Kopf- und Fussstreifen. Vor der Verwendung in Word prüfen.Modern DOCX Next testenZurück zum BearbeitenPDF herunterladen",
+      "nativeScope": "Explicit internal candidate from fresh saved-app capture; guarded regular export remains rejected",
+      "productGuardPreserved": true,
+      "savedStateUnchanged": true,
+      "jsErrors": [],
+      "pixelsPreserved": true,
+      "docxSha256": "df03cd64bcd713026c6854c3c86d4b14113fc8ce1417e6a463916cf87ba18d2c",
+      "projectSha256": "4d59480d2949d82110be2771a57b614e38b75ded6dc1bce665a1377c7cd806ee",
+      "primaryPdfSha256": "d753e72d67e3be2f1c2a2fe07375e2d0deca066d5baa9f88fd64cf9a062be4ed"
+    }
+  ],
+  "packageVerification": [
+    {
+      "case": "01-Sidebar-links-Portrait",
+      "snapshotModelMetricsIdentical": true,
+      "packageIdenticalBeforeAfter": true,
+      "embeddedPhoto": {
+        "representation": "DrawingML",
+        "width": 120,
+        "height": 180,
+        "embeddedFileSha256": "b55b592a4b251518601207931566e1fe63b77ed8294163ea519a7fe33dc4ab0f",
+        "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+        "crop": {
+          "l": "11818",
+          "t": "31313",
+          "r": "27576",
+          "b": "18182"
+        }
+      },
+      "activeFields": 90,
+      "nativePages": 3,
+      "webCvPages": 1,
+      "primaryPdfDownloaded": false,
+      "beforeBytes": 163224,
+      "afterBytes": 163224
+    },
+    {
+      "case": "02-Sidebar-rechts-Foto",
+      "snapshotModelMetricsIdentical": true,
+      "packageIdenticalBeforeAfter": false,
+      "embeddedPhoto": {
+        "representation": "DrawingML",
+        "width": 1920,
+        "height": 2880,
+        "embeddedFileSha256": "f8ba8f4b000d9aa4f18a5f476a630615232905810aec92c69d4e128cbfdec69c",
+        "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6",
+        "crop": {
+          "l": "8400",
+          "t": "24400",
+          "r": "11600",
+          "b": "22267"
+        }
+      },
+      "activeFields": 90,
+      "nativePages": 3,
+      "webCvPages": 1,
+      "primaryPdfDownloaded": false,
+      "beforeBytes": 237072,
+      "afterBytes": 283226
+    },
+    {
+      "case": "03-Sidebar-rechts-Folgeseite",
+      "snapshotModelMetricsIdentical": true,
+      "packageIdenticalBeforeAfter": true,
+      "embeddedPhoto": null,
+      "activeFields": 130,
+      "nativePages": 4,
+      "webCvPages": 2,
+      "primaryPdfDownloaded": true,
+      "beforeBytes": 184291,
+      "afterBytes": 184291,
+      "appPdfPages": 4
+    }
+  ],
+  "geometry": {
+    "webAuthoredWidthMm": 63,
+    "nativeLeftBandWidthMm": 71.4,
+    "nativeRightBandWidthMm": 69.4,
+    "status": "FAIL before any Office import"
+  },
+  "originalRejectedPhotoCase": {
+    "xMm": 25,
+    "yMm": 20,
+    "widthMm": 34,
+    "borderWidthMm": 0.4,
+    "sourceProjectSha256": "5c621ae11911000847175a73ac2562d1fbf4e34e25573bdd7403bf89c882ea69",
+    "observedError": "DOCX Next free photo must fit one native track cv.person.photo",
+    "repairedByExporter": false,
+    "separateResolutionFixtureXmm": 27
+  },
+  "limitations": [
+    "App-derived internal candidate, not a regular guarded Sidebar UI export",
+    "Known synthetic test photo; large variant is an exact nearest-neighbour enlargement",
+    "Two free-photo source projects fail PDF preflight due overlap; not acceptance packets",
+    "PNG normalization remains a decode/sRGB conversion/re-encode; original JPEG bytes and metadata are not preserved by this fix",
+    "No Microsoft Word runtime or new save/reopen test",
+    "Historical 22-case exact geometry and picture gates remain unchanged",
+    "No full 39-template visual or complete unit-suite signoff"
+  ],
+  "sourceFiles": [
+    {
+      "path": "src/lib/docx-next/images.ts",
+      "bytes": 2498,
+      "sha256": "b0f023c039d9baa4149670dd70d3d30ebc710b9f82635496a1000d21214f79ce"
+    },
+    {
+      "path": "scripts/qa-sidebar-saved-projects-22okt.mjs",
+      "bytes": 9610,
+      "sha256": "fb86d522f477ea44fcf64f489765ca736d5939c7e6706771365f9fcb06d0198c"
+    },
+    {
+      "path": "tests/fixtures/docx-next/sidebar-saved-app-22okt/01-left-portrait.json",
+      "bytes": 20303,
+      "sha256": "3bfd12dcf79fe1f8b510e772ab85eb4580be15b137755487fd10844ec817ea81"
+    },
+    {
+      "path": "tests/fixtures/docx-next/sidebar-saved-app-22okt/02-right-free-photo.json",
+      "bytes": 57454,
+      "sha256": "7bfd68d104f129de0c345a8a35bb2080fcb099112d45624f69d436f12b4f9788"
+    },
+    {
+      "path": "tests/fixtures/docx-next/sidebar-saved-app-22okt/03-right-continuation.json",
+      "bytes": 19957,
+      "sha256": "9460971a2b112d2c2f2f8640b0b69c5efb46f7f1b2176dd911ded681f30852ad"
+    }
+  ]
+}
