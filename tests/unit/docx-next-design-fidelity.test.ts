@@ -66,7 +66,7 @@ test("explicit body badge avoids an inactive header while preserving text frames
     expect(decode(entry.bytes)).not.toContain(badgeId);
 });
 
-test("controlled compact chrome matches Web band geometry without inventing footer text or moving body content", () => {
+test("controlled compact chrome preserves body content and uses the Web painted-footer reserve", () => {
   const source = input();
   const before = JSON.stringify(source);
   const old = buildDossierDocModel(source, options());
@@ -79,7 +79,11 @@ test("controlled compact chrome matches Web band geometry without inventing foot
   for (const scope of ["letter", "cv"] as const) {
     const part = model[scope];
     expect(part.blocks).toEqual(old[scope].blocks);
-    expect(part.page).toEqual(old[scope].page);
+    const expectedPage = structuredClone(old[scope].page);
+    // The Web CV has 1 mm physical bottom space plus this fixture's 4 mm band.
+    // An empty painted band must not retain the old text-footer reserve.
+    if (scope === "cv") expectedPage.margins.bottom = 5;
+    expect(part.page).toEqual(expectedPage);
     expect(part.footer).toEqual([]);
     expect(part.pagePaintComposition).toBe("single-asset");
     expect(part.header).toEqual(old[scope].header);
@@ -109,6 +113,7 @@ test("compact chrome retains saved heights and palette and rejects semantic cont
   expect(footer.fill?.color).toBe("005577");
   expect(footer.heightMm).toBe(7.4);
   expect(footer.yMm + footer.heightMm).toBe(297);
+  expect(buildDossierDocModel(source, opts).cv.page.margins.bottom).toBe(9);
   const height = part.headerShapes!.find((p) => p.id === "letter.compact.header")!;
   expect(height.heightMm).toBe(5.4);
   for (const patch of [
