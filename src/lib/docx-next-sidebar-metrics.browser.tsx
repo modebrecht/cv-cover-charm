@@ -322,10 +322,13 @@ export async function captureCvSidebarTextMetrics(
       if (el.hasAttribute("data-cv-section-title")) {
         const section = el.closest<HTMLElement>("[data-cv-section]")!,
           s = getComputedStyle(section);
-        const rule = el.parentElement?.querySelector<HTMLElement>(
-          "[data-cv-accent='section']",
-        );
+        const rule = el.parentElement?.querySelector<HTMLElement>("[data-cv-accent='section']");
         const ruleCss = rule ? getComputedStyle(rule) : null;
+        const rowCss = getComputedStyle(el.parentElement!);
+        const below =
+          rowCss.flexWrap === "wrap" &&
+          ruleCss !== null &&
+          number(ruleCss.width) >= number(rowCss.width) - 0.5;
         canvas.font = `${css.fontStyle} ${weight >= 600 ? 700 : 400} ${sizePx}px ${FONT_STACKS.sans}`;
         result.headings[id] = {
           beforeMm: mm(number(s.marginTop)) * zoom,
@@ -333,10 +336,9 @@ export async function captureCvSidebarTextMetrics(
           ...(ruleCss && ruleCss.display !== "none"
             ? {
                 rule: {
+                  ...(below ? { placement: "below" as const } : {}),
                   textWidthMm: mm(number(css.width)) * zoom,
-                  gapMm:
-                    mm(number(getComputedStyle(el.parentElement!).columnGap)) *
-                    zoom,
+                  gapMm: mm(number(below ? rowCss.rowGap : rowCss.columnGap)) * zoom,
                   heightMm: mm(number(ruleCss.height)) * zoom,
                   color: rgb(ruleCss.backgroundColor),
                   opacity: Number(ruleCss.opacity),

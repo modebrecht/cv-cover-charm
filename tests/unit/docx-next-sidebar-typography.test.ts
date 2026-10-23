@@ -1,11 +1,9 @@
 import { expect, test } from "bun:test";
 import fixture from "../fixtures/docx-next/sidebar-typography-22okt.json";
+import coverMetrics from "../fixtures/docx-next/modern-app-metrics.json";
+import type { CoverTextMetrics } from "../../src/components/cover/text-metrics";
 import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
-import {
-  walkBlocks,
-  type Paragraph,
-  type TableBlock,
-} from "../../src/lib/docx-next/model";
+import { walkBlocks, type Paragraph, type TableBlock } from "../../src/lib/docx-next/model";
 import type { DossierAppSnapshot } from "../../src/lib/docx-next/source";
 import type { CvSidebarTextMetrics } from "../../src/lib/docx-next/cv-sidebar-text-metrics";
 import { flowSurfacePaint } from "../../src/lib/docx-next/flow-surface";
@@ -13,10 +11,7 @@ import { validateDossierDocModel } from "../../src/lib/docx-next/validation";
 import { paragraph } from "../../src/lib/docx-next/native-text";
 import { twips } from "../../src/lib/docx-next/xml";
 import { NATIVE_BOUNDARY_HEIGHT_MM } from "../../src/lib/docx-next/flow-boundaries";
-import {
-  orderedPagePaint,
-  compositePagePaint,
-} from "../../src/lib/docx-next/page-artwork";
+import { orderedPagePaint, compositePagePaint } from "../../src/lib/docx-next/page-artwork";
 
 function setup() {
   const source = structuredClone(fixture.source) as DossierAppSnapshot;
@@ -59,16 +54,10 @@ test("Web name size, main-only document zoom and unscaled Sidebar survive indepe
   const { source, metrics } = setup(),
     model = build(source, metrics);
   expect(p(model, "cv.person.name").runs[0].style.sizePt).toBeCloseTo(32.4);
-  expect(
-    p(model, "cv.entry.schule:demo-s1.title").runs[0].style.sizePt,
-  ).toBeCloseTo(12.312);
+  expect(p(model, "cv.entry.schule:demo-s1.title").runs[0].style.sizePt).toBeCloseTo(12.312);
   expect(p(model, "cv.person.address").runs[0].style.sizePt).toBeCloseTo(10.92);
-  expect(p(model, "cv.person.name").runs[0].style.trackingPt).toBeCloseTo(
-    -1.134,
-  );
-  expect(p(model, "cv.section.person.heading").runs[0].style.allCaps).toBe(
-    true,
-  );
+  expect(p(model, "cv.person.name").runs[0].style.trackingPt).toBeCloseTo(-1.134);
+  expect(p(model, "cv.section.person.heading").runs[0].style.allCaps).toBe(true);
 });
 
 test("native date tracks retain complete field owners instead of stacked metadata", () => {
@@ -82,8 +71,7 @@ test("native date tracks retain complete field owners instead of stacked metadat
   expect(table.rows[0].cells[1][0].id).toBe("cv.entry.schule:demo-s1.title");
   expect((table.rows[0].cells[1][0] as Paragraph).indentMm ?? 0).toBe(0);
   expect(
-    table.columnWidthsMm![0]! +
-      ((table.rows[0].cells[1][0] as Paragraph).indentMm ?? 0),
+    table.columnWidthsMm![0]! + ((table.rows[0].cells[1][0] as Paragraph).indentMm ?? 0),
   ).toBeCloseTo(
     metrics.entries["cv.entry.schule:demo-s1"].dateRail!.widthMm +
       metrics.entries["cv.entry.schule:demo-s1"].dateRail!.gapMm,
@@ -97,11 +85,9 @@ test("vertical insets have independent one-cell owners and the authored entry ga
   const body = model.cv.blocks.find(
     (b) => b.kind === "table" && b.id === "cv.sidebar",
   ) as TableBlock;
-  expect(
-    body.rows[0].cellDecorations!.every(
-      (d) => !d?.paddingTopMm && !d?.paddingBottomMm,
-    ),
-  ).toBe(true);
+  expect(body.rows[0].cellDecorations!.every((d) => !d?.paddingTopMm && !d?.paddingBottomMm)).toBe(
+    true,
+  );
   const side = walkBlocks(model.cv.blocks).find(
     (b) => b.id === "cv.sidebar.side-story",
   ) as TableBlock;
@@ -111,10 +97,7 @@ test("vertical insets have independent one-cell owners and the authored entry ga
     (b) => b.id === "cv.entry.schule:demo-s1.dateRail",
   ) as TableBlock;
   expect(row.afterMm! + 4 * NATIVE_BOUNDARY_HEIGHT_MM).toBeCloseTo(
-    Math.max(
-      metrics.entries["cv.entry.schule:demo-s1"].afterMm,
-      4 * NATIVE_BOUNDARY_HEIGHT_MM,
-    ),
+    Math.max(metrics.entries["cv.entry.schule:demo-s1"].afterMm, 4 * NATIVE_BOUNDARY_HEIGHT_MM),
   );
 });
 
@@ -130,20 +113,14 @@ test("source kerning stays native without changing the text or selecting a small
 test("measured normal font metrics convert CSS leading to editable native multiples", () => {
   const { source, metrics } = setup(),
     model = build(source, metrics);
-  for (const id of [
-    "cv.documentTitle",
-    "cv.person.name",
-    "cv.entry.schule:demo-s1.title",
-  ]) {
+  for (const id of ["cv.documentTitle", "cv.person.name", "cv.entry.schule:demo-s1.title"]) {
     const value = p(model, id),
       field = metrics.fields[id];
-    const nativeSize = Math.max(
-      ...value.runs.map((r) => Math.round(r.style.sizePt * 2) / 2),
-    );
+    const nativeSize = Math.max(...value.runs.map((r) => Math.round(r.style.sizePt * 2) / 2));
     expect(value.minimumLineHeightPt).toBeUndefined();
-    expect(
-      value.lineHeight * nativeSize * value.fontLineHeightFactor!,
-    ).toBeCloseTo(field.lineHeightPt);
+    expect(value.lineHeight * nativeSize * value.fontLineHeightFactor!).toBeCloseTo(
+      field.lineHeightPt,
+    );
     expect(paragraph(value)).toContain('w:lineRule="auto"');
     expect(paragraph(value)).not.toContain('w:lineRule="exact"');
     expect(value.runs[0].style.sizePt).toBe(field.style.sizePt);
@@ -151,21 +128,13 @@ test("measured normal font metrics convert CSS leading to editable native multip
 });
 
 test("old measurement versions and invalid natural line metrics remain rejected", () => {
-  for (const invalid of [
-    "old-version",
-    "missing-normal",
-    "invalid-normal",
-  ] as const) {
+  for (const invalid of ["old-version", "missing-normal", "invalid-normal"] as const) {
     const { source, metrics } = setup();
     if (invalid === "old-version") Object.assign(metrics, { version: 2 });
     if (invalid === "missing-normal")
-      delete (
-        metrics.fields["cv.person.name"] as Partial<
-          (typeof metrics.fields)[string]
-        >
-      ).normalLineHeightFactor;
-    if (invalid === "invalid-normal")
-      metrics.fields["cv.person.name"].normalLineHeightFactor = 0.5;
+      delete (metrics.fields["cv.person.name"] as Partial<(typeof metrics.fields)[string]>)
+        .normalLineHeightFactor;
+    if (invalid === "invalid-normal") metrics.fields["cv.person.name"].normalLineHeightFactor = 0.5;
     expect(() => build(source, metrics)).toThrow(/Sidebar/);
   }
 });
@@ -173,9 +142,7 @@ test("old measurement versions and invalid natural line metrics remain rejected"
 test("a bounded section lead groups its heading with the first short native row", () => {
   const { source, metrics } = setup();
   const model = build(source, metrics);
-  const lead = walkBlocks(model.cv.blocks).find(
-    (b) => b.id === "cv.section.schule.lead",
-  );
+  const lead = walkBlocks(model.cv.blocks).find((b) => b.id === "cv.section.schule.lead");
   expect(lead?.kind).toBe("entry");
   if (lead?.kind !== "entry") throw Error("Missing bounded lead");
   expect(lead.keepTogether).toBe(true);
@@ -199,9 +166,7 @@ test("long descriptions remain splittable while short dated entries stay togethe
     (b) => b.id === "cv.entry.schule:demo-s1.dateRail",
   ) as TableBlock;
   expect(rail.rows[0].keepTogether).toBe(false);
-  expect(
-    walkBlocks(model.cv.blocks).some((b) => b.id === "cv.section.schule.lead"),
-  ).toBe(false);
+  expect(walkBlocks(model.cv.blocks).some((b) => b.id === "cv.section.schule.lead")).toBe(false);
   expect(
     p(model, "cv.entry.schule:demo-s1.description")
       .runs.map((r) => r.text)
@@ -227,9 +192,53 @@ test("plain heading rules use decoration while heading text remains a native par
   expect(heading.rightIndentMm! + rule.textWidthMm + rule.gapMm).toBeCloseTo(
     heading.flowSurface!.rowWidthMm,
   );
-  expect(paragraph(heading)).toContain(
-    `w:right="${twips(heading.rightIndentMm!)}"`,
-  );
+  expect(paragraph(heading)).toContain(`w:right="${twips(heading.rightIndentMm!)}"`);
+});
+
+test("wrapped Sidebar titles have full-width editable paragraph borders on either side", () => {
+  for (const side of ["left", "right"] as const) {
+    const { source, metrics } = setup();
+    source.settings.sidebarSide = side;
+    metrics.sourceKey = JSON.stringify(source);
+    const id = "cv.section.hobbys.heading";
+    const rule = metrics.headings[id].rule!;
+    rule.placement = "below";
+    rule.textWidthMm = 47.5;
+    const model = build(source, metrics);
+    validateDossierDocModel(model);
+    const heading = p(model, id);
+    const xml = paragraph(heading);
+    expect(heading.flowSurface).toBeUndefined();
+    expect(heading.rightIndentMm).toBeUndefined();
+    expect(heading.bottomRule?.gapMm).toBe(rule.gapMm);
+    expect(xml).toContain(`<w:tag w:val="${id}"/>`);
+    expect(xml).toContain("<w:pBdr><w:bottom");
+    expect(xml).toContain("Hobbys &amp; Interessen");
+    expect(xml).not.toContain("<w:drawing>");
+    expect(heading.runs.map((run) => [run.id, run.fieldId, run.text])).toEqual(
+      p(build(source), id).runs.map((run) => [run.id, run.fieldId, run.text]),
+    );
+    // Word owns the border's space; it must not also be added to w:after.
+    expect(heading.afterMm).toBeCloseTo(metrics.fields[id].afterMm + metrics.headings[id].afterMm);
+  }
+});
+
+test("current letter compact chrome survives the shared Sidebar candidate without duplicate CV paint", () => {
+  const { source, metrics } = setup();
+  const model = buildDossierDocModel(source, {
+    coverComposition: "authored-frames",
+    coverTextMetrics: structuredClone(coverMetrics) as CoverTextMetrics,
+    compactChromeComposition: "source-bands",
+    cvSidebarComposition: "shared-body-stories",
+    cvSidebarTextMetrics: metrics,
+  });
+  validateDossierDocModel(model);
+  expect(model.letter.footer).toEqual([]);
+  expect(model.letter.headerShapes?.some((s) => s.id === "letter.compact.footer")).toBe(true);
+  expect(model.letter.artwork.some((s) => s.id === "letter.artwork.footer")).toBe(false);
+  expect(model.cv.footer).toEqual([]);
+  expect(model.cv.headerShapes?.some((s) => s.id.startsWith("cv.compact."))).toBe(false);
+  expect(model.cv.artwork.filter((s) => s.id === "cv.artwork.header")).toHaveLength(1);
 });
 
 test("source bullet spacing and reference columns keep native semantic owners", () => {
@@ -239,12 +248,8 @@ test("source bullet spacing and reference columns keep native semantic owners", 
     (b) => b.kind === "paragraph" && b.listIndentMm !== undefined,
   ) as Paragraph;
   expect(bullet.list).toBe("bullet");
-  expect(bullet.listIndentMm).toBeCloseTo(
-    metrics.fields[bullet.id].listIndentMm!,
-  );
-  expect(paragraph(bullet, "", 1)).toContain(
-    `w:hanging="${twips(bullet.listIndentMm!)}"`,
-  );
+  expect(bullet.listIndentMm).toBeCloseTo(metrics.fields[bullet.id].listIndentMm!);
+  expect(paragraph(bullet, "", 1)).toContain(`w:hanging="${twips(bullet.listIndentMm!)}"`);
   expect(bullet.listMarkerStyle).toEqual({ color: "244A61", bold: true });
   const xml = paragraph(bullet, "", 1);
   expect(xml.split("</w:pPr>")[0]).toContain('<w:color w:val="244A61"/>');
@@ -266,21 +271,13 @@ test("Sidebar tint is structural and page motifs remain below the reading plane 
     for (const first of [true, false]) {
       expect(compositePagePaint(model.cv, first)?.paintLayer).toBe(0);
       const paints = orderedPagePaint(model.cv, first);
-      const rail = paints.find((a) =>
-        a.id.startsWith("cv.artwork.sidebar-surface"),
-      )!;
+      const rail = paints.find((a) => a.id.startsWith("cv.artwork.sidebar-surface"))!;
       expect(rail.fill?.color).toBe("F3F5F6");
-      expect(paints.some((a) => a.id === "cv.artwork.sidebar-edge")).toBe(
-        false,
-      );
-      const plane = paints.findIndex((a) =>
-        a.id.startsWith("cv.artwork.reading-plane"),
-      );
+      expect(paints.some((a) => a.id === "cv.artwork.sidebar-edge")).toBe(false);
+      const plane = paints.findIndex((a) => a.id.startsWith("cv.artwork.reading-plane"));
       const side = paints.indexOf(rail);
       expect(plane).toBeLessThan(side);
-      expect(side).toBeLessThan(
-        paints.findIndex((a) => a.id === "cv.artwork.header"),
-      );
+      expect(side).toBeLessThan(paints.findIndex((a) => a.id === "cv.artwork.header"));
       const motif = paints.find((a) => a.id.startsWith("cv.artwork.motif."));
       if (motif) {
         expect(paints.indexOf(motif)).toBeLessThan(plane);
@@ -293,20 +290,13 @@ test("Sidebar tint is structural and page motifs remain below the reading plane 
 });
 
 test("invalid surfaces and marker formatting reject before rendering", () => {
-  for (const mutation of [
-    "missing-surfaces",
-    "invalid-alpha",
-    "invalid-marker",
-  ] as const) {
+  for (const mutation of ["missing-surfaces", "invalid-alpha", "invalid-marker"] as const) {
     const { source, metrics } = setup();
-    if (mutation === "missing-surfaces")
-      delete (metrics as Partial<CvSidebarTextMetrics>).surfaces;
-    if (mutation === "invalid-alpha")
-      metrics.surfaces.first.readingPlane.opacity = 2;
+    if (mutation === "missing-surfaces") delete (metrics as Partial<CvSidebarTextMetrics>).surfaces;
+    if (mutation === "invalid-alpha") metrics.surfaces.first.readingPlane.opacity = 2;
     if (mutation === "invalid-marker")
-      Object.values(metrics.fields).find(
-        (f) => f.listMarkerStyle,
-      )!.listMarkerStyle!.color = "not-a-color";
+      Object.values(metrics.fields).find((f) => f.listMarkerStyle)!.listMarkerStyle!.color =
+        "not-a-color";
     expect(() => build(source, metrics)).toThrow(/Sidebar/);
   }
 });
@@ -341,9 +331,7 @@ test("empty compact footer has no implicit name and its paint matches Web height
   const footer = model.cv.artwork.find((a) => a.id === "cv.artwork.footer")!;
   expect(footer.heightMm).toBeCloseTo(4, 2);
   expect(footer.yMm + footer.heightMm).toBe(297);
-  expect(
-    model.cv.artwork.findIndex((a) => a.id === "cv.artwork.footer"),
-  ).toBeGreaterThan(
+  expect(model.cv.artwork.findIndex((a) => a.id === "cv.artwork.footer")).toBeGreaterThan(
     model.cv.artwork.findIndex((a) => a.id === "cv.artwork.sidebar-surface"),
   );
 });
@@ -355,9 +343,7 @@ test("canonical compound subfields retain their explicit saved styles", () => {
   };
   metrics.sourceKey = JSON.stringify(source);
   const model = build(source, metrics),
-    run = p(model, "cv.person.name").runs.find(
-      (r) => r.fieldId === "cv.person.firstName",
-    )!;
+    run = p(model, "cv.person.name").runs.find((r) => r.fieldId === "cv.person.firstName")!;
   expect(run.style.sizePt).toBe(18);
   expect(run.style.italic).toBe(true);
   expect(run.style.color).toBe("6D2857");
@@ -374,12 +360,9 @@ test("source-bound capture fails on stale, missing or invalid styles", () => {
     const { source, metrics } = setup();
     if (mutation === "stale") metrics.sourceKey += "old";
     if (mutation === "missing-field") delete metrics.fields["cv.person.name"];
-    if (mutation === "missing-heading")
-      delete metrics.headings["cv.section.schule.heading"];
-    if (mutation === "missing-entry")
-      delete metrics.entries["cv.entry.schule:demo-s1"];
-    if (mutation === "negative-gap")
-      metrics.fields["cv.person.name"].beforeMm = -1;
+    if (mutation === "missing-heading") delete metrics.headings["cv.section.schule.heading"];
+    if (mutation === "missing-entry") delete metrics.entries["cv.entry.schule:demo-s1"];
+    if (mutation === "negative-gap") metrics.fields["cv.person.name"].beforeMm = -1;
     expect(() => build(source, metrics)).toThrow(/Sidebar/);
   }
 });
@@ -396,7 +379,7 @@ test("custom footer content cannot be erased by the empty-band candidate", () =>
 
 test("shared styles do not bypass the classic/sidebar composition boundary", () => {
   const { source, metrics } = setup();
-  expect(() =>
-    buildDossierDocModel(source, { cvSidebarTextMetrics: metrics }),
-  ).toThrow(/expliziten gemeinsamen/);
+  expect(() => buildDossierDocModel(source, { cvSidebarTextMetrics: metrics })).toThrow(
+    /expliziten gemeinsamen/,
+  );
 });

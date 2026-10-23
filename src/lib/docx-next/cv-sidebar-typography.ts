@@ -13,6 +13,7 @@ import { resolveCvRubricOptions } from "@/components/cv/citrus-rubric";
 import { cvFrameFor, cvSurface } from "@/components/cv/archetype";
 import { MODERN_SHEET_CIRCLE } from "@/components/dossier/sheet-geometry";
 import { datedFlowAfterMm, NATIVE_BOUNDARY_HEIGHT_MM } from "./flow-boundaries";
+import { compositeTextColor } from "./colors";
 import {
   DEFAULT_DOSSIER_CHROME_STATE,
   effectiveDossierHeaderModeForOptions,
@@ -151,6 +152,7 @@ export function applyCvSidebarTypography(
     delete p.minimumLineHeightPt;
     // Remove the old template paragraph border/capsule; the source owns its rule.
     delete p.ruleColor;
+    delete p.bottomRule;
     delete p.flowSurface;
     p.runs.forEach((r) => delete r.style.backgroundColor);
     if (field.listIndentMm !== undefined) {
@@ -193,9 +195,21 @@ export function applyCvSidebarTypography(
           r.gapMm < 0 ||
           r.opacity < 0 ||
           r.opacity > 1 ||
+          (r.placement !== undefined && r.placement !== "below") ||
           !/^[A-F0-9]{6}$/.test(r.color)
         )
           fail(p.id);
+        if (r.placement === "below") {
+          // The border follows the editable paragraph as it wraps in Word.
+          // No measured text height or page-positioned decorative image.
+          p.bottomRule = {
+            color: compositeTextColor(r.color, metrics.surfaces.first.sidebarColor, r.opacity),
+            heightMm: r.heightMm,
+            gapMm: r.gapMm,
+          };
+          delete p.rightIndentMm;
+          return;
+        }
         if (r.textWidthMm + r.gapMm >= widthMm) return;
         p.flowSurface = {
           variant: "rule",

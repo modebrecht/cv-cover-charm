@@ -160,6 +160,23 @@ export function validateDossierDocModel(model: DossierDocModel): void {
         )
           throw Error("DOCX Next invalid authored header tabs");
       }
+      if (block.kind === "paragraph" && block.bottomRule) {
+        const rule = block.bottomRule;
+        if (
+          part.id !== "cv" ||
+          part.layout.mode !== "sidebar" ||
+          block.role !== "heading" ||
+          block.flowSurface ||
+          block.ruleColor ||
+          !/^[0-9A-F]{6}$/.test(rule.color) ||
+          ![rule.heightMm, rule.gapMm].every(Number.isFinite) ||
+          rule.heightMm < 0.1 ||
+          rule.heightMm > 4 ||
+          rule.gapMm < 0 ||
+          rule.gapMm > 10
+        )
+          throw Error("DOCX Next invalid wrapped Sidebar heading rule");
+      }
       if (block.kind === "paragraph" && block.flowSurface) {
         const s = block.flowSurface;
         if (

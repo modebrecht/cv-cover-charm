@@ -1,5 +1,7 @@
 # Nachprüfung vor der Word-Abnahme — 23. Oktober 2026
 
+**Nachtrag:** Das unten genannte Paket ist nach dem Benutzerbefund als Abnahmepaket zurückgezogen. Die frühere Empfehlung am Ende dieses historischen Prüfberichts gilt nicht mehr. [Ursachen und Korrekturen](docx-next-sidebar-feedback-23okt.md). Keine weitere Benutzerprüfung des alten Pakets.
+
 Basis: `4a66ef8fc3bde82978e8444c4cccaabb1ad63fd5` auf `fix/docx-next-shared-integration-22okt`. Diese Runde ändert keine Produktquelle und keine bereits ausgelieferte DOCX-/PDF-Datei. Sie prüft die verbleibenden Risiken, vervollständigt den dedizierten DOCX-Testbefehl und bereitet die Auswertung der Word-Rückläufer vor.
 
 ## Ergebnis des breiteren Unittest-Laufs
@@ -54,6 +56,6 @@ bun run test:docx-next
 2. Die V3-Zeilenhöhe ist gegen das begrenzte Browser-Schriftprofil geprüft. Die tatsächlichen Word-/Arial-Metriken und die im Textflussbericht dokumentierten Restabstände sind noch nicht vollständig abgenommen.
 3. Kurze Rubrikgruppen sind begrenzt und lange Einträge bleiben teilbar. Die vorhandenen Writer-Grenzfälle ersetzen den tatsächlichen Word-Seitenumbruch nicht.
 
-Bis zum Word-Ergebnis wird weder eine neue Bildarchitektur eingeführt noch eine weitere Offset-Korrektur vorgenommen. Das bestehende Paket `CV-Cover-Charm-Sidebar-Word-Abnahme-22okt.zip` ist bytegleich geblieben; seine drei Dokumente sind weiterhin die richtigen Testdateien. Keine neue Zwischenrunde, kein Merge und kein Produktionsschalter.
+Das bestehende Paket `CV-Cover-Charm-Sidebar-Word-Abnahme-22okt.zip` bleibt ein historisches Artefakt und ist für weitere Abnahmeprüfungen zurückgezogen. Seine ungeeigneten Testzustände werden nicht erneut beim Benutzer geprüft. Keine neue Zwischenrunde, kein Merge und kein Produktionsschalter.
 
-**Verdikt unverändert: CONDITIONAL GO für die Word-Triage, NO-GO für die Sidebar-Produktionsfreigabe.** [Maschineller Nachweis](docx-next-sidebar-pre-word-review-23okt-evidence.json).
+**Korrigiertes Verdikt: altes Word-Abnahmepaket zurückgezogen; NO-GO für die Sidebar-Produktionsfreigabe.** [Historischer maschineller Nachweis](docx-next-sidebar-pre-word-review-23okt-evidence.json).

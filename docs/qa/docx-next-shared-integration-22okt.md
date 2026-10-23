@@ -1,5 +1,7 @@
 # Gemeinsamer DOCX Integrationsstand
 
+**Korrektur 23. Oktober:** Das ausgelieferte Word-Paket ist als Abnahmepaket zurückgezogen. [Konkrete Ursachen, Korrekturen und Grenzen der Foto-/Branch-Prüfung](docx-next-sidebar-feedback-23okt.md). Keine weitere Benutzerprüfung dieses Pakets. Die folgenden Checkpoints bewahren ihren historischen Umfang.
+
 Aktueller Reparaturschritt: [Sidebar-Flächen und Aufzählungen](docx-next-sidebar-surfaces-22okt.md), auf Basis `5c79a08bd4a637431908eb132739b005fddb2718`. Effektive Tönung, Motiv-/Leseflächen-Schichtung und native Markerfarbe sind in vier gespeicherten App-Projekten gegen PDF/Writer geprüft. Fotos, Crops, kurze Einträge, Titelblatt und Anschreiben behalten ihren gesicherten Stand. 113 gezielte Tests und fokussiertes striktes TypeScript bestehen. Vertikaler Textfluss und Word Save/Reopen bleiben offen; der folgende Text bewahrt die früheren Checkpoints.
 
 22. Oktober 2026. Branch: `fix/docx-next-shared-integration-22okt`. Basis: aktueller Fidelity-Kopf `7be40063856d1376acb60e917fe85599a6033dad`.
@@ -111,8 +113,8 @@ Der [Flächen-Checkpoint](docx-next-sidebar-surfaces-22okt.md) und der anschlies
 
 ## Nächster ausführbarer Schritt
 
-1. Das konsolidierte Word-Paket mit linkem Foto, rechtem Foto und langem CV prüfen; Schwerpunkt ist der CV ab Dossierseite 3.
-2. Unbearbeitetes Save/Reopen von absichtlicher Text-/Bildbearbeitung trennen. Danach die gespeicherten DOCX auf Bildpixel, Crops, Feld- und Absatzbesitz prüfen.
-3. Erst anhand dieses Word-Befunds die weitere Vereinfachung des Bildbesitzers und die noch offenen Fidelity-/Produktgates entscheiden.
+1. Das zurückgezogene Paket nicht weiter zur Abnahme verwenden. Die vorgesehene Konfiguration samt Header-/Footer-Modi zuerst intern konsolidiert prüfen; nur synthetische Testbilder verwenden.
+2. Den neuen App-/QA-Befund von einer späteren Word-Save/Reopen-Prüfung trennen. Neue Paketbytes erben keine frühere Word-Abnahme.
+3. Danach die offenen Fidelity-/Produktgates und die weitere Bildarchitektur entscheiden.
 
-**Status: Kandidat bereit für konsolidierte Word-Triage; vollständige Sidebar weiterhin NO-GO.** Kein Merge nach `dev`, `main`, `render` oder in aktive Quellbranches. Kein manuell ausgelöstes Deployment, CI-Dispatch, Produktionsschalter oder Engine-Patch. Historische Word-Abnahmen werden nicht auf neue Bytes übertragen.
+**Status: altes Abnahmepaket zurückgezogen; vollständige Sidebar weiterhin NO-GO.** Kein Merge nach `dev`, `main`, `render` oder in aktive Quellbranches. Kein manuell ausgelöstes Deployment, CI-Dispatch, Produktionsschalter oder Engine-Patch. Historische Word-Abnahmen werden nicht auf neue Bytes übertragen.

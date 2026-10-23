@@ -124,6 +124,7 @@ export function buildDossierDocModel(
 ): DossierDocModel {
   const { cover, letter, cv, settings } = input;
   const capturedInteriorMetrics = options.interiorTextMetrics;
+  const capturedSidebarMetrics = options.cvSidebarTextMetrics;
   const personalMetrics = options.cvPersonalHeaderMetrics;
   if (
     personalMetrics &&
@@ -1662,7 +1663,9 @@ export function buildDossierDocModel(
             heightMm: gapMm,
           });
       }
-      if (sourceCompactBands)
+      // Fresh Sidebar metrics own the CV bands. The adjacent letter still
+      // uses the current shared compact composition, never the legacy footer.
+      if (sourceCompactBands && !(scope === "cv" && capturedSidebarMetrics))
         composeSourceCompactBands(target, options, content, template.chrome.sourceCompactBands!);
       if (capturedInteriorMetrics?.headers[scope]) {
         composeMeasuredHeaders(target, input, capturedInteriorMetrics, contact, options);

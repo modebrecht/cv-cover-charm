@@ -25,6 +25,8 @@ export type CvSidebarTextMetrics = {
       beforeMm: number;
       afterMm: number;
       rule?: {
+        /** A wrapped Sidebar title gives its rule a complete following row. */
+        placement?: "below";
         textWidthMm: number;
         gapMm: number;
         heightMm: number;

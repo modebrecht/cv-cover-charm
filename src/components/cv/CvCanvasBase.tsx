@@ -1881,7 +1881,9 @@ export function CvCanvas({
             : `${sectionTitleMarginBottomPx}px`,
       }}
     >
-      <div style={{ display: "flex", alignItems: "center", gap: "2mm", minWidth: 0 }}>
+      <div
+        style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "2mm", minWidth: 0 }}
+      >
         <div
           data-cv-section-title
           data-dossier-field-id={`cv.section.${key}.heading`}
@@ -1920,6 +1922,7 @@ export function CvCanvas({
             fontFamily: theme.typography.fontStack,
             color: sectionTitleColor || side.accent,
             lineHeight: headingStyle.lineHeight,
+            maxWidth: "100%",
             flexShrink: 0,
           }}
         >

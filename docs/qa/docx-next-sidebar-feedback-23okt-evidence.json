@@ -1,0 +1,856 @@
+{
+  "date": "2026-10-23",
+  "repository": "modebrecht/cv-cover-charm",
+  "branch": "fix/docx-next-shared-integration-22okt",
+  "base": "fc0cafa8dc61437ee77f59031055ff6a5efd545d",
+  "withdrawnPacket": "CV-Cover-Charm-Sidebar-Word-Abnahme-22okt.zip",
+  "privacy": {
+    "scope": "Pinned tips of every listed branch; not an exhaustive scan of deleted historical files or arbitrary crops and transformations.",
+    "branches": [
+      {
+        "name": "2026-08/claude/app-stress-test-ui-y929m1",
+        "sha": "4347d077acdde46a6434f62e1c2201343004ca95"
+      },
+      {
+        "name": "2026-08/claude/citrus-strip-y929m1",
+        "sha": "66f76fee97c1eea4981d5878510d9f97f995e450"
+      },
+      {
+        "name": "2026-08/claude/cv-builder-y929m1",
+        "sha": "e3c923bb1e73e9885b766c7b2cccbafe33311842"
+      },
+      {
+        "name": "2026-08/claude/cv-cover-fidelity-y929m1",
+        "sha": "44054ae4d9f0ede5af56bbf9abe61f2fc80fde1f"
+      },
+      {
+        "name": "2026-08/claude/cv-design-plan-y929m1",
+        "sha": "a4c5c2dfe8459e8f1115ecbdb890ca5ce2f87a40"
+      },
+      {
+        "name": "2026-08/claude/cv-layout-overlap-y929m1",
+        "sha": "720b313e2b04811468adb2eae91ca2fe699cad80"
+      },
+      {
+        "name": "2026-08/claude/elements-fonts-gradients-y929m1",
+        "sha": "d287358d402757bb6c585d6b7a6b4bd4211690d0"
+      },
+      {
+        "name": "2026-08/claude/gradient-templates-presets-y929m1",
+        "sha": "b24fb75aaf3ad971275aaa74a3f0232e314ca376"
+      },
+      {
+        "name": "2026-08/claude/menu-history-collapse-y929m1",
+        "sha": "d8beef974265bbdca6b6356ca23682aa1b4b9b13"
+      },
+      {
+        "name": "2026-08/claude/pdf-white-edges-y929m1",
+        "sha": "a4b614d2c24aa8d6d1acf36c282fe0361aaa4a5d"
+      },
+      {
+        "name": "2026-08/claude/photo-crop-metadata-y929m1",
+        "sha": "f8280d546baa335695d6bea8c115eea5fea97eac"
+      },
+      {
+        "name": "2026-08/claude/playful-templates-y929m1",
+        "sha": "c82604ea6c426db0b781c02bc2418783d1cdb710"
+      },
+      {
+        "name": "2026-08/claude/zoom-menu-history-y929m1",
+        "sha": "2a742281d2054ab3519219ef865cd87d25c576a1"
+      },
+      {
+        "name": "2026-08/feature/anschreiben-dossier",
+        "sha": "3adad884595e7eb72abea8e8e65e66ac0b50d5fb"
+      },
+      {
+        "name": "2026-08/feature/anschreiben-layout-richtext",
+        "sha": "b2a2f1d81a1e0659ef71316ac977b49b28579010"
+      },
+      {
+        "name": "2026-08/feature/cabin-dossier-font",
+        "sha": "bb0310c6c29ef60f43d73d5275fbf32776b685d2"
+      },
+      {
+        "name": "2026-08/feature/cv-pdf-text-layer",
+        "sha": "6e47c09b4653e8409dcc57adb8400f4bce5596eb"
+      },
+      {
+        "name": "2026-08/feature/dossier-font-sync",
+        "sha": "2036fe4e5cb33041a9c5ef48c6c144b02a66d424"
+      },
+      {
+        "name": "2026-08/merge-dev-into-render-20260824",
+        "sha": "6bad42dcc462cd53946c858b471e5375582254b2"
+      },
+      {
+        "name": "2026-08/onrender",
+        "sha": "c9f1f0d8690a65d3dcba0023a1037d7bc6e52920"
+      },
+      {
+        "name": "DEV20092026",
+        "sha": "75010196f03e63809cea369b43f3e6322e43775e"
+      },
+      {
+        "name": "DEV-09092026",
+        "sha": "ac81df7c8515f2687e3846a9a7780dd4fe64e1f4"
+      },
+      {
+        "name": "audit/docx-next-sidebar-root-cause-21okt",
+        "sha": "c5882dd1ea2449b45477a7842488355a5ee40903"
+      },
+      {
+        "name": "cv-continuation-contact-header",
+        "sha": "cf4daedab572eabfe7e99fbf479ec6f8bbc50127"
+      },
+      {
+        "name": "dev",
+        "sha": "8901a830a792d75e9e792345c5180827218b4e1e"
+      },
+      {
+        "name": "dev-native-chromium-print",
+        "sha": "0c52fb94e52065db64f68489257c49669cfc8f00"
+      },
+      {
+        "name": "docx-next/aurora-flowing-hero-20261009",
+        "sha": "8ddd3f7811dc33a43a6cd78b7ff3986d56110003"
+      },
+      {
+        "name": "docx-next/heading-badges-20261008",
+        "sha": "e0f69c5260993cbafb945f842800831a5273ba22"
+      },
+      {
+        "name": "docx-next/integrate-39-templates",
+        "sha": "5bf5447465898a15539b36bdfdc956eaddfba1ad"
+      },
+      {
+        "name": "docx-next/template-batch-20261008",
+        "sha": "f5353140e03adc4eedde06750075d0042bd96882"
+      },
+      {
+        "name": "docx-next/template-batch-editorial-20261008",
+        "sha": "1bd3014de2f641bf1935bf3c9a72e606a05fd16e"
+      },
+      {
+        "name": "docx-next/template-batch-studio-20261008",
+        "sha": "f1bef45513f07234d01cb47241b21b4302945e06"
+      },
+      {
+        "name": "docx-next/template-final-run-20261008",
+        "sha": "8c658842f4ff54db889aab07cc8165680a5356c7"
+      },
+      {
+        "name": "docx-next/template-graphics-final-20261008",
+        "sha": "be5b2fca28ca5ffed7a54793bb99e2ce1d626597"
+      },
+      {
+        "name": "edel-dark",
+        "sha": "23be470a16c19ed9614815fba7903a3947aac377"
+      },
+      {
+        "name": "feature/header-footer-customization",
+        "sha": "066ebc6ec06b8d12971377e2290b0b7f94364d30"
+      },
+      {
+        "name": "__finalizer_staging_do_not_use",
+        "sha": "2328c3081de3ada4fecc6d6656270c3fc546cce0"
+      },
+      {
+        "name": "fix/cv-flow-fragmentation-12okt",
+        "sha": "c07f81b5dca5aa1f2479def3925b4101a06aa06c"
+      },
+      {
+        "name": "fix/docx-next-brief-integration-16okt",
+        "sha": "dcb38f05fd33387d98a3e8ba4c44c4eb22929194"
+      },
+      {
+        "name": "fix/docx-next-cover-bottom-zones-15okt",
+        "sha": "04d4b15bda7e1f143f801884b826b7eee09dcf4c"
+      },
+      {
+        "name": "fix/docx-next-cv-document-scale-22okt",
+        "sha": "727124a7071aa6184b2e0976c6801a59ff5f14d0"
+      },
+      {
+        "name": "fix/docx-next-cv-page-surface-22okt",
+        "sha": "f256e1817bad54767f58cfba6c958d21a2151441"
+      },
+      {
+        "name": "fix/docx-next-declarative-primitives-15okt",
+        "sha": "c1913a9271e6dc26f63a63d1febb65f3960abb10"
+      },
+      {
+        "name": "fix/docx-next-model-gate-15okt",
+        "sha": "5fac3c354ab265ef4ede7f70c2b48437ff4aff28"
+      },
+      {
+        "name": "fix/docx-next-pdf-print-boundary-15okt",
+        "sha": "792ee410e2eace11452a9502877df70c4f0fe884"
+      },
+      {
+        "name": "fix/docx-next-shared-fidelity-18okt",
+        "sha": "7be40063856d1376acb60e917fe85599a6033dad"
+      },
+      {
+        "name": "fix/docx-next-shared-integration-22okt",
+        "sha": "fc0cafa8dc61437ee77f59031055ff6a5efd545d"
+      },
+      {
+        "name": "fix/docx-next-sidebar-gate-13okt",
+        "sha": "d957153f3556b4d3ef7ecbc3d79d619099489141"
+      },
+      {
+        "name": "fix/docx-next-sidebar-geometry-gate-15okt",
+        "sha": "b473e568c41e10e6cd9f687dd8d55b4c585d373d"
+      },
+      {
+        "name": "fix/docx-next-sidebar-photo-ownership-21okt",
+        "sha": "375075f7539de3ab588f0b9a0381ec920fde134c"
+      },
+      {
+        "name": "fix/docx-next-sidebar-word-layout-21okt",
+        "sha": "f73c776e2eca6b9b0d858ee2ab997230259797ac"
+      },
+      {
+        "name": "fix/docx-next-word-pagination-21okt",
+        "sha": "e1f11779db1da78c08651b22b552cf6f54006e5d"
+      },
+      {
+        "name": "fix/hide-native-print-ui-13okt",
+        "sha": "bb670504b9336e0c6cb016a2650a940d57a27906"
+      },
+      {
+        "name": "fix/letter-flow-boundaries-12okt",
+        "sha": "64ba6374d5b34de60dcba78db8fbcd7c3888f125"
+      },
+      {
+        "name": "fix/letter-pdf-textlayer-12okt",
+        "sha": "0f7fb149c1de099cb3d890f75fb1dd006cf1e4a0"
+      },
+      {
+        "name": "fix/native-neon-duplicate-text-14okt",
+        "sha": "c57c6871bb37119853098221b3df0170c266959c"
+      },
+      {
+        "name": "fix/native-pdf-search-13okt",
+        "sha": "2d158b37863bfa3c73ca868f32e0a269c4c5424c"
+      },
+      {
+        "name": "fix/pdf-export-readiness-14okt",
+        "sha": "1eb471dba9a99fa4c35c7795a6880863993fe1bf"
+      },
+      {
+        "name": "fix/pdf-preflight-13okt",
+        "sha": "c9a03d9f29aeb29a5c632024c2c3f951b86eac89"
+      },
+      {
+        "name": "fix/pdf-richtext-collision-20260917-v6",
+        "sha": "d72b0123862650d6d52ba800558e046a154884c9"
+      },
+      {
+        "name": "fix/pdf-richtext-integrated-dev-20260917",
+        "sha": "a5372b8fb14860b685b56ed588da6bc1aa023122"
+      },
+      {
+        "name": "fix/pdf-richtext-on-latest-dev-20260917",
+        "sha": "a344c062ba118f3ba0ffed726100873516f632ce"
+      },
+      {
+        "name": "fix/pdf-text-search-12okt",
+        "sha": "4fa274f2d00b587f3b4fe10336fee864ee90abb6"
+      },
+      {
+        "name": "fix/remove-hyphenation-20260917",
+        "sha": "01912e114ac1a110cea9da26f9e2eefa19aa89b7"
+      },
+      {
+        "name": "fix/ribbon-cover-overflow-14okt",
+        "sha": "91507bff16410d8ce5004b914442905614740a81"
+      },
+      {
+        "name": "fix-06-07-visuals",
+        "sha": "3289f5264fdbcf70efc443b4ea7d6d1d6105ac59"
+      },
+      {
+        "name": "fix-cover-attachments-bottom-right",
+        "sha": "4daec2651062833aa53f4af671e7be7d30c478fb"
+      },
+      {
+        "name": "fix-cv-section-rule-css-contract",
+        "sha": "ace0644346c9ef30e95031c329cfb565f82ce733"
+      },
+      {
+        "name": "fix-cv-section-rule-formatting",
+        "sha": "f336dd137aea86adab4004d196eef23dcf0bb815"
+      },
+      {
+        "name": "fix-cv-section-rules-full-width",
+        "sha": "30c4102bf4544898f6d87ea3b9b16bfb876dd28c"
+      },
+      {
+        "name": "fix-dossier-chrome-consistency",
+        "sha": "dce8633d67cbf65b261593bdf5f7ef735940b032"
+      },
+      {
+        "name": "fix-dossier-chrome-regression-expectation",
+        "sha": "adee8be2fb60eabf90ad6c018deee7f5482fa8fb"
+      },
+      {
+        "name": "fix-dossier-formatting",
+        "sha": "43ea67138772f21f0c68dcb417ed91fbc77f2dc1"
+      },
+      {
+        "name": "fix-fresh-cover-backgrounds-21-38",
+        "sha": "7d22b11f866d2ac8e42641cd48229f9cca51e832"
+      },
+      {
+        "name": "fix-fresh-cover-letter-global-regressions",
+        "sha": "17568f2daed23a1b8bda07dd0b09928b7a7c93be"
+      },
+      {
+        "name": "fix-fresh-cover-structural-test",
+        "sha": "16472ff62385d4bf5d3179dacb815ae57b6e1a54"
+      },
+      {
+        "name": "fix-letter-template-backgrounds",
+        "sha": "14402288d07a1a2ad80b5a0ec8fe8592df28995a"
+      },
+      {
+        "name": "fix-rubric-negative-offset-clipping",
+        "sha": "c2d7e9b434e7f1b782fd77f1a73f09486d6c6d6f"
+      },
+      {
+        "name": "freeze/warm-gold-20260919",
+        "sha": "40cbc7611aab3602eaab1cb6a1d959a544280d72"
+      },
+      {
+        "name": "freeze/warm-pdf-gold-reference-20260919",
+        "sha": "40cbc7611aab3602eaab1cb6a1d959a544280d72"
+      },
+      {
+        "name": "integrate-template-redo-20260909",
+        "sha": "7ad0cd4858865ea23d8738121833e1c45c9564a5"
+      },
+      {
+        "name": "investigate/docx-next-cover-fidelity-15okt",
+        "sha": "acb6a115c749982b5408f5a099d2464f1ebd8eb1"
+      },
+      {
+        "name": "investigate/docx-next-design-fidelity-16okt",
+        "sha": "719e6da6c1c6117ea111129d5af65b56ed47ae87"
+      },
+      {
+        "name": "legacy-docx-adapter-temp",
+        "sha": "48625350317683e8c2ac2c8b79fec666bc282658"
+      },
+      {
+        "name": "letter-m1-m2",
+        "sha": "3242697ee5211be52e3a6853fee6a67bd00078ad"
+      },
+      {
+        "name": "m1-m9-dev-integration",
+        "sha": "042ce144f6d519be51766ef1bc8cb534cdc2bc2b"
+      },
+      {
+        "name": "m10-final-cover-acceptance",
+        "sha": "3fee2fc6d4f860fe208d9a7c7f5ccd23a2669ed5"
+      },
+      {
+        "name": "m10-fresh-cover-content-contract",
+        "sha": "374e5c630ef696dfc023e7cbdacc1aed6f8528cd"
+      },
+      {
+        "name": "m10-fresh-visual-cleanup",
+        "sha": "649195cf755d38d3edba101b939bc7b3be1e4f86"
+      },
+      {
+        "name": "m11-background-fallback",
+        "sha": "bb21087d0171883c0b28406beb8bd79fdd6a6c4e"
+      },
+      {
+        "name": "m11-ci-fix",
+        "sha": "f30136629464d14cbf95eb1a2c4d1450371d854d"
+      },
+      {
+        "name": "m11-fresh-letter-integrity",
+        "sha": "90c07740aefe8b1236d8720bf214de482c8d4272"
+      },
+      {
+        "name": "m12-dossier-consistency",
+        "sha": "d5a18416dca43af3aab54143a525e09dfa1d9b44"
+      },
+      {
+        "name": "m12-type-fix",
+        "sha": "4dd9b06923902a193d573bc5ffc45dc7fc1e0269"
+      },
+      {
+        "name": "m13-visual-acceptance",
+        "sha": "711bb38cdffd82a24f76abbc32159ce6fa7716c5"
+      },
+      {
+        "name": "m14-close-milestone",
+        "sha": "61b4b837b4f89e916fd10657d07c605583574b0b"
+      },
+      {
+        "name": "m14-regression-hardening",
+        "sha": "91c6bc193540e1f0d30bbe7141d2a09770e47463"
+      },
+      {
+        "name": "main",
+        "sha": "44d7eb950b4fe972d6e890a72b6d3256ce365bc9"
+      },
+      {
+        "name": "__noop_finalizer_check",
+        "sha": "2328c3081de3ada4fecc6d6656270c3fc546cce0"
+      },
+      {
+        "name": "__noop__",
+        "sha": "48625350317683e8c2ac2c8b79fec666bc282658"
+      },
+      {
+        "name": "noop-temp",
+        "sha": "77afad459c24eaf563319f6e119fefd38bdcd56e"
+      },
+      {
+        "name": "__pkg2-verified-tree-temp",
+        "sha": "967763e176850a651431414fd2e34cba90070b92"
+      },
+      {
+        "name": "__pkg2-verified-tree-temp2",
+        "sha": "967763e176850a651431414fd2e34cba90070b92"
+      },
+      {
+        "name": "__pkg2-verified-tree-temp3",
+        "sha": "967763e176850a651431414fd2e34cba90070b92"
+      },
+      {
+        "name": "__pkg2-verified-tree-temp4",
+        "sha": "967763e176850a651431414fd2e34cba90070b92"
+      },
+      {
+        "name": "promotion/warm-gold-to-render-20260919",
+        "sha": "40cbc7611aab3602eaab1cb6a1d959a544280d72"
+      },
+      {
+        "name": "qa/docx-font-matrix-13okt",
+        "sha": "28ea3f0b177e210f38c3b04ce44867e6618ca2bc"
+      },
+      {
+        "name": "qa/docx-next-stress-edge-15okt",
+        "sha": "43366da532b3ecc3e35e3fed8815f7037613790f"
+      },
+      {
+        "name": "qa/legacy-docx-modern-parity-15okt",
+        "sha": "847deeb50e9df74fc22a9e742ad0c779fa0e3747"
+      },
+      {
+        "name": "qa/pagination-2page-11okt",
+        "sha": "a969351481a66c6e0eb79c7f744940bcbc851b8d"
+      },
+      {
+        "name": "qa/pagination-integration-12okt",
+        "sha": "78da69ad1aed20bdc70f495c4830b8d17b4fc932"
+      },
+      {
+        "name": "qa/pdf-text-extraction-12okt",
+        "sha": "99bf5d72a886359d97c7f8b04a7976d3b508b218"
+      },
+      {
+        "name": "qa/theme-mobile-interaction-20260924",
+        "sha": "b603a460ba1fa5f091c035848e00c9776d23113c"
+      },
+      {
+        "name": "qa/theme-visual-20260924",
+        "sha": "f2c32c53d284563ee0b1479e087ede883297ef70"
+      },
+      {
+        "name": "qa-docx-orbit-ring-fix",
+        "sha": "c52262e6ca49fa13e79e5fb7334e0059fd6387db"
+      },
+      {
+        "name": "qa-live-pages-20260910",
+        "sha": "df1c8d4f68a4571db395f44959dd98dbc76e2520"
+      },
+      {
+        "name": "recover-dev-cv-typography",
+        "sha": "adfebe22dc275acda89c481600b43ef35a4c4425"
+      },
+      {
+        "name": "render",
+        "sha": "4319c20fb85d3971ac355ae8898cdfef86ee7a8c"
+      },
+      {
+        "name": "restore-exact-fresh-milestone-wording",
+        "sha": "2ff84f0f7c140c74e2cb44a33a7cd27711a9aef7"
+      },
+      {
+        "name": "__staging_finalizer_v2",
+        "sha": "2328c3081de3ada4fecc6d6656270c3fc546cce0"
+      },
+      {
+        "name": "temp-delete-later",
+        "sha": "90c07740aefe8b1236d8720bf214de482c8d4272"
+      },
+      {
+        "name": "template-font-audit",
+        "sha": "f438c5f38695607424e7a18843213ef19a80ae11"
+      },
+      {
+        "name": "templateFIX",
+        "sha": "f583b2a81b4590624566e95ac4875fcc31631567"
+      },
+      {
+        "name": "templateREDO",
+        "sha": "0dfea94c68a2a6e71962855e935dbac280ebcbac"
+      },
+      {
+        "name": "tmp/warm-gold-render-20260919",
+        "sha": "40cbc7611aab3602eaab1cb6a1d959a544280d72"
+      },
+      {
+        "name": "tmp-ci-cleanup-20260920",
+        "sha": "29da06e6cd7e4edebce9e195a6da348a1b0e2295"
+      },
+      {
+        "name": "tmp-cv-chrome-refactor",
+        "sha": "8324551d90c42f8f4d7c907afb84621712eee90a"
+      },
+      {
+        "name": "tmp-cv-chrome-refactor-2",
+        "sha": "8324551d90c42f8f4d7c907afb84621712eee90a"
+      },
+      {
+        "name": "tmp-cv-chrome-refactor-3",
+        "sha": "8324551d90c42f8f4d7c907afb84621712eee90a"
+      },
+      {
+        "name": "tmp-cv-chrome-refactor-4",
+        "sha": "8324551d90c42f8f4d7c907afb84621712eee90a"
+      },
+      {
+        "name": "tmp-cv-chrome-refactor-5",
+        "sha": "8324551d90c42f8f4d7c907afb84621712eee90a"
+      },
+      {
+        "name": "tmp-cv-chrome-refactor-6",
+        "sha": "8324551d90c42f8f4d7c907afb84621712eee90a"
+      },
+      {
+        "name": "tmp-cv-chrome-refactor-7",
+        "sha": "8324551d90c42f8f4d7c907afb84621712eee90a"
+      },
+      {
+        "name": "tmp-cv-chrome-refactor-8",
+        "sha": "8324551d90c42f8f4d7c907afb84621712eee90a"
+      },
+      {
+        "name": "tmp-cv-chrome-refactor-9",
+        "sha": "8324551d90c42f8f4d7c907afb84621712eee90a"
+      },
+      {
+        "name": "tmp-cv-chrome-refactor-10",
+        "sha": "2b826667dacf36436a59bb9d2fd31addb3f80dc0"
+      },
+      {
+        "name": "tmp-do-not-use",
+        "sha": "052890c988da4312e814f186b4563902544e02c9"
+      },
+      {
+        "name": "tmp-docx-gallery-validation",
+        "sha": "834d759d2b7d2c60faaf9caf01dbd51c436951b2"
+      },
+      {
+        "name": "tmp-docx-gallery-validation-2",
+        "sha": "21baba936ac88e44eda6d546a33b957aaa031dba"
+      },
+      {
+        "name": "tmp-docx-gallery-validation-3",
+        "sha": "21baba936ac88e44eda6d546a33b957aaa031dba"
+      },
+      {
+        "name": "tmp-filename-scheme-20260921",
+        "sha": "5431546b433a7f22482564acc3657afd5c47e42e"
+      },
+      {
+        "name": "tmp-ignore-rubric-fix",
+        "sha": "c2d7e9b434e7f1b782fd77f1a73f09486d6c6d6f"
+      },
+      {
+        "name": "tmp-letter-body-font-size",
+        "sha": "5ee6ea50ed73d237886340d405ed26a22633f222"
+      },
+      {
+        "name": "tmp-letter-context-font-sizes",
+        "sha": "9023a9b4974714c81e47da6dbf5b0f26298430c9"
+      },
+      {
+        "name": "tmp-noop",
+        "sha": "fd65b6f5e35fa801c2e2445f563d9a5e1006e439"
+      },
+      {
+        "name": "tmp-noop2",
+        "sha": "fd65b6f5e35fa801c2e2445f563d9a5e1006e439"
+      },
+      {
+        "name": "tmp-noop3",
+        "sha": "fd65b6f5e35fa801c2e2445f563d9a5e1006e439"
+      },
+      {
+        "name": "tmp-noop4",
+        "sha": "fd65b6f5e35fa801c2e2445f563d9a5e1006e439"
+      },
+      {
+        "name": "tmp-package3-e2e-repair",
+        "sha": "de64db699ce5026ce4b4377065d49fea408e345e"
+      },
+      {
+        "name": "tmp-prism-neon-prep",
+        "sha": "93fda4977545827bc9192d9f4702f843118e61ea"
+      },
+      {
+        "name": "tmp-reference-columns-auto",
+        "sha": "c033fb037cd35d8cee5453a7e42ae407b10f0e93"
+      },
+      {
+        "name": "tmp-render-promote-20260920",
+        "sha": "06ae387a318fd9f93031a02f4b0a12bf17f9008e"
+      },
+      {
+        "name": "tmp-render-to-dev-check",
+        "sha": "f438c5f38695607424e7a18843213ef19a80ae11"
+      },
+      {
+        "name": "tmp-render-to-dev-check2",
+        "sha": "f438c5f38695607424e7a18843213ef19a80ae11"
+      },
+      {
+        "name": "tmp-render-to-dev-check3",
+        "sha": "f438c5f38695607424e7a18843213ef19a80ae11"
+      },
+      {
+        "name": "tmp-render-to-dev-check4",
+        "sha": "f438c5f38695607424e7a18843213ef19a80ae11"
+      },
+      {
+        "name": "tmp-render-to-dev-check5",
+        "sha": "f438c5f38695607424e7a18843213ef19a80ae11"
+      },
+      {
+        "name": "tmp-rubric-offset-safe",
+        "sha": "c2d7e9b434e7f1b782fd77f1a73f09486d6c6d6f"
+      },
+      {
+        "name": "tmp-rubric-offset-work",
+        "sha": "c2d7e9b434e7f1b782fd77f1a73f09486d6c6d6f"
+      },
+      {
+        "name": "tmp-rubric-offset-work-2",
+        "sha": "c2d7e9b434e7f1b782fd77f1a73f09486d6c6d6f"
+      },
+      {
+        "name": "tmp-rubric-offset-work-3",
+        "sha": "c2d7e9b434e7f1b782fd77f1a73f09486d6c6d6f"
+      },
+      {
+        "name": "tmp-rubric-offset-work-4",
+        "sha": "c2d7e9b434e7f1b782fd77f1a73f09486d6c6d6f"
+      },
+      {
+        "name": "tmp-rubric-offset-work-5",
+        "sha": "c2d7e9b434e7f1b782fd77f1a73f09486d6c6d6f"
+      },
+      {
+        "name": "tmp-rubric-offset-work-6",
+        "sha": "c2d7e9b434e7f1b782fd77f1a73f09486d6c6d6f"
+      },
+      {
+        "name": "tmp-rubric-offset-work-7",
+        "sha": "c2d7e9b434e7f1b782fd77f1a73f09486d6c6d6f"
+      },
+      {
+        "name": "tmp-unused",
+        "sha": "f9c88ab89e8ca01406a6e52d236b475da785d23f"
+      },
+      {
+        "name": "tmp-warm-format",
+        "sha": "0af971b37c9b514a70aeb8f0806d1d4b984bdddd"
+      }
+    ],
+    "uniqueHeads": 131,
+    "completeRecursiveTrees": true,
+    "exactOriginalAndNormalizedBlobMatches": 0,
+    "textBlobsScanned": 440,
+    "textSignatureMatches": 0,
+    "textReadErrors": 0,
+    "ownRelevantCommits": [
+      "4a66ef8fc3bde82978e8444c4cccaabb1ad63fd5",
+      "fc0cafa8dc61437ee77f59031055ff6a5efd545d"
+    ],
+    "ownChanges": "23 unique textual files, no image payload found.",
+    "noPrivateImageOrSourceProjectPublishedInThisChange": true,
+    "binaryAudit": {
+      "blobs": 280,
+      "zipContainers": 99,
+      "zipMembers": 2486,
+      "pdfContainers": 25,
+      "pdfImages": 181,
+      "images": 877,
+      "uniqueImages": 380,
+      "fileOrFullPixelMatches": 0,
+      "similarityCandidates": 0,
+      "candidateBlobs": 289,
+      "gitVerifiedBlobs": 280,
+      "unreadLargeArtifacts": [
+        {
+          "path": "docs/qa/docx-next-brief-reading-20okt/Word-Batch-20okt.zip",
+          "sha": "1643ff3f804cc14a30ecbe12c200f8f570ce2aeb",
+          "size": 9119689
+        },
+        {
+          "path": "docs/qa/native-pdf-search-13okt/diagnostic-pdfs.zip",
+          "sha": "3a8a2ffee0959dec3e93fbdec61b0bc5b9433630",
+          "size": 2080386
+        },
+        {
+          "path": "docs/qa/docx-next-design-fidelity-16okt/modern-app-a4-comparison.pdf",
+          "sha": "76f065712ce168b113cf0b4f94af630e006b1794",
+          "size": 1318091
+        },
+        {
+          "path": "docs/qa/docx-next-modern-edge-review-16okt/actual-app-export.pdf",
+          "sha": "1f398f45ce377c10d78599267dd0be83d190fc10",
+          "size": 1282803
+        },
+        {
+          "path": "docs/qa/docx-next-modern-grouped-pill-interiors-16okt/grouped-pill-and-interior-a4-comparison.pdf",
+          "sha": "80964888a910d5d89a788cd353cbce2304e65467",
+          "size": 1214528
+        },
+        {
+          "path": "docs/qa/docx-next-modern-interior-candidate-17okt/Modern-Header-Rubrikpills-A4-Vergleich.pdf",
+          "sha": "2942207bcc7e12c2261ee5907cc3bb5b74a675e9",
+          "size": 1248834
+        },
+        {
+          "path": "docs/qa/docx-next-shared-settings-18okt/same-source-primary.pdf",
+          "sha": "25da2401c7f959e886a6ab9dda23c32fb6873ee6",
+          "size": 1285433
+        },
+        {
+          "path": "docs/qa/docx-next-word-batch-19okt/00-Uebersicht.pdf",
+          "sha": "4408c3200ac06d4d76d1f69a72ae8706562c4baf",
+          "size": 1361518
+        },
+        {
+          "path": "docs/qa/docx-next-word-feedback-19okt-v2/00-Uebersicht.pdf",
+          "sha": "11dcbf9f161fdd4be22821a67d3f44928ae4d19c",
+          "size": 1362033
+        }
+      ],
+      "limitation": "GitHub contents API returned empty base64 data for nine files larger than 1 MB. These are explicitly unverified."
+    }
+  },
+  "branchReview": {
+    "fidelity": "7be40063856d1376acb60e917fe85599a6033dad",
+    "pagination": "e1f11779db1da78c08651b22b552cf6f54006e5d",
+    "sharedChromeFilesIdentical": true,
+    "missingQaOption": "compactChromeComposition: source-bands",
+    "templates": "All three dossier parts are Modern."
+  },
+  "acceptance": {
+    "word": "UNVERIFIED",
+    "productionSidebarGuard": "UNCHANGED_CLOSED",
+    "merge": "NOT_PERFORMED",
+    "packet": "WITHDRAWN_NO_USER_RETEST",
+    "scope": "Internal local-App exports and supplementary LibreOffice rendering; not desktop Microsoft Word."
+  },
+  "qa": {
+    "appCases": [
+      {
+        "case": "03-Sidebar-rechts-Folgeseite",
+        "docxSha256": "907e70a8f2a81d8895631d2c357dcf06ed3d0d70a44edd59a5a2f5d0eef943fd",
+        "appPdfSha256": "1bdd7441aceefc5a5c7c1be43c4bb5b600a53b8e01af7a48316fa06540371e48",
+        "picturePixelsPreserved": true,
+        "photoPlacement": null,
+        "hobbiesRulePlacement": "below",
+        "letterFooterEmpty": true,
+        "cvDuplicateBands": false
+      },
+      {
+        "case": "05-Sidebar-links-Foto-frei",
+        "docxSha256": "d40e9325725a5a16fa4e4d442f85cc848efd5477ba65bd20101a952168b3712f",
+        "appPdfSha256": "b35715cc94b7e385b406df479a4e549b341e5b8991ce58a6e53646334365c421",
+        "picturePixelsPreserved": true,
+        "photoPlacement": {
+          "mode": "frei",
+          "xMm": 25,
+          "yMm": 210,
+          "widthMm": 34,
+          "frameColor": "#b53b4b"
+        },
+        "hobbiesRulePlacement": "below",
+        "letterFooterEmpty": true,
+        "cvDuplicateBands": false
+      },
+      {
+        "case": "06-Sidebar-rechts-Foto-frei",
+        "docxSha256": "1c2571986b6f3ed5b6a5325e9f6f695f325c991f441e0f2724acfccff2caf809",
+        "appPdfSha256": "8a4af1c6539bad407c1b8b6d0b728745141f9a8cd615b93a35dbdb34578ac853",
+        "picturePixelsPreserved": true,
+        "photoPlacement": {
+          "mode": "frei",
+          "xMm": 25,
+          "yMm": 210,
+          "widthMm": 34,
+          "frameColor": null
+        },
+        "hobbiesRulePlacement": "below",
+        "letterFooterEmpty": true,
+        "cvDuplicateBands": false
+      },
+      {
+        "case": "08-Sidebar-links-Foto-automatisch",
+        "docxSha256": "9a221fa243c43a7529fcfe49d62f99264cdd4ebe1a3165f5359c6dd9a81d3953",
+        "appPdfSha256": "3d43ca06fd80a78688ce658a36d98886ba4434cdcdd3b316f4580a06cac945a7",
+        "picturePixelsPreserved": true,
+        "photoPlacement": {
+          "mode": "auto",
+          "xMm": 150,
+          "yMm": 20,
+          "widthMm": 34,
+          "frameColor": null
+        },
+        "hobbiesRulePlacement": "below",
+        "letterFooterEmpty": true,
+        "cvDuplicateBands": false
+      },
+      {
+        "case": "09-Sidebar-rechts-Foto-automatisch",
+        "docxSha256": "7e0bd480e56956d77b9edcec9a7c348f3f99a93e0d02778cc6d4dd12f72cd63c",
+        "appPdfSha256": "1a141ce87644bcc8b03c44f18699877c26f9ddc66f804be7ef41ab4935d989bb",
+        "picturePixelsPreserved": true,
+        "photoPlacement": {
+          "mode": "auto",
+          "xMm": 150,
+          "yMm": 20,
+          "widthMm": 34,
+          "frameColor": null
+        },
+        "hobbiesRulePlacement": "below",
+        "letterFooterEmpty": true,
+        "cvDuplicateBands": false
+      }
+    ],
+    "unitTests": 525,
+    "unitFiles": 74,
+    "unitAssertions": 9095,
+    "unitFailures": 0,
+    "strictTypecheck": "PASS for both changed React components and native/capture dependencies; Bun test declarations excluded because absent in this installation.",
+    "visualRenderCases": [
+      "08-Sidebar-links-Foto-automatisch",
+      "09-Sidebar-rechts-Foto-automatisch"
+    ],
+    "rendering": "LibreOfficeDev 26.8alpha0; not Microsoft Word",
+    "runtime": "Actual React App in a temporary Vite CSR harness with frozen repository dependencies and Chrome 156. Liberation Sans substitutes for Arial."
+  }
+}

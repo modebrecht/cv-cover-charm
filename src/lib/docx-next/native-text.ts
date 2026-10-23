@@ -46,9 +46,11 @@ export function paragraph(
   }
   if (value.list && !numberingId) throw new Error(`DOCX Next unplanned list ${value.id}`);
   const style = value.role === "heading" ? "Heading1" : value.role === "title" ? "Title" : "Normal";
-  const rule = value.ruleColor
-    ? `<w:pBdr><w:bottom w:val="single" w:sz="4" w:space="2" w:color="${xml(value.ruleColor)}"/></w:pBdr>`
-    : "";
+  const rule = value.bottomRule
+    ? `<w:pBdr><w:bottom w:val="single" w:sz="${Math.max(2, Math.round((value.bottomRule.heightMm * 72 * 8) / 25.4))}" w:space="${Math.round((value.bottomRule.gapMm * 72) / 25.4)}" w:color="${xml(value.bottomRule.color)}"/></w:pBdr>`
+    : value.ruleColor
+      ? `<w:pBdr><w:bottom w:val="single" w:sz="4" w:space="2" w:color="${xml(value.ruleColor)}"/></w:pBdr>`
+      : "";
   const frameProperties = frame
     ? `<w:framePr w:w="${twips(frame.widthMm)}" w:hRule="auto" w:hSpace="0" w:vSpace="0" w:wrap="${frame.wrapMode === "none" ? "none" : "around"}" w:vAnchor="page" w:hAnchor="page" w:x="${twips(frame.xMm)}" w:y="${twips(frame.yMm)}"/>`
     : "";

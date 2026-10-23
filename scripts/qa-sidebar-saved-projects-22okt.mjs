@@ -9,6 +9,9 @@ const {chromium}=require(process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES+'/playwr
 const output=path.resolve(process.argv[2]);
 const base=process.env.DOCX_NEXT_APP_URL;
 const projectDirectory=path.resolve(process.env.DOCX_NEXT_SIDEBAR_PROJECTS??'tests/fixtures/docx-next/sidebar-saved-app-22okt');
+// Diagnostic packets must use the repository's synthetic asset. Never pull a
+// person's photo from another project or from Library for visual QA.
+const safePhotos=new Set(await Promise.all(['05-left-clear-portrait.json','06-right-clear-photo.json'].map(async file=>JSON.parse(await readFile(path.join('tests/fixtures/docx-next/sidebar-saved-app-22okt',file),'utf8')).cv.data.person.foto)));
 const composition=process.env.DOCX_NEXT_SIDEBAR_COMPOSITION??'shared-body-stories';
 assert(['body-stories','shared-body-stories'].includes(composition));
 const query='?docx-next-design-qa=1';
@@ -23,10 +26,13 @@ try {
   {id:'04-Sidebar-rechts-Foto-x25',side:'right',file:'04-right-photo-x25.json'},
   {id:'05-Sidebar-links-Foto-frei',side:'left',file:'05-left-clear-portrait.json'},
   {id:'06-Sidebar-rechts-Foto-frei',side:'right',file:'06-right-clear-photo.json'},
-  {id:'07-Sidebar-rechts-Eigene-Typografie',side:'right',file:'07-right-user-typography.json'}
+  {id:'07-Sidebar-rechts-Eigene-Typografie',side:'right',file:'07-right-user-typography.json'},
+  {id:'08-Sidebar-links-Foto-automatisch',side:'left',file:'08-left-automatic-photo.json'},
+  {id:'09-Sidebar-rechts-Foto-automatisch',side:'right',file:'09-right-automatic-photo.json'}
  ].filter(item=>!process.env.DOCX_NEXT_SIDEBAR_CASE||process.env.DOCX_NEXT_SIDEBAR_CASE.split(',').some(prefix=>item.id.startsWith(prefix)))) {
   const folder=path.join(output,item.id);await mkdir(folder,{recursive:true});
   const input=JSON.parse(await readFile(path.join(projectDirectory,item.file),'utf8'));
+  assert(!input.cover.data.foto&&(!input.cv.data.person.foto||safePhotos.has(input.cv.data.person.foto)),'QA accepts only checked synthetic photos; private project images are forbidden');
   if(input.cv.data.person.foto)await writeFile(path.join(folder,'Originalfoto.png'),Buffer.from(input.cv.data.person.foto.split(',')[1],'base64'));
   const context=await browser.newContext({viewport:{width:Number(process.env.DOCX_NEXT_VIEWPORT_WIDTH??1440),height:1200},deviceScaleFactor:Number(process.env.DOCX_NEXT_DEVICE_SCALE_FACTOR??1)});
   try {
@@ -56,6 +62,7 @@ try {
    await(await savedDownload).saveAs(path.join(folder,'Projekt.json'));
    const saved=JSON.parse(await readFile(path.join(folder,'Projekt.json'),'utf8'));
    assert.equal(saved.cv.portableState.layout,'modern');assert.equal(saved.cv.portableState.infoPosition,item.side==='right'?'mirrored':'standard');
+   assert.deepEqual(saved.cv.portableState.photoPlacement,input.cv.portableState.photoPlacement,'Opening the editor changed saved picture placement');
    if(process.env.DOCX_NEXT_OUTER_ZOOM)await page.evaluate(zoom=>{document.body.style.zoom=zoom;},process.env.DOCX_NEXT_OUTER_ZOOM);
    const before=await page.evaluate(()=>JSON.stringify(Object.fromEntries(Object.keys(localStorage).sort().map(k=>[k,localStorage.getItem(k)]))));
    const generated=await page.evaluate(async(composition)=>{
@@ -74,7 +81,10 @@ try {
      (await import('/src/lib/docx-next/cover-badges.browser.ts')).captureCoverBadgeAdvances(blocks,'modern',snapshot.cover.colors,metrics);
      const {buildDossierDocModel}=await import('/src/lib/docx-next/build-model.ts');
      const sidebarMetrics=composition==='shared-body-stories'?await(await import('/src/lib/docx-next-sidebar-metrics.browser.tsx')).captureCvSidebarTextMetrics(snapshot,fonts.profile):undefined;
-     const model=buildDossierDocModel(snapshot,{coverComposition:'authored-frames',coverTextMetrics:metrics,coverBadgePlacement:'body',cvSidebarComposition:composition,cvSidebarTextMetrics:sidebarMetrics,chromeFirstPageIdentity:'distinct-stories'});
+     const sharedOptions={coverComposition:'authored-frames',coverTextMetrics:metrics,coverBadgePlacement:'body',compactChromeComposition:'source-bands',cvSidebarComposition:composition,chromeFirstPageIdentity:'distinct-stories'};
+     const model=buildDossierDocModel(snapshot,{...sharedOptions,cvSidebarTextMetrics:sidebarMetrics});
+     if(model.letter.footer.length||!model.letter.headerShapes?.some(s=>s.id==='letter.compact.footer'))throw Error('Diagnostic lost the current shared letter chrome');
+     if(sidebarMetrics&&model.cv.headerShapes?.some(s=>s.id.startsWith('cv.compact.')))throw Error('Duplicate CV band owners');
      if(model.issues.length)throw Error('Unrelated model gates: '+JSON.stringify(model.issues));
      let picture;
      if(snapshot.cv.data.person.foto){
@@ -87,7 +97,7 @@ try {
      }
      const blob=await(await import('/src/lib/docx-next/renderer.ts')).renderDossierDocx(model,{allowUnacceptedModelIssues:true,onDecorationFailure:(id,error)=>{throw Error('Decoration failed '+id,{cause:error});}});
      const bytes=Array.from(new Uint8Array(await blob.arrayBuffer()));
-     const adjacent=buildDossierDocModel(snapshot,{coverComposition:'authored-frames',coverTextMetrics:metrics,coverBadgePlacement:'body',cvSidebarComposition:composition,chromeFirstPageIdentity:'distinct-stories'});
+     const adjacent=buildDossierDocModel(snapshot,sharedOptions);
      if(JSON.stringify(model.cover)!==JSON.stringify(adjacent.cover)||JSON.stringify(model.letter)!==JSON.stringify(adjacent.letter))throw Error('Sidebar typography altered cover or letter');
      return {snapshot,metrics,sidebarMetrics,adjacentPartsUnchanged:true,model,picture,guardError,bytes};
     } finally {fonts.dispose();}

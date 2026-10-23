@@ -41,6 +41,8 @@ export type Paragraph = {
   /** Marker formatting is independent of the editable list item's text. */
   listMarkerStyle?: Pick<TextStyle, "color" | "bold">;
   ruleColor?: string;
+  /** Full-width native paragraph border following a wrapped Sidebar heading. */
+  bottomRule?: { color: string; heightMm: number; gapMm: number };
   indentMm?: number;
   rightIndentMm?: number;
   /** Unaccepted native run-level control placement; the whole paragraph remains intact. */
