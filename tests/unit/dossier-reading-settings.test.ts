@@ -138,26 +138,33 @@ test("a captured Letter margin is detached from later live changes", () => {
   expect(buildDossierDocModel(snapshot)).toEqual(before);
 });
 
-test("capturing shared settings cannot change the frozen Sidebar CV model", () => {
+test("Sidebar capture preserves authored continuation intent without inventing the frozen default", () => {
   const previous = Object.getOwnPropertyDescriptor(globalThis, "window");
   try {
     for (const layout of ["modern", "executive"]) {
-      Object.defineProperty(globalThis, "window", {
-        configurable: true,
-        value: {
-          localStorage: {
-            getItem: (key: string) => (key === "lebenslauf:layout:v1" ? layout : null),
+      for (const authored of [undefined, 0, 10, 45]) {
+        Object.defineProperty(globalThis, "window", {
+          configurable: true,
+          value: {
+            localStorage: {
+              getItem: (key: string) =>
+                key === "lebenslauf:layout:v1"
+                  ? layout
+                  : key === "lebenslauf:continuation-top-margin:v1" && authored !== undefined
+                    ? String(authored)
+                    : null,
+            },
           },
-        },
-      });
-      const input = briefFixture();
-      const snapshot = captureDossierDocxNextSnapshot(input.cover, input.letter, input.cv);
-      expect(snapshot.settings.flowPageTops?.cv).toBeUndefined();
-      expect(snapshot.settings.cvContinuationTopMarginMm).toBe(10);
-      expect(snapshot.cv.design.sectionTitleFontSizePx).toBeUndefined();
-      const legacy = structuredClone(snapshot);
-      delete legacy.settings.flowPageTops;
-      expect(buildDossierDocModel(snapshot).cv).toEqual(buildDossierDocModel(legacy).cv);
+        });
+        const input = briefFixture();
+        const snapshot = captureDossierDocxNextSnapshot(input.cover, input.letter, input.cv);
+        expect(snapshot.settings.flowPageTops?.cv).toBeUndefined();
+        expect(snapshot.settings.cvContinuationTopMarginMm).toBe(authored);
+        expect(snapshot.cv.design.sectionTitleFontSizePx).toBeUndefined();
+        const legacy = structuredClone(snapshot);
+        delete legacy.settings.flowPageTops;
+        expect(buildDossierDocModel(snapshot).cv).toEqual(buildDossierDocModel(legacy).cv);
+      }
     }
   } finally {
     if (previous) Object.defineProperty(globalThis, "window", previous);

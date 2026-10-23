@@ -64,6 +64,9 @@ export function cvSidebarGeometry(
     bottom: column ? Math.max(12, frame.footMm + 8) : 12,
     left: column ? 10 : 8,
   };
+  // Both stories inherit the shared header clearance and saved page top.
+  // Preserve any deeper template inset; the rail's paint remains full height.
+  padding.top = Math.max(padding.top, logicalMain.top - topMm);
   // Web keeps physical inner padding when the complete rail changes sides.
   const main =
     side === "right"

@@ -65,43 +65,10 @@ try {
    assert.deepEqual(saved.cv.portableState.photoPlacement,input.cv.portableState.photoPlacement,'Opening the editor changed saved picture placement');
    if(process.env.DOCX_NEXT_OUTER_ZOOM)await page.evaluate(zoom=>{document.body.style.zoom=zoom;},process.env.DOCX_NEXT_OUTER_ZOOM);
    const before=await page.evaluate(()=>JSON.stringify(Object.fromEntries(Object.keys(localStorage).sort().map(k=>[k,localStorage.getItem(k)]))));
-   const generated=await page.evaluate(async(composition)=>{
-    const p=await import('/src/lib/dossier-project.ts'),documents=await import('/src/lib/dossier-pdf-document.ts');
-    const {captureDossierDocxNextSnapshot}=await import('/src/lib/docx-next/snapshot.ts');
-    const snapshot=captureDossierDocxNextSnapshot(documents.coverPdfDocumentFromSaved(p.readStoredDossierPart(p.COVER_STORAGE_KEY)),documents.letterPdfDocumentFromSaved(p.readStoredDossierPart(p.LETTER_STORAGE_KEY)),documents.cvPdfDocumentFromSaved(p.readStoredDossierPart(p.CV_STORAGE_KEY)));
-    let guardError;try{await(await import('/src/lib/design-docx-next-export.ts')).createSavedDesignDocxNext();}catch(e){guardError=e.message;}
-    if(!guardError?.includes('Standard-CV-Layout'))throw Error('Existing classic-only guard did not reject Sidebar: '+guardError);
-    const {normalizedCoverLabels}=await import('/src/components/cover/presentation.ts');
-    const {captureCoverTextMetrics}=await import('/src/components/cover/resolve.ts');
-    const {prepareBriefFontProfile}=await import('/src/lib/docx-next/brief-fonts.browser.ts');
-    const blocks=normalizedCoverLabels(snapshot.cover.blocks,snapshot.cover.data.labelKontakt);
-    const fonts=await prepareBriefFontProfile(blocks.filter(b=>!b.style.hidden&&b.kind==='text'),[400,600,650,700,800]);
-    try {
-     const metrics=captureCoverTextMetrics(blocks,snapshot.cover.fontScale,fonts.profile);
-     (await import('/src/lib/docx-next/cover-badges.browser.ts')).captureCoverBadgeAdvances(blocks,'modern',snapshot.cover.colors,metrics);
-     const {buildDossierDocModel}=await import('/src/lib/docx-next/build-model.ts');
-     const sidebarMetrics=composition==='shared-body-stories'?await(await import('/src/lib/docx-next-sidebar-metrics.browser.tsx')).captureCvSidebarTextMetrics(snapshot,fonts.profile):undefined;
-     const sharedOptions={coverComposition:'authored-frames',coverTextMetrics:metrics,coverBadgePlacement:'body',compactChromeComposition:'source-bands',cvSidebarComposition:composition,chromeFirstPageIdentity:'distinct-stories'};
-     const model=buildDossierDocModel(snapshot,{...sharedOptions,cvSidebarTextMetrics:sidebarMetrics});
-     if(model.letter.footer.length||!model.letter.headerShapes?.some(s=>s.id==='letter.compact.footer'))throw Error('Diagnostic lost the current shared letter chrome');
-     if(sidebarMetrics&&model.cv.headerShapes?.some(s=>s.id.startsWith('cv.compact.')))throw Error('Duplicate CV band owners');
-     if(model.issues.length)throw Error('Unrelated model gates: '+JSON.stringify(model.issues));
-     let picture;
-     if(snapshot.cv.data.person.foto){
-      const source=snapshot.cv.data.person.foto;
-      const normalized=await(await import('/src/lib/docx-next/images.ts')).normalizeBrowserImage(source);
-      const digest=async bytes=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))).map(n=>n.toString(16).padStart(2,'0')).join('');
-      const pixels=async src=>{const im=new Image();im.src=src;await im.decode();const c=document.createElement('canvas');c.width=im.naturalWidth;c.height=im.naturalHeight;const ctx=c.getContext('2d',{colorSpace:'srgb'});ctx.drawImage(im,0,0);return {width:c.width,height:c.height,rgbaSha256:await digest(ctx.getImageData(0,0,c.width,c.height).data)};};
-      const data='data:image/png;base64,'+btoa(Array.from(normalized.bytes,c=>String.fromCharCode(c)).join(''));
-      picture={source:await pixels(source),normalized:await pixels(data),normalizedFileSha256:await digest(normalized.bytes)};
-     }
-     const blob=await(await import('/src/lib/docx-next/renderer.ts')).renderDossierDocx(model,{allowUnacceptedModelIssues:true,onDecorationFailure:(id,error)=>{throw Error('Decoration failed '+id,{cause:error});}});
-     const bytes=Array.from(new Uint8Array(await blob.arrayBuffer()));
-     const adjacent=buildDossierDocModel(snapshot,sharedOptions);
-     if(JSON.stringify(model.cover)!==JSON.stringify(adjacent.cover)||JSON.stringify(model.letter)!==JSON.stringify(adjacent.letter))throw Error('Sidebar typography altered cover or letter');
-     return {snapshot,metrics,sidebarMetrics,adjacentPartsUnchanged:true,model,picture,guardError,bytes};
-    } finally {fonts.dispose();}
-   },composition);
+   const generated=await page.evaluate(async({composition,photo})=>{
+    const {captureSharedSidebarQaCandidate}=await import('/scripts/qa-sidebar-candidate.browser.ts');
+    return captureSharedSidebarQaCandidate(composition,photo);
+   },{composition,photo:input.cv.data.person.foto??null});
    assert.equal(generated.snapshot.settings.cvLayout,'sidebar');assert.equal(generated.snapshot.settings.sidebarSide,item.side);
    const download=page.waitForEvent('download');
    await page.evaluate(async({bytes,name})=>{const {downloadBlob}=await import('/src/lib/download.ts');downloadBlob(new Blob([new Uint8Array(bytes)],{type:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'}),name);},{bytes:generated.bytes,name:item.id+'.docx'});

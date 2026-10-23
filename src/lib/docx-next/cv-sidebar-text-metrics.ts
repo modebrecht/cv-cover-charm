@@ -5,6 +5,8 @@ export type CvSidebarTextMetrics = {
   version: 3;
   sourceKey: string;
   profile: string;
+  /** Contact paint/text stays owned by the existing measured-header composition. */
+  contactHeaders?: true;
   fields: Record<
     string,
     {
@@ -51,6 +53,7 @@ export type CvSidebarTextMetrics = {
       readingPlane: { color: string; opacity: number };
     }
   >;
+  /** Header paint is also sampled for contact mode; measured headers own its output. */
   compactChrome: {
     header: {
       heightMm: number;

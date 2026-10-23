@@ -2,7 +2,7 @@
 
 **Korrektur 23. Oktober:** Das ausgelieferte Word-Paket ist als Abnahmepaket zurückgezogen. [Konkrete Ursachen, Korrekturen und Grenzen der Foto-/Branch-Prüfung](docx-next-sidebar-feedback-23okt.md). Keine weitere Benutzerprüfung dieses Pakets. Die folgenden Checkpoints bewahren ihren historischen Umfang.
 
-Aktueller Reparaturschritt: [Sidebar-Flächen und Aufzählungen](docx-next-sidebar-surfaces-22okt.md), auf Basis `5c79a08bd4a637431908eb132739b005fddb2718`. Effektive Tönung, Motiv-/Leseflächen-Schichtung und native Markerfarbe sind in vier gespeicherten App-Projekten gegen PDF/Writer geprüft. Fotos, Crops, kurze Einträge, Titelblatt und Anschreiben behalten ihren gesicherten Stand. 113 gezielte Tests und fokussiertes striktes TypeScript bestehen. Vertikaler Textfluss und Word Save/Reopen bleiben offen; der folgende Text bewahrt die früheren Checkpoints.
+Aktueller Reparaturschritt: [Gemeinsame Sidebar-Kopfabstände und Kontaktköpfe](docx-next-sidebar-contact-chrome-23okt.md), auf Basis `4521a8451dd04273a9788cba5dc3feefda134d48`. Automatisches Foto und Haupttext berücksichtigen denselben Kopfabstand; der Export erfindet keinen historischen 10-mm-Folgerand mehr. Acht App-Fälle, drei gespeicherte Regressionen, zwei bytegleiche Anzeigeskalierungsvergleiche, 528 Tests und fokussiertes striktes TypeScript sind geprüft. Sieben Writer-Render bestehen, ein voller Kontakt-Langkopf hängt beim Import und ist ausdrücklich offen. Normale Sidebar-Sperre und NO-GO bleiben erhalten; Word Save/Reopen und die wiederholten Header-Feldkennungen sind nicht abgenommen. Der folgende Text bewahrt die früheren Checkpoints.
 
 22. Oktober 2026. Branch: `fix/docx-next-shared-integration-22okt`. Basis: aktueller Fidelity-Kopf `7be40063856d1376acb60e917fe85599a6033dad`.
 

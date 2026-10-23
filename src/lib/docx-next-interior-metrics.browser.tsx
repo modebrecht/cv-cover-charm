@@ -1,4 +1,5 @@
 import { cvReadingFlowZoom } from "./docx-next-cv-zoom.browser";
+import { isolateMeasurementZoom } from "./docx-next-measurement-host.browser";
 import { createRoot } from "react-dom/client";
 import { flushSync } from "react-dom";
 import { DossierHeaderFooterChrome } from "@/components/dossier/DossierHeaderFooterChrome";
@@ -11,6 +12,7 @@ import {
 } from "./docx-next/interior-metrics";
 import type { DossierAppSnapshot } from "./docx-next/source";
 import { compositeTextColor } from "./docx-next/colors";
+import { effectiveDossierFont } from "./dossier-theme";
 import { CvCanvas, resolveCvChromeContact } from "@/components/cv/CvCanvas";
 import { dossierContactFromCv } from "./dossier-contact-data";
 import { resolveCvRubricOptions } from "@/components/cv/citrus-rubric";
@@ -34,6 +36,7 @@ const rgb = (value: string) => {
 export async function captureInteriorTextMetrics(
   source: DossierAppSnapshot,
   profile: string,
+  capture: { headersOnly?: true } = {},
 ): Promise<InteriorTextMetrics> {
   if (
     source.cover.template !== "modern" ||
@@ -93,6 +96,7 @@ export async function captureInteriorTextMetrics(
       host.style.cssText =
         "position:fixed;left:-20000px;top:0;width:210mm;height:297mm;pointer-events:none;opacity:1";
       document.body.append(host);
+      isolateMeasurementZoom(host);
       const root = createRoot(host);
       try {
         flushSync(() =>
@@ -100,7 +104,22 @@ export async function captureInteriorTextMetrics(
             <div
               data-dossier-document={scope}
               data-cv-template="modern"
-              style={{ "--dossier-font": FONT_STACKS.sans } as React.CSSProperties}
+              style={{
+                "--dossier-font":
+                  scope === "cv"
+                    ? FONT_STACKS.sans
+                    : effectiveDossierFont(
+                        source.letter.design.template,
+                        source.letter.design.fontOverride,
+                      ),
+                fontFamily:
+                  scope === "cv"
+                    ? FONT_STACKS.sans
+                    : effectiveDossierFont(
+                        source.letter.design.template,
+                        source.letter.design.fontOverride,
+                      ),
+              } as React.CSSProperties}
             >
               <div
                 data-cv-page={pageIndex}
@@ -343,11 +362,13 @@ export async function captureInteriorTextMetrics(
     }
     result.headers[scope] = { first: measurements[0], continuation: measurements[1] };
   }
+  if (capture.headersOnly) return result;
   {
     const hasPills = resolveCvRubricOptions(source.cv.design).pill;
     const host = document.createElement("div");
     host.style.cssText = "position:fixed;left:-20000px;top:0;width:210mm;pointer-events:none";
     document.body.append(host);
+    isolateMeasurementZoom(host);
     const root = createRoot(host);
     try {
       flushSync(() =>

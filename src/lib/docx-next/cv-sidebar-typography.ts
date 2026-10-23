@@ -37,6 +37,7 @@ export function applyCvSidebarTypography(
     source,
     source.settings.chrome ?? DEFAULT_DOSSIER_CHROME_STATE,
   ).cv;
+  const contactHeaders = metrics.contactHeaders === true;
   const rubric = resolveCvRubricOptions(source.cv.design);
   if (rubric.pill || rubric.horizontalMm !== 0 || rubric.contentIndentMm !== 0)
     throw Error(
@@ -44,16 +45,18 @@ export function applyCvSidebarTypography(
     );
   if (
     source.cv.design.font !== "sans" ||
-    resolved.options.headerMode !== "compact" ||
-    effectiveDossierHeaderModeForOptions(resolved.options, 1) !== "compact" ||
+    resolved.options.headerMode !== (contactHeaders ? "contact" : "compact") ||
+    effectiveDossierHeaderModeForOptions(resolved.options, 1) !== resolved.options.headerMode ||
     resolved.options.footerMode !== "compact" ||
     Object.values(resolved.content).some((v) => v?.trim()) ||
     resolved.options.headerGradientColor ||
     resolved.options.footerGradientColor
   )
     throw Error(
-      "DOCX Next: Sidebar-Schriftwerte unterstützen nur leere kompakte Sans-Zonen.",
+      "DOCX Next: Sidebar-Schriftwerte benötigen Sans, kompakte oder gemessene Kontaktköpfe und einen leeren kompakten Fuss.",
     );
+  if (contactHeaders && (!part.firstHeader || !part.headerFrames?.length))
+    throw Error("DOCX Next: Sidebar-Kontaktkopf benötigt frische native Header-Besitzer.");
   const body = part.blocks.find(
     (b) => b.kind === "table" && b.id === "cv.sidebar",
   ) as TableBlock;
@@ -493,7 +496,7 @@ export function applyCvSidebarTypography(
         paintLayer: 10,
       };
     }
-    return { ...shape, paintLayer: 10 };
+    return { ...shape, paintLayer: shape.id.startsWith("cv.measured.") ? 40 : 10 };
   });
   for (const [pageIndex, repeat] of (
     ["first", "continuation"] as const
@@ -549,7 +552,7 @@ export function applyCvSidebarTypography(
     (a) => !["cv.artwork.header", "cv.artwork.footer"].includes(a.id),
   );
   const paint = [] as DocumentPart["artwork"];
-  for (const zone of ["header", "footer"] as const) {
+  for (const zone of contactHeaders ? [] : (["header", "footer"] as const)) {
     const b = bands[zone];
     if (
       ![b.heightMm, b.borderMm].every(Number.isFinite) ||

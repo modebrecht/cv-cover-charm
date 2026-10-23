@@ -13,6 +13,7 @@ import {
   effectiveDossierHeaderModeForOptions,
 } from "./dossier-chrome";
 import { cvDocumentZoom } from "./docx-next-cv-zoom.browser";
+import { isolateMeasurementZoom } from "./docx-next-measurement-host.browser";
 import { briefFontTextSupported } from "./docx-next/brief-fonts.browser";
 import { interiorMetricsKey } from "./docx-next/interior-metrics";
 import { compositeTextColor } from "./docx-next/colors";
@@ -99,6 +100,7 @@ export async function captureCvSidebarTextMetrics(
     source.settings.chrome ?? DEFAULT_DOSSIER_CHROME_STATE,
   );
   const { options, contact, content } = resolved.cv;
+  const contactHeaders = options.headerMode === "contact";
   const rubric = resolveCvRubricOptions(source.cv.design);
   if (rubric.pill || rubric.horizontalMm !== 0 || rubric.contentIndentMm !== 0)
     throw Error(
@@ -110,20 +112,21 @@ export async function captureCvSidebarTextMetrics(
       "DOCX Next: Sidebar-Schriftprüfung unterstützt linksbündigen Text und Blocksatz.",
     );
   if (
-    options.headerMode !== "compact" ||
-    effectiveDossierHeaderModeForOptions(options, 1) !== "compact" ||
+    !["compact", "contact"].includes(options.headerMode) ||
+    effectiveDossierHeaderModeForOptions(options, 1) !== options.headerMode ||
     options.footerMode !== "compact" ||
     Object.values(content).some((v) => v?.trim()) ||
     options.headerGradientColor ||
     options.footerGradientColor
   )
     throw Error(
-      "DOCX Next: Sidebar-Schriftprüfung benötigt leere kompakte Kopf-/Fusszonen ohne Verlauf.",
+      "DOCX Next: Sidebar-Schriftprüfung benötigt kompakte oder gemessene Kontaktköpfe und einen leeren kompakten Fuss ohne Verlauf.",
     );
   const result: CvSidebarTextMetrics = {
     version: 3,
     sourceKey: interiorMetricsKey(source),
     profile,
+    ...(contactHeaders ? { contactHeaders: true as const } : {}),
     fields: {},
     headings: {},
     entries: {},
@@ -138,21 +141,7 @@ export async function captureCvSidebarTextMetrics(
   // Keep the isolated measuring surface at physical scale 1. Browser previews
   // can zoom ancestors; Chrome otherwise quantizes used border/track widths at
   // that display scale. Authored zoom inside the CV page remains untouched.
-  let outerZoom = 1;
-  for (
-    let node: HTMLElement | null = host.parentElement;
-    node;
-    node = node.parentElement
-  ) {
-    const cssZoom = getComputedStyle(node).zoom;
-    const own = cssZoom === "normal" ? 1 : Number(cssZoom);
-    if (!Number.isFinite(own) || own <= 0) {
-      host.remove();
-      throw Error("DOCX Next: Ungültiger Vorschau-Zoom.");
-    }
-    outerZoom *= own;
-  }
-  host.style.zoom = String(1 / outerZoom);
+  isolateMeasurementZoom(host);
   const root = createRoot(host);
   try {
     flushSync(() =>
@@ -404,7 +393,9 @@ export async function captureCvSidebarTextMetrics(
     for (const zone of ["header", "footer"] as const) {
       const el = host.querySelector<HTMLElement>(
         zone === "header"
-          ? "[data-cv-page] [data-dossier-compact-header]"
+          ? contactHeaders
+            ? "[data-cv-page] [data-dossier-contact-header-background]"
+            : "[data-cv-page] [data-dossier-compact-header]"
           : "[data-cv-page] [data-dossier-footer='compact']",
       );
       if (!el) throw Error("DOCX Next: Kompakte Sidebar-Zone fehlt.");

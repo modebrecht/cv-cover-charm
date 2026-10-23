@@ -258,6 +258,15 @@ export function buildDossierDocModel(
   )
     throw Error("DOCX Next source compact chrome requires a declared authored candidate");
   const sourceCompactBands = options.compactChromeComposition === "source-bands";
+  if (
+    capturedSidebarMetrics?.contactHeaders &&
+    (sourceCompactBands ||
+      !capturedInteriorMetrics?.headers.cv ||
+      !capturedInteriorMetrics.headers.letter)
+  )
+    throw Error(
+      "DOCX Next: Sidebar-Kontaktkopf benötigt frische Header-Messwerte für CV und Anschreiben.",
+    );
   if (String(letter.design.template) !== template.id || String(cv.design.template) !== template.id)
     throw new Error("DOCX Next requires matching dossier templates.");
   const fonts = createFontResolver(settings.fontPolicy);

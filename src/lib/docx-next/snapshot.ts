@@ -9,7 +9,6 @@ import {
   getCvLayoutChoiceForTemplate,
   getCvInfoPosition,
   getCvSectionGapMm,
-  getCvContinuationTopMarginMm,
   getCvContinuationTopMarginOverrideMm,
 } from "@/components/cv/layout";
 import { getCvPlacements } from "@/components/cv/placement";
@@ -51,9 +50,9 @@ export function captureDossierDocxNextSnapshot(
   const chrome = getDossierChromeState();
   const margins = getDossierPageMarginsState();
   const resolvedChrome = resolveDossierChromeSnapshot(source, chrome);
-  const continuationTopMarginMm = frozenCvReadingLayout(layoutChoice)
-    ? getCvContinuationTopMarginMm(cv.design.template, layoutChoice)
-    : getCvContinuationTopMarginOverrideMm();
+  // Capture authored intent as the live Canvas does. A missing override must
+  // not become the frozen Sidebar's old 10-mm default during export.
+  const continuationTopMarginMm = getCvContinuationTopMarginOverrideMm();
   const letterTops = [0, 1].map(
     (pageIndex) =>
       letterPageGeometry(letter.data, letter.design, {
