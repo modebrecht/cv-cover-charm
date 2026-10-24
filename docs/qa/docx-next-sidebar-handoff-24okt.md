@@ -1,0 +1,192 @@
+# Handoff CV Cover Charm Sidebar und gemeinsamer DOCX Stand
+
+Stand: 24. Oktober 2026. Diese Übergabe ersetzt die Fortsetzungsanweisungen älterer Berichte. Repository: `modebrecht/cv-cover-charm`.
+
+## Sofortiger Einstieg für den nächsten Agenten
+
+Arbeite ausschliesslich auf **`fix/docx-next-shared-integration-22okt`**. Lies `AGENTS.md`, diese Übergabe und den [aktuellen Word-Rücklauf](docx-next-sidebar-word-return-24okt.md). Prüfe den aktuellen Remote-Kopf, bevor du Änderungen veröffentlichst.
+
+Der letzte geprüfte inhaltliche Checkpoint vor dieser reinen Übergabe ist **`0d45ac822612a03cabe88efc1167345ce417c096`**. Der letzte Produktcode-Commit ist **`024515de9febd6ace85a29f2e3252f7a667a7ff6`**; spätere Commits ergänzen Browser/PDF-Evidenz und den Word-Befund.
+
+**Nächste konkrete Arbeit: die eingeschränkte Word-Fotobearbeitung gezielt verbessern.** Der Benutzer kann das automatische CV-Foto nicht frei verschieben; Textumbruch/Wrap Text ist ausgegraut. Originalbild und Crop sind in seinem Word-Rücklauf erhalten. Deshalb keine neue Rundungsjagd, keine pauschale Neuerstellung der Sidebar und keine Wiederholung bereits bestandener Tests ohne neue Fragestellung.
+
+Es läuft bei Übergabe kein beauftragter Hintergrund-Worker und keine weitere Export-/Implementierungsrunde. Es gibt keinen ungesicherten lokalen Produktpatch.
+
+## Branches und warum sie existieren
+
+Die Tabelle trennt den aktuellen Lieferbranch von früheren Teilständen dieses Arbeitsstrangs und der übernommenen Fidelity-Basis. Frühere Teilfixes nicht nochmals blind mergen.
+
+| Branch | Geprüfter Kopf vor der Übergabe | Zweck und Rolle |
+| --- | --- | --- |
+| `audit/docx-next-sidebar-root-cause-21okt` | `c5882dd1ea2449b45477a7842488355a5ee40903` | Ursprünglicher Analyseauftrag: Geometrie, Bilder, Controls und Architekturentscheid trennen. Ein Dokument auf Basis von remote dev; keine Produktänderung. |
+| `fix/docx-next-sidebar-photo-ownership-21okt` | `375075f7539de3ab588f0b9a0381ec920fde134c` | Früher Reparaturstand für Bildbesitz und angrenzende Referenz-/Spaltenprobleme. Sein letzter Commit korrigiert die Referenz-Ausrichtung. Historischer Teilstand, im weiteren Sidebar-Strang berücksichtigt. |
+| `fix/docx-next-sidebar-word-layout-21okt` | `f73c776e2eca6b9b0d858ee2ab997230259797ac` | Konsolidierter früher Sidebar-Stand: Fotos, Referenzen und halbe Textbreite; dokumentierter Integrationstransport. Quelle der späteren Integration. |
+| `fix/docx-next-word-pagination-21okt` | `e1f11779db1da78c08651b22b552cf6f54006e5d` | CV-Pagination und Fusszeilenreserve, insbesondere die 02/12-Problematik; gemeinsamer Transport gegen Fidelity. Quelle der späteren Integration. |
+| `fix/docx-next-cv-document-scale-22okt` | `727124a7071aa6184b2e0976c6801a59ff5f14d0` | Verlorene lokale Skalierungskorrektur rekonstruiert und neu geprüft. Übernimmt die dokumenteigene CSS-Skalierung in physische DOCX-Einheiten. Kein browserabhängiges Dokument. |
+| `fix/docx-next-cv-page-surface-22okt` | `f256e1817bad54767f58cfba6c958d21a2151441` | Durchgehende Sidebar-Farbfläche über die Papierhöhe statt nur bis zum Ende des Tabelleninhalts. Neuer abgegrenzter Fix mit Vergleichsnachweisen. |
+| **`fix/docx-next-shared-integration-22okt`** | **`0d45ac822612a03cabe88efc1167345ce417c096`**, danach diese Übergabe | Einziger aktueller Schreib-/Lieferbranch. Verbindet die Teilstände mit aktuellen Fidelity-Primitiven; enthält alle anschliessenden Reparaturen und Befunde vom 22.–24. Oktober. |
+| `fix/docx-next-shared-fidelity-18okt` | `7be40063856d1376acb60e917fe85599a6033dad` | Übernommene Arbeit des vorherigen Fidelity-Strangs, nicht als neuer eigener Fix ausgeben. Ist bereits Vorfahr der Integration. Keine erneute Übernahme erforderlich. |
+
+Die alten Gate-Branches `fix/docx-next-sidebar-gate-13okt` und `fix/docx-next-sidebar-geometry-gate-15okt` wurden als historische Evidenz gelesen, nicht verändert. Die Prüfung weiterer Branches ist kein eigener Lieferbranch und keine neue Implementierung.
+
+Nicht verändert: `dev` bei `8901a830a792d75e9e792345c5180827218b4e1e`, `main` bei `44d7eb950b4fe972d6e890a72b6d3256ce365bc9`, sowie `render`. Der in der Benutzermemory ältere allgemeine dev-Workflow ersetzt nicht die ausdrücklich vereinbarte isolierte Integration.
+
+## Was durch diese Arbeit neu hinzugekommen ist
+
+### Integration und wiederhergestellte Teilfixes
+
+- **`90216cb`**: aktuelle Fidelity-Basis mit Sidebar, Pagination, Seitenfläche und dokumenteigener CV-Skalierung kombiniert. Neuere Cover-/Avatar-Primitiven wurden nicht durch alte komplette Builder-/Renderer-Dateien überschrieben.
+- **`037bceb`**: vollständige normalisierte Bildauflösung statt unbeabsichtigter Begrenzung der langen Bildseite auf 1600 Pixel.
+- **`aaaf88a`, `7743e8c`**: gemeinsam erfasste Sidebar-Geometrie, Seitenbildbesitz und tatsächliche App-Text-/Chrome-Stile verbunden.
+- **`5c79a08`**: freie Bilder ausserhalb der Zellen verankert und kurze Einträge zusammengehalten.
+- **`6bf49a9`**: Sidebar-Flächen und native Markerformatierung abgeglichen.
+- **`4a66ef8`**: gemeinsamer Sidebar-Textfluss und begrenzte Rubrikanfänge repariert.
+- **`fc0cafa`**: dedizierten DOCX-Testbefehl um fehlende Tests ergänzt und den rein lesenden Word-Vergleich vorbereitet. Keine nachträgliche Word-Abnahme dieses alten Kandidaten behaupten.
+
+Diese frühen Integrationsschritte sind in [Integration](docx-next-shared-integration-22okt.md), [Skalierung](docx-next-cv-document-scale-recovery-22okt.md) und [Seitenfläche](docx-next-sidebar-page-surface-22okt.md) mit ihren jeweiligen Grenzen dokumentiert.
+
+### Korrekturen aus dem Benutzerfeedback
+
+- **`4521a845`**: gespeichertes automatisches Foto bleibt automatisch. Das blosse Öffnen der Fotosteuerung schaltet nicht mehr ungefragt auf freie Koordinaten um.
+- Derselbe Commit: lange Sidebar-Rubriken bekommen eine volle Linie unter dem mehrzeiligen Titel. Die kurze Linie bei Hobbys & Interessen war ein realer Quellzustand; der Fix ist allgemein und nicht an diesen Wortlaut gebunden.
+- Das ungeeignete alte Abnahmepaket vom 22. Oktober wurde zurückgezogen. Seine freie Diagnoseposition `yMm: 210` war nicht das gewünschte automatische Foto. Kein weiteres Testen dieses alten Pakets.
+- **`faacd28a`**: gemeinsame Kopfabstände und tatsächlich gespeicherte Folgeseitenränder berücksichtigt; Messung neutralisiert äusseren Vorschauzoom und behält die Dokument-Skalierung.
+- **`9e7579c`**: gemessene Header-Textframes auf `wrapMode: none` gesetzt. Damit endet der reproduzierte Writer-Hänger beim langen CV mit vollem Folgeseitenkontaktkopf.
+- **`024515de`**: drei veraltete Referenz-Sichtbarkeitsbedingungen in `CvCanvasBase.tsx` korrigiert. Separate E-Mail-/Zusatzfelder werden in beiden Sidebar-Orientierungen auch ohne altes Sammelfeld `kontakt` angezeigt.
+
+Details: [Feedback](docx-next-sidebar-feedback-23okt.md), [Kopfabstände](docx-next-sidebar-contact-chrome-23okt.md), [Header-Textfluss](docx-next-sidebar-contact-flow-24okt.md), [Referenzfelder](docx-next-sidebar-reference-fields-24okt.md).
+
+### Neue Diagnosewerkzeuge und belastbare Befunde
+
+- **`22f1485`, `fdae776`**: Word-Vergleich ordnet Control-Vorkommen nach Abschnitt/Story zu; Originalbilder müssen im konkret zugeordneten Besitzer liegen. Gleiche Texte oder irgendwo im Paket liegende Originale retten einen verlorenen aktiven Besitzer nicht.
+- **`b1b10e3`, `6ec6e56`, `04fd7f5`, `b33fb94`**: unabhängiger Architektur-/Quell-/Bild-Audit, begrenzte XML-Prüfung, genaue Runtime-Zuordnung und dokumentierte Grenze des stabilen Writer-Versuchs. `w:doNotAutoCompressPictures` existiert bereits.
+- **`ab18310`**: vier frische echte Browser-/normale PDF-Exportfälle verifizieren alle 32 getesteten Referenzfelder. Halbe Textbreite fügt keinen Rechtsversatz hinzu.
+- **`0d45ac8`**: tatsächlichen aktuellen Word-Rücklauf samt beiden PDFs ausgewertet. Originalbild, Crop und semantischer Bildbesitz bestehen in diesem Fall; freie Word-Fotopositionierung ist die verbleibende konkrete Einschränkung.
+
+## Was jetzt tatsächlich belegt ist
+
+### Aktueller Word-Rücklauf
+
+Der Benutzer hat am 24. Oktober geliefert:
+
+- `01-CV-Sidebar-Word.docx`
+- `01-CV-Sidebar-Word.pdf`
+- `01-App-Referenz.pdf`
+
+Die letzte App-PDF stimmt bytegenau mit dem Entscheidungspaket überein. Original-DOCX SHA-256: `5e469d60181f8405fffcb43a57f92377fc6b0daa414d71ac22cd33ed3a6a25e0`. Rücklauf-DOCX: `9a076520ada6e528def700594b8a010dcb5713b6b69687d53999312931491a33`.
+
+- Beide PDFs: vier Dossierseiten, CV auf Seiten 3 und 4. Alle acht Seitenbilder wurden visuell verglichen. Benutzer sagt Test okay.
+- Titelblatt nahe am Original; volle Sidebar-Höhe und CV-Seitenaufteilung erhalten.
+- Restabweichungen: vertikale Abstände/Umbrüche im Brief, zweizeilige Referenz-Funktionsbeschreibung in Word.
+- **1920 × 2880 Original-PNG bytegenau erhalten**, einschliesslich aller Originalpixel und der Reserve ausserhalb des Crops.
+- Crop numerisch unverändert; Word entfernt nur ausdrücklich geschriebene Nullattribute. Rahmen weiterhin 28 × 35 mm mit gleicher runder Rechteckgeometrie.
+- **145/145 Control-Vorkommen** aus **134 verschiedenen kanonischen Tags** korrekt zugeordnet; Verschachtelung und Abschnitt/Story-Rollen erhalten.
+- **144/145 Feldinhalte exakt gleich**. Nur die Berufsbezeichnung auf dem Titelblatt wurde von `Informatiker/in EFZ` zu `Informatiker/innen EFZ` geändert. Beide PDFs haben die erste Form. Zeitpunkt/Grund nicht erraten.
+- Eine gespeicherte DOCX ist kein Nachweis zweier separat aufbewahrter unveränderter Save1/Save2-Stände. Die Erstquelle hat keine persistierten Absatz-IDs; native Objektidentität wird nicht behauptet.
+- Keine Dokumentenschutz- oder Foto-Bewegungssperre. Das Foto steckt als `wp:inline` in einem typisierten `w:picture`-SDT in der CV-Tabellenzelle. Der Benutzer meldet, dass Verschieben und Wrap Text nicht verfügbar sind.
+
+**Aktueller Fall positiv für Bild-/Crop-/Besitzererhalt und vom Benutzer visuell akzeptiert. Keine pauschale Word- oder Sidebar-Gesamtfreigabe.** Die frühere Aussage, zum aktuellen Kandidaten gebe es gar keine Word-Rückgabe, gilt nicht mehr.
+
+### Prüfungen und ihre Reichweite
+
+| Checkpoint | Tatsächlich ausgeführte Prüfung | Grenze |
+| --- | --- | --- |
+| Seitenfläche 22. Oktober | 64 gezielte Tests; drei Quellen vorher/nachher, 24 Renderseiten; 12 benachbarte Cover-/Briefseiten pixelidentisch | Historischer abgegrenzter Stand, keine Gesamt-Word-Abnahme |
+| Integration 22. Oktober | 206 gezielte Tests; vorhandener Preview-Build für `90216cb` verifiziert | Kein heutiger vollständiger SSR-/App-Test |
+| Header-Fix `9e7579c` | 528 DOCX-Tests, 9234 Erwartungen; acht frische App-Fälle und 26 Writer-Seiten | Nicht nach jedem späteren reinen Dokumentations-Commit wiederholt |
+| Vergleichsleser | 51 Gegenproben bestanden | XML-/Besitzerprüfung ist keine visuelle Word-Abnahme |
+| XML-Quellen | Vier Quellen × 17 Teile = 68 begrenzte XML-Prüfungen | Kein vollständiges Open XML SDK-/OPC-/MC-Zertifikat |
+| Referenzfix `024515de` | Original 6/12, Fix 12/12 Rendererfälle; 30 gezielte Tests / 340 Erwartungen; fokussiertes striktes TypeScript | Nicht die vollständige Repository-Suite |
+| Browser/PDF `ab18310` | Vier Fälle, alle 32 Felder sichtbar; echte DossierPdfCanvas und normaler PDF-Exporter; Preflight ohne Übersteuerung bestanden | Öffentliches synthetisches Modern-Projekt, keine Foto-/Word-Abnahme |
+| Word-Rücklauf `0d45ac8` | Tatsächlicher Benutzer-Rücklauf, Originalvergleich, vier PDF-Paare visuell geprüft | Links/automatisch; keine globale Mirror-/Free-Photo-/Editierabnahme |
+
+Nicht Tests aus verschiedenen Quellständen addieren oder als aktuelle Vollabnahme ausgeben.
+
+## Wichtigste technische Entscheidung für die Fortsetzung
+
+Der bisher gravierende Bildverlust wurde am aktuellen Quellstand in **LibreOfficeDev 26.8 alpha0** beobachtet. Word reproduziert ihn im gelieferten Fall nicht. Das ist eine andere Evidenzlage als vor dem Rücklauf.
+
+Die vier historischen gespiegelten Writer-Geometriefälle driften etwa einen Twip pro Speichern. Das bleibt ein fehlgeschlagenes exaktes Gate, hat aber gegenüber realer Bildbearbeitung geringe nachgewiesene visuelle Bedeutung. Keine Ausgleichsoffsets einbauen.
+
+Die aktuelle Fotokonstruktion hält den Originalinhalt und den Besitzer zusammen, beschränkt aber das Word-Bearbeiten. Zwei Lösungen unterscheiden:
+
+1. Bestehender `nativePictureFrameRun`: verschiebbarer äusserer Rahmen mit typisiertem Inline-Foto innen. Bewegung/Umfluss gelten für den Rahmen; das innere Foto bekommt dadurch nicht automatisch das gewöhnliche Wrap-Text-Menü. Noch kein nachgewiesener Word-Fix.
+2. Gewöhnliches natives Bild mit einem Besitzer, der Inline-/Floating-Verankerung unterstützt. Das ist der gezielte Kandidat für normale Word-Bildbedienung. Kanonische Zuordnung muss ausdrücklich erhalten und geprüft werden. Nicht einfach das typisierte Besitzer-Gate löschen oder allein einen Objektnamen als bestandene Zuordnung erklären.
+
+**Empfehlung:** einen kleinen isolierten Prototyp für Option 2 entwickeln. Getesteten Bildinhalt, Crop, anfängliche Optik und übrige Sidebar-Komposition erhalten. Die automatische App-Fotoposition nicht wieder ungefragt in freie Koordinaten umwandeln. Ein neuer Besitzervertrag ist eine bewusste, separat geprüfte Architekturänderung, keine stillschweigende Abschwächung eines bisherigen Tests.
+
+Relevante Dateien:
+
+- `src/lib/docx-next/cv-sidebar-shared.ts`
+- `src/lib/docx-next/native-picture-frame.ts`
+- `src/lib/docx-next/renderer.ts`
+- `src/lib/docx-next/model.ts`
+- `scripts/docx-next-word-acceptance-23okt.py`
+- `scripts/docx-next-sidebar-word-layout-qa.py`
+- `scripts/docx-next-word-acceptance-test.py`
+
+## Nächste Schritte in Reihenfolge
+
+1. Remote-Stand und `AGENTS.md` lesen. Als Kontrollquelle das bereits geprüfte aktuelle synthetische Word-DOCX verwenden; keine privaten Fotos, alten Projekte oder zurückgezogenen QA-Zustände.
+2. Bestehende Foto-/SDT-Verträge lesen und den kleinsten neuen Besitzer-/Verankerungsaufbau entwerfen. Zunächst intern und isoliert; normaler Sidebar-Guard bleibt geschlossen.
+3. Prototyp implementieren und gezielt prüfen: Originalbytes/Pixel, numerischer Crop, Rahmen und Startposition, kanonische Besitzerzuordnung, angrenzender Text, automatische/freie Zustände und Links-/Rechtsverhalten. Nur betroffene Tests plus erforderliche Checks; keine unnötige 22er-Neuausführung.
+4. Einen konkreten vollständigen Kandidaten intern rendern und mit dem App-PDF vergleichen. Gewöhnliches Bild muss auswählbar sein; Verschieben, Wrap Text, Crop-Reset und Ersetzen sind ausdrückliche Word-Anforderungen, keine Folgerungen allein aus gültigem XML.
+5. Den fertig vorbereiteten Kandidaten mit seinen verbleibenden Word-Anforderungen übergeben. Keine Zwischenrunde beim Benutzer nur wegen unvollständiger interner Vorbereitung. Interaktive Word-Bearbeitung nicht als bestanden ausgeben, solange sie nicht belegt ist.
+6. Brief-Abstände und Referenz-Funktionsumbruch als getrennte Fidelity-Themen behandeln. Den bereits korrigierten Referenz-Feldverlust nicht mit diesem verbleibenden Zeilenumbruch verwechseln.
+7. Erst nach den relevanten Bild-/Bearbeitungs-/Mirror-/Speichergates über Sidebar-Gesamtfreigabe und anschliessend einen ausdrücklich autorisierten Merge entscheiden.
+
+Bis dahin: **NO-GO für die allgemeine Sidebar-Produktionsfreigabe.** Das nimmt dem akzeptierten linken Word-Test seinen positiven Befund nicht.
+
+## Lokaler und veröffentlichter Stand
+
+Vor dieser Übergabe wurde der vollständige Remote-Baum bei `0d45ac8` erneut gelesen. Die fünf noch vorhandenen Repository-Textkopien wurden über die tatsächlichen Git-Blob-Hashes geprüft:
+
+| Lokale Kopie | Veröffentlicht unter | Ergebnis |
+| --- | --- | --- |
+| `docx-next-sidebar-word-layout-qa.py` | `scripts/docx-next-sidebar-word-layout-qa.py` | Bytegleich |
+| `docx-next-word-acceptance-23okt.py` | `scripts/docx-next-word-acceptance-23okt.py` | Bytegleich |
+| `docx-next-word-acceptance-test.py` | `scripts/docx-next-word-acceptance-test.py` | Bytegleich |
+| `report.md` | `docs/qa/docx-next-sidebar-word-return-24okt.md` | Bytegleich |
+| `word-return-summary.json` | `docs/qa/docx-next-sidebar-word-return-24okt-evidence.json` | Bytegleich |
+
+Damit ist kein noch vorhandener lokaler Repository-Code-/Berichtsstand uncommitted. Die frühere grössere Prüfprojektion wurde durch automatisierte Workspace-Wartung entfernt; sie ist kein noch prüfbares Git-Checkout. Es wird deshalb kein erfundener sauberer `git status` behauptet. Veröffentlichte Quellen, Reproduktionsskripte und Nachweise sind auf GitHub gesichert.
+
+Verbleibende lokale Uploads, PDFs/DOCX, PNG-Vergleiche, Extraktionstexte, roher Vergleichs-JSON und Library-Transferhelfer sind Eingaben/temporäre Diagnoseausgaben. **Diese nicht in Git committen.** Insbesondere wurden die gelieferten Benutzerdateien und ihre Dokument-Metadaten nicht veröffentlicht.
+
+Die Eingabedateien und das Entscheidungspaket sind als Benutzer-Anhänge gespeichert. Bei Workspace-Wartung daraus wiederherstellen; keine privaten Daten aus alten Projekten verwenden.
+
+## Grenzen und Arbeiten, die nicht neu gestartet werden
+
+- Kein Merge, Deployment, CI-Dispatch oder DOCX-Next-Produktionsschalter.
+- Keine Änderungen an dev, main, render, historischen Gate- oder aktiven anderen Fidelity-Branches.
+- Keine Office-Binärpatches oder weitere Engine-Instrumentierung.
+- Der lokale stabile Writer-Versuch scheiterte bereits am Gesundheitstest; null abgeschlossene Sidebar-Roundtrips und kein stabiler Fidelity-Befund. Nicht erneut eine lange Runtime-Reparatur beginnen.
+- Keine erneute breite Branch-/Datenschutzprüfung in diesem Chat. Andere Audit-Chats/Automationen C2410, W2410 und P1/P2 sind getrennte Aufträge und dürfen nicht verändert werden.
+- Der frühere begrenzte Foto-Abgleich ist kein vollständiger Git-History-Datenschutz-Audit.
+- Alte historische Abschnitte in `next-handoff.md` nicht als aktuelle Fortsetzungsaufträge behandeln.
+- Kein erfundener Fortschritt oder behauptetes Stundenbudget. Wiederholung bereits bestandener Tests braucht eine neue Änderung, ein Scheitern oder eine konkrete offene Frage.
+
+## Reproduktion und Quellen
+
+Die lokalen Pfade früherer Browser-/Office-Runtimes sind nach Wartung nicht verlässlich. Nutze veröffentlichte Quellen und erforderlichenfalls die gespeicherten Originalanhänge. Kein Checkout oder Direktnetzwerk ist für die reine Übernahme erforderlich; verbundene GitHub-Lese-/Schreibwerkzeuge genügen.
+
+Reiner vorhandener DOCX-Vergleich:
+
+```sh
+python scripts/docx-next-word-acceptance-23okt.py Quelle.docx Word-Ruecklauf.docx Befund.json
+```
+
+Der Reader startet kein Office und sein `wordAcceptance: UNVERIFIED` bleibt absichtlich unverändert. Den separaten Benutzer-/PDF-Befund nicht mit diesem maschinellen Status verwechseln.
+
+Priorisierte Berichte:
+
+1. [Aktueller Word-Rücklauf](docx-next-sidebar-word-return-24okt.md)
+2. [Referenzfix und Browser/PDF-Nachweis](docx-next-sidebar-reference-fields-24okt.md)
+3. [Feedback-Korrekturen und zurückgezogenes Paket](docx-next-sidebar-feedback-23okt.md)
+4. [Header-Textfluss-Fix](docx-next-sidebar-contact-flow-24okt.md)
+5. [Quellstruktur und Bildrollen](docx-next-sidebar-source-structure-24okt.md)
+6. [Unabhängiger Architektur-Audit 24. Oktober](docx-next-sidebar-root-cause-audit-24okt.md)
+7. [Begrenzter stabiler Runtime-Versuch](docx-next-sidebar-stable-runtime-24okt.md)
+8. [Integrationsherkunft](docx-next-shared-integration-22okt.md)
+
+Die Dokumente bewahren historische Zwischenstände. Für den heutigen Word-Befund hat der aktuelle Rücklauf Vorrang.
