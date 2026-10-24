@@ -1,3 +1,9 @@
+## Current Sidebar decision — 2026-10-24
+
+**The current integration-branch checkpoint and next action are in [the current handoff](next-handoff.md#current-sidebar-handoff--2026-10-24).** Product `9e7579c`, verified branch `04fd7f58`: automatic photo mode, long-heading rules and continuation contact headers have bounded current fixes. Sidebar production remains **NO-GO**, current Microsoft Word Save/Reopen remains **UNVERIFIED**. The [24 October audit](../qa/docx-next-sidebar-root-cause-audit-24okt.md) and [source/image evidence](../qa/docx-next-sidebar-source-structure-24okt.md) supersede the older next-step statements below; they do not erase their failures. Do not restart engine patching or treat the old 31-fixture success as acceptance of current photos/controls.
+
+---
+
 # Native Sidebar checkpoint — Brief first
 
 **Current development:** [Native photo zones and the picture/span restriction](sidebar-photo-zone-status.md) extend [native semantic row flow](sidebar-row-flow-status.md), which supersedes the old one-row candidate below. Brief now has 31 verified render/save-reopen fixtures / 253 dossier pages, including supported free-photo zones, running headers and differing first/continuation margins. A native picture before a later spanning track is explicitly rejected after a visual counterexample. Continuous rails span semantic main rows; atomic rail entries use native paired rows. Microsoft Word acceptance remains pending and is separate from continued development, as explicitly instructed by the user. The earlier failure evidence below remains historical and reproducible.

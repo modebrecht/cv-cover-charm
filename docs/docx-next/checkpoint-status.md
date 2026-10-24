@@ -1,3 +1,9 @@
+## Current integration-branch checkpoint — 2026-10-24
+
+**Continue from [the current Sidebar handoff](next-handoff.md#current-sidebar-handoff--2026-10-24).** Branch `fix/docx-next-shared-integration-22okt` is verified at `04fd7f58`; product code is `9e7579c`. The current [independent audit](../qa/docx-next-sidebar-root-cause-audit-24okt.md) and [source/image report](../qa/docx-next-sidebar-source-structure-24okt.md) distinguish fixed App/export-source defects from Writer Save/Reopen failures and unverified Word behavior. Sidebar remains **NO-GO**, its normal guard stays closed, and no production switch, merge, deployment or new Word acceptance is implied. Entries below retain their historical provenance and are not the current work queue.
+
+---
+
 ## Current template integration — 2026-10-09
 
 Integrated all 15 template commits in chronological order onto freshly fetched `dev` (`dfe0fae533c70a44c7b0d011a201bc801c63a900`), using `docx-next/integrate-39-templates`. **39/39 active templates configured; 0/39 Microsoft Word accepted.** The template migration/configuration gate is complete. This count supersedes older historical counts below. Current Sidebar/native investigation and all strict diagnostic baselines remain authoritative and unchanged. Native container identity, long-opening behavior, cropped-ellipse/original-pixel portability, Microsoft Word open/edit/save/reopen, approved visual snapshots and production DOCX switch remain blocked. Composite Page Paint is opt-in nonsemantic decoration only; semantic text/photos stay native. Legacy/V2, PDF and portable JSON architecture remain unchanged.
