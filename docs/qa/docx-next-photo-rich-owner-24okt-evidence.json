@@ -1,0 +1,131 @@
+{
+  "trial": "INLINE_RICH_TEXT_ORDINARY_INLINE_PICTURE",
+  "sourceSha256": "5e469d60181f8405fffcb43a57f92377fc6b0daa414d71ac22cd33ed3a6a25e0",
+  "candidateSha256": "fc27352221c123d5cf33402a2c4141e452ec709e20d4bfacf920dff7abc6d4dd",
+  "changedPackageParts": [
+    "word/document.xml"
+  ],
+  "controlOccurrences": 145,
+  "canonicalTags": 134,
+  "pictureSha256": "f8ba8f4b000d9aa4f18a5f476a630615232905810aec92c69d4e128cbfdec69c",
+  "pixels": {
+    "width": 1920,
+    "height": 2880,
+    "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6"
+  },
+  "cropFractions": [
+    "0",
+    "0.08333",
+    "0",
+    "0.08333"
+  ],
+  "canonicalStoryRoles": [
+    "section:3/body"
+  ],
+  "initialDrawingAndParagraphUnchanged": true,
+  "inverseTransformRestoresAllDocumentMarkup": true,
+  "normalSidebarGuard": "CLOSED",
+  "wordAcceptance": "UNVERIFIED",
+  "legacyTypedOwnerGate": "EXPECTED_FAIL_NO_GATE_WEAKENED",
+  "pendingWordActions": [
+    "select",
+    "wrap-text",
+    "drag",
+    "crop-reset",
+    "replace",
+    "save-reopen-owner-preservation"
+  ],
+  "baseCommit": "b03be5da3adb6a340f8477dbf90b2583c104fe56",
+  "sourceOnlyVerifier": "EXACT_TRANSFORM_AND_INVERSE",
+  "tests": {
+    "passed": 13,
+    "failed": 0
+  },
+  "renderer": {
+    "engine": "Bundled LibreOffice headless via documents render_docx.py",
+    "size": [
+      1414,
+      2000
+    ],
+    "candidatePages": 4,
+    "controlPages": 4,
+    "inlineTrial": [
+      {
+        "page": "page-1",
+        "pixelIdentical": true,
+        "diffBoundingBox": null
+      },
+      {
+        "page": "page-2",
+        "pixelIdentical": true,
+        "diffBoundingBox": null
+      },
+      {
+        "page": "page-3",
+        "pixelIdentical": true,
+        "diffBoundingBox": null
+      },
+      {
+        "page": "page-4",
+        "pixelIdentical": true,
+        "diffBoundingBox": null
+      }
+    ],
+    "blockTrial": [
+      {
+        "page": "page-1",
+        "controlSize": [
+          1414,
+          2000
+        ],
+        "candidateSize": [
+          1414,
+          2000
+        ],
+        "pixelIdentical": true
+      },
+      {
+        "page": "page-2",
+        "controlSize": [
+          1414,
+          2000
+        ],
+        "candidateSize": [
+          1414,
+          2000
+        ],
+        "pixelIdentical": true
+      },
+      {
+        "page": "page-3",
+        "controlSize": [
+          1414,
+          2000
+        ],
+        "candidateSize": [
+          1414,
+          2000
+        ],
+        "pixelIdentical": false
+      },
+      {
+        "page": "page-4",
+        "controlSize": [
+          1414,
+          2000
+        ],
+        "candidateSize": [
+          1414,
+          2000
+        ],
+        "pixelIdentical": true
+      }
+    ],
+    "blockTrialSidebarTextDriftPt": -2.25,
+    "blockTrialSidebarTextDriftMm": -0.79375,
+    "visualReview": "All four candidate pages inspected; differing block-trial CV page reviewed against control",
+    "appPdfComparison": "Existing accepted source context retained; no new Word/App pixel-equality claim"
+  },
+  "rejectedBlockTrialSha256": "b68d6c6ce0d974e9889d0a3e6fb036a2cf58eaa00a1c2f910bd0cc3e81c15ef6",
+  "scope": "Only current automatic left synthetic decision packet; no right/free generalization"
+}
