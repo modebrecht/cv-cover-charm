@@ -78,8 +78,16 @@ def relationships(archive, story):
     path = posixpath.join(posixpath.dirname(story), '_rels', posixpath.basename(story)+'.rels')
     if path not in archive.namelist():
         return {}
-    rows = list(ET.fromstring(archive.read(path)))
+    root = ET.fromstring(archive.read(path))
+    package_ns = 'http://schemas.openxmlformats.org/package/2006/relationships'
+    if root.tag != '{'+package_ns+'}Relationships':
+        raise ValueError('Unsupported relationships namespace in '+story)
+    rows = [row for row in root if isinstance(row.tag, str)]
+    if any(row.tag != '{'+package_ns+'}Relationship' for row in rows):
+        raise ValueError('Unsupported relationship element in '+story)
     ids = [row.get('Id') for row in rows]
+    if any(not rid for rid in ids):
+        raise ValueError('Missing relationship ID in '+story)
     if len(ids) != len(set(ids)):
         raise ValueError('Ambiguous duplicate relationships in '+story)
     return {row.get('Id'): row for row in rows}
@@ -104,7 +112,9 @@ def story_roles(archive):
         seen_references = set()
         for scope in ['header', 'footer']:
             for ref in section.findall('w:'+scope+'Reference', NS):
-                kind = ref.get('{'+W+'}type', 'default')
+                kind = ref.get('{'+W+'}type')
+                if kind not in ['default', 'first', 'even']:
+                    raise ValueError('Unsupported '+scope+' reference role')
                 if (scope, kind) in seen_references:
                     raise ValueError('Ambiguous duplicate '+scope+' reference in one section')
                 seen_references.add((scope, kind))
@@ -205,10 +215,11 @@ def inspect(path):
             app = ET.fromstring(archive.read('docProps/app.xml'))
             software = next((e.text for e in app.iter() if ET.QName(e).localname == 'Application'), None)
         for name in sorted(archive.namelist()):
-            if name.startswith('word/media/'):
-                asset = pixels(archive.read(name))
-                if asset:
-                    assets.append(asset)
+            # OPC does not require image parts to live under word/media.
+            # Package presence remains separate from resolved active pictures.
+            asset = pixels(archive.read(name))
+            if asset:
+                assets.append(asset)
             if not name.startswith('word/') or not name.endswith('.xml'):
                 continue
             root = _inventory.effective_tree(archive.read(name))
@@ -220,6 +231,7 @@ def inspect(path):
             revisions += len(root.xpath('.//w:ins | .//w:del | .//w:moveFrom | .//w:moveTo', namespaces=NS))
             all_text.extend(root.xpath('.//w:t/text()', namespaces=NS))
             rels = relationships(archive, name)
+            control_records = {}
             native_ids.extend(root.xpath('.//w:sdtPr/w:id/@w:val', namespaces=NS))
             for control in root.findall('.//w:sdt', NS):
                 tag = control.find('w:sdtPr/w:tag', NS)
@@ -246,18 +258,30 @@ def inspect(path):
                     'ancestors': [ET.QName(p).localname for p in control.iterancestors()],
                     'paragraphIds': [p.get('{'+W14+'}paraId') for p in paragraphs_for(control)],
                 })
+                # Addresses identify the owner already found in this package;
+                # compare_instances decides cross-package matches without order.
+                control_records[control] = {'field': field, 'occurrence': len(fields[field])}
             for image in root.xpath('.//a:blip[@r:embed] | .//v:fill[@r:id] | .//v:imagedata[@r:id]', namespaces=NS):
                 rid = image.get('{'+R+'}embed') or image.get('{'+R+'}id')
                 rel = rels.get(rid)
                 target = None if rel is None else rel.get('Target')
                 embedded = None
-                if target and rel.get('TargetMode') != 'External':
+                relationship_status = ('MISSING_RELATIONSHIP' if rel is None else
+                                       'WRONG_RELATIONSHIP_TYPE' if rel.get('Type') != R+'/image' else
+                                       'EXTERNAL_RELATIONSHIP' if rel.get('TargetMode') == 'External' else
+                                       'MISSING_PACKAGE_PART')
+                if target and relationship_status == 'MISSING_PACKAGE_PART':
                     target = target.lstrip('/') if target.startswith('/') else posixpath.normpath(posixpath.join(posixpath.dirname(name), target))
                     if target in archive.namelist():
                         embedded = archive.read(target)
+                        relationship_status = 'RESOLVED_EMBEDDED_IMAGE'
                 owners = image.xpath('ancestor::w:sdt/w:sdtPr/w:tag/@w:val', namespaces=NS)
+                owner_occurrences = [control_records[control] for control in image.iterancestors()
+                                     if control in control_records]
                 crop, fractions, container, fill = crop_encoding(image)
                 pictures.append({'owners': owners, 'representation': 'DrawingML' if image.tag.endswith('}blip') else 'VML',
+                                 'ownerOccurrences': owner_occurrences,
+                                 'imageRelationshipStatus': relationship_status,
                                  'story': name, 'storyRoles': locations(image), 'container': container,
                                  'pixels': None if embedded is None else pixels(embedded),
                                  'embeddedFileSha256': None if embedded is None else digest(embedded),
@@ -303,6 +327,8 @@ def compare_instances(before, after):
             rows.append({'field': field, 'sourceOccurrence': ordinal + 1,
                          'sourceStory': source['story'], 'sourceStoryRoles': source['storyRoles'],
                          'matchStatus': status, 'matchingBasis': basis,
+                         'savedOccurrence': None if match is None else next(
+                             index for index, row in enumerate(saved, 1) if row is match),
                          'savedStory': None if match is None else match['story'],
                          'savedStoryRoles': [] if match is None else match['storyRoles'],
                          'fieldTokensUnchanged': bool(match and source['text'] == match['text']),
@@ -339,15 +365,34 @@ def compare(source, saved):
                      'persistedParagraphIdComparison': paragraph_identity})
     photo = 'cv.person.photo'
     source_photos = [p for p in before['pictures'] if photo in p['owners']]
-    saved_photos = [p for p in after['pictures'] if photo in p['owners']]
     picture_report = []
     for a in source_photos:
-        owned = saved_photos[0] if len(saved_photos) == 1 and len(after['fields'].get(photo, [])) == 1 else None
+        owner_refs = [owner for owner in a['ownerOccurrences'] if owner['field'] == photo]
+        instance = next((row for row in instances if row['field'] == photo and
+                         len(owner_refs) == 1 and row['sourceOccurrence'] == owner_refs[0]['occurrence']), None)
+        role_counts = {phase: sum(bool(set(a['storyRoles']).intersection(control['storyRoles']))
+                                 for control in package['fields'].get(photo, []))
+                       for phase, package in [('source', before), ('saved', after)]}
+        matched = (instance is not None and instance['matchStatus'] == 'MATCHED' and
+                   role_counts['source'] == role_counts['saved'])
+        saved_occurrence = instance['savedOccurrence'] if matched else None
+        saved_control = after['fields'][photo][saved_occurrence-1] if matched else None
+        saved_photos = [picture for picture in after['pictures'] if matched and any(
+            owner['field'] == photo and owner['occurrence'] == saved_occurrence
+            for owner in picture['ownerOccurrences'])]
+        owned = saved_photos[0] if len(saved_photos) == 1 else None
         same_pixels = lambda p: a['pixels'] is not None and p == a['pixels']
         picture_report.append({'source': a, 'savedOwnedPictureCount': len(saved_photos),
-                               'typedPictureControlSurvives': bool(len(after['fields'].get(photo, [])) == 1 and after['fields'][photo][0]['typedPicture']),
+                               'canonicalOwnerMatchStatus': ('AMBIGUOUS_CHANGED_OWNER_COUNT' if instance and
+                                   instance['matchStatus'] == 'MATCHED' and not matched else
+                                   instance['matchStatus'] if instance else 'AMBIGUOUS_SOURCE_PICTURE_OWNER'),
+                               'canonicalOwnerRoleCounts': role_counts,
+                               'savedPhotoControlOccurrence': saved_occurrence,
+                               'typedPictureControlSurvives': bool(saved_control and saved_control['typedPicture']),
                                'originalPixelsInsideCanonicalControl': bool(owned and same_pixels(owned['pixels'])),
-                               'originalPixelsInAnyActivePicture': any(same_pixels(p['pixels']) for p in after['pictures']),
+                               'originalPixelsInAnyActivePicture': any(p['storyRoles'] and
+                                   p['imageRelationshipStatus'] == 'RESOLVED_EMBEDDED_IMAGE' and
+                                   same_pixels(p['pixels']) for p in after['pictures']),
                                'originalPixelsSomewhereInPackage': any(same_pixels(p) for p in after['assets']),
                                'exactCropMarkupUnchanged': bool(owned and a['representation'] == owned['representation'] and a['cropMarkup'] == owned['cropMarkup'] and a['fillRectMarkup'] == owned['fillRectMarkup']),
                                'encodedCropFractionsUnchanged': None if not owned or a['cropFractions'] is None or owned['cropFractions'] is None else a['cropFractions'] == owned['cropFractions'],
@@ -369,6 +414,8 @@ def compare(source, saved):
                        'Global canonical-tag uniqueness is separate from repeated source occurrences in different stories.',
                        'Section/reference roles tolerate part renames but do not prove native object identity or edit synchronization.',
                        'Unreferenced stories and same-tag copies within a role cannot pass by text-value or ordinal matching.',
+                       'Picture ownership follows the matched control occurrence; orphan stories and non-image relationships cannot rescue active original pixels.',
+                       'Package presence scans directly decodable image parts at any OPC path; nested containers or arbitrary base64 XML payloads are not a forensic archive search.',
                        'VML fill viewports without explicit crop fractions are not numerically comparable.',
                        'Changed structure or numeric SDT IDs alone do not establish lost canonical ownership.',
                        'Exact crop markup is separate from visible crop equivalence.',
@@ -392,7 +439,8 @@ def main():
     print(json.dumps({'sourceFields': report['sourceFields'], 'savedFields': report['savedFields'],
                       'changedOrAmbiguousSourceOccurrences': sum(r['matchStatus'] != 'MATCHED' or not r['fieldTokensUnchanged'] or not r['canonicalStoryRolesUnchanged'] or not r['controlNestingUnchanged'] for r in report['instances']),
                       'globallyRepeatedCanonicalTags': report['duplicates'],
-                      'photosWithoutTypedCanonicalOwner': sum(not p['typedPictureControlSurvives'] or p['savedOwnedPictureCount'] != 1 for p in report['pictures']),
+                      'photosWithoutTypedCanonicalOwner': sum(not p['typedPictureControlSurvives'] or p['savedOwnedPictureCount'] != 1 or
+                          not p['canonicalOwnerStoryRolesUnchanged'] for p in report['pictures']),
                       'photosWithChangedOrMissingPixels': sum(not p['originalPixelsInsideCanonicalControl'] for p in report['pictures']),
                       'photosWithChangedCropMarkup': sum(not p['exactCropMarkupUnchanged'] for p in report['pictures']),
                       'wordAcceptance': 'UNVERIFIED'}))

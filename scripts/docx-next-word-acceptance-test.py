@@ -4,6 +4,7 @@ import importlib.util
 import io
 import tempfile
 import unittest
+import copy
 from pathlib import Path
 from zipfile import ZipFile
 
@@ -95,6 +96,21 @@ def vml_photo(root, fill=False, **attrs):
     for key, value in attrs.items():
         image.set(key, value)
     return root
+
+
+def picture_story(root=None):
+    """A separate picture owner, never a copy of main-story ownership."""
+    root = document() if root is None else root
+    photo = root.findall('.//w:sdt', qa.NS)[1]
+    header = ET.fromstring(f'<w:hdr xmlns:w="{W}"/>')
+    ET.SubElement(header, '{'+W+'}p').append(photo)
+    return header
+
+
+def picture_relationships(path, story, kind='image'):
+    name = 'word/_rels/'+story.rsplit('/', 1)[-1]+'.rels'
+    with ZipFile(path, 'a') as archive:
+        archive.writestr(name, f'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="{R}/{kind}" Target="media/photo.png"/></Relationships>')
 
 
 class AcceptanceTests(unittest.TestCase):
@@ -191,6 +207,32 @@ class AcceptanceTests(unittest.TestCase):
         self.assertFalse(r['originalPixelsInsideCanonicalControl'])
         self.assertFalse(r['originalPixelsInAnyActivePicture'])
         self.assertTrue(r['originalPixelsSomewhereInPackage'])
+
+    def test_unused_original_outside_word_media_is_only_package_presence(self):
+        package(self.source, document())
+        package(self.saved, document(), png('orange'))
+        with ZipFile(self.saved, 'a') as z:
+            z.writestr('customXml/original-picture.bin', png('teal'))
+        row = qa.compare(self.source, self.saved)['pictures'][0]
+        self.assertFalse(row['originalPixelsInsideCanonicalControl'])
+        self.assertFalse(row['originalPixelsInAnyActivePicture'])
+        self.assertTrue(row['originalPixelsSomewhereInPackage'])
+
+    def test_active_original_outside_word_media_is_also_package_presence(self):
+        package(self.source, document())
+        package(self.saved, document(), png('orange'))
+        with ZipFile(self.saved) as z:
+            entries = {name: z.read(name) for name in z.namelist()}
+        key = 'word/_rels/document.xml.rels'
+        entries[key] = entries[key].replace(b'media/photo.png', b'../other-media/photo.png')
+        entries['other-media/photo.png'] = png('teal')
+        with ZipFile(self.saved, 'w') as z:
+            for name, data in entries.items():
+                z.writestr(name, data)
+        row = qa.compare(self.source, self.saved)['pictures'][0]
+        self.assertTrue(row['originalPixelsInsideCanonicalControl'])
+        self.assertTrue(row['originalPixelsInAnyActivePicture'])
+        self.assertTrue(row['originalPixelsSomewhereInPackage'])
 
     def test_crop_change_does_not_claim_original_pixels_were_lost(self):
         b = document()
@@ -330,6 +372,188 @@ class AcceptanceTests(unittest.TestCase):
         row = next(r for r in result['instances'] if r['field'] == field)
         self.assertEqual(row['matchStatus'], 'MISSING_OR_MOVED_TO_ANOTHER_STORY_ROLE')
         self.assertTrue(row['sourceTextPresentSomewhereInSavedXml'])
+
+    def test_orphan_picture_cannot_rescue_a_lost_body_picture_owner(self):
+        a, b = document(), document()
+        photo = b.findall('.//w:sdt', qa.NS)[1]
+        photo.getparent().remove(photo)
+        package(self.source, a)
+        package(self.saved, b, stories={'word/orphan.xml': picture_story()})
+        picture_relationships(self.saved, 'word/orphan.xml')
+        result = qa.compare(self.source, self.saved)['pictures'][0]
+        self.assertFalse(result['typedPictureControlSurvives'])
+        self.assertFalse(result['originalPixelsInsideCanonicalControl'])
+        self.assertFalse(result['originalPixelsInAnyActivePicture'])
+        self.assertTrue(result['originalPixelsSomewhereInPackage'])
+        self.assertEqual(result['savedOwnedPictureCount'], 0)
+
+    def test_an_orphan_photo_copy_does_not_make_a_healthy_body_owner_ambiguous(self):
+        package(self.source, document())
+        package(self.saved, document(), stories={'word/orphan.xml': picture_story()})
+        picture_relationships(self.saved, 'word/orphan.xml')
+        result = qa.compare(self.source, self.saved)['pictures'][0]
+        self.assertTrue(result['typedPictureControlSurvives'])
+        self.assertTrue(result['originalPixelsInsideCanonicalControl'])
+        self.assertEqual(result['savedOwnedPictureCount'], 1)
+
+    def test_a_referenced_header_photo_does_not_rescue_a_missing_body_owner(self):
+        a, b = document(), document()
+        photo = b.findall('.//w:sdt', qa.NS)[1]
+        photo.getparent().remove(photo)
+        section = ET.SubElement(b.find('w:body', qa.NS), '{'+W+'}sectPr')
+        ref = ET.SubElement(section, '{'+W+'}headerReference')
+        ref.set('{'+W+'}type', 'default')
+        ref.set('{'+R+'}id', 'hdr')
+        package(self.source, a)
+        package(self.saved, b, stories={'word/header.xml': picture_story()}, references={'hdr': 'header.xml'})
+        picture_relationships(self.saved, 'word/header.xml')
+        result = qa.compare(self.source, self.saved)['pictures'][0]
+        self.assertFalse(result['typedPictureControlSurvives'])
+        self.assertFalse(result['originalPixelsInsideCanonicalControl'])
+        self.assertTrue(result['originalPixelsInAnyActivePicture'])
+
+    def test_pictures_with_the_same_tag_in_body_and_header_keep_separate_owners(self):
+        a, stories_a, refs_a = with_headers(repeated_in_body=False)
+        b, stories_b, refs_b = with_headers(renamed=True, repeated_in_body=False)
+        for stories in [stories_a, stories_b]:
+            first = next(name for name in stories if 'first' in name or 'renamed-0' in name)
+            stories[first].find('w:p', qa.NS).append(copy.deepcopy(document().findall('.//w:sdt', qa.NS)[1]))
+        package(self.source, a, stories=stories_a, references=refs_a)
+        package(self.saved, b, stories=stories_b, references=refs_b)
+        for target, stories in [(self.source, stories_a), (self.saved, stories_b)]:
+            for name, story in stories.items():
+                if story.findall('.//a:blip', qa.NS):
+                    picture_relationships(target, name)
+        results = qa.compare(self.source, self.saved)['pictures']
+        self.assertEqual(len(results), 2)
+        self.assertTrue(all(row['originalPixelsInsideCanonicalControl'] for row in results))
+        self.assertTrue(all(row['canonicalOwnerStoryRolesUnchanged'] for row in results))
+        self.assertTrue(all(row['savedOwnedPictureCount'] == 1 for row in results))
+
+    def test_non_image_relationship_does_not_make_original_pixels_an_active_picture(self):
+        package(self.source, document())
+        with ZipFile(self.source) as z:
+            entries = {name: z.read(name) for name in z.namelist()}
+        entries['word/_rels/document.xml.rels'] = entries['word/_rels/document.xml.rels'].replace((R+'/image').encode(), (R+'/hyperlink').encode())
+        with ZipFile(self.saved, 'w') as z:
+            for name, data in entries.items():
+                z.writestr(name, data)
+        result = qa.compare(self.source, self.saved)['pictures'][0]
+        self.assertFalse(result['originalPixelsInsideCanonicalControl'])
+        self.assertFalse(result['originalPixelsInAnyActivePicture'])
+        self.assertTrue(result['originalPixelsSomewhereInPackage'])
+
+    def test_empty_typed_body_owner_cannot_borrow_the_orphan_original(self):
+        b = document()
+        photo = b.findall('.//w:sdt', qa.NS)[1]
+        photo.find('w:sdtContent', qa.NS).clear()
+        package(self.source, document())
+        package(self.saved, b, stories={'word/orphan.xml': picture_story()})
+        picture_relationships(self.saved, 'word/orphan.xml')
+        result = qa.compare(self.source, self.saved)['pictures'][0]
+        self.assertTrue(result['typedPictureControlSurvives'])
+        self.assertEqual(result['savedOwnedPictureCount'], 0)
+        self.assertFalse(result['originalPixelsInsideCanonicalControl'])
+        self.assertFalse(result['originalPixelsInAnyActivePicture'])
+
+    def test_changed_header_pixels_cannot_borrow_identical_body_pixels(self):
+        a, stories_a, refs_a = with_headers(repeated_in_body=False)
+        b, stories_b, refs_b = with_headers(renamed=True, repeated_in_body=False)
+        for stories in [stories_a, stories_b]:
+            first = next(name for name in stories if 'first' in name or 'renamed-0' in name)
+            header = stories[first]
+            header.find('w:p', qa.NS).append(copy.deepcopy(document().findall('.//w:sdt', qa.NS)[1]))
+        package(self.source, a, stories=stories_a, references=refs_a)
+        package(self.saved, b, stories=stories_b, references=refs_b)
+        for target, stories in [(self.source, stories_a), (self.saved, stories_b)]:
+            for name, story in stories.items():
+                if story.findall('.//a:blip', qa.NS):
+                    picture_relationships(target, name)
+        with ZipFile(self.saved) as z:
+            entries = {name: z.read(name) for name in z.namelist()}
+        rel_name = next(name for name in entries if 'header-renamed-0.xml.rels' in name)
+        entries[rel_name] = entries[rel_name].replace(b'media/photo.png', b'media/changed.png')
+        entries['word/media/changed.png'] = png('orange')
+        with ZipFile(self.saved, 'w') as z:
+            for name, data in entries.items():
+                z.writestr(name, data)
+        results = qa.compare(self.source, self.saved)['pictures']
+        body = next(row for row in results if row['source']['story'] == 'word/document.xml')
+        header = next(row for row in results if row['source']['story'] != 'word/document.xml')
+        self.assertTrue(body['originalPixelsInsideCanonicalControl'])
+        self.assertFalse(header['originalPixelsInsideCanonicalControl'])
+        self.assertTrue(header['originalPixelsInAnyActivePicture'])
+        self.assertTrue(header['typedPictureControlSurvives'])
+
+    def test_missing_image_relationship_is_explained_without_losing_package_original(self):
+        package(self.source, document())
+        b = document()
+        b.find('.//a:blip', qa.NS).set('{'+R+'}embed', 'missing')
+        package(self.saved, b)
+        result = qa.compare(self.source, self.saved)['pictures'][0]
+        self.assertEqual(result['saved']['imageRelationshipStatus'], 'MISSING_RELATIONSHIP')
+        self.assertFalse(result['originalPixelsInsideCanonicalControl'])
+        self.assertFalse(result['originalPixelsInAnyActivePicture'])
+        self.assertTrue(result['originalPixelsSomewhereInPackage'])
+
+    def test_external_image_relationship_cannot_count_the_internal_original(self):
+        package(self.source, document())
+        with ZipFile(self.source) as z:
+            entries = {name: z.read(name) for name in z.namelist()}
+        key = 'word/_rels/document.xml.rels'
+        root = ET.fromstring(entries[key])
+        root[0].set('TargetMode', 'External')
+        entries[key] = ET.tostring(root)
+        with ZipFile(self.saved, 'w') as z:
+            for name, data in entries.items():
+                z.writestr(name, data)
+        result = qa.compare(self.source, self.saved)['pictures'][0]
+        self.assertEqual(result['saved']['imageRelationshipStatus'], 'EXTERNAL_RELATIONSHIP')
+        self.assertFalse(result['originalPixelsInsideCanonicalControl'])
+        self.assertFalse(result['originalPixelsInAnyActivePicture'])
+
+    def test_wrong_relationships_namespace_cannot_credit_picture_pixels(self):
+        package(self.source, document())
+        with ZipFile(self.source) as z:
+            entries = {name: z.read(name) for name in z.namelist()}
+        key = 'word/_rels/document.xml.rels'
+        entries[key] = entries[key].replace(b'http://schemas.openxmlformats.org/package/2006/relationships', b'urn:unsupported-relationships')
+        with ZipFile(self.saved, 'w') as z:
+            for name, data in entries.items():
+                z.writestr(name, data)
+        with self.assertRaisesRegex(ValueError, 'relationships namespace'):
+            qa.inspect(self.saved)
+
+    def test_missing_relationship_id_is_rejected_before_picture_ownership(self):
+        package(self.source, document())
+        with ZipFile(self.source) as z:
+            entries = {name: z.read(name) for name in z.namelist()}
+        key = 'word/_rels/document.xml.rels'
+        root = ET.fromstring(entries[key])
+        root[0].attrib.pop('Id')
+        entries[key] = ET.tostring(root)
+        with ZipFile(self.saved, 'w') as z:
+            for name, data in entries.items():
+                z.writestr(name, data)
+        with self.assertRaisesRegex(ValueError, 'Missing relationship ID'):
+            qa.inspect(self.saved)
+
+    def test_unknown_header_role_cannot_invent_an_active_picture_story(self):
+        a = with_headers()
+        ref = a[0].find('.//w:headerReference', qa.NS)
+        ref.set('{'+W+'}type', 'unknown-kind')
+        package(self.source, a[0], stories=a[1], references=a[2])
+        with self.assertRaisesRegex(ValueError, 'Unsupported header reference role'):
+            qa.inspect(self.source)
+
+    def test_missing_header_role_is_not_inferred_as_default(self):
+        a = with_headers()
+        default = a[0].xpath('.//w:headerReference[@w:type="default"]', namespaces=qa.NS)[0]
+        default.getparent().remove(default)
+        a[0].find('.//w:headerReference', qa.NS).attrib.pop('{'+W+'}type')
+        package(self.source, a[0], stories=a[1], references=a[2])
+        with self.assertRaisesRegex(ValueError, 'Unsupported header reference role'):
+            qa.inspect(self.source)
 
     def test_changed_parent_control_tag_is_an_ownership_change_even_with_equal_ancestor_shapes(self):
         a = document()
