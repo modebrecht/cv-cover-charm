@@ -374,7 +374,7 @@ test("custom footer content cannot be erased by the empty-band candidate", () =>
     footerText: "Eigener Fuss",
   };
   metrics.sourceKey = JSON.stringify(source);
-  expect(() => build(source, metrics)).toThrow(/leere kompakte/);
+  expect(() => build(source, metrics)).toThrow(/leeren kompakten Fuss/);
 });
 
 test("shared styles do not bypass the classic/sidebar composition boundary", () => {

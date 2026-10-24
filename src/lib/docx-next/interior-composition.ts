@@ -147,7 +147,9 @@ export function composeMeasuredHeaders(
         } else if (!/^[\t ·/|]*$/.test(run.text))
           throw Error("DOCX Next: Nicht unterstützter Headertrenner.");
       }
-      part.headerFrames.push({ ...structuredClone(frame), repeat });
+      // Header text is outside the body story. Its native frames must not
+      // create wrapping exclusions in the flowing CV or Letter content.
+      part.headerFrames.push({ ...structuredClone(frame), wrapMode: "none", repeat });
     }
     if (seen.size !== expected.size)
       throw Error("DOCX Next: Header-Messinhalt ist veraltet oder unvollständig.");

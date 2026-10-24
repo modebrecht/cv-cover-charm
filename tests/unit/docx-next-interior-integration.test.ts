@@ -65,6 +65,7 @@ test("actual saved header capture keeps one native row and every contact field; 
         "lea.mueller@example.ch",
       ]);
       expect(frame.surface).toBeUndefined();
+      expect(frame.wrapMode).toBe("none");
     }
     expect(part.footer).toEqual([]);
     expect(part.pagePaintComposition).toBe("single-asset");
@@ -101,20 +102,24 @@ test("native header stories retain inline source controls and a real terminating
   const entries = readZipEntries(
     new Uint8Array(await (await renderDossierDocx(model(), renderOptions)).arrayBuffer()),
   );
-  for (const scope of ["letter", "cv"]) {
-    const xml = new TextDecoder().decode(
-      entries.find((e) => e.name === `word/${scope}-header-first.xml`)!.bytes,
-    );
-    for (const key of ["name", "address", "place", "phone", "email"]) {
-      const field = scope === "letter" ? `letter.sender.${key}` : `cv.person.${key}`;
-      expect(xml.split(`w:tag w:val="${field}"`).length - 1).toBe(1);
+  for (const scope of ["letter", "cv"])
+    for (const suffix of ["-first", ""]) {
+      const xml = new TextDecoder().decode(
+        entries.find((e) => e.name === `word/${scope}-header${suffix}.xml`)!.bytes,
+      );
+      const frames = xml.match(/<w:framePr\b[^>]*\/>/g) ?? [];
+      expect(frames.length).toBeGreaterThan(0);
+      expect(frames.every((frame) => frame.includes('w:wrap="none"'))).toBe(true);
+      for (const key of ["name", "address", "place", "phone", "email"]) {
+        const field = scope === "letter" ? `letter.sender.${key}` : `cv.person.${key}`;
+        expect(xml.split(`w:tag w:val="${field}"`).length - 1).toBe(1);
+      }
+      expect(xml).toContain("<w:tabs>");
+      expect(xml).not.toContain("<wps:wsp");
+      expect(xml).toContain(
+        '<w:spacing w:after="0" w:line="20" w:lineRule="exact"/></w:pPr></w:p></w:hdr>',
+      );
     }
-    expect(xml).toContain("<w:tabs>");
-    expect(xml).not.toContain("<wps:wsp");
-    expect(xml).toContain(
-      '<w:spacing w:after="0" w:line="20" w:lineRule="exact"/></w:pPr></w:p></w:hdr>',
-    );
-  }
 });
 
 test("rubric pills remain semantic flowing headings, keep native content and leave Letter untouched", async () => {
