@@ -39,6 +39,25 @@ Alle 167 aktuellen Remote-Branch-Spitzen wurden inventarisiert. 27 benannte eins
 
 Für die sieben abgezweigten Produkttracks der 27er-Auswahl wurden 56 Quellpfad-Paare geprüft: kein Pfad fehlt, 15 Blobs sind bytegleich, die übrigen Dateien wurden später verändert. Das ist ausdrücklich keine pauschale Verhaltensequivalenz aller späteren Änderungen. Die heutigen fokussierten Tests bestätigen die konkreten vorhandenen Verträge für Referenzspalten, halbe Textbreite und Bildbesitz. Kein historischer Branch wird dafür gemergt oder verändert. Der neu reproduzierte Sidebar-Sichtbarkeitsfehler wird als eigener Quellfehler korrigiert.
 
+## Browser und normaler PDF-Export nachgeprüft
+
+Fortsetzung auf Produktstand `024515de9febd6ace85a29f2e3252f7a667a7ff6`. Ein eigenes synthetisches Projekt wird direkt aus den aktuellen Modern-Defaults und öffentlichen DEMO-Daten erzeugt. Titelblatt, Anschreiben und CV verwenden dieselbe aktuelle Vorlagenfamilie. Die Fotos sind für diese Referenzprüfung leer. Die echte `DossierPdfCanvas`, die normalen gespeicherten Datenadapter und `downloadCombinedDossierPdf` werden ohne Preflight-Ausnahme verwendet.
+
+Vier finale Fälle bestehen: Sidebar links/rechts sowie Referenzen in halber Breite im Hauptbereich bei beiden Sidebar-Orientierungen. Je Fall gibt es ein Titelblatt, eine Anschreibenseite und einen CV: zwölf exportierte Dossierseiten, davon vier geprüfte CV-Seiten auf Dossierseite 3. **Alle 32 Referenzfelder sind im Browser genau einmal sichtbar und innerhalb ihres Bereichs; alle 32 stehen im normalen App-PDF genau einmal als Suchtext und besitzen dort sichtbare dunkle Pixel im gemessenen Feldbereich.** Die vier Browser-CVs und vier gerenderten PDF-CVs wurden zusätzlich geöffnet; die getesteten Referenzen sind vollständig und ohne sichtbare Überlappung.
+
+Die linke Kante des ersten Referenzfeldes stimmt in allen vier Fällen mit seiner Rubriküberschrift überein. Bei halber Breite beträgt auch der gemessene Versatz zur linken Textkante des Hauptbereichs **0 mm**. Das ist ein begrenzter Browser-/PDF-Beleg gegen ein ungewolltes Rechtsverschieben dieses Referenzfalls, keine neue Word-Geometrie-Abnahme. Die reale PDF-Vorprüfung besteht viermal ohne Zustimmungsausnahme. Eingaben und gespeicherter Browserzustand bleiben beim Export unverändert; keine erfassten JavaScript-Fehler.
+
+Laufzeit: Chrome for Testing 156.0.8078.47, Arial mit Liberation Sans als Ersatz und die originalen Repository-Cabin-Schriften. Die neue Browser-Prüfhülle besteht striktes TypeScript, die beiden JavaScript-/TSX-Dateien die Repository-Formatierung; der Node-Runner und der Python-PDF-Prüfer bestehen ihre Syntaxprüfung. Der finale Lauf verwendet keine historischen Projekt-Fixtures. Einrichtungsdurchläufe sind keine zusätzliche Fallabdeckung.
+
+Reproduktion mit vorhandenen Repository-Abhängigkeiten, Playwright und einem expliziten Chromium-Pfad:
+
+```sh
+DOCX_NEXT_CHROMIUM_PATH=/path/to/chrome-headless-shell node scripts/qa-sidebar-reference-browser-24okt.mjs /tmp/fresh-reference-proof
+python scripts/qa-sidebar-reference-pdf-24okt.py /tmp/fresh-reference-proof
+```
+
+Der Runner verlangt einen neuen Ausgabeordner. Der PDF-Prüfer bindet die Dateien an die tatsächlich heruntergeladenen PDF-Hashes; Suchtext und sichtbare Feldpixel bleiben getrennte Aussagen. Sichtbare Pixel allein erkennen keine korrekten Buchstaben, deshalb bleibt die visuelle Prüfung erforderlich. Diese CSR-Prüfhülle ist kein Nachweis vollständiger Editor-Navigation, eines produktiven SSR-Builds, langer CVs oder eines Microsoft-Word-Roundtrips. Das bestehende Word-Entscheidungspaket wird dadurch nicht ersetzt. In dieser Fortsetzung ändern sich nur QA-Skripte und Dokumentation; der Produktcode bleibt exakt auf `024515de`.
+
 ## Offene Entscheidung
 
 Dieser Fix schliesst eine reale Lücke im sichtbaren CV-Quellinhalt. Er schliesst die Bild-/Crop- und Control-Fragen nach Word Save/Reopen nicht. Das bereits bereitgestellte Entscheidungspaket bleibt als unveränderte Bild-/Control-Triage-Eingabe gepinnt; es wird weder als neu exportiert noch als nach diesem Fix vollständig abgenommen ausgegeben.

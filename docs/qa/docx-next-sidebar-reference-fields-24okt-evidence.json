@@ -723,5 +723,274 @@
       }
     ]
   },
-  "normalizedEmittedJavaScriptMatchesExactlyThreeCorrections": true
+  "normalizedEmittedJavaScriptMatchesExactlyThreeCorrections": true,
+  "browserAndNormalPdf": {
+    "branchBase": "024515de9febd6ace85a29f2e3252f7a667a7ff6",
+    "runtime": {
+      "browser": "156.0.8078.47",
+      "fontSubstitution": "Arial -> Liberation Sans; repository Cabin fonts byte-verified",
+      "chromeArchiveSha256": "0d5acc62c3e213f8c87d3c298d66ffcf9a236d12ea4b9f85318bf85dbc279daa"
+    },
+    "projectSource": "Current Modern defaults and public DEMO data; no historical project fixture or photos",
+    "renderPath": "DossierPdfCanvas and downloadCombinedDossierPdf, through fresh saved-project conversion and real production preflight",
+    "cases": [
+      {
+        "id": "left-sidebar",
+        "cvPages": 1,
+        "letterPages": 1,
+        "fieldCount": 8,
+        "allFieldsVisibleAndInsideOwner": true,
+        "alignmentMm": {
+          "referenceToHeadingMm": 0,
+          "referenceToOwnerContentMm": -0.00048268261964646517
+        },
+        "inputUnchanged": true,
+        "pdfPreflight": "pass",
+        "javascriptErrors": [],
+        "pdfSha256": "33a9d12d677ea32a089689be90ea90018e5c89b20995a6f19f7bfb65f4d26f87",
+        "pdfBytes": 1249617,
+        "pdfFieldChecks": [
+          {
+            "key": "email-only.email",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1177
+          },
+          {
+            "key": "extra-only.extra",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1043
+          },
+          {
+            "key": "separate.name",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1203
+          },
+          {
+            "key": "separate.email",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1176
+          },
+          {
+            "key": "separate.extra",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1031
+          },
+          {
+            "key": "legacy.contact",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 700
+          },
+          {
+            "key": "legacy.email",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1339
+          },
+          {
+            "key": "legacy.extra",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 767
+          }
+        ],
+        "cvRenderSha256": "c91075cc846f54c9c5c87b9180d27cd01e76cc11cba0033c1fcc89d8d6b2289b"
+      },
+      {
+        "id": "left-half-main",
+        "cvPages": 1,
+        "letterPages": 1,
+        "fieldCount": 8,
+        "allFieldsVisibleAndInsideOwner": true,
+        "alignmentMm": {
+          "referenceToHeadingMm": 0,
+          "referenceToOwnerContentMm": 0
+        },
+        "inputUnchanged": true,
+        "pdfPreflight": "pass",
+        "javascriptErrors": [],
+        "pdfSha256": "896e06917bcd08df6aebb319d428a24f6a30ba33bafea78da0e374c52f999623",
+        "pdfBytes": 1250229,
+        "pdfFieldChecks": [
+          {
+            "key": "email-only.email",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1209
+          },
+          {
+            "key": "extra-only.extra",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1043
+          },
+          {
+            "key": "separate.name",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1345
+          },
+          {
+            "key": "separate.email",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1147
+          },
+          {
+            "key": "separate.extra",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1079
+          },
+          {
+            "key": "legacy.contact",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 700
+          },
+          {
+            "key": "legacy.email",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1293
+          },
+          {
+            "key": "legacy.extra",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 749
+          }
+        ],
+        "cvRenderSha256": "a2bbedfd36e13b3d42c02c9123ba4dcf34a2465b91a2b304938b7e7804e99fcc"
+      },
+      {
+        "id": "right-sidebar",
+        "cvPages": 1,
+        "letterPages": 1,
+        "fieldCount": 8,
+        "allFieldsVisibleAndInsideOwner": true,
+        "alignmentMm": {
+          "referenceToHeadingMm": 0,
+          "referenceToOwnerContentMm": -0.0004826826196614993
+        },
+        "inputUnchanged": true,
+        "pdfPreflight": "pass",
+        "javascriptErrors": [],
+        "pdfSha256": "12f64f411de5b9f288c2c07d66013562c46dc8a20d773d16966e45c2a677588f",
+        "pdfBytes": 1247456,
+        "pdfFieldChecks": [
+          {
+            "key": "email-only.email",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1212
+          },
+          {
+            "key": "extra-only.extra",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1092
+          },
+          {
+            "key": "separate.name",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1231
+          },
+          {
+            "key": "separate.email",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1144
+          },
+          {
+            "key": "separate.extra",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1046
+          },
+          {
+            "key": "legacy.contact",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 750
+          },
+          {
+            "key": "legacy.email",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1294
+          },
+          {
+            "key": "legacy.extra",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 782
+          }
+        ],
+        "cvRenderSha256": "c6421c3c3e89c2f4071d996a6f7dd4d0e04bae671c693f6e499caddc957d1306"
+      },
+      {
+        "id": "right-half-main",
+        "cvPages": 1,
+        "letterPages": 1,
+        "fieldCount": 8,
+        "allFieldsVisibleAndInsideOwner": true,
+        "alignmentMm": {
+          "referenceToHeadingMm": 0,
+          "referenceToOwnerContentMm": 0
+        },
+        "inputUnchanged": true,
+        "pdfPreflight": "pass",
+        "javascriptErrors": [],
+        "pdfSha256": "a4fd2e4f5d6a31d34d091a764c3f02c7bd9665cb27539f2f70ef8fd21764ae20",
+        "pdfBytes": 1249473,
+        "pdfFieldChecks": [
+          {
+            "key": "email-only.email",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1206
+          },
+          {
+            "key": "extra-only.extra",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1044
+          },
+          {
+            "key": "separate.name",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1353
+          },
+          {
+            "key": "separate.email",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1151
+          },
+          {
+            "key": "separate.extra",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1071
+          },
+          {
+            "key": "legacy.contact",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 700
+          },
+          {
+            "key": "legacy.email",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1297
+          },
+          {
+            "key": "legacy.extra",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 747
+          }
+        ],
+        "cvRenderSha256": "4f0f8ca4a659089e1047c12e769653ef19a752fcf94a990b279301e51398c48f"
+      }
+    ],
+    "totalCvPages": 4,
+    "totalDossierPages": 12,
+    "totalReferenceFields": 32,
+    "visualReview": {
+      "browserCvPagesOpened": 4,
+      "pdfCvPagesOpened": 4,
+      "cvDossierPage": 3,
+      "verdict": "No missing, clipped or overlapping tested reference fields; half-width text keeps the heading/main left edge"
+    },
+    "frontendStrictTypecheck": "PASS",
+    "scriptSyntaxAndFormatting": "PASS",
+    "productCodeChanged": false,
+    "wordAcceptance": "UNVERIFIED",
+    "normalSidebarGuard": "CLOSED",
+    "limits": [
+      "Dedicated CSR DossierPdfCanvas harness, not complete editor navigation or production SSR build",
+      "One short CV per case; no long-CV pagination approval",
+      "No photos in these reference cases; picture/crop/SDT roundtrip gates remain open",
+      "Visible-ink checks alone are not glyph recognition; actual PDF CV pages were also opened",
+      "Four final cases are authoritative; setup runs are not additional coverage"
+    ]
+  }
 }
