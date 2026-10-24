@@ -1,0 +1,636 @@
+{
+  "productBase": "9e7579c08527310d8b21bba2807924fb0c8de463",
+  "branch": "fix/docx-next-shared-integration-22okt",
+  "sourcePictures": "CHECKED_SYNTHETIC_FIXTURES_ONLY",
+  "readerTestsPassed": 36,
+  "cases": [
+    {
+      "case": "right-contact-long",
+      "sourceUnchanged": true,
+      "comparisonBaselineAlwaysSaveZero": true,
+      "sourcePhoto": {
+        "width": 120,
+        "height": 180,
+        "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+      },
+      "firstSavedAssetEqualsOriginalCropY15To165": true,
+      "phases": [
+        {
+          "save": 0,
+          "docxSha256": "53d08cff0ecd37c261a70e82f8409fec6f58fd7f61964738504a73ff558875d3",
+          "pdfSha256": "94573f025cb1a4586910b7409c7071da0659fe9f3583180b9c6f8fb0f7eb8252",
+          "declaredApplication": null,
+          "dossierPages": 4,
+          "tagKeys": 134,
+          "taggedControlOccurrences": 145,
+          "sourceOccurrencesMatched": 145,
+          "sourceOccurrencesMissingOrMoved": 0,
+          "sourceOccurrencesAmbiguous": 0,
+          "matchedOccurrencesWithExactTextTokens": 145,
+          "matchedOccurrencesWithSameNesting": 145,
+          "allSourceTaggedTextInXml": true,
+          "allSourceTaggedTextInRenderedDossier": true,
+          "perPageContactHeaderChecks": [
+            {
+              "cvPage": 1,
+              "allExpectedContactTextInHeader": true
+            },
+            {
+              "cvPage": 2,
+              "allExpectedContactTextInHeader": true
+            }
+          ],
+          "photo": [
+            {
+              "source": {
+                "owners": [
+                  "cv.person.photo"
+                ],
+                "representation": "DrawingML",
+                "story": "word/document.xml",
+                "storyRoles": [
+                  "section:3/body"
+                ],
+                "container": "native-picture",
+                "pixels": {
+                  "width": 120,
+                  "height": 180,
+                  "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+                },
+                "embeddedFileSha256": "b55b592a4b251518601207931566e1fe63b77ed8294163ea519a7fe33dc4ab0f",
+                "cropMarkup": {
+                  "l": "0",
+                  "t": "8333",
+                  "r": "0",
+                  "b": "8333"
+                },
+                "cropFractions": [
+                  "0",
+                  "0.08333",
+                  "0",
+                  "0.08333"
+                ],
+                "fillRectMarkup": {}
+              },
+              "savedOwnedPictureCount": 1,
+              "typedPictureControlSurvives": true,
+              "originalPixelsInsideCanonicalControl": true,
+              "originalPixelsInAnyActivePicture": true,
+              "originalPixelsSomewhereInPackage": true,
+              "exactCropMarkupUnchanged": true,
+              "encodedCropFractionsUnchanged": true,
+              "originalPixelWindowUnchanged": true,
+              "canonicalOwnerStoryRolesUnchanged": true,
+              "saved": {
+                "owners": [
+                  "cv.person.photo"
+                ],
+                "representation": "DrawingML",
+                "story": "word/document.xml",
+                "storyRoles": [
+                  "section:3/body"
+                ],
+                "container": "native-picture",
+                "pixels": {
+                  "width": 120,
+                  "height": 180,
+                  "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+                },
+                "embeddedFileSha256": "b55b592a4b251518601207931566e1fe63b77ed8294163ea519a7fe33dc4ab0f",
+                "cropMarkup": {
+                  "l": "0",
+                  "t": "8333",
+                  "r": "0",
+                  "b": "8333"
+                },
+                "cropFractions": [
+                  "0",
+                  "0.08333",
+                  "0",
+                  "0.08333"
+                ],
+                "fillRectMarkup": {}
+              }
+            }
+          ],
+          "sourceContentKinds": {
+            "inline": 44,
+            "block": 101
+          },
+          "duplicateNativeSdtIds": []
+        },
+        {
+          "save": 1,
+          "docxSha256": "feff955415a2dc959001ba198f1276d1dd042dda60d306e9b8ee837cf5788c17",
+          "pdfSha256": "f897e4f3af04f13674c2a4f735edbcba9823eb486304d0d54e997082ee5ab530",
+          "declaredApplication": "LibreOfficeDev/26.8.0.0.alpha0$Linux_X86_64 LibreOffice_project/2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+          "dossierPages": 4,
+          "tagKeys": 40,
+          "taggedControlOccurrences": 51,
+          "sourceOccurrencesMatched": 51,
+          "sourceOccurrencesMissingOrMoved": 94,
+          "sourceOccurrencesAmbiguous": 0,
+          "matchedOccurrencesWithExactTextTokens": 51,
+          "matchedOccurrencesWithSameNesting": 12,
+          "allSourceTaggedTextInXml": true,
+          "allSourceTaggedTextInRenderedDossier": true,
+          "perPageContactHeaderChecks": [
+            {
+              "cvPage": 1,
+              "allExpectedContactTextInHeader": true
+            },
+            {
+              "cvPage": 2,
+              "allExpectedContactTextInHeader": true
+            }
+          ],
+          "photo": [
+            {
+              "source": {
+                "owners": [
+                  "cv.person.photo"
+                ],
+                "representation": "DrawingML",
+                "story": "word/document.xml",
+                "storyRoles": [
+                  "section:3/body"
+                ],
+                "container": "native-picture",
+                "pixels": {
+                  "width": 120,
+                  "height": 180,
+                  "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+                },
+                "embeddedFileSha256": "b55b592a4b251518601207931566e1fe63b77ed8294163ea519a7fe33dc4ab0f",
+                "cropMarkup": {
+                  "l": "0",
+                  "t": "8333",
+                  "r": "0",
+                  "b": "8333"
+                },
+                "cropFractions": [
+                  "0",
+                  "0.08333",
+                  "0",
+                  "0.08333"
+                ],
+                "fillRectMarkup": {}
+              },
+              "savedOwnedPictureCount": 1,
+              "typedPictureControlSurvives": true,
+              "originalPixelsInsideCanonicalControl": false,
+              "originalPixelsInAnyActivePicture": false,
+              "originalPixelsSomewhereInPackage": false,
+              "exactCropMarkupUnchanged": false,
+              "encodedCropFractionsUnchanged": null,
+              "originalPixelWindowUnchanged": null,
+              "canonicalOwnerStoryRolesUnchanged": true,
+              "saved": {
+                "owners": [
+                  "cv.person.photo"
+                ],
+                "representation": "DrawingML",
+                "story": "word/document.xml",
+                "storyRoles": [
+                  "section:3/body"
+                ],
+                "container": "drawing-shape-fill",
+                "pixels": {
+                  "width": 120,
+                  "height": 150,
+                  "rgbaSha256": "6f6f1264f2252d21ef0ac3579b3e017277db667d25b1f47ff3a1eb98d4e97e67"
+                },
+                "embeddedFileSha256": "d1376a0153fb2baf2a51f94081e57d6602c2abcfb515bfcf4ce0db1d867f617d",
+                "cropMarkup": null,
+                "cropFractions": null,
+                "fillRectMarkup": {
+                  "l": "0",
+                  "t": "264666",
+                  "r": "0",
+                  "b": "264666"
+                }
+              }
+            }
+          ],
+          "sourceContentKinds": {
+            "inline": 44,
+            "block": 101
+          },
+          "duplicateNativeSdtIds": [],
+          "actualSaveSeconds": 7.046
+        },
+        {
+          "save": 2,
+          "docxSha256": "4677bd64c6c38fa68c376986eeb5324336f2d1329c012e6f4414d262d5fab044",
+          "pdfSha256": "5fbd43311bcb42edada49c562ff521d175d3c3abb797834be6cdca0f69aef72d",
+          "declaredApplication": "LibreOfficeDev/26.8.0.0.alpha0$Linux_X86_64 LibreOffice_project/2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+          "dossierPages": 4,
+          "tagKeys": 40,
+          "taggedControlOccurrences": 51,
+          "sourceOccurrencesMatched": 51,
+          "sourceOccurrencesMissingOrMoved": 94,
+          "sourceOccurrencesAmbiguous": 0,
+          "matchedOccurrencesWithExactTextTokens": 51,
+          "matchedOccurrencesWithSameNesting": 12,
+          "allSourceTaggedTextInXml": true,
+          "allSourceTaggedTextInRenderedDossier": true,
+          "perPageContactHeaderChecks": [
+            {
+              "cvPage": 1,
+              "allExpectedContactTextInHeader": true
+            },
+            {
+              "cvPage": 2,
+              "allExpectedContactTextInHeader": true
+            }
+          ],
+          "photo": [
+            {
+              "source": {
+                "owners": [
+                  "cv.person.photo"
+                ],
+                "representation": "DrawingML",
+                "story": "word/document.xml",
+                "storyRoles": [
+                  "section:3/body"
+                ],
+                "container": "native-picture",
+                "pixels": {
+                  "width": 120,
+                  "height": 180,
+                  "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+                },
+                "embeddedFileSha256": "b55b592a4b251518601207931566e1fe63b77ed8294163ea519a7fe33dc4ab0f",
+                "cropMarkup": {
+                  "l": "0",
+                  "t": "8333",
+                  "r": "0",
+                  "b": "8333"
+                },
+                "cropFractions": [
+                  "0",
+                  "0.08333",
+                  "0",
+                  "0.08333"
+                ],
+                "fillRectMarkup": {}
+              },
+              "savedOwnedPictureCount": 1,
+              "typedPictureControlSurvives": true,
+              "originalPixelsInsideCanonicalControl": false,
+              "originalPixelsInAnyActivePicture": false,
+              "originalPixelsSomewhereInPackage": false,
+              "exactCropMarkupUnchanged": false,
+              "encodedCropFractionsUnchanged": null,
+              "originalPixelWindowUnchanged": null,
+              "canonicalOwnerStoryRolesUnchanged": true,
+              "saved": {
+                "owners": [
+                  "cv.person.photo"
+                ],
+                "representation": "DrawingML",
+                "story": "word/document.xml",
+                "storyRoles": [
+                  "section:3/body"
+                ],
+                "container": "drawing-shape-fill",
+                "pixels": {
+                  "width": 120,
+                  "height": 150,
+                  "rgbaSha256": "6f6f1264f2252d21ef0ac3579b3e017277db667d25b1f47ff3a1eb98d4e97e67"
+                },
+                "embeddedFileSha256": "d1376a0153fb2baf2a51f94081e57d6602c2abcfb515bfcf4ce0db1d867f617d",
+                "cropMarkup": null,
+                "cropFractions": null,
+                "fillRectMarkup": {
+                  "t": "52146",
+                  "b": "52146"
+                }
+              }
+            }
+          ],
+          "sourceContentKinds": {
+            "inline": 44,
+            "block": 101
+          },
+          "duplicateNativeSdtIds": [],
+          "actualSaveSeconds": 9.651
+        }
+      ]
+    },
+    {
+      "case": "06-Sidebar-rechts-Foto-frei",
+      "sourceUnchanged": true,
+      "comparisonBaselineAlwaysSaveZero": true,
+      "sourcePhoto": {
+        "width": 1920,
+        "height": 2880,
+        "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6"
+      },
+      "firstSavedAssetEqualsOriginalCropY15To165": null,
+      "phases": [
+        {
+          "save": 0,
+          "docxSha256": "90ca1d6752a7ded3fbfae1de0d71192b9ca5bbb89e34e1d02a647813584bb70c",
+          "pdfSha256": "5c6006752124634ab342fe0a3b617cd6697361fb7d8d0ca02166322cc2030b04",
+          "declaredApplication": null,
+          "dossierPages": 3,
+          "tagKeys": 86,
+          "taggedControlOccurrences": 86,
+          "sourceOccurrencesMatched": 86,
+          "sourceOccurrencesMissingOrMoved": 0,
+          "sourceOccurrencesAmbiguous": 0,
+          "matchedOccurrencesWithExactTextTokens": 86,
+          "matchedOccurrencesWithSameNesting": 86,
+          "allSourceTaggedTextInXml": true,
+          "allSourceTaggedTextInRenderedDossier": true,
+          "perPageContactHeaderChecks": [],
+          "photo": [
+            {
+              "source": {
+                "owners": [
+                  "cv.person.photo"
+                ],
+                "representation": "DrawingML",
+                "story": "word/document.xml",
+                "storyRoles": [
+                  "section:3/body"
+                ],
+                "container": "native-picture",
+                "pixels": {
+                  "width": 1920,
+                  "height": 2880,
+                  "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6"
+                },
+                "embeddedFileSha256": "f8ba8f4b000d9aa4f18a5f476a630615232905810aec92c69d4e128cbfdec69c",
+                "cropMarkup": {
+                  "l": "8400",
+                  "t": "24400",
+                  "r": "11600",
+                  "b": "22267"
+                },
+                "cropFractions": [
+                  "0.084",
+                  "0.244",
+                  "0.116",
+                  "0.22267"
+                ],
+                "fillRectMarkup": {}
+              },
+              "savedOwnedPictureCount": 1,
+              "typedPictureControlSurvives": true,
+              "originalPixelsInsideCanonicalControl": true,
+              "originalPixelsInAnyActivePicture": true,
+              "originalPixelsSomewhereInPackage": true,
+              "exactCropMarkupUnchanged": true,
+              "encodedCropFractionsUnchanged": true,
+              "originalPixelWindowUnchanged": true,
+              "canonicalOwnerStoryRolesUnchanged": true,
+              "saved": {
+                "owners": [
+                  "cv.person.photo"
+                ],
+                "representation": "DrawingML",
+                "story": "word/document.xml",
+                "storyRoles": [
+                  "section:3/body"
+                ],
+                "container": "native-picture",
+                "pixels": {
+                  "width": 1920,
+                  "height": 2880,
+                  "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6"
+                },
+                "embeddedFileSha256": "f8ba8f4b000d9aa4f18a5f476a630615232905810aec92c69d4e128cbfdec69c",
+                "cropMarkup": {
+                  "l": "8400",
+                  "t": "24400",
+                  "r": "11600",
+                  "b": "22267"
+                },
+                "cropFractions": [
+                  "0.084",
+                  "0.244",
+                  "0.116",
+                  "0.22267"
+                ],
+                "fillRectMarkup": {}
+              }
+            }
+          ],
+          "sourceContentKinds": {
+            "block": 74,
+            "inline": 12
+          },
+          "duplicateNativeSdtIds": []
+        },
+        {
+          "save": 1,
+          "docxSha256": "43315ebd71d2812e31be6e67ffbf707864866e82c02d9a51a28db72b81f124bd",
+          "pdfSha256": "8ca936c3d79d6936d5a148408c63e89e3d32cb92da0befe794295201628f50cf",
+          "declaredApplication": "LibreOfficeDev/26.8.0.0.alpha0$Linux_X86_64 LibreOffice_project/2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+          "dossierPages": 3,
+          "tagKeys": 37,
+          "taggedControlOccurrences": 37,
+          "sourceOccurrencesMatched": 37,
+          "sourceOccurrencesMissingOrMoved": 49,
+          "sourceOccurrencesAmbiguous": 0,
+          "matchedOccurrencesWithExactTextTokens": 37,
+          "matchedOccurrencesWithSameNesting": 12,
+          "allSourceTaggedTextInXml": true,
+          "allSourceTaggedTextInRenderedDossier": true,
+          "perPageContactHeaderChecks": [],
+          "photo": [
+            {
+              "source": {
+                "owners": [
+                  "cv.person.photo"
+                ],
+                "representation": "DrawingML",
+                "story": "word/document.xml",
+                "storyRoles": [
+                  "section:3/body"
+                ],
+                "container": "native-picture",
+                "pixels": {
+                  "width": 1920,
+                  "height": 2880,
+                  "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6"
+                },
+                "embeddedFileSha256": "f8ba8f4b000d9aa4f18a5f476a630615232905810aec92c69d4e128cbfdec69c",
+                "cropMarkup": {
+                  "l": "8400",
+                  "t": "24400",
+                  "r": "11600",
+                  "b": "22267"
+                },
+                "cropFractions": [
+                  "0.084",
+                  "0.244",
+                  "0.116",
+                  "0.22267"
+                ],
+                "fillRectMarkup": {}
+              },
+              "savedOwnedPictureCount": 1,
+              "typedPictureControlSurvives": true,
+              "originalPixelsInsideCanonicalControl": false,
+              "originalPixelsInAnyActivePicture": false,
+              "originalPixelsSomewhereInPackage": false,
+              "exactCropMarkupUnchanged": false,
+              "encodedCropFractionsUnchanged": null,
+              "originalPixelWindowUnchanged": null,
+              "canonicalOwnerStoryRolesUnchanged": true,
+              "saved": {
+                "owners": [
+                  "cv.person.photo"
+                ],
+                "representation": "VML",
+                "story": "word/document.xml",
+                "storyRoles": [
+                  "section:3/body"
+                ],
+                "container": "vml-shape-fill",
+                "pixels": {
+                  "width": 1536,
+                  "height": 1536,
+                  "rgbaSha256": "e8c761572d972a98c4c5eafaa5a48f21e2254c5067b7ad90a3872361a67c5d2b"
+                },
+                "embeddedFileSha256": "0e9778892f058b895b438f8cfb5ca66230e1bab8a6da9cd2115677b181aa6b97",
+                "cropMarkup": {
+                  "type": "frame"
+                },
+                "cropFractions": null,
+                "fillRectMarkup": null
+              }
+            }
+          ],
+          "sourceContentKinds": {
+            "block": 74,
+            "inline": 12
+          },
+          "duplicateNativeSdtIds": [],
+          "actualSaveSeconds": 3.711
+        },
+        {
+          "save": 2,
+          "docxSha256": "dad131c9a08b0809126b40bd7f69de15ec877f31d12549288b5953301b9349ce",
+          "pdfSha256": "28d615116213921bfb5852ac807709505ede7f69ae50323db33e80af5260abb5",
+          "declaredApplication": "LibreOfficeDev/26.8.0.0.alpha0$Linux_X86_64 LibreOffice_project/2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+          "dossierPages": 3,
+          "tagKeys": 37,
+          "taggedControlOccurrences": 37,
+          "sourceOccurrencesMatched": 37,
+          "sourceOccurrencesMissingOrMoved": 49,
+          "sourceOccurrencesAmbiguous": 0,
+          "matchedOccurrencesWithExactTextTokens": 37,
+          "matchedOccurrencesWithSameNesting": 12,
+          "allSourceTaggedTextInXml": true,
+          "allSourceTaggedTextInRenderedDossier": true,
+          "perPageContactHeaderChecks": [],
+          "photo": [
+            {
+              "source": {
+                "owners": [
+                  "cv.person.photo"
+                ],
+                "representation": "DrawingML",
+                "story": "word/document.xml",
+                "storyRoles": [
+                  "section:3/body"
+                ],
+                "container": "native-picture",
+                "pixels": {
+                  "width": 1920,
+                  "height": 2880,
+                  "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6"
+                },
+                "embeddedFileSha256": "f8ba8f4b000d9aa4f18a5f476a630615232905810aec92c69d4e128cbfdec69c",
+                "cropMarkup": {
+                  "l": "8400",
+                  "t": "24400",
+                  "r": "11600",
+                  "b": "22267"
+                },
+                "cropFractions": [
+                  "0.084",
+                  "0.244",
+                  "0.116",
+                  "0.22267"
+                ],
+                "fillRectMarkup": {}
+              },
+              "savedOwnedPictureCount": 1,
+              "typedPictureControlSurvives": true,
+              "originalPixelsInsideCanonicalControl": false,
+              "originalPixelsInAnyActivePicture": false,
+              "originalPixelsSomewhereInPackage": false,
+              "exactCropMarkupUnchanged": false,
+              "encodedCropFractionsUnchanged": null,
+              "originalPixelWindowUnchanged": null,
+              "canonicalOwnerStoryRolesUnchanged": true,
+              "saved": {
+                "owners": [
+                  "cv.person.photo"
+                ],
+                "representation": "VML",
+                "story": "word/document.xml",
+                "storyRoles": [
+                  "section:3/body"
+                ],
+                "container": "vml-shape-fill",
+                "pixels": {
+                  "width": 1536,
+                  "height": 1536,
+                  "rgbaSha256": "e8c761572d972a98c4c5eafaa5a48f21e2254c5067b7ad90a3872361a67c5d2b"
+                },
+                "embeddedFileSha256": "0e9778892f058b895b438f8cfb5ca66230e1bab8a6da9cd2115677b181aa6b97",
+                "cropMarkup": {
+                  "type": "frame"
+                },
+                "cropFractions": null,
+                "fillRectMarkup": null
+              }
+            }
+          ],
+          "sourceContentKinds": {
+            "block": 74,
+            "inline": 12
+          },
+          "duplicateNativeSdtIds": [],
+          "actualSaveSeconds": 1.335
+        }
+      ]
+    }
+  ],
+  "currentWordAcceptance": "UNVERIFIED",
+  "exactGeometryGate": "NOT_RERUN",
+  "productSidebarGuard": "CLOSED",
+  "productCodeChanged": false,
+  "historicalWord": {
+    "scope": "HISTORICAL_MODERN_CONTACT_CLASSIC_CV_WITHOUT_PHOTO",
+    "sourceSha256": "14b469976ad114fdfa478aca77b5999fc9c34a2f41faedbde13dfce7b12419c3",
+    "returnedSha256": "0b26aec97bf3d1da0b2d7ca6dacf147fbac0411bc66a0d104f5daa7e18de4274",
+    "declaredApplications": {
+      "source": null,
+      "saved": "Microsoft Office Word"
+    },
+    "sourceTagKeys": 115,
+    "returnedTagKeys": 115,
+    "sourceOccurrences": 126,
+    "matchedOccurrences": 126,
+    "sameStoryRoles": 126,
+    "sameNesting": 126,
+    "sameTextTokens": 125,
+    "changedTextKeys": [
+      "cover.eyebrow"
+    ],
+    "sourceControlsWithNumericIds": 0,
+    "returnedControlsWithNumericIds": 126,
+    "returnedIdCollisions": [],
+    "photoCount": 0,
+    "currentSidebarAcceptance": "NOT_ESTABLISHED",
+    "metadataAloneProvesApplication": false
+  }
+}
