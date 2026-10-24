@@ -1102,5 +1102,15 @@
     "source": "CHECKED_SYNTHETIC_PICTURE_ONLY",
     "wordAcceptance": "UNVERIFIED",
     "storedOutsideGit": true
+  },
+  "highResolutionCompressionSetting": {
+    "source": {
+      "doNotAutoCompressPicturesPresent": true,
+      "value": "true"
+    },
+    "writerSave1": {
+      "doNotAutoCompressPicturesPresent": false,
+      "value": null
+    }
   }
 }
