@@ -39,6 +39,8 @@ Ein Word-/Writer-Unterschied lässt sich nur an denselben unveränderten Quellen
 
 ## Photos and cropping
 
+Nachtrag derselben Tagesfortsetzung: [Unabhängige Quellstruktur- und Bildrollenprüfung](docx-next-sidebar-source-structure-24okt.md). Der Leser hat jetzt 51 Gegenproben. Vier Quellen bestehen 68 Word-XML-Prüfungen im beschriebenen ECMA-/WPS-Umfang. Der tatsächliche Writer-Bildverlust samt sichtbarer Füllungsverzerrung ist zusätzlich mit 1920 × 2880 Pixeln reproduziert; die gespeicherte Datei enthält nur noch den mittleren Ausschnitt mit 1920 × 2400 Pixeln. Das erweitert den Befund, ohne Word-Verhalten oder vollständige Schema-/MC-Konformität zu behaupten. Die folgenden zwei Save1-/Save2-Fälle behalten ihren ursprünglichen Umfang.
+
 Zwei aktuelle App-Projekte wurden importiert, durch die Editoransichten geführt und frisch exportiert. Die normale PDF-Funktion besteht; der normale Sidebar-DOCX-Produkteinstieg bleibt gesperrt. Jede Datei wurde anschliessend mit unverändertem LibreOfficeDev 26.8 alpha0 in einem separaten Prozess gespeichert, aus diesem Ergebnis erneut geöffnet und ein zweites Mal gespeichert. Alle drei Phasen wurden gerendert: zusammen 21 Dossierseiten, gleiche Seitenzahlen je Fall. Die Originaldateien bleiben bytegleich.
 
 | Fall | Quelle | Nach erstem Save | Nach zweitem Save |

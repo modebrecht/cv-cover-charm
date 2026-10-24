@@ -1,0 +1,1106 @@
+{
+  "branchBase": "b1b10e350194286d3d146d021a6269bbea020b63",
+  "productBase": "9e7579c08527310d8b21bba2807924fb0c8de463",
+  "readerTestsPassed": 51,
+  "newReaderTests": 15,
+  "sourceStructure": {
+    "productBase": "9e7579c08527310d8b21bba2807924fb0c8de463",
+    "branchBase": "b1b10e350194286d3d146d021a6269bbea020b63",
+    "schemaSources": {
+      "ecmaMirror": {
+        "repository": "QtExcel/ecma-376-5th",
+        "commit": "6c1a7f9cac8d3ca0a1713dcfbcb59de2a82bb3aa",
+        "officialStandard": "https://ecma-international.org/publications-and-standards/standards/ecma-376/"
+      },
+      "wpsMetadata": {
+        "repository": "dotnet/Open-XML-SDK",
+        "blob": "50a33dfca81df216b180f3081b3d07201438d9a5",
+        "path": "data/schemas/schemas_microsoft_com_office_word_2010_wordprocessingShape.json"
+      },
+      "xmlNamespace": {
+        "repository": "plutext/docx4j",
+        "commit": "0eec2587ab38db5265ce66c12423849c1bea2c60",
+        "path": "xsd/wml/xml.xsd"
+      }
+    },
+    "schemaFiles": [
+      {
+        "file": "OfficeOpenXML-XMLSchema-Transitional/dml-chart.xsd",
+        "gitBlobSha": "6454ef9a94d52512e4905df61280a3fd1dafc0a4",
+        "sha256": "41b93bd8857cc68b1e43be2806a872d736a9bdd6566900062d8fdb57d7bbb354"
+      },
+      {
+        "file": "OfficeOpenXML-XMLSchema-Transitional/dml-chartDrawing.xsd",
+        "gitBlobSha": "afa4f463e3140a3f626c73f7966d689270d89b2c",
+        "sha256": "3fd0586f2637b98bb9886f0e0b67d89e1cc987c2d158cc7deb5f5b9890ced412"
+      },
+      {
+        "file": "OfficeOpenXML-XMLSchema-Transitional/dml-diagram.xsd",
+        "gitBlobSha": "64e66b8abd496d2e450c08110e40607e90b3fe13",
+        "sha256": "29b254ee0d10414a8504b5a08149c7baec35a60d5ff607d6b3f492aa36815f40"
+      },
+      {
+        "file": "OfficeOpenXML-XMLSchema-Transitional/dml-lockedCanvas.xsd",
+        "gitBlobSha": "687eea8297caa298581aa06c40ca40ef7b8a58bc",
+        "sha256": "5cb76dabd8b97d1e9308a1700b90c20139be4d50792d21a7f09789f5cccd6026"
+      },
+      {
+        "file": "OfficeOpenXML-XMLSchema-Transitional/dml-main.xsd",
+        "gitBlobSha": "6ac81b06b7a3ef916d677953084ae225504a77bc",
+        "sha256": "5375417f0f5394b8dd1a7035b9679151f19a6b65df309dec10cfb4a420cb00e9"
+      },
+      {
+        "file": "OfficeOpenXML-XMLSchema-Transitional/dml-picture.xsd",
+        "gitBlobSha": "1dbf05140d07fa014f18a5630acc0613d8058e52",
+        "sha256": "5d389d42befbebd91945d620242347caecd3367f9a3a7cf8d97949507ae1f53c"
+      },
+      {
+        "file": "OfficeOpenXML-XMLSchema-Transitional/dml-spreadsheetDrawing.xsd",
+        "gitBlobSha": "f1af17db4e83b1c40152577eca4a575ab63a1ca7",
+        "sha256": "b4532b6d258832953fbb3ee4c711f4fe25d3faf46a10644b2505f17010d01e88"
+      },
+      {
+        "file": "OfficeOpenXML-XMLSchema-Transitional/dml-wordprocessingDrawing.xsd",
+        "gitBlobSha": "0a185ab6ed0c2dd9b383a403c56c909bbab8b9a1",
+        "sha256": "bdad416b096b61d37b71603b2c949484f9070c830bdaeba93bf35e15c8900614"
+      },
+      {
+        "file": "OfficeOpenXML-XMLSchema-Transitional/pml.xsd",
+        "gitBlobSha": "14ef488865f3ae6150776220ebbcf4788f89066a",
+        "sha256": "d173c3e5d61e42e2e3a97226c632fd2ab7cc481fc4e492365b87024ab546daff"
+      },
+      {
+        "file": "OfficeOpenXML-XMLSchema-Transitional/shared-additionalCharacteristics.xsd",
+        "gitBlobSha": "c20f3bf14720d34247e8e1302dc3c40f7b832099",
+        "sha256": "3c6709101c6aaa82888df5d8795c33f9e857196790eb320d9194e64be2b6bdd8"
+      },
+      {
+        "file": "OfficeOpenXML-XMLSchema-Transitional/shared-bibliography.xsd",
+        "gitBlobSha": "ac60252262534e7b87523fd04d252f085b38bec0",
+        "sha256": "0b364451dc36a48dd6dae0f3b6ada05fd9b71e5208211f8ee5537d7e51a587e2"
+      },
+      {
+        "file": "OfficeOpenXML-XMLSchema-Transitional/shared-commonSimpleTypes.xsd",
+        "gitBlobSha": "5686c3c6d27ee2d74602e76eff0d7909c738e6bc",
+        "sha256": "8df6a1d927bbefb091a5233bd4e872f7992f62b4065fe1f129caf4fa5da68ad7"
+      },
+      {
+        "file": "OfficeOpenXML-XMLSchema-Transitional/shared-customXmlDataProperties.xsd",
+        "gitBlobSha": "2bddce29214882eb9fdf2be8a50ed5bdd0c69dfc",
+        "sha256": "0ef4bb354ff44b923564c4ddbdda5987919d220225129ec94614a618ceafc281"
+      },
+      {
+        "file": "OfficeOpenXML-XMLSchema-Transitional/shared-customXmlSchemaProperties.xsd",
+        "gitBlobSha": "8a8c18ba2d5caa7e60a365e77ae0d1b872141bb0",
+        "sha256": "0d103b99a4a8652f8871552a69d42d2a3760ac6a5e3ef02d979c4273257ff6a4"
+      },
+      {
+        "file": "OfficeOpenXML-XMLSchema-Transitional/shared-documentPropertiesCustom.xsd",
+        "gitBlobSha": "5c42706a0d53c5e8b96818d9c29a292d1504f720",
+        "sha256": "9c085407751b9061c1f996f6c39ce58451be22a8d334f09175f0e89e42736285"
+      },
+      {
+        "file": "OfficeOpenXML-XMLSchema-Transitional/shared-documentPropertiesExtended.xsd",
+        "gitBlobSha": "853c341c87feb51e10d757aea28b4185ae4c2731",
+        "sha256": "bc92e36ccd233722d4c5869bec71ddc7b12e2df56059942cce5a39065cc9c368"
+      },
+      {
+        "file": "OfficeOpenXML-XMLSchema-Transitional/shared-documentPropertiesVariantTypes.xsd",
+        "gitBlobSha": "da835ee82d5cc31be9fa9792512930f7ae3fb5ce",
+        "sha256": "7b5b7413e2c895b1e148e82e292a117d53c7ec65b0696c992edca57b61b4a74b"
+      },
+      {
+        "file": "OfficeOpenXML-XMLSchema-Transitional/shared-math.xsd",
+        "gitBlobSha": "5ecd223b0727f26de99aedacdaef4d9a87374db2",
+        "sha256": "1e1e49c96aa5faab9d72301151044c09556182adc95c00506605ff62b24e4cb8"
+      },
+      {
+        "file": "OfficeOpenXML-XMLSchema-Transitional/shared-relationshipReference.xsd",
+        "gitBlobSha": "9e86f1b2be0d431cd3c250ddeaf4efabdbcb088b",
+        "sha256": "12264f3c03d738311cd9237d212f1c07479e70f0cbe1ae725d29b36539aef637"
+      },
+      {
+        "file": "OfficeOpenXML-XMLSchema-Transitional/sml.xsd",
+        "gitBlobSha": "d0be42e757f3cce533c1c80770239f0097d3de6b",
+        "sha256": "beffeed56945c22a77440122c8bdc426f3fcbe7f3b12ea0976c770d1f8d54578"
+      },
+      {
+        "file": "OfficeOpenXML-XMLSchema-Transitional/vml-main.xsd",
+        "gitBlobSha": "8821dd183caf9c8c3b809e0e2d9e0df56c4e9ed9",
+        "sha256": "f5ee623b08b6a66935e5aced2f5d8ad0fc71bf9e8e833cd490150c0fa94b8763"
+      },
+      {
+        "file": "OfficeOpenXML-XMLSchema-Transitional/vml-officeDrawing.xsd",
+        "gitBlobSha": "ca2575c753be78cdaa96de56b3ff8770173c324d",
+        "sha256": "585bedc1313b40888dcc544cb74cd939a105ee674f3b1d3aa1cc6d34f70ff155"
+      },
+      {
+        "file": "OfficeOpenXML-XMLSchema-Transitional/vml-presentationDrawing.xsd",
+        "gitBlobSha": "dd079e603f5770176212776a1d565b108875cf64",
+        "sha256": "133c9f64a5c5d573b78d0a474122b22506d8eadb5e063f67cdbbb8fa2f161d0e"
+      },
+      {
+        "file": "OfficeOpenXML-XMLSchema-Transitional/vml-spreadsheetDrawing.xsd",
+        "gitBlobSha": "3dd6cf625a740398c2a4dc8abbe18e25e0ac5e9f",
+        "sha256": "6bdeb169c3717eb01108853bd9fc5a3750fb1fa5b82abbdd854d49855a40f519"
+      },
+      {
+        "file": "OfficeOpenXML-XMLSchema-Transitional/vml-wordprocessingDrawing.xsd",
+        "gitBlobSha": "f1041e34ef365926f5670b896f5bb23e553ac36d",
+        "sha256": "475dcae1e7d1ea46232db6f8481040c15e53a52a3c256831d3df204212b0e831"
+      },
+      {
+        "file": "OfficeOpenXML-XMLSchema-Transitional/wml.xsd",
+        "gitBlobSha": "0cd6a8cdf067e896f5440cf93b66e65fab732382",
+        "sha256": "4112072b459b7a4b9fe31562223945124102185d1ad113178c4a642d11e97153"
+      },
+      {
+        "file": "OpenPackagingConventions-XMLSchema/opc-contentTypes.xsd",
+        "gitBlobSha": "a6de9d2733d3f0eea12ae87b24122495df1f0928",
+        "sha256": "9e0b7209fc69ab11987900404540969976000c5ebe4d4f58c43dc3842886bf3a"
+      },
+      {
+        "file": "OpenPackagingConventions-XMLSchema/opc-relationships.xsd",
+        "gitBlobSha": "56497467120b52b742756379959d4b2536be6df7",
+        "sha256": "f565adfef5a502044abc3a9153e157edc25af78304d335994afb958874b15e26"
+      },
+      {
+        "file": "xml.xsd",
+        "gitBlobSha": "737710d0e253b60fd9cc80c05b3115df61fc95d5",
+        "sha256": "25b44db6e8c219057d4cf977ec18b677a6c0c77a416e4fc09b05ec9cb285b16b"
+      }
+    ],
+    "wpsSubsetSha256": "c878455bbe2df839c1655fe5bbf11b2f4aac71b90b5b80d0359d3175db93086a",
+    "cases": [
+      {
+        "case": "right-contact-long",
+        "docxSha256": "53d08cff0ecd37c261a70e82f8409fec6f58fd7f61964738504a73ff558875d3",
+        "sourceUnchanged": true,
+        "parts": [
+          {
+            "part": "word/cover-header.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/cover-footer.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/cover-header-first.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/cover-footer-first.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/letter-header.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/letter-footer.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/letter-header-first.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/letter-footer-first.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/cv-header.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/cv-footer.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/cv-header-first.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/cv-footer-first.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/document.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/styles.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/settings.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/fontTable.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/numbering.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          }
+        ],
+        "wpsNonVisualPropertyChecks": [],
+        "taggedControlOccurrences": 145,
+        "nativeSdtIdCollisions": [],
+        "sourcePhoto": {
+          "owners": [
+            "cv.person.photo"
+          ],
+          "representation": "DrawingML",
+          "ownerOccurrences": [
+            {
+              "field": "cv.person.photo",
+              "occurrence": 1
+            }
+          ],
+          "imageRelationshipStatus": "RESOLVED_EMBEDDED_IMAGE",
+          "story": "word/document.xml",
+          "storyRoles": [
+            "section:3/body"
+          ],
+          "container": "native-picture",
+          "pixels": {
+            "width": 120,
+            "height": 180,
+            "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+          },
+          "embeddedFileSha256": "b55b592a4b251518601207931566e1fe63b77ed8294163ea519a7fe33dc4ab0f",
+          "cropMarkup": {
+            "l": "0",
+            "t": "8333",
+            "r": "0",
+            "b": "8333"
+          },
+          "cropFractions": [
+            "0",
+            "0.08333",
+            "0",
+            "0.08333"
+          ],
+          "fillRectMarkup": {}
+        },
+        "selfComparisonAllOccurrencesMatch": true
+      },
+      {
+        "case": "06-Sidebar-rechts-Foto-frei",
+        "docxSha256": "90ca1d6752a7ded3fbfae1de0d71192b9ca5bbb89e34e1d02a647813584bb70c",
+        "sourceUnchanged": true,
+        "parts": [
+          {
+            "part": "word/cover-header.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/cover-footer.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/cover-header-first.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/cover-footer-first.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/letter-header.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/letter-footer.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/letter-header-first.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/letter-footer-first.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/cv-header.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/cv-footer.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/cv-header-first.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/cv-footer-first.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/document.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/styles.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/settings.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/fontTable.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/numbering.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          }
+        ],
+        "wpsNonVisualPropertyChecks": [
+          {
+            "part": "word/document.xml",
+            "directGraphicData": true,
+            "nonVisualPropertyRuleSatisfied": true
+          }
+        ],
+        "taggedControlOccurrences": 86,
+        "nativeSdtIdCollisions": [],
+        "sourcePhoto": {
+          "owners": [
+            "cv.person.photo"
+          ],
+          "representation": "DrawingML",
+          "ownerOccurrences": [
+            {
+              "field": "cv.person.photo",
+              "occurrence": 1
+            }
+          ],
+          "imageRelationshipStatus": "RESOLVED_EMBEDDED_IMAGE",
+          "story": "word/document.xml",
+          "storyRoles": [
+            "section:3/body"
+          ],
+          "container": "native-picture",
+          "pixels": {
+            "width": 1920,
+            "height": 2880,
+            "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6"
+          },
+          "embeddedFileSha256": "f8ba8f4b000d9aa4f18a5f476a630615232905810aec92c69d4e128cbfdec69c",
+          "cropMarkup": {
+            "l": "8400",
+            "t": "24400",
+            "r": "11600",
+            "b": "22267"
+          },
+          "cropFractions": [
+            "0.084",
+            "0.244",
+            "0.116",
+            "0.22267"
+          ],
+          "fillRectMarkup": {}
+        },
+        "selfComparisonAllOccurrencesMatch": true
+      },
+      {
+        "case": "left-contact-long",
+        "docxSha256": "3a019acf98ef9168084615d3e6ab33759efb0693dfdea573df924c5a3fe6acd0",
+        "sourceUnchanged": true,
+        "parts": [
+          {
+            "part": "word/cover-header.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/cover-footer.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/cover-header-first.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/cover-footer-first.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/letter-header.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/letter-footer.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/letter-header-first.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/letter-footer-first.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/cv-header.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/cv-footer.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/cv-header-first.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/cv-footer-first.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/document.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/styles.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/settings.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/fontTable.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/numbering.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          }
+        ],
+        "wpsNonVisualPropertyChecks": [],
+        "taggedControlOccurrences": 145,
+        "nativeSdtIdCollisions": [],
+        "sourcePhoto": {
+          "owners": [
+            "cv.person.photo"
+          ],
+          "representation": "DrawingML",
+          "ownerOccurrences": [
+            {
+              "field": "cv.person.photo",
+              "occurrence": 1
+            }
+          ],
+          "imageRelationshipStatus": "RESOLVED_EMBEDDED_IMAGE",
+          "story": "word/document.xml",
+          "storyRoles": [
+            "section:3/body"
+          ],
+          "container": "native-picture",
+          "pixels": {
+            "width": 120,
+            "height": 180,
+            "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+          },
+          "embeddedFileSha256": "b55b592a4b251518601207931566e1fe63b77ed8294163ea519a7fe33dc4ab0f",
+          "cropMarkup": {
+            "l": "0",
+            "t": "8333",
+            "r": "0",
+            "b": "8333"
+          },
+          "cropFractions": [
+            "0",
+            "0.08333",
+            "0",
+            "0.08333"
+          ],
+          "fillRectMarkup": {}
+        },
+        "selfComparisonAllOccurrencesMatch": true
+      },
+      {
+        "case": "left-contact-long",
+        "docxSha256": "5e469d60181f8405fffcb43a57f92377fc6b0daa414d71ac22cd33ed3a6a25e0",
+        "sourceUnchanged": true,
+        "parts": [
+          {
+            "part": "word/cover-header.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/cover-footer.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/cover-header-first.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/cover-footer-first.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/letter-header.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/letter-footer.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/letter-header-first.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/letter-footer-first.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/cv-header.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/cv-footer.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/cv-header-first.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/cv-footer-first.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/document.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/styles.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/settings.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/fontTable.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          },
+          {
+            "part": "word/numbering.xml",
+            "validInCheckedSchemaSet": true,
+            "errors": []
+          }
+        ],
+        "wpsNonVisualPropertyChecks": [],
+        "taggedControlOccurrences": 145,
+        "nativeSdtIdCollisions": [],
+        "sourcePhoto": {
+          "owners": [
+            "cv.person.photo"
+          ],
+          "representation": "DrawingML",
+          "ownerOccurrences": [
+            {
+              "field": "cv.person.photo",
+              "occurrence": 1
+            }
+          ],
+          "imageRelationshipStatus": "RESOLVED_EMBEDDED_IMAGE",
+          "story": "word/document.xml",
+          "storyRoles": [
+            "section:3/body"
+          ],
+          "container": "native-picture",
+          "pixels": {
+            "width": 1920,
+            "height": 2880,
+            "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6"
+          },
+          "embeddedFileSha256": "f8ba8f4b000d9aa4f18a5f476a630615232905810aec92c69d4e128cbfdec69c",
+          "cropMarkup": {
+            "l": "0",
+            "t": "8333",
+            "r": "0",
+            "b": "8333"
+          },
+          "cropFractions": [
+            "0",
+            "0.08333",
+            "0",
+            "0.08333"
+          ],
+          "fillRectMarkup": {}
+        },
+        "selfComparisonAllOccurrencesMatch": true
+      }
+    ],
+    "negativeSchemaChecks": [
+      {
+        "mutation": "picture-child-order",
+        "rejected": true,
+        "errorKinds": [
+          "SCHEMAV_ELEMENT_CONTENT"
+        ]
+      },
+      {
+        "mutation": "missing-drawing-identity",
+        "rejected": true,
+        "errorKinds": [
+          "SCHEMAV_ELEMENT_CONTENT"
+        ]
+      },
+      {
+        "mutation": "invalid-crop-number",
+        "rejected": true,
+        "errorKinds": [
+          "SCHEMAV_CVC_DATATYPE_VALID_1_2_3"
+        ]
+      },
+      {
+        "mutation": "block-inside-inline-picture-control",
+        "rejected": true,
+        "errorKinds": [
+          "SCHEMAV_ELEMENT_CONTENT"
+        ]
+      },
+      {
+        "mutation": "missing-free-shape-body-properties",
+        "rejected": true,
+        "errorKinds": [
+          "SCHEMAV_ELEMENT_CONTENT"
+        ]
+      },
+      {
+        "mutation": "invalid-free-anchor-origin",
+        "rejected": true,
+        "errorKinds": [
+          "SCHEMAV_CVC_ENUMERATION_VALID"
+        ]
+      }
+    ],
+    "limits": [
+      "Pinned ECMA schema copy and an explicitly limited Office2010 WPS subset.",
+      "No full Open XML SDK semantic validation, legacy wne support or MC conformance certification.",
+      "Package media/reference survival is separate from visible rendering and Word editability.",
+      "Only the supplied source files are assessed; this is not a template matrix."
+    ],
+    "productCodeChanged": false,
+    "officeEngineStartedByThisTool": false,
+    "currentWordAcceptance": "UNVERIFIED"
+  },
+  "mirrorAndHighResolution": {
+    "branchBase": "b1b10e350194286d3d146d021a6269bbea020b63",
+    "productBase": "9e7579c08527310d8b21bba2807924fb0c8de463",
+    "runtime": {
+      "version": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+      "returnCode": 0,
+      "sofficeBinarySha256": "d905a74dc92eaccb22481ba2de1345666a074a5f0d48322aaad1b6dc8a9e1e40"
+    },
+    "productCodeChanged": false,
+    "freshAppRestores": 2,
+    "phaseRows": [
+      {
+        "case": "mirrored-left",
+        "phase": "source",
+        "docxSha256": "3a019acf98ef9168084615d3e6ab33759efb0693dfdea573df924c5a3fe6acd0",
+        "pdfSha256": "36cf9d1b77875424150c089a2eb36572c7bd2e8586f00e4139ae8e773e099a74",
+        "renderState": "COMPLETED",
+        "dossierPages": 4,
+        "normalizedSourceTextInRenderedPdf": true,
+        "headerChecks": [
+          {
+            "cvPage": 1,
+            "expectedHeaderFieldsInHeaderBand": true
+          },
+          {
+            "cvPage": 2,
+            "expectedHeaderFieldsInHeaderBand": true
+          }
+        ],
+        "controlOccurrences": 145
+      },
+      {
+        "case": "high-resolution-left",
+        "phase": "source",
+        "docxSha256": "5e469d60181f8405fffcb43a57f92377fc6b0daa414d71ac22cd33ed3a6a25e0",
+        "pdfSha256": "4d5a9111c918d2d281e9adf7232ab1985961c8a8002f33d9b20da415bdcdcded",
+        "renderState": "COMPLETED",
+        "dossierPages": 4,
+        "normalizedSourceTextInRenderedPdf": true,
+        "headerChecks": [
+          {
+            "cvPage": 1,
+            "expectedHeaderFieldsInHeaderBand": true
+          },
+          {
+            "cvPage": 2,
+            "expectedHeaderFieldsInHeaderBand": true
+          }
+        ],
+        "controlOccurrences": 145
+      },
+      {
+        "case": "high-resolution-left",
+        "phase": "writer-save-1",
+        "docxSha256": "28cc0984f5f48572d804bdf72d135e1c7ac78414b2e7ebff65c2e58e7bceb7ee",
+        "pdfSha256": "a1ea2a61aea5fbff6fe585cb939fa5ecb45545668a6cfad350d4aa6cf0dfad76",
+        "renderState": "COMPLETED",
+        "dossierPages": 4,
+        "normalizedSourceTextInRenderedPdf": true,
+        "headerChecks": [
+          {
+            "cvPage": 1,
+            "expectedHeaderFieldsInHeaderBand": true
+          },
+          {
+            "cvPage": 2,
+            "expectedHeaderFieldsInHeaderBand": true
+          }
+        ],
+        "controlOccurrences": 49,
+        "matchedSourceOccurrences": 49,
+        "missingOrMovedSourceOccurrences": 96,
+        "photo": {
+          "source": {
+            "owners": [
+              "cv.person.photo"
+            ],
+            "representation": "DrawingML",
+            "ownerOccurrences": [
+              {
+                "field": "cv.person.photo",
+                "occurrence": 1
+              }
+            ],
+            "imageRelationshipStatus": "RESOLVED_EMBEDDED_IMAGE",
+            "story": "word/document.xml",
+            "storyRoles": [
+              "section:3/body"
+            ],
+            "container": "native-picture",
+            "pixels": {
+              "width": 1920,
+              "height": 2880,
+              "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6"
+            },
+            "embeddedFileSha256": "f8ba8f4b000d9aa4f18a5f476a630615232905810aec92c69d4e128cbfdec69c",
+            "cropMarkup": {
+              "l": "0",
+              "t": "8333",
+              "r": "0",
+              "b": "8333"
+            },
+            "cropFractions": [
+              "0",
+              "0.08333",
+              "0",
+              "0.08333"
+            ],
+            "fillRectMarkup": {}
+          },
+          "savedOwnedPictureCount": 1,
+          "canonicalOwnerMatchStatus": "MATCHED",
+          "canonicalOwnerRoleCounts": {
+            "source": 1,
+            "saved": 1
+          },
+          "savedPhotoControlOccurrence": 1,
+          "typedPictureControlSurvives": true,
+          "originalPixelsInsideCanonicalControl": false,
+          "originalPixelsInAnyActivePicture": false,
+          "originalPixelsSomewhereInPackage": false,
+          "exactCropMarkupUnchanged": false,
+          "encodedCropFractionsUnchanged": null,
+          "originalPixelWindowUnchanged": null,
+          "canonicalOwnerStoryRolesUnchanged": true,
+          "saved": {
+            "owners": [
+              "cv.person.photo"
+            ],
+            "representation": "DrawingML",
+            "ownerOccurrences": [
+              {
+                "field": "cv.person.photo",
+                "occurrence": 1
+              }
+            ],
+            "imageRelationshipStatus": "RESOLVED_EMBEDDED_IMAGE",
+            "story": "word/document.xml",
+            "storyRoles": [
+              "section:3/body"
+            ],
+            "container": "drawing-shape-fill",
+            "pixels": {
+              "width": 1920,
+              "height": 2400,
+              "rgbaSha256": "5eb06e4b7b894906d2500713f23c27682875fc39bf6183691b1e088a0b947178"
+            },
+            "embeddedFileSha256": "48c0f5d7fbcfd205cb2607848736b983060ad066ba66fdc67dc596b5a706d97a",
+            "cropMarkup": null,
+            "cropFractions": null,
+            "fillRectMarkup": {
+              "l": "0",
+              "t": "264541",
+              "r": "0",
+              "b": "264541"
+            }
+          }
+        },
+        "actualSave": {
+          "state": "COMPLETED",
+          "seconds": 11.095,
+          "exitCode": 0,
+          "sourceSha256": "5e469d60181f8405fffcb43a57f92377fc6b0daa414d71ac22cd33ed3a6a25e0",
+          "sourceUnchanged": true,
+          "savedSha256": "28cc0984f5f48572d804bdf72d135e1c7ac78414b2e7ebff65c2e58e7bceb7ee",
+          "sourcePartsChangedAgainstLowResolution": [
+            "word/media/image-1.png"
+          ]
+        }
+      }
+    ],
+    "wordAcceptance": "UNVERIFIED",
+    "normalSidebarGuard": "CLOSED",
+    "highResolutionSavedAssetEqualsSourceCrop": {
+      "sourceBoxPixels": [
+        0,
+        240,
+        1920,
+        2640
+      ],
+      "exactRgbaMatch": true,
+      "removedRowsTotal": 480
+    }
+  },
+  "repeatSaveReopenBaseline": {
+    "cases": [
+      {
+        "case": "right-contact-long",
+        "sourceUnchanged": true,
+        "phases": [
+          {
+            "save": 0,
+            "docxSha256": "53d08cff0ecd37c261a70e82f8409fec6f58fd7f61964738504a73ff558875d3",
+            "taggedControlOccurrences": 145,
+            "sourceOccurrencesMissingOrMoved": 0,
+            "allSourceTaggedTextInXml": true,
+            "allSourceTaggedTextInRenderedDossier": true,
+            "originalPixelsInsideCanonicalControl": true
+          },
+          {
+            "save": 1,
+            "docxSha256": "feff955415a2dc959001ba198f1276d1dd042dda60d306e9b8ee837cf5788c17",
+            "taggedControlOccurrences": 51,
+            "sourceOccurrencesMissingOrMoved": 94,
+            "allSourceTaggedTextInXml": true,
+            "allSourceTaggedTextInRenderedDossier": true,
+            "originalPixelsInsideCanonicalControl": false
+          },
+          {
+            "save": 2,
+            "docxSha256": "4677bd64c6c38fa68c376986eeb5324336f2d1329c012e6f4414d262d5fab044",
+            "taggedControlOccurrences": 51,
+            "sourceOccurrencesMissingOrMoved": 94,
+            "allSourceTaggedTextInXml": true,
+            "allSourceTaggedTextInRenderedDossier": true,
+            "originalPixelsInsideCanonicalControl": false
+          }
+        ]
+      },
+      {
+        "case": "06-Sidebar-rechts-Foto-frei",
+        "sourceUnchanged": true,
+        "phases": [
+          {
+            "save": 0,
+            "docxSha256": "90ca1d6752a7ded3fbfae1de0d71192b9ca5bbb89e34e1d02a647813584bb70c",
+            "taggedControlOccurrences": 86,
+            "sourceOccurrencesMissingOrMoved": 0,
+            "allSourceTaggedTextInXml": true,
+            "allSourceTaggedTextInRenderedDossier": true,
+            "originalPixelsInsideCanonicalControl": true
+          },
+          {
+            "save": 1,
+            "docxSha256": "43315ebd71d2812e31be6e67ffbf707864866e82c02d9a51a28db72b81f124bd",
+            "taggedControlOccurrences": 37,
+            "sourceOccurrencesMissingOrMoved": 49,
+            "allSourceTaggedTextInXml": true,
+            "allSourceTaggedTextInRenderedDossier": true,
+            "originalPixelsInsideCanonicalControl": false
+          },
+          {
+            "save": 2,
+            "docxSha256": "dad131c9a08b0809126b40bd7f69de15ec877f31d12549288b5953301b9349ce",
+            "taggedControlOccurrences": 37,
+            "sourceOccurrencesMissingOrMoved": 49,
+            "allSourceTaggedTextInXml": true,
+            "allSourceTaggedTextInRenderedDossier": true,
+            "originalPixelsInsideCanonicalControl": false
+          }
+        ]
+      }
+    ],
+    "historicalWordControlCounts": {
+      "source": 126,
+      "matched": 126,
+      "sameNesting": 126,
+      "currentSidebarAcceptance": "NOT_ESTABLISHED"
+    },
+    "recheckedWithFinalReaderTests": 51
+  },
+  "visualReview": {
+    "freshRenderedPages": 12,
+    "uniquePixelHashes": 6,
+    "allUniquePageImagesOpened": true,
+    "cvFirstHeaderAdditionallyOpenedFromPdf": true,
+    "pages": [
+      {
+        "file": "qa-sidebar-mirror-source-24okt/left-contact-long/native-render/page-1.png",
+        "pixelSha256": "6786375b2753c4c2ad2cae3a32b6608412ee2477e3c4fe9ecfe86a2bd0bce4a5"
+      },
+      {
+        "file": "qa-sidebar-mirror-source-24okt/left-contact-long/native-render/page-2.png",
+        "pixelSha256": "f3a141ff18dd375b2400bf98dc6f2b8c9d1b347b3327033ea3de1f765520706c"
+      },
+      {
+        "file": "qa-sidebar-mirror-source-24okt/left-contact-long/native-render/page-3.png",
+        "pixelSha256": "2e0866e9e21f3cb1a2cca6c002b680f3e47a1318c4e85a61b6516171759017dc"
+      },
+      {
+        "file": "qa-sidebar-mirror-source-24okt/left-contact-long/native-render/page-4.png",
+        "pixelSha256": "e119f292347c3315adecaf9c38b2a09f7a601de70132f3a4f9afc46a12093940"
+      },
+      {
+        "file": "qa-sidebar-highres-source-24okt/left-contact-long/native-render/page-1.png",
+        "pixelSha256": "6786375b2753c4c2ad2cae3a32b6608412ee2477e3c4fe9ecfe86a2bd0bce4a5"
+      },
+      {
+        "file": "qa-sidebar-highres-source-24okt/left-contact-long/native-render/page-2.png",
+        "pixelSha256": "f3a141ff18dd375b2400bf98dc6f2b8c9d1b347b3327033ea3de1f765520706c"
+      },
+      {
+        "file": "qa-sidebar-highres-source-24okt/left-contact-long/native-render/page-3.png",
+        "pixelSha256": "7d9c56a755df354623a19a0903e28957af0dcc55db5602aaec01ad1e33942030"
+      },
+      {
+        "file": "qa-sidebar-highres-source-24okt/left-contact-long/native-render/page-4.png",
+        "pixelSha256": "e119f292347c3315adecaf9c38b2a09f7a601de70132f3a4f9afc46a12093940"
+      },
+      {
+        "file": "qa-sidebar-highres-source-24okt/left-contact-long/writer-save-1/native-render/page-1.png",
+        "pixelSha256": "6786375b2753c4c2ad2cae3a32b6608412ee2477e3c4fe9ecfe86a2bd0bce4a5"
+      },
+      {
+        "file": "qa-sidebar-highres-source-24okt/left-contact-long/writer-save-1/native-render/page-2.png",
+        "pixelSha256": "f3a141ff18dd375b2400bf98dc6f2b8c9d1b347b3327033ea3de1f765520706c"
+      },
+      {
+        "file": "qa-sidebar-highres-source-24okt/left-contact-long/writer-save-1/native-render/page-3.png",
+        "pixelSha256": "f9e562a38f39d07750fec792a1a5c480b8cfc04e7474226d495765e36a6a611b"
+      },
+      {
+        "file": "qa-sidebar-highres-source-24okt/left-contact-long/writer-save-1/native-render/page-4.png",
+        "pixelSha256": "e119f292347c3315adecaf9c38b2a09f7a601de70132f3a4f9afc46a12093940"
+      }
+    ],
+    "appReferencePagesAdditionallyOpened": 4
+  },
+  "productCodeChanged": false,
+  "productSidebarGuard": "CLOSED",
+  "wordAcceptance": "UNVERIFIED",
+  "readerCommit": "fdae77649adcb283792b293e2f1de3b03e1b3530",
+  "schemaDependencyMismatchRejected": true,
+  "schemaPinManifestOverwriteRejected": true,
+  "wordDecisionPacket": {
+    "filename": "CV-Cover-Charm-Word-Entscheidung-24okt.zip",
+    "sha256": "4171ce50d3ae8eb72871ceefce23e6f365f80637a1514b7b354108f4374a4581",
+    "docxCount": 1,
+    "dossierPages": 4,
+    "cvPages": [
+      3,
+      4
+    ],
+    "sourceDocxSha256": "5e469d60181f8405fffcb43a57f92377fc6b0daa414d71ac22cd33ed3a6a25e0",
+    "source": "CHECKED_SYNTHETIC_PICTURE_ONLY",
+    "wordAcceptance": "UNVERIFIED",
+    "storedOutsideGit": true
+  }
+}

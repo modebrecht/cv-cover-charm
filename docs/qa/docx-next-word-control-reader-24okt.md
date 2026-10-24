@@ -19,7 +19,7 @@ Microsoft beschreibt `w:tag` als programmatische Kennung und `w:id` als numerisc
 
 ## Prüfung und Benutzung
 
-36 adversariale Python-Tests bestehen. Sie erhalten die bisherigen Break-/Tab-, Bildpixel-, Besitzer-, Absatz-ID-, Revision- und Markup-Compatibility-Prüfungen und ergänzen wiederholte Tags, umbenannte und geerbte Header, getrennte Haupttextabschnitte, verlorene einzelne Kopf-Controls, veränderte Elternbesitzer, verwaiste Parts, ID-Kollisionen sowie VML-/`fillRect`-Änderungen. Eingabe-DOCX werden nur gelesen.
+Im ersten Checkpoint bestanden 36 adversariale Python-Tests. Nach der unten beschriebenen Bildrollen-Korrektur bestehen **51 Tests**. Sie erhalten die bisherigen Break-/Tab-, Bildpixel-, Besitzer-, Absatz-ID-, Revision- und Markup-Compatibility-Prüfungen und ergänzen wiederholte Tags, umbenannte und geerbte Header, getrennte Haupttextabschnitte, verlorene einzelne Kopf-Controls, veränderte Elternbesitzer, verwaiste Parts, ID-Kollisionen sowie VML-/`fillRect`-Änderungen. Eingabe-DOCX werden nur gelesen.
 
 ```sh
 python scripts/docx-next-word-acceptance-test.py
@@ -29,3 +29,23 @@ python scripts/docx-next-word-acceptance-23okt.py source.docx saved.docx report.
 Die CLI nennt jetzt veränderte oder mehrdeutige Quellvorkommen, statt globale Tag-Wiederholung als Feldverlust zu zählen. Gleich gebliebene Tags oder Textwerte werden weiterhin nicht automatisch als stabile Bearbeitbarkeit ausgegeben. Auch ein Vergleich einer Datei mit sich selbst ist nur eine Kontrolle des Lesers. `wordAcceptance` bleibt `UNVERIFIED`, `saveReopenPerformedByThisTool` bleibt `false`.
 
 Die Abschnittsrollen sind Strukturadressen, keine native Objektidentität und kein Nachweis tatsächlich dargestellter Seiten. Geänderte Abschnittszahlen, veränderte Rollenteilung und Tracked Changes benötigen eine eigene Bewertung. Eine vollständige OOXML-Schemavalidierung oder Microsoft-Word-Ausführung ist damit nicht behauptet. Die bestehenden Sidebar-Produkt- und Geometrie-Gates bleiben unverändert.
+
+## Zweiter Checkpoint: Bildbesitz folgt demselben konkreten Control
+
+Die erste Instanzkorrektur galt noch nicht vollständig für Bilder: Ein Original im unreferenzierten Kopf-Part konnte als aktives Bild gezählt werden. Ein aus dem Haupttext dorthin verschobenes Photo-Control erhielt sogar positive Bildbesitz-Aussagen, obwohl die separate Textinstanz korrekt als verschoben erkannt wurde. Umgekehrt konnte eine zusätzliche verwaiste Kopie einen gesunden Haupttext-Bildbesitzer fälschlich mehrdeutig machen. Diese Fälle sind mit kleinen DOCX-Gegenproben reproduziert und korrigiert.
+
+Jedes Bild trägt nun die lokalen Adressen seiner umschliessenden Controls (`ownerOccurrences`). Sie verweisen auf die bereits anhand Kennung und Dokumentrolle zugeordnete Instanz; sie dienen **nicht** als Reihenfolge-Heuristik zwischen Dateien. `savedOccurrence` nennt die so gefundene Zielinstanz. Derselbe Foto-Tag in Haupttext und Kopf wird getrennt bewertet. Ein neues gleichnamiges Control in derselben Rolle bleibt durch den Besitzeranzahl-Vergleich auffällig; die bisherige negative Duplikatprüfung bleibt erhalten.
+
+| Konstellation | Bildbesitz im ursprünglichen Control | Original in aktiv referenzierter Story | Original irgendwo im Paket |
+| --- | --- | --- | --- |
+| Haupttextbesitzer fehlt, Original nur im verwaisten Kopf | Nein | Nein | Ja |
+| Haupttextbesitzer fehlt, Original in anderem referenzierten Kopf | Nein | Ja | Ja |
+| Gesunder Haupttextbesitzer plus verwaiste Kopie | Ja | Ja | Ja |
+| Leerer typisierter Haupttextbesitzer plus verwaistes Original | Nein; Typisierung wird separat erhalten gemeldet | Nein | Ja |
+| Beziehung zum PNG ist kein Bildverweis | Nein | Nein | Ja |
+
+Nur aufgelöste interne Beziehungen vom Typ `…/image` liefern aktive Bildpixel. Fehlende, externe und falsch typisierte Bildbeziehungen werden separat erfasst. Ungültige Relationship-Namespaces, fehlende Beziehungs-IDs sowie fehlende oder unbekannte Kopf-/Fussrollen werden abgewiesen. Die CLI zählt auch eine geänderte Besitzerrolle als fehlenden stabilen typisierten Besitzer.
+
+15 zusätzliche Gegenproben decken diese Fehler und ihre positiven Nachbarn ab. Fünf erste Gegenproben schlugen vor der Bildkorrektur fehl; die bisherigen realen Writer-Verluste bleiben nach der Korrektur rot. Der Prüfer repariert keine Bilder und behauptet keine Word-Abnahme. [Quellstruktur, Spiegelung und hochauflösender Bildfall](docx-next-sidebar-source-structure-24okt.md).
+
+Die Paketinventur dekodiert Bild-Parts auch ausserhalb von `word/media/`. Zwei Gegenproben sichern aktives beziehungsweise bloss unbenutztes Originalmaterial an anderen OPC-Pfaden ab. Dies ist eine Prüfung direkt dekodierbarer Bild-Parts; verschachtelte Fremdcontainer oder Base64-Nutzdaten in beliebigem XML sind keine forensisch vollständig untersuchten Originalarchive.

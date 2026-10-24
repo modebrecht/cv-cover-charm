@@ -13,6 +13,14 @@ const source = JSON.parse(
     "utf8",
   ),
 );
+assert([undefined, "high-resolution"].includes(process.env.DOCX_NEXT_CHROME_PHOTO));
+if (process.env.DOCX_NEXT_CHROME_PHOTO === "high-resolution")
+  source.cv.data.person.foto = JSON.parse(
+    await readFile(
+      "tests/fixtures/docx-next/sidebar-saved-app-22okt/06-right-clear-photo.json",
+      "utf8",
+    ),
+  ).cv.data.person.foto;
 const browser = await chromium.launch({
   executablePath: process.env.DOCX_NEXT_CHROMIUM_PATH,
   headless: true,
@@ -25,7 +33,8 @@ try {
       "compact",
       "contact-inline",
       "contact-stacked",
-      ...(side === "right" ? ["contact-long", "contact-reduced"] : []),
+      "contact-long",
+      ...(side === "right" ? ["contact-reduced"] : []),
     ]) {
       const id = side + "-" + mode,
         folder = path.join(output, id);

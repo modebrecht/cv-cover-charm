@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Current wps types as described by the pinned Microsoft Open XML SDK metadata.
+     Does not claim legacy wne textbox support or validate Word rendering. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+ xmlns="http://schemas.microsoft.com/office/word/2010/wordprocessingShape"
+ xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"
+ xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+ targetNamespace="http://schemas.microsoft.com/office/word/2010/wordprocessingShape"
+ elementFormDefault="qualified">
+ <xs:import namespace="http://schemas.openxmlformats.org/drawingml/2006/main" schemaLocation="OfficeOpenXML-XMLSchema-Transitional/dml-main.xsd"/>
+ <xs:import namespace="http://schemas.openxmlformats.org/wordprocessingml/2006/main" schemaLocation="OfficeOpenXML-XMLSchema-Transitional/wml.xsd"/>
+ <xs:complexType name="CT_TextboxInfo">
+  <xs:sequence>
+   <xs:element ref="w:txbxContent" minOccurs="0"/>
+   <xs:element name="extLst" type="a:CT_OfficeArtExtensionList" minOccurs="0"/>
+  </xs:sequence>
+  <xs:attribute name="id" type="xs:unsignedShort"/>
+ </xs:complexType>
+ <xs:complexType name="CT_LinkedTextboxInformation">
+  <xs:sequence><xs:element name="extLst" type="a:CT_OfficeArtExtensionList" minOccurs="0"/></xs:sequence>
+  <xs:attribute name="id" type="xs:unsignedShort" use="required"/>
+  <xs:attribute name="seq" type="xs:unsignedShort" use="required"/>
+ </xs:complexType>
+ <xs:complexType name="CT_WordprocessingShape">
+  <xs:sequence>
+   <xs:element name="cNvPr" type="a:CT_NonVisualDrawingProps" minOccurs="0"/>
+   <xs:choice>
+    <xs:element name="cNvSpPr" type="a:CT_NonVisualDrawingShapeProps"/>
+    <xs:element name="cNvCnPr" type="a:CT_NonVisualConnectorProperties"/>
+   </xs:choice>
+   <xs:element name="spPr" type="a:CT_ShapeProperties"/>
+   <xs:element name="style" type="a:CT_ShapeStyle" minOccurs="0"/>
+   <xs:element name="extLst" type="a:CT_OfficeArtExtensionList" minOccurs="0"/>
+   <xs:choice minOccurs="0">
+    <xs:element name="txbx" type="CT_TextboxInfo"/>
+    <xs:element name="linkedTxbx" type="CT_LinkedTextboxInformation"/>
+   </xs:choice>
+   <xs:element name="bodyPr" type="a:CT_TextBodyProperties"/>
+  </xs:sequence>
+  <xs:attribute name="normalEastAsianFlow" type="xs:boolean"/>
+ </xs:complexType>
+ <xs:element name="wsp" type="CT_WordprocessingShape"/>
+</xs:schema>
