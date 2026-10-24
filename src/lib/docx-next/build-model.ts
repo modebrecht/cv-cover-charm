@@ -1,3 +1,6 @@
+Warning: truncated output (original token count: 18324)
+Total output lines: 1915
+
 import {
   cvLineFieldId,
   semanticListItemIds,
@@ -70,6 +73,7 @@ import { DEFAULT_DOSSIER_CHROME_STATE } from "@/lib/dossier-chrome";
 import { CV_FLOW_LAYOUTS, cvWordLayout, datedEntryBlocks, nativeTextWidthMm } from "./layouts";
 import { wordFont as fontForKey, createFontResolver } from "./fonts";
 import { richLetterBlocks } from "./rich-text";
+import { composeSourceLetterFlow } from "./letter-source-flow";
 import { textElement, imageElement, shapeElement, flowingElementBox } from "./elements";
 import {
   dossierPhotoRatio,
@@ -86,6 +90,8 @@ export type { DossierAppSnapshot } from "./source";
 const name = (first: string, last: string) => [first, last].filter(Boolean).join(" ");
 
 export type BuildModelOptions = {
+  /** Unaccepted bounded Modern/Sans plain-letter CSS-flow candidate. */
+  letterFlowComposition?: "source-lines";
   /** Shared flowing-CV trial: native date/language rows and semantic lists. */
   cvContentComposition?: "reading-rows";
   /** Explicit one-template Word trial; no default serialization change. */
@@ -743,468 +749,7 @@ export function buildDossierDocModel(
         },
         {
           role: "heading",
-          keepNext: !!person.untertitel,
-          indentMm: cvFlow.indentMm,
-          afterMm: person.untertitel ? 1.5 : cvFlow.headerGapMm,
-        },
-      ),
-      [
-        { id: CV_PERSON_FIELD_IDS.vorname, text: person.vorname },
-        { id: CV_PERSON_FIELD_IDS.nachname, text: person.nachname },
-      ],
-      " ",
-    ),
-  );
-  if (person.untertitel)
-    cvPart.blocks.push(
-      p("cv.person.subtitle", person.untertitel, body, {
-        indentMm: cvFlow.indentMm,
-        afterMm: cvFlow.headerGapMm,
-      }),
-    );
-  if (person.foto) {
-    const coverPhoto = cover.blocks.find((block) => block.kind === "photo");
-    const photoStyle = normalizeDossierPhotoStyle(
-      settings.cvPhotoStyle ?? dossierPhotoStyleFromBlockStyle(coverPhoto?.style),
-    );
-    const photoPlacement = normalizeCvPhotoPlacement(settings.cvPhotoPlacement);
-    const position = resolveCvPhotoPosition(photoPlacement, {
-      template: template.id,
-      layout: cvPart.layout.mode === "sidebar" ? "modern" : "classic",
-      legacyMirrored: settings.sidebarSide === "right",
-    });
-    cvPart.blocks.unshift({
-      kind: "image",
-      id: "cv.person.photo",
-      source: person.foto,
-      alt: "CV portrait",
-      widthMm: photoPlacement.widthMm,
-      maxHeightMm: cvPart.page.heightMm - cvPart.page.margins.top - cvPart.page.margins.bottom,
-      placement: position,
-      coordinateOrigin: position === "free" ? "page" : "content",
-      xMm: photoPlacement.xMm,
-      yMm: position === "free" ? photoPlacement.yMm : 0,
-      gapMm: 3,
-      frame: {
-        heightRatio: dossierPhotoRatio(photoStyle.shape),
-        radiusMm: photoStyle.shape === "circle" ? 999 : 1.5,
-        zoom: photoStyle.zoom,
-        xPct: photoStyle.x,
-        yPct: photoStyle.y,
-        borderWidthMm: photoStyle.borderWidth,
-        borderColor: color(photoPlacement.frameColor, cvAccent),
-      },
-    });
-  }
-  const entries = (values: CvEntry[], section: CvLayoutSectionKey): DocBlock[] =>
-    values.filter(entryFilled).map((entry) => {
-      const id = `cv.entry.${section}:${entry.id}`;
-      const fields = Object.entries({
-        date: entry.zeit,
-        title: entry.titel,
-        place: entry.ort,
-        description: entry.beschreibung,
-      }).filter(([, text]) => text.trim());
-      return {
-        kind: "entry",
-        id,
-        ...(cvVariant === "sidebar" ? { keepTogether: true } : {}),
-        blocks: datedEntryBlocks(
-          id,
-          fields.map(([key, text], index) =>
-            p(
-              `${id}.${key}`,
-              text,
-              { ...body, bold: key === "title", italic: key === "date" },
-              {
-                align:
-                  key === "description" || key === "place"
-                    ? (settings.cvAlignment ?? "left")
-                    : "left",
-                // Keep entry metadata with the start of its description. The final
-                // paragraph still has keepLines=false so long descriptions flow.
-                keepNext: index < fields.length - 1,
-                afterMm: index === fields.length - 1 ? cvFlow.entryGapMm : 0.5,
-              },
-            ),
-          ),
-          readingRows && cvSectionLayout(data, section).width === "half"
-            ? { ...cvFlow, dateRail: { ...cvFlow.dateRail!, textWidthMm: 20 } }
-            : cvFlow,
-          cvAccent,
-        ),
-      };
-    });
-  for (const key of cvSectionOrder(data)) {
-    let blocks: DocBlock[] = [],
-      title = "";
-    if (key === "person") {
-      title = data.labels.kontakt || "Kontakt";
-      blocks = Object.entries({
-        address: person.adresse,
-        place: person.plzOrt,
-        phone: person.telefon,
-        email: person.email,
-      })
-        .filter(([, text]) => text.trim())
-        .map(([field, text]) => p(`cv.person.${field}`, text, body));
-      blocks.push(
-        ...cvPersonalInfoRows(person).map((row) =>
-          p(
-            `cv.person.${row.key}`,
-            `${row.label}${cd.personalInfoColons === false ? " " : ": "}${row.value}`,
-            body,
-          ),
-        ),
-      );
-      if (
-        cd.personalInfoAligned !== false &&
-        !(cvVariant === "sidebar" && placements?.kontakt === "side")
-      ) {
-        const contactPairs = [
-          ["address", "place"],
-          ["phone", "email"],
-        ]
-          .map((pair) =>
-            pair
-              .map((field) => blocks.find((block) => block.id === `cv.person.${field}`))
-              .map((block) => (block?.kind === "paragraph" ? [block] : [])),
-          )
-          .filter((cells) => cells.some((cell) => cell.length));
-        const details = cvPersonalInfoRows(person).map((row) => [
-          [
-            p(
-              `cv.person.${row.key}.label`,
-              row.label + (cd.personalInfoColons === false ? "" : ":"),
-              body,
-            ),
-          ],
-          [p(`cv.person.${row.key}`, row.value, body)],
-        ]);
-        blocks = [
-          ...(contactPairs.length
-            ? [
-                {
-                  kind: "table" as const,
-                  id: "cv.person.contact",
-                  widths: [1, 1],
-                  rows: contactPairs.map((cells) => ({ cells, keepTogether: false })),
-                  decoration: {
-                    borderColor: cvAccent,
-                    borderWidthMm: 0,
-                    paddingXMm: 1.25,
-                    paddingYMm: 0,
-                  },
-                },
-              ]
-            : []),
-          ...(details.length
-            ? [
-                {
-                  kind: "table" as const,
-                  id: "cv.person.details",
-                  widths: [0.3, 0.7],
-                  rows: details.map((cells) => ({
-                    cells,
-                    keepTogether: false,
-                  })),
-                  decoration: {
-                    borderColor: cvAccent,
-                    borderWidthMm: 0,
-                    paddingXMm: 1.25,
-                    paddingYMm: 0,
-                  },
-                },
-              ]
-            : []),
-        ];
-        if (options.cvContactComposition === "compact-grid") {
-          const contactLayout = cvSectionLayout(data, "person");
-          if (contactLayout.width !== "full" || contactLayout.positioning !== "flow")
-            throw Error(
-              "DOCX Next: Der Kontaktblock muss für diesen Test die ganze Breite verwenden und im Textfluss liegen.",
-            );
-          const pairedRows = contactPairs.map(([left, right]) =>
-            left.length ? [left, right] : [right, []],
-          );
-          const rows = [...pairedRows, ...details].map((cells, index) => ({
-            cells: cells.map((cell) =>
-              cell.map((paragraph) => ({
-                ...paragraph,
-                beforeMm:
-                  index === contactPairs.length && contactPairs.length
-                    ? (personalMetrics?.personalGapMm ?? 1.35)
-                    : 0,
-                afterMm: personalMetrics ? 0 : 0.6,
-              })),
-            ),
-            keepTogether: false,
-          }));
-          // Fresh Web column geometry takes precedence when available. The
-          // independent native composition retains its conservative fallback.
-          // Rows always grow with text; no measured fixed row heights.
-          const padding = 1.25;
-          const columns = [0, 1].map((column) =>
-            Math.max(
-              10,
-              ...rows.flatMap((row) =>
-                row.cells[column].map((paragraph) => nativeTextWidthMm(paragraph) + 2 * padding),
-              ),
-            ),
-          );
-          const contentWidth =
-            cvPart.page.widthMm -
-            cvPart.page.margins.left -
-            cvPart.page.margins.right -
-            cvFlow.indentMm;
-          if (personalMetrics && personalMetrics.valueOffsetMm >= contentWidth)
-            throw Error("DOCX Next: Die gemessene Kontaktspalte überschreitet den Textbereich.");
-          blocks = rows.length
-            ? [
-                {
-                  kind: "table",
-                  id: "cv.person.contact",
-                  widths: columns,
-                  widthMm: Math.min(contentWidth, columns[0] + columns[1]),
-                  ...(personalMetrics
-                    ? {
-                        widthMm: contentWidth,
-                        columnWidthsMm: [personalMetrics.valueOffsetMm, null],
-                      }
-                    : {}),
-                  rows,
-                  decoration: {
-                    borderColor: cvAccent,
-                    borderWidthMm: 0,
-                    paddingXMm: personalMetrics ? 0 : 1.25,
-                    paddingYMm: 0,
-                  },
-                },
-              ]
-            : [];
-        }
-      }
-    } else if (isCustomSectionKey(key)) {
-      const section = customSectionForKey(data, key);
-      if (!section) continue;
-      title = section.title || "Weitere Angaben";
-      blocks = entries(section.entries, key);
-    } else {
-      if (data.hidden[key]) continue;
-      title = data.labels[key] || CV_SECTION_LABELS[key];
-      if (key === "schule" || key === "erfahrung") blocks = entries(data[key], key);
-      if (key === "sprachen") {
-        blocks = data.sprachen
-          .filter((e) => e.name.trim() || e.niveau.trim())
-          .map((e) => ({
-            kind: "entry",
-            id: `cv.entry.sprachen:${e.id}`,
-            blocks: [
-              p(
-                `cv.entry.sprachen:${e.id}.name`,
-                e.name,
-                { ...body, bold: true },
-                {
-                  keepNext: !!e.niveau,
-                  ...(readingRows ? { afterMm: cvFlow.entryGapMm } : {}),
-                },
-              ),
-              ...(e.niveau
-                ? [
-                    p(`cv.entry.sprachen:${e.id}.level`, e.niveau, body, {
-                      ...(readingRows ? { afterMm: cvFlow.entryGapMm } : {}),
-                    }),
-                  ]
-                : []),
-            ],
-          }));
-        if (readingRows)
-          blocks = blocks.map((entry) => {
-            if (entry.kind !== "entry") return entry;
-            const [language, level] = entry.blocks;
-            if (language?.kind !== "paragraph" || level?.kind !== "paragraph") return entry;
-            return {
-              ...entry,
-              blocks: [
-                {
-                  kind: "table",
-                  id: `${entry.id}.languageRow`,
-                  widths: [1, 1],
-                  columnWidthsMm: [cvSectionLayout(data, key).width === "half" ? 24 : 27, null],
-                  rows: [
-                    {
-                      cells: [
-                        [{ ...language, keepNext: false }],
-                        [{ ...level, indentMm: 5, keepNext: false }],
-                      ],
-                      keepTogether: false,
-                    },
-                  ],
-                  decoration: {
-                    borderColor: cvAccent,
-                    borderWidthMm: 0,
-                    paddingXMm: 0,
-                    paddingYMm: 0,
-                  },
-                },
-              ],
-            };
-          });
-      }
-      if (key === "hobbys" || key === "staerken")
-        blocks = data[key]
-          .map((text, index) => ({ text, index }))
-          .filter(({ text }) => text.trim())
-          .map(({ text, index }) =>
-            p(cvLineFieldId(key, index, data.lineIds?.[key]), text, body, {
-              ...(readingRows
-                ? {
-                    list: "bullet",
-                    listGroupId: `cv.section.${key}.list`,
-                    afterMm: cvFlow.entryGapMm,
-                  }
-                : {}),
-            }),
-          );
-      if (key === "referenzen")
-        blocks = data.referenzen.filter(referenceHasContent).map((e) => ({
-          kind: "entry",
-          id: `cv.entry.referenzen:${e.id}`,
-          blocks: Object.entries({
-            name: e.name,
-            role: e.funktion,
-            ...referenceContactFields(e),
-          })
-            .filter(([, text]) => text.trim())
-            .map(([field, text], index) =>
-              p(
-                `cv.entry.referenzen:${e.id}.${field}`,
-                text,
-                { ...body, bold: field === "name" },
-                { keepNext: index === 0, ...(readingRows ? { afterMm: 0.35 } : {}) },
-              ),
-            ),
-        }));
-    }
-    if (!blocks.length) continue;
-    const layout = cvSectionLayout(data, key);
-    if (key === "referenzen" && data.referencesSideBySide !== false && layout.width === "full") {
-      blocks = Array.from({ length: Math.ceil(blocks.length / 2) }, (_, index) => {
-        const pair = blocks.slice(index * 2, index * 2 + 2);
-        return {
-          kind: "table",
-          id: `cv.section.referenzen.pair:${pair.map((entry) => entry.id).join("|")}`,
-          // Match the preview's two equal tracks and 6 mm gap without an outer inset.
-          widths: [1, 1, 1],
-          columnWidthsMm: [null, 6, null],
-          rows: [{ cells: [pair.slice(0, 1), [], pair.slice(1)], keepTogether: false }],
-          decoration: { borderColor: cvAccent, borderWidthMm: 0, paddingXMm: 0, paddingYMm: 0 },
-        };
-      });
-    }
-    if (layout.positioning === "free")
-      issues.push({
-        code: "free-section-converted-to-flow",
-        fieldId: `cv.section.${key}`,
-        message:
-          "Word CV sections flow to preserve editing; absolute section positioning requires explicit acceptance.",
-      });
-    if (
-      cvVariant === "classic" &&
-      key !== "person" &&
-      layout.positioning === "flow" &&
-      layout.width === "half" &&
-      layout.packing === "masonry" &&
-      !readingRows
-    )
-      issues.push({
-        code: "masonry-section-converted-to-rows",
-        fieldId: `cv.section.${key}`,
-        message:
-          "Word half-width sections use paired rows; independent Masonry packing requires explicit acceptance.",
-      });
-    const sectionHeading = heading(`cv.section.${key}.heading`, title);
-    sectionHeading.indentMm =
-      cvFlow.indentMm +
-      (layout.width === "half" ? Math.max(0, rubric.horizontalMm) : rubric.horizontalMm);
-    if (rubric.pill && capturedInteriorMetrics?.rubrics) {
-      const measured = capturedInteriorMetrics.rubrics[sectionHeading.id];
-      // The generic native CV retains its contact metadata label. The Web
-      // personal header is not one of the user's rubric capsules.
-      if (!measured && key === "person") {
-        // Preserve the existing native label and all personal fields as-is.
-      } else {
-        if (
-          !measured ||
-          (!readingRows && layout.width !== "full") ||
-          layout.positioning !== "flow" ||
-          sectionHeading.runs
-            .map((r) => r.text)
-            .join("")
-            .toUpperCase() !== measured.text.toUpperCase()
-        )
-          throw Error(
-            `DOCX Next: Rubrik-Messwerte stimmen nicht mit der fliessenden Rubrik «${sectionHeading.id}» überein (${JSON.stringify(sectionHeading.runs.map((r) => r.text).join(""))} / ${JSON.stringify(measured?.text)}).`,
-          );
-        sectionHeading.runs = sectionHeading.runs.map((run) => ({
-          ...run,
-          style: { ...measured.style },
-        }));
-        sectionHeading.minimumLineHeightPt = measured.lineHeightPt;
-        sectionHeading.lineHeight = measured.lineHeightPt / measured.style.sizePt;
-        sectionHeading.flowSurface = {
-          ...structuredClone(measured.surface),
-          rowWidthMm:
-            cvPart.page.widthMm -
-            cvPart.page.margins.left -
-            cvPart.page.margins.right -
-            (sectionHeading.indentMm ?? 0),
-        };
-        delete sectionHeading.ruleColor;
-      }
-    } else if (rubric.pill) {
-      for (const run of sectionHeading.runs) {
-        const ink = run.style.color;
-        const paper = color(cd.paperColor, "FFFFFF");
-        run.style.backgroundColor = [0, 2, 4]
-          .map((offset) =>
-            Math.round(
-              parseInt(ink.slice(offset, offset + 2), 16) * 0.14 +
-                parseInt(paper.slice(offset, offset + 2), 16) * 0.86,
-            )
-              .toString(16)
-              .padStart(2, "0"),
-          )
-          .join("")
-          .toUpperCase();
-      }
-    }
-    if (cd.headingRule === "short" && !sectionHeading.flowSurface) {
-      const afterMm = sectionHeading.afterMm;
-      sectionHeading.afterMm = 0;
-      delete sectionHeading.ruleColor;
-      blocks.unshift({
-        kind: "rule",
-        id: `${sectionHeading.id}.rule`,
-        color: cvAccent,
-        lengthMm: 18,
-        afterMm,
-        keepNext: true,
-        indentMm: (sectionHeading.indentMm ?? 0) - cvFlow.indentMm - rubric.contentIndentMm,
-      });
-    }
-    cvPart.blocks.push({
-      kind: "section",
-      id: `cv.section.${key}`,
-      ...((readingRows || personalMetrics) && key === "person" ? {} : { heading: sectionHeading }),
-      blocks,
-      placement: placements?.[key === "person" ? "kontakt" : key] ?? "main",
-      width: layout.width,
-      startPage: layout.page,
-      // Rubric content indentation belongs to the CV sections, not the
-      // personal header. Its compact contact grid shares the name's origin.
-      contentIndentMm:
-        cvFlow.indentMm +
+          keepNext: !!person.untertitel…4324 tokens truncated…        cvFlow.indentMm +
         (key === "person" && options.cvContactComposition === "compact-grid"
           ? 0
           : rubric.contentIndentMm),
@@ -1884,6 +1429,15 @@ export function buildDossierDocModel(
   if (readingRows && capturedInteriorMetrics?.cvFlowScale !== undefined)
     cvPart.blocks = scaleCvReadingFlow(cvPart, capturedInteriorMetrics.cvFlowScale);
   if (options.cvSidebarTextMetrics) applyCvSidebarTypography(cvPart, input, options.cvSidebarTextMetrics);
+  if (options.letterFlowComposition) {
+    if (options.letterFlowComposition !== "source-lines")
+      throw Error("DOCX Next invalid Letter flow composition");
+    composeSourceLetterFlow(letterPart, input);
+    issues.push({
+      code: "letter-source-flow-unaccepted",
+      message: "Source Letter spacing is an internal candidate pending native Word acceptance.",
+    });
+  }
   return {
     version: 1,
     metadata: {
@@ -1900,3 +1454,4 @@ export function buildDossierDocModel(
     issues,
   };
 }
+

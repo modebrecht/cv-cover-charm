@@ -2,6 +2,11 @@
 
 Stand: 24. Oktober 2026. Diese Übergabe ersetzt die Fortsetzungsanweisungen älterer Berichte. Repository: `modebrecht/cv-cover-charm`.
 
+
+## Aktualisierung nach der Übergabe
+
+Fortsetzung am späten 24. Oktober: Der [Foto-Owner-Prototyp](docx-next-photo-rich-owner-24okt.md) ist bei `b0cfa99` gesichert und wartet weiter auf tatsächliche Word-Bildbedienung. Anschliessend entstand der separat aktivierbare [Brief-Source-Flow-Kandidat](docx-next-letter-source-flow-24okt.md): vollständige synthetische Quelle bytegenau rekonstruiert; 11 gezielte Tests; 145/145 Feldvorkommen erhalten; Titelblatt und CV-Seiten intern pixelidentisch. Der normale Export lehnt den neuen Brief-Modus weiterhin ab. Der Referenzumbruch bleibt offen. Für diese neuen Befunde gilt der verlinkte aktuelle Bericht; die ursprüngliche Übergabe unten bleibt historische Herkunft.
+
 ## Sofortiger Einstieg für den nächsten Agenten
 
 Arbeite ausschliesslich auf **`fix/docx-next-shared-integration-22okt`**. Lies `AGENTS.md`, diese Übergabe und den [aktuellen Word-Rücklauf](docx-next-sidebar-word-return-24okt.md). Prüfe den aktuellen Remote-Kopf, bevor du Änderungen veröffentlichst.
@@ -190,3 +195,4 @@ Priorisierte Berichte:
 8. [Integrationsherkunft](docx-next-shared-integration-22okt.md)
 
 Die Dokumente bewahren historische Zwischenstände. Für den heutigen Word-Befund hat der aktuelle Rücklauf Vorrang.
+
