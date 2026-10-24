@@ -997,7 +997,9 @@ export function CvCanvas({
                 color: pal.ink,
               }}
             >
-              <span data-cv-list-marker style={{ color: pal.accent, fontWeight: 700 }}>•</span>
+              <span data-cv-list-marker style={{ color: pal.accent, fontWeight: 700 }}>
+                •
+              </span>
               <span data-dossier-field-id={cvLineFieldId(key, i, data.lineIds?.[key])}>{v}</span>
             </div>
           ),
@@ -1809,11 +1811,7 @@ export function CvCanvas({
       fixedOnPage("sprachen") && data.sprachen.some((s) => s.name.trim() || s.niveau.trim());
     const hasStrengths = fixedOnPage("staerken") && data.staerken.some((value) => value.trim());
     const hasHobbies = fixedOnPage("hobbys") && data.hobbys.some((value) => value.trim());
-    const hasReferences =
-      fixedOnPage("referenzen") &&
-      data.referenzen.some((reference) =>
-        [reference.name, reference.funktion, reference.kontakt].some((value) => value.trim()),
-      );
+    const hasReferences = fixedOnPage("referenzen") && data.referenzen.some(referenceHasContent);
     const customSideKeys = contentSectionKeys.filter(
       (key) => isCustomSectionKey(key) && onPage(key) && sectionRows(key).length > 0,
     );
@@ -1891,9 +1889,12 @@ export function CvCanvas({
           data-cv-user-section-color={sectionTitleColor ? "true" : undefined}
           data-cv-user-section-weight={design.sectionTitleBold === undefined ? undefined : "true"}
           data-cv-user-section-style={design.sectionTitleItalic === undefined ? undefined : "true"}
-          data-cv-user-section-decoration={design.sectionTitleUnderline === undefined ? undefined : "true"}
+          data-cv-user-section-decoration={
+            design.sectionTitleUnderline === undefined ? undefined : "true"
+          }
           style={{
-            ["--cv-user-section-font-size" as string]: sectionTitleFontSizePx === null ? undefined : `${sectionTitleFontSizePx}px`,
+            ["--cv-user-section-font-size" as string]:
+              sectionTitleFontSizePx === null ? undefined : `${sectionTitleFontSizePx}px`,
             ["--cv-user-section-color" as string]: sectionTitleColor || undefined,
             ["--cv-user-section-weight" as string]: `${sectionTitleWeight}`,
             ["--cv-user-section-style" as string]: sectionTitleFontStyle,
@@ -2815,7 +2816,9 @@ export function CvCanvas({
                               : "1.45mm",
                         }}
                       >
-                        <span data-cv-list-marker style={{ color: side.accent, fontWeight: 800 }}>•</span>
+                        <span data-cv-list-marker style={{ color: side.accent, fontWeight: 800 }}>
+                          •
+                        </span>
                         <span
                           data-dossier-field-id={cvLineFieldId(
                             "staerken",
@@ -2865,62 +2868,60 @@ export function CvCanvas({
               {hasReferences && (
                 <div style={sideSectionStyle("referenzen")}>
                   {sideHeading("referenzen", label(data, "referenzen"), firstSide === "references")}
-                  {data.referenzen
-                    .filter((r) => r.name.trim() || r.funktion.trim() || r.kontakt.trim())
-                    .map((r) => (
-                      <div
-                        data-cv-entry
-                        key={`side-${r.id}`}
-                        style={{ marginBottom: sidePlan.compact ? "1.6mm" : "2mm" }}
-                      >
-                        {r.name && (
-                          <div
-                            data-dossier-field-id={`cv.entry.referenzen:${r.id}.name`}
-                            data-cv-entry-title
-                            style={{ fontSize: `${sideBody}pt`, fontWeight: 700, color: side.ink }}
-                          >
-                            {r.name}
-                          </div>
-                        )}
-                        {r.funktion && (
-                          <div
-                            data-dossier-field-id={`cv.entry.referenzen:${r.id}.role`}
-                            data-cv-muted
-                            style={{
-                              marginTop: "0.2mm",
-                              fontSize: `${sideSmall}pt`,
-                              color: side.muted,
-                              lineHeight: 1.28,
-                            }}
-                          >
-                            {r.funktion}
-                          </div>
-                        )}
-                        {r.kontakt && (
-                          <div
-                            data-cv-body
-                            style={{
-                              marginTop: "0.25mm",
-                              fontSize: `${sideSmall}pt`,
-                              color: side.ink,
-                              lineHeight: 1.28,
-                              overflowWrap: "anywhere",
-                            }}
-                          >
-                            {Object.entries(referenceContactFields(r))
-                              .filter(([, text]) => text)
-                              .map(([field, text]) => (
-                                <div
-                                  key={field}
-                                  data-dossier-field-id={`cv.entry.referenzen:${r.id}.${field}`}
-                                >
-                                  {text}
-                                </div>
-                              ))}
-                          </div>
-                        )}
-                      </div>
-                    ))}
+                  {data.referenzen.filter(referenceHasContent).map((r) => (
+                    <div
+                      data-cv-entry
+                      key={`side-${r.id}`}
+                      style={{ marginBottom: sidePlan.compact ? "1.6mm" : "2mm" }}
+                    >
+                      {r.name && (
+                        <div
+                          data-dossier-field-id={`cv.entry.referenzen:${r.id}.name`}
+                          data-cv-entry-title
+                          style={{ fontSize: `${sideBody}pt`, fontWeight: 700, color: side.ink }}
+                        >
+                          {r.name}
+                        </div>
+                      )}
+                      {r.funktion && (
+                        <div
+                          data-dossier-field-id={`cv.entry.referenzen:${r.id}.role`}
+                          data-cv-muted
+                          style={{
+                            marginTop: "0.2mm",
+                            fontSize: `${sideSmall}pt`,
+                            color: side.muted,
+                            lineHeight: 1.28,
+                          }}
+                        >
+                          {r.funktion}
+                        </div>
+                      )}
+                      {Object.values(referenceContactFields(r)).some((text) => text.trim()) && (
+                        <div
+                          data-cv-body
+                          style={{
+                            marginTop: "0.25mm",
+                            fontSize: `${sideSmall}pt`,
+                            color: side.ink,
+                            lineHeight: 1.28,
+                            overflowWrap: "anywhere",
+                          }}
+                        >
+                          {Object.entries(referenceContactFields(r))
+                            .filter(([, text]) => text)
+                            .map(([field, text]) => (
+                              <div
+                                key={field}
+                                data-dossier-field-id={`cv.entry.referenzen:${r.id}.${field}`}
+                              >
+                                {text}
+                              </div>
+                            ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
                 </div>
               )}
               {customSideKeys.map((key) => {
