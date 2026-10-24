@@ -5,6 +5,9 @@ import importlib.util
 import io
 import json
 import posixpath
+import re
+from collections import Counter
+from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from zipfile import ZipFile
 
@@ -18,6 +21,7 @@ _spec.loader.exec_module(_inventory)
 W, R, NS = _inventory.W, _inventory.R, dict(_inventory.NS)
 W14 = 'http://schemas.microsoft.com/office/word/2010/wordml'
 NS['w14'] = W14
+NS['pic'] = 'http://schemas.openxmlformats.org/drawingml/2006/picture'
 
 
 def digest(data):
@@ -70,9 +74,125 @@ def paragraphs_for(control):
     return control.xpath('ancestor::w:p[1]', namespaces=NS)
 
 
+def relationships(archive, story):
+    path = posixpath.join(posixpath.dirname(story), '_rels', posixpath.basename(story)+'.rels')
+    if path not in archive.namelist():
+        return {}
+    rows = list(ET.fromstring(archive.read(path)))
+    ids = [row.get('Id') for row in rows]
+    if len(ids) != len(set(ids)):
+        raise ValueError('Ambiguous duplicate relationships in '+story)
+    return {row.get('Id'): row for row in rows}
+
+
+def numeric_id(value):
+    return str(int(value)) if value is not None and re.fullmatch(r'[+-]?\d+', value) else None
+
+
+def story_roles(archive):
+    """Section/reference addresses survive header-file renames. No text matching.
+
+    Roles identify referenced stories, not which pages a renderer displays.
+    Inherited references can give one physical story several role addresses.
+    """
+    main = 'word/document.xml'
+    root = _inventory.effective_tree(archive.read(main))
+    refs = relationships(archive, main)
+    roles, inherited = {main: ['body']}, {}
+    sections = root.xpath('.//w:sectPr[not(ancestor::w:sectPrChange) and not(ancestor::w:txbxContent)]', namespaces=NS)
+    for index, section in enumerate(sections, 1):
+        seen_references = set()
+        for scope in ['header', 'footer']:
+            for ref in section.findall('w:'+scope+'Reference', NS):
+                kind = ref.get('{'+W+'}type', 'default')
+                if (scope, kind) in seen_references:
+                    raise ValueError('Ambiguous duplicate '+scope+' reference in one section')
+                seen_references.add((scope, kind))
+                rel = refs.get(ref.get('{'+R+'}id'))
+                if rel is None or rel.get('TargetMode') == 'External':
+                    raise ValueError('Unresolved or external '+scope+' reference')
+                if not rel.get('Type', '').endswith('/'+scope):
+                    raise ValueError('Wrong relationship type for '+scope+' reference')
+                target = rel.get('Target', '')
+                target = target.lstrip('/') if target.startswith('/') else posixpath.normpath(posixpath.join('word', target))
+                if target not in archive.namelist():
+                    raise ValueError('Missing '+scope+' part')
+                if _inventory.effective_tree(archive.read(target)).tag != '{'+W+'}'+('hdr' if scope == 'header' else 'ftr'):
+                    raise ValueError('Wrong root element in '+scope+' part')
+                inherited[(scope, kind)] = target
+        for (scope, kind), target in inherited.items():
+            roles.setdefault(target, []).append(f'section:{index}/{scope}:{kind}')
+    return roles, max(1, len(sections))
+
+
+def body_locations(root):
+    """Section-end paragraph properties belong to that paragraph's section.
+
+    Textboxes cannot introduce body sections. An outer control can cover more
+    than one section; do not collapse those locations into a global body tag.
+    """
+    positions = {node: index for index, node in enumerate(root.iter())}
+    ends = []
+    for section in root.xpath('.//w:sectPr[not(ancestor::w:sectPrChange) and not(ancestor::w:txbxContent)]', namespaces=NS):
+        paragraph = section.xpath('ancestor::w:p[1]', namespaces=NS)
+        boundary = paragraph[0] if paragraph else section
+        ends.append(max(positions[n] for n in boundary.iter()))
+
+    def locations(node):
+        start, end = positions[node], max(positions[n] for n in node.iter())
+        first = 1 + sum(p < start for p in ends)
+        last = 1 + sum(p < end for p in ends)
+        return [f'section:{index}/body' for index in range(first, last + 1)]
+    return locations
+
+
+def crop_encoding(image):
+    fill_markup = None
+    if image.tag == '{'+NS['a']+'}blip':
+        crop = image.getparent().find('a:srcRect', NS)
+        markup = None if crop is None else dict(crop.attrib)
+        fill = image.getparent().find('a:stretch/a:fillRect', NS)
+        fill_markup = None if fill is None else dict(fill.attrib)
+        try:
+            values = [Decimal((markup or {}).get(k, '0')) / 100000 for k in ['l', 't', 'r', 'b']]
+        except InvalidOperation:
+            values = None
+        try:
+            if any(Decimal(value) != 0 for value in (fill_markup or {}).values()):
+                values = None
+        except InvalidOperation:
+            values = None
+        if image.getparent().find('a:tile', NS) is not None:
+            values = None
+        container = 'native-picture' if image.xpath('ancestor::pic:pic', namespaces=NS) else 'drawing-shape-fill'
+    else:
+        keys = {'cropleft', 'croptop', 'cropright', 'cropbottom', 'focusposition',
+                'focussize', 'aspect', 'origin', 'position', 'size', 'type'}
+        markup = {ET.QName(k).localname: v for k, v in image.attrib.items()
+                  if ET.QName(k).localname in keys} or None
+        values = None
+        if image.tag == '{'+NS['v']+'}imagedata':
+            def fraction(value):
+                if value.endswith('f'):
+                    return Decimal(value[:-1])/65536
+                if value.endswith('%'):
+                    return Decimal(value[:-1])/100
+                return Decimal(value)
+            try:
+                values = [fraction((markup or {}).get(k, '0')) for k in
+                          ['cropleft', 'croptop', 'cropright', 'cropbottom']]
+            except InvalidOperation:
+                values = None
+        container = 'vml-image' if image.tag.endswith('}imagedata') else 'vml-shape-fill'
+    if values is not None and (any(not v.is_finite() or v < 0 or v >= 1 for v in values)
+                               or values[0]+values[2] >= 1 or values[1]+values[3] >= 1):
+        values = None
+    return markup, None if values is None else [str(v.normalize()) for v in values], container, fill_markup
+
+
 def inspect(path):
     fields, duplicate_ids, pictures, all_text, assets = {}, [], [], [], []
-    software, revisions = None, 0
+    software, revisions, native_ids = None, 0, []
     with ZipFile(path) as archive:
         if len(archive.namelist()) != len(set(archive.namelist())):
             raise ValueError('Ambiguous duplicate DOCX package members')
@@ -80,6 +200,7 @@ def inspect(path):
             raise ValueError('Missing supported main document part')
         if archive.testzip() is not None:
             raise ValueError('Corrupt DOCX package')
+        roles, section_count = story_roles(archive)
         if 'docProps/app.xml' in archive.namelist():
             app = ET.fromstring(archive.read('docProps/app.xml'))
             software = next((e.text for e in app.iter() if ET.QName(e).localname == 'Application'), None)
@@ -95,11 +216,11 @@ def inspect(path):
                 raise ValueError('Unsupported main document namespace; field loss cannot be assessed')
             if root.tag not in ['{'+W+'}'+n for n in ['document', 'hdr', 'ftr']]:
                 continue
+            locations = body_locations(root) if name == 'word/document.xml' else lambda _: roles.get(name, [])
             revisions += len(root.xpath('.//w:ins | .//w:del | .//w:moveFrom | .//w:moveTo', namespaces=NS))
             all_text.extend(root.xpath('.//w:t/text()', namespaces=NS))
-            relpath = posixpath.join(posixpath.dirname(name), '_rels', posixpath.basename(name)+'.rels')
-            rels = {} if relpath not in archive.namelist() else {
-                e.get('Id'): e for e in ET.fromstring(archive.read(relpath))}
+            rels = relationships(archive, name)
+            native_ids.extend(root.xpath('.//w:sdtPr/w:id/@w:val', namespaces=NS))
             for control in root.findall('.//w:sdt', NS):
                 tag = control.find('w:sdtPr/w:tag', NS)
                 if tag is None or not tag.get('{'+W+'}val'):
@@ -116,8 +237,12 @@ def inspect(path):
                     'text': text_tokens(content),
                     'plainText': ''.join(content.xpath('.//w:t/text()', namespaces=NS)),
                     'story': name,
+                    'storyRoles': locations(control),
+                    'ancestorFieldIds': control.xpath('ancestor::w:sdt/w:sdtPr/w:tag/@w:val', namespaces=NS),
+                    'contentKind': 'block' if content.find('w:p', NS) is not None or content.find('w:tbl', NS) is not None else 'inline',
                     'typedPicture': props.find('w:picture', NS) is not None,
                     'nativeSdtId': None if native_id is None else native_id.get('{'+W+'}val'),
+                    'nativeSdtIdValue': None if native_id is None else numeric_id(native_id.get('{'+W+'}val')),
                     'ancestors': [ET.QName(p).localname for p in control.iterancestors()],
                     'paragraphIds': [p.get('{'+W14+'}paraId') for p in paragraphs_for(control)],
                 })
@@ -131,19 +256,69 @@ def inspect(path):
                     if target in archive.namelist():
                         embedded = archive.read(target)
                 owners = image.xpath('ancestor::w:sdt/w:sdtPr/w:tag/@w:val', namespaces=NS)
-                container = image.getparent()
-                crop = container.find('a:srcRect', NS)
+                crop, fractions, container, fill = crop_encoding(image)
                 pictures.append({'owners': owners, 'representation': 'DrawingML' if image.tag.endswith('}blip') else 'VML',
+                                 'story': name, 'storyRoles': locations(image), 'container': container,
                                  'pixels': None if embedded is None else pixels(embedded),
                                  'embeddedFileSha256': None if embedded is None else digest(embedded),
-                                 'cropMarkup': None if crop is None else dict(crop.attrib)})
+                                 'cropMarkup': crop, 'cropFractions': fractions, 'fillRectMarkup': fill})
     return {'fields': fields, 'duplicates': sorted(set(duplicate_ids)),
             'pictures': pictures, 'assets': assets, 'plainText': ''.join(all_text),
-            'declaredApplication': software, 'trackedRevisionMarkupCount': revisions}
+            'declaredApplication': software, 'trackedRevisionMarkupCount': revisions,
+            'sectionCount': section_count, 'storyRoles': roles,
+            'duplicateNativeSdtIds': sorted(k for k, count in Counter(numeric_id(v) for v in native_ids).items() if k is not None and count > 1),
+            'invalidNativeSdtIds': [v for v in native_ids if numeric_id(v) is None]}
+
+
+def compare_instances(before, after):
+    """Match source roles and tags; never pair ambiguous copies by value or order."""
+    rows = []
+    for field, originals in before['fields'].items():
+        saved = after['fields'].get(field, [])
+        for ordinal, source in enumerate(originals):
+            roles = set(source['storyRoles'])
+            candidates = [f for f in saved if roles.intersection(f['storyRoles'])] if roles else []
+            peers = [f for f in originals if roles.intersection(f['storyRoles'])] if roles else []
+            match, basis = None, None
+            if len(peers) == len(candidates) == 1:
+                match, basis = candidates[0], 'CANONICAL_TAG_AND_SECTION_STORY_ROLE'
+            elif roles and source['nativeSdtIdValue'] is not None:
+                native_id = source['nativeSdtIdValue']
+                if native_id not in before['duplicateNativeSdtIds'] and native_id not in after['duplicateNativeSdtIds']:
+                    exact = [f for f in candidates if f['nativeSdtIdValue'] == native_id]
+                    if len(exact) == 1:
+                        match, basis = exact[0], 'CANONICAL_TAG_ROLE_AND_UNIQUE_PERSISTED_ID'
+            if not roles:
+                status = 'UNREFERENCED_SOURCE_STORY'
+            elif match is not None:
+                status = 'MATCHED'
+            elif not candidates:
+                status = 'MISSING_OR_MOVED_TO_ANOTHER_STORY_ROLE'
+            else:
+                status = 'AMBIGUOUS_DUPLICATE_WITHIN_STORY_ROLE'
+            ids = source['paragraphIds']
+            paragraph = 'NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS'
+            if ids and all(ids):
+                paragraph = 'UNCHANGED' if match and ids == match['paragraphIds'] else 'CHANGED_OR_MISSING'
+            rows.append({'field': field, 'sourceOccurrence': ordinal + 1,
+                         'sourceStory': source['story'], 'sourceStoryRoles': source['storyRoles'],
+                         'matchStatus': status, 'matchingBasis': basis,
+                         'savedStory': None if match is None else match['story'],
+                         'savedStoryRoles': [] if match is None else match['storyRoles'],
+                         'fieldTokensUnchanged': bool(match and source['text'] == match['text']),
+                         'canonicalStoryRolesUnchanged': bool(match and source['storyRoles'] == match['storyRoles']),
+                         'physicalPartNameUnchanged': bool(match and source['story'] == match['story']),
+                         'controlNestingUnchanged': bool(match and source['ancestors'] == match['ancestors'] and
+                                                         source['ancestorFieldIds'] == match['ancestorFieldIds']),
+                         'sourceTextPresentSomewhereInSavedXml': source['plainText'] in after['plainText'] if source['plainText'] else None,
+                         'nativeSdtId': {'source': source['nativeSdtId'], 'saved': None if match is None else match['nativeSdtId']},
+                         'persistedParagraphIdComparison': paragraph})
+    return rows
 
 
 def compare(source, saved):
     before, after = inspect(source), inspect(saved)
+    instances = compare_instances(before, after)
     rows = []
     for field, original in before['fields'].items():
         actual = after['fields'].get(field, [])
@@ -174,19 +349,30 @@ def compare(source, saved):
                                'originalPixelsInsideCanonicalControl': bool(owned and same_pixels(owned['pixels'])),
                                'originalPixelsInAnyActivePicture': any(same_pixels(p['pixels']) for p in after['pictures']),
                                'originalPixelsSomewhereInPackage': any(same_pixels(p) for p in after['assets']),
-                               'exactCropMarkupUnchanged': bool(owned and a['representation'] == owned['representation'] and a['cropMarkup'] == owned['cropMarkup']),
+                               'exactCropMarkupUnchanged': bool(owned and a['representation'] == owned['representation'] and a['cropMarkup'] == owned['cropMarkup'] and a['fillRectMarkup'] == owned['fillRectMarkup']),
+                               'encodedCropFractionsUnchanged': None if not owned or a['cropFractions'] is None or owned['cropFractions'] is None else a['cropFractions'] == owned['cropFractions'],
+                               'originalPixelWindowUnchanged': None if not owned or not same_pixels(owned['pixels']) or a['cropFractions'] is None or owned['cropFractions'] is None else a['cropFractions'] == owned['cropFractions'],
+                               'canonicalOwnerStoryRolesUnchanged': bool(owned and a['storyRoles'] and a['storyRoles'] == owned['storyRoles']),
                                'saved': owned})
     return {'sourceSha256': digest(Path(source).read_bytes()), 'savedSha256': digest(Path(saved).read_bytes()),
             'declaredApplications': {'source': before['declaredApplication'], 'saved': after['declaredApplication']},
             'duplicates': {'source': before['duplicates'], 'saved': after['duplicates']},
             'trackedRevisionMarkupCount': {'source': before['trackedRevisionMarkupCount'], 'saved': after['trackedRevisionMarkupCount']},
             'sourceFields': len(before['fields']), 'savedFields': len(after['fields']),
+            'sectionCounts': {'source': before['sectionCount'], 'saved': after['sectionCount']},
+            'duplicateNativeSdtIds': {'source': before['duplicateNativeSdtIds'], 'saved': after['duplicateNativeSdtIds']},
+            'invalidNativeSdtIds': {'source': before['invalidNativeSdtIds'], 'saved': after['invalidNativeSdtIds']},
             'addedFieldIds': sorted(after['fields'].keys()-before['fields'].keys()),
-            'fields': rows, 'pictures': picture_report,
+            'fields': rows, 'instances': instances, 'pictures': picture_report,
             'wordAcceptance': 'UNVERIFIED', 'saveReopenPerformedByThisTool': False,
             'limits': ['XML text presence is not visible rendering or pagination.',
+                       'Global canonical-tag uniqueness is separate from repeated source occurrences in different stories.',
+                       'Section/reference roles tolerate part renames but do not prove native object identity or edit synchronization.',
+                       'Unreferenced stories and same-tag copies within a role cannot pass by text-value or ordinal matching.',
+                       'VML fill viewports without explicit crop fractions are not numerically comparable.',
                        'Changed structure or numeric SDT IDs alone do not establish lost canonical ownership.',
                        'Exact crop markup is separate from visible crop equivalence.',
+                       'Original-image crop windows cannot be compared after the original pixels change.',
                        'w14:paraId equality is persisted metadata, not proof of native importer object identity.',
                        'When tracked revisions exist, counts include revision markup and require revision-aware review.',
                        'Intentional editing changes must be assessed separately from untouched Save/Reopen.',
@@ -204,7 +390,8 @@ def main():
     report = compare(args.source, args.saved)
     args.report.write_text(json.dumps(report, ensure_ascii=False, indent=2)+'\n')
     print(json.dumps({'sourceFields': report['sourceFields'], 'savedFields': report['savedFields'],
-                      'changedOrMissingFields': sum(not r['canonicalIdUnique'] or not r['fieldTokensUnchanged'] for r in report['fields']),
+                      'changedOrAmbiguousSourceOccurrences': sum(r['matchStatus'] != 'MATCHED' or not r['fieldTokensUnchanged'] or not r['canonicalStoryRolesUnchanged'] or not r['controlNestingUnchanged'] for r in report['instances']),
+                      'globallyRepeatedCanonicalTags': report['duplicates'],
                       'photosWithoutTypedCanonicalOwner': sum(not p['typedPictureControlSurvives'] or p['savedOwnedPictureCount'] != 1 for p in report['pictures']),
                       'photosWithChangedOrMissingPixels': sum(not p['originalPixelsInsideCanonicalControl'] for p in report['pictures']),
                       'photosWithChangedCropMarkup': sum(not p['exactCropMarkupUnchanged'] for p in report['pictures']),
