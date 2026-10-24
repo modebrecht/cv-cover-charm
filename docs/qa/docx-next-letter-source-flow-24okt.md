@@ -90,3 +90,7 @@ bun test tests/unit/docx-next-letter-source-flow.test.ts
 The extractor rejects any other source hash. The probe verifies each frozen asset, reconstructs the complete source through the current builder/renderer, requires exact source-byte reproduction and writes the full control/candidate only to a new directory. Render the candidate with the documents renderer, then compare it with the control using the existing read-only reader. Summary values are in [the evidence file](docx-next-letter-source-flow-24okt-evidence.json).
 
 Next: native Word review of the Letter candidate when convenient; the existing separate photo UI test; principled reference-wrap work; then the ordinary repository checks and relevant native gates before any broader release decision. No merge, deployment, production switch or alteration to dev/main/render occurred in this work round. Other privacy-audit tasks were not touched.
+
+## Publication integrity correction
+
+The first publication commit `492bb91` received a truncated builder file because a text-transfer output limit was too small. The final byte check caught the mismatch. Forward correction `8519f69` restores the complete, already-tested local builder without rewriting history. Its Git blob is `bfee5638a7d0eb4bc45f49fb68ebc64da1dc9c21` (73,294 UTF-8 bytes). The generated candidate and all reported tests came from the complete local file. Subsequent publication verifies each uploaded blob against the local Git-object hash before moving the branch. Use the corrected head, not the transient publication commit.
