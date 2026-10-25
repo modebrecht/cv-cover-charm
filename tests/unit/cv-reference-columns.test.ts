@@ -24,6 +24,6 @@ describe("CV reference columns", () => {
     expect(canvas).toContain("data.referencesSideBySide !== false");
     expect(canvas).toContain('cvSectionLayout(data, "referenzen").width === "full"');
     expect(canvas).toContain("data-cv-reference-grid");
-    expect(canvas).toContain('gridTemplateColumns: "repeat(2, minmax(0, 1fr))"');
+    expect(canvas).toContain("gridTemplateColumns: `repeat(${pair.length}, minmax(0, 1fr))`");
   });
 });

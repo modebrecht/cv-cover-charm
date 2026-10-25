@@ -257,7 +257,7 @@ test("source bullet spacing and reference columns keep native semantic owners", 
   const pair = walkBlocks(model.cv.blocks).find((b) =>
     b.id.startsWith("cv.section.referenzen.pair:"),
   ) as TableBlock;
-  expect(pair.columnWidthsMm).toEqual([null, metrics.referenceGapMm!, null]);
+  expect(pair.columnWidthsMm).toEqual([null]);
   expect(pair.rows[0].cells[0][0].id).toBe("cv.entry.referenzen:demo-r1");
 });
 

@@ -1,0 +1,64 @@
+{
+  "baseCommit": "f78304e91d2c2ac8c378900f6e2ab20f9177379e",
+  "candidateSha256": "82d28fb2d2a452f53ae1e7417084f4da9c113bb3c1acab09d7ba3fa8a7442210",
+  "allStoryTextFieldsAndFormattingByteEquivalent": 144,
+  "plainTextUnchanged": true,
+  "photoAnchorAndPictureSubtreeUnchanged": true,
+  "onlyChangedPart": "word/document.xml",
+  "singleReferenceNativeGridTwips": [
+    6746
+  ],
+  "pdfPages": 4,
+  "referenceLines": [
+    {
+      "text": "Klassenlehrer, Schulhaus Zentrum",
+      "fontSizesPt": [
+        10.5
+      ],
+      "bbox": [
+        201.35000610351562,
+        330.4482727050781,
+        362.1996154785156,
+        342.166259765625
+      ]
+    }
+  ],
+  "pageComparisons": [
+    {
+      "page": 1,
+      "pixelsUnchanged": true
+    },
+    {
+      "page": 2,
+      "pixelsUnchanged": true
+    },
+    {
+      "page": 3,
+      "pixelsUnchanged": true
+    },
+    {
+      "page": 4,
+      "pixelsUnchanged": false
+    }
+  ],
+  "allFourPagesVisuallyReviewed": true,
+  "wordUiVerifiedByAgent": false,
+  "freshBrowserRender": "NOT_RUN_NO_LOCAL_CHROMIUM_EXECUTABLE",
+  "webVerification": "actual React SSR and serialized CSS grid tracks",
+  "normalExportGateChanged": false,
+  "mergePerformed": false,
+  "unitTests": {
+    "pass": 1425,
+    "fail": 0,
+    "files": 277,
+    "expects": 27072
+  },
+  "fullTypecheck": "PASS",
+  "productionBuild": "PASS",
+  "scopedEslint": "PASS",
+  "scopedPrettier": "PASS",
+  "library_file_id": "libfile_bd54fc4069388191ac5044c6bc04f3d6",
+  "libraryVersion": 2,
+  "historicalControlSha256": "5e469d60181f8405fffcb43a57f92377fc6b0daa414d71ac22cd33ed3a6a25e0",
+  "historicalControlOnlyInverse": "restore empty reference half-row for byte-exact historical control; never on candidate"
+}

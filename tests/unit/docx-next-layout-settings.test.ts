@@ -91,18 +91,21 @@ describe("native Brief CV presentation and letter separators", () => {
     const odd = refs[2] as TableBlock;
     expect(odd.kind).toBe("table");
     expect(odd.rows[0].keepTogether).toBe(false);
-    expect(odd.rows[0].cells.map((cell) => cell.length)).toEqual([1, 0, 0]);
+    expect(odd.rows[0].cells.map((cell) => cell.length)).toEqual([1]);
     expect(odd.rows[0].cells[0][0].id).toBe("cv.entry.referenzen:layout-reference-4");
     const availableWidth =
       model.cv.page.widthMm - model.cv.page.margins.left - model.cv.page.margins.right;
     for (const pair of refs as TableBlock[]) {
-      expect(pair.columnWidthsMm).toEqual([null, 6, null]);
+      expect(pair.columnWidthsMm).toEqual(pair === odd ? [null] : [null, 6, null]);
       expect(pair.indentMm ?? 0).toBe(0);
       expect(pair.decoration?.paddingXMm).toBe(0);
-      expect(pair.rows[0].cells[1]).toEqual([]);
       const widths = tableColumnWidths(pair, availableWidth);
-      expect(widths[0]).toBe(widths[2]);
-      expect(widths[1]).toBe(6);
+      if (pair === odd) expect(widths).toEqual([availableWidth]);
+      else {
+        expect(pair.rows[0].cells[1]).toEqual([]);
+        expect(widths[0]).toBe(widths[2]);
+        expect(widths[1]).toBe(6);
+      }
       expect(widths.reduce((a, b) => a + b)).toBeCloseTo(availableWidth);
     }
     expect(

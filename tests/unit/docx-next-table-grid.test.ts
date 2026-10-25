@@ -96,9 +96,11 @@ test("reference pairs align to the section edge and retain the preview gap in ei
       );
       expect(pairs.length).toBe(Math.ceil(count / 2));
       for (const pair of pairs) {
-        expect(tableColumnWidths(pair, 114.8)).toEqual([54.4, 6, 54.4]);
+        expect(tableColumnWidths(pair, 114.8)).toEqual(
+          pair.widths.length === 1 ? [114.8] : [54.4, 6, 54.4],
+        );
         expect(pair.decoration?.paddingXMm).toBe(0);
-        expect(pair.rows[0].cells[1]).toEqual([]);
+        if (pair.widths.length === 3) expect(pair.rows[0].cells[1]).toEqual([]);
       }
       const blob = await renderDossierDocx(model, { allowUnacceptedModelIssues: true });
       const xml = new TextDecoder().decode(
@@ -124,9 +126,11 @@ test("reference pairs align to the section edge and retain the preview gap in ei
           .split("</w:tblGrid>")[0]
           .matchAll(/<w:gridCol w:w="(\d+)"\/>/g),
       ].map((match) => Number(match[1]));
-      expect(grid.length).toBe(3);
-      expect(Math.abs(grid[1] - twips(6))).toBeLessThanOrEqual(1);
-      expect(Math.abs(grid[0] - grid[2])).toBeLessThanOrEqual(1);
+      expect(grid.length).toBe(count === 1 ? 1 : 3);
+      if (count > 1) {
+        expect(Math.abs(grid[1] - twips(6))).toBeLessThanOrEqual(1);
+        expect(Math.abs(grid[0] - grid[2])).toBeLessThanOrEqual(1);
+      }
     }
 });
 

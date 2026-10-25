@@ -919,7 +919,7 @@ export function CvCanvas({
             data-cv-reference-grid
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+              gridTemplateColumns: `repeat(${pair.length}, minmax(0, 1fr))`,
               columnGap: "6mm",
               rowGap: "2.1mm",
               marginBottom: "2.1mm",

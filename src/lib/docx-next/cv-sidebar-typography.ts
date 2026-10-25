@@ -295,7 +295,7 @@ export function applyCvSidebarTypography(
           metrics.referenceGapMm > 20
         )
           fail(block.id);
-        block.columnWidthsMm = [null, metrics.referenceGapMm, null];
+        if (block.widths.length === 3) block.columnWidthsMm = [null, metrics.referenceGapMm, null];
       }
       const widths = tableColumnWidths(block, block.widthMm ?? widthMm);
       block.rows.forEach((row) =>

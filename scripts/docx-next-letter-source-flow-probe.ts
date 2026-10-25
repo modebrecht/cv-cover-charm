@@ -146,7 +146,26 @@ const render = async (model: typeof baseline) => {
   });
   return new Uint8Array(await blob.arrayBuffer());
 };
-const originalBytes = await render(baseline);
+// Keep the published historical control byte-exact. Its empty half-row was
+// intentional source markup; current reference rows now use only occupied tracks.
+// This inverse is QA-only and never changes the exported candidate or source.
+const historicalControl = structuredClone(baseline);
+let restoredReferenceSlots = 0;
+for (const block of walkBlocks(historicalControl.cv.blocks)) {
+  if (
+    block.kind === "table" &&
+    block.id.startsWith("cv.section.referenzen.pair:") &&
+    block.widths.length === 1 &&
+    block.rows.length === 1 &&
+    block.rows[0].cells.length === 1
+  ) {
+    block.widths = [1, 1, 1];
+    block.columnWidthsMm = [null, fixture.sidebarMetrics.referenceGapMm ?? 6, null];
+    block.rows[0].cells.push([], []);
+    restoredReferenceSlots++;
+  }
+}
+const originalBytes = await render(historicalControl);
 assert.equal(
   hash(originalBytes),
   controlHash,
@@ -179,7 +198,9 @@ await writeFile(
       sourceSha256: hash(originalBytes),
       candidateSha256: hash(candidateBytes),
       coverModelUnchanged: true,
-      cvModelUnchanged: process.argv[4] !== "--ordinary-photo",
+      cvModelUnchanged: process.argv[4] !== "--ordinary-photo" && restoredReferenceSlots === 0,
+      historicalEmptyReferenceSlotsRestoredForControlOnly: restoredReferenceSlots,
+      candidateReferenceRows: "occupied-tracks",
       cvPhotoComposition:
         process.argv[4] === "--ordinary-photo" ? "ordinary-picture" : "typed-inline",
       scope:

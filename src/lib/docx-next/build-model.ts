@@ -1106,16 +1106,26 @@ export function buildDossierDocModel(
     }
     if (!blocks.length) continue;
     const layout = cvSectionLayout(data, key);
-    if (key === "referenzen" && data.referencesSideBySide !== false && layout.width === "full") {
+    if (
+      key === "referenzen" &&
+      data.referencesSideBySide !== false &&
+      layout.width === "full" &&
+      (cvVariant !== "sidebar" || placements?.referenzen === "main")
+    ) {
       blocks = Array.from({ length: Math.ceil(blocks.length / 2) }, (_, index) => {
         const pair = blocks.slice(index * 2, index * 2 + 2);
         return {
           kind: "table",
           id: `cv.section.referenzen.pair:${pair.map((entry) => entry.id).join("|")}`,
-          // Match the preview's two equal tracks and 6 mm gap without an outer inset.
-          widths: [1, 1, 1],
-          columnWidthsMm: [null, 6, null],
-          rows: [{ cells: [pair.slice(0, 1), [], pair.slice(1)], keepTogether: false }],
+          // An unpaired reference owns the full row, just as in the preview.
+          widths: pair.length === 1 ? [1] : [1, 1, 1],
+          columnWidthsMm: pair.length === 1 ? [null] : [null, 6, null],
+          rows: [
+            {
+              cells: pair.length === 1 ? [pair] : [pair.slice(0, 1), [], pair.slice(1)],
+              keepTogether: false,
+            },
+          ],
           decoration: { borderColor: cvAccent, borderWidthMm: 0, paddingXMm: 0, paddingYMm: 0 },
         };
       });
