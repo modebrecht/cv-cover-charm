@@ -405,6 +405,11 @@ export function validateDossierDocModel(model: DossierDocModel): void {
       )
         throw new Error(`DOCX Next invalid table geometry ${block.id}`);
       if (block.kind === "table") {
+        if (block.rows.some((row) => row.minimumHeightMm !== undefined &&
+            (!Number.isFinite(row.minimumHeightMm) || row.minimumHeightMm <= 0 ||
+              Math.round(row.minimumHeightMm * 1440 / 25.4) < 1 ||
+              row.minimumHeightMm > part.page.heightMm - margins.top - margins.bottom)))
+          throw Error(`DOCX Next invalid table row minimum height ${block.id}`);
         if (block.bodyBoundaryLeadByCellMm !== undefined &&
             (block.bodyBoundary !== "section-start" || block.bodyBoundaryLeadMm !== undefined ||
               block.bodyBoundaryLeadByCellMm.length !== block.widths.length ||
@@ -559,3 +564,4 @@ export function validateDossierDocModel(model: DossierDocModel): void {
     }
   }
 }
+

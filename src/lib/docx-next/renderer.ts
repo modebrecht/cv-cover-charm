@@ -127,6 +127,12 @@ export async function renderDossierDocx(
       ...(part.headerImages ?? []),
     ]),
   );
+  if (
+    storyBlocks.some((block) => block.kind === "table" &&
+      block.rows.some((row) => row.minimumHeightMm !== undefined)) &&
+    !options.allowUnacceptedModelIssues
+  )
+    throw Error("DOCX Next table row minimum height is unaccepted; diagnostic opt-in required");
   if (storyBlocks.some(block => block.kind === "image" && block.nativeOwner) &&
       !options.allowUnacceptedModelIssues)
     throw Error("DOCX Next page picture ownership is unaccepted; diagnostic opt-in required");
@@ -463,7 +469,9 @@ export async function renderDossierDocx(
     const rows = value.rows
       .map(
         (row, rowIndex) =>
-          `<w:tr>${row.keepTogether ? "<w:trPr><w:cantSplit/></w:trPr>" : ""}${row.cells
+          `<w:tr>${row.keepTogether || row.minimumHeightMm !== undefined
+            ? `<w:trPr>${row.keepTogether ? "<w:cantSplit/>" : ""}${row.minimumHeightMm === undefined ? "" : `<w:trHeight w:val="${twips(row.minimumHeightMm)}" w:hRule="atLeast"/>`}</w:trPr>`
+            : ""}${row.cells
             .map((cell, index) => {
               const merge = merges[rowIndex][index]
                 ? `<w:vMerge w:val="${merges[rowIndex][index]}"/>`
@@ -880,3 +888,4 @@ export async function renderDossierDocx(
   validateWordPackage(pkg, model);
   return pkg.blob();
 }
+

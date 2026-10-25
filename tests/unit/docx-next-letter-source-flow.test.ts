@@ -6,9 +6,10 @@ import { composeSourceLetterFlow } from "../../src/lib/docx-next/letter-source-f
 import { paragraph } from "../../src/lib/docx-next/native-text";
 import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
 import { validateDossierDocModel } from "../../src/lib/docx-next/validation";
-import type { Paragraph } from "../../src/lib/docx-next/model";
+import { walkBlocks, type Paragraph, type TableBlock } from "../../src/lib/docx-next/model";
 import type { DossierAppSnapshot } from "../../src/lib/docx-next/source";
 import type { BuildModelOptions } from "../../src/lib/docx-next/build-model";
+import { datedFlowAfterMm, NATIVE_BOUNDARY_HEIGHT_MM } from "../../src/lib/docx-next/flow-boundaries";
 
 const saved = JSON.parse(readFileSync(new URL(
   "../fixtures/docx-next/sidebar-contact-chrome-23okt.json", import.meta.url,
@@ -31,7 +32,7 @@ function build(trial = true) {
     ...(trial ? { letterFlowComposition: "source-lines" as const } : {}) });
 }
 function field(model: ReturnType<typeof build>, id: string) {
-  return model.letter.blocks.find((p) => p.id === id) as Paragraph;
+  return walkBlocks(model.letter.blocks).find((p) => p.id === id) as Paragraph;
 }
 
 test("source flow is opt-in and does not mutate saved input or adjacent parts", () => {
@@ -57,7 +58,7 @@ test("normal renderer rejects the candidate before assets are normalised", async
 
 test("text and canonical field identities survive every changed paragraph", () => {
   const before = build(false), after = build();
-  const content = (m: typeof before) => m.letter.blocks.filter((b) => b.kind === "paragraph")
+  const content = (m: typeof before) => walkBlocks(m.letter.blocks).filter((b) => b.kind === "paragraph")
     .map((p) => [p.id, (p as Paragraph).runs.map((r) => [r.id, r.fieldId, r.text])]);
   assert.deepEqual(content(after), content(before));
 });
@@ -90,8 +91,13 @@ test("source role sizes and additive gaps replace template approximations", () =
 
 test("the recipient minimum belongs to its block rather than a guessed paragraph gap", () => {
   const m = build();
-  const reserved = 4 * 10 * 1.45 * 25.4 / 72;
-  assert.ok(Math.abs(field(m, "letter.date").beforeMm - (24 - reserved + 4)) < 1e-9);
+  const table = m.letter.blocks.find((b) => b.id === "letter.recipient.minimum-block") as TableBlock;
+  assert.equal(table.rows[0].minimumHeightMm, 24 + NATIVE_BOUNDARY_HEIGHT_MM);
+  assert.equal(table.rows[0].keepTogether, false);
+  assert.deepEqual(table.rows[0].cells[0].map((p) => p.id), [
+    "letter.recipient.company", "letter.recipient.name", "letter.recipient.address", "letter.recipient.place",
+  ]);
+  assert.equal(field(m, "letter.date").beforeMm, datedFlowAfterMm(4));
   assert.equal(field(m, "letter.recipient.place").afterMm, 0);
 });
 
@@ -142,14 +148,53 @@ test("unsupported rich text, user typography, images and custom spacing fail clo
   }
 });
 
-test("unknown paragraphs and wrapping recipients do not get partially rewritten", () => {
+test("unknown paragraphs and recipient hard breaks do not get partially rewritten", () => {
   const { input, options } = setup();
   for (const mode of ["unknown", "recipient"] as const) {
     const model = buildDossierDocModel(input, options);
     if (mode === "unknown") model.letter.blocks.push({ ...structuredClone(field(model, "letter.date")), id: "letter.unknown" });
-    else field(model, "letter.recipient.company").runs[0].text = "Very long recipient ".repeat(20);
+    else field(model, "letter.recipient.company").runs[0].text = "Recipient\nSecond line";
     const old = structuredClone(model.letter);
     assert.throws(() => composeSourceLetterFlow(model.letter, input), /Source-Letter/);
     assert.deepEqual(model.letter, old);
   }
+});
+
+test("wide or long recipient text retains natural flow without an estimated line count", () => {
+  for (const text of [Array.from({ length: 10 }, () => "WWWWWW").join(" "), "Long recipient ".repeat(50)]) {
+    const { input, options } = setup();
+    input.letter.data.empfaengerFirma = text;
+    options.interiorTextMetrics!.sourceKey = options.cvSidebarTextMetrics!.sourceKey = JSON.stringify(input);
+    const m = buildDossierDocModel(input, { ...options, letterFlowComposition: "source-lines" });
+    assert.equal(field(m, "letter.recipient.company").runs[0].text, text);
+    assert.equal(field(m, "letter.date").beforeMm, datedFlowAfterMm(4));
+    const table = m.letter.blocks.find((b) => b.kind === "table") as TableBlock;
+    assert.equal(table.rows[0].minimumHeightMm, 24 + NATIVE_BOUNDARY_HEIGHT_MM);
+    assert.equal(table.rows[0].keepTogether, false);
+    assert.equal(field(m, "letter.recipient.company").keepLines, false);
+    validateDossierDocModel(m);
+  }
+});
+
+test("noncontiguous recipient fields are rejected before any model mutation", () => {
+  const { input, options } = setup();
+  const part = buildDossierDocModel(input, options).letter;
+  const date = part.blocks.findIndex((p) => p.id === "letter.date");
+  const [paragraph] = part.blocks.splice(date, 1);
+  const recipient = part.blocks.findIndex((p) => p.id === "letter.recipient.name");
+  part.blocks.splice(recipient, 0, paragraph);
+  const before = structuredClone(part);
+  assert.throws(() => composeSourceLetterFlow(part, input), /Source-Letter/);
+  assert.deepEqual(part, before);
+});
+
+test("recipient and date alignment survive the new flow container", () => {
+  const { input, options } = setup();
+  input.letter.design.recipientAlign = "right";
+  input.letter.design.dateAlign = "right";
+  options.interiorTextMetrics!.sourceKey = options.cvSidebarTextMetrics!.sourceKey = JSON.stringify(input);
+  const m = buildDossierDocModel(input, { ...options, letterFlowComposition: "source-lines" });
+  assert.equal(field(m, "letter.recipient.company").align, "right");
+  assert.equal(field(m, "letter.recipient.place").align, "right");
+  assert.equal(field(m, "letter.date").align, "right");
 });

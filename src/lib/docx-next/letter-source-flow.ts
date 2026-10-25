@@ -1,12 +1,14 @@
-import type { DocumentPart, Paragraph } from "./model";
+import type { DocBlock, DocumentPart, Paragraph, TableBlock } from "./model";
 import type { DossierAppSnapshot } from "./source";
-import { nativeTextHeightMm, nativeTextWidthMm } from "./layouts";
+import { nativeTextHeightMm } from "./layouts";
 import { resolveLetterPalette } from "@/components/letter/letter-paper";
+import { datedFlowAfterMm as tableFlowAfterMm, NATIVE_BOUNDARY_HEIGHT_MM } from "./flow-boundaries";
 
 /** Internal Modern/Sans plain-letter trial. All line heights remain growable.
  * CSS div lines have no paragraph margin; explicit blank lines own their space.
  * Limited deliberately: customised typography/spacing, rich structures, sender
- * blocks, missing role content and wrapping recipient rows need other contracts.
+ * blocks and missing role content need other contracts. Recipient height grows
+ * through a native minimum-height row; no text-width/line-count guess is used.
  */
 export function composeSourceLetterFlow(part: DocumentPart, source: DossierAppSnapshot): void {
   const { data, design } = source.letter;
@@ -59,6 +61,7 @@ export function composeSourceLetterFlow(part: DocumentPart, source: DossierAppSn
     fail();
   const paragraphs = part.blocks.filter((b): b is Paragraph => b.kind === "paragraph");
   const recipients = paragraphs.filter((p) => p.id.startsWith("letter.recipient."));
+  const recipientStart = part.blocks.findIndex((block) => block === recipients[0]);
   const bodies = paragraphs.filter((p) => p.id.startsWith("letter.body.paragraph:"));
   // Modern's band archetype uses 24/23 mm in LetterCanvas. The template's
   // previous 24/22 mm fallback widens native lines by another millimetre.
@@ -66,12 +69,11 @@ export function composeSourceLetterFlow(part: DocumentPart, source: DossierAppSn
   if (
     !recipients.length ||
     !bodies.length ||
+    recipients.some((p, index) => part.blocks[recipientStart + index] !== p) ||
     paragraphs.some(
       (p) => p.id.startsWith("letter.sender.") || p.runs.some((r) => r.style.font !== "Arial"),
     ) ||
-    recipients.some(
-      (p) => p.runs.some((r) => /[\n\t]/.test(r.text)) || nativeTextWidthMm(p) > width,
-    )
+    recipients.some((p) => p.runs.some((r) => /[\n\t]/.test(r.text)))
   )
     fail();
   // Check every eligible field before changing the model. No partial mutation on failure.
@@ -102,13 +104,10 @@ export function composeSourceLetterFlow(part: DocumentPart, source: DossierAppSn
     p.beforeMm = beforeMm;
     p.afterMm = afterMm;
   };
-  // LetterCanvas reserves at least 24 mm for the complete recipient block.
-  // This bounded trial accepts only unwrapped rows, so its remaining space is exact.
-  const recipientReserveMm = Math.max(0, 24 - (recipients.length * 10 * 1.45 * 25.4) / 72);
   for (const p of paragraphs) {
     if (p.id.startsWith("letter.recipient.")) set(p, 10, 1.45);
     else if (p.id === "letter.date") {
-      set(p, 9.5, 1.45, recipientReserveMm + 4, 7);
+      set(p, 9.5, 1.45, tableFlowAfterMm(4), 7);
       p.runs.forEach((r) => {
         r.style.color = muted;
       });
@@ -131,4 +130,24 @@ export function composeSourceLetterFlow(part: DocumentPart, source: DossierAppSn
         p.keepNext = true;
       });
   }
+  // Match LetterCanvas's recipient min-height, including natural wrapping.
+  // The minimum belongs to the whole block and can grow beyond 24 mm. No
+  // fixed box, width estimate, reduced font or missing field owner is needed.
+  const recipientSet = new Set(recipients);
+  const recipientBlock: TableBlock = {
+    kind: "table",
+    id: "letter.recipient.minimum-block",
+    widths: [1],
+    widthMm: width,
+    // The existing renderer emits one cell-ending and one table-ending
+    // paragraph. Keep the cell ending outside the authored 24 mm minimum,
+    // then account for both native boundaries in the following source gap.
+    rows: [{ cells: [recipients], keepTogether: false,
+      minimumHeightMm: 24 + NATIVE_BOUNDARY_HEIGHT_MM }],
+    decoration: { borderColor: "FFFFFF", borderWidthMm: 0, paddingXMm: 0, paddingYMm: 0 },
+  };
+  part.blocks = part.blocks.flatMap<DocBlock>((block) => {
+    if (block === recipients[0]) return [recipientBlock];
+    return recipientSet.has(block as Paragraph) ? [] : [block];
+  });
 }

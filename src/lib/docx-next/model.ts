@@ -156,6 +156,8 @@ export type TableBlock = {
   rows: {
     cells: DocBlock[][];
     keepTogether: boolean;
+    /** Unaccepted growable native minimum; never an exact row height. */
+    minimumHeightMm?: number;
     cellDecorations?: (CellDecoration | undefined)[];
     /** Semantic vertical cell spans; absent cells each occupy one row. */
     cellRowSpans?: number[];
@@ -381,3 +383,4 @@ export function walkBlocks(blocks: DocBlock[]): DocBlock[] {
                   : []),
   ]);
 }
+
