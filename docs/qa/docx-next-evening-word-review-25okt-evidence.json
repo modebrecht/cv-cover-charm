@@ -1,0 +1,520 @@
+{
+  "date": "2026-10-25",
+  "startingHead": "718296ece72a78d71eb15091b9f6ead79a4033f3",
+  "scope": "READ_ONLY_RETURN_CHECKS_AND_EVENING_WORD_REVIEW_PREPARATION",
+  "tests": {
+    "runner": "CPython unittest",
+    "passed": 39,
+    "failed": 0,
+    "logSha256": "efb73cfd81e7b5876d20e224b16aa358924e711d6af161a936e4421acfdce701",
+    "cases": [
+      "test_changed_minimum_is_not_tolerated_silently",
+      "test_cli_cannot_overwrite_an_input",
+      "test_cli_new_report_and_failure_exit_status",
+      "test_conditional_style_requires_separate_review",
+      "test_cyclic_style_is_not_guessed",
+      "test_default_table_style_cannot_hide_no_split",
+      "test_direct_false_overrides_inherited_no_split",
+      "test_direct_no_split_is_rejected",
+      "test_duplicate_control_tags_are_ambiguous_even_with_same_value",
+      "test_duplicate_height_is_rejected",
+      "test_duplicate_native_control_id_is_rejected",
+      "test_duplicate_row_properties_are_not_a_preserved_minimum",
+      "test_duplicated_recipient_owner_is_rejected",
+      "test_exact_height_cannot_masquerade_as_growable",
+      "test_explicit_false_drawing_flips_preserve_the_original_frame",
+      "test_explicit_false_split_property_is_supported",
+      "test_extra_control_with_empty_canonical_tag_is_rejected",
+      "test_extra_untagged_recipient_text_is_rejected",
+      "test_frame_resize_is_separate_from_original_pixel_preservation",
+      "test_inherited_no_split_is_rejected",
+      "test_invalid_onoff_split_value_is_not_guessed",
+      "test_missing_based_on_id_is_not_treated_as_chain_end",
+      "test_missing_explicit_style_id_is_not_treated_as_no_style",
+      "test_missing_height_rule_does_not_pass_the_explicit_minimum_contract",
+      "test_native_id_regeneration_does_not_imply_lost_owner",
+      "test_nearest_style_false_overrides_base_true",
+      "test_new_data_binding_is_not_an_untouched_control",
+      "test_numeric_crop_change_is_rejected",
+      "test_omitted_zero_crop_attributes_preserve_numeric_crop",
+      "test_orphan_original_cannot_rescue_replaced_active_photo",
+      "test_property_revision_is_rejected",
+      "test_real_flip_is_rejected_despite_unchanged_embedded_pixels",
+      "test_recipient_moved_outside_cell_is_rejected",
+      "test_removed_height_is_rejected",
+      "test_removed_recipient_tag_fails_even_when_text_survives",
+      "test_standard_and_wide_cannot_be_mixed",
+      "test_standard_identity_is_only_bounded_preservation",
+      "test_unpinned_but_readable_source_is_rejected",
+      "test_wide_identity_is_only_bounded_preservation"
+    ],
+    "initialUnpublishedCheckerFourAdversarialFailuresHardened": true
+  },
+  "dependencyIntegrity": [
+    {
+      "path": "scripts/docx-next-sidebar-word-layout-qa.py",
+      "sha": "369983c2817cb105cff755bd09585d006ae68447",
+      "bytes": 8177
+    },
+    {
+      "path": "scripts/docx-next-word-acceptance-23okt.py",
+      "sha": "6bdda7d783660b567dbebd8fc1d8b7f11442a006",
+      "bytes": 27754
+    },
+    {
+      "path": "src/lib/docx-next-sidebar-metrics.browser.tsx",
+      "sha": "ec884591bb1ab6a8c94fba3f58c70716f92394d8",
+      "bytes": 17047
+    },
+    {
+      "path": "src/lib/docx-next/native-text.ts",
+      "sha": "3595f46ef353d04722d3c06f7a2e31ae96cd1987",
+      "bytes": 5745
+    },
+    {
+      "path": "tests/fixtures/docx-next/sidebar-contact-chrome-23okt.json",
+      "sha": "8628bedde65f94135dee47490f4425a7bef5f148",
+      "bytes": 133730
+    }
+  ],
+  "packets": [
+    {
+      "filename": "CV-Word-Pruefkandidat-25okt.zip",
+      "sha256": "430f88185d3091270d8cc7f40bade4fa295abc000cbdb22a6575b7c6e510f509",
+      "bytes": 2030195,
+      "byteIdenticalToDeliveredPacket": true,
+      "zipIntegrity": true
+    },
+    {
+      "filename": "CV-Brief-Empfaenger-Word-v2-25okt.zip",
+      "sha256": "3cd2ee59d0e83e6610b14d38a7b65e17a170da9c62e1dcaf79dd28166ce5359a",
+      "bytes": 1820379,
+      "byteIdenticalToDeliveredPacket": true,
+      "zipIntegrity": true
+    }
+  ],
+  "readerSelfComparisons": {
+    "standard": {
+      "contract": "UNTOUCHED_LETTER_RECIPIENT_MINIMUM_V2",
+      "case": "standard",
+      "sourceSha256": "b663a5efa1eb2b86494955983f869af5f3d744c40b85b23620e8c201099d7e2b",
+      "savedSha256": "b663a5efa1eb2b86494955983f869af5f3d744c40b85b23620e8c201099d7e2b",
+      "preservationStatus": "PRESERVED_WITHIN_BOUNDED_XML_CHECKS",
+      "checks": {
+        "allFieldCountsUnchanged": true,
+        "allFieldTokensRolesAndNestingUnchanged": true,
+        "sectionCountUnchanged": true,
+        "noTrackedRevisions": true,
+        "supportedControlBehavior": true,
+        "nativeControlIdsValidAndUnique": true,
+        "recipientFieldsRemainInOneRowAndCell": true,
+        "recipientMinimumStillGrowable": true,
+        "recipientRowStillSplittable": true,
+        "recipientNoPropertyRevisions": true,
+        "recipientNoAdditionalText": true,
+        "typedCanonicalPhotoOriginalAndCropUnchanged": true,
+        "photoFrameAndInlinePlacementUnchanged": true
+      },
+      "failedChecks": [],
+      "fieldOccurrences": 145,
+      "canonicalTags": 134,
+      "savedOccurrencesOfSourceFields": 145,
+      "savedCanonicalTags": 134,
+      "addedCanonicalFieldIds": [],
+      "declaredApplications": {
+        "source": null,
+        "saved": null
+      },
+      "changedOrAmbiguousFields": [],
+      "recipient": {
+        "source": {
+          "problems": [],
+          "minimumTwips": 1381,
+          "heightRule": "atLeast",
+          "rowCanSplit": true,
+          "splitBasis": "NO_TABLE_SPLIT_OVERRIDE",
+          "fieldsInOrder": [
+            "letter.recipient.company",
+            "letter.recipient.name",
+            "letter.recipient.address",
+            "letter.recipient.place"
+          ],
+          "oneRowOneCell": true,
+          "noPropertyRevisions": true,
+          "noAdditionalRecipientText": true
+        },
+        "saved": {
+          "problems": [],
+          "minimumTwips": 1381,
+          "heightRule": "atLeast",
+          "rowCanSplit": true,
+          "splitBasis": "NO_TABLE_SPLIT_OVERRIDE",
+          "fieldsInOrder": [
+            "letter.recipient.company",
+            "letter.recipient.name",
+            "letter.recipient.address",
+            "letter.recipient.place"
+          ],
+          "oneRowOneCell": true,
+          "noPropertyRevisions": true,
+          "noAdditionalRecipientText": true
+        }
+      },
+      "photoFrame": {
+        "source": {
+          "placement": "inline",
+          "outerExtentEmu": [
+            1008000,
+            1260000
+          ],
+          "innerExtentEmu": [
+            1008000,
+            1260000
+          ],
+          "offsetEmu": [
+            0,
+            0
+          ],
+          "rotation": {
+            "rot": 0,
+            "flipH": 0,
+            "flipV": 0
+          },
+          "geometry": [
+            "{http://schemas.openxmlformats.org/drawingml/2006/main}prstGeom",
+            [
+              [
+                "prst",
+                "roundRect"
+              ]
+            ],
+            null,
+            [
+              [
+                "{http://schemas.openxmlformats.org/drawingml/2006/main}avLst",
+                [],
+                null,
+                [
+                  [
+                    "{http://schemas.openxmlformats.org/drawingml/2006/main}gd",
+                    [
+                      [
+                        "fmla",
+                        "val 5357"
+                      ],
+                      [
+                        "name",
+                        "adj"
+                      ]
+                    ],
+                    null,
+                    []
+                  ]
+                ]
+              ]
+            ]
+          ],
+          "paint": []
+        },
+        "saved": {
+          "placement": "inline",
+          "outerExtentEmu": [
+            1008000,
+            1260000
+          ],
+          "innerExtentEmu": [
+            1008000,
+            1260000
+          ],
+          "offsetEmu": [
+            0,
+            0
+          ],
+          "rotation": {
+            "rot": 0,
+            "flipH": 0,
+            "flipV": 0
+          },
+          "geometry": [
+            "{http://schemas.openxmlformats.org/drawingml/2006/main}prstGeom",
+            [
+              [
+                "prst",
+                "roundRect"
+              ]
+            ],
+            null,
+            [
+              [
+                "{http://schemas.openxmlformats.org/drawingml/2006/main}avLst",
+                [],
+                null,
+                [
+                  [
+                    "{http://schemas.openxmlformats.org/drawingml/2006/main}gd",
+                    [
+                      [
+                        "fmla",
+                        "val 5357"
+                      ],
+                      [
+                        "name",
+                        "adj"
+                      ]
+                    ],
+                    null,
+                    []
+                  ]
+                ]
+              ]
+            ]
+          ],
+          "paint": []
+        }
+      },
+      "wordAcceptance": "UNVERIFIED",
+      "wordUiActionsProven": false,
+      "saveReopenPerformedByThisTool": false,
+      "renderingChecked": false,
+      "legacyReadersOrProductionGatesChanged": false,
+      "limits": [
+        "Untouched saves only; intentional text, crop, size, placement or picture edits are separate.",
+        "XML preservation does not establish Word UI, saved application, visible pagination or actual reopen.",
+        "Application metadata is observed, not proof of which application performed the save.",
+        "Native row height and split inheritance are bounded checks, not full table style/schema validation.",
+        "Conditional split styles, unsupported structures or ambiguous fields require separate review.",
+        "All visible spacing, wrapping, borders and fonts still need Word/PDF review.",
+        "Other active decorative pictures, arbitrary non-field content and complete formatting are not fully compared.",
+        "No Sidebar production or general Word acceptance is granted."
+      ]
+    },
+    "wide": {
+      "contract": "UNTOUCHED_LETTER_RECIPIENT_MINIMUM_V2",
+      "case": "wide",
+      "sourceSha256": "b157868f87d21ff065f2af798add7375542b306f1ca2cb11940607b636b841bc",
+      "savedSha256": "b157868f87d21ff065f2af798add7375542b306f1ca2cb11940607b636b841bc",
+      "preservationStatus": "PRESERVED_WITHIN_BOUNDED_XML_CHECKS",
+      "checks": {
+        "allFieldCountsUnchanged": true,
+        "allFieldTokensRolesAndNestingUnchanged": true,
+        "sectionCountUnchanged": true,
+        "noTrackedRevisions": true,
+        "supportedControlBehavior": true,
+        "nativeControlIdsValidAndUnique": true,
+        "recipientFieldsRemainInOneRowAndCell": true,
+        "recipientMinimumStillGrowable": true,
+        "recipientRowStillSplittable": true,
+        "recipientNoPropertyRevisions": true,
+        "recipientNoAdditionalText": true,
+        "typedCanonicalPhotoOriginalAndCropUnchanged": true,
+        "photoFrameAndInlinePlacementUnchanged": true
+      },
+      "failedChecks": [],
+      "fieldOccurrences": 145,
+      "canonicalTags": 134,
+      "savedOccurrencesOfSourceFields": 145,
+      "savedCanonicalTags": 134,
+      "addedCanonicalFieldIds": [],
+      "declaredApplications": {
+        "source": null,
+        "saved": null
+      },
+      "changedOrAmbiguousFields": [],
+      "recipient": {
+        "source": {
+          "problems": [],
+          "minimumTwips": 1381,
+          "heightRule": "atLeast",
+          "rowCanSplit": true,
+          "splitBasis": "NO_TABLE_SPLIT_OVERRIDE",
+          "fieldsInOrder": [
+            "letter.recipient.company",
+            "letter.recipient.name",
+            "letter.recipient.address",
+            "letter.recipient.place"
+          ],
+          "oneRowOneCell": true,
+          "noPropertyRevisions": true,
+          "noAdditionalRecipientText": true
+        },
+        "saved": {
+          "problems": [],
+          "minimumTwips": 1381,
+          "heightRule": "atLeast",
+          "rowCanSplit": true,
+          "splitBasis": "NO_TABLE_SPLIT_OVERRIDE",
+          "fieldsInOrder": [
+            "letter.recipient.company",
+            "letter.recipient.name",
+            "letter.recipient.address",
+            "letter.recipient.place"
+          ],
+          "oneRowOneCell": true,
+          "noPropertyRevisions": true,
+          "noAdditionalRecipientText": true
+        }
+      },
+      "photoFrame": {
+        "source": {
+          "placement": "inline",
+          "outerExtentEmu": [
+            1008000,
+            1260000
+          ],
+          "innerExtentEmu": [
+            1008000,
+            1260000
+          ],
+          "offsetEmu": [
+            0,
+            0
+          ],
+          "rotation": {
+            "rot": 0,
+            "flipH": 0,
+            "flipV": 0
+          },
+          "geometry": [
+            "{http://schemas.openxmlformats.org/drawingml/2006/main}prstGeom",
+            [
+              [
+                "prst",
+                "roundRect"
+              ]
+            ],
+            null,
+            [
+              [
+                "{http://schemas.openxmlformats.org/drawingml/2006/main}avLst",
+                [],
+                null,
+                [
+                  [
+                    "{http://schemas.openxmlformats.org/drawingml/2006/main}gd",
+                    [
+                      [
+                        "fmla",
+                        "val 5357"
+                      ],
+                      [
+                        "name",
+                        "adj"
+                      ]
+                    ],
+                    null,
+                    []
+                  ]
+                ]
+              ]
+            ]
+          ],
+          "paint": []
+        },
+        "saved": {
+          "placement": "inline",
+          "outerExtentEmu": [
+            1008000,
+            1260000
+          ],
+          "innerExtentEmu": [
+            1008000,
+            1260000
+          ],
+          "offsetEmu": [
+            0,
+            0
+          ],
+          "rotation": {
+            "rot": 0,
+            "flipH": 0,
+            "flipV": 0
+          },
+          "geometry": [
+            "{http://schemas.openxmlformats.org/drawingml/2006/main}prstGeom",
+            [
+              [
+                "prst",
+                "roundRect"
+              ]
+            ],
+            null,
+            [
+              [
+                "{http://schemas.openxmlformats.org/drawingml/2006/main}avLst",
+                [],
+                null,
+                [
+                  [
+                    "{http://schemas.openxmlformats.org/drawingml/2006/main}gd",
+                    [
+                      [
+                        "fmla",
+                        "val 5357"
+                      ],
+                      [
+                        "name",
+                        "adj"
+                      ]
+                    ],
+                    null,
+                    []
+                  ]
+                ]
+              ]
+            ]
+          ],
+          "paint": []
+        }
+      },
+      "wordAcceptance": "UNVERIFIED",
+      "wordUiActionsProven": false,
+      "saveReopenPerformedByThisTool": false,
+      "renderingChecked": false,
+      "legacyReadersOrProductionGatesChanged": false,
+      "limits": [
+        "Untouched saves only; intentional text, crop, size, placement or picture edits are separate.",
+        "XML preservation does not establish Word UI, saved application, visible pagination or actual reopen.",
+        "Application metadata is observed, not proof of which application performed the save.",
+        "Native row height and split inheritance are bounded checks, not full table style/schema validation.",
+        "Conditional split styles, unsupported structures or ambiguous fields require separate review.",
+        "All visible spacing, wrapping, borders and fonts still need Word/PDF review.",
+        "Other active decorative pictures, arbitrary non-field content and complete formatting are not fully compared.",
+        "No Sidebar production or general Word acceptance is granted."
+      ]
+    }
+  },
+  "kerningSourceCheck": {
+    "sourceControlSha256": "5e469d60181f8405fffcb43a57f92377fc6b0daa414d71ac22cd33ed3a6a25e0",
+    "field": "cv.entry.referenzen:demo-r1.role",
+    "capturedKerning": true,
+    "nativeKernThresholdHalfPoints": "0",
+    "capturedSizePt": 10.476,
+    "conclusion": "Missing explicit kerning is not the cause in this pinned source; no new toggle/probe justified",
+    "newDocxGenerated": false
+  },
+  "newOfficeEngineOrSaveAttempt": false,
+  "actualWordReturnReceived": false,
+  "fullRepositoryChecksRerun": false,
+  "priorUnitPassCountNotAdded": 1412,
+  "productSourceOrExistingReadersChanged": false,
+  "legacyGuardsWeakened": false,
+  "wordAcceptance": "UNVERIFIED",
+  "mergeOrDeployPerformed": false,
+  "ciDispatchPerformed": false,
+  "newReviewDocxOrPdfGenerated": false,
+  "syntheticAdversarialPackagesGenerated": true,
+  "cliPositiveControls": [
+    {
+      "case": "standard",
+      "exitCode": 0,
+      "sourceEqualsSavedBytes": true,
+      "saveReopenEvidence": false
+    },
+    {
+      "case": "wide",
+      "exitCode": 0,
+      "sourceEqualsSavedBytes": true,
+      "saveReopenEvidence": false
+    }
+  ]
+}

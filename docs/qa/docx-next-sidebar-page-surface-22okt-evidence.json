@@ -1,0 +1,717 @@
+{
+  "date": "2026-10-22",
+  "status": "COMMITTED_PAGE_SURFACE_CHECKPOINT",
+  "remoteWritePerformed": true,
+  "pins": {
+    "sidebar": "f73c776e2eca6b9b0d858ee2ab997230259797ac",
+    "fidelity": "7be40063856d1376acb60e917fe85599a6033dad",
+    "cvRepair": "e1f11779db1da78c08651b22b552cf6f54006e5d"
+  },
+  "baselineSourceFilesVerified": 163,
+  "baselineMismatches": 0,
+  "rootCause": "Sidebar fill was only native table-cell shading, so its vertical extent followed content instead of page geometry",
+  "change": "Add full-height outer-edge page artwork and matching inner boundary, reused in default and first CV header; keep existing body geometry and paint intact",
+  "semanticBodyXml": "Identical before/after in all three diagnostic dossiers",
+  "checks": {
+    "unitTests": 64,
+    "fail": 0,
+    "newRegressionTests": 3,
+    "typescript": "PASS, strict focused builder/composer/renderer closure",
+    "renderedPages": 24,
+    "newCvPagesInspected": 6,
+    "coverLetterPagesIdentical": 12
+  },
+  "cases": {
+    "sourceRef": "f73c776e2eca6b9b0d858ee2ab997230259797ac",
+    "sourcePhotoSha256": "265bf0882c3cacca519668160cf117ee82c33a662f7d4a582516bdb0a864fd02",
+    "scope": "Internal shared-exporter diagnostics; no application PDF or Desktop Word acceptance",
+    "results": [
+      {
+        "id": "01-left-short",
+        "sourceStatePreserved": true,
+        "onlyPageArtworkModelChanged": true,
+        "documentXmlIdentical": true,
+        "unchangedParts": [
+          "word/cover-header.xml",
+          "word/cover-footer.xml",
+          "word/letter-header.xml",
+          "word/letter-footer.xml",
+          "word/document.xml"
+        ],
+        "originalPhotoEmbedded": true,
+        "surface": [
+          {
+            "kind": "decorative-artwork",
+            "id": "cv.artwork.sidebar-surface",
+            "semanticText": false,
+            "fill": {
+              "color": "FBFBFC"
+            },
+            "xMm": 0,
+            "yMm": 0,
+            "widthMm": 69.19999999999999,
+            "heightMm": 297
+          },
+          {
+            "kind": "decorative-artwork",
+            "id": "cv.artwork.sidebar-edge",
+            "semanticText": false,
+            "fill": {
+              "color": "C8D2D8"
+            },
+            "xMm": 69.07499999999999,
+            "yMm": 0,
+            "widthMm": 0.25,
+            "heightMm": 297
+          }
+        ]
+      },
+      {
+        "id": "02-right-photo",
+        "sourceStatePreserved": true,
+        "onlyPageArtworkModelChanged": true,
+        "documentXmlIdentical": true,
+        "unchangedParts": [
+          "word/media/image-1.png",
+          "word/cover-header.xml",
+          "word/cover-footer.xml",
+          "word/letter-header.xml",
+          "word/letter-footer.xml",
+          "word/document.xml"
+        ],
+        "originalPhotoEmbedded": true,
+        "surface": [
+          {
+            "kind": "decorative-artwork",
+            "id": "cv.artwork.sidebar-surface",
+            "semanticText": false,
+            "fill": {
+              "color": "FBFBFC"
+            },
+            "xMm": 140.8,
+            "yMm": 0,
+            "widthMm": 69.19999999999999,
+            "heightMm": 297
+          },
+          {
+            "kind": "decorative-artwork",
+            "id": "cv.artwork.sidebar-edge",
+            "semanticText": false,
+            "fill": {
+              "color": "C8D2D8"
+            },
+            "xMm": 140.675,
+            "yMm": 0,
+            "widthMm": 0.25,
+            "heightMm": 297
+          }
+        ]
+      },
+      {
+        "id": "03-right-continuation",
+        "sourceStatePreserved": true,
+        "onlyPageArtworkModelChanged": true,
+        "documentXmlIdentical": true,
+        "unchangedParts": [
+          "word/cover-header.xml",
+          "word/cover-footer.xml",
+          "word/letter-header.xml",
+          "word/letter-footer.xml",
+          "word/letter-header-first.xml",
+          "word/letter-footer-first.xml",
+          "word/document.xml"
+        ],
+        "originalPhotoEmbedded": true,
+        "surface": [
+          {
+            "kind": "decorative-artwork",
+            "id": "cv.artwork.sidebar-surface",
+            "semanticText": false,
+            "fill": {
+              "color": "FBFBFC"
+            },
+            "xMm": 140.8,
+            "yMm": 0,
+            "widthMm": 69.19999999999999,
+            "heightMm": 297
+          },
+          {
+            "kind": "decorative-artwork",
+            "id": "cv.artwork.sidebar-edge",
+            "semanticText": false,
+            "fill": {
+              "color": "C8D2D8"
+            },
+            "xMm": 140.675,
+            "yMm": 0,
+            "widthMm": 0.25,
+            "heightMm": 297
+          }
+        ]
+      }
+    ]
+  },
+  "visualVerification": {
+    "renderer": "LibreOfficeDev supplemental, not Microsoft Word",
+    "results": [
+      {
+        "id": "01-left-short",
+        "pagesBefore": 3,
+        "pagesAfter": 3,
+        "allTextAndPositionsIdentical": true,
+        "pages": [
+          {
+            "page": 1,
+            "semanticSpansAndPositionsIdentical": true,
+            "imagePixelsIdentical": true,
+            "diffBounds": null
+          },
+          {
+            "page": 2,
+            "semanticSpansAndPositionsIdentical": true,
+            "imagePixelsIdentical": true,
+            "diffBounds": null
+          },
+          {
+            "page": 3,
+            "semanticSpansAndPositionsIdentical": true,
+            "imagePixelsIdentical": false,
+            "diffBounds": [
+              0,
+              0,
+              468,
+              2000
+            ],
+            "edgePaintSamples": [
+              {
+                "pixel": [
+                  233,
+                  7
+                ],
+                "before": [
+                  255,
+                  255,
+                  255
+                ],
+                "after": [
+                  251,
+                  251,
+                  252
+                ]
+              },
+              {
+                "pixel": [
+                  233,
+                  13
+                ],
+                "before": [
+                  255,
+                  255,
+                  255
+                ],
+                "after": [
+                  251,
+                  251,
+                  252
+                ]
+              },
+              {
+                "pixel": [
+                  233,
+                  1987
+                ],
+                "before": [
+                  255,
+                  255,
+                  255
+                ],
+                "after": [
+                  251,
+                  251,
+                  252
+                ]
+              },
+              {
+                "pixel": [
+                  233,
+                  1993
+                ],
+                "before": [
+                  255,
+                  255,
+                  255
+                ],
+                "after": [
+                  251,
+                  251,
+                  252
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "02-right-photo",
+        "pagesBefore": 3,
+        "pagesAfter": 3,
+        "allTextAndPositionsIdentical": true,
+        "pages": [
+          {
+            "page": 1,
+            "semanticSpansAndPositionsIdentical": true,
+            "imagePixelsIdentical": true,
+            "diffBounds": null
+          },
+          {
+            "page": 2,
+            "semanticSpansAndPositionsIdentical": true,
+            "imagePixelsIdentical": true,
+            "diffBounds": null
+          },
+          {
+            "page": 3,
+            "semanticSpansAndPositionsIdentical": true,
+            "imagePixelsIdentical": false,
+            "diffBounds": [
+              947,
+              0,
+              1414,
+              2000
+            ],
+            "edgePaintSamples": [
+              {
+                "pixel": [
+                  1181,
+                  7
+                ],
+                "before": [
+                  255,
+                  255,
+                  255
+                ],
+                "after": [
+                  251,
+                  251,
+                  252
+                ]
+              },
+              {
+                "pixel": [
+                  1181,
+                  13
+                ],
+                "before": [
+                  255,
+                  255,
+                  255
+                ],
+                "after": [
+                  251,
+                  251,
+                  252
+                ]
+              },
+              {
+                "pixel": [
+                  1181,
+                  1987
+                ],
+                "before": [
+                  255,
+                  255,
+                  255
+                ],
+                "after": [
+                  251,
+                  251,
+                  252
+                ]
+              },
+              {
+                "pixel": [
+                  1181,
+                  1993
+                ],
+                "before": [
+                  255,
+                  255,
+                  255
+                ],
+                "after": [
+                  251,
+                  251,
+                  252
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "03-right-continuation",
+        "pagesBefore": 6,
+        "pagesAfter": 6,
+        "allTextAndPositionsIdentical": true,
+        "pages": [
+          {
+            "page": 1,
+            "semanticSpansAndPositionsIdentical": true,
+            "imagePixelsIdentical": true,
+            "diffBounds": null
+          },
+          {
+            "page": 2,
+            "semanticSpansAndPositionsIdentical": true,
+            "imagePixelsIdentical": true,
+            "diffBounds": null
+          },
+          {
+            "page": 3,
+            "semanticSpansAndPositionsIdentical": true,
+            "imagePixelsIdentical": false,
+            "diffBounds": [
+              947,
+              0,
+              1414,
+              2000
+            ],
+            "edgePaintSamples": [
+              {
+                "pixel": [
+                  1181,
+                  7
+                ],
+                "before": [
+                  255,
+                  255,
+                  255
+                ],
+                "after": [
+                  251,
+                  251,
+                  252
+                ]
+              },
+              {
+                "pixel": [
+                  1181,
+                  13
+                ],
+                "before": [
+                  255,
+                  255,
+                  255
+                ],
+                "after": [
+                  251,
+                  251,
+                  252
+                ]
+              },
+              {
+                "pixel": [
+                  1181,
+                  1987
+                ],
+                "before": [
+                  255,
+                  255,
+                  255
+                ],
+                "after": [
+                  251,
+                  251,
+                  252
+                ]
+              },
+              {
+                "pixel": [
+                  1181,
+                  1993
+                ],
+                "before": [
+                  255,
+                  255,
+                  255
+                ],
+                "after": [
+                  251,
+                  251,
+                  252
+                ]
+              }
+            ]
+          },
+          {
+            "page": 4,
+            "semanticSpansAndPositionsIdentical": true,
+            "imagePixelsIdentical": false,
+            "diffBounds": [
+              947,
+              0,
+              1414,
+              2000
+            ],
+            "edgePaintSamples": [
+              {
+                "pixel": [
+                  1181,
+                  7
+                ],
+                "before": [
+                  255,
+                  255,
+                  255
+                ],
+                "after": [
+                  251,
+                  251,
+                  252
+                ]
+              },
+              {
+                "pixel": [
+                  1181,
+                  13
+                ],
+                "before": [
+                  255,
+                  255,
+                  255
+                ],
+                "after": [
+                  251,
+                  251,
+                  252
+                ]
+              },
+              {
+                "pixel": [
+                  1181,
+                  1987
+                ],
+                "before": [
+                  255,
+                  255,
+                  255
+                ],
+                "after": [
+                  251,
+                  251,
+                  252
+                ]
+              },
+              {
+                "pixel": [
+                  1181,
+                  1993
+                ],
+                "before": [
+                  255,
+                  255,
+                  255
+                ],
+                "after": [
+                  251,
+                  251,
+                  252
+                ]
+              }
+            ]
+          },
+          {
+            "page": 5,
+            "semanticSpansAndPositionsIdentical": true,
+            "imagePixelsIdentical": false,
+            "diffBounds": [
+              947,
+              0,
+              1414,
+              2000
+            ],
+            "edgePaintSamples": [
+              {
+                "pixel": [
+                  1181,
+                  7
+                ],
+                "before": [
+                  255,
+                  255,
+                  255
+                ],
+                "after": [
+                  251,
+                  251,
+                  252
+                ]
+              },
+              {
+                "pixel": [
+                  1181,
+                  13
+                ],
+                "before": [
+                  255,
+                  255,
+                  255
+                ],
+                "after": [
+                  251,
+                  251,
+                  252
+                ]
+              },
+              {
+                "pixel": [
+                  1181,
+                  1987
+                ],
+                "before": [
+                  255,
+                  255,
+                  255
+                ],
+                "after": [
+                  251,
+                  251,
+                  252
+                ]
+              },
+              {
+                "pixel": [
+                  1181,
+                  1993
+                ],
+                "before": [
+                  255,
+                  255,
+                  255
+                ],
+                "after": [
+                  251,
+                  251,
+                  252
+                ]
+              }
+            ]
+          },
+          {
+            "page": 6,
+            "semanticSpansAndPositionsIdentical": true,
+            "imagePixelsIdentical": false,
+            "diffBounds": [
+              947,
+              0,
+              1414,
+              2000
+            ],
+            "edgePaintSamples": [
+              {
+                "pixel": [
+                  1181,
+                  7
+                ],
+                "before": [
+                  255,
+                  255,
+                  255
+                ],
+                "after": [
+                  251,
+                  251,
+                  252
+                ]
+              },
+              {
+                "pixel": [
+                  1181,
+                  13
+                ],
+                "before": [
+                  255,
+                  255,
+                  255
+                ],
+                "after": [
+                  251,
+                  251,
+                  252
+                ]
+              },
+              {
+                "pixel": [
+                  1181,
+                  1987
+                ],
+                "before": [
+                  255,
+                  255,
+                  255
+                ],
+                "after": [
+                  251,
+                  251,
+                  252
+                ]
+              },
+              {
+                "pixel": [
+                  1181,
+                  1993
+                ],
+                "before": [
+                  255,
+                  255,
+                  255
+                ],
+                "after": [
+                  251,
+                  251,
+                  252
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "patch": {
+    "file": "docx-next-sidebar-page-surface-22okt.patch",
+    "sha256": "3ca26f3326c76293b9801e46eb864c1a44bb7ebd05c6329daa01571f692a3c22",
+    "files": [
+      {
+        "path": "src/lib/docx-next/cv-sidebar-composition.ts",
+        "sha256": "8b2e7b523455330f5035ae499e23d27d7304e22a764ea1fd92d2601edef756ef"
+      },
+      {
+        "path": "tests/unit/docx-next-sidebar-page-surface.test.ts",
+        "sha256": "30e2dd07903f27649c7458f3fb3350c38b4c23585e7e424ec2d17703e5dc6dee"
+      }
+    ],
+    "replay": "PASS, exact bytes match"
+  },
+  "limits": [
+    "No new Microsoft Word acceptance",
+    "Diagnostic shared-exporter inputs, not real application UI downloads or same-source app PDFs",
+    "Uploaded reference screenshots have different side/photo configuration; not a pixel-equivalent source pair",
+    "Full Web geometry, color and typography fidelity not certified",
+    "Existing long-CV pagination and reference splits remain unchanged",
+    "Current repair isolated from prior locally prepared zoom candidate; no integration performed"
+  ],
+  "actionsNotPerformed": [
+    "merge",
+    "integration",
+    "deployment",
+    "CI dispatch",
+    "production export switch",
+    "LibreOffice patch"
+  ],
+  "publication": {
+    "branch": "fix/docx-next-cv-page-surface-22okt",
+    "parent": "f73c776e2eca6b9b0d858ee2ab997230259797ac",
+    "commitIncludes": "Product fix, regression tests, reproducible QA scripts and report"
+  }
+}

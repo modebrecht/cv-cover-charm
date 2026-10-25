@@ -43,6 +43,32 @@ describe("native picture geometry", () => {
       crop: { left: 0, right: 0, top: 25000, bottom: 25000 },
     });
   });
+  test("non-square fully rounded photos use a CSS-matching pill, not an oval", () => {
+    const portrait = pictureGeometry(
+      { ...image, frame: { ...square, heightRatio: 1.5 } },
+      { widthPx: 120, heightPx: 180 },
+      100,
+    );
+    expect(portrait).toMatchObject({
+      widthMm: 40,
+      heightMm: 60,
+      shape: "roundRect",
+      cornerAdjustment: 50000,
+      borderWidthMm: 0.5,
+    });
+    // A saved custom radius is not coerced into a capsule.
+    const custom = pictureGeometry(
+      { ...image, frame: { ...square, heightRatio: 1.5, radiusMm: 4 } },
+      { widthPx: 120, heightPx: 180 },
+      100,
+    );
+    expect(custom.shape).toBe("roundRect");
+    expect(custom.cornerAdjustment).toBe(10000);
+    expect(
+      pictureGeometry({ ...image, frame: square }, { widthPx: 120, heightPx: 120 }, 100).shape,
+    ).toBe("ellipse");
+  });
+
   test("zoom/pan match the editor's centered object-fit crop at each extreme", () => {
     const left = pictureGeometry(
       { ...image, frame: { ...square, zoom: 2, xPct: 0, yPct: 0 } },

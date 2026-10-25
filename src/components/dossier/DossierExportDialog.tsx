@@ -22,6 +22,19 @@ import {
   readStoredDossierPart,
 } from "@/lib/dossier-project";
 import { nativePrintUiEnabled } from "@/lib/native-print-visibility";
+import { briefDocxNextUiEnabled } from "@/lib/docx-next/brief-visibility";
+import {
+  coverFamilyDocxQaEnabled,
+  isCoverFamilyDocxQaTemplate,
+} from "@/lib/docx-next/cover-family-visibility";
+import {
+  designDocxNextUiEnabled,
+  designNativeBadgeUiEnabled,
+  designInteriorAuditUiEnabled,
+  designRubricSpacingUiEnabled,
+  designReadingRowsUiEnabled,
+  NATIVE_BADGE_WORD_REJECTION,
+} from "@/lib/docx-next/design-visibility";
 
 export type DossierExportFormat = "json" | "pdf" | "docx";
 
@@ -40,6 +53,10 @@ type Props = {
   onNativePrint?: () => void | Promise<void>;
   nativePrinting?: boolean;
   nativePrintError?: string | null;
+  onBriefDocxNext?: () => void | Promise<void>;
+  onDesignDocxNext?: () => void | Promise<void>;
+  onCoverFamilyDocxNext?: () => void | Promise<void>;
+  briefDocxNextError?: string | null;
 };
 
 function joinParts(parts: string[]) {
@@ -96,6 +113,10 @@ export function DossierExportDialog({
   onNativePrint,
   nativePrinting = false,
   nativePrintError,
+  onBriefDocxNext,
+  onDesignDocxNext,
+  onCoverFamilyDocxNext,
+  briefDocxNextError,
 }: Props) {
   const downloadRef = useRef<HTMLButtonElement>(null);
   const [format, setFormat] = useState<DossierExportFormat>("pdf");
@@ -446,6 +467,96 @@ export function DossierExportDialog({
             </p>
           </div>
         </details>
+
+        {designDocxNextUiEnabled() && cover?.template === "modern" && onDesignDocxNext ? (
+          <div className="mt-3 rounded-lg border px-3 py-2" data-design-docx-next-qa>
+            <p id="design-docx-next-help" className="text-xs text-muted-foreground">
+              {designNativeBadgeUiEnabled()
+                ? NATIVE_BADGE_WORD_REJECTION
+                : designReadingRowsUiEnabled()
+                  ? "Modern CV-Zeilen · gespeicherte Schriftgrössen und kompakte Rubrikspalten übernehmen. Darstellung und Bearbeitung in Word sind noch zu prüfen."
+                  : designRubricSpacingUiEnabled()
+                    ? "Modern CV-Pills · neuer Abstandstest nach Word-Rückmeldung. Benötigt Sans. Darstellung, Bearbeitung und Speichern in Word sind noch zu prüfen."
+                    : designInteriorAuditUiEnabled()
+                      ? "Modern-Innenlayout-Test · gemessene Kontakt-Header. Bisherige CV-Rubrik-Pills sind nach der Word-Prüfung gesperrt. Benötigt Sans im Lebenslauf."
+                      : "Modern-Testexport · editierbares Word-Dossier mit leeren kompakten Kopf- und Fussstreifen. Vor der Verwendung in Word prüfen."}
+            </p>
+            <button
+              type="button"
+              onClick={() => void onDesignDocxNext()}
+              disabled={
+                busy ||
+                missingParts.length > 0 ||
+                !letterState.readyToSend ||
+                designNativeBadgeUiEnabled()
+              }
+              aria-describedby="design-docx-next-help"
+              className="mt-2 rounded-md border px-3 py-2 text-sm font-medium disabled:opacity-50"
+            >
+              {downloading
+                ? "Dossier wird erstellt…"
+                : designNativeBadgeUiEnabled()
+                  ? "Pillenversuch gesperrt"
+                  : designReadingRowsUiEnabled()
+                    ? "Modern CV-Zeilen testen"
+                    : designRubricSpacingUiEnabled()
+                      ? "Modern CV-Pills Abstand testen"
+                      : designInteriorAuditUiEnabled()
+                        ? "Modern Header und Rubriken prüfen"
+                        : "Modern DOCX Next testen"}
+            </button>
+            {briefDocxNextError ? (
+              <p role="alert" className="mt-2 text-sm text-destructive">
+                {briefDocxNextError}
+              </p>
+            ) : null}
+          </div>
+        ) : null}
+
+        {briefDocxNextUiEnabled() && cover?.template === "brief" && onBriefDocxNext ? (
+          <div className="mt-3 rounded-lg border px-3 py-2" data-brief-docx-next-qa>
+            <p id="brief-docx-next-help" className="text-xs text-muted-foreground">
+              Brief-Testexport · editierbares Word-Dossier. Schriftprofil Arial/Liberation Sans; vor
+              der Verwendung in Word prüfen.
+            </p>
+            <button
+              type="button"
+              onClick={() => void onBriefDocxNext()}
+              disabled={busy || missingParts.length > 0 || !letterState.readyToSend}
+              aria-describedby="brief-docx-next-help"
+              className="mt-2 rounded-md border px-3 py-2 text-sm font-medium disabled:opacity-50"
+            >
+              {downloading ? "Dossier wird erstellt…" : "Brief DOCX Next testen"}
+            </button>
+            {briefDocxNextError ? (
+              <p role="alert" className="mt-2 text-sm text-destructive">
+                {briefDocxNextError}
+              </p>
+            ) : null}
+          </div>
+        ) : null}
+
+        {coverFamilyDocxQaEnabled() &&
+        isCoverFamilyDocxQaTemplate(cover?.template) &&
+        onCoverFamilyDocxNext ? (
+          <div className="mt-3 rounded-lg border px-3 py-2" data-cover-family-docx-next-qa>
+            <p className="text-xs text-muted-foreground">
+              Vollständiges DOCX-Testdossier mit Titelblatt, Anschreiben und CV aus dem
+              gespeicherten Projekt. Nur QA, keine Produktfreigabe.
+              {coverChanged
+                ? " Hinweis: Titelblatt und zuletzt übernommene CV-Kopfdaten unterscheiden sich."
+                : ""}
+            </p>
+            <button
+              type="button"
+              onClick={() => void onCoverFamilyDocxNext()}
+              disabled={busy || missingParts.length > 0 || !letterState.readyToSend}
+              className="mt-2 rounded-md border px-3 py-2 text-sm font-medium disabled:opacity-50"
+            >
+              {downloading ? "Dossier wird erstellt…" : "Ganzes DOCX-Testdossier herunterladen"}
+            </button>
+          </div>
+        ) : null}
 
         {nativePrintUiEnabled() && onNativePrint ? (
           <div className="mt-3 rounded-lg border px-3 py-2">

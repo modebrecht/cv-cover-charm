@@ -1,0 +1,85 @@
+[
+  {
+    "scenario": "unsupported-font",
+    "message": "Design DOCX Next: Nicht unterst\u00fctzte Schrift oder Textformatierung in \u00abeyebrow\u00bb. Der Test unterst\u00fctzt Sans, normal/fett und westeurop\u00e4ische Zeichen.",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  },
+  {
+    "scenario": "substituted-font",
+    "message": "Design DOCX Next: Die aktuelle Browser-Ersatzschrift passt nicht zum gepr\u00fcften Arial-/Liberation-Sans-Profil. Bitte Sans mit Arial oder Liberation Sans verwenden.",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  },
+  {
+    "scenario": "missing-measurements",
+    "message": "Design DOCX Next: Schriftmessung ist nicht verf\u00fcgbar.",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  },
+  {
+    "scenario": "stale-before-capture",
+    "message": "Design DOCX Next: Gespeicherte Daten haben sich w\u00e4hrend des Exports ge\u00e4ndert. Bitte erneut exportieren.",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  },
+  {
+    "scenario": "stale-after-render",
+    "message": "Design DOCX Next: Gespeicherte Daten haben sich w\u00e4hrend des Exports ge\u00e4ndert. Bitte erneut exportieren.",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  },
+  {
+    "scenario": "overflow",
+    "message": "Design DOCX Next: Ein Wort in \u00abkontakt\u00bb \u00fcberschreitet die Feldbreite. Bitte Text oder Breite anpassen.",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  },
+  {
+    "scenario": "non-brief",
+    "message": "Design DOCX Next: Alle drei Dossierteile m\u00fcssen die Vorlage Modern verwenden.",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  },
+  {
+    "scenario": "badge-overflow",
+    "message": "Design DOCX Next: Badges unterst\u00fctzen im ersten Test genau eine Textzeile: lehrbeginn",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  },
+  {
+    "scenario": "badge-multiline",
+    "message": "Design DOCX Next: Badges unterst\u00fctzen im ersten Test genau eine Textzeile: lehrbeginn",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  },
+  {
+    "scenario": "badge-artwork",
+    "message": "DOCX Next translucent cover text over artwork needs separate acceptance: cover.lehrbeginn",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  },
+  {
+    "scenario": "placeholder-opacity",
+    "message": "DOCX Next authored cover placeholder opacity needs separate acceptance: cover.photo",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  },
+  {
+    "scenario": "css-hidden-decoration",
+    "message": "DOCX Next CSS-hidden decoration override needs separate acceptance: cover.trenner",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  },
+  {
+    "scenario": "non-cohort",
+    "message": "Error: Design DOCX Next: Alle drei Dossierteile m\u00fcssen die Vorlage Modern verwenden.",
+    "downloads": 0,
+    "result": "PASS hidden and rejected"
+  },
+  {
+    "scenario": "opt-in-off",
+    "message": "Error: Design DOCX Next: Testexport ist nicht aktiviert.",
+    "result": "PASS hidden and rejected"
+  }
+]

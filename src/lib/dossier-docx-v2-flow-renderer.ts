@@ -41,16 +41,16 @@ function runXml(value: DossierDocxV2FlowRun) {
 
   const pieces = value.text.split("\n");
   const content = pieces
-    .map((piece, index) => `${index ? "<w:br/>" : ""}<w:t xml:space="preserve">${xmlEscape(piece)}</w:t>`)
+    .map(
+      (piece, index) =>
+        `${index ? "<w:br/>" : ""}<w:t xml:space="preserve">${xmlEscape(piece)}</w:t>`,
+    )
     .join("");
   return `<w:r><w:rPr>${properties}</w:rPr>${content}</w:r>`;
 }
 
 function paragraphLineSpacing(value: DossierDocxV2FlowParagraph) {
-  const fontSizePt = value.runs.reduce(
-    (largest, run) => Math.max(largest, run.fontSizePt),
-    0,
-  );
+  const fontSizePt = value.runs.reduce((largest, run) => Math.max(largest, run.fontSizePt), 0);
   if (fontSizePt <= 0) {
     return {
       line: Math.max(1, Math.round(240 * value.lineHeight)),
@@ -78,7 +78,9 @@ function paragraphProperties(value: DossierDocxV2FlowParagraph) {
     value.ruleBottom
       ? `<w:pBdr><w:bottom w:val="single" w:sz="${Math.max(2, Math.round(value.ruleBottom.widthPt * 8))}" w:space="1" w:color="${wordColor(value.ruleBottom.color)}"/></w:pBdr>`
       : "",
-    value.background ? `<w:shd w:val="clear" w:color="auto" w:fill="${wordColor(value.background)}"/>` : "",
+    value.background
+      ? `<w:shd w:val="clear" w:color="auto" w:fill="${wordColor(value.background)}"/>`
+      : "",
   ].join("");
   return `<w:pPr>${properties}</w:pPr>`;
 }
@@ -99,7 +101,9 @@ function cellXml(cell: DossierDocxV2FlowCell) {
   const pct = Math.max(1, Math.round(cell.widthPct * 50));
   const pad = twips(cell.paddingMm ?? 0);
   const margins = `<w:tcMar><w:top w:w="${pad}" w:type="dxa"/><w:left w:w="${pad}" w:type="dxa"/><w:bottom w:w="${pad}" w:type="dxa"/><w:right w:w="${pad}" w:type="dxa"/></w:tcMar>`;
-  const shade = cell.background ? `<w:shd w:val="clear" w:fill="${wordColor(cell.background)}"/>` : "";
+  const shade = cell.background
+    ? `<w:shd w:val="clear" w:fill="${wordColor(cell.background)}"/>`
+    : "";
   return `<w:tc><w:tcPr><w:tcW w:w="${pct}" w:type="pct"/><w:vAlign w:val="top"/>${margins}${shade}</w:tcPr>${renderDossierDocxV2FlowBlocks(cell.blocks) || renderDossierDocxV2FlowParagraph({ kind: "paragraph", runs: [], align: "left", beforeMm: 0, afterMm: 0, lineHeight: 1 })}</w:tc>`;
 }
 
@@ -182,7 +186,12 @@ export function renderDossierDocxV2CvPhoto(
   const crop = cropRect(photo, media.aspect);
   const cx = emu(photo.width);
   const cy = emu(photo.height);
-  const geometry = photo.shape === "circle" ? "ellipse" : photo.shape === "portrait" || photo.shape === "rect" || photo.shape === "square" ? "roundRect" : "rect";
+  const geometry =
+    photo.shape === "circle"
+      ? "ellipse"
+      : photo.shape === "portrait" || photo.shape === "rect" || photo.shape === "square"
+        ? "roundRect"
+        : "rect";
   const line =
     photo.borderWidth > 0
       ? `<a:ln w="${Math.max(1, emu(photo.borderWidth))}"><a:solidFill><a:srgbClr val="${wordColor(photo.borderColor)}"/></a:solidFill></a:ln>`

@@ -56,19 +56,21 @@ test.describe("shared dossier page geometry foundation", () => {
   test("Letter preview and measurement use the same composed content box", async ({ page }) => {
     await seedGeometry(page, "letter");
 
-    const visible = page.locator('[data-letter-page]:visible [data-letter-text-layer]').first();
+    const visible = page.locator("[data-letter-page]:visible [data-letter-text-layer]").first();
     await expect(visible).toBeVisible();
     const visibleBox = parseContentBox(await visible.getAttribute("data-letter-content-box"));
     expect(visibleBox).toEqual({ left: 24, top: 37, right: 22, bottom: 12 });
 
-    const chrome = page.locator('[data-letter-page]:visible [data-dossier-chrome="letter"]').first();
+    const chrome = page
+      .locator('[data-letter-page]:visible [data-dossier-chrome="letter"]')
+      .first();
     await expect(chrome).toHaveAttribute("data-dossier-content-left-mm", "24");
     await expect(chrome).toHaveAttribute("data-dossier-content-right-mm", "22");
 
     await expect
       .poll(async () => {
         const measurement = page
-          .locator('[data-letter-measurement-page] [data-letter-text-layer]')
+          .locator("[data-letter-measurement-page] [data-letter-text-layer]")
           .first();
         if (!(await measurement.count())) return null;
         return parseContentBox(await measurement.getAttribute("data-letter-content-box"));
@@ -79,20 +81,20 @@ test.describe("shared dossier page geometry foundation", () => {
   test("CV visible and measurement pages use the same composed content box", async ({ page }) => {
     await seedGeometry(page, "cv");
 
-    const preview = page
-      .locator('[data-dossier-document="cv"][data-export-mode="false"]')
-      .first();
+    const preview = page.locator('[data-dossier-document="cv"][data-export-mode="false"]').first();
     await expect(preview).toBeVisible();
 
-    const visibleMain = preview.locator('[data-cv-page]:visible [data-cv-main]').first();
-    const measurementMain = preview.locator('[data-cv-measure-page] [data-cv-main]').first();
+    const visibleMain = preview.locator("[data-cv-page]:visible [data-cv-main]").first();
+    const measurementMain = preview.locator("[data-cv-measure-page] [data-cv-main]").first();
     await expect(visibleMain).toHaveCSS("top", /px$/);
     expect(await visibleMain.evaluate((node) => (node as HTMLElement).style.top)).toBe("37mm");
     expect(await visibleMain.evaluate((node) => (node as HTMLElement).style.bottom)).toBe("12mm");
     expect(await visibleMain.evaluate((node) => (node as HTMLElement).style.left)).toBe("24mm");
     expect(await visibleMain.evaluate((node) => (node as HTMLElement).style.right)).toBe("22mm");
     expect(await measurementMain.evaluate((node) => (node as HTMLElement).style.top)).toBe("37mm");
-    expect(await measurementMain.evaluate((node) => (node as HTMLElement).style.bottom)).toBe("12mm");
+    expect(await measurementMain.evaluate((node) => (node as HTMLElement).style.bottom)).toBe(
+      "12mm",
+    );
 
     const chrome = preview.locator('[data-cv-page]:visible [data-dossier-chrome="cv"]').first();
     await expect(chrome).toHaveAttribute("data-dossier-content-left-mm", "24");

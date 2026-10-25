@@ -1,9 +1,6 @@
 import type { DossierDocxV2CoverNode } from "@/lib/dossier-docx-v2-cover-scene";
 import type { CoverPdfDocument } from "@/lib/dossier-pdf-document";
-import {
-  transformStoredDocxEntries,
-  type StoredDocxEntry,
-} from "@/lib/dossier-docx-package";
+import { transformStoredDocxEntries, type StoredDocxEntry } from "@/lib/dossier-docx-package";
 import { buildDossierDocxV2CoverScene } from "@/lib/dossier-docx-v2-cover-scene";
 import {
   assertDossierDocxV2CoverAccepted,
@@ -19,8 +16,7 @@ import {
   type DossierDocxV2ImageAsset,
 } from "@/lib/dossier-docx-v2-image-asset";
 
-const IMAGE_REL_TYPE =
-  "http://schemas.openxmlformats.org/officeDocument/2006/relationships/image";
+const IMAGE_REL_TYPE = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/image";
 const MEDIA_PREFIX = "word/media/docx-v2-cover-";
 const REL_PREFIX = "rIdDocxV2Cover";
 

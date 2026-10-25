@@ -1,0 +1,664 @@
+{
+  "kind": "cv-cover-charm-dossier",
+  "version": 1,
+  "savedAt": "2026-10-19T12:30:50.674Z",
+  "cover": {
+    "version": 9,
+    "template": "modern",
+    "colors": {
+      "brief": {
+        "bg": "#ffffff",
+        "ink": "#111111",
+        "primary": "#111111",
+        "accent": "#111111"
+      },
+      "klassisch": {
+        "ink": "#111111",
+        "accent": "#8a6a3b",
+        "bg": "#f5efe4"
+      },
+      "modern": {
+        "primary": "#111827",
+        "accent": "#f43f5e",
+        "bg": "#fafafa"
+      },
+      "freundlich": {
+        "primary": "#0f766e",
+        "secondary": "#f59e0b",
+        "ink": "#0b1f24",
+        "bg": "#fff9ef"
+      },
+      "edel": {
+        "bg": "#fcfbf8",
+        "ink": "#181817",
+        "accent": "#8d6b2d"
+      },
+      "colorful": {
+        "bg": "#fffdf7",
+        "primary": "#ef4444",
+        "secondary": "#3b82f6",
+        "tertiary": "#facc15",
+        "ink": "#161616"
+      },
+      "blockig": {
+        "bg": "#f4f4f2",
+        "primary": "#1f2937",
+        "accent": "#f97316",
+        "ink": "#111111"
+      },
+      "serioes": {
+        "bg": "#ffffff",
+        "primary": "#1e3a5f",
+        "accent": "#94a3b8",
+        "ink": "#1f2937"
+      },
+      "human": {
+        "bg": "#fdf6f0",
+        "primary": "#9c5b3c",
+        "secondary": "#e7d3c4",
+        "ink": "#3b2a22"
+      },
+      "welle": {
+        "bg": "#fbf8f4",
+        "primary": "#243447",
+        "secondary": "#c08457",
+        "ink": "#1b232c"
+      },
+      "terracotta": {
+        "bg": "#fdfaf6",
+        "primary": "#8c3f28",
+        "secondary": "#e0bfa3",
+        "ink": "#2b211c"
+      },
+      "pastell": {
+        "bg": "#fbfaf8",
+        "primary": "#4a4e69",
+        "secondary": "#e8e4de",
+        "ink": "#22212b"
+      },
+      "sonne": {
+        "primary": "#fbbf24",
+        "bg": "#333333",
+        "ink": "#141414",
+        "light": "#f7f5f0"
+      },
+      "studio": {
+        "bg": "#ffffff",
+        "primary": "#232b3a",
+        "accent": "#f5d547",
+        "ink": "#1f2937"
+      },
+      "neon": {
+        "bg": "#0d0b2b",
+        "primary": "#e11d8f",
+        "secondary": "#7c3aed",
+        "ink": "#f8fafc"
+      },
+      "aurora": {
+        "primary": "#0ea5e9",
+        "secondary": "#6d28d9",
+        "bg": "#ffffff",
+        "ink": "#111827"
+      },
+      "verlauf": {
+        "primary": "#7f5af0",
+        "secondary": "#2cb67d",
+        "ink": "#ffffff",
+        "bg": "#ffffff"
+      },
+      "citrus": {
+        "primary": "#fb7185",
+        "secondary": "#fbbf24",
+        "bg": "#fffdf9",
+        "ink": "#3f1d2b"
+      },
+      "edge": {
+        "bg": "#f7f7f4",
+        "primary": "#182433",
+        "secondary": "#4da3ff",
+        "accent": "#2f7de1",
+        "ink": "#18202a"
+      },
+      "glow": {
+        "bg": "#f7f9ff",
+        "primary": "#6d5dfb",
+        "secondary": "#7dd3fc",
+        "accent": "#4f46e5",
+        "ink": "#172033"
+      },
+      "monoLuxe": {
+        "bg": "#f8f6f1",
+        "primary": "#171717",
+        "secondary": "#b08d57",
+        "accent": "#8e6f42",
+        "ink": "#171717"
+      },
+      "horizon": {
+        "bg": "#f6f9ff",
+        "primary": "#11233f",
+        "secondary": "#2f6dff",
+        "accent": "#6fc3ff",
+        "ink": "#152033"
+      },
+      "sunrise": {
+        "bg": "#fff8f2",
+        "primary": "#ff7a59",
+        "secondary": "#ffb27a",
+        "accent": "#f4c76a",
+        "ink": "#3a2a24"
+      },
+      "forestFlow": {
+        "bg": "#f5f8f4",
+        "primary": "#1f4d43",
+        "secondary": "#2e8b7f",
+        "accent": "#9abf9c",
+        "ink": "#1d2b27"
+      },
+      "violetPulse": {
+        "bg": "#faf7ff",
+        "primary": "#4338ca",
+        "secondary": "#7c3aed",
+        "accent": "#d946ef",
+        "ink": "#1f1733"
+      },
+      "studio2": {
+        "bg": "#fbfbf8",
+        "primary": "#202a3b",
+        "secondary": "#f2c84b",
+        "accent": "#e78a2f",
+        "ink": "#1b2430"
+      },
+      "studio3": {
+        "bg": "#f7fbfa",
+        "primary": "#173d3a",
+        "secondary": "#5ec6b6",
+        "accent": "#e2a94b",
+        "ink": "#18302d"
+      },
+      "warm2": {
+        "bg": "#fffaf2",
+        "primary": "#0f766e",
+        "secondary": "#f3b24d",
+        "accent": "#d96c50",
+        "ink": "#16312d"
+      },
+      "warm3": {
+        "bg": "#fbf7ef",
+        "primary": "#1e6f68",
+        "secondary": "#e5a84f",
+        "accent": "#c86648",
+        "ink": "#24312e"
+      },
+      "warm4": {
+        "bg": "#fff8f5",
+        "primary": "#a84f62",
+        "secondary": "#e6b89c",
+        "accent": "#c77a5b",
+        "ink": "#37272c"
+      },
+      "warm5": {
+        "bg": "#fbf8ee",
+        "primary": "#687454",
+        "secondary": "#d7aa52",
+        "accent": "#b8674f",
+        "ink": "#2b3026"
+      },
+      "verlauf2": {
+        "bg": "#f5f9ff",
+        "primary": "#2447b8",
+        "secondary": "#35b7c8",
+        "accent": "#9be7e5",
+        "ink": "#ffffff"
+      },
+      "verlauf3": {
+        "bg": "#fff8f5",
+        "primary": "#7b315d",
+        "secondary": "#e77b52",
+        "accent": "#f4bb8a",
+        "ink": "#ffffff"
+      },
+      "ledger": {
+        "bg": "#f7f4ee",
+        "primary": "#1f2933",
+        "secondary": "#d8c9b2",
+        "accent": "#b56a43",
+        "ink": "#20262c"
+      },
+      "prism": {
+        "bg": "#f5f7fc",
+        "primary": "#172554",
+        "secondary": "#2f66e6",
+        "accent": "#6f95f2",
+        "ink": "#18223a"
+      },
+      "gallery": {
+        "bg": "#fbf7f2",
+        "primary": "#4b2f40",
+        "secondary": "#d6b7a4",
+        "accent": "#a97d6d",
+        "ink": "#2b2429"
+      },
+      "orbit": {
+        "bg": "#f7f8fc",
+        "primary": "#24204f",
+        "secondary": "#625fe8",
+        "accent": "#8d8af0",
+        "ink": "#19182d"
+      },
+      "ribbon": {
+        "bg": "#fafbf7",
+        "primary": "#174d3f",
+        "secondary": "#d5a13d",
+        "accent": "#a57a2d",
+        "ink": "#1a302a"
+      },
+      "cove": {
+        "bg": "#fff8f5",
+        "primary": "#5a244f",
+        "secondary": "#e36d5a",
+        "accent": "#b84959",
+        "ink": "#2b1f2a"
+      },
+      "diagonal": {
+        "bg": "#f8fafc",
+        "primary": "#156082",
+        "secondary": "#0f4c5c",
+        "accent": "#2b7a9b",
+        "ink": "#172033"
+      },
+      "edelDark": {
+        "bg": "#171716",
+        "sheet": "#171716",
+        "ink": "#f3eee5",
+        "accent": "#c7a35a"
+      }
+    },
+    "layout": {
+      "brief": {},
+      "klassisch": {},
+      "modern": {},
+      "freundlich": {},
+      "edel": {},
+      "colorful": {},
+      "blockig": {},
+      "serioes": {},
+      "human": {},
+      "welle": {},
+      "terracotta": {},
+      "pastell": {},
+      "sonne": {},
+      "studio": {},
+      "neon": {},
+      "aurora": {},
+      "verlauf": {},
+      "citrus": {},
+      "edge": {},
+      "glow": {},
+      "monoLuxe": {},
+      "horizon": {},
+      "sunrise": {},
+      "forestFlow": {},
+      "violetPulse": {},
+      "studio2": {},
+      "studio3": {},
+      "warm2": {},
+      "warm3": {},
+      "warm4": {},
+      "warm5": {},
+      "verlauf2": {},
+      "verlauf3": {},
+      "ledger": {},
+      "prism": {},
+      "gallery": {},
+      "orbit": {},
+      "ribbon": {},
+      "cove": {},
+      "diagonal": {},
+      "edelDark": {}
+    },
+    "customs": [],
+    "fontScale": 1,
+    "font": null,
+    "data": {
+      "meta": {
+        "title": "",
+        "author": "",
+        "subject": "",
+        "keywords": ""
+      },
+      "kicker": "Bewerbung um eine Lehrstelle als",
+      "eyebrow": "",
+      "beruf": "Informatiker/in EFZ",
+      "lehrbeginn": "August 2028",
+      "vorname": "Lea",
+      "nachname": "Müller",
+      "adresse": "Dorfstrasse 12",
+      "plzOrt": "4535 Hubersdorf",
+      "telefon": "079 123 45 67",
+      "email": "lea.mueller@example.ch",
+      "geburtsdatum": "14.03.2010",
+      "lehrbetrieb": "Beispiel AG",
+      "ansprechperson": "Herr Thomas Weber",
+      "betriebAdresse": "Industriestrasse 8, 4535 Hubersdorf",
+      "showBetriebOnCover": false,
+      "showBeilagenOnCover": true,
+      "beilagen": [
+        "Motivationsschreiben",
+        "Lebenslauf",
+        "Zeugnis"
+      ],
+      "ort": "Hubersdorf",
+      "datum": "15.11.2026",
+      "labelKontakt": "",
+      "labelEmpfaenger": "",
+      "foto": null
+    }
+  },
+  "letter": {
+    "version": 1,
+    "data": {
+      "absenderName": "Lea Müller",
+      "absenderAdresse": "Dorfstrasse 12",
+      "absenderPlzOrt": "4535 Hubersdorf",
+      "absenderTelefon": "079 123 45 67",
+      "absenderEmail": "lea.mueller@example.ch",
+      "empfaengerFirma": "Beispiel AG",
+      "empfaengerName": "Herr Thomas Weber",
+      "empfaengerAdresse": "Industriestrasse 8",
+      "empfaengerPlzOrt": "4535 Hubersdorf",
+      "ort": "Hubersdorf",
+      "datum": "15.11.2026",
+      "betreff": "Bewerbung um eine Lehrstelle als Informatiker/in EFZ",
+      "anrede": "Guten Tag Herr Weber",
+      "text": "Die Informatik begeistert mich, weil ich gerne logisch denke, Probleme löse und Neues ausprobiere. Deshalb bewerbe ich mich mit grossem Interesse um die Lehrstelle als Informatikerin EFZ bei der Beispiel AG.\n\nIn der Schule arbeite ich besonders gerne an Aufgaben, bei denen ich selbstständig Lösungen entwickeln kann. Ich bin zuverlässig, lerne schnell und arbeite gerne im Team.\n\nGerne möchte ich Ihr Unternehmen und den Beruf bei einem persönlichen Gespräch oder einer Schnupperlehre näher kennenlernen. Ich freue mich über Ihre Rückmeldung.",
+      "richTextHtml": "",
+      "gruss": "Freundliche Grüsse",
+      "unterschrift": "Lea Müller",
+      "images": [],
+      "showBeilagen": true,
+      "beilagen": [
+        "Lebenslauf",
+        "Zeugnis"
+      ]
+    },
+    "design": {
+      "template": "modern",
+      "colors": {
+        "primary": "#111827",
+        "accent": "#244a61",
+        "bg": "#fafafa",
+        "ink": "#111111"
+      },
+      "bgOpacity": 0.25,
+      "paperColor": null,
+      "textColor": null,
+      "font": "sans",
+      "fontOverride": "sans",
+      "senderAlign": "left",
+      "recipientAlign": "left",
+      "dateAlign": "left",
+      "ruleAfterSender": false,
+      "ruleAfterRecipient": false,
+      "ruleAfterSubject": false,
+      "headerMode": "contact",
+      "headerShowName": true,
+      "headerShowAddress": true,
+      "headerShowPhone": true,
+      "headerShowEmail": true,
+      "headerDifferentFirstPage": false,
+      "headerHeightMm": null,
+      "headerTextLayout": "stacked",
+      "headerInlineSeparator": "pipe",
+      "headerBackgroundColor": "#183447",
+      "headerGradientColor": null,
+      "footerMode": "compact",
+      "footerHeightMm": null,
+      "footerTextLayout": "inline",
+      "footerBackgroundColor": "#315665",
+      "footerGradientColor": null,
+      "chromeBorderEnabled": true,
+      "chromeBorderColor": "#e8bf75",
+      "chromeBorderWidthMm": 0.6,
+      "chromeTextFont": "sans"
+    }
+  },
+  "cv": {
+    "version": 6,
+    "data": {
+      "person": {
+        "vorname": "Lea",
+        "nachname": "Müller",
+        "adresse": "Dorfstrasse 12",
+        "plzOrt": "4535 Hubersdorf",
+        "telefon": "079 123 45 67",
+        "email": "lea.mueller@example.ch",
+        "geburtsdatum": "14.03.2010",
+        "geburtsort": "",
+        "heimatort": "",
+        "nationalitaet": "",
+        "untertitel": "",
+        "foto": null
+      },
+      "titel": "Lebenslauf",
+      "schule": [
+        {
+          "id": "demo-s1",
+          "zeit": "2023 – heute",
+          "titel": "Sekundarschule, Niveau A",
+          "ort": "Schulhaus Zentrum, Hubersdorf",
+          "beschreibung": "Schwerpunkt Mathematik und Informatik"
+        },
+        {
+          "id": "demo-s2",
+          "zeit": "2017 – 2023",
+          "titel": "Primarschule",
+          "ort": "Primarschule Hubersdorf",
+          "beschreibung": ""
+        }
+      ],
+      "erfahrung": [
+        {
+          "id": "demo-p1",
+          "zeit": "Sept. 2026",
+          "titel": "Schnupperlehre Informatik",
+          "ort": "Beispiel AG, Hubersdorf",
+          "beschreibung": "Support, kleine Automatisierungen mit Python"
+        },
+        {
+          "id": "demo-p2",
+          "zeit": "März 2026",
+          "titel": "Schnupperlehre Mediamatik",
+          "ort": "Muster GmbH, Hubersdorf",
+          "beschreibung": "Website-Pflege, Bildbearbeitung"
+        }
+      ],
+      "sprachen": [
+        {
+          "id": "demo-l1",
+          "name": "Deutsch",
+          "niveau": "Muttersprache"
+        },
+        {
+          "id": "demo-l2",
+          "name": "Englisch",
+          "niveau": "Gute Schulkenntnisse (B1)"
+        },
+        {
+          "id": "demo-l3",
+          "name": "Französisch",
+          "niveau": "Grundkenntnisse (A2)"
+        }
+      ],
+      "hobbys": [
+        "Volleyball im Verein",
+        "Programmieren kleiner Spiele",
+        "Fotografieren"
+      ],
+      "staerken": [
+        "Zuverlässig und pünktlich",
+        "Arbeitet gern im Team",
+        "Lernt schnell Neues"
+      ],
+      "referenzen": [
+        {
+          "id": "demo-r1",
+          "name": "Herr Thomas Weber",
+          "funktion": "Klassenlehrer, Schulhaus Zentrum",
+          "kontakt": "079 555 12 34",
+          "email": "",
+          "zusatz": ""
+        }
+      ],
+      "referencesSideBySide": true,
+      "customSections": [
+        {
+          "id": "familie",
+          "title": "Familie",
+          "preset": "familie",
+          "entries": [
+            {
+              "id": "demo-familie",
+              "zeit": "",
+              "titel": "",
+              "ort": "Sohn von Monika Müller, Detailhandelsfachfrau und Peter Müller, Maurer",
+              "beschreibung": "Bruder von Aline, 2004, Medizinische Praxisassistentin und Jaro, 2015, Schüler"
+            }
+          ]
+        }
+      ],
+      "sectionOrder": [
+        "person",
+        "custom:familie",
+        "schule",
+        "erfahrung",
+        "sprachen",
+        "hobbys",
+        "staerken",
+        "referenzen"
+      ],
+      "labels": {},
+      "hidden": {},
+      "sectionLayouts": {
+        "referenzen": {
+          "page": 2
+        }
+      }
+    },
+    "design": {
+      "template": "modern",
+      "colors": {
+        "ink": "#111111",
+        "accent": "#244a61"
+      },
+      "paperColor": null,
+      "font": "sans",
+      "bgOpacity": 0.25,
+      "useElements": false,
+      "sectionTitlePill": true
+    },
+    "elements": [],
+    "elementStyles": {},
+    "coverFingerprint": "15dn0av",
+    "portableState": {
+      "continuationTopMarginMm": 40
+    }
+  },
+  "chrome": {
+    "version": 1,
+    "sync": true,
+    "shared": {
+      "headerMode": "contact",
+      "headerShowName": true,
+      "headerShowAddress": true,
+      "headerShowPhone": true,
+      "headerShowEmail": true,
+      "headerDifferentFirstPage": false,
+      "headerHeightMm": null,
+      "headerGapMm": 12,
+      "headerContentOffsetYMm": 0,
+      "letterRecipientOffsetYMm": 0,
+      "headerTextLayout": "stacked",
+      "headerInlineSeparator": "pipe",
+      "headerBackgroundColor": "#183447",
+      "headerGradientColor": null,
+      "headerTextColor": null,
+      "headerFontSizePt": null,
+      "footerMode": "compact",
+      "footerHeightMm": null,
+      "footerContentOffsetYMm": 0,
+      "footerTextLayout": "inline",
+      "footerBackgroundColor": "#315665",
+      "footerGradientColor": null,
+      "footerTextColor": null,
+      "footerFontSizePt": null,
+      "borderEnabled": true,
+      "borderColor": "#e8bf75",
+      "borderWidthMm": 0.6,
+      "textFont": "sans"
+    },
+    "cv": {
+      "headerMode": "compact",
+      "headerShowName": true,
+      "headerShowAddress": true,
+      "headerShowPhone": true,
+      "headerShowEmail": true,
+      "headerDifferentFirstPage": false,
+      "headerHeightMm": null,
+      "headerGapMm": 12,
+      "headerContentOffsetYMm": 0,
+      "letterRecipientOffsetYMm": 0,
+      "headerTextLayout": "stacked",
+      "headerInlineSeparator": "dot",
+      "headerBackgroundColor": null,
+      "headerGradientColor": null,
+      "headerTextColor": null,
+      "headerFontSizePt": null,
+      "footerMode": "compact",
+      "footerHeightMm": null,
+      "footerContentOffsetYMm": 0,
+      "footerTextLayout": "inline",
+      "footerBackgroundColor": null,
+      "footerGradientColor": null,
+      "footerTextColor": null,
+      "footerFontSizePt": null,
+      "borderEnabled": false,
+      "borderColor": null,
+      "borderWidthMm": 0.6,
+      "textFont": null
+    },
+    "letter": {
+      "headerMode": "compact",
+      "headerShowName": true,
+      "headerShowAddress": true,
+      "headerShowPhone": true,
+      "headerShowEmail": true,
+      "headerDifferentFirstPage": false,
+      "headerHeightMm": null,
+      "headerGapMm": 12,
+      "headerContentOffsetYMm": 0,
+      "letterRecipientOffsetYMm": 0,
+      "headerTextLayout": "stacked",
+      "headerInlineSeparator": "dot",
+      "headerBackgroundColor": null,
+      "headerGradientColor": null,
+      "headerTextColor": null,
+      "headerFontSizePt": null,
+      "footerMode": "compact",
+      "footerHeightMm": null,
+      "footerContentOffsetYMm": 0,
+      "footerTextLayout": "inline",
+      "footerBackgroundColor": null,
+      "footerGradientColor": null,
+      "footerTextColor": null,
+      "footerFontSizePt": null,
+      "borderEnabled": false,
+      "borderColor": null,
+      "borderWidthMm": 0.6,
+      "textFont": null
+    }
+  },
+  "hyphenation": {
+    "version": 1,
+    "enabled": false
+  }
+}

@@ -1,0 +1,576 @@
+{
+  "codeCommit": "6a007acccfe57019fbe82a75d0f26227398fe334",
+  "nativeCandidateSha256": "876c4ef559b00d35104225d7defee57638afa7cdaa916320cc4857c8d7ac8334",
+  "sourceProject": "../docx-next-modern-chrome-16okt/normal-project.json",
+  "sourceProjectSha256": "d0ec17c90691ed2ac4ecd63da56931996f1494a7de89d20bfff6d0196bcc8258",
+  "screenshots": {
+    "image(7).png": {
+      "sha256": "aa98479f97356e3ad7e6c33f3865fb360eb2082f83d2820989bedd34d052dc77",
+      "sourceView": "Word Print Preview visible"
+    },
+    "image(8).png": {
+      "sha256": "7532055d5497d2858136e741630a0238ea08dc0576b3b30e4490c28147600c36",
+      "sourceView": "unspecified cropped page; original Word/PDF file unavailable"
+    }
+  },
+  "screenshot8Samples": {
+    "headerLastInteriorPixelRgb": [
+      250,
+      250,
+      250
+    ],
+    "ruleSameColumnRgb": [
+      36,
+      74,
+      97
+    ],
+    "footerLastInteriorPixelRgb": [
+      250,
+      250,
+      250
+    ],
+    "pageOutlineNextColumnRgb": [
+      198,
+      198,
+      198
+    ]
+  },
+  "letterHeaderAssets": [
+    {
+      "id": "letter.artwork.paper",
+      "extentEmu": {
+        "cx": "7560000",
+        "cy": "10692000"
+      },
+      "pixels": [
+        1,
+        1
+      ],
+      "rightColumnAlphaRange": [
+        255,
+        255
+      ]
+    },
+    {
+      "id": "letter.compact.header",
+      "extentEmu": {
+        "cx": "7560000",
+        "cy": "122400"
+      },
+      "pixels": [
+        1600,
+        26
+      ],
+      "rightColumnAlphaRange": [
+        255,
+        255
+      ]
+    },
+    {
+      "id": "letter.compact.footer",
+      "extentEmu": {
+        "cx": "7560000",
+        "cy": "122400"
+      },
+      "pixels": [
+        1600,
+        26
+      ],
+      "rightColumnAlphaRange": [
+        235,
+        235
+      ]
+    },
+    {
+      "id": "letter.compact.header-edge",
+      "extentEmu": {
+        "cx": "7560000",
+        "cy": "21600"
+      },
+      "pixels": [
+        1600,
+        5
+      ],
+      "rightColumnAlphaRange": [
+        255,
+        255
+      ]
+    },
+    {
+      "id": "letter.compact.footer-edge",
+      "extentEmu": {
+        "cx": "7560000",
+        "cy": "21600"
+      },
+      "pixels": [
+        1600,
+        5
+      ],
+      "rightColumnAlphaRange": [
+        235,
+        235
+      ]
+    }
+  ],
+  "pageWidthTwips": 11906,
+  "pageWidthMmFromTwips": 210.0086111111111,
+  "drawingWidthMm": 210,
+  "pageMinusDrawingMm": 0.008611111111093805,
+  "pdfProbes": [
+    {
+      "path": "actualAppPdf",
+      "pages": 3,
+      "metadata": {
+        "format": "PDF 1.3",
+        "title": "Bewerbungsdossier – Lea Müller",
+        "author": "Lea Müller",
+        "subject": "Lehrstellenbewerbung",
+        "keywords": "Bewerbung, Titelblatt, Motivationsschreiben, Lebenslauf",
+        "creator": "Lea Müller",
+        "producer": "jsPDF 4.2.1",
+        "creationDate": "D:20261016101600-03'00'",
+        "modDate": "",
+        "trapped": "",
+        "encryption": null
+      },
+      "sha256": "4852ccedb1beae6ae6fcf102a753a76a020daab382ba79ebcf16352baf3ce9b5",
+      "page2Points": [
+        0.0,
+        0.0,
+        595.280029296875,
+        841.8900146484375
+      ],
+      "mupdf300DpiLastColumn": [
+        {
+          "yMm": 1,
+          "rgb": [
+            17,
+            24,
+            40
+          ]
+        },
+        {
+          "yMm": 3.7,
+          "rgb": [
+            33,
+            74,
+            99
+          ]
+        },
+        {
+          "yMm": 293.2,
+          "rgb": [
+            32,
+            73,
+            96
+          ]
+        },
+        {
+          "yMm": 296,
+          "rgb": [
+            36,
+            42,
+            56
+          ]
+        }
+      ]
+    },
+    {
+      "path": "docxViaLibreOffice",
+      "pages": 4,
+      "metadata": {
+        "format": "PDF 1.7",
+        "title": "Bewerbungsdossier",
+        "author": "Lea Müller",
+        "subject": "",
+        "keywords": "",
+        "creator": "Writer",
+        "producer": "LibreOfficeDev 26.8.0.0.alpha0 (X86_64)",
+        "creationDate": "D:20261016095443-03'00'",
+        "modDate": "",
+        "trapped": "",
+        "encryption": null
+      },
+      "sha256": "0764cfb28d3d9889943f7f69daefa858adf8d41250e0c748cbcdb0c118abb8c6",
+      "page2Points": [
+        0.0,
+        0.0,
+        595.303955078125,
+        841.8897705078125
+      ],
+      "mupdf300DpiLastColumn": [
+        {
+          "yMm": 1,
+          "rgb": [
+            17,
+            24,
+            39
+          ]
+        },
+        {
+          "yMm": 3.7,
+          "rgb": [
+            36,
+            74,
+            97
+          ]
+        },
+        {
+          "yMm": 293.2,
+          "rgb": [
+            52,
+            87,
+            108
+          ]
+        },
+        {
+          "yMm": 296,
+          "rgb": [
+            35,
+            41,
+            55
+          ]
+        }
+      ]
+    },
+    {
+      "renderer": "Poppler",
+      "case": "app-poppler",
+      "pixels": [
+        2481,
+        3508
+      ],
+      "rightEdgeSamples": [
+        {
+          "yMm": 1,
+          "last4Rgb": [
+            [
+              17,
+              24,
+              40
+            ],
+            [
+              17,
+              24,
+              40
+            ],
+            [
+              17,
+              24,
+              40
+            ],
+            [
+              17,
+              24,
+              40
+            ]
+          ]
+        },
+        {
+          "yMm": 3.7,
+          "last4Rgb": [
+            [
+              37,
+              71,
+              92
+            ],
+            [
+              37,
+              71,
+              92
+            ],
+            [
+              37,
+              71,
+              92
+            ],
+            [
+              37,
+              71,
+              92
+            ]
+          ]
+        },
+        {
+          "yMm": 293.2,
+          "last4Rgb": [
+            [
+              35,
+              71,
+              93
+            ],
+            [
+              35,
+              71,
+              93
+            ],
+            [
+              35,
+              71,
+              93
+            ],
+            [
+              35,
+              71,
+              93
+            ]
+          ]
+        },
+        {
+          "yMm": 296,
+          "last4Rgb": [
+            [
+              36,
+              42,
+              56
+            ],
+            [
+              36,
+              42,
+              56
+            ],
+            [
+              36,
+              42,
+              56
+            ],
+            [
+              36,
+              42,
+              56
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "renderer": "Poppler",
+      "case": "native-poppler",
+      "pixels": [
+        2481,
+        3508
+      ],
+      "rightEdgeSamples": [
+        {
+          "yMm": 1,
+          "last4Rgb": [
+            [
+              170,
+              172,
+              177
+            ],
+            [
+              17,
+              24,
+              39
+            ],
+            [
+              17,
+              24,
+              39
+            ],
+            [
+              17,
+              24,
+              39
+            ]
+          ]
+        },
+        {
+          "yMm": 3.7,
+          "last4Rgb": [
+            [
+              176,
+              189,
+              198
+            ],
+            [
+              36,
+              74,
+              97
+            ],
+            [
+              36,
+              74,
+              97
+            ],
+            [
+              36,
+              74,
+              97
+            ]
+          ]
+        },
+        {
+          "yMm": 293.2,
+          "last4Rgb": [
+            [
+              182,
+              195,
+              202
+            ],
+            [
+              52,
+              87,
+              109
+            ],
+            [
+              52,
+              87,
+              109
+            ],
+            [
+              52,
+              87,
+              109
+            ]
+          ]
+        },
+        {
+          "yMm": 296,
+          "last4Rgb": [
+            [
+              176,
+              178,
+              183
+            ],
+            [
+              35,
+              41,
+              55
+            ],
+            [
+              35,
+              41,
+              55
+            ],
+            [
+              35,
+              41,
+              55
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "renderer": "Poppler",
+      "case": "native-610",
+      "pixels": [
+        610,
+        863
+      ],
+      "rightEdgeSamples": [
+        {
+          "yMm": 1,
+          "last4Rgb": [
+            [
+              16,
+              23,
+              38
+            ],
+            [
+              16,
+              23,
+              38
+            ],
+            [
+              17,
+              24,
+              39
+            ],
+            [
+              16,
+              23,
+              38
+            ]
+          ]
+        },
+        {
+          "yMm": 3.7,
+          "last4Rgb": [
+            [
+              35,
+              73,
+              96
+            ],
+            [
+              35,
+              73,
+              96
+            ],
+            [
+              36,
+              74,
+              97
+            ],
+            [
+              35,
+              73,
+              96
+            ]
+          ]
+        },
+        {
+          "yMm": 293.2,
+          "last4Rgb": [
+            [
+              35,
+              70,
+              92
+            ],
+            [
+              35,
+              70,
+              92
+            ],
+            [
+              35,
+              70,
+              92
+            ],
+            [
+              35,
+              70,
+              92
+            ]
+          ]
+        },
+        {
+          "yMm": 296,
+          "last4Rgb": [
+            [
+              35,
+              41,
+              55
+            ],
+            [
+              35,
+              41,
+              55
+            ],
+            [
+              35,
+              41,
+              55
+            ],
+            [
+              35,
+              41,
+              55
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "actualAppPdfButton": {
+    "restoredSavedProject": true,
+    "clickedActualPdfButton": true,
+    "file": "Dossier-Lea-Mueller-Informatiker-in-EFZ.pdf",
+    "errors": []
+  },
+  "wordPdfAvailable": false,
+  "userOriginalDocxAvailable": false,
+  "conclusion": "App PDF has no shortened band. Native PDF outermost pixel depends on renderer/pixel scale; screenshot band-vs-rule shortening not reproduced exactly. Word PDF required to distinguish Word preview from serialized Word output. No product change justified by these screenshots alone."
+}

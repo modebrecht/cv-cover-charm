@@ -72,10 +72,7 @@ describe("retired dossier hyphenation", () => {
   });
 
   test("Web/PDF policy stays no-hyphenation while the retired control slot hosts title spacing", () => {
-    const source = readFileSync(
-      "src/components/dossier/DossierHyphenationControl.tsx",
-      "utf8",
-    );
+    const source = readFileSync("src/components/dossier/DossierHyphenationControl.tsx", "utf8");
     expect(source).toContain('[data-letter-pdf-richtext="body"]');
     expect(source).toContain("[data-cv-entry] [data-cv-body]");
     expect(source).toContain("hyphens: none;");

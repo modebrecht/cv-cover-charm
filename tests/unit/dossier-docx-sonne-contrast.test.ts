@@ -124,12 +124,8 @@ describe("Sonne DOCX contrast", () => {
   test("keeps all cover contact details white and matches the PDF CV accent circle", async () => {
     const xml = await sonneXml();
     const coverSection = xml.slice(0, xml.indexOf("<w:sectPr>"));
-    expect(paragraphContaining(coverSection, "lea@example.ch")).toContain(
-      'w:color w:val="FFFFFF"',
-    );
-    expect(paragraphContaining(coverSection, "14.03.2010")).toContain(
-      'w:color w:val="FFFFFF"',
-    );
+    expect(paragraphContaining(coverSection, "lea@example.ch")).toContain('w:color w:val="FFFFFF"');
+    expect(paragraphContaining(coverSection, "14.03.2010")).toContain('w:color w:val="FFFFFF"');
     expect(xml).toMatch(/id="sonne-cv-light"[^>]*fillcolor="#fbbf24"/);
     expect(xml).toMatch(/id="sonne-cv-light"[\s\S]*?<v:fill opacity="26%"\/>/);
   });
@@ -158,14 +154,8 @@ describe("Sonne DOCX contrast", () => {
     expect(coverSection).toMatch(
       /id="sonne-docx-cover-initials"[^>]*style="[^"]*margin-top:44mm;[^"]*z-index:251658500/,
     );
-    expect(coverSection).toMatch(
-      /id="sonne-docx-cover-lehrbeginn"[^>]*arcsize="50%"/,
-    );
-    expect(coverSection).toMatch(
-      /id="sonne-docx-cover-name"[\s\S]{0,1200}<w:sz w:val="67"/,
-    );
-    expect(coverSection).toMatch(
-      /id="sonne-docx-cover-role"[\s\S]{0,1200}<w:sz w:val="44"/,
-    );
+    expect(coverSection).toMatch(/id="sonne-docx-cover-lehrbeginn"[^>]*arcsize="50%"/);
+    expect(coverSection).toMatch(/id="sonne-docx-cover-name"[\s\S]{0,1200}<w:sz w:val="67"/);
+    expect(coverSection).toMatch(/id="sonne-docx-cover-role"[\s\S]{0,1200}<w:sz w:val="44"/);
   });
 });

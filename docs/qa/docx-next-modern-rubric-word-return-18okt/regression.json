@@ -1,0 +1,56 @@
+{
+  "nativePages": [
+    {
+      "file": "page-1.png",
+      "sha256": "f1fd0c2f7f9d8226200f0a53fb2f9bffe878df51149438cccd7d48d90afe5683",
+      "priorSha256": "f1fd0c2f7f9d8226200f0a53fb2f9bffe878df51149438cccd7d48d90afe5683",
+      "byteIdentical": true
+    },
+    {
+      "file": "page-2.png",
+      "sha256": "34c6d1c402c756faa218f3da6546d95abd6563083865a06da29afb95e1e61b7d",
+      "priorSha256": "34c6d1c402c756faa218f3da6546d95abd6563083865a06da29afb95e1e61b7d",
+      "byteIdentical": true
+    },
+    {
+      "file": "page-3.png",
+      "sha256": "8b46668ba125e7fd89fc608484d089d7ab6783276699a65de69f690cc3581439",
+      "priorSha256": "8b46668ba125e7fd89fc608484d089d7ab6783276699a65de69f690cc3581439",
+      "byteIdentical": true
+    },
+    {
+      "file": "page-4.png",
+      "sha256": "ed9a86406ab461c130261b8600556717ef8a858c52c16a8f54f83d8b616605d1",
+      "priorSha256": "ed9a86406ab461c130261b8600556717ef8a858c52c16a8f54f83d8b616605d1",
+      "byteIdentical": true
+    }
+  ],
+  "webCaptures": [
+    {
+      "file": "web.png",
+      "sha256": "007ed3a78baa6095a56605363923cea83144789a185c618f40c6809e3ddff6f4",
+      "priorSha256": "007ed3a78baa6095a56605363923cea83144789a185c618f40c6809e3ddff6f4",
+      "byteIdentical": true
+    },
+    {
+      "file": "web-letter.png",
+      "sha256": "56415aea93f4293006c75f9ca2dbc67cd33f7dc2c25aac91c549871397df8dbc",
+      "priorSha256": "56415aea93f4293006c75f9ca2dbc67cd33f7dc2c25aac91c549871397df8dbc",
+      "byteIdentical": true
+    },
+    {
+      "file": "web-cv.png",
+      "sha256": "a7f91d87e0c69bb569e7bcf4b2fdaac23523f875445f1a0786ca6bf611accf29",
+      "priorSha256": "a7f91d87e0c69bb569e7bcf4b2fdaac23523f875445f1a0786ca6bf611accf29",
+      "byteIdentical": true
+    }
+  ],
+  "ordinaryNext": [
+    {
+      "case": "cv-pills",
+      "sha256": "bd48b5fbcdc47626d950cca306e603b001fda72451b55d320edf91314e9e983f",
+      "priorSha256": "bd48b5fbcdc47626d950cca306e603b001fda72451b55d320edf91314e9e983f",
+      "byteIdentical": true
+    }
+  ]
+}

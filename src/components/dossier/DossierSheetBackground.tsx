@@ -3,6 +3,7 @@ import { TEMPLATES, type TemplateId } from "@/components/cover/types";
 import { cvDefaultContentBox, cvFrameFor } from "@/components/cv/archetype";
 import { cvPalette, onColorRoles } from "@/components/cv/palette";
 import type { LetterTemplateId } from "@/components/letter/types";
+import { MODERN_SHEET_CIRCLE } from "./sheet-geometry";
 
 /**
  * One visual sheet background for the complete dossier. CV and Anschreiben
@@ -831,8 +832,15 @@ export function DossierSheetBackground({
 
         {template === "modern" && (
           <div
-            className="absolute right-[-20mm] top-[14mm] h-[62mm] w-[62mm] rounded-full"
-            style={{ backgroundColor: accent, opacity: 0.07 }}
+            className="absolute rounded-full"
+            style={{
+              right: `${MODERN_SHEET_CIRCLE.rightMm}mm`,
+              top: `${MODERN_SHEET_CIRCLE.topMm}mm`,
+              width: `${MODERN_SHEET_CIRCLE.sizeMm}mm`,
+              height: `${MODERN_SHEET_CIRCLE.sizeMm}mm`,
+              backgroundColor: accent,
+              opacity: MODERN_SHEET_CIRCLE.opacity,
+            }}
           />
         )}
 

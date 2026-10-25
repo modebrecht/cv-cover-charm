@@ -25,7 +25,10 @@ const xmlEscape = (value: string) =>
     .replace(/'/g, "&apos;");
 
 function normalizedText(value: string) {
-  return value.replace(/\u00a0/g, " ").replace(/\r/g, "").trim();
+  return value
+    .replace(/\u00a0/g, " ")
+    .replace(/\r/g, "")
+    .trim();
 }
 
 function plainParagraphGroups(letter: LetterPdfDocument): LetterParagraphGroup[] {
@@ -186,10 +189,7 @@ function letterSectionBounds(source: string) {
   return { start, end: secondSection };
 }
 
-export function patchLetterAlignmentGroups(
-  source: string,
-  groups: LetterParagraphGroup[],
-) {
+export function patchLetterAlignmentGroups(source: string, groups: LetterParagraphGroup[]) {
   if (!groups.length) return source;
   const bounds = letterSectionBounds(source);
   if (!bounds) return groups.reduce(patchParagraphGroup, source);

@@ -11,6 +11,8 @@ export type TextStyle = {
   /** Formatting only: preserve the original editable text. */
   allCaps?: boolean;
   trackingPt?: number;
+  /** Explicit source kerning; absent preserves the existing native default. */
+  kerning?: boolean;
   /** Native editable run shading, used for Word-oriented heading badges. */
   backgroundColor?: string;
 };
@@ -26,14 +28,45 @@ export type Paragraph = {
   beforeMm: number;
   afterMm: number;
   lineHeight: number;
+  /** Intrinsic normal-line advance / font size, for measured proportional flow estimates. */
+  fontLineHeightFactor?: number;
+  /** Absolute minimum leading in points; content may grow to avoid clipping. */
+  minimumLineHeightPt?: number;
   keepNext: boolean;
   keepLines: boolean;
   list?: (typeof SEMANTIC_LIST_KINDS)[number];
   listGroupId?: string;
+  /** Source-sized native hanging list; absent retains the shared numbering default. */
+  listIndentMm?: number;
+  /** Marker formatting is independent of the editable list item's text. */
+  listMarkerStyle?: Pick<TextStyle, "color" | "bold">;
   ruleColor?: string;
+  /** Full-width native paragraph border following a wrapped Sidebar heading. */
+  bottomRule?: { color: string; heightMm: number; gapMm: number };
   indentMm?: number;
+  rightIndentMm?: number;
   /** Unaccepted native run-level control placement; the whole paragraph remains intact. */
   controlPlacement?: "inline";
+  /** Authored native tab stops within one measured line; no spacer paragraphs. */
+  tabStopsMm?: number[];
+  /** Native inline controls retain each source field inside an authored row. */
+  fieldControls?: boolean;
+  /** Explicit flow candidate. Native heading text owns a line-relative
+   * decorative capsule; it does not become a fixed-page textbox. */
+  flowSurface?: {
+    /** Plain native heading with a decorative rule; absent keeps the capsule. */
+    variant?: "rule";
+    /** Explicit trial: a preceding flow block or the cell/page origin owns the before-gap. */
+    spacingOwner?: "previous-block" | "origin";
+    widthMm: number;
+    rowWidthMm: number;
+    heightMm: number;
+    paddingXMm: number;
+    paddingYMm: number;
+    ink: string;
+    outlineMm: number;
+    rule?: { color: string; gapMm: number; heightMm: number; opacity: number };
+  };
 };
 export type ImageBlock = {
   /** Authored alpha is retained; anything except full opacity currently blocks export. */
@@ -60,6 +93,12 @@ export type ImageBlock = {
     borderColor: string;
   };
   coordinateOrigin?: "content" | "page";
+  /** Sidebar page image: legacy picture frame, or ordinary unwrapped body picture. */
+  nativeOwner?: "page-frame" | "page-picture";
+  /** Automatic ordinary photo follows the opening flow paragraph, without a page-Y offset. */
+  verticalOrigin?: "paragraph";
+  /** Explicitly opted-in QA page picture: no Word text wrap. */
+  wrapMode?: "none";
   sourceLayout?: ElementSourceLayout;
 };
 /** Unaccepted automatic-height native paragraph frame; diagnostic flow only. */
@@ -70,6 +109,22 @@ export type ParagraphFrameBlock = {
   yMm: number;
   widthMm: number;
   paragraphs: Paragraph[];
+  /** Gated native page-frame text can opt out of Word text wrapping. */
+  wrapMode?: "none";
+  /** Explicit candidate: one native editable shape owns text and its solid surface. */
+  surface?: {
+    heightMm: number;
+    radiusMm: number;
+    /** Optional fill: absence means transparent, never painted page white. */
+    fillColor?: string;
+    borderColor?: string;
+    borderWidthMm?: number;
+    verticalAlign?: "top" | "center";
+    /** Unaccepted Writer-compatible VML diagnostic owner; never standard. */
+    diagnosticShapeFormat?: "legacy-vml";
+    paddingXMm: number;
+    paddingYMm: number;
+  };
 };
 /** An editable picture in a native flow zone; authored coordinates remain inspectable. */
 export type ImageZoneBlock = {
@@ -103,6 +158,8 @@ export type TableBlock = {
   rows: {
     cells: DocBlock[][];
     keepTogether: boolean;
+    /** Unaccepted growable native minimum; never an exact row height. */
+    minimumHeightMm?: number;
     cellDecorations?: (CellDecoration | undefined)[];
     /** Semantic vertical cell spans; absent cells each occupy one row. */
     cellRowSpans?: number[];
@@ -112,12 +169,16 @@ export type TableBlock = {
   /** Flowing boxes keep width/padding, with no fixed height or text clipping. */
   widthMm?: number;
   indentMm?: number;
-  /** Guarded body paragraph before a natural-flow table; no semantic text or fixed table height. */
-  bodyBoundary?: "paragraph";
+  /** Spacing after the existing native table-ending paragraph; no new paragraph. */
+  afterMm?: number;
+  /** Guarded body start: legacy preceding paragraph or a table directly at section start. */
+  bodyBoundary?: "paragraph" | "section-start";
   /** Guarded native attachment of the real boundary paragraph to the following table. */
   bodyBoundaryKeepNext?: boolean;
-  /** Guarded first-page inset on the one real body boundary; never repeated cell padding. */
+  /** First-page inset on the body paragraph or the first cell-start paragraphs. */
   bodyBoundaryLeadMm?: number;
+  /** Candidate first-page cell starts; continuation padding remains independent. */
+  bodyBoundaryLeadByCellMm?: number[];
   /** Unaccepted diagnostic native floating table; physical page coordinates, no fixed height. */
   position?: {
     xMm: number;
@@ -145,6 +206,8 @@ export type CellDecoration = {
   paddingXMm: number;
   paddingYMm: number;
   /** Optional asymmetric native cell insets; absent retains symmetric padding. */
+  paddingLeftMm?: number;
+  paddingRightMm?: number;
   paddingTopMm?: number;
   paddingBottomMm?: number;
   border?: { color: string; widthMm: number; side: "left" | "right" };
@@ -247,6 +310,9 @@ export type DocumentPart = {
   paintOrder?: "layer";
   /** Opt-in decorative composition; semantic text/pictures are never included. */
   pagePaintComposition?: "single-asset";
+  /** Controlled chrome trial: cover the serialized native page plus one twip
+   * of rounding allowance at its right/bottom edges. Semantic content is unchanged. */
+  pagePaintCoverage?: "native-grid";
   id: "cover" | "letter" | "cv";
   blocks: DocBlock[];
   page: {
@@ -258,6 +324,10 @@ export type DocumentPart = {
   };
   artwork: DecorativeArtwork[];
   headerShapes?: DecorativeShape[];
+  /** Explicit measured chrome candidate; same native frames as the cover. */
+  headerFrames?: (ParagraphFrameBlock & { repeat: "first" | "continuation" })[];
+  /** Nonsemantic contact icons only; header text always remains native. */
+  headerImages?: (ImageBlock & { repeat: "first" | "continuation" })[];
   header: Paragraph[];
   firstHeader?: Paragraph[];
   footer: Paragraph[];

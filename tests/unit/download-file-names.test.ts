@@ -27,11 +27,7 @@ test("uses the current editor name for module JSON files", () => {
   ).toBe("Titelblatt-Lea-Mueller-Kauffrau-EFZ.json");
   expect(
     safeFileName(
-      resolveStudentDownloadFileName(
-        "Bewerbungsdossier-Lea-Müller.json",
-        "/anschreiben",
-        identity,
-      ),
+      resolveStudentDownloadFileName("Bewerbungsdossier-Lea-Müller.json", "/anschreiben", identity),
     ),
   ).toBe("Motivationsschreiben-Lea-Mueller-Kauffrau-EFZ.json");
   expect(

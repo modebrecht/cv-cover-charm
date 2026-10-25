@@ -87,6 +87,20 @@ export function referenceContactFields(reference: {
   if (email && lines.at(-1)?.trim() === email) lines.pop();
   return { contact: lines.join("\n").trim(), email, extra };
 }
+/** Explicit email/extra fields remain content even without the legacy contact string. */
+export function referenceHasContent(reference: {
+  name: string;
+  funktion: string;
+  kontakt: string;
+  email?: string;
+  zusatz?: string;
+}): boolean {
+  return [
+    reference.name,
+    reference.funktion,
+    ...Object.values(referenceContactFields(reference)),
+  ].some((text) => text.trim().length > 0);
+}
 export function isSemanticDossierFieldId(scope: "cv" | "letter", id: string): boolean {
   if (CHROME_FIELD_ID.exec(id)?.[1] === scope) return true;
   if (scope === "letter")

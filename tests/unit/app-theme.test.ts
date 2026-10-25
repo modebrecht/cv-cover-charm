@@ -79,7 +79,7 @@ describe("three-mode application theme", () => {
   test("initializes the shell before hydration instead of inside the toggle", () => {
     expect(rootSource).toContain("THEME_BOOTSTRAP_SCRIPT");
     expect(rootSource).toContain(
-      '<script dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP_SCRIPT }} />',
+      "<script dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP_SCRIPT }} />",
     );
     expect(rootSource).toContain("suppressHydrationWarning");
     expect(rootSource).toContain("themeToggleCss");

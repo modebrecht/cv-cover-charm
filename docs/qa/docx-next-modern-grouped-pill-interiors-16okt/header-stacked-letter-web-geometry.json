@@ -1,0 +1,46 @@
+[
+  [
+    {
+      "tag": "DIV",
+      "attributes": [
+        ["data-dossier-contact-header-background", "true"],
+        ["data-dossier-header-height-mm", "32"],
+        ["data-tsd-source", "/src/components/dossier/DossierHeaderFooterChrome.tsx:416:13"]
+      ],
+      "text": "",
+      "xMm": 0,
+      "yMm": 0,
+      "widthMm": 210,
+      "heightMm": 31.984361086375777,
+      "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "sizePx": "16px",
+      "lineHeight": "24px",
+      "align": "start",
+      "padding": "0px",
+      "radius": "0px",
+      "background": "rgb(17, 24, 39)",
+      "shadow": "none"
+    },
+    {
+      "tag": "DIV",
+      "attributes": [
+        ["data-dossier-integrated-contact", "true"],
+        ["data-letter-integrated-contact", ""],
+        ["data-tsd-source", "/src/components/dossier/DossierHeaderFooterChrome.tsx:459:13"]
+      ],
+      "text": "Lea Müller\nDorfstrasse 12\n·\n4535 Hubersdorf\n079 123 45 67\nlea.mueller@example.ch",
+      "xMm": 0,
+      "yMm": 0,
+      "widthMm": 210,
+      "heightMm": 31.984361086375777,
+      "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "sizePx": "18.6667px",
+      "lineHeight": "20.16px",
+      "align": "start",
+      "padding": "3.77953px 86.9291px 3.77953px 90.7087px",
+      "radius": "0px",
+      "background": "rgb(17, 24, 39)",
+      "shadow": "none"
+    }
+  ]
+]

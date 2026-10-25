@@ -1,0 +1,170 @@
+{
+  "provenance": "Actual existing resolveLayout Canvas captures from declared Liberation Sans profile; font hashes are in each packet. Not desktop Word acceptance.",
+  "cases": {
+    "normal": {
+      "version": 1,
+      "sourceKey": "{\"fontScale\":1,\"blocks\":[{\"id\":\"eyebrow\",\"kind\":\"text\",\"lines\":[\"Bewerbung\"],\"style\":{\"x\":20,\"y\":19.5,\"w\":80,\"size\":10.5,\"color\":\"ink\",\"align\":\"left\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":true,\"tracking\":0.35,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999}},{\"id\":\"ortDatum\",\"kind\":\"text\",\"lines\":[\"Hubersdorf, 15.11.2026\"],\"style\":{\"x\":110,\"y\":19.5,\"w\":80,\"size\":11.5,\"color\":\"ink\",\"align\":\"right\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":0.6,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999}},{\"id\":\"foto\",\"kind\":\"photo\",\"lines\":[],\"style\":{\"x\":129,\"y\":41,\"w\":52,\"size\":13.5,\"color\":\"ink\",\"align\":\"left\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"ratio\":1,\"radius\":0,\"fill\":\"bg\"}},{\"id\":\"kicker\",\"kind\":\"text\",\"lines\":[],\"style\":{\"x\":20,\"y\":128,\"w\":150,\"size\":11.5,\"color\":\"ink\",\"align\":\"left\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":true,\"tracking\":0.25,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999}},{\"id\":\"beruf\",\"kind\":\"text\",\"lines\":[\"Informatiker/in EFZ\"],\"style\":{\"x\":20,\"y\":20,\"w\":155,\"size\":36,\"color\":\"ink\",\"align\":\"left\",\"weight\":700,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":-0.02,\"lineHeight\":1.05,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"follows\":\"kicker\",\"gap\":1,\"maxLines\":3}},{\"id\":\"name\",\"kind\":\"text\",\"lines\":[\"Lea Müller\"],\"style\":{\"x\":20,\"y\":20,\"w\":150,\"size\":16.5,\"color\":\"ink\",\"align\":\"left\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0.02,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"follows\":\"beruf\",\"gap\":8,\"maxLines\":2}},{\"id\":\"lehrbeginn\",\"kind\":\"text\",\"lines\":[\"Lehrbeginn August 2027\"],\"style\":{\"x\":20,\"y\":20,\"w\":150,\"size\":12,\"color\":\"ink\",\"align\":\"left\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.6,\"bgRadius\":999,\"follows\":\"name\",\"gap\":3}},{\"id\":\"kontaktTitel\",\"kind\":\"text\",\"lines\":[\"Kontakt\"],\"style\":{\"x\":20,\"y\":20,\"w\":80,\"size\":10,\"color\":\"ink\",\"align\":\"left\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":true,\"tracking\":0.3,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"above\":\"kontakt\",\"gap\":1.5}},{\"id\":\"kontakt\",\"kind\":\"text\",\"lines\":[\"Dorfstrasse 12\",\"4535 Hubersdorf\",\"079 123 45 67\",\"lea.mueller@example.ch\",\"14.03.2010\"],\"style\":{\"x\":20,\"y\":285,\"w\":80,\"size\":11.5,\"color\":\"ink\",\"align\":\"left\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":0.85,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"anchorBottom\":true}},{\"id\":\"anTitel\",\"kind\":\"text\",\"lines\":[],\"style\":{\"x\":110,\"y\":20,\"w\":80,\"size\":10,\"color\":\"ink\",\"align\":\"right\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":true,\"tracking\":0.3,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"above\":\"kontakt\",\"gap\":1.5}},{\"id\":\"empfaenger\",\"kind\":\"text\",\"lines\":[],\"style\":{\"x\":110,\"y\":20,\"w\":80,\"size\":11.5,\"color\":\"ink\",\"align\":\"right\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":0.85,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"follows\":\"anTitel\",\"gap\":1.5}},{\"id\":\"beilagenTitel\",\"kind\":\"text\",\"lines\":[\"Beilagen\"],\"style\":{\"x\":110,\"y\":20,\"w\":80,\"size\":10,\"color\":\"ink\",\"align\":\"right\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0.3,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"above\":\"beilagen\",\"gap\":1.5,\"follows\":null,\"anchorBottom\":false}},{\"id\":\"beilagen\",\"kind\":\"text\",\"lines\":[\"Motivationsschreiben\",\"Lebenslauf\",\"Zeugnis\"],\"style\":{\"x\":110,\"y\":276,\"w\":80,\"size\":11.5,\"color\":\"ink\",\"align\":\"right\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":0.85,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"follows\":null,\"gap\":1.5,\"above\":null,\"anchorBottom\":true}}]}",
+      "profile": "Liberation Sans / 76d04c18ea243f426b7de1f3ad208e927008f961dc5945e5aad352d0dfde8ee8/788abee4c806d660e8aee46689dd8540cd4bb98da03dcc9d171ce3efd99a9173/e5bae5c4cde31f22142753855f4f8fb86da6ff39955ed3c0a11248b0d16948b0/698da70fc191cc5f33ad4d6d3fe830fe4624b898ea2e3169955928b7c491f1ee",
+      "blocks": {
+        "eyebrow": {
+          "sizePt": 10.5,
+          "lines": 1
+        },
+        "ortDatum": {
+          "sizePt": 11.5,
+          "lines": 1
+        },
+        "kicker": {
+          "sizePt": 11.5,
+          "lines": 0
+        },
+        "beruf": {
+          "sizePt": 36,
+          "lines": 1
+        },
+        "name": {
+          "sizePt": 16.5,
+          "lines": 1
+        },
+        "lehrbeginn": {
+          "sizePt": 12,
+          "lines": 1
+        },
+        "kontaktTitel": {
+          "sizePt": 10,
+          "lines": 1
+        },
+        "kontakt": {
+          "sizePt": 11.5,
+          "lines": 5
+        },
+        "anTitel": {
+          "sizePt": 10,
+          "lines": 0
+        },
+        "empfaenger": {
+          "sizePt": 11.5,
+          "lines": 0
+        },
+        "beilagenTitel": {
+          "sizePt": 10,
+          "lines": 1
+        },
+        "beilagen": {
+          "sizePt": 11.5,
+          "lines": 3
+        }
+      }
+    },
+    "long": {
+      "version": 1,
+      "sourceKey": "{\"fontScale\":1,\"blocks\":[{\"id\":\"eyebrow\",\"kind\":\"text\",\"lines\":[\"Bewerbung\"],\"style\":{\"x\":20,\"y\":19.5,\"w\":80,\"size\":10.5,\"color\":\"ink\",\"align\":\"left\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":true,\"tracking\":0.35,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999}},{\"id\":\"ortDatum\",\"kind\":\"text\",\"lines\":[\"Hubersdorf, 15.11.2026\"],\"style\":{\"x\":110,\"y\":19.5,\"w\":80,\"size\":11.5,\"color\":\"ink\",\"align\":\"right\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":0.6,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999}},{\"id\":\"foto\",\"kind\":\"photo\",\"lines\":[],\"style\":{\"x\":129,\"y\":41,\"w\":52,\"size\":13.5,\"color\":\"ink\",\"align\":\"left\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"ratio\":1,\"radius\":0,\"fill\":\"bg\"}},{\"id\":\"kicker\",\"kind\":\"text\",\"lines\":[],\"style\":{\"x\":20,\"y\":128,\"w\":150,\"size\":11.5,\"color\":\"ink\",\"align\":\"left\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":true,\"tracking\":0.25,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999}},{\"id\":\"beruf\",\"kind\":\"text\",\"lines\":[\"Fachmann/-frau Betreuung EFZ\"],\"style\":{\"x\":20,\"y\":20,\"w\":155,\"size\":36,\"color\":\"ink\",\"align\":\"left\",\"weight\":700,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":-0.02,\"lineHeight\":1.05,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"follows\":\"kicker\",\"gap\":1,\"maxLines\":3}},{\"id\":\"name\",\"kind\":\"text\",\"lines\":[\"Lea Sophie Müller-Meier\"],\"style\":{\"x\":20,\"y\":20,\"w\":150,\"size\":16.5,\"color\":\"ink\",\"align\":\"left\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0.02,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"follows\":\"beruf\",\"gap\":8,\"maxLines\":2}},{\"id\":\"lehrbeginn\",\"kind\":\"text\",\"lines\":[\"Lehrbeginn August 2027\"],\"style\":{\"x\":20,\"y\":20,\"w\":150,\"size\":12,\"color\":\"ink\",\"align\":\"left\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.6,\"bgRadius\":999,\"follows\":\"name\",\"gap\":3}},{\"id\":\"kontaktTitel\",\"kind\":\"text\",\"lines\":[\"Kontakt\"],\"style\":{\"x\":20,\"y\":20,\"w\":80,\"size\":10,\"color\":\"ink\",\"align\":\"left\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":true,\"tracking\":0.3,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"above\":\"kontakt\",\"gap\":1.5}},{\"id\":\"kontakt\",\"kind\":\"text\",\"lines\":[\"Längere Beispielstrasse 123\",\"8000 Zürich\",\"079 123 45 67\",\"lea.mueller@example.ch\",\"14.03.2010\"],\"style\":{\"x\":20,\"y\":285,\"w\":80,\"size\":11.5,\"color\":\"ink\",\"align\":\"left\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":0.85,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"anchorBottom\":true}},{\"id\":\"anTitel\",\"kind\":\"text\",\"lines\":[],\"style\":{\"x\":110,\"y\":20,\"w\":80,\"size\":10,\"color\":\"ink\",\"align\":\"right\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":true,\"tracking\":0.3,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"above\":\"kontakt\",\"gap\":1.5}},{\"id\":\"empfaenger\",\"kind\":\"text\",\"lines\":[],\"style\":{\"x\":110,\"y\":20,\"w\":80,\"size\":11.5,\"color\":\"ink\",\"align\":\"right\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":0.85,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"follows\":\"anTitel\",\"gap\":1.5}},{\"id\":\"beilagenTitel\",\"kind\":\"text\",\"lines\":[\"Beilagen\"],\"style\":{\"x\":110,\"y\":20,\"w\":80,\"size\":10,\"color\":\"ink\",\"align\":\"right\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0.3,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"above\":\"beilagen\",\"gap\":1.5,\"follows\":null,\"anchorBottom\":false}},{\"id\":\"beilagen\",\"kind\":\"text\",\"lines\":[\"Motivationsschreiben\",\"Lebenslauf\",\"Zeugnis\"],\"style\":{\"x\":110,\"y\":276,\"w\":80,\"size\":11.5,\"color\":\"ink\",\"align\":\"right\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":0.85,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"follows\":null,\"gap\":1.5,\"above\":null,\"anchorBottom\":true}}]}",
+      "profile": "Liberation Sans / 76d04c18ea243f426b7de1f3ad208e927008f961dc5945e5aad352d0dfde8ee8/788abee4c806d660e8aee46689dd8540cd4bb98da03dcc9d171ce3efd99a9173/e5bae5c4cde31f22142753855f4f8fb86da6ff39955ed3c0a11248b0d16948b0/698da70fc191cc5f33ad4d6d3fe830fe4624b898ea2e3169955928b7c491f1ee",
+      "blocks": {
+        "eyebrow": {
+          "sizePt": 10.5,
+          "lines": 1
+        },
+        "ortDatum": {
+          "sizePt": 11.5,
+          "lines": 1
+        },
+        "kicker": {
+          "sizePt": 11.5,
+          "lines": 0
+        },
+        "beruf": {
+          "sizePt": 36,
+          "lines": 2
+        },
+        "name": {
+          "sizePt": 15.345,
+          "lines": 1
+        },
+        "lehrbeginn": {
+          "sizePt": 12,
+          "lines": 1
+        },
+        "kontaktTitel": {
+          "sizePt": 10,
+          "lines": 1
+        },
+        "kontakt": {
+          "sizePt": 11.5,
+          "lines": 5
+        },
+        "anTitel": {
+          "sizePt": 10,
+          "lines": 0
+        },
+        "empfaenger": {
+          "sizePt": 11.5,
+          "lines": 0
+        },
+        "beilagenTitel": {
+          "sizePt": 10,
+          "lines": 1
+        },
+        "beilagen": {
+          "sizePt": 11.5,
+          "lines": 3
+        }
+      }
+    },
+    "scaled": {
+      "version": 1,
+      "sourceKey": "{\"fontScale\":1.15,\"blocks\":[{\"id\":\"eyebrow\",\"kind\":\"text\",\"lines\":[\"Bewerbung\"],\"style\":{\"x\":20,\"y\":19.5,\"w\":80,\"size\":10.5,\"color\":\"ink\",\"align\":\"left\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":true,\"tracking\":0.35,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999}},{\"id\":\"ortDatum\",\"kind\":\"text\",\"lines\":[\"Hubersdorf, 15.11.2026\"],\"style\":{\"x\":110,\"y\":19.5,\"w\":80,\"size\":11.5,\"color\":\"ink\",\"align\":\"right\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":0.6,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999}},{\"id\":\"foto\",\"kind\":\"photo\",\"lines\":[],\"style\":{\"x\":129,\"y\":41,\"w\":52,\"size\":13.5,\"color\":\"ink\",\"align\":\"left\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"ratio\":1,\"radius\":0,\"fill\":\"bg\"}},{\"id\":\"kicker\",\"kind\":\"text\",\"lines\":[],\"style\":{\"x\":20,\"y\":128,\"w\":150,\"size\":11.5,\"color\":\"ink\",\"align\":\"left\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":true,\"tracking\":0.25,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999}},{\"id\":\"beruf\",\"kind\":\"text\",\"lines\":[\"Informatiker/in EFZ\"],\"style\":{\"x\":20,\"y\":20,\"w\":155,\"size\":36,\"color\":\"ink\",\"align\":\"left\",\"weight\":700,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":-0.02,\"lineHeight\":1.05,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"follows\":\"kicker\",\"gap\":1,\"maxLines\":3}},{\"id\":\"name\",\"kind\":\"text\",\"lines\":[\"Lea Müller\"],\"style\":{\"x\":20,\"y\":20,\"w\":150,\"size\":16.5,\"color\":\"ink\",\"align\":\"left\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0.02,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"follows\":\"beruf\",\"gap\":8,\"maxLines\":2}},{\"id\":\"lehrbeginn\",\"kind\":\"text\",\"lines\":[\"Lehrbeginn August 2027\"],\"style\":{\"x\":20,\"y\":20,\"w\":150,\"size\":12,\"color\":\"ink\",\"align\":\"left\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.6,\"bgRadius\":999,\"follows\":\"name\",\"gap\":3}},{\"id\":\"kontaktTitel\",\"kind\":\"text\",\"lines\":[\"Kontakt\"],\"style\":{\"x\":20,\"y\":20,\"w\":80,\"size\":10,\"color\":\"ink\",\"align\":\"left\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":true,\"tracking\":0.3,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"above\":\"kontakt\",\"gap\":1.5}},{\"id\":\"kontakt\",\"kind\":\"text\",\"lines\":[\"Dorfstrasse 12\",\"4535 Hubersdorf\",\"079 123 45 67\",\"lea.mueller@example.ch\",\"14.03.2010\"],\"style\":{\"x\":20,\"y\":285,\"w\":80,\"size\":11.5,\"color\":\"ink\",\"align\":\"left\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":0.85,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"anchorBottom\":true}},{\"id\":\"anTitel\",\"kind\":\"text\",\"lines\":[],\"style\":{\"x\":110,\"y\":20,\"w\":80,\"size\":10,\"color\":\"ink\",\"align\":\"right\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":true,\"tracking\":0.3,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"above\":\"kontakt\",\"gap\":1.5}},{\"id\":\"empfaenger\",\"kind\":\"text\",\"lines\":[],\"style\":{\"x\":110,\"y\":20,\"w\":80,\"size\":11.5,\"color\":\"ink\",\"align\":\"right\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":0.85,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"follows\":\"anTitel\",\"gap\":1.5}},{\"id\":\"beilagenTitel\",\"kind\":\"text\",\"lines\":[\"Beilagen\"],\"style\":{\"x\":110,\"y\":20,\"w\":80,\"size\":10,\"color\":\"ink\",\"align\":\"right\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0.3,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"above\":\"beilagen\",\"gap\":1.5,\"follows\":null,\"anchorBottom\":false}},{\"id\":\"beilagen\",\"kind\":\"text\",\"lines\":[\"Motivationsschreiben\",\"Lebenslauf\",\"Zeugnis\"],\"style\":{\"x\":110,\"y\":276,\"w\":80,\"size\":11.5,\"color\":\"ink\",\"align\":\"right\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":0.85,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"follows\":null,\"gap\":1.5,\"above\":null,\"anchorBottom\":true}}]}",
+      "profile": "Liberation Sans / 76d04c18ea243f426b7de1f3ad208e927008f961dc5945e5aad352d0dfde8ee8/788abee4c806d660e8aee46689dd8540cd4bb98da03dcc9d171ce3efd99a9173/e5bae5c4cde31f22142753855f4f8fb86da6ff39955ed3c0a11248b0d16948b0/698da70fc191cc5f33ad4d6d3fe830fe4624b898ea2e3169955928b7c491f1ee",
+      "blocks": {
+        "eyebrow": {
+          "sizePt": 12.075,
+          "lines": 1
+        },
+        "ortDatum": {
+          "sizePt": 13.225,
+          "lines": 1
+        },
+        "kicker": {
+          "sizePt": 13.225,
+          "lines": 0
+        },
+        "beruf": {
+          "sizePt": 41.4,
+          "lines": 1
+        },
+        "name": {
+          "sizePt": 18.974999999999998,
+          "lines": 1
+        },
+        "lehrbeginn": {
+          "sizePt": 13.799999999999999,
+          "lines": 1
+        },
+        "kontaktTitel": {
+          "sizePt": 11.5,
+          "lines": 1
+        },
+        "kontakt": {
+          "sizePt": 13.225,
+          "lines": 5
+        },
+        "anTitel": {
+          "sizePt": 11.5,
+          "lines": 0
+        },
+        "empfaenger": {
+          "sizePt": 13.225,
+          "lines": 0
+        },
+        "beilagenTitel": {
+          "sizePt": 11.5,
+          "lines": 1
+        },
+        "beilagen": {
+          "sizePt": 13.225,
+          "lines": 3
+        }
+      }
+    }
+  }
+}

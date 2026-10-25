@@ -2,14 +2,10 @@ import { normalizeLetterImageGeometry } from "@/components/letter/letter-image-g
 import { letterPageGeometry } from "@/components/letter/layout-system";
 import type { LetterFlowImage } from "@/components/letter/types";
 import type { LetterPdfDocument } from "@/lib/dossier-pdf-document";
-import {
-  transformStoredDocxEntries,
-  type StoredDocxEntry,
-} from "@/lib/dossier-docx-package";
+import { transformStoredDocxEntries, type StoredDocxEntry } from "@/lib/dossier-docx-package";
 
 const MM_TO_EMU = 36000;
-const IMAGE_REL_TYPE =
-  "http://schemas.openxmlformats.org/officeDocument/2006/relationships/image";
+const IMAGE_REL_TYPE = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/image";
 const LETTER_MEDIA_PREFIX = "word/media/letter-flow-image-";
 const LETTER_REL_PREFIX = "rIdLetterFlowImage";
 
@@ -59,7 +55,9 @@ function gifAspect(bytes: Uint8Array) {
 
 function jpegAspect(bytes: Uint8Array) {
   if (bytes.length < 4 || bytes[0] !== 0xff || bytes[1] !== 0xd8) return 1;
-  const sofMarkers = new Set([0xc0, 0xc1, 0xc2, 0xc3, 0xc5, 0xc6, 0xc7, 0xc9, 0xca, 0xcb, 0xcd, 0xce, 0xcf]);
+  const sofMarkers = new Set([
+    0xc0, 0xc1, 0xc2, 0xc3, 0xc5, 0xc6, 0xc7, 0xc9, 0xca, 0xcb, 0xcd, 0xce, 0xcf,
+  ]);
   let offset = 2;
   while (offset + 8 < bytes.length) {
     if (bytes[offset] !== 0xff) {
@@ -137,7 +135,9 @@ function dossierSections(source: string): [SectionBounds, SectionBounds, Section
 
 function stripPreviousLetterImageParagraphs(section: string) {
   return section.replace(/<w:p(?:\s[^>]*)?>[\s\S]*?<\/w:p>/g, (paragraph) =>
-    /<wp:docPr\b[^>]*\bname="(?:Bewerbungsfoto (?:1\d|[2-9]\d+)|Anschreiben Bild \d+)"/.test(paragraph)
+    /<wp:docPr\b[^>]*\bname="(?:Bewerbungsfoto (?:1\d|[2-9]\d+)|Anschreiben Bild \d+)"/.test(
+      paragraph,
+    )
       ? ""
       : paragraph,
   );
@@ -201,10 +201,7 @@ function ensureContentType(source: string, extension: string, contentType: strin
 }
 
 function removePreviousRelationships(source: string) {
-  const pattern = new RegExp(
-    `<Relationship\\b[^>]*\\bId="${LETTER_REL_PREFIX}\\d+"[^>]*/>`,
-    "g",
-  );
+  const pattern = new RegExp(`<Relationship\\b[^>]*\\bId="${LETTER_REL_PREFIX}\\d+"[^>]*/>`, "g");
   return source.replace(pattern, "");
 }
 

@@ -20,7 +20,11 @@ const xmlDecode = (value: string) =>
     .replace(/&apos;/g, "'")
     .replace(/&amp;/g, "&");
 
-const normalized = (value: string) => value.replace(/\u00a0/g, " ").replace(/\s+/g, " ").trim();
+const normalized = (value: string) =>
+  value
+    .replace(/\u00a0/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 
 function wordAlignment(align: BodyTextAlignment) {
   return align === "justify" ? "both" : align;
@@ -54,7 +58,12 @@ function cvBodyCandidates(data: CvData): string[] {
   for (const language of data.sprachen) values.push(language.name, language.niveau);
   values.push(...data.hobbys, ...data.staerken);
   for (const reference of data.referenzen) {
-    values.push(reference.funktion, reference.kontakt, reference.email ?? "", reference.zusatz ?? "");
+    values.push(
+      reference.funktion,
+      reference.kontakt,
+      reference.email ?? "",
+      reference.zusatz ?? "",
+    );
     values.push(...reference.kontakt.split(/\r?\n/g));
   }
 

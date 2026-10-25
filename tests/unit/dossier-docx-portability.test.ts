@@ -36,7 +36,7 @@ function minimalDocx() {
         },
         {
           name: "word/document.xml",
-          bytes: encoder.encode("<w:document/>")
+          bytes: encoder.encode("<w:document/>"),
         },
       ]),
     ],
@@ -89,7 +89,9 @@ describe("DOCX Cabin portability", () => {
     );
     expect(contentTypes).toContain("application/vnd.openxmlformats-officedocument.obfuscatedFont");
 
-    const settings = decoder.decode(entries.find((entry) => entry.name === "word/settings.xml")?.bytes);
+    const settings = decoder.decode(
+      entries.find((entry) => entry.name === "word/settings.xml")?.bytes,
+    );
     expect(settings).toContain("<w:embedTrueTypeFonts/>");
 
     const fontTable = decoder.decode(

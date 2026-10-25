@@ -1,5 +1,7 @@
 import { expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
+import { applyForestFlowCoverDefaults } from "../../src/components/cover/forest-flow-cover-defaults";
+import type { Block, TemplateId } from "../../src/components/cover/types";
 
 const defaults = readFileSync(
   new URL("../../src/components/cover/forest-flow-cover-defaults.ts", import.meta.url),
@@ -71,10 +73,34 @@ test("Ribbon's old cover-only transforms cannot displace user-owned A4 blocks", 
 });
 
 test("Ribbon flows long display lines and bottom-anchors the date by declarative defaults", () => {
-  const ribbon = defaults.split("const RIBBON_COVER_DEFAULTS")[1].split("const DIAGONAL_COVER_DEFAULTS")[0];
+  const ribbon = defaults
+    .split("const RIBBON_COVER_DEFAULTS")[1]
+    .split("const DIAGONAL_COVER_DEFAULTS")[0];
   expect(ribbon).toContain('follows: "name"');
   expect(ribbon).toContain('follows: "kicker"');
   expect(ribbon).toContain('follows: "beruf"');
   expect(ribbon).toMatch(/ortDatum: \{[\s\S]*?y: 285,[\s\S]*?anchorBottom: true/);
-  expect(defaults).toContain('custom.y !== undefined && custom.follows === undefined');
+  const template = "ribbon" as TemplateId;
+  const block: Block = {
+    id: "kicker",
+    label: "Bewerbung",
+    kind: "text",
+    lines: ["Bewerbung"],
+    style: { x: 76, y: 120, w: 110 },
+  };
+  expect(applyForestFlowCoverDefaults(template, block, {}).style.follows).toBe("name");
+  for (const y of [0, 137]) {
+    const edited = { ...block, style: { ...block.style, y, follows: "name" } };
+    const overrides = { kicker: { y } };
+    const resolved = applyForestFlowCoverDefaults(template, edited, overrides);
+    expect(resolved.style.y).toBe(y);
+    expect(resolved.style.follows).toBeNull();
+    expect(edited.style.follows).toBe("name");
+    expect(overrides).toEqual({ kicker: { y } });
+  }
+  const linked = { ...block, style: { ...block.style, y: 137, follows: "beruf" } };
+  const explicit = applyForestFlowCoverDefaults(template, linked, {
+    kicker: { y: 137, follows: "beruf" },
+  });
+  expect([explicit.style.y, explicit.style.follows]).toEqual([137, "beruf"]);
 });

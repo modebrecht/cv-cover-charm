@@ -121,7 +121,10 @@ export function CitrusRubricControls({ design, onChange }: Props) {
         />
       </label>
 
-      <div data-cv-section-gap-control className="grid gap-2 rounded-md border border-input/70 p-2.5">
+      <div
+        data-cv-section-gap-control
+        className="grid gap-2 rounded-md border border-input/70 p-2.5"
+      >
         <div className="flex items-center justify-between gap-3">
           <div>
             <div className="text-xs font-medium">Abstand zwischen Rubriken</div>
@@ -134,9 +137,7 @@ export function CitrusRubricControls({ design, onChange }: Props) {
               type="checkbox"
               checked={customSectionGap}
               onChange={(event) =>
-                setCvSectionGapMm(
-                  event.target.checked ? CV_SECTION_GAP_CUSTOM_DEFAULT_MM : null,
-                )
+                setCvSectionGapMm(event.target.checked ? CV_SECTION_GAP_CUSTOM_DEFAULT_MM : null)
               }
             />
             selber

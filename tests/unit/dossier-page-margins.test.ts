@@ -183,7 +183,7 @@ describe("configurable CV and motivation-letter page margins", () => {
     };
     const frame = cvFrameFor("neon");
 
-    expect(cvDefaultContentBox(frame, 0, "classic", undefined, noChrome).top).toBe(15);
+    expect(cvDefaultContentBox(frame, 0, "classic", undefined, noChrome).top).toBe(23);
     expect(cvDefaultContentBox(frame, 1, "classic", undefined, noChrome).top).toBe(23);
     expect(cvSafePageMarginMinimums(frame, 0, "classic", undefined, noChrome).top).toBe(15);
   });

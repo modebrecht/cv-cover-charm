@@ -1,0 +1,304 @@
+$ vite build
+The plugin "vite-tsconfig-paths" is detected. Vite now supports tsconfig paths resolution natively via the resolve.tsconfigPaths option. You can remove the plugin and set resolve.tsconfigPaths: true in your Vite config instead.
+vite v8.0.16 building client environment for production...
+[2Ktransforming...✓ 2439 modules transformed.
+rendering chunks...
+computing gzip size...
+.output/public/assets/mobile-editor-content-guard-DudLD94K.css             0.32 kB │ gzip:   0.19 kB
+.output/public/assets/letter-alignment-CAQa-94p.css                        0.57 kB │ gzip:   0.16 kB
+.output/public/assets/ThemeToggle-DLROxXww.css                             0.86 kB │ gzip:   0.25 kB
+.output/public/assets/editor-action-menu-BAeduh7b.css                      1.21 kB │ gzip:   0.39 kB
+.output/public/assets/human-polish-DlmKMKVQ.css                            1.82 kB │ gzip:   0.42 kB
+.output/public/assets/motif-visibility-W8tXJSvs.css                        2.10 kB │ gzip:   0.53 kB
+.output/public/assets/cv-flow-columns-BNq-K3A2.css                         4.30 kB │ gzip:   0.98 kB
+.output/public/assets/header-production-polish-C3ZDmACW.css                7.49 kB │ gzip:   1.12 kB
+.output/public/assets/image-BrNN_WCM.css                                  12.70 kB │ gzip:   2.39 kB
+.output/public/assets/dossier-pdf-DOQPfDDb.css                            98.55 kB │ gzip:  10.70 kB
+.output/public/assets/styles-7aefM1Aw.css                                118.04 kB │ gzip:  19.06 kB
+.output/public/assets/cv-personal-info-S6-V1gFA.css                      125.81 kB │ gzip:  11.31 kB
+.output/public/assets/cove-hodxfbrn.js                                     0.09 kB │ gzip:   0.10 kB
+.output/public/assets/edel-CI6LnFHF.js                                     0.09 kB │ gzip:   0.10 kB
+.output/public/assets/edge-CteqQqSs.js                                     0.09 kB │ gzip:   0.10 kB
+.output/public/assets/glow-Di7lL646.js                                     0.09 kB │ gzip:   0.10 kB
+.output/public/assets/neon-DXXdiKE8.js                                     0.09 kB │ gzip:   0.10 kB
+.output/public/assets/human-CJU8Tzrw.js                                    0.09 kB │ gzip:   0.10 kB
+.output/public/assets/orbit-HufsGBU-.js                                    0.09 kB │ gzip:   0.10 kB
+.output/public/assets/prism-qq9A6RyF.js                                    0.09 kB │ gzip:   0.10 kB
+.output/public/assets/warm3-so9cdFlQ.js                                    0.09 kB │ gzip:   0.10 kB
+.output/public/assets/warm4-C5aod5Ar.js                                    0.09 kB │ gzip:   0.10 kB
+.output/public/assets/warm5-sJi7KkyK.js                                    0.09 kB │ gzip:   0.10 kB
+.output/public/assets/welle-Dzt0HLo1.js                                    0.09 kB │ gzip:   0.10 kB
+.output/public/assets/citrus-TKdq6dAt.js                                   0.09 kB │ gzip:   0.10 kB
+.output/public/assets/ledger-Dh3Uw4eu.js                                   0.09 kB │ gzip:   0.10 kB
+.output/public/assets/modern-CAxnIfVc.js                                   0.09 kB │ gzip:   0.10 kB
+.output/public/assets/ribbon-Bw6jdpTq.js                                   0.09 kB │ gzip:   0.10 kB
+.output/public/assets/blockig-2s5qLL2H.js                                  0.09 kB │ gzip:   0.10 kB
+.output/public/assets/gallery-DIqHxFNL.js                                  0.09 kB │ gzip:   0.10 kB
+.output/public/assets/horizon-ko5VSJnK.js                                  0.09 kB │ gzip:   0.10 kB
+.output/public/assets/pastell-XKTpNvO9.js                                  0.09 kB │ gzip:   0.10 kB
+.output/public/assets/serioes-CSOX2pPn.js                                  0.09 kB │ gzip:   0.10 kB
+.output/public/assets/sunrise-W0JX0gtI.js                                  0.09 kB │ gzip:   0.10 kB
+.output/public/assets/colorful-DvG9loI4.js                                 0.09 kB │ gzip:   0.10 kB
+.output/public/assets/diagonal-1tEM-uge.js                                 0.09 kB │ gzip:   0.10 kB
+.output/public/assets/edelDark-DCILWkG9.js                                 0.09 kB │ gzip:   0.10 kB
+.output/public/assets/monoLuxe-B5GG9St0.js                                 0.09 kB │ gzip:   0.10 kB
+.output/public/assets/klassisch-D_d17mFE.js                                0.09 kB │ gzip:   0.10 kB
+.output/public/assets/forestFlow-BCqKX1t4.js                               0.09 kB │ gzip:   0.10 kB
+.output/public/assets/terracotta-20fkME5n.js                               0.09 kB │ gzip:   0.10 kB
+.output/public/assets/violetPulse-Ds3tpXfC.js                              0.09 kB │ gzip:   0.11 kB
+.output/public/assets/attachments-TiVnCbTb.js                              0.12 kB │ gzip:   0.12 kB
+.output/public/assets/typeof-B5XbjTb1.js                                   0.27 kB │ gzip:   0.16 kB
+.output/public/assets/chunk-QTnfLwEv.js                                    0.69 kB │ gzip:   0.42 kB
+.output/public/assets/aurora-CIaD1bEa.js                                   0.76 kB │ gzip:   0.44 kB
+.output/public/assets/verlauf2-aFWW3lNa.js                                 0.78 kB │ gzip:   0.46 kB
+.output/public/assets/verlauf3-C-t24JK0.js                                 0.78 kB │ gzip:   0.46 kB
+.output/public/assets/warm2-C-7WHVhA.js                                    0.82 kB │ gzip:   0.50 kB
+.output/public/assets/design-docx-next-export-BqqoGVKU.js                  0.91 kB │ gzip:   0.56 kB
+.output/public/assets/verlauf-BEG9W68a.js                                  0.91 kB │ gzip:   0.55 kB
+.output/public/assets/studio-I_1X-nO0.js                                   1.01 kB │ gzip:   0.56 kB
+.output/public/assets/dossier-docx-package-UY1CKbdP.js                     1.98 kB │ gzip:   0.97 kB
+.output/public/assets/dossier-docx-family-DT2WOlzi.js                      2.67 kB │ gzip:   0.61 kB
+.output/public/assets/freundlich-BzZIlk6g.js                               2.92 kB │ gzip:   1.11 kB
+.output/public/assets/docx-next-cv-personal-metrics.browser-DId8fUcG.js    3.38 kB │ gzip:   1.71 kB
+.output/public/assets/sonne-BE7y4PCS.js                                    4.28 kB │ gzip:   1.85 kB
+.output/public/assets/fresh-letter-system-BcGmfwmj.js                      4.61 kB │ gzip:   1.26 kB
+.output/public/assets/dossier-docx-family-renderer-CjqRuI7_.js             5.70 kB │ gzip:   1.71 kB
+.output/public/assets/dossier-transfer-BXmx_rJL.js                         9.32 kB │ gzip:   3.38 kB
+.output/public/assets/docx-next-interior-metrics.browser-Dl9Fubqk.js      10.34 kB │ gzip:   4.17 kB
+.output/public/assets/studio2-refined-Cm6ovL20.js                         11.48 kB │ gzip:   3.77 kB
+.output/public/assets/cv-document-title-spacing-Cj7X5D0q.js               12.20 kB │ gzip:   4.32 kB
+.output/public/assets/studio3-Cb-CayH8.js                                 13.72 kB │ gzip:   4.62 kB
+.output/public/assets/DossierExportDialog-Dh7n0jUF.js                     14.30 kB │ gzip:   4.75 kB
+.output/public/assets/brief-DgDPypFT.js                                   17.92 kB │ gzip:   5.80 kB
+.output/public/assets/dossier-docx-warm-CUljTkrB.js                       18.76 kB │ gzip:   6.01 kB
+.output/public/assets/purify.es-adlwq8Pz.js                               26.85 kB │ gzip:  10.45 kB
+.output/public/assets/AddElementMenu-Bh-8zChq.js                          27.58 kB │ gzip:   7.49 kB
+.output/public/assets/dossier-contact-DOoUBZBH.js                         28.64 kB │ gzip:   7.29 kB
+.output/public/assets/shared-89nhPXsq.js                                  32.96 kB │ gzip:   8.91 kB
+.output/public/assets/image-5US1twCd.js                                   37.62 kB │ gzip:  12.21 kB
+.output/public/assets/cv-personal-info-C_PK08aQ.js                        38.80 kB │ gzip:  12.65 kB
+.output/public/assets/titelblatt-Dnh1OBjQ.js                              39.83 kB │ gzip:  11.41 kB
+.output/public/assets/anschreiben-C2v4m_6W.js                             59.94 kB │ gzip:  16.24 kB
+.output/public/assets/routes-CbpNbDEl.js                                  70.86 kB │ gzip:  22.19 kB
+.output/public/assets/cv-flow-columns-CVFRz4WU.js                         74.01 kB │ gzip:  15.85 kB
+.output/public/assets/lebenslauf-B7TRwYg0.js                              88.26 kB │ gzip:  22.14 kB
+.output/public/assets/index.es-CW48MJ1v.js                               151.41 kB │ gzip:  48.89 kB
+.output/public/assets/html2canvas-3k5U_Ryh.js                            199.56 kB │ gzip:  46.78 kB
+.output/public/assets/brief-docx-next-export-kgoBxjmg.js                 210.79 kB │ gzip:  54.20 kB
+.output/public/assets/dossier-pdf-BCmPJpcy.js                            239.34 kB │ gzip:  69.12 kB
+.output/public/assets/html2canvas-pro.esm-Ckr3xV7K.js                    246.22 kB │ gzip:  62.38 kB
+.output/public/assets/index-D1JsdAba.js                                  364.14 kB │ gzip: 116.26 kB
+.output/public/assets/jspdf.es.min-BMY4Cv_E.js                           399.72 kB │ gzip: 129.79 kB
+
+[33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugins. Here is a breakdown:
+  - vite-tsconfig-paths (72%)
+  - tanstack-start-core:import-protection (16%)
+  - tanstack-start-core:import-protection-transform-cache (10%)
+See https://rolldown.rs/options/checks#plugintimings for more details.
+
+✓ built in 3.64s
+vite v8.0.16 building ssr environment for production...
+[2Ktransforming...✓ 402 modules transformed.
+rendering chunks...
+computing gzip size...
+node_modules/.nitro/vite/services/ssr/assets/mobile-editor-content-guard-DudLD94K.css             0.32 kB │ gzip:   0.19 kB
+node_modules/.nitro/vite/services/ssr/assets/letter-alignment-CAQa-94p.css                        0.57 kB │ gzip:   0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/ThemeToggle-DLROxXww.css                             0.86 kB │ gzip:   0.25 kB
+node_modules/.nitro/vite/services/ssr/assets/editor-action-menu-BAeduh7b.css                      1.21 kB │ gzip:   0.39 kB
+node_modules/.nitro/vite/services/ssr/assets/human-polish-DlmKMKVQ.css                            1.82 kB │ gzip:   0.42 kB
+node_modules/.nitro/vite/services/ssr/assets/motif-visibility-W8tXJSvs.css                        2.10 kB │ gzip:   0.53 kB
+node_modules/.nitro/vite/services/ssr/assets/cv-flow-columns-BNq-K3A2.css                         4.30 kB │ gzip:   0.98 kB
+node_modules/.nitro/vite/services/ssr/assets/header-production-polish-C3ZDmACW.css                7.49 kB │ gzip:   1.12 kB
+node_modules/.nitro/vite/services/ssr/assets/image-BrNN_WCM.css                                  12.70 kB │ gzip:   2.39 kB
+node_modules/.nitro/vite/services/ssr/assets/dossier-pdf-DOQPfDDb.css                            98.55 kB │ gzip:  10.70 kB
+node_modules/.nitro/vite/services/ssr/assets/styles-7aefM1Aw.css                                118.04 kB │ gzip:  19.06 kB
+node_modules/.nitro/vite/services/ssr/assets/cv-personal-info-S6-V1gFA.css                      125.81 kB │ gzip:  11.31 kB
+node_modules/.nitro/vite/services/ssr/assets/cove-BetgU0pe.js                                     0.20 kB │ gzip:   0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/edel-Dz_vtAos.js                                     0.20 kB │ gzip:   0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/edge-V-OArNpo.js                                     0.20 kB │ gzip:   0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/glow-X9rD_6vV.js                                     0.20 kB │ gzip:   0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/neon-Dq77B9n5.js                                     0.20 kB │ gzip:   0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/human-BkyShTiD.js                                    0.21 kB │ gzip:   0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/orbit-CJ3Tr9Km.js                                    0.21 kB │ gzip:   0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/prism-D97_SfNf.js                                    0.21 kB │ gzip:   0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/warm3-BubTm5sb.js                                    0.21 kB │ gzip:   0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/warm4-Dd6gF9BE.js                                    0.21 kB │ gzip:   0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/warm5-DqZfst4O.js                                    0.21 kB │ gzip:   0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/welle-CbrsD_p_.js                                    0.21 kB │ gzip:   0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/citrus-DCvwKZUC.js                                   0.21 kB │ gzip:   0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/ledger-Bhtn4W3K.js                                   0.21 kB │ gzip:   0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/modern-CSJfD-Ot.js                                   0.21 kB │ gzip:   0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/ribbon-BhDyRwqp.js                                   0.21 kB │ gzip:   0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/blockig-U9eegYFY.js                                  0.21 kB │ gzip:   0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/gallery-E6pk-Gyj.js                                  0.21 kB │ gzip:   0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/horizon-BI67fDLz.js                                  0.21 kB │ gzip:   0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/pastell-UGwlnnV5.js                                  0.21 kB │ gzip:   0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/serioes-DDOb85Gz.js                                  0.21 kB │ gzip:   0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/sunrise-Bm5_LPBq.js                                  0.21 kB │ gzip:   0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/colorful-Cz_eSFHD.js                                 0.21 kB │ gzip:   0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/diagonal-BUVIsHCp.js                                 0.21 kB │ gzip:   0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/edelDark-CzF_qRT5.js                                 0.21 kB │ gzip:   0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/monoLuxe-DiJHzaMy.js                                 0.21 kB │ gzip:   0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/klassisch-0D591lVJ.js                                0.21 kB │ gzip:   0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/forestFlow-B6oL5V3s.js                               0.22 kB │ gzip:   0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/terracotta-CRkyOa3f.js                               0.22 kB │ gzip:   0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/violetPulse-D1eRQZ4V.js                              0.22 kB │ gzip:   0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/empty-plugin-adapters-Begls6uK.js                    0.24 kB │ gzip:   0.17 kB
+node_modules/.nitro/vite/services/ssr/assets/attachments-CJE1JyiS.js                              0.31 kB │ gzip:   0.21 kB
+node_modules/.nitro/vite/services/ssr/assets/start-J8gnrpd4.js                                    0.64 kB │ gzip:   0.39 kB
+node_modules/.nitro/vite/services/ssr/assets/aurora-DNWX59L4.js                                   1.45 kB │ gzip:   0.64 kB
+node_modules/.nitro/vite/services/ssr/assets/verlauf2-3cg5Kv3X.js                                 1.50 kB │ gzip:   0.67 kB
+node_modules/.nitro/vite/services/ssr/assets/verlauf3-DiUV_QMF.js                                 1.50 kB │ gzip:   0.67 kB
+node_modules/.nitro/vite/services/ssr/assets/warm2-DUU0ehtN.js                                    1.54 kB │ gzip:   0.73 kB
+node_modules/.nitro/vite/services/ssr/assets/verlauf-Cr5qWZYl.js                                  1.58 kB │ gzip:   0.74 kB
+node_modules/.nitro/vite/services/ssr/assets/cv-document-title-spacing-C4bEcSp_.js                1.61 kB │ gzip:   0.62 kB
+node_modules/.nitro/vite/services/ssr/assets/createStart-C2hoQe3X.js                              1.68 kB │ gzip:   0.59 kB
+node_modules/.nitro/vite/services/ssr/assets/design-docx-next-export-BRgFGzTg.js                  1.76 kB │ gzip:   0.77 kB
+node_modules/.nitro/vite/services/ssr/assets/studio-DDEh6LF2.js                                   1.88 kB │ gzip:   0.80 kB
+node_modules/.nitro/vite/services/ssr/assets/template-qa-switch-DFG_-M6M.js                       2.09 kB │ gzip:   0.89 kB
+node_modules/.nitro/vite/services/ssr/assets/DossierHyphenationControl-J9iu8OWc.js                2.20 kB │ gzip:   1.04 kB
+node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-JvkeCZfU.js               3.01 kB │ gzip:   0.74 kB
+node_modules/.nitro/vite/services/ssr/assets/app-theme-CCtDlbnY.js                                3.35 kB │ gzip:   1.22 kB
+node_modules/.nitro/vite/services/ssr/index.js                                                    3.41 kB │ gzip:   1.46 kB
+node_modules/.nitro/vite/services/ssr/assets/dossier-docx-family-BJi_cDwP.js                      3.56 kB │ gzip:   0.73 kB
+node_modules/.nitro/vite/services/ssr/assets/dossier-docx-package-CQxdPSAT.js                     4.37 kB │ gzip:   1.44 kB
+node_modules/.nitro/vite/services/ssr/assets/freundlich-Bzv6CSET.js                               4.90 kB │ gzip:   1.52 kB
+node_modules/.nitro/vite/services/ssr/assets/docx-next-cv-personal-metrics.browser-DsIiErAv.js    5.10 kB │ gzip:   2.18 kB
+node_modules/.nitro/vite/services/ssr/assets/sonne-C_ezJixC.js                                    6.42 kB │ gzip:   2.34 kB
+node_modules/.nitro/vite/services/ssr/assets/fresh-letter-system-CMBLHtus.js                      6.82 kB │ gzip:   1.72 kB
+node_modules/.nitro/vite/services/ssr/assets/dossier-docx-family-renderer-Bd3Sa1OG.js             9.54 kB │ gzip:   2.22 kB
+node_modules/.nitro/vite/services/ssr/assets/docx-next-interior-metrics.browser-BCfwY2fI.js      15.60 kB │ gzip:   5.23 kB
+node_modules/.nitro/vite/services/ssr/assets/dossier-transfer-CmgM69Td.js                        17.39 kB │ gzip:   4.86 kB
+node_modules/.nitro/vite/services/ssr/assets/studio2-refined-Cn5en4Xg.js                         18.60 kB │ gzip:   4.95 kB
+node_modules/.nitro/vite/services/ssr/assets/studio3-Bmaqrext.js                                 23.99 kB │ gzip:   6.22 kB
+node_modules/.nitro/vite/services/ssr/assets/DossierExportDialog-BcGHqPG1.js                     24.36 kB │ gzip:   6.24 kB
+node_modules/.nitro/vite/services/ssr/assets/brief-DQWq8xL1.js                                   26.40 kB │ gzip:   7.23 kB
+node_modules/.nitro/vite/services/ssr/assets/router-Dy3gkY1H.js                                  26.49 kB │ gzip:   7.88 kB
+node_modules/.nitro/vite/services/ssr/assets/dossier-docx-warm-CuO7I_2c.js                       27.93 kB │ gzip:   7.50 kB
+node_modules/.nitro/vite/services/ssr/assets/dossier-chrome-Ua5iwNI4.js                          37.03 kB │ gzip:   9.32 kB
+node_modules/.nitro/vite/services/ssr/assets/dossier-contact-B1-iId__.js                         47.31 kB │ gzip:   9.97 kB
+node_modules/.nitro/vite/services/ssr/assets/AddElementMenu-DWEeM7C4.js                          47.80 kB │ gzip:  11.14 kB
+node_modules/.nitro/vite/services/ssr/assets/shared-BIZAoTMP.js                                  53.02 kB │ gzip:  11.36 kB
+node_modules/.nitro/vite/services/ssr/assets/image-BSH1tFWv.js                                   64.50 kB │ gzip:  18.03 kB
+node_modules/.nitro/vite/services/ssr/assets/server-B7FeL_ws.js                                  69.03 kB │ gzip:  17.57 kB
+node_modules/.nitro/vite/services/ssr/assets/titelblatt-CM_EzHEf.js                              72.60 kB │ gzip:  17.16 kB
+node_modules/.nitro/vite/services/ssr/assets/cv-personal-info-iP-HlDxT.js                        84.45 kB │ gzip:  23.80 kB
+node_modules/.nitro/vite/services/ssr/assets/anschreiben-Wjeh3zfi.js                            107.15 kB │ gzip:  22.47 kB
+node_modules/.nitro/vite/services/ssr/assets/routes-CGJwOxmP.js                                 118.97 kB │ gzip:  30.82 kB
+node_modules/.nitro/vite/services/ssr/assets/cv-flow-columns-XOeQuBzW.js                        142.71 kB │ gzip:  27.93 kB
+node_modules/.nitro/vite/services/ssr/assets/lebenslauf-BEggltOd.js                             161.90 kB │ gzip:  32.87 kB
+node_modules/.nitro/vite/services/ssr/assets/brief-docx-next-export-BgAO5uZC.js                 333.43 kB │ gzip:  76.13 kB
+node_modules/.nitro/vite/services/ssr/assets/dossier-pdf-BFid2Vpu.js                            443.85 kB │ gzip: 109.25 kB
+
+✓ built in 2.39s
+
+[nitro] ◐ Building [Nitro] (preset: cloudflare-module, compatibility: 2026-10-15)
+[nitro] ✔ Generated public .output/public
+vite v8.0.16 building nitro environment for production...
+
+ WARN  inlineDynamicImports option is ignored because the codeSplitting option is specified.
+
+[2Ktransforming...✓ 2221 modules transformed.
+rendering chunks...
+computing gzip size...
+.output/server/_ssr/empty-plugin-adapters-Begls6uK.mjs                    0.24 kB │ gzip:   0.17 kB
+.output/server/_ssr/cove-BetgU0pe.mjs                                     0.25 kB │ gzip:   0.19 kB
+.output/server/_ssr/edel-Dz_vtAos.mjs                                     0.25 kB │ gzip:   0.19 kB
+.output/server/_ssr/edge-V-OArNpo.mjs                                     0.25 kB │ gzip:   0.20 kB
+.output/server/_ssr/glow-X9rD_6vV.mjs                                     0.25 kB │ gzip:   0.20 kB
+.output/server/_ssr/neon-Dq77B9n5.mjs                                     0.25 kB │ gzip:   0.20 kB
+.output/server/_ssr/human-BkyShTiD.mjs                                    0.25 kB │ gzip:   0.20 kB
+.output/server/_ssr/orbit-CJ3Tr9Km.mjs                                    0.25 kB │ gzip:   0.20 kB
+.output/server/_ssr/prism-D97_SfNf.mjs                                    0.25 kB │ gzip:   0.20 kB
+.output/server/_ssr/warm3-BubTm5sb.mjs                                    0.25 kB │ gzip:   0.20 kB
+.output/server/_ssr/warm4-Dd6gF9BE.mjs                                    0.25 kB │ gzip:   0.20 kB
+.output/server/_ssr/warm5-DqZfst4O.mjs                                    0.25 kB │ gzip:   0.20 kB
+.output/server/_ssr/welle-CbrsD_p_.mjs                                    0.25 kB │ gzip:   0.19 kB
+.output/server/_ssr/citrus-DCvwKZUC.mjs                                   0.25 kB │ gzip:   0.20 kB
+.output/server/_ssr/ledger-Bhtn4W3K.mjs                                   0.25 kB │ gzip:   0.20 kB
+.output/server/_ssr/modern-CSJfD-Ot.mjs                                   0.25 kB │ gzip:   0.20 kB
+.output/server/_ssr/ribbon-BhDyRwqp.mjs                                   0.25 kB │ gzip:   0.20 kB
+.output/server/_ssr/blockig-U9eegYFY.mjs                                  0.25 kB │ gzip:   0.20 kB
+.output/server/_ssr/gallery-E6pk-Gyj.mjs                                  0.25 kB │ gzip:   0.20 kB
+.output/server/_ssr/horizon-BI67fDLz.mjs                                  0.25 kB │ gzip:   0.20 kB
+.output/server/_ssr/pastell-UGwlnnV5.mjs                                  0.25 kB │ gzip:   0.20 kB
+.output/server/_ssr/serioes-DDOb85Gz.mjs                                  0.25 kB │ gzip:   0.20 kB
+.output/server/_ssr/sunrise-Bm5_LPBq.mjs                                  0.25 kB │ gzip:   0.20 kB
+.output/server/_ssr/colorful-Cz_eSFHD.mjs                                 0.25 kB │ gzip:   0.20 kB
+.output/server/_ssr/diagonal-BUVIsHCp.mjs                                 0.25 kB │ gzip:   0.20 kB
+.output/server/_ssr/edelDark-CzF_qRT5.mjs                                 0.25 kB │ gzip:   0.20 kB
+.output/server/_ssr/monoLuxe-DiJHzaMy.mjs                                 0.25 kB │ gzip:   0.20 kB
+.output/server/_ssr/klassisch-0D591lVJ.mjs                                0.26 kB │ gzip:   0.20 kB
+.output/server/_ssr/forestFlow-B6oL5V3s.mjs                               0.26 kB │ gzip:   0.20 kB
+.output/server/_ssr/terracotta-CRkyOa3f.mjs                               0.26 kB │ gzip:   0.20 kB
+.output/server/_ssr/violetPulse-D1eRQZ4V.mjs                              0.26 kB │ gzip:   0.20 kB
+.output/server/_chunks/ssr-renderer.mjs                                   0.63 kB │ gzip:   0.37 kB
+.output/server/_ssr/start-J8gnrpd4.mjs                                    0.71 kB │ gzip:   0.43 kB
+.output/server/_libs/hookable.mjs                                         1.18 kB │ gzip:   0.52 kB
+.output/server/_runtime.mjs                                               1.48 kB │ gzip:   0.69 kB
+.output/server/_ssr/aurora-DNWX59L4.mjs                                   1.50 kB │ gzip:   0.68 kB
+.output/server/_ssr/verlauf2-3cg5Kv3X.mjs                                 1.54 kB │ gzip:   0.71 kB
+.output/server/_ssr/verlauf3-DiUV_QMF.mjs                                 1.54 kB │ gzip:   0.71 kB
+.output/server/_ssr/createStart-C2hoQe3X.mjs                              1.58 kB │ gzip:   0.59 kB
+.output/server/_ssr/warm2-DUU0ehtN.mjs                                    1.58 kB │ gzip:   0.77 kB
+.output/server/_ssr/verlauf-Cr5qWZYl.mjs                                  1.62 kB │ gzip:   0.78 kB
+.output/server/_ssr/design-docx-next-export-BRgFGzTg.mjs                  1.83 kB │ gzip:   0.82 kB
+.output/server/_ssr/studio-DDEh6LF2.mjs                                   1.92 kB │ gzip:   0.84 kB
+.output/server/_ssr/template-qa-switch-DFG_-M6M.mjs                       2.36 kB │ gzip:   1.00 kB
+.output/server/_ssr/DossierHyphenationControl-J9iu8OWc.mjs                2.57 kB │ gzip:   1.15 kB
+.output/server/_tanstack-start-manifest_v-JvkeCZfU.mjs                    3.08 kB │ gzip:   0.79 kB
+.output/server/_ssr/ssr.mjs                                               3.36 kB │ gzip:   1.47 kB
+.output/server/_ssr/dossier-docx-family-BJi_cDwP.mjs                      3.62 kB │ gzip:   0.78 kB
+.output/server/_libs/babel__runtime.mjs                                   4.21 kB │ gzip:   1.39 kB
+.output/server/_ssr/dossier-docx-package-CQxdPSAT.mjs                     4.44 kB │ gzip:   1.49 kB
+.output/server/_ssr/freundlich-Bzv6CSET.mjs                               4.88 kB │ gzip:   1.55 kB
+.output/server/_ssr/docx-next-cv-personal-metrics.browser-DsIiErAv.mjs    5.40 kB │ gzip:   2.29 kB
+.output/server/_ssr/sonne-C_ezJixC.mjs                                    6.47 kB │ gzip:   2.39 kB
+.output/server/_ssr/dossier-docx-family-renderer-Bd3Sa1OG.mjs             9.61 kB │ gzip:   2.27 kB
+.output/server/_libs/h3-v2+srvx.mjs                                       9.76 kB │ gzip:   3.03 kB
+.output/server/_libs/fflate.mjs                                          11.90 kB │ gzip:   4.40 kB
+.output/server/_libs/tanstack__history.mjs                               12.52 kB │ gzip:   3.72 kB
+.output/server/_libs/lucide-react.mjs                                    12.52 kB │ gzip:   2.66 kB
+.output/server/_libs/h3+rou3+srvx.mjs                                    14.26 kB │ gzip:   4.24 kB
+.output/server/_ssr/docx-next-interior-metrics.browser-BCfwY2fI.mjs      16.08 kB │ gzip:   5.35 kB
+.output/server/_libs/react+tanstack__react-query.mjs                     17.63 kB │ gzip:   4.66 kB
+.output/server/_ssr/dossier-transfer-CmgM69Td.mjs                        17.83 kB │ gzip:   4.91 kB
+.output/server/_ssr/studio2-refined-Cn5en4Xg.mjs                         18.58 kB │ gzip:   4.99 kB
+.output/server/_ssr/studio3-Bmaqrext.mjs                                 23.92 kB │ gzip:   6.25 kB
+.output/server/_ssr/DossierExportDialog-BcGHqPG1.mjs                     26.31 kB │ gzip:   6.36 kB
+.output/server/_ssr/brief-DQWq8xL1.mjs                                   26.34 kB │ gzip:   7.24 kB
+.output/server/_ssr/router-Dy3gkY1H.mjs                                  26.53 kB │ gzip:   7.92 kB
+.output/server/_ssr/dossier-docx-warm-CuO7I_2c.mjs                       27.94 kB │ gzip:   7.53 kB
+.output/server/_libs/@tanstack/router-core+[...].mjs                     29.87 kB │ gzip:   8.00 kB
+.output/server/index.mjs                                                 30.47 kB │ gzip:   7.68 kB
+.output/server/_ssr/app-theme-CCtDlbnY.mjs                               42.00 kB │ gzip:  10.62 kB
+.output/server/_libs/tanstack__query-core.mjs                            48.20 kB │ gzip:  10.67 kB
+.output/server/_ssr/dossier-contact-B1-iId__.mjs                         51.76 kB │ gzip:  10.10 kB
+.output/server/_ssr/shared-BIZAoTMP.mjs                                  52.60 kB │ gzip:  11.33 kB
+.output/server/_ssr/AddElementMenu-DWEeM7C4.mjs                          53.32 kB │ gzip:  11.28 kB
+.output/server/_ssr/image-BSH1tFWv.mjs                                   66.90 kB │ gzip:  18.11 kB
+.output/server/_ssr/server-B7FeL_ws.mjs                                  66.91 kB │ gzip:  17.36 kB
+.output/server/_libs/dompurify.mjs                                       74.32 kB │ gzip:  20.31 kB
+.output/server/_ssr/titelblatt-CM_EzHEf.mjs                              79.20 kB │ gzip:  17.43 kB
+.output/server/_ssr/anschreiben-Wjeh3zfi.mjs                            114.95 kB │ gzip:  22.75 kB
+.output/server/_ssr/routes-CGJwOxmP.mjs                                 120.53 kB │ gzip:  30.82 kB
+.output/server/_libs/fast-png+iobuffer+pako.mjs                         143.18 kB │ gzip:  32.97 kB
+.output/server/_ssr/lebenslauf-BEggltOd.mjs                             176.36 kB │ gzip:  33.72 kB
+.output/server/_libs/html2canvas.mjs                                    318.31 kB │ gzip:  63.06 kB
+.output/server/_ssr/brief-docx-next-export-BgAO5uZC.mjs                 330.81 kB │ gzip:  75.70 kB
+.output/server/_libs/canvg+[...].mjs                                    333.58 kB │ gzip:  72.89 kB
+.output/server/_libs/html2canvas-pro.mjs                                429.75 kB │ gzip:  94.53 kB
+.output/server/_libs/react-dom+scheduler.mjs                            462.73 kB │ gzip:  87.81 kB
+.output/server/_libs/jspdf.mjs                                          477.35 kB │ gzip: 124.32 kB
+.output/server/_ssr/dossier-pdf-BFid2Vpu.mjs                            682.01 kB │ gzip: 159.45 kB
+.output/server/_libs/@tanstack/react-router+[...].mjs                   760.13 kB │ gzip: 161.08 kB
+
+✓ built in 1.05s
+[nitro] ℹ Using auto generated worker name: tanstack-start-ts
+ℹ Generated .output/server/wrangler.json
+ℹ Generated .wrangler/deploy/config.json
+ℹ Generated .output/public/_headers
+ℹ Generated .output/nitro.json
+
+[nitro] ✔ You can preview this build using npx vite preview
+[nitro] ✔ You can deploy this build using npx nitro deploy --prebuilt

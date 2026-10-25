@@ -22,15 +22,18 @@ import {
 } from "@/lib/dossier-page-margins";
 import { freshLetterSpec } from "./fresh-letter-system";
 import { letterPaginationPageContext } from "./letter-page-context";
-import "./fresh-letter-integrity.css";
 import {
-  letterAttachmentValues,
+  dossierDefaultContentTopMm,
+  dossierContinuationContentTopMm,
+} from "@/lib/dossier-reading-settings";
+import {
   type LetterData,
   type LetterDesign,
   type LetterFooterMode,
   type LetterHeaderMode,
   type LetterTemplateId,
 } from "./types";
+import { letterAttachmentValues } from "./attachments";
 import {
   isWarmFirstPageCompactHeader,
   WARM_FIRST_PAGE_HEADER_HEIGHT_MM,
@@ -41,6 +44,8 @@ export const LETTER_PAGE_MM = { width: 210, height: 297 } as const;
 export type LetterArchetype = "quiet" | "band" | "sidebar" | "frame" | "fresh";
 
 export type LetterPageContext = {
+  /** Detached export snapshot. Missing means the live editor margin store. */
+  pageMargins?: DossierPageMargins | null;
   /** Zero-based page index supplied by the shared letter-document paginator. */
   pageIndex?: number;
   /** Attachments belong only on the final page of a multi-page letter. */
@@ -261,22 +266,11 @@ function letterContentTopMm(
   mode: LetterHeaderMode,
   context: LetterPageContext,
 ): number {
-  if (mode === "none") return pageIndex > 0 ? 16 : 18;
-
-  // Warm's first page deliberately owns a 52 mm masthead. Reserve the actual
-  // masthead instead of a generic compact-header value.
-  if (isWarmFirstPageCompactHeader(design.template, mode, pageIndex)) {
-    return WARM_FIRST_PAGE_HEADER_HEIGHT_MM;
-  }
-
-  const height = letterHeaderVisualHeightMm(design, pageIndex, mode, context);
-  const differentFirstPage = context.chromeOptions
-    ? context.chromeOptions.headerDifferentFirstPage !== false
-    : design.headerDifferentFirstPage !== false;
-  if (pageIndex > 0 && differentFirstPage) {
-    return mode === "contact" ? Math.max(18, height + 10) : Math.max(18, height + 15);
-  }
-  return mode === "contact" ? Math.max(18, height + 9) : Math.max(18, height + 18);
+  return dossierDefaultContentTopMm(
+    letterHeaderReserveMm(design, pageIndex, mode, context),
+    letterHeaderGapMm(mode, { ...context, headerGapMm: context.headerGapMm ?? 12 }),
+    letterContentMarginMinimums(design).top,
+  );
 }
 
 function letterPageReservesMm(
@@ -304,14 +298,8 @@ const roundHalfMm = (value: number) => Math.round(value * 2) / 2;
  * header/footer reserve is not baked into these values; it is composed exactly
  * once by letterPageGeometry.
  */
-export function letterSafePageMarginMinimums(
-  data: LetterData,
-  design: LetterDesign,
-  context: LetterPageContext = {},
-): DossierPageMargins {
+function letterContentMarginMinimums(design: LetterDesign): DossierPageMargins {
   const floor = DOSSIER_PAGE_MARGIN_MIN_MM;
-  const paginationContext = letterPaginationPageContext(design);
-  const pageIndex = Math.max(0, context.pageIndex ?? paginationContext?.pageIndex ?? 0);
   const fresh = freshLetterSpec(design.template);
   const archetype = fresh?.archetype ?? letterArchetypeFor(design.template);
 
@@ -340,14 +328,22 @@ export function letterSafePageMarginMinimums(
     if (railRight > 0) left = Math.max(left, railRight + 5);
   }
 
+  return {
+    top: roundHalfMm(templateTop),
+    right: roundHalfMm(right),
+    bottom: roundHalfMm(templateBottom),
+    left: roundHalfMm(left),
+  };
+}
+
+export function letterSafePageMarginMinimums(
+  data: LetterData,
+  design: LetterDesign,
+  context: LetterPageContext = {},
+): DossierPageMargins {
   return dossierPageMarginMinimumsForContentMinimums(
-    {
-      top: roundHalfMm(templateTop),
-      right: roundHalfMm(right),
-      bottom: roundHalfMm(templateBottom),
-      left: roundHalfMm(left),
-    },
-    letterPageReservesMm(data, design, { ...context, pageIndex }),
+    letterContentMarginMinimums(design),
+    letterPageReservesMm(data, design, context),
   );
 }
 
@@ -370,9 +366,7 @@ export function letterDefaultPageMargins(
   const contentMargins: DossierPageMargins = {
     left: insets.left,
     right: insets.right,
-    top:
-      letterContentTopMm(design, pageIndex, headerMode, context) +
-      letterHeaderGapMm(headerMode, context),
+    top: letterContentTopMm(design, pageIndex, headerMode, context),
     bottom: CV_PAGE_MARGIN_BOTTOM_MM + footerHeight,
   };
   const minimums = letterSafePageMarginMinimums(data, design, context);
@@ -406,10 +400,10 @@ export function letterPageGeometry(
   const defaultInsets = fresh
     ? { left: fresh.left, right: fresh.right }
     : CONTENT_INSETS[archetype];
-  const headerGapMm = letterHeaderGapMm(headerMode, context);
-  const defaultTop = letterContentTopMm(design, pageIndex, headerMode, context) + headerGapMm;
+  const defaultTop = letterContentTopMm(design, pageIndex, headerMode, context);
   const defaultBottom = CV_PAGE_MARGIN_BOTTOM_MM + footerHeight;
-  const storedCustomMargins = getDossierPageMargins("letter");
+  const storedCustomMargins =
+    "pageMargins" in context ? context.pageMargins : getDossierPageMargins("letter");
   const customContentMargins = storedCustomMargins
     ? resolveDossierContentMargins(
         storedCustomMargins,
@@ -420,7 +414,14 @@ export function letterPageGeometry(
   const insets = customContentMargins
     ? { left: customContentMargins.left, right: customContentMargins.right }
     : defaultInsets;
-  const top = customContentMargins?.top ?? defaultTop;
+  const top =
+    !firstPage && typeof design.continuationTopMarginMm === "number"
+      ? dossierContinuationContentTopMm(
+          design.continuationTopMarginMm,
+          letterHeaderVisualHeightMm(design, pageIndex, headerMode, context),
+          letterContentMarginMinimums(design).top,
+        )
+      : (customContentMargins?.top ?? defaultTop);
   const bottom = customContentMargins?.bottom ?? defaultBottom;
   const width = LETTER_PAGE_MM.width - insets.left - insets.right;
   const height = LETTER_PAGE_MM.height - top - bottom;

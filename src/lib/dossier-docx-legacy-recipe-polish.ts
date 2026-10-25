@@ -72,7 +72,10 @@ function hex(value: string | undefined, fallback: string) {
 function luminance(color: string) {
   const raw = color.replace("#", "");
   const channels = [0, 2, 4].map((offset) => parseInt(raw.slice(offset, offset + 2), 16) / 255);
-  return channels.reduce((sum, channel, index) => sum + channel * [0.2126, 0.7152, 0.0722][index], 0);
+  return channels.reduce(
+    (sum, channel, index) => sum + channel * [0.2126, 0.7152, 0.0722][index],
+    0,
+  );
 }
 
 function xmlEscape(value: string) {
@@ -112,11 +115,7 @@ function setParagraphColor(source: string, text: string, color: string) {
 
 function sectionRanges(source: string) {
   const matches = [...source.matchAll(/<w:sectPr>[\s\S]*?<\/w:sectPr>/g)];
-  if (
-    matches.length < 2 ||
-    matches[0].index === undefined ||
-    matches[1].index === undefined
-  ) {
+  if (matches.length < 2 || matches[0].index === undefined || matches[1].index === undefined) {
     return null;
   }
   return [
@@ -134,7 +133,11 @@ function patchSection(
   const ranges = sectionRanges(source);
   if (!ranges) return source;
   const range = ranges[sectionIndex];
-  return source.slice(0, range.start) + mutate(source.slice(range.start, range.end)) + source.slice(range.end);
+  return (
+    source.slice(0, range.start) +
+    mutate(source.slice(range.start, range.end)) +
+    source.slice(range.end)
+  );
 }
 
 function senderColor(letter: LetterPdfDocument) {
@@ -225,7 +228,8 @@ function restorePhotoInitials(source: string, cover: CoverPdfDocument) {
       const needle = `>${xmlEscape(value)}</w:t>`;
       const flowIndex = next.indexOf(needle, textboxEnd);
       if (flowIndex >= 0) {
-        next = next.slice(0, flowIndex + 1) + next.slice(flowIndex + 1).replace(xmlEscape(value), "");
+        next =
+          next.slice(0, flowIndex + 1) + next.slice(flowIndex + 1).replace(xmlEscape(value), "");
       }
     }
     if (DARK_COVER_INITIALS_TEMPLATES.has(String(cover.template))) {
@@ -246,7 +250,9 @@ function moveCoverPhotoFrame(source: string, templateId: string) {
       ["warm-cover-photo", top + 1],
     ] as const) {
       const escaped = id.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      const pattern = new RegExp(`(\\bid="${escaped}"[^>]*\\bstyle="[^"]*?margin-top:)-?\\d+(?:\\.\\d+)?mm`);
+      const pattern = new RegExp(
+        `(\\bid="${escaped}"[^>]*\\bstyle="[^"]*?margin-top:)-?\\d+(?:\\.\\d+)?mm`,
+      );
       next = next.replace(pattern, `$1${y}mm`);
     }
     return next;
@@ -276,7 +282,9 @@ function restoreCoverBlocksContrast(source: string, cover: CoverPdfDocument) {
 
   return patchSection(source, 0, (coverXml) => {
     let next = coverXml;
-    const attachmentTexts = ["BEILAGEN", ...(cover.data.beilagen ?? [])].filter(Boolean) as string[];
+    const attachmentTexts = ["BEILAGEN", ...(cover.data.beilagen ?? [])].filter(
+      Boolean,
+    ) as string[];
     for (const text of attachmentTexts) next = setParagraphColor(next, text, DARK_TEXT);
 
     // Blockig's recipe contact block does not line up with the Warm flow row;

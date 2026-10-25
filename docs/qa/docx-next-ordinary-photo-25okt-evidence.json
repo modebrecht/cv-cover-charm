@@ -1,0 +1,70 @@
+{
+  "baseCommit": "7b424023d286b4fc47ccebdbc8f86ab923156f3b",
+  "candidateSha256": "03379503d8f09a8362b13f78f07c2eadedaf6c74d1c5aaa1a13a2254f957f018",
+  "wordScreenshotShowsPriorVersionPages": 5,
+  "sourceCorrection": "reuse existing CV table opening paragraph; no separate body photo paragraph",
+  "ordinaryPictureAncestors": [
+    "graphicData",
+    "graphic",
+    "anchor",
+    "drawing",
+    "r",
+    "p",
+    "tc",
+    "tr",
+    "tbl",
+    "body",
+    "document"
+  ],
+  "layoutInCell": 0,
+  "anchorLocked": false,
+  "verticalAnchor": "paragraph",
+  "verticalOffsetEmu": 0,
+  "contentControlOrTextFrame": false,
+  "pictureSubtreeOriginalAndCropUnchanged": true,
+  "bodyTextAndCanonicalTextFieldsUnchanged": true,
+  "onlyChangedPackagePart": "word/document.xml",
+  "internalPdfPageCount": 4,
+  "internalPdfComparison": [
+    {
+      "page": 1,
+      "textUnchanged": true,
+      "pixelsUnchanged": true
+    },
+    {
+      "page": 2,
+      "textUnchanged": true,
+      "pixelsUnchanged": true
+    },
+    {
+      "page": 3,
+      "textUnchanged": true,
+      "pixelsUnchanged": false
+    },
+    {
+      "page": 4,
+      "textUnchanged": true,
+      "pixelsUnchanged": true
+    }
+  ],
+  "allFourPagesReviewed": true,
+  "wordUiAndPaginationAfterCorrection": "UNVERIFIED",
+  "userPriorities": [
+    "photo page regression",
+    "reference wrapping"
+  ],
+  "rubricMoveIsMandatory": false,
+  "extraSaveMatrixRequested": false,
+  "unitTests": {
+    "pass": 1418,
+    "fail": 0,
+    "files": 276,
+    "expects": 27038
+  },
+  "typecheck": "PASS",
+  "scopedEslint": "PASS",
+  "scopedPrettier": "PASS",
+  "productionBuildRerun": false,
+  "library_file_id": "libfile_bd54fc4069388191ac5044c6bc04f3d6",
+  "libraryVersion": 1
+}

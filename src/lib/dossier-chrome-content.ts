@@ -76,11 +76,7 @@ export function withDossierChromeDocumentContent(
   if (!hasTitle && !hasText) return options;
 
   const baseHeight =
-    options.headerMode === "contact"
-      ? options.headerTextLayout === "inline"
-        ? 26
-        : 32
-      : 4;
+    options.headerMode === "contact" ? (options.headerTextLayout === "inline" ? 26 : 32) : 4;
   const automaticHeight = baseHeight + (hasTitle ? 5 : 0) + (hasText ? 4 : 0);
 
   return { ...options, headerHeightMm: automaticHeight };

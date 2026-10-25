@@ -281,10 +281,7 @@ export function freshLetterSpec(template: string): FreshLetterSpec | null {
   return isFreshLetterTemplate(template) ? FRESH_LETTER_SPECS[template] : null;
 }
 
-export function motifIntersectsReadingBox(
-  motif: FreshLetterMotif,
-  spec: FreshLetterSpec,
-): boolean {
+export function motifIntersectsReadingBox(motif: FreshLetterMotif, spec: FreshLetterSpec): boolean {
   const reading = {
     left: spec.left,
     right: LETTER_SHEET_MM.width - spec.right,

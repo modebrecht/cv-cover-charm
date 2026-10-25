@@ -1,0 +1,158 @@
+{
+  "originalSha256": "936416981a8e980ac61101b623a26b15a379e3f594c11ec53607f996c20d3337",
+  "returnedSha256": "967cbf6177acc800c875a410d68f537a0c643224da4697b6771745bde842ff82",
+  "wordPdfSha256": "9f0121b6c7d0091658732b553da10ea4a63c1088a3b4a9c10113726553cfa203",
+  "pdfProducer": "Microsoft\u00ae Word for Microsoft 365",
+  "pages": 4,
+  "nativeControlsRetained": 82,
+  "allControlTextPresentInPdf": true,
+  "coverFramesGeometryRetained": 11,
+  "badgeAssetAndAnchorUnchanged": true,
+  "badge": {
+    "sha256": "03bf12f4a4af6230176a64c884225c84111d4ba9cc4e0613a87415f5ff401b8c",
+    "extent": {
+      "cx": "1940439",
+      "cy": "317892"
+    },
+    "x": "720000",
+    "y": "6000120",
+    "behindDoc": "1",
+    "originH": "page",
+    "originV": "page",
+    "centerRGBA": [
+      245,
+      63,
+      94,
+      173
+    ]
+  },
+  "compactSavedExtentsUnchanged": true,
+  "wordPdfPaintBounds": [
+    {
+      "page": 2,
+      "bboxPt": [
+        0.0,
+        -2.47955322265625e-05,
+        592.9400024414062,
+        9.5999755859375
+      ],
+      "rightGapMm": 0.8396128336588542
+    },
+    {
+      "page": 2,
+      "bboxPt": [
+        0.0,
+        832.2499389648438,
+        592.9400024414062,
+        841.8499145507812
+      ],
+      "rightGapMm": 0.8396128336588542
+    },
+    {
+      "page": 2,
+      "bboxPt": [
+        0.0,
+        9.599987983703613,
+        595.0,
+        11.29998779296875
+      ],
+      "rightGapMm": 0.11289147271050345
+    },
+    {
+      "page": 2,
+      "bboxPt": [
+        0.0,
+        830.5499877929688,
+        595.0,
+        832.25
+      ],
+      "rightGapMm": 0.11289147271050345
+    },
+    {
+      "page": 3,
+      "bboxPt": [
+        0.0,
+        -2.47955322265625e-05,
+        592.9400024414062,
+        9.5999755859375
+      ],
+      "rightGapMm": 0.8396128336588542
+    },
+    {
+      "page": 3,
+      "bboxPt": [
+        0.0,
+        832.2499389648438,
+        592.9400024414062,
+        841.8499145507812
+      ],
+      "rightGapMm": 0.8396128336588542
+    },
+    {
+      "page": 3,
+      "bboxPt": [
+        0.0,
+        9.599987983703613,
+        595.0,
+        11.29998779296875
+      ],
+      "rightGapMm": 0.11289147271050345
+    },
+    {
+      "page": 3,
+      "bboxPt": [
+        0.0,
+        830.5499877929688,
+        595.0,
+        832.25
+      ],
+      "rightGapMm": 0.11289147271050345
+    },
+    {
+      "page": 4,
+      "bboxPt": [
+        0.0,
+        -2.47955322265625e-05,
+        592.9400024414062,
+        9.5999755859375
+      ],
+      "rightGapMm": 0.8396128336588542
+    },
+    {
+      "page": 4,
+      "bboxPt": [
+        0.0,
+        832.2499389648438,
+        592.9400024414062,
+        841.8499145507812
+      ],
+      "rightGapMm": 0.8396128336588542
+    },
+    {
+      "page": 4,
+      "bboxPt": [
+        0.0,
+        9.599987983703613,
+        595.0,
+        11.29998779296875
+      ],
+      "rightGapMm": 0.11289147271050345
+    },
+    {
+      "page": 4,
+      "bboxPt": [
+        0.0,
+        830.5499877929688,
+        595.0,
+        832.25
+      ],
+      "rightGapMm": 0.11289147271050345
+    }
+  ],
+  "headingColors": {
+    "KONTAKT": "#F44664",
+    "BEILAGEN": "#F44664"
+  },
+  "visiblePillFillSrgb": "#F5798E",
+  "note": "The PDF proves the observed Word output after save; first-open versus Save/Reopen causality is not isolated."
+}

@@ -1,0 +1,37 @@
+{
+  "sourceCommit": "560345bb39042da0c15909a78673a235740a1ac7",
+  "returnedDocxSha256": "a73baa4d3da216139ae383e146c8615a029c79a3b814f4f2b555c8c98b437726",
+  "wordPdfSha256": "41ae75746d1581fb3f937a47b4cfb63ebc47b94ae5771983b64bb91ccc87eb27",
+  "producer": "Microsoft\u00ae Word for Microsoft 365",
+  "pages": 4,
+  "nativeControlIdsRetained": 82,
+  "intentionalEdits": {
+    "cover.kontaktTitel": {
+      "before": "Kontakt",
+      "after": "Kontaktibus"
+    }
+  },
+  "allSavedTextInWordPdf": true,
+  "interiorPaint": [
+    {
+      "page": 2,
+      "bboxPt": [0.0, -0.00018310546875, 595.25, 841.8497924804688],
+      "rightGapMm": 0.02469702826605903,
+      "oneSharedTransform": true
+    },
+    {
+      "page": 3,
+      "bboxPt": [0.0, -0.00018310546875, 595.25, 841.8497924804688],
+      "rightGapMm": 0.02469702826605903,
+      "oneSharedTransform": true
+    },
+    {
+      "page": 4,
+      "bboxPt": [0.0, -0.00018310546875, 595.25, 841.8497924804688],
+      "rightGapMm": 0.02469702826605903,
+      "oneSharedTransform": true
+    }
+  ],
+  "originalUnequalWidthDefect": "PASS for this normal returned file",
+  "latestContactAndAccentWordAcceptance": "UNVERIFIED"
+}

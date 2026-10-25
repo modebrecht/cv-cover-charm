@@ -32,12 +32,22 @@ import { pictureGeometry } from "./picture-geometry";
 import { paintPng } from "./artwork";
 import { planPartSections, type PlannedSection } from "./section-plan";
 import { tableColumnWidths } from "./layouts";
+import { nativeTextShapeRun } from "./native-text-shape";
+import { nativePictureFrameRun } from "./native-picture-frame";
+import { nativeVMLAvatarRun } from "./native-vml-avatar";
+import { flowSurfacePaint } from "./flow-surface";
 import { parallelFlowTable } from "./parallel-flow";
 import { imageZoneTable } from "./image-zone";
 import { cellProperties, planCellRowSpans } from "./native-cell";
-import { decorationPageGeometry, orderedPagePaint, compositePagePaint } from "./page-artwork";
+import {
+  decorationPageGeometry,
+  orderedPagePaint,
+  compositePagePaint,
+  nativePagePaintGeometry,
+} from "./page-artwork";
 import {
   control,
+  pictureControl,
   paragraph,
   emptyParagraph,
   emptyParagraphWithRuns,
@@ -88,6 +98,8 @@ export async function renderDossierDocx(
   const blocks = [model.cover, model.letter, model.cv].flatMap((part) => [
     ...walkBlocks(part.blocks),
     ...(part.headerShapes ?? []),
+    ...(part.headerFrames ?? []),
+    ...(part.headerImages ?? []),
   ]);
   if (
     blocks.some((block) => block.kind === "paragraph-frame") &&
@@ -111,8 +123,35 @@ export async function renderDossierDocx(
       ...part.footer,
       ...(part.firstFooter ?? []),
       ...(part.headerShapes ?? []),
+      ...(part.headerFrames ?? []),
+      ...(part.headerImages ?? []),
     ]),
   );
+  if (
+    storyBlocks.some(
+      (block) =>
+        block.kind === "table" && block.rows.some((row) => row.minimumHeightMm !== undefined),
+    ) &&
+    !options.allowUnacceptedModelIssues
+  )
+    throw Error("DOCX Next table row minimum height is unaccepted; diagnostic opt-in required");
+  if (
+    storyBlocks.some((block) => block.kind === "image" && block.nativeOwner) &&
+    !options.allowUnacceptedModelIssues
+  )
+    throw Error("DOCX Next page picture ownership is unaccepted; diagnostic opt-in required");
+  if (
+    storyBlocks.some((b) => b.kind === "table" && b.afterMm !== undefined) &&
+    !options.allowUnacceptedModelIssues
+  )
+    throw Error("DOCX Next table after-spacing requires the explicit candidate gate");
+  if (
+    storyBlocks.some(
+      (b) => b.kind === "paragraph" && (b.flowSurface || b.fieldControls || b.tabStopsMm),
+    ) &&
+    !options.allowUnacceptedModelIssues
+  )
+    throw Error("DOCX Next measured interior composition requires the explicit candidate gate");
   if (
     storyBlocks.some((block) => block.kind === "table" && block.bodyBoundary !== undefined) &&
     !options.allowUnacceptedModelIssues
@@ -132,6 +171,11 @@ export async function renderDossierDocx(
     !options.allowUnacceptedModelIssues
   )
     throw new Error("DOCX Next table identity carrier is unaccepted; diagnostic opt-in required");
+  if (
+    [model.cover, model.letter, model.cv].some((part) => part.pagePaintCoverage) &&
+    !options.allowUnacceptedModelIssues
+  )
+    throw Error("DOCX Next native page coverage requires the explicit candidate gate");
   if (
     storyBlocks.some(
       (block) =>
@@ -164,7 +208,11 @@ export async function renderDossierDocx(
   }
   for (const part of [model.cover, model.letter, model.cv])
     for (const block of [
-      ...walkBlocks(part.blocks),
+      ...walkBlocks(part.blocks).flatMap((block) =>
+        block.kind === "paragraph" && block.flowSurface
+          ? [block, flowSurfacePaint(block)]
+          : [block],
+      ),
       ...(part.pagePaintComposition
         ? [...composedPaint.values()].filter((p) => p.id.startsWith(part.id + "."))
         : (part.headerShapes ?? [])),
@@ -210,6 +258,8 @@ export async function renderDossierDocx(
     page: DocumentPart["page"],
     behind = false,
     paintLayer?: number,
+    authoredParagraphOffsets = false,
+    noTextWrap = false,
   ): string {
     if (
       paintLayer !== undefined &&
@@ -230,7 +280,10 @@ export async function renderDossierDocx(
         ? `<a:gd name="adj" fmla="val ${geometry.cornerAdjustment}"/>`
         : "";
     const picture = `<a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic><pic:nvPicPr><pic:cNvPr id="${id}" name="${xml(value.id)}"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="${rid}"/><a:srcRect l="${crop.left}" t="${crop.top}" r="${crop.right}" b="${crop.bottom}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm><a:prstGeom prst="${geometry.shape}"><a:avLst>${corners}</a:avLst></a:prstGeom>${outline}</pic:spPr></pic:pic></a:graphicData></a:graphic>`;
-    const extent = `<wp:extent cx="${cx}" cy="${cy}"/><wp:effectExtent l="0" t="0" r="0" b="0"/>`;
+    // Word paints picture outlines outside the image's fill bounds. Reserve the
+    // complete stroke on each edge so an inline line box cannot clip its paint.
+    const paintExtent = emu(geometry.borderWidthMm);
+    const extent = `<wp:extent cx="${cx}" cy="${cy}"/><wp:effectExtent l="${paintExtent}" t="${paintExtent}" r="${paintExtent}" b="${paintExtent}"/>`;
     const properties = `<wp:docPr id="${id}" name="${xml(value.id)}" descr="${xml(value.alt)}"/><wp:cNvGraphicFramePr><a:graphicFrameLocks noChangeAspect="1"/></wp:cNvGraphicFramePr>`;
     const distances = `distT="${emu(value.gapMm)}" distB="${emu(value.gapMm)}" distL="${emu(value.gapMm)}" distR="${emu(value.gapMm)}"`;
     let drawing: string;
@@ -240,17 +293,20 @@ export async function renderDossierDocx(
       const pageOrigin = value.coordinateOrigin === "page";
       const originWidth = pageOrigin ? page.widthMm : widthMm;
       const inset = geometry.borderWidthMm / 2;
-      const x =
-        value.placement === "free"
+      const x = authoredParagraphOffsets
+        ? value.xMm
+        : value.placement === "free"
           ? Math.max(inset, Math.min(originWidth - finalWidth - inset, value.xMm))
           : value.placement === "right"
             ? widthMm - finalWidth
             : 0;
-      const y = Math.max(
-        pageOrigin ? inset : 0,
-        Math.min(page.heightMm - finalHeight - inset, value.yMm),
-      );
-      drawing = `<wp:anchor ${distances} simplePos="0" relativeHeight="${paintLayer ?? id}" behindDoc="${behind ? 1 : 0}" locked="0" layoutInCell="1" allowOverlap="${behind ? 1 : 0}"><wp:simplePos x="0" y="0"/><wp:positionH relativeFrom="${pageOrigin ? "page" : "column"}"><wp:posOffset>${emu(x)}</wp:posOffset></wp:positionH><wp:positionV relativeFrom="${pageOrigin ? "page" : "paragraph"}"><wp:posOffset>${emu(y)}</wp:posOffset></wp:positionV>${extent}${behind ? "<wp:wrapNone/>" : '<wp:wrapSquare wrapText="bothSides"/>'}${properties}${picture}</wp:anchor>`;
+      const y = authoredParagraphOffsets
+        ? value.yMm
+        : Math.max(
+            pageOrigin ? inset : 0,
+            Math.min(page.heightMm - finalHeight - inset, value.yMm),
+          );
+      drawing = `<wp:anchor ${distances} simplePos="0" relativeHeight="${paintLayer ?? id}" behindDoc="${behind ? 1 : 0}" locked="0" layoutInCell="${value.nativeOwner === "page-picture" ? 0 : 1}" allowOverlap="${behind || noTextWrap ? 1 : 0}"><wp:simplePos x="0" y="0"/><wp:positionH relativeFrom="${pageOrigin ? "page" : "column"}"><wp:posOffset>${emu(x)}</wp:posOffset></wp:positionH><wp:positionV relativeFrom="${value.verticalOrigin ?? (authoredParagraphOffsets ? "line" : pageOrigin ? "page" : "paragraph")}"><wp:posOffset>${emu(y)}</wp:posOffset></wp:positionV>${extent}${behind || noTextWrap ? "<wp:wrapNone/>" : '<wp:wrapSquare wrapText="bothSides"/>'}${properties}${picture}</wp:anchor>`;
     }
     return `<w:r><w:drawing>${drawing}</w:drawing></w:r>`;
   }
@@ -262,17 +318,50 @@ export async function renderDossierDocx(
       pictureGeometry(value, media.asset, widthMm),
       widthMm,
       page,
+      false,
+      undefined,
+      false,
+      value.wrapMode === "none",
     );
+  }
+  function ownedImageRun(value: ImageBlock, widthMm: number, page: DocumentPart["page"]): string {
+    if (value.nativeOwner === "page-picture") return imageRun(value, widthMm, page);
+    if (
+      value.placement === "free" &&
+      value.sourceLayout &&
+      (value.coordinateOrigin === "content" || value.nativeOwner === "page-frame")
+    ) {
+      const media = sources.get(value.source)!;
+      const geometry = pictureGeometry(
+        value,
+        media.asset,
+        value.nativeOwner === "page-frame" ? value.widthMm : widthMm,
+      );
+      const inline = pictureRun(
+        { ...value, placement: "inline", gapMm: 0 },
+        media.rid,
+        geometry,
+        widthMm,
+        page,
+      );
+      const owned = pictureControl(value.id, inline, drawingId);
+      return nativePictureFrameRun(value, geometry.heightMm, owned, ++drawingId);
+    }
+    const drawing = imageRun(value, widthMm, page);
+    return value.placement === "inline" ? pictureControl(value.id, drawing, drawingId) : drawing;
   }
   function decorationRun(
     value: DecorativeShape,
     page: DocumentPart["page"],
     story = "word/document.xml",
+    nativeCoverage = false,
   ): string {
     const media = decorationIds.get(value.id);
     if (!media) return "";
     const { rid } = media;
-    const geometry = decorationPageGeometry(value, page);
+    const geometry = nativeCoverage
+      ? nativePagePaintGeometry(page)
+      : decorationPageGeometry(value, page);
     if (
       story !== "word/document.xml" &&
       !pkg.relationships.some((rel) => rel.source === story && rel.id === rid)
@@ -349,16 +438,21 @@ export async function renderDossierDocx(
     );
   }
   function image(value: ImageBlock, widthMm: number, page: DocumentPart["page"]): string {
-    return control(
-      value.id,
-      `<w:p><w:pPr>${value.align ? `<w:jc w:val="${value.align}"/>` : ""}<w:spacing w:after="${twips(3)}"/></w:pPr>${imageRun(value, widthMm, page)}</w:p>`,
-    );
+    if (value.wrapMode === "none") {
+      return control(
+        value.id,
+        `<w:p><w:pPr>${value.align ? `<w:jc w:val="${value.align}"/>` : ""}<w:spacing w:before="0" w:after="0" w:line="20" w:lineRule="exact"/></w:pPr>${imageRun(value, widthMm, page)}</w:p>`,
+      );
+    }
+    const drawing = ownedImageRun(value, widthMm, page);
+    return `<w:p><w:pPr><w:spacing w:after="${twips(3)}" w:line="240" w:lineRule="auto"/>${value.align ? `<w:jc w:val="${value.align}"/>` : ""}</w:pPr>${drawing}</w:p>`;
   }
   function table(
     value: TableBlock,
     widthMm: number,
     page: DocumentPart["page"],
     cumulativeGrid = false,
+    openingDrawings = "",
   ): string {
     const tableWidth = value.widthMm ?? widthMm - (value.indentMm ?? 0);
     if (
@@ -387,14 +481,20 @@ export async function renderDossierDocx(
     const rows = value.rows
       .map(
         (row, rowIndex) =>
-          `<w:tr>${row.keepTogether ? "<w:trPr><w:cantSplit/></w:trPr>" : ""}${row.cells
+          `<w:tr>${
+            row.keepTogether || row.minimumHeightMm !== undefined
+              ? `<w:trPr>${row.keepTogether ? "<w:cantSplit/>" : ""}${row.minimumHeightMm === undefined ? "" : `<w:trHeight w:val="${twips(row.minimumHeightMm)}" w:hRule="atLeast"/>`}</w:trPr>`
+              : ""
+          }${row.cells
             .map((cell, index) => {
               const merge = merges[rowIndex][index]
                 ? `<w:vMerge w:val="${merges[rowIndex][index]}"/>`
                 : "";
               const paint = row.cellDecorations?.[index];
-              const inset = paint?.paddingXMm ?? paddingX;
-              const contentWidth = widths[index] - inset * 2;
+              const contentWidth =
+                widths[index] -
+                (paint?.paddingLeftMm ?? paint?.paddingXMm ?? paddingX) -
+                (paint?.paddingRightMm ?? paint?.paddingXMm ?? paddingX);
               if (paint && cell.length && contentWidth < 10)
                 throw new Error(`DOCX Next cell leaves insufficient text width ${value.id}`);
               const props = paint ? cellProperties(paint) : shading;
@@ -402,11 +502,24 @@ export async function renderDossierDocx(
                 "",
                 row.cellEndKeepNext?.[index] ?? undefined,
               );
+              const cellStart =
+                value.bodyBoundary === "section-start" && rowIndex === 0 && cell.length
+                  ? emptyParagraphWithRuns(
+                      index === row.cells.findIndex((content) => content.length > 0)
+                        ? openingDrawings
+                        : "",
+                      true,
+                      20 +
+                        twips(
+                          value.bodyBoundaryLeadByCellMm?.[index] ?? value.bodyBoundaryLeadMm ?? 0,
+                        ),
+                    )
+                  : "";
               const ending =
                 value.identityCarrier === "cell-ending" && rowIndex === 0 && index === 0
                   ? control(value.id, emptyEnding)
                   : emptyEnding;
-              return `<w:tc><w:tcPr><w:tcW w:w="${gridWidths[index]}" w:type="dxa"/>${merge}${props}<w:vAlign w:val="top"/></w:tcPr>${renderBlocks(cell, Math.max(10, contentWidth), page, 0, cumulativeGrid)}${ending}</w:tc>`;
+              return `<w:tc><w:tcPr><w:tcW w:w="${gridWidths[index]}" w:type="dxa"/>${merge}${props}<w:vAlign w:val="top"/></w:tcPr>${cellStart}${renderBlocks(cell, Math.max(10, contentWidth), page, 0, cumulativeGrid)}${ending}</w:tc>`;
             })
             .join("")}</w:tr>`,
       )
@@ -425,7 +538,7 @@ export async function renderDossierDocx(
         : value.position?.leadingBoundary === "paragraph"
           ? emptyParagraph
           : "";
-    return `${leading}<w:tbl><w:tblPr>${position}<w:tblW w:w="${twips(tableWidth)}" w:type="dxa"/>${value.indentMm ? `<w:tblInd w:w="${twips(value.indentMm)}" w:type="dxa"/>` : ""}<w:tblBorders>${["top", "left", "bottom", "right"].map((edge) => `<w:${edge} ${!d?.borderSides || d.borderSides.includes(edge as "top" | "left" | "bottom" | "right") ? border : 'w:val="nil"'}/>`).join("")}<w:insideH w:val="nil"/><w:insideV w:val="nil"/></w:tblBorders><w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="${twips(paddingY)}" w:type="dxa"/><w:left w:w="${twips(paddingX)}" w:type="dxa"/><w:bottom w:w="${twips(paddingY)}" w:type="dxa"/><w:right w:w="${twips(paddingX)}" w:type="dxa"/></w:tblCellMar><w:tblCaption w:val="${xml(value.id)}"/></w:tblPr><w:tblGrid>${gridWidths.map((width) => `<w:gridCol w:w="${width}"/>`).join("")}</w:tblGrid>${rows}</w:tbl>${value.position?.anchorParagraphId || value.position?.nextFloatingTableId ? "" : emptyParagraph}`;
+    return `${leading}<w:tbl><w:tblPr>${position}<w:tblW w:w="${twips(tableWidth)}" w:type="dxa"/>${value.indentMm ? `<w:tblInd w:w="${twips(value.indentMm)}" w:type="dxa"/>` : ""}<w:tblBorders>${["top", "left", "bottom", "right"].map((edge) => `<w:${edge} ${!d?.borderSides || d.borderSides.includes(edge as "top" | "left" | "bottom" | "right") ? border : 'w:val="nil"'}/>`).join("")}<w:insideH w:val="nil"/><w:insideV w:val="nil"/></w:tblBorders><w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="${twips(paddingY)}" w:type="dxa"/><w:left w:w="${twips(paddingX)}" w:type="dxa"/><w:bottom w:w="${twips(paddingY)}" w:type="dxa"/><w:right w:w="${twips(paddingX)}" w:type="dxa"/></w:tblCellMar><w:tblCaption w:val="${xml(value.id)}"/></w:tblPr><w:tblGrid>${gridWidths.map((width) => `<w:gridCol w:w="${width}"/>`).join("")}</w:tblGrid>${rows}</w:tbl>${value.position?.anchorParagraphId || value.position?.nextFloatingTableId ? "" : value.afterMm === undefined ? emptyParagraph : emptyParagraphWithRuns("", undefined, 20, twips(value.afterMm))}`;
   }
   function renderBlock(
     block: DocBlock,
@@ -434,9 +547,53 @@ export async function renderDossierDocx(
     indentMm = 0,
     cumulativeGrid = false,
   ): string {
-    if (block.kind === "paragraph") return renderParagraph(block, "", indentMm);
+    if (block.kind === "paragraph") {
+      let surface = "";
+      if (block.flowSurface) {
+        const s = block.flowSurface,
+          media = decorationIds.get(block.id + ".flow-paint");
+        if (!media) throw Error("DOCX Next: Rubrikfläche konnte nicht erstellt werden.");
+        surface = pictureRun(
+          {
+            kind: "image",
+            id: block.id + ".flow-paint",
+            source: "",
+            alt: "",
+            widthMm: s.rowWidthMm,
+            maxHeightMm: s.heightMm,
+            placement: "free",
+            coordinateOrigin: "content",
+            xMm: (block.indentMm ?? 0) + indentMm,
+            yMm: -s.paddingYMm,
+            gapMm: 0,
+          },
+          media.rid,
+          {
+            widthMm: s.rowWidthMm,
+            heightMm: s.heightMm,
+            crop: { left: 0, top: 0, right: 0, bottom: 0 },
+            shape: "rect",
+            cornerAdjustment: 0,
+            borderWidthMm: 0,
+            borderColor: "000000",
+          },
+          widthMm,
+          page,
+          true,
+          undefined,
+          true,
+        );
+      }
+      return renderParagraph(block, surface, indentMm);
+    }
     if (block.kind === "paragraph-frame")
-      return block.paragraphs.map((value) => renderParagraph(value, "", 0, block)).join("");
+      return block.surface
+        ? emptyParagraphWithRuns(
+            block.surface.diagnosticShapeFormat === "legacy-vml"
+              ? nativeVMLAvatarRun(block, ++drawingId, renderParagraph)
+              : nativeTextShapeRun(block, ++drawingId, renderParagraph),
+          )
+        : block.paragraphs.map((value) => renderParagraph(value, "", 0, block)).join("");
     if (block.kind === "image") return image(block, widthMm, page);
     if (block.kind === "decorative-shape")
       return emptyParagraphWithRuns(decorationRun(block, page));
@@ -510,7 +667,7 @@ export async function renderDossierDocx(
       return renderBlocks(block.blocks, widthMm, page, indentMm, cumulativeGrid);
     if (block.kind === "column-flow")
       throw new Error("Column flow must be planned before Word rendering.");
-    return `${block.heading ? renderParagraph(block.heading, "", indentMm) : ""}${renderBlocks(block.blocks, widthMm, page, indentMm + (block.contentIndentMm ?? 0), cumulativeGrid)}`;
+    return `${block.heading ? renderBlock(block.heading, widthMm, page, indentMm, cumulativeGrid) : ""}${renderBlocks(block.blocks, widthMm, page, indentMm + (block.contentIndentMm ?? 0), cumulativeGrid)}`;
   }
   const rendersContent = (value: DocBlock): boolean =>
     value.kind === "decorative-shape"
@@ -537,6 +694,8 @@ export async function renderDossierDocx(
         (block.kind === "image" && block.placement !== "inline")
       ) {
         const drawings: string[] = [];
+        let ownsPicture = false;
+        let ordinaryPicture = false;
         let cursor = index;
         while (
           values[cursor]?.kind === "decorative-shape" ||
@@ -544,20 +703,48 @@ export async function renderDossierDocx(
             (values[cursor] as ImageBlock).placement !== "inline")
         ) {
           const value = values[cursor];
+          if (value.kind === "image" && value.nativeOwner === "page-picture")
+            ordinaryPicture = true;
+          if (
+            value.kind === "image" &&
+            (value.nativeOwner === "page-picture" ||
+              (value.sourceLayout &&
+                (value.coordinateOrigin === "content" || value.nativeOwner === "page-frame")))
+          )
+            ownsPicture = true;
           drawings.push(
             value.kind === "decorative-shape"
               ? decorationRun(value, page)
-              : imageRun(value as ImageBlock, widthMm, page),
+              : ownedImageRun(value as ImageBlock, widthMm, page),
           );
           cursor++;
         }
         const anchor = values[cursor];
-        if (anchor?.kind === "paragraph") {
-          result += renderParagraph(anchor, drawings.join(""), indentMm);
+        if (
+          ordinaryPicture &&
+          anchor?.kind === "table" &&
+          anchor.bodyBoundary === "section-start"
+        ) {
+          // A body paragraph before a continuous CV row can strand the photo
+          // on its own Word page. Reuse the row's existing structural paragraph.
+          // layoutInCell=0 leaves the ordinary picture free of cell layout bounds;
+          // no content control or enclosing shape is introduced.
+          result += table(anchor, widthMm, page, cumulativeGrid, drawings.join(""));
           index = cursor;
           continue;
         }
-        if (drawings.some(Boolean)) result += emptyParagraphWithRuns(drawings.join(""));
+        if (anchor?.kind === "paragraph") {
+          // Keep text ownership separate from the native picture frame anchored here.
+          result += renderParagraph(
+            ownsPicture ? { ...anchor, controlPlacement: "inline" } : anchor,
+            drawings.join(""),
+            indentMm,
+          );
+          index = cursor;
+          continue;
+        }
+        if (drawings.some(Boolean))
+          result += emptyParagraphWithRuns(drawings.join(""), ordinaryPicture ? true : undefined);
         index = cursor - 1;
         continue;
       }
@@ -584,9 +771,11 @@ export async function renderDossierDocx(
           {
             kind: "table",
             id: `${block.id}.half-row`,
-            widths: [1, 1],
+            widths: [1, 1, 1],
+            columnWidthsMm: [null, 6, null],
             indentMm,
-            rows: [{ cells, keepTogether: false }],
+            rows: [{ cells: [cells[0], [], cells[1]], keepTogether: false }],
+            decoration: { borderColor: "FFFFFF", borderWidthMm: 0, paddingXMm: 0, paddingYMm: 0 },
           },
           widthMm,
           page,
@@ -617,13 +806,44 @@ export async function renderDossierDocx(
             .map((value) =>
               value.kind === "decorative-artwork"
                 ? artwork(value, part, story)
-                : decorationRun(value, part.page, story),
+                : decorationRun(value, part.page, story, !!part.pagePaintCoverage),
             )
             .join("")
         : "";
-    const paragraphs = content.length
-      ? content.map((value, index) => renderParagraph(value, index === 0 ? drawings : "")).join("")
-      : emptyParagraphWithRuns(drawings);
+    const headerIcons =
+      scope === "header"
+        ? (part.headerImages ?? [])
+            .filter((value) => value.repeat === (first ? "first" : "continuation"))
+            .map((value) => {
+              const media = sources.get(value.source)!;
+              if (!pkg.relationships.some((rel) => rel.source === story && rel.id === media.rid))
+                pkg.relate(story, media.rid, "image", media.file);
+              return pictureRun(
+                value,
+                media.rid,
+                pictureGeometry(value, media.asset, part.page.widthMm),
+                part.page.widthMm,
+                part.page,
+                true,
+              );
+            })
+            .join("")
+        : "";
+    const frames =
+      scope === "header"
+        ? (part.headerFrames ?? [])
+            .filter((value) => value.repeat === (first ? "first" : "continuation"))
+            .map((frame) => frame.paragraphs.map((p) => renderParagraph(p, "", 0, frame)).join(""))
+            .join("")
+        : "";
+    const paragraphs =
+      (content.length
+        ? content
+            .map((value, index) => renderParagraph(value, index === 0 ? drawings : ""))
+            .join("")
+        : emptyParagraphWithRuns(drawings + headerIcons)) +
+      frames +
+      (frames ? emptyParagraph : "");
     pkg.add(
       story,
       WORD_PART_TYPES[scope],
@@ -680,7 +900,7 @@ export async function renderDossierDocx(
   pkg.add(
     "word/settings.xml",
     WORD_PART_TYPES.settings,
-    `${DECL}<w:settings xmlns:w="${W}"><w:embedTrueTypeFonts w:val="0"/><w:autoHyphenation w:val="0"/><w:doNotHyphenateCaps/><w:compat>${blocks.some((block) => block.kind === "table" && block.position) ? '<w:doNotBreakWrappedTables w:val="0"/>' : ""}<w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/>${model.floatingTableTextFlow === "all-pages" ? '<w:compatSetting w:name="allowTextAfterFloatingTableBreak" w:uri="http://schemas.microsoft.com/office/word" w:val="1"/>' : ""}</w:compat></w:settings>`,
+    `${DECL}<w:settings xmlns:w="${W}"><w:embedTrueTypeFonts w:val="0"/><w:autoHyphenation w:val="0"/><w:doNotHyphenateCaps/><w:compat>${blocks.some((block) => block.kind === "table" && block.position) ? '<w:doNotBreakWrappedTables w:val="0"/>' : ""}<w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/>${model.floatingTableTextFlow === "all-pages" ? '<w:compatSetting w:name="allowTextAfterFloatingTableBreak" w:uri="http://schemas.microsoft.com/office/word" w:val="1"/>' : ""}</w:compat>${sources.size ? "<w:doNotAutoCompressPictures/>" : ""}</w:settings>`,
   );
   const fonts = new Set<string>([model.theme.font]);
   for (const part of parts)
@@ -690,6 +910,7 @@ export async function renderDossierDocx(
       ...(part.firstHeader ?? []),
       ...part.footer,
       ...(part.firstFooter ?? []),
+      ...(part.headerFrames ?? []),
     ]))
       if (block.kind === "paragraph") block.runs.forEach((value) => fonts.add(value.style.font));
   pkg.add("word/fontTable.xml", WORD_PART_TYPES.fontTable, fontTableXml(fonts));

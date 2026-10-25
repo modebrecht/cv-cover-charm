@@ -1,0 +1,1119 @@
+{
+  "version": 1,
+  "sourceKey": "{\"cover\":{\"template\":\"modern\",\"data\":{\"meta\":{\"title\":\"\",\"author\":\"\",\"subject\":\"\",\"keywords\":\"\"},\"kicker\":\"Bewerbung um eine Lehrstelle als\",\"eyebrow\":\"\",\"beruf\":\"Informatiker/in EFZ\",\"lehrbeginn\":\"August 2028\",\"vorname\":\"Lea\",\"nachname\":\"Müller\",\"adresse\":\"Dorfstrasse 12\",\"plzOrt\":\"4535 Hubersdorf\",\"telefon\":\"079 123 45 67\",\"email\":\"lea.mueller@example.ch\",\"geburtsdatum\":\"14.03.2010\",\"lehrbetrieb\":\"Beispiel AG\",\"ansprechperson\":\"Herr Thomas Weber\",\"betriebAdresse\":\"Industriestrasse 8, 4535 Hubersdorf\",\"ort\":\"Hubersdorf\",\"datum\":\"15.11.2026\",\"labelKontakt\":\"\",\"labelEmpfaenger\":\"\",\"foto\":null,\"showBetriebOnCover\":false,\"showBeilagenOnCover\":true,\"beilagen\":[\"Motivationsschreiben\",\"Lebenslauf\",\"Zeugnis\"]},\"colors\":{\"primary\":\"#111827\",\"accent\":\"#f43f5e\",\"bg\":\"#fafafa\"},\"blocks\":[{\"id\":\"modernAccentCircle\",\"label\":\"Kreisfläche\",\"kind\":\"shape\",\"shape\":\"circle\",\"lines\":[],\"style\":{\"x\":118,\"y\":36,\"w\":74,\"size\":1,\"color\":\"accent\",\"align\":\"left\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1,\"opacity\":0.1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":0,\"padY\":0,\"bgRadius\":0,\"ratio\":1,\"fill\":\"accent\",\"strokeWidth\":0}},{\"id\":\"eyebrow\",\"label\":\"Kopfzeile\",\"kind\":\"text\",\"lines\":[\"Bewerbung\"],\"style\":{\"x\":20,\"y\":19.5,\"w\":80,\"size\":10.5,\"color\":\"primary\",\"align\":\"left\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":true,\"tracking\":0.35,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999}},{\"id\":\"ortDatum\",\"label\":\"Ort / Datum\",\"kind\":\"text\",\"lines\":[\"Hubersdorf, 15.11.2026\"],\"style\":{\"x\":110,\"y\":19.5,\"w\":80,\"size\":11.5,\"color\":\"primary\",\"align\":\"right\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":0.6,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999}},{\"id\":\"foto\",\"label\":\"Foto\",\"kind\":\"photo\",\"lines\":[],\"style\":{\"x\":129,\"y\":47,\"w\":52,\"size\":13.5,\"color\":\"accent\",\"align\":\"left\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"ratio\":1,\"radius\":999,\"fill\":\"bg\"}},{\"id\":\"kicker\",\"label\":\"Über-Titel\",\"kind\":\"text\",\"lines\":[\"Bewerbung um eine Lehrstelle als\"],\"style\":{\"x\":20,\"y\":128,\"w\":150,\"size\":11.5,\"color\":\"accent\",\"align\":\"left\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":true,\"tracking\":0.25,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999}},{\"id\":\"beruf\",\"label\":\"Titel (Beruf)\",\"kind\":\"text\",\"lines\":[\"Informatiker/in EFZ\"],\"style\":{\"x\":20,\"y\":20,\"w\":155,\"size\":36,\"color\":\"primary\",\"align\":\"left\",\"weight\":700,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":-0.02,\"lineHeight\":1.05,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"follows\":\"kicker\",\"gap\":1,\"maxLines\":3}},{\"id\":\"name\",\"label\":\"Name\",\"kind\":\"text\",\"lines\":[\"Lea Müller\"],\"style\":{\"x\":20,\"y\":20,\"w\":150,\"size\":16.5,\"color\":\"primary\",\"align\":\"left\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0.02,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"follows\":\"beruf\",\"gap\":8,\"maxLines\":2}},{\"id\":\"lehrbeginn\",\"label\":\"Lehrbeginn\",\"kind\":\"text\",\"lines\":[\"Lehrbeginn August 2028\"],\"style\":{\"x\":20,\"y\":20,\"w\":150,\"size\":12,\"color\":\"bg\",\"align\":\"left\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":\"accent\",\"padX\":4,\"padY\":1.6,\"bgRadius\":999,\"follows\":\"name\",\"gap\":3}},{\"id\":\"kontaktTitel\",\"label\":\"Titel Kontakt\",\"kind\":\"text\",\"lines\":[\"Kontakt\"],\"style\":{\"x\":20,\"y\":20,\"w\":80,\"size\":10,\"color\":\"accent\",\"align\":\"left\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":true,\"tracking\":0.3,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"above\":\"kontakt\",\"gap\":1.5}},{\"id\":\"kontakt\",\"label\":\"Kontaktangaben\",\"kind\":\"text\",\"lines\":[\"Dorfstrasse 12\",\"4535 Hubersdorf\",\"079 123 45 67\",\"lea.mueller@example.ch\",\"14.03.2010\"],\"style\":{\"x\":20,\"y\":285,\"w\":80,\"size\":11.5,\"color\":\"primary\",\"align\":\"left\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":0.85,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"anchorBottom\":true}},{\"id\":\"anTitel\",\"label\":\"Titel Empfänger\",\"kind\":\"text\",\"lines\":[],\"style\":{\"x\":110,\"y\":20,\"w\":80,\"size\":10,\"color\":\"accent\",\"align\":\"right\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":true,\"tracking\":0.3,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"above\":\"kontakt\",\"gap\":1.5}},{\"id\":\"empfaenger\",\"label\":\"Empfänger\",\"kind\":\"text\",\"lines\":[],\"style\":{\"x\":110,\"y\":20,\"w\":80,\"size\":11.5,\"color\":\"primary\",\"align\":\"right\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":0.85,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"follows\":\"anTitel\",\"gap\":1.5}},{\"id\":\"trenner\",\"label\":\"Trennlinie\",\"kind\":\"shape\",\"shape\":\"line\",\"lines\":[],\"style\":{\"x\":20,\"y\":238,\"w\":170,\"size\":13.5,\"color\":\"primary\",\"align\":\"left\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":0.18,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"strokeWidth\":0.265}},{\"id\":\"beilagenTitel\",\"label\":\"Titel Beilagen\",\"kind\":\"text\",\"lines\":[\"Beilagen:\"],\"style\":{\"x\":110,\"y\":20,\"w\":80,\"size\":10,\"color\":\"accent\",\"align\":\"right\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0.3,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"above\":\"beilagen\",\"gap\":1.5,\"follows\":null,\"anchorBottom\":false}},{\"id\":\"beilagen\",\"label\":\"Beilagen\",\"kind\":\"text\",\"lines\":[\"Motivationsschreiben\",\"Lebenslauf\",\"Zeugnis\"],\"style\":{\"x\":110,\"y\":276,\"w\":80,\"size\":11.5,\"color\":\"primary\",\"align\":\"right\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":0.85,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"follows\":null,\"gap\":1.5,\"above\":null,\"anchorBottom\":true}}],\"fontScale\":1,\"customFieldIds\":[]},\"letter\":{\"data\":{\"absenderName\":\"Lea Müller\",\"absenderAdresse\":\"Dorfstrasse 12\",\"absenderPlzOrt\":\"4535 Hubersdorf\",\"absenderTelefon\":\"079 123 45 67\",\"absenderEmail\":\"lea.mueller@example.ch\",\"empfaengerFirma\":\"Beispiel AG\",\"empfaengerName\":\"Herr Thomas Weber\",\"empfaengerAdresse\":\"Industriestrasse 8\",\"empfaengerPlzOrt\":\"4535 Hubersdorf\",\"ort\":\"Hubersdorf\",\"datum\":\"15.11.2026\",\"betreff\":\"Bewerbung um eine Lehrstelle als Informatiker/in EFZ\",\"anrede\":\"Guten Tag Herr Weber\",\"text\":\"Die Informatik begeistert mich, weil ich gerne logisch denke, Probleme löse und Neues ausprobiere. Deshalb bewerbe ich mich mit grossem Interesse um die Lehrstelle als Informatikerin EFZ bei der Beispiel AG.\\n\\nIn der Schule arbeite ich besonders gerne an Aufgaben, bei denen ich selbstständig Lösungen entwickeln kann. Ich bin zuverlässig, lerne schnell und arbeite gerne im Team.\\n\\nGerne möchte ich Ihr Unternehmen und den Beruf bei einem persönlichen Gespräch oder einer Schnupperlehre näher kennenlernen. Ich freue mich über Ihre Rückmeldung.\",\"richTextHtml\":\"\",\"gruss\":\"Freundliche Grüsse\",\"unterschrift\":\"Lea Müller\",\"images\":[],\"showBeilagen\":true,\"beilagen\":[\"Lebenslauf\",\"Zeugnis\"]},\"design\":{\"template\":\"modern\",\"colors\":{\"primary\":\"#111827\",\"accent\":\"#244a61\",\"bg\":\"#fafafa\",\"ink\":\"#111111\"},\"bgOpacity\":0.25,\"paperColor\":null,\"textColor\":null,\"font\":\"freundlich\",\"fontOverride\":\"sans\",\"senderAlign\":\"left\",\"recipientAlign\":\"left\",\"dateAlign\":\"left\",\"ruleAfterSender\":false,\"ruleAfterRecipient\":false,\"ruleAfterSubject\":false,\"headerMode\":\"contact\",\"headerShowName\":true,\"headerShowAddress\":true,\"headerShowPhone\":true,\"headerShowEmail\":true,\"headerDifferentFirstPage\":false,\"headerHeightMm\":null,\"headerTextLayout\":\"inline\",\"headerInlineSeparator\":\"dot\",\"headerBackgroundColor\":null,\"headerGradientColor\":null,\"footerMode\":\"compact\",\"footerHeightMm\":null,\"footerTextLayout\":\"inline\",\"footerBackgroundColor\":null,\"footerGradientColor\":null,\"chromeBorderEnabled\":false,\"chromeBorderColor\":null,\"chromeBorderWidthMm\":0.6,\"chromeTextFont\":\"sans\"}},\"cv\":{\"data\":{\"person\":{\"vorname\":\"Lea\",\"nachname\":\"Müller\",\"adresse\":\"Dorfstrasse 12\",\"plzOrt\":\"4535 Hubersdorf\",\"telefon\":\"079 123 45 67\",\"email\":\"lea.mueller@example.ch\",\"geburtsdatum\":\"14.03.2010\",\"geburtsort\":\"\",\"heimatort\":\"\",\"nationalitaet\":\"\",\"untertitel\":\"\",\"foto\":null},\"titel\":\"Lebenslauf\",\"schule\":[{\"id\":\"demo-s1\",\"zeit\":\"2023 – heute\",\"titel\":\"Sekundarschule, Niveau A\",\"ort\":\"Schulhaus Zentrum, Hubersdorf\",\"beschreibung\":\"Schwerpunkt Mathematik und Informatik\"},{\"id\":\"demo-s2\",\"zeit\":\"2017 – 2023\",\"titel\":\"Primarschule\",\"ort\":\"Primarschule Hubersdorf\",\"beschreibung\":\"\"}],\"erfahrung\":[{\"id\":\"demo-p1\",\"zeit\":\"Sept. 2026\",\"titel\":\"Schnupperlehre Informatik\",\"ort\":\"Beispiel AG, Hubersdorf\",\"beschreibung\":\"Support, kleine Automatisierungen mit Python\"},{\"id\":\"demo-p2\",\"zeit\":\"März 2026\",\"titel\":\"Schnupperlehre Mediamatik\",\"ort\":\"Muster GmbH, Hubersdorf\",\"beschreibung\":\"Website-Pflege, Bildbearbeitung\"}],\"sprachen\":[{\"id\":\"demo-l1\",\"name\":\"Deutsch\",\"niveau\":\"Muttersprache\"},{\"id\":\"demo-l2\",\"name\":\"Englisch\",\"niveau\":\"Gute Schulkenntnisse (B1)\"},{\"id\":\"demo-l3\",\"name\":\"Französisch\",\"niveau\":\"Grundkenntnisse (A2)\"}],\"hobbys\":[\"Volleyball im Verein\",\"Programmieren kleiner Spiele\",\"Fotografieren\"],\"staerken\":[\"Zuverlässig und pünktlich\",\"Arbeitet gern im Team\",\"Lernt schnell Neues\"],\"referenzen\":[{\"id\":\"demo-r1\",\"name\":\"Herr Thomas Weber\",\"funktion\":\"Klassenlehrer, Schulhaus Zentrum\",\"kontakt\":\"079 555 12 34\",\"email\":\"\",\"zusatz\":\"\"}],\"referencesSideBySide\":true,\"customSections\":[{\"id\":\"familie\",\"title\":\"Familie\",\"preset\":\"familie\",\"entries\":[{\"id\":\"demo-familie\",\"zeit\":\"\",\"titel\":\"\",\"ort\":\"Sohn von Monika Müller, Detailhandelsfachfrau und Peter Müller, Maurer\",\"beschreibung\":\"Bruder von Aline, 2004, Medizinische Praxisassistentin und Jaro, 2015, Schüler\"}]}],\"sectionOrder\":[\"person\",\"custom:familie\",\"schule\",\"erfahrung\",\"sprachen\",\"hobbys\",\"staerken\",\"referenzen\"],\"labels\":{},\"hidden\":{},\"sectionLayouts\":{}},\"design\":{\"template\":\"modern\",\"colors\":{\"ink\":\"#111111\",\"accent\":\"#244a61\"},\"paperColor\":null,\"bgOpacity\":0.25,\"useElements\":false,\"font\":\"sans\"},\"elements\":[],\"elementStyles\":{}},\"settings\":{\"chrome\":{\"version\":1,\"sync\":true,\"shared\":{\"headerMode\":\"contact\",\"headerShowName\":true,\"headerShowAddress\":true,\"headerShowPhone\":true,\"headerShowEmail\":true,\"headerDifferentFirstPage\":false,\"headerHeightMm\":null,\"headerGapMm\":12,\"headerContentOffsetYMm\":0,\"letterRecipientOffsetYMm\":0,\"headerTextLayout\":\"inline\",\"headerInlineSeparator\":\"dot\",\"headerBackgroundColor\":null,\"headerGradientColor\":null,\"headerTextColor\":null,\"headerFontSizePt\":null,\"footerMode\":\"compact\",\"footerHeightMm\":null,\"footerContentOffsetYMm\":0,\"footerTextLayout\":\"inline\",\"footerBackgroundColor\":null,\"footerGradientColor\":null,\"footerTextColor\":null,\"footerFontSizePt\":null,\"borderEnabled\":false,\"borderColor\":null,\"borderWidthMm\":0.6,\"textFont\":\"sans\"},\"cv\":{\"headerMode\":\"compact\",\"headerShowName\":true,\"headerShowAddress\":true,\"headerShowPhone\":true,\"headerShowEmail\":true,\"headerDifferentFirstPage\":false,\"headerHeightMm\":null,\"headerGapMm\":12,\"headerContentOffsetYMm\":0,\"letterRecipientOffsetYMm\":0,\"headerTextLayout\":\"stacked\",\"headerInlineSeparator\":\"dot\",\"headerBackgroundColor\":null,\"headerGradientColor\":null,\"headerTextColor\":null,\"headerFontSizePt\":null,\"footerMode\":\"compact\",\"footerHeightMm\":null,\"footerContentOffsetYMm\":0,\"footerTextLayout\":\"inline\",\"footerBackgroundColor\":null,\"footerGradientColor\":null,\"footerTextColor\":null,\"footerFontSizePt\":null,\"borderEnabled\":false,\"borderColor\":null,\"borderWidthMm\":0.6,\"textFont\":null},\"letter\":{\"headerMode\":\"compact\",\"headerShowName\":true,\"headerShowAddress\":true,\"headerShowPhone\":true,\"headerShowEmail\":true,\"headerDifferentFirstPage\":false,\"headerHeightMm\":null,\"headerGapMm\":12,\"headerContentOffsetYMm\":0,\"letterRecipientOffsetYMm\":0,\"headerTextLayout\":\"stacked\",\"headerInlineSeparator\":\"dot\",\"headerBackgroundColor\":null,\"headerGradientColor\":null,\"headerTextColor\":null,\"headerFontSizePt\":null,\"footerMode\":\"compact\",\"footerHeightMm\":null,\"footerContentOffsetYMm\":0,\"footerTextLayout\":\"inline\",\"footerBackgroundColor\":null,\"footerGradientColor\":null,\"footerTextColor\":null,\"footerFontSizePt\":null,\"borderEnabled\":false,\"borderColor\":null,\"borderWidthMm\":0.6,\"textFont\":null}},\"margins\":{},\"cvLayout\":\"classic\",\"sidebarSide\":\"left\",\"placements\":{\"kontakt\":\"side\",\"schule\":\"main\",\"erfahrung\":\"main\",\"sprachen\":\"side\",\"hobbys\":\"side\",\"staerken\":\"side\",\"referenzen\":\"main\"},\"cvAlignment\":\"left\",\"cvSectionGapMm\":null,\"cvContinuationTopMarginMm\":10,\"cvPhotoStyle\":{\"shape\":\"portrait\",\"zoom\":1,\"x\":50,\"y\":50,\"borderWidth\":0.3},\"cvPhotoPlacement\":{\"mode\":\"frei\",\"xMm\":150,\"yMm\":20,\"widthMm\":34,\"frameColor\":null},\"fieldStyles\":{},\"unresolvedTypography\":[]}}",
+  "profile": "brief-sans-v1; browser=Liberation Sans; Word=Arial; target-font-identity=unverified",
+  "headers": {
+    "letter": {
+      "first": {
+        "heightMm": 25.99944661458333,
+        "bodyTopMm": 47,
+        "background": "111827",
+        "borderColor": "0100100",
+        "borderMm": 0,
+        "footer": {
+          "heightMm": 3.997688802083333,
+          "background": "244A61",
+          "borderColor": "0100100",
+          "borderMm": 0,
+          "opacity": 1
+        },
+        "frames": [
+          {
+            "kind": "paragraph-frame",
+            "id": "letter.header.first.row:0.frame",
+            "xMm": 36.02880859375,
+            "yMm": 11.108365885416667,
+            "widthMm": 155.96767473958334,
+            "paragraphs": [
+              {
+                "kind": "paragraph",
+                "id": "letter.header.first.row:0",
+                "role": "contact",
+                "runs": [
+                  {
+                    "id": "letter.header.first.name.value",
+                    "fieldId": "letter.sender.name",
+                    "text": "Lea Müller",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "FFFFFF",
+                      "bold": true,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.first.row:0.tab:1",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.first.separator:1.value",
+                    "text": "·",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.first.row:0.tab:2",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.first.address.value",
+                    "fieldId": "letter.sender.address",
+                    "text": "Dorfstrasse 12",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.first.row:0.tab:3",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.first.separator:3.value",
+                    "text": "·",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.first.row:0.tab:4",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.first.place.value",
+                    "fieldId": "letter.sender.place",
+                    "text": "4535 Hubersdorf",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.first.row:0.tab:5",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.first.separator:5.value",
+                    "text": "·",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.first.row:0.tab:6",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.first.phone.value",
+                    "fieldId": "letter.sender.phone",
+                    "text": "079 123 45 67",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.first.row:0.tab:7",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.first.separator:7.value",
+                    "text": "·",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.first.row:0.tab:8",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.first.email.value",
+                    "fieldId": "letter.sender.email",
+                    "text": "lea.mueller@example.ch",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  }
+                ],
+                "align": "left",
+                "beforeMm": 0,
+                "afterMm": 0,
+                "lineHeight": 1.2863131578947367,
+                "minimumLineHeightPt": 12.219974999999998,
+                "keepNext": false,
+                "keepLines": true,
+                "tabStopsMm": [
+                  18.041276041666663,
+                  20.658170572916667,
+                  43.920833333333334,
+                  46.53772786458333,
+                  72.95058593749998,
+                  75.56748046874999,
+                  98.45807291666665,
+                  101.07496744791666
+                ],
+                "fieldControls": true
+              }
+            ]
+          }
+        ],
+        "icons": []
+      },
+      "continuation": {
+        "heightMm": 25.99944661458333,
+        "bodyTopMm": 47,
+        "background": "111827",
+        "borderColor": "0100100",
+        "borderMm": 0,
+        "footer": {
+          "heightMm": 3.997688802083333,
+          "background": "244A61",
+          "borderColor": "0100100",
+          "borderMm": 0,
+          "opacity": 1
+        },
+        "frames": [
+          {
+            "kind": "paragraph-frame",
+            "id": "letter.header.continuation.row:0.frame",
+            "xMm": 36.02880859375,
+            "yMm": 11.108365885416667,
+            "widthMm": 155.96767473958334,
+            "paragraphs": [
+              {
+                "kind": "paragraph",
+                "id": "letter.header.continuation.row:0",
+                "role": "contact",
+                "runs": [
+                  {
+                    "id": "letter.header.continuation.name.value",
+                    "fieldId": "letter.sender.name",
+                    "text": "Lea Müller",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "FFFFFF",
+                      "bold": true,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.continuation.row:0.tab:1",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.continuation.separator:1.value",
+                    "text": "·",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.continuation.row:0.tab:2",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.continuation.address.value",
+                    "fieldId": "letter.sender.address",
+                    "text": "Dorfstrasse 12",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.continuation.row:0.tab:3",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.continuation.separator:3.value",
+                    "text": "·",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.continuation.row:0.tab:4",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.continuation.place.value",
+                    "fieldId": "letter.sender.place",
+                    "text": "4535 Hubersdorf",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.continuation.row:0.tab:5",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.continuation.separator:5.value",
+                    "text": "·",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.continuation.row:0.tab:6",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.continuation.phone.value",
+                    "fieldId": "letter.sender.phone",
+                    "text": "079 123 45 67",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.continuation.row:0.tab:7",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.continuation.separator:7.value",
+                    "text": "·",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.continuation.row:0.tab:8",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.continuation.email.value",
+                    "fieldId": "letter.sender.email",
+                    "text": "lea.mueller@example.ch",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  }
+                ],
+                "align": "left",
+                "beforeMm": 0,
+                "afterMm": 0,
+                "lineHeight": 1.2863131578947367,
+                "minimumLineHeightPt": 12.219974999999998,
+                "keepNext": false,
+                "keepLines": true,
+                "tabStopsMm": [
+                  18.041276041666663,
+                  20.658170572916667,
+                  43.920833333333334,
+                  46.53772786458333,
+                  72.95058593749998,
+                  75.56748046874999,
+                  98.45807291666665,
+                  101.07496744791666
+                ],
+                "fieldControls": true
+              }
+            ]
+          }
+        ],
+        "icons": []
+      }
+    },
+    "cv": {
+      "first": {
+        "heightMm": 25.99944661458333,
+        "bodyTopMm": 47,
+        "background": "111827",
+        "borderColor": "0100100",
+        "borderMm": 0,
+        "footer": {
+          "heightMm": 3.997688802083333,
+          "background": "244A61",
+          "borderColor": "0100100",
+          "borderMm": 0,
+          "opacity": 1
+        },
+        "frames": [
+          {
+            "kind": "paragraph-frame",
+            "id": "cv.header.first.row:0.frame",
+            "xMm": 36.02880859375,
+            "yMm": 11.108365885416667,
+            "widthMm": 155.96767473958334,
+            "paragraphs": [
+              {
+                "kind": "paragraph",
+                "id": "cv.header.first.row:0",
+                "role": "contact",
+                "runs": [
+                  {
+                    "id": "cv.header.first.name.value",
+                    "fieldId": "cv.person.name",
+                    "text": "Lea Müller",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "FFFFFF",
+                      "bold": true,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.first.row:0.tab:1",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.first.separator:1.value",
+                    "text": "·",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.first.row:0.tab:2",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.first.address.value",
+                    "fieldId": "cv.person.address",
+                    "text": "Dorfstrasse 12",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.first.row:0.tab:3",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.first.separator:3.value",
+                    "text": "·",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.first.row:0.tab:4",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.first.place.value",
+                    "fieldId": "cv.person.place",
+                    "text": "4535 Hubersdorf",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.first.row:0.tab:5",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.first.separator:5.value",
+                    "text": "·",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.first.row:0.tab:6",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.first.phone.value",
+                    "fieldId": "cv.person.phone",
+                    "text": "079 123 45 67",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.first.row:0.tab:7",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.first.separator:7.value",
+                    "text": "·",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.first.row:0.tab:8",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.first.email.value",
+                    "fieldId": "cv.person.email",
+                    "text": "lea.mueller@example.ch",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  }
+                ],
+                "align": "left",
+                "beforeMm": 0,
+                "afterMm": 0,
+                "lineHeight": 1.2863131578947367,
+                "minimumLineHeightPt": 12.219974999999998,
+                "keepNext": false,
+                "keepLines": true,
+                "tabStopsMm": [
+                  18.041276041666663,
+                  20.658170572916667,
+                  43.920833333333334,
+                  46.53772786458333,
+                  72.95058593749998,
+                  75.56748046874999,
+                  98.45807291666665,
+                  101.07496744791666
+                ],
+                "fieldControls": true
+              }
+            ]
+          }
+        ],
+        "icons": []
+      },
+      "continuation": {
+        "heightMm": 25.99944661458333,
+        "bodyTopMm": 26,
+        "background": "111827",
+        "borderColor": "0100100",
+        "borderMm": 0,
+        "footer": {
+          "heightMm": 3.997688802083333,
+          "background": "244A61",
+          "borderColor": "0100100",
+          "borderMm": 0,
+          "opacity": 1
+        },
+        "frames": [
+          {
+            "kind": "paragraph-frame",
+            "id": "cv.header.continuation.row:0.frame",
+            "xMm": 36.02880859375,
+            "yMm": 11.108365885416667,
+            "widthMm": 155.96767473958334,
+            "paragraphs": [
+              {
+                "kind": "paragraph",
+                "id": "cv.header.continuation.row:0",
+                "role": "contact",
+                "runs": [
+                  {
+                    "id": "cv.header.continuation.name.value",
+                    "fieldId": "cv.person.name",
+                    "text": "Lea Müller",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "FFFFFF",
+                      "bold": true,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.continuation.row:0.tab:1",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.continuation.separator:1.value",
+                    "text": "·",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.continuation.row:0.tab:2",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.continuation.address.value",
+                    "fieldId": "cv.person.address",
+                    "text": "Dorfstrasse 12",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.continuation.row:0.tab:3",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.continuation.separator:3.value",
+                    "text": "·",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.continuation.row:0.tab:4",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.continuation.place.value",
+                    "fieldId": "cv.person.place",
+                    "text": "4535 Hubersdorf",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.continuation.row:0.tab:5",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.continuation.separator:5.value",
+                    "text": "·",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.continuation.row:0.tab:6",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.continuation.phone.value",
+                    "fieldId": "cv.person.phone",
+                    "text": "079 123 45 67",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.continuation.row:0.tab:7",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.continuation.separator:7.value",
+                    "text": "·",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.continuation.row:0.tab:8",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.continuation.email.value",
+                    "fieldId": "cv.person.email",
+                    "text": "lea.mueller@example.ch",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  }
+                ],
+                "align": "left",
+                "beforeMm": 0,
+                "afterMm": 0,
+                "lineHeight": 1.2863131578947367,
+                "minimumLineHeightPt": 12.219974999999998,
+                "keepNext": false,
+                "keepLines": true,
+                "tabStopsMm": [
+                  18.041276041666663,
+                  20.658170572916667,
+                  43.920833333333334,
+                  46.53772786458333,
+                  72.95058593749998,
+                  75.56748046874999,
+                  98.45807291666665,
+                  101.07496744791666
+                ],
+                "fieldControls": true
+              }
+            ]
+          }
+        ],
+        "icons": []
+      }
+    }
+  }
+}

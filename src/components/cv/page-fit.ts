@@ -1,3 +1,4 @@
+import { referenceHasContent } from "@/lib/dossier-semantic-fields";
 import {
   cvSectionOrder,
   customSectionForKey,
@@ -10,7 +11,7 @@ import {
   type CvSectionWidth,
 } from "./types";
 
-export type CvPageFitMode = "one" | "two";
+export type CvPageFitMode = "one" | "two" | "auto";
 
 /** Legacy key retained only so upgraded clients can remove stale persisted modes. */
 export const CV_PAGE_FIT_STORAGE_KEY = "lebenslauf:page-fit:v1";
@@ -88,7 +89,9 @@ const textWeight = (...values: unknown[]) =>
 
 function entryWeight(entry: CvData["schule"][number]) {
   if (!entryFilled(entry)) return 0;
-  return 2.1 + textWeight(entry.zeit, entry.titel, entry.ort) + entry.beschreibung.trim().length / 38;
+  return (
+    2.1 + textWeight(entry.zeit, entry.titel, entry.ort) + entry.beschreibung.trim().length / 38
+  );
 }
 
 /**
@@ -144,16 +147,12 @@ export function cvPageFitSectionWeight(data: CvData, key: CvLayoutSectionKey): n
       : 0;
   }
 
-  const rows = data.referenzen.filter((row) =>
-    [row.name, row.funktion, row.kontakt, row.email, row.zusatz].some((value) => value?.trim()),
-  );
+  const rows = data.referenzen.filter(referenceHasContent);
   return rows.length
     ? 1.2 +
         rows.reduce(
           (sum, row) =>
-            sum +
-            1.65 +
-            textWeight(row.name, row.funktion, row.kontakt, row.email, row.zusatz),
+            sum + 1.65 + textWeight(row.name, row.funktion, row.kontakt, row.email, row.zusatz),
           0,
         )
     : 0;
@@ -173,10 +172,104 @@ export type CvPageFitPlan = {
   bodyScaleFactor: number;
 };
 
+/** Preserve an explicitly free-positioned section when a pupil invokes a page preset. */
+export function cvPageFitKeepsManualPosition(data: CvData, key: CvLayoutSectionKey): boolean {
+  return data.sectionLayouts?.[key]?.positioning === "free";
+}
+
 export type CvPageFitOptions = {
   /** Sidebar columns are already space-efficient and must not be split again. */
   allowHalfWidth?: boolean;
+  /** Actual row heights from the canvas measurement sheet, not character counts. */
+  measuredSectionHeightsPx?: Partial<Record<CvLayoutSectionKey, number>>;
 };
+
+/**
+ * Read section heights from the existing *unpaginated* canvas measurement
+ * sheet. Each row is measured once, including the person/header row. A saved
+ * two-page split must not bias the next balancing action.
+ */
+export function measureCvPageFitSectionHeights(
+  canvas: HTMLElement | null,
+): Partial<Record<CvLayoutSectionKey, number>> | null {
+  if (!canvas) return null;
+  const rows = canvas.querySelectorAll<HTMLElement>("[data-cv-measure-page] [data-cv-content-row]");
+  if (!rows.length) return null;
+  const heights: Partial<Record<CvLayoutSectionKey, number>> = {};
+  let key: CvLayoutSectionKey = "person";
+  for (const row of rows) {
+    const id = row.dataset.cvContentRow;
+    if (id?.startsWith("h-")) key = id.slice(2) as CvLayoutSectionKey;
+    else if (id?.startsWith("layout-")) key = id.slice("layout-".length) as CvLayoutSectionKey;
+    else if (id === "kopf" || id === "kopf-modern" || id === "person-layout") key = "person";
+    const height = row.getBoundingClientRect().height;
+    if (Number.isFinite(height) && height > 0) heights[key] = (heights[key] ?? 0) + height;
+  }
+  return heights;
+}
+
+/**
+ * Use the existing layout engine as the authority for an intelligent 1–2 page
+ * fit. Do not force two nearly empty sheets for a short CV. A conservative
+ * headroom budget allows font differences and later Word rendering.
+ *
+ * Missing/incomplete measurements resolve to two pages rather than risking
+ * clipped CV content. Manually positioned content on page two is not moved.
+ */
+export function chooseCvSmartPageFitMode(
+  data: CvData,
+  measured: Partial<Record<CvLayoutSectionKey, number>> | null,
+  usableFirstPagePx: number | null,
+  currentlyOnePage = false,
+): "one" | "two" {
+  const active = cvSectionOrder(data).filter(
+    (key) => key === "person" || cvPageFitSectionWeight(data, key) > 0,
+  );
+  if (
+    active.some((key) => {
+      const layout = data.sectionLayouts?.[key];
+      return layout?.positioning === "free" && layout.page === 2;
+    })
+  )
+    return "two";
+  if (!active.length) return "one";
+  if (!measured || !Number.isFinite(usableFirstPagePx) || (usableFirstPagePx ?? 0) <= 0)
+    return "two";
+  let sum = 0;
+  let complete = true;
+  for (const key of active) {
+    const height = measured[key];
+    if (typeof height !== "number" || !Number.isFinite(height) || height <= 0) {
+      complete = false;
+      continue;
+    }
+    sum += height;
+  }
+  if (complete) return sum <= usableFirstPagePx! * 0.9 ? "one" : "two";
+  // Compact one-page masonry can merge multiple short rubrics into a
+  // single measured row. If the *current* page already fits, keep it on a
+  // repeated automatic action instead of creating a second blank page.
+  if (currentlyOnePage) {
+    const values = Object.values(measured);
+    if (
+      values.length &&
+      values.every((h) => typeof h === "number" && Number.isFinite(h) && h > 0)
+    ) {
+      return values.reduce<number>((total, h) => total + (h as number), 0) <=
+        usableFirstPagePx! * 0.9
+        ? "one"
+        : "two";
+    }
+  }
+  return "two";
+}
+
+/** Actual safe A4 body height, including custom top/bottom document margins. */
+export function measureCvPageFitCapacityPx(canvas: HTMLElement | null): number | null {
+  const main = canvas?.querySelector<HTMLElement>('[data-cv-page="0"] [data-cv-main]');
+  const height = main?.getBoundingClientRect().height;
+  return typeof height === "number" && Number.isFinite(height) && height > 0 ? height : null;
+}
 
 function onePageScale(weight: number) {
   if (weight <= 18) return 1;
@@ -199,11 +292,7 @@ function twoPageScale(weight: number) {
  * Chronological sections need their date/title rail, while references already
  * have their own two-up layout when they have the full section width.
  */
-function canCompactToHalf(
-  data: CvData,
-  key: CvLayoutSectionKey,
-  weight: number,
-): boolean {
+function canCompactToHalf(data: CvData, key: CvLayoutSectionKey, weight: number): boolean {
   if (weight <= 0 || key === "person" || key === "schule" || key === "erfahrung") return false;
   if (key === "referenzen") return false;
 
@@ -307,8 +396,20 @@ export function buildCvPageFitPlan(
     if (!active.length) {
       for (const key of order) pageBySection[key] = 1;
     } else {
-      const personWeight = weights.get("person") ?? 0;
-      const activeWeights = active.map((key) => weights.get(key) ?? 0);
+      // Prefer measured pixel heights from the real unpaginated browser sheet.
+      // Text-length weights are a deterministic fallback for SSR/tests and for
+      // measurements that cannot cover every populated section.
+      const measured = options.measuredSectionHeightsPx;
+      const hasMeasuredHeights =
+        !!measured &&
+        ["person", ...active].every((key) => {
+          const height = measured[key as CvLayoutSectionKey];
+          return typeof height === "number" && Number.isFinite(height) && height > 0;
+        });
+      const heightOf = (key: CvLayoutSectionKey) =>
+        hasMeasuredHeights ? measured![key]! : (weights.get(key) ?? 0);
+      const personWeight = heightOf("person");
+      const activeWeights = active.map(heightOf);
       const activeTotal = activeWeights.reduce((sum, value) => sum + value, 0);
       let bestSplit = 0;
       let bestCost = Number.POSITIVE_INFINITY;
@@ -321,7 +422,11 @@ export function buildCvPageFitPlan(
         const pageOneWeight = personWeight + before;
         const pageTwoWeight = activeTotal - before;
         const emptinessPenalty = split === 0 && active.length >= 3 ? 1.5 : 0;
-        const cost = Math.abs(pageOneWeight - pageTwoWeight) + emptinessPenalty;
+        // Aim just beyond the midpoint on the first page. Its introductory
+        // details should not leave an almost empty first sheet while all
+        // following short rubrics pile up on the second sheet.
+        const targetFirstPage = 0.55 * (personWeight + activeTotal);
+        const cost = 2 * Math.abs(pageOneWeight - targetFirstPage) + emptinessPenalty;
         if (cost < bestCost) {
           bestCost = cost;
           bestSplit = split;

@@ -212,7 +212,7 @@ div[data-cv-template="ribbon"]
  * applicant portrait outside the sheet and placed the date below A4, while
  * also overriding manual drag/resize. Keep all Ribbon CV styling below.
  * See docs/qa/ribbon-cover-overflow-14okt.md. */
- 
+
 /* CV: same rail/ribbon relationship, reduced to a practical reading frame. */
 div[data-cv-template="ribbon"][data-dossier-document="cv"]
   [data-cv-background="motif"]

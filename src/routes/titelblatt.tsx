@@ -344,7 +344,9 @@ function Titelblatt() {
   const exportRef = useRef<HTMLDivElement>(null);
   const dossierExportRef = useRef<HTMLDivElement>(null);
   const nativePrint = useDossierNativePrint(dossierExportRef);
-  const restored = useRef(false);
+  // State gates autosave until the loaded payload has committed. A mutable ref
+  // becomes visible to the initial empty render's effects too early.
+  const [restored, setRestored] = useState(false);
 
   const activeTemplate = useMemo(() => TEMPLATES.find((t) => t.id === template)!, [template]);
   const colors = colorsByTemplate[template];
@@ -650,7 +652,7 @@ function Titelblatt() {
 
   // Entwurf laden (nach der Hydration, damit Server und Client übereinstimmen).
   useEffect(() => {
-    restored.current = true;
+    setRestored(true);
     setHistory(readHistory(HISTORY_KEYS.cover));
     if (!loadFromStorage()) setData(prefill);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -678,14 +680,14 @@ function Titelblatt() {
    * Zustand würde die frischere Arbeit sonst überschreiben.
    */
   useEffect(() => {
-    if (!visible || !restored.current) return;
+    if (!visible || !restored) return;
     if (changedElsewhere()) {
       loadFromStorage();
       setHistory(readHistory(HISTORY_KEYS.cover));
       setStatus({ kind: "ok", text: "Neuerer Stand aus einem anderen Fenster geladen" });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visible]);
+  }, [visible, restored]);
 
   /** Der laufende Entwurf, so wie er gespeichert bzw. exportiert wird. */
   const snapshotPayload = useCallback(
@@ -733,7 +735,7 @@ function Titelblatt() {
 
   // Entwurf sichern
   useEffect(() => {
-    if (!restored.current) return;
+    if (!restored) return;
     // Im Hintergrund nicht speichern – sonst überschreibt ein schlafender Tab
     // die Arbeit des aktiven Fensters.
     if (!visible) return;
@@ -753,7 +755,7 @@ function Titelblatt() {
       keepSnapshot("Automatisch");
     }, 400);
     return () => clearTimeout(id);
-  }, [snapshotPayload, keepSnapshot, visible, markWritten]);
+  }, [snapshotPayload, keepSnapshot, visible, markWritten, restored]);
 
   /*
    * Beide Knöpfe setzen auch das Layout zurück. Sonst wirkt ein frisch
@@ -919,6 +921,28 @@ function Titelblatt() {
         text: error instanceof Error ? error.message : "Dossier-PDF konnte nicht erstellt werden.",
       });
       setDossierReviewOpen(false);
+    } finally {
+      setDownloading(false);
+    }
+  };
+
+  const downloadCoverFamilyDocxNext = async () => {
+    if (downloading) return;
+    setMenuOpen(false);
+    setSelected(null);
+    setDownloading(true);
+    try {
+      // Keep the large editable DOCX serializer out of the normal cover UI bundle.
+      const { downloadSavedCoverFamilyDocxNext } =
+        await import("@/lib/cover-family-docx-next-export");
+      await downloadSavedCoverFamilyDocxNext();
+      setStatus({ kind: "ok", text: "Vollständiges DOCX-Dossier (QA) heruntergeladen" });
+    } catch (error) {
+      setStatus({
+        kind: "error",
+        text:
+          error instanceof Error ? error.message : "DOCX-Testexport konnte nicht erstellt werden.",
+      });
     } finally {
       setDownloading(false);
     }
@@ -1742,6 +1766,7 @@ function Titelblatt() {
         nativePrintError={nativePrint.error}
         onClose={closeDossierReview}
         onDownload={downloadDossierPdf}
+        onCoverFamilyDocxNext={downloadCoverFamilyDocxNext}
       />
 
       {/*

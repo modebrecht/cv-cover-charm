@@ -28,10 +28,7 @@ export function CvNameTypographyControls({
   );
 
   return (
-    <div
-      data-cv-name-typography-controls
-      className="grid gap-2 rounded-md border bg-muted/20 p-3"
-    >
+    <div data-cv-name-typography-controls className="grid gap-2 rounded-md border bg-muted/20 p-3">
       <div className="flex items-center justify-between gap-2">
         <div>
           <div className="text-xs font-semibold">Vorname &amp; Nachname gestalten</div>
@@ -40,7 +37,11 @@ export function CvNameTypographyControls({
           </div>
         </div>
         {person.nameStyle ? (
-          <button type="button" className={smallButtonClass} onClick={() => onChange({ nameStyle: undefined })}>
+          <button
+            type="button"
+            className={smallButtonClass}
+            onClick={() => onChange({ nameStyle: undefined })}
+          >
             Vorlage
           </button>
         ) : null}
@@ -104,7 +105,11 @@ export function CvNameTypographyControls({
           aria-label="Schriftfarbe Vorname und Nachname"
         />
         {style.color ? (
-          <button type="button" className={smallButtonClass} onClick={() => patchStyle({ color: undefined })}>
+          <button
+            type="button"
+            className={smallButtonClass}
+            onClick={() => patchStyle({ color: undefined })}
+          >
             Standardfarbe
           </button>
         ) : (
@@ -129,7 +134,9 @@ export function CvNameTypographyControls({
               aria-pressed={active}
               onClick={() => patchStyle({ [key]: !active })}
               className={`rounded-md border px-2 py-2 text-xs ${textClass} ${
-                active ? "border-foreground bg-muted text-foreground" : "border-input text-muted-foreground"
+                active
+                  ? "border-foreground bg-muted text-foreground"
+                  : "border-input text-muted-foreground"
               }`}
             >
               {label}

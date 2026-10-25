@@ -44,8 +44,7 @@ describe("CV bottom-margin reference guard", () => {
           .bottom,
       ).toBe(CV_PAGE_MARGIN_BOTTOM_MM);
       expect(
-        cvDefaultPageMargins(frame, 0, "classic", undefined, DEFAULT_DOSSIER_CHROME_OPTIONS)
-          .bottom,
+        cvDefaultPageMargins(frame, 0, "classic", undefined, DEFAULT_DOSSIER_CHROME_OPTIONS).bottom,
       ).toBe(CV_PAGE_MARGIN_BOTTOM_MM);
     }
   });

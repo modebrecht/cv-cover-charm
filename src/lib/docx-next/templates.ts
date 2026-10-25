@@ -45,6 +45,11 @@ export type TemplateDefinition = {
     heroSpaceMm: number;
     photoWidthMm: number;
     photoAlign?: Alignment;
+    /** Shared, opt-in native fallback for a photo not uploaded yet.
+     * Source data and user-hidden photo controls retain precedence.
+     * Editable text is not a claim of Word geometry/rounding acceptance.
+     */
+    nativePhotoPlaceholder?: "editable-initials";
     /** Native paragraph defaults; explicit saved field alignment keeps precedence. */
     fieldAlignments?: Readonly<Record<string, Alignment>>;
     /** Palette roles for native field defaults; explicit saved colors retain precedence. */
@@ -88,6 +93,8 @@ export type TemplateDefinition = {
     keepTailTogether?: boolean;
   };
   chrome: {
+    /** Opt-in native paint for the source's empty compact header/footer bands. */
+    sourceCompactBands?: { footerOpacity: number };
     /** Readable native footer ink on descriptor-owned footer artwork. Explicit text colors win. */
     footerSurfaceSlot?: string;
     headerDistanceMm: number;
@@ -168,6 +175,7 @@ export const WARM: TemplateDefinition = {
   colors: { ink: "0B1F24", accent: "0F766E", paper: "FFF9EF" },
   margins: { top: 20, right: 22, bottom: 22, left: 24 },
   cover: {
+    nativePhotoPlaceholder: "editable-initials",
     order: [
       "eyebrow",
       "ortDatum",
@@ -3183,6 +3191,7 @@ export const MODERN: TemplateDefinition = {
   },
   letter: { ...BRIEF.letter, fontSource: "dossier", keepTailTogether: true },
   chrome: {
+    sourceCompactBands: { footerOpacity: 1 },
     headerDistanceMm: 12,
     footerDistanceMm: 12,
     footerSurfaceSlot: "bg",
@@ -4154,6 +4163,7 @@ export const NEON: TemplateDefinition = {
   colors: { ink: "F8FAFC", accent: "E11D8F", paper: "0D0B2B" },
   cover: {
     ...CITRUS.cover,
+    nativePhotoPlaceholder: "editable-initials",
     align: "left",
     photoAlign: "right",
     margins: { top: 24, left: 22, right: 22, bottom: 22 },
@@ -4279,6 +4289,7 @@ export const VERLAUF: TemplateDefinition = {
   colors: { ink: "FFFFFF", accent: "7F5AF0", paper: "FFFFFF" },
   cover: {
     ...CITRUS.cover,
+    nativePhotoPlaceholder: "editable-initials",
     margins: { top: 20, left: 22, right: 22, bottom: 20 },
     rows: [
       { fields: ["eyebrow", "ortDatum"], widths: [1, 1] },

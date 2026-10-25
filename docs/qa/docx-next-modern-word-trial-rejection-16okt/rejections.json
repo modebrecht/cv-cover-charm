@@ -1,0 +1,29 @@
+[
+  {
+    "scenario": "mixed-layout-trials",
+    "messages": [
+      "Error: Design DOCX Next: Die Pillen-Gruppierung ist gesperrt: Microsoft Word zeigt den Text unvollständig. Bitte den Modern-Testexport ohne Gruppierung verwenden.",
+      "Error: Brief DOCX Next: Die Pillen-Gruppierung ist gesperrt: Microsoft Word zeigt den Text unvollständig. Bitte den Modern-Testexport ohne Gruppierung verwenden."
+    ],
+    "disabledButton": true,
+    "downloads": 0,
+    "savedDocumentsUnchanged": true,
+    "result": "PASS Word-rejected trial blocked"
+  },
+  {
+    "scenario": "rejected-native-badge",
+    "messages": [
+      "Error: Design DOCX Next: Die Pillen-Gruppierung ist gesperrt: Microsoft Word zeigt den Text unvollständig. Bitte den Modern-Testexport ohne Gruppierung verwenden.",
+      "Error: Brief DOCX Next: Die Pillen-Gruppierung ist gesperrt: Microsoft Word zeigt den Text unvollständig. Bitte den Modern-Testexport ohne Gruppierung verwenden."
+    ],
+    "disabledButton": true,
+    "downloads": 0,
+    "savedDocumentsUnchanged": true,
+    "result": "PASS Word-rejected trial blocked"
+  },
+  {
+    "scenario": "opt-in-off",
+    "message": "Error: Design DOCX Next: Testexport ist nicht aktiviert.",
+    "result": "PASS hidden and rejected"
+  }
+]

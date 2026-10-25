@@ -1,0 +1,72 @@
+{
+  "status": "PARTIAL",
+  "supplementaryRenderer": "LibreOffice not Microsoft Word",
+  "pages": 4,
+  "webCvPages": 1,
+  "nativeCvPages": 2,
+  "knownPageDifference": "Only references remain on the second native CV page",
+  "changedPackagePartsFrom08": [
+    "word/numbering.xml",
+    "word/document.xml"
+  ],
+  "adjacentPages": [
+    {
+      "page": 1,
+      "pixelIdentical": true
+    },
+    {
+      "page": 2,
+      "pixelIdentical": true
+    }
+  ],
+  "allMediaAndHeadersByteIdentical": true,
+  "pillChecks": [
+    {
+      "field": "cv.section.custom:familie.heading",
+      "page": 3,
+      "inkInsideSurface": true
+    },
+    {
+      "field": "cv.section.schule.heading",
+      "page": 3,
+      "inkInsideSurface": true
+    },
+    {
+      "field": "cv.section.erfahrung.heading",
+      "page": 3,
+      "inkInsideSurface": true
+    },
+    {
+      "field": "cv.section.sprachen.heading",
+      "page": 3,
+      "inkInsideSurface": true
+    },
+    {
+      "field": "cv.section.hobbys.heading",
+      "page": 3,
+      "inkInsideSurface": true
+    },
+    {
+      "field": "cv.section.staerken.heading",
+      "page": 3,
+      "inkInsideSurface": true
+    },
+    {
+      "field": "cv.section.referenzen.heading",
+      "page": 4,
+      "inkInsideSurface": true
+    }
+  ],
+  "nativeListItems": 6,
+  "fieldsRemoved": [
+    "cv.section.person.heading"
+  ],
+  "longDiagnostic": {
+    "pages": 7,
+    "all160MarkersPresent": true,
+    "descriptionFlowsAcrossPages": true,
+    "scope": "text-only pagination diagnostic; browser decorations omitted"
+  },
+  "sha256": "0c017d3d3c7f2431f0271a09d8949e391ceb1a4ec09df1d9c74661b3af56f017",
+  "wordRenderingAndSaveReopen": "UNVERIFIED"
+}

@@ -123,6 +123,13 @@
   font-weight: var(--dossier-body-weight) !important;
 }
 
+/* A filled Modern badge uses the accent treatment, not muted prose opacity. */
+[data-dossier-role="badge"] > div {
+  font-family: var(--dossier-font) !important;
+  font-weight: var(--dossier-body-weight) !important;
+  line-height: var(--dossier-body-line-height) !important;
+}
+
 [data-cv-muted] {
   font-weight: var(--dossier-body-weight) !important;
 }
@@ -174,6 +181,7 @@
 /* -------------------------------------------------------------------------- */
 
 [data-dossier-role="heading"] > div,
+[data-dossier-role="badge"] > div,
 [data-cv-accent] {
   filter: opacity(var(--dossier-accent-opacity));
 }
@@ -236,6 +244,10 @@
  * into an ordinary rounded rectangle. */
 [data-block-id="lehrbeginn"] span {
   border-radius: 9999px !important;
+}
+
+[data-dossier-role="badge"] span {
+  border-radius: var(--cover-badge-radius, 9999px) !important;
 }
 
 [data-cv-accent] {

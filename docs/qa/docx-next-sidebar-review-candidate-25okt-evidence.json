@@ -1,0 +1,576 @@
+{
+  "date": "2026-10-25",
+  "branch": "fix/docx-next-shared-integration-22okt",
+  "baseHead": "cf736d8bb1c45c02d9d6f7ae7f619b6458384407",
+  "candidateVerification": {
+    "sourceRebuiltByteExactly": true,
+    "candidateSha256": "ad5fed158088ad5506c1bb483f441212bd58be57a35b7092c2ba299a57978968",
+    "letterCandidateSha256": "4818ed92d27358cc719309a5431a1d45278b0631cb851089d3a6aa71bd0c0c73",
+    "controlOccurrences": 145,
+    "canonicalTags": 134,
+    "allSourceFieldTokensAndRolesMatch": true,
+    "pageCount": 4,
+    "initialPageVerification": [
+      {
+        "page": 1,
+        "size": [
+          1414,
+          2000
+        ],
+        "pixelIdenticalToLetterCandidate": true,
+        "pixelIdenticalToOriginalControl": true
+      },
+      {
+        "page": 2,
+        "size": [
+          1414,
+          2000
+        ],
+        "pixelIdenticalToLetterCandidate": true,
+        "pixelIdenticalToOriginalControl": false
+      },
+      {
+        "page": 3,
+        "size": [
+          1414,
+          2000
+        ],
+        "pixelIdenticalToLetterCandidate": true,
+        "pixelIdenticalToOriginalControl": true
+      },
+      {
+        "page": 4,
+        "size": [
+          1414,
+          2000
+        ],
+        "pixelIdenticalToLetterCandidate": true,
+        "pixelIdenticalToOriginalControl": true
+      }
+    ],
+    "wellFormedXmlAndRelsParts": 27,
+    "packageParts": 41,
+    "resolvedInternalRelationships": 39,
+    "fullSchemaValidation": false,
+    "returnReaderTests": {
+      "tests": 22,
+      "result": "PASS"
+    },
+    "cliChecks": [
+      {
+        "case": "synthetic-identity",
+        "exitCode": 0,
+        "preservationStatus": "PRESERVED_WITHIN_BOUNDED_XML_CHECKS",
+        "failedChecks": [],
+        "wordAcceptance": "UNVERIFIED"
+      },
+      {
+        "case": "writer-save1",
+        "exitCode": 1,
+        "preservationStatus": "FAIL",
+        "failedChecks": [
+          "allFieldCountsUnchanged",
+          "otherActivePicturesUnchanged",
+          "allFieldTokensAndRolesUnchanged",
+          "canonicalFieldNestingUnchanged",
+          "supportedRichNativeOwners",
+          "frameSizeAndShapeUnchanged",
+          "activeEmbeddedPictureResolved",
+          "originalBytesAndPixelsInsideOwner",
+          "numericCropAndFillUnchanged"
+        ],
+        "wordAcceptance": "UNVERIFIED"
+      }
+    ],
+    "writerSaveResult": "FAIL_FOR_TYPED_AND_RICH_OWNERS_AFTER_BOTH_SAVES",
+    "writerSavedOccurrences": 49,
+    "writerSavedTags": 39,
+    "writerSavedImagePixels": [
+      1920,
+      2400
+    ],
+    "sourceImagePixels": [
+      1920,
+      2880
+    ],
+    "writerImageEqualsExactPhysical240pxTopAndBottomCrop": true,
+    "wordUiActionsProven": false,
+    "wordAcceptance": "UNVERIFIED",
+    "normalExportChanged": false,
+    "referenceWrap": "OPEN",
+    "limits": [
+      "Same bundled renderer for pixel comparisons; initial source only.",
+      "Actual Writer save failures are separate from actual Word evidence.",
+      "No Bun suite, full TypeScript, Prettier, fresh Browser export or Word save/reopen performed."
+    ]
+  },
+  "referenceProbe": {
+    "scope": "BOUNDED_DIAGNOSTICS_NO_PRODUCT_FIX",
+    "sourceSha256": "5e469d60181f8405fffcb43a57f92377fc6b0daa414d71ac22cd33ed3a6a25e0",
+    "renderer": "EXTERNAL_RENDERER_NOT_PROVEN_BY_SCRIPT",
+    "cases": [
+      {
+        "name": "width-3220",
+        "pdfSha256": "5ae88e857055c6e3572a68892a663b3b2d4373dea6fff0fae2dd6eb7dbcbfbdb",
+        "pages": 4,
+        "roleLines": [
+          {
+            "text": "Klassenlehrer, Schulhaus ",
+            "bbox": [
+              201.35000610351562,
+              330.4482727050781,
+              323.15008544921875,
+              342.166259765625
+            ],
+            "fontSizesPt": [
+              10.5
+            ],
+            "fontFamilies": [
+              "LiberationSans"
+            ]
+          },
+          {
+            "text": "Zentrum",
+            "bbox": [
+              201.35000610351562,
+              342.89825439453125,
+              240.36798095703125,
+              354.61627197265625
+            ],
+            "fontSizesPt": [
+              10.5
+            ],
+            "fontFamilies": [
+              "LiberationSans"
+            ]
+          }
+        ],
+        "oneLineObserved": false
+      },
+      {
+        "name": "width-3222",
+        "pdfSha256": "7d5f104fc08c3752e51dca301c3189f6c4ce5fac9763972ec8f805c611409705",
+        "pages": 4,
+        "roleLines": [
+          {
+            "text": "Klassenlehrer, Schulhaus ",
+            "bbox": [
+              201.35000610351562,
+              330.4482727050781,
+              323.15008544921875,
+              342.166259765625
+            ],
+            "fontSizesPt": [
+              10.5
+            ],
+            "fontFamilies": [
+              "LiberationSans"
+            ]
+          },
+          {
+            "text": "Zentrum",
+            "bbox": [
+              201.35000610351562,
+              342.89825439453125,
+              240.36798095703125,
+              354.61627197265625
+            ],
+            "fontSizesPt": [
+              10.5
+            ],
+            "fontFamilies": [
+              "LiberationSans"
+            ]
+          }
+        ],
+        "oneLineObserved": false
+      },
+      {
+        "name": "width-3224",
+        "pdfSha256": "426b8cea05818c6c6c2f063505e6d1fd1923ed488ee4ee8891ae2368717fe4e6",
+        "pages": 4,
+        "roleLines": [
+          {
+            "text": "Klassenlehrer, Schulhaus Zentrum",
+            "bbox": [
+              201.35000610351562,
+              330.4482727050781,
+              362.1996154785156,
+              342.166259765625
+            ],
+            "fontSizesPt": [
+              10.5
+            ],
+            "fontFamilies": [
+              "LiberationSans"
+            ]
+          }
+        ],
+        "oneLineObserved": true
+      },
+      {
+        "name": "width-3226",
+        "pdfSha256": "b06397297867a65d11332a322a205c2e74d0b578d3cd44ef90ea4c9268690fbb",
+        "pages": 4,
+        "roleLines": [
+          {
+            "text": "Klassenlehrer, Schulhaus Zentrum",
+            "bbox": [
+              201.35000610351562,
+              330.4482727050781,
+              362.1996154785156,
+              342.166259765625
+            ],
+            "fontSizesPt": [
+              10.5
+            ],
+            "fontFamilies": [
+              "LiberationSans"
+            ]
+          }
+        ],
+        "oneLineObserved": true
+      },
+      {
+        "name": "width-3230",
+        "pdfSha256": "66489841387a91094eccabc09746233cb49093bcfffd0a8eda50dd71271fbf47",
+        "pages": 4,
+        "roleLines": [
+          {
+            "text": "Klassenlehrer, Schulhaus Zentrum",
+            "bbox": [
+              201.35000610351562,
+              330.4482727050781,
+              362.1996154785156,
+              342.166259765625
+            ],
+            "fontSizesPt": [
+              10.5
+            ],
+            "fontFamilies": [
+              "LiberationSans"
+            ]
+          }
+        ],
+        "oneLineObserved": true
+      },
+      {
+        "name": "width-3240",
+        "pdfSha256": "75de7729cbc0c604f1b411106592714637b29f2cf7266e89df288fb4c6f19156",
+        "pages": 4,
+        "roleLines": [
+          {
+            "text": "Klassenlehrer, Schulhaus Zentrum",
+            "bbox": [
+              201.35000610351562,
+              330.4482727050781,
+              362.1996154785156,
+              342.166259765625
+            ],
+            "fontSizesPt": [
+              10.5
+            ],
+            "fontFamilies": [
+              "LiberationSans"
+            ]
+          }
+        ],
+        "oneLineObserved": true
+      },
+      {
+        "name": "size-20",
+        "pdfSha256": "1ad970cfb1b352dac6f5b69ef871a4c2e3e10fcdf818d37ba16c38215030e651",
+        "pages": 4,
+        "roleLines": [
+          {
+            "text": "Klassenlehrer, Schulhaus Zentrum",
+            "bbox": [
+              201.35000610351562,
+              330.4507751464844,
+              354.63983154296875,
+              341.6107482910156
+            ],
+            "fontSizesPt": [
+              10.0
+            ],
+            "fontFamilies": [
+              "LiberationSans"
+            ]
+          }
+        ],
+        "oneLineObserved": true
+      },
+      {
+        "name": "size-precise",
+        "pdfSha256": "e322235148e7c900480029fefe75266d4ba6af8d6feeca25849e67551a2a851e",
+        "pages": 4,
+        "roleLines": [
+          {
+            "text": "Klassenlehrer, Schulhaus ",
+            "bbox": [
+              201.35000610351562,
+              330.4482727050781,
+              323.15008544921875,
+              342.166259765625
+            ],
+            "fontSizesPt": [
+              10.5
+            ],
+            "fontFamilies": [
+              "LiberationSans"
+            ]
+          },
+          {
+            "text": "Zentrum",
+            "bbox": [
+              201.35000610351562,
+              342.89825439453125,
+              240.36798095703125,
+              354.61627197265625
+            ],
+            "fontSizesPt": [
+              10.5
+            ],
+            "fontFamilies": [
+              "LiberationSans"
+            ]
+          }
+        ],
+        "oneLineObserved": false
+      },
+      {
+        "name": "plain-role",
+        "pdfSha256": "3f3302390a204b8ba2a577d8fa79a15c883dec80862163c34be14983569c4a04",
+        "pages": 4,
+        "roleLines": [
+          {
+            "text": "Klassenlehrer, Schulhaus ",
+            "bbox": [
+              201.35000610351562,
+              330.4482727050781,
+              323.15008544921875,
+              342.166259765625
+            ],
+            "fontSizesPt": [
+              10.5
+            ],
+            "fontFamilies": [
+              "LiberationSans"
+            ]
+          },
+          {
+            "text": "Zentrum",
+            "bbox": [
+              201.35000610351562,
+              342.89825439453125,
+              240.36798095703125,
+              354.61627197265625
+            ],
+            "fontSizesPt": [
+              10.5
+            ],
+            "fontFamilies": [
+              "LiberationSans"
+            ]
+          }
+        ],
+        "oneLineObserved": false
+      },
+      {
+        "name": "inline-role",
+        "pdfSha256": "ea2d9e075db4f3abf341dab933938fa36655917ba7402987bfec32dc4a48f167",
+        "pages": 4,
+        "roleLines": [
+          {
+            "text": "Klassenlehrer, Schulhaus ",
+            "bbox": [
+              201.35000610351562,
+              330.4482727050781,
+              323.15008544921875,
+              342.166259765625
+            ],
+            "fontSizesPt": [
+              10.5
+            ],
+            "fontFamilies": [
+              "LiberationSans"
+            ]
+          },
+          {
+            "text": "Zentrum",
+            "bbox": [
+              201.35000610351562,
+              342.89825439453125,
+              240.36798095703125,
+              354.61627197265625
+            ],
+            "fontSizesPt": [
+              10.5
+            ],
+            "fontFamilies": [
+              "LiberationSans"
+            ]
+          }
+        ],
+        "oneLineObserved": false
+      },
+      {
+        "name": "explicit-cell-insets",
+        "pdfSha256": "c2729767282ddf3eac40d575644eaccdd43db9a3e5887358e980d6f051e75b70",
+        "pages": 4,
+        "roleLines": [
+          {
+            "text": "Klassenlehrer, Schulhaus ",
+            "bbox": [
+              201.35000610351562,
+              330.4482727050781,
+              323.15008544921875,
+              342.166259765625
+            ],
+            "fontSizesPt": [
+              10.5
+            ],
+            "fontFamilies": [
+              "LiberationSans"
+            ]
+          },
+          {
+            "text": "Zentrum",
+            "bbox": [
+              201.35000610351562,
+              342.89825439453125,
+              240.36798095703125,
+              354.61627197265625
+            ],
+            "fontSizesPt": [
+              10.5
+            ],
+            "fontFamilies": [
+              "LiberationSans"
+            ]
+          }
+        ],
+        "oneLineObserved": false
+      }
+    ],
+    "wordAcceptance": "UNVERIFIED",
+    "productFix": false
+  },
+  "writerSaves": {
+    "engine": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+    "wordAcceptance": "UNVERIFIED",
+    "cases": [
+      {
+        "case": "typed",
+        "saveCycle": 1,
+        "savedSha256": "cfe5d992df5f964cd133a52dca8dab89a8eb3743394bb6a7ee4c2019bb171e7f",
+        "sourceInstances": 145,
+        "matchingTokenRoleInstances": 49,
+        "savedOccurrences": 49,
+        "savedCanonicalTags": 39,
+        "photo": [
+          {
+            "canonicalOwnerMatchStatus": "MATCHED",
+            "savedOwnedPictureCount": 1,
+            "typedPictureControlSurvives": true,
+            "originalPixelsInsideCanonicalControl": false,
+            "originalPixelsSomewhereInPackage": false,
+            "encodedCropFractionsUnchanged": null
+          }
+        ],
+        "richOwnerFailedChecks": null
+      },
+      {
+        "case": "typed",
+        "saveCycle": 2,
+        "savedSha256": "909b9e3f111b53f31655f3c99de62e458f345f7ac7a63c0af059e67ba755049b",
+        "sourceInstances": 145,
+        "matchingTokenRoleInstances": 49,
+        "savedOccurrences": 49,
+        "savedCanonicalTags": 39,
+        "photo": [
+          {
+            "canonicalOwnerMatchStatus": "MATCHED",
+            "savedOwnedPictureCount": 1,
+            "typedPictureControlSurvives": true,
+            "originalPixelsInsideCanonicalControl": false,
+            "originalPixelsSomewhereInPackage": false,
+            "encodedCropFractionsUnchanged": null
+          }
+        ],
+        "richOwnerFailedChecks": null
+      },
+      {
+        "case": "rich",
+        "saveCycle": 1,
+        "savedSha256": "b02c95adc278280608a0a51c107723bf2dc550059dd063f11f09b21a830686bd",
+        "sourceInstances": 145,
+        "matchingTokenRoleInstances": 49,
+        "savedOccurrences": 49,
+        "savedCanonicalTags": 39,
+        "photo": [
+          {
+            "canonicalOwnerMatchStatus": "MATCHED",
+            "savedOwnedPictureCount": 1,
+            "typedPictureControlSurvives": false,
+            "originalPixelsInsideCanonicalControl": false,
+            "originalPixelsSomewhereInPackage": false,
+            "encodedCropFractionsUnchanged": null
+          }
+        ],
+        "richOwnerFailedChecks": [
+          "allFieldCountsUnchanged",
+          "otherActivePicturesUnchanged",
+          "allFieldTokensAndRolesUnchanged",
+          "canonicalFieldNestingUnchanged",
+          "supportedRichNativeOwners",
+          "frameSizeAndShapeUnchanged",
+          "activeEmbeddedPictureResolved",
+          "originalBytesAndPixelsInsideOwner",
+          "numericCropAndFillUnchanged"
+        ]
+      },
+      {
+        "case": "rich",
+        "saveCycle": 2,
+        "savedSha256": "c3d1d8460998ba5edbde12addb2cc2181498d1e61be3b540e0b56dd476e19285",
+        "sourceInstances": 145,
+        "matchingTokenRoleInstances": 49,
+        "savedOccurrences": 49,
+        "savedCanonicalTags": 39,
+        "photo": [
+          {
+            "canonicalOwnerMatchStatus": "MATCHED",
+            "savedOwnedPictureCount": 1,
+            "typedPictureControlSurvives": false,
+            "originalPixelsInsideCanonicalControl": false,
+            "originalPixelsSomewhereInPackage": false,
+            "encodedCropFractionsUnchanged": null
+          }
+        ],
+        "richOwnerFailedChecks": [
+          "allFieldCountsUnchanged",
+          "otherActivePicturesUnchanged",
+          "allFieldTokensAndRolesUnchanged",
+          "canonicalFieldNestingUnchanged",
+          "supportedRichNativeOwners",
+          "frameSizeAndShapeUnchanged",
+          "activeEmbeddedPictureResolved",
+          "originalBytesAndPixelsInsideOwner",
+          "numericCropAndFillUnchanged"
+        ]
+      }
+    ]
+  },
+  "normalExportChanged": false,
+  "fullSchemaValidation": false,
+  "wordAcceptance": "UNVERIFIED",
+  "mergePerformed": false,
+  "deploymentPerformed": false,
+  "ciDispatched": false,
+  "reviewPacket": {
+    "fileName": "CV-Word-Pruefkandidat-25okt.zip",
+    "sizeBytes": 2030195,
+    "sha256": "430f88185d3091270d8cc7f40bade4fa295abc000cbdb22a6575b7c6e510f509"
+  }
+}

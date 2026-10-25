@@ -341,7 +341,9 @@ test.describe("Fresh dossier templates", () => {
     expect(hashes.size).toBe(FRESH.length);
   });
 
-  test("all retained Fresh CVs render and stay visually paired with their template", async ({ page }) => {
+  test("all retained Fresh CVs render and stay visually paired with their template", async ({
+    page,
+  }) => {
     await page.setViewportSize({ width: 1137, height: 913 });
     const hashes = new Set<string>();
 

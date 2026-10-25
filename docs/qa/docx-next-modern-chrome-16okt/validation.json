@@ -1,0 +1,89 @@
+[
+  {
+    "case": "normal",
+    "pages": 4,
+    "coverPixelsUnchanged": true,
+    "wholePagePixelEquality": [
+      true,
+      false,
+      false,
+      false
+    ],
+    "bodyRegionsPixelIdentical": [
+      true,
+      true,
+      true
+    ],
+    "bodyGlyphPositionsIdentical": [
+      true,
+      true,
+      true
+    ],
+    "defaultNextBytesUnchanged": true,
+    "webCoverPixelsUnchanged": true,
+    "letterAndCvBodyModelsUnchanged": true,
+    "nativeFooterMm": 4,
+    "nativeImplicitFooterName": false,
+    "nativePageFrame": false,
+    "sha256": "876c4ef559b00d35104225d7defee57638afa7cdaa916320cc4857c8d7ac8334",
+    "wordAcceptance": "UNVERIFIED"
+  },
+  {
+    "case": "scaled",
+    "pages": 4,
+    "coverPixelsUnchanged": true,
+    "wholePagePixelEquality": [
+      true,
+      false,
+      false,
+      false
+    ],
+    "bodyRegionsPixelIdentical": [
+      true,
+      true,
+      true
+    ],
+    "bodyGlyphPositionsIdentical": [
+      true,
+      true,
+      true
+    ],
+    "defaultNextBytesUnchanged": true,
+    "webCoverPixelsUnchanged": true,
+    "letterAndCvBodyModelsUnchanged": true,
+    "nativeFooterMm": 4,
+    "nativeImplicitFooterName": false,
+    "nativePageFrame": false,
+    "sha256": "f6b7ce73d0a793acf928fb9cc5311af6cb4bfd44825e00bda64f01c8c4b9679d",
+    "wordAcceptance": "UNVERIFIED"
+  },
+  {
+    "case": "long",
+    "pages": 4,
+    "coverPixelsUnchanged": true,
+    "wholePagePixelEquality": [
+      true,
+      false,
+      false,
+      false
+    ],
+    "bodyRegionsPixelIdentical": [
+      true,
+      true,
+      true
+    ],
+    "bodyGlyphPositionsIdentical": [
+      true,
+      true,
+      true
+    ],
+    "defaultNextBytesUnchanged": true,
+    "webCoverPixelsUnchanged": true,
+    "letterAndCvBodyModelsUnchanged": true,
+    "nativeFooterMm": 4,
+    "nativeImplicitFooterName": false,
+    "nativePageFrame": false,
+    "sha256": "2cb3606fde68b15f8568dc8093dd9917c7a731970faa4fc3493b74186beb1a9c",
+    "wordAcceptance": "UNVERIFIED"
+  }
+]

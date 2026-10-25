@@ -52,11 +52,11 @@ function cover(
 function storedDocx() {
   const documentXml =
     '<?xml version="1.0"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><w:body>' +
-    '<w:p><w:r><w:t>OLD COVER</w:t></w:r></w:p>' +
+    "<w:p><w:r><w:t>OLD COVER</w:t></w:r></w:p>" +
     '<w:p><w:pPr><w:sectPr><w:pgSz w:w="11906" w:h="16838"/></w:sectPr></w:pPr></w:p>' +
-    '<w:p><w:r><w:t>LETTER KEEP</w:t></w:r></w:p>' +
+    "<w:p><w:r><w:t>LETTER KEEP</w:t></w:r></w:p>" +
     '<w:p><w:pPr><w:sectPr><w:pgSz w:w="11906" w:h="16838"/></w:sectPr></w:pPr></w:p>' +
-    '<w:p><w:r><w:t>CV KEEP</w:t></w:r></w:p>' +
+    "<w:p><w:r><w:t>CV KEEP</w:t></w:r></w:p>" +
     '<w:sectPr><w:pgSz w:w="11906" w:h="16838"/></w:sectPr>' +
     "</w:body></w:document>";
   const rels =
@@ -140,9 +140,7 @@ describe("DOCX V2 canonical cover scene", () => {
     });
   });
   test("hidden editor elements stay hidden in the Word scene", () => {
-    const scene = buildDossierDocxV2CoverScene(
-      cover("freundlich", { name: { hidden: true } }),
-    );
+    const scene = buildDossierDocxV2CoverScene(cover("freundlich", { name: { hidden: true } }));
     expect(scene.nodes.some((node) => node.id === "name")).toBe(false);
   });
 

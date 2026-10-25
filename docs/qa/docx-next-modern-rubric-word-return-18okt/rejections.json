@@ -1,0 +1,13 @@
+[
+  {
+    "scenario": "rejected-rubric-anchor",
+    "message": "DOCX Next: Rubrik-Pills sind in diesem Test gesperrt: Microsoft Word verschiebt Rubrik-Hintergründe. Bitte den getrennten Rubrik-Abstandstest verwenden.",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  },
+  {
+    "scenario": "opt-in-off",
+    "message": "Error: Design DOCX Next: Testexport ist nicht aktiviert.",
+    "result": "PASS hidden and rejected"
+  }
+]

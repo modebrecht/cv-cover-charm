@@ -1,0 +1,38 @@
+{
+  "userFeedback": "05 gut; perceived overall shift",
+  "wordReturnPdfSha256": "61b5109ebb12595d5bd306941ddfe4f31726f36855d902d852c1f1e816a48d31",
+  "intentionalContentTopMm": 44,
+  "unchangedSavedPageMargins": {
+    "cv": {
+      "top": 28,
+      "right": 24,
+      "bottom": 1,
+      "left": 24
+    },
+    "letter": {
+      "top": 28,
+      "right": 24,
+      "bottom": 22,
+      "left": 24
+    }
+  },
+  "confirmedWordContactIndentBeforeMm": 6,
+  "nativePositionsAfterMm": {
+    "Lea Müller": 24.04,
+    "Dorfstrasse 12": 24.04,
+    "Geburtsdatum:": 24.04,
+    "FAMILIE": 30.44
+  },
+  "sameSavedSnapshot": true,
+  "appPdfPagesPixelIdentical": 3,
+  "adjacentModelsIdentical": true,
+  "sevenOtherBatchModelsIdentical": true,
+  "supplementalNativePages": 4,
+  "docxTests": 442,
+  "failures": 0,
+  "typecheck": "PASS",
+  "lint": "PASS; 0 errors, 21 existing warnings",
+  "build": "PASS",
+  "wordAcceptanceOfNewFix": "UNVERIFIED",
+  "candidateSha256": "d5f193d69e18a89bf81635b28f2c697262d3f45baa5f7fc344cf233677f27cf5"
+}

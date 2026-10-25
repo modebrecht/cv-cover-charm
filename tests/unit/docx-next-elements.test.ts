@@ -64,11 +64,18 @@ describe("semantic custom elements and nonsemantic decoration", () => {
     );
     expect(box).toMatchObject({
       kind: "table",
-      widthMm: 120,
+      sourceLayout: { widthMm: 120 },
       indentMm: 15,
       decoration: { fillColor: "E6EDF3", paddingXMm: 2, paddingYMm: 1, borderWidthMm: 0.3 },
       rows: [{ keepTogether: true }],
     });
+    // Automatic colored badges fit their content; the authored 120 mm reservation
+    // survives in sourceLayout and explicit width overrides remain authoritative.
+    expect(box?.kind).toBe("table");
+    if (box?.kind === "table") {
+      expect(box.widthMm).toBeGreaterThan(10);
+      expect(box.widthMm).toBeLessThan(120);
+    }
     const xml = (await parts(model)).get("word/document.xml")!;
     expect(xml).toContain('w:tblCaption w:val="cv.element:custom-b.flow-box"');
     expect(xml).toContain('w:fill="E6EDF3"');

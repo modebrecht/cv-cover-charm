@@ -1,0 +1,43 @@
+[
+  {
+    "id": "01-Modern-Eine-CV-Seite",
+    "exactCapturedModel": true,
+    "sourcePreserved": true
+  },
+  {
+    "id": "04-Modern-Kontakt-senkrecht",
+    "exactCapturedModel": true,
+    "sourcePreserved": true
+  },
+  {
+    "id": "05-Modern-Eigene-Werte-Referenzen",
+    "exactCapturedModel": false,
+    "onlyDeclaredContactIndentCorrection": true,
+    "sourcePreserved": true
+  },
+  {
+    "id": "08-Brief-Standard",
+    "exactCapturedModel": true,
+    "sourcePreserved": true
+  },
+  {
+    "id": "09-Brief-Lang-115-Prozent",
+    "exactCapturedModel": true,
+    "sourcePreserved": true
+  },
+  {
+    "id": "10-Brief-Foto-Hochformat",
+    "exactCapturedModel": true,
+    "sourcePreserved": true
+  },
+  {
+    "id": "11-Brief-Eine-CV-Seite",
+    "exactCapturedModel": true,
+    "sourcePreserved": true
+  },
+  {
+    "id": "12-Brief-Zwei-CV-Seiten",
+    "exactCapturedModel": true,
+    "sourcePreserved": true
+  }
+]

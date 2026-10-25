@@ -1,5 +1,8 @@
 import { FRAME } from "@/default-config";
-import type { DossierDocxV2CoverNode, DossierDocxV2CoverScene } from "@/lib/dossier-docx-v2-cover-scene";
+import type {
+  DossierDocxV2CoverNode,
+  DossierDocxV2CoverScene,
+} from "@/lib/dossier-docx-v2-cover-scene";
 
 const MM_TO_EMU = 36000;
 const PX_TO_MM = 25.4 / 96;
@@ -27,14 +30,20 @@ function vmlStyle(node: Pick<DossierDocxV2CoverNode, "x" | "y" | "width" | "heig
 
 function fillXml(node: DossierDocxV2CoverNode) {
   if (node.gradient) {
-    const angle = ((360 - node.gradient.angle) % 360 + 360) % 360;
+    const angle = (((360 - node.gradient.angle) % 360) + 360) % 360;
     return `<v:fill type="gradient" angle="${angle}" colors="${node.gradient.start}% ${node.gradient.from};${node.gradient.end}% ${node.gradient.to}" opacity="${Math.round(node.opacity * 100)}%"/>`;
   }
   return node.opacity < 0.999 ? `<v:fill opacity="${Math.round(node.opacity * 100)}%"/>` : "";
 }
 
 function paragraphAlignment(value: DossierDocxV2CoverNode["align"]) {
-  return value === "right" ? "right" : value === "center" ? "center" : value === "justify" ? "both" : "left";
+  return value === "right"
+    ? "right"
+    : value === "center"
+      ? "center"
+      : value === "justify"
+        ? "both"
+        : "left";
 }
 
 function runXml(node: DossierDocxV2CoverNode, text: string, color: string, weight: number) {
@@ -96,7 +105,10 @@ function initials(node: DossierDocxV2CoverNode, value: string, z: number) {
     padX: 0,
     padY: Math.max(0, (node.height - node.fontSizePt * 0.3528) / 2),
   };
-  const arcsize = tag === "roundrect" ? ` arcsize="${Math.min(50, (node.radius / Math.max(node.width, 0.1)) * 100)}%"` : "";
+  const arcsize =
+    tag === "roundrect"
+      ? ` arcsize="${Math.min(50, (node.radius / Math.max(node.width, 0.1)) * 100)}%"`
+      : "";
   return `<w:p><w:pPr><w:spacing w:before="0" w:after="0" w:line="1" w:lineRule="exact"/></w:pPr><w:r><w:pict><v:${tag} id="docx-v2-${xmlEscape(node.id)}" style="${vmlStyle(node, z)};v-text-anchor:middle" fillcolor="${fill}" stroked="${node.borderWidth > 0 ? "t" : "f"}"${node.borderWidth > 0 ? ` strokecolor="${node.borderColor}" strokeweight="${node.borderWidth}mm"` : ""}${arcsize}><v:textbox inset="0,0,0,0"><w:txbxContent>${textParagraphs(textNode)}</w:txbxContent></v:textbox></v:${tag}></w:pict></w:r></w:p>`;
 }
 
@@ -129,7 +141,10 @@ function imageMat(node: DossierDocxV2CoverNode, paperColor: string, z: number) {
     width: node.width + gap * 2,
     height: node.height + gap * 2,
   };
-  const arcsize = shape === "roundrect" ? ` arcsize="${Math.min(50, (radius / Math.max(node.width, 0.1)) * 100)}%"` : "";
+  const arcsize =
+    shape === "roundrect"
+      ? ` arcsize="${Math.min(50, (radius / Math.max(node.width, 0.1)) * 100)}%"`
+      : "";
   return `<w:r><w:pict><v:${shape} id="docx-v2-${xmlEscape(node.id)}-mat" style="${vmlStyle(mat, z)}" fillcolor="${paperColor}" stroked="t" strokecolor="${node.borderColor}" strokeweight="${node.borderWidth}mm"${arcsize}/></w:pict></w:r>`;
 }
 
@@ -194,7 +209,8 @@ export function renderDossierDocxV2CoverScene(
         return `${image}${badgeShapes(node, z)}${textboxShape(node, z)}`;
       }
       if (media) return imageParagraph(node, media, scene.paperColor, z);
-      if (node.kind === "photo" && options.initialsValue) return initials(node, options.initialsValue, z);
+      if (node.kind === "photo" && options.initialsValue)
+        return initials(node, options.initialsValue, z);
       return "";
     })
     .join("");

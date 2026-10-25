@@ -1,0 +1,199 @@
+{
+  "status": "PASS; revised Microsoft Word rendering still pending",
+  "checks": [
+    {
+      "case": "01",
+      "personalLabelSingleLine": true,
+      "physicalValueColumnMm": 25.72454320833333
+    },
+    {
+      "case": "02",
+      "personalLabelSingleLine": true,
+      "physicalValueColumnMm": 29.840189874999997
+    },
+    {
+      "case": "03",
+      "personalLabelSingleLine": true,
+      "physicalValueColumnMm": 27.782419458333333
+    },
+    {
+      "case": "03",
+      "resolvedBodyTopsMm": {
+        "letter": {
+          "firstMm": 47,
+          "continuationMm": 30
+        },
+        "cv": {
+          "firstMm": 47,
+          "continuationMm": 30
+        }
+      },
+      "samples": {
+        "Web-PDF": {
+          "firstCvTitleInkTopMm": 46.0514,
+          "letterCvHeaderPixelRGB": [
+            [
+              24,
+              53,
+              71
+            ],
+            [
+              24,
+              53,
+              71
+            ]
+          ]
+        },
+        "native-preview": {
+          "firstCvTitleInkTopMm": 47.1781,
+          "letterCvHeaderPixelRGB": [
+            [
+              24,
+              53,
+              71
+            ],
+            [
+              24,
+              53,
+              71
+            ]
+          ]
+        }
+      },
+      "note": "First/continuation settings preserved. Ink bounds differ with native font/line metrics; no pixel identity claimed."
+    },
+    {
+      "case": "04",
+      "personalLabelSingleLine": true,
+      "physicalValueColumnMm": 27.782419458333333
+    },
+    {
+      "case": "04",
+      "resolvedBodyTopsMm": {
+        "letter": {
+          "firstMm": 53,
+          "continuationMm": 36
+        },
+        "cv": {
+          "firstMm": 53,
+          "continuationMm": 40
+        }
+      },
+      "samples": {
+        "Web-PDF": {
+          "firstCvTitleInkTopMm": 52.0516,
+          "letterCvHeaderPixelRGB": [
+            [
+              24,
+              53,
+              71
+            ],
+            [
+              24,
+              53,
+              71
+            ]
+          ]
+        },
+        "native-preview": {
+          "firstCvTitleInkTopMm": 53.1753,
+          "letterCvHeaderPixelRGB": [
+            [
+              24,
+              53,
+              71
+            ],
+            [
+              24,
+              53,
+              71
+            ]
+          ]
+        }
+      },
+      "note": "First/continuation settings preserved. Ink bounds differ with native font/line metrics; no pixel identity claimed."
+    },
+    {
+      "case": "05",
+      "personalLabelSingleLine": true,
+      "physicalValueColumnMm": 29.840189874999997
+    },
+    {
+      "case": "06",
+      "personalLabelSingleLine": true,
+      "physicalValueColumnMm": 29.840189874999997
+    },
+    {
+      "case": "06",
+      "photoCenterMm": [
+        155.0,
+        73.0
+      ],
+      "decorationCenterMm": [
+        155.0,
+        73.0
+      ],
+      "badgeLeftMm": 20
+    },
+    {
+      "case": "08",
+      "personalLabelSingleLine": true,
+      "physicalValueColumnMm": 29.623231541666666
+    },
+    {
+      "case": "08",
+      "contactValueXmm": {
+        "Web-PDF": {
+          "4535 Hubersdorf": 49.4502,
+          "lea.mueller@example.ch": 49.4502,
+          "14.03.2010": 49.4502
+        },
+        "native-preview": {
+          "4535 Hubersdorf": 49.6358,
+          "lea.mueller@example.ch": 49.6358,
+          "14.03.2010": 49.6358
+        }
+      }
+    },
+    {
+      "case": "09",
+      "personalLabelSingleLine": true,
+      "physicalValueColumnMm": 29.623231541666666
+    },
+    {
+      "case": "09",
+      "contactValueXmm": {
+        "Web-PDF": {
+          "4535 Hubersdorf": 49.4502,
+          "lea.mueller@example.ch": 49.4502,
+          "14.03.2010": 49.4502
+        },
+        "native-preview": {
+          "4535 Hubersdorf": 49.6358,
+          "lea.mueller@example.ch": 49.6358,
+          "14.03.2010": 49.6358
+        }
+      }
+    },
+    {
+      "case": "10",
+      "personalLabelSingleLine": true,
+      "physicalValueColumnMm": 29.623231541666666
+    },
+    {
+      "case": "10",
+      "contactValueXmm": {
+        "Web-PDF": {
+          "4535 Hubersdorf": 49.4502,
+          "lea.mueller@example.ch": 49.4502,
+          "14.03.2010": 49.4502
+        },
+        "native-preview": {
+          "4535 Hubersdorf": 49.6358,
+          "lea.mueller@example.ch": 49.6358,
+          "14.03.2010": 49.6358
+        }
+      }
+    }
+  ]
+}

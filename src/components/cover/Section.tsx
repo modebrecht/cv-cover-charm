@@ -57,15 +57,7 @@ function hintKind(hint: string | undefined): HintKind | undefined {
 }
 
 /** Aufklappbarer Abschnitt für die gemeinsame Dossier-Seitenleiste. */
-export function Section({
-  title,
-  open,
-  onToggle,
-  hint,
-  rubricTone,
-  action,
-  children,
-}: Props) {
+export function Section({ title, open, onToggle, hint, rubricTone, action, children }: Props) {
   const id = useId();
   const group = formGroup(title);
   const marker = groupMarker(title);

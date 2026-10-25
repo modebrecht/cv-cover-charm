@@ -4,15 +4,10 @@
  * When the override is active it wins for all standard dossier text roles,
  * including segmented template copy whose spans historically carried colours.
  */
-[data-dossier-document="cover"][data-cover-text-override="true"]
-  [data-dossier-role]
-  > div {
+[data-dossier-document="cover"][data-cover-text-override="true"] [data-dossier-role] > div {
   color: var(--cover-text-override) !important;
 }
 
-[data-dossier-document="cover"][data-cover-text-override="true"]
-  [data-dossier-role]
-  > div
-  span {
+[data-dossier-document="cover"][data-cover-text-override="true"] [data-dossier-role] > div span {
   color: inherit !important;
 }

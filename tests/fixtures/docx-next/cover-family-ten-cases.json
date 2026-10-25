@@ -1,0 +1,62 @@
+[
+  {
+    "id": "V01",
+    "family": "verlauf",
+    "variant": "baseline",
+    "purpose": "Saved Web / PDF baseline; August 2028 pill"
+  },
+  {
+    "id": "V02",
+    "family": "verlauf",
+    "variant": "scale115",
+    "purpose": "115% cover typography and geometry"
+  },
+  {
+    "id": "V03",
+    "family": "verlauf",
+    "variant": "photo",
+    "purpose": "Actual saved image input, circle frame and crop"
+  },
+  {
+    "id": "V04",
+    "family": "verlauf",
+    "variant": "long-date",
+    "purpose": "Longer date pill and authored title"
+  },
+  {
+    "id": "N01",
+    "family": "neon",
+    "variant": "baseline",
+    "purpose": "Dark gradients, capsule, asymmetric initials"
+  },
+  {
+    "id": "N02",
+    "family": "neon",
+    "variant": "hidden-rule",
+    "purpose": "Explicit hidden separator retains override"
+  },
+  {
+    "id": "N03",
+    "family": "neon",
+    "variant": "photo",
+    "purpose": "Saved photo and crop against existing gradients"
+  },
+  {
+    "id": "W01",
+    "family": "freundlich",
+    "variant": "baseline",
+    "purpose": "Warm photo initials, double cover badges, footer"
+  },
+  {
+    "id": "W02",
+    "family": "freundlich",
+    "variant": "long-name",
+    "purpose": "Long name and text hierarchy"
+  },
+  {
+    "id": "W03",
+    "family": "freundlich",
+    "variant": "contact-long",
+    "purpose": "Bottom contact and attachments remain aligned"
+  }
+]

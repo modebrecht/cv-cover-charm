@@ -1,5 +1,19 @@
 import type { DecorativeArtwork, DecorativeShape, DocumentPart } from "./model";
 import type { DecorationPaint } from "./decoration";
+import { twips } from "./xml";
+
+/** Word page sizes use integer twips, while picture extents use EMU. The
+ * returned Word PDF floors the exact-mm picture and rounds the paper upward.
+ * Snap decorative coverage to the page grid plus one native unit. Never use
+ * this for semantic pictures, text or body margins. */
+export function nativePagePaintGeometry(page: DocumentPart["page"]) {
+  return {
+    xMm: 0,
+    yMm: 0,
+    widthMm: ((twips(page.widthMm) + 1) * 25.4) / 1440,
+    heightMm: ((twips(page.heightMm) + 1) * 25.4) / 1440,
+  };
+}
 export function artworkApplies(value: Pick<DecorativeArtwork, "repeat">, first: boolean): boolean {
   return value.repeat === undefined || value.repeat === (first ? "first" : "continuation");
 }
@@ -91,6 +105,9 @@ export function compositePagePaint(
   return {
     kind: "decorative-shape",
     id: `${part.id}.page-paint.${first ? "first" : "continuation"}`,
+    // The composed page is an underlay. Its XML emission order must never
+    // put opaque reading planes above line-relative body decorations.
+    paintLayer: 0,
     semanticText: false,
     shape: "rect",
     xMm: 0,

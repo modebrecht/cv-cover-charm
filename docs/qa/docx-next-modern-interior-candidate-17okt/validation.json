@@ -1,0 +1,358 @@
+[
+  {
+    "case": "header-inline",
+    "pages": 4,
+    "logicalDocuments": 3,
+    "semanticFieldRunsFound": 94,
+    "missing": [],
+    "nativeControls": 97,
+    "headerRows": [
+      {
+        "scope": "letter",
+        "page": 2,
+        "nativeRows": 1
+      },
+      {
+        "scope": "cv",
+        "page": 3,
+        "nativeRows": 1
+      },
+      {
+        "scope": "cv",
+        "page": 4,
+        "nativeRows": 1
+      }
+    ],
+    "pills": [],
+    "coverPixelIdenticalToReviewed": true,
+    "candidateSha256": "cf7ad608cb9af1af9d09722ddb35403e4e2027216a38efe2f0f01b130cc59fd2",
+    "wordVisualAcceptance": "UNVERIFIED",
+    "delivered": "01-Modern-Kontakt-waagrecht.docx"
+  },
+  {
+    "case": "header-stacked",
+    "pages": 4,
+    "logicalDocuments": 3,
+    "semanticFieldRunsFound": 94,
+    "missing": [],
+    "nativeControls": 105,
+    "headerRows": [
+      {
+        "scope": "letter",
+        "page": 2,
+        "nativeRows": 3
+      },
+      {
+        "scope": "cv",
+        "page": 3,
+        "nativeRows": 3
+      },
+      {
+        "scope": "cv",
+        "page": 4,
+        "nativeRows": 3
+      }
+    ],
+    "pills": [],
+    "coverPixelIdenticalToReviewed": true,
+    "candidateSha256": "bf5cb5035c6dc029b6473e3926d28f8517a2bc04b0038588042e4159de37aeb6",
+    "wordVisualAcceptance": "UNVERIFIED",
+    "delivered": "02-Modern-Kontakt-untereinander.docx"
+  },
+  {
+    "case": "cv-pills",
+    "pages": 4,
+    "logicalDocuments": 3,
+    "semanticFieldRunsFound": 83,
+    "missing": [],
+    "nativeControls": 86,
+    "headerRows": [],
+    "pills": [
+      {
+        "id": "cv.section.custom:familie.heading",
+        "page": 3,
+        "textBox": [
+          74.94999694824219,
+          220.9907684326172,
+          130.9300079345703,
+          234.3827667236328
+        ],
+        "paintBox": [
+          68.05000305175781,
+          218.30075073242188,
+          532.9500122070312,
+          235.95074462890625
+        ],
+        "nativeEditableHeading": true
+      },
+      {
+        "id": "cv.section.schule.heading",
+        "page": 3,
+        "textBox": [
+          74.94999694824219,
+          286.290771484375,
+          185.63803100585938,
+          299.6827697753906
+        ],
+        "paintBox": [
+          68.05000305175781,
+          283.6007995605469,
+          532.9500122070312,
+          301.25079345703125
+        ],
+        "nativeEditableHeading": true
+      },
+      {
+        "id": "cv.section.erfahrung.heading",
+        "page": 3,
+        "textBox": [
+          74.94999694824219,
+          438.1907958984375,
+          291.7060852050781,
+          451.5827941894531
+        ],
+        "paintBox": [
+          68.05000305175781,
+          435.5007629394531,
+          532.9500122070312,
+          453.1507568359375
+        ],
+        "nativeEditableHeading": true
+      },
+      {
+        "id": "cv.section.sprachen.heading",
+        "page": 3,
+        "textBox": [
+          74.94999694824219,
+          605.9907836914062,
+          151.6179962158203,
+          619.3827514648438
+        ],
+        "paintBox": [
+          68.05000305175781,
+          603.30078125,
+          532.9500122070312,
+          620.9508056640625
+        ],
+        "nativeEditableHeading": true
+      },
+      {
+        "id": "cv.section.hobbys.heading",
+        "page": 4,
+        "textBox": [
+          74.94999694824219,
+          28.740768432617188,
+          242.32601928710938,
+          42.13277053833008
+        ],
+        "paintBox": [
+          68.05000305175781,
+          26.050745010375977,
+          532.9500122070312,
+          43.70074462890625
+        ],
+        "nativeEditableHeading": true
+      },
+      {
+        "id": "cv.section.staerken.heading",
+        "page": 4,
+        "textBox": [
+          74.94999694824219,
+          115.64079284667969,
+          140.93798828125,
+          129.0327911376953
+        ],
+        "paintBox": [
+          68.05000305175781,
+          112.95076751708984,
+          532.9500122070312,
+          130.60076904296875
+        ],
+        "nativeEditableHeading": true
+      },
+      {
+        "id": "cv.section.referenzen.heading",
+        "page": 4,
+        "textBox": [
+          74.94999694824219,
+          202.54075622558594,
+          168.28599548339844,
+          215.93275451660156
+        ],
+        "paintBox": [
+          68.05000305175781,
+          199.85079956054688,
+          532.9500122070312,
+          217.50079345703125
+        ],
+        "nativeEditableHeading": true
+      }
+    ],
+    "coverPixelIdenticalToReviewed": true,
+    "candidateSha256": "c8e997cae9725dcffafbe45dcae0e10d890dfdca2b1aebc036db134daf7c2a75",
+    "wordVisualAcceptance": "UNVERIFIED",
+    "delivered": "03-Modern-Lebenslauf-Rubrikpills.docx"
+  },
+  {
+    "case": "cv-pills-offset",
+    "pages": 4,
+    "logicalDocuments": 3,
+    "semanticFieldRunsFound": 83,
+    "missing": [],
+    "nativeControls": 86,
+    "headerRows": [],
+    "pills": [
+      {
+        "id": "cv.section.custom:familie.heading",
+        "page": 3,
+        "textBox": [
+          86.30000305175781,
+          220.9907684326172,
+          142.280029296875,
+          234.3827667236328
+        ],
+        "paintBox": [
+          79.4000015258789,
+          218.30075073242188,
+          532.9500122070312,
+          235.95074462890625
+        ],
+        "nativeEditableHeading": true
+      },
+      {
+        "id": "cv.section.schule.heading",
+        "page": 3,
+        "textBox": [
+          86.30000305175781,
+          286.290771484375,
+          196.98805236816406,
+          299.6827697753906
+        ],
+        "paintBox": [
+          79.4000015258789,
+          283.6007995605469,
+          532.9500122070312,
+          301.25079345703125
+        ],
+        "nativeEditableHeading": true
+      },
+      {
+        "id": "cv.section.erfahrung.heading",
+        "page": 3,
+        "textBox": [
+          86.30000305175781,
+          438.1907958984375,
+          303.0561218261719,
+          451.5827941894531
+        ],
+        "paintBox": [
+          79.4000015258789,
+          435.5007629394531,
+          532.9500122070312,
+          453.1507568359375
+        ],
+        "nativeEditableHeading": true
+      },
+      {
+        "id": "cv.section.sprachen.heading",
+        "page": 3,
+        "textBox": [
+          86.30000305175781,
+          605.9907836914062,
+          162.968017578125,
+          619.3827514648438
+        ],
+        "paintBox": [
+          79.4000015258789,
+          603.30078125,
+          532.9500122070312,
+          620.9508056640625
+        ],
+        "nativeEditableHeading": true
+      },
+      {
+        "id": "cv.section.hobbys.heading",
+        "page": 4,
+        "textBox": [
+          86.30000305175781,
+          28.740768432617188,
+          253.676025390625,
+          42.13277053833008
+        ],
+        "paintBox": [
+          79.4000015258789,
+          26.050745010375977,
+          532.9500122070312,
+          43.70074462890625
+        ],
+        "nativeEditableHeading": true
+      },
+      {
+        "id": "cv.section.staerken.heading",
+        "page": 4,
+        "textBox": [
+          86.30000305175781,
+          115.64079284667969,
+          152.2880096435547,
+          129.0327911376953
+        ],
+        "paintBox": [
+          79.4000015258789,
+          112.95076751708984,
+          532.9500122070312,
+          130.60076904296875
+        ],
+        "nativeEditableHeading": true
+      },
+      {
+        "id": "cv.section.referenzen.heading",
+        "page": 4,
+        "textBox": [
+          86.30000305175781,
+          202.54075622558594,
+          179.63601684570312,
+          215.93275451660156
+        ],
+        "paintBox": [
+          79.4000015258789,
+          199.85079956054688,
+          532.9500122070312,
+          217.50079345703125
+        ],
+        "nativeEditableHeading": true
+      }
+    ],
+    "coverPixelIdenticalToReviewed": true,
+    "candidateSha256": "5750aaa94b5a4279c3a80e42811b0fe9c9e777bdcc13dd12c8f54f34762c8fc0",
+    "wordVisualAcceptance": "UNVERIFIED"
+  },
+  {
+    "case": "header-inline-pipe",
+    "pages": 4,
+    "logicalDocuments": 3,
+    "semanticFieldRunsFound": 94,
+    "missing": [],
+    "nativeControls": 97,
+    "headerRows": [
+      {
+        "scope": "letter",
+        "page": 2,
+        "nativeRows": 1
+      },
+      {
+        "scope": "cv",
+        "page": 3,
+        "nativeRows": 1
+      },
+      {
+        "scope": "cv",
+        "page": 4,
+        "nativeRows": 1
+      }
+    ],
+    "pills": [],
+    "coverPixelIdenticalToReviewed": true,
+    "candidateSha256": "a4bb742e22b79d631758130624f2aeec3c543b93663702650a59c70a260b0e4a",
+    "wordVisualAcceptance": "UNVERIFIED"
+  }
+]

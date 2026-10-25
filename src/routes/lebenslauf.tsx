@@ -1,3 +1,4 @@
+import { useDossierChromePalette } from "@/lib/dossier-chrome-palette.browser";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { ThemeToggle } from "@/components/cover/ThemeToggle";
@@ -27,6 +28,12 @@ import { ScaledPreview } from "@/components/cover/ScaledPreview";
 import { CvCanvas, type CvLayoutWarning } from "@/components/cv/CvCanvas";
 import { CvPageMarginsControl } from "@/components/cv/CvPageMarginsControl";
 import { CitrusRubricControls } from "@/components/cv/CitrusRubricControls";
+import { cvReadingDefaults } from "@/components/cv/reading-defaults";
+import {
+  getCvLayoutChoiceForTemplate,
+  defaultCvLayoutForTemplate,
+  subscribeCvLayout,
+} from "@/components/cv/layout";
 import { ElementBar } from "@/components/cover/ElementBar";
 import { dossierElementFieldId } from "@/lib/dossier-semantic-fields";
 import { AddElementMenu } from "@/components/cover/AddElementMenu";
@@ -260,7 +267,6 @@ function Lebenslauf() {
     getDossierChromeState,
     () => DEFAULT_DOSSIER_CHROME_STATE,
   );
-  const chromeOptions = chromeState.sync ? chromeState.shared : chromeState.cv;
   const [data, setData] = useState<CvData>(emptyCv);
   const [design, setDesign] = useState<CvDesign>(() => {
     const d = emptyCoverDraft();
@@ -273,6 +279,17 @@ function Lebenslauf() {
       useElements: false,
     };
   });
+  const chromeOptions = useDossierChromePalette("cv", design, chromeState);
+  const getReadingLayout = useCallback(
+    () => getCvLayoutChoiceForTemplate(design.template),
+    [design.template],
+  );
+  const readingLayout = useSyncExternalStore(subscribeCvLayout, getReadingLayout, () =>
+    defaultCvLayoutForTemplate(design.template),
+  );
+  const rubricDefaultPx =
+    cvReadingDefaults(design.template, readingLayout).sectionTitleFontSizePx ??
+    CV_SECTION_TITLE_DEFAULTS.fontSizePx;
   useTemplateQaTemplateSwitch(
     design.template,
     (template) =>
@@ -335,7 +352,9 @@ function Lebenslauf() {
   const dossierExportRef = useRef<HTMLDivElement>(null);
   const nativePrint = useDossierNativePrint(dossierExportRef);
   const menuRef = useRef<HTMLDivElement>(null);
-  const restored = useRef(false);
+  // State gates autosave until the loaded payload has committed. A mutable ref
+  // becomes visible to the initial empty render's effects too early.
+  const [restored, setRestored] = useState(false);
 
   /** Einen gespeicherten oder importierten Lebenslauf übernehmen. */
   const applySaved = useCallback((p: Partial<Saved>) => {
@@ -516,7 +535,7 @@ function Lebenslauf() {
   }, [markWritten, applySaved]);
 
   useEffect(() => {
-    restored.current = true;
+    setRestored(true);
     setHistory(readHistory(HISTORY_KEYS.cv));
     const draft = readCoverDraft();
     setCover(draft);
@@ -536,14 +555,14 @@ function Lebenslauf() {
   }, [applyEverythingFromCover]);
 
   useEffect(() => {
-    if (!visible || !restored.current) return;
+    if (!visible || !restored) return;
     if (changedElsewhere()) {
       loadFromStorage();
       setHistory(readHistory(HISTORY_KEYS.cv));
       setStatus({ kind: "ok", text: "Neuerer Stand aus einem anderen Fenster geladen" });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visible]);
+  }, [visible, restored]);
 
   useEffect(() => {
     const refreshCover = () => {
@@ -586,7 +605,7 @@ function Lebenslauf() {
   );
 
   useEffect(() => {
-    if (!restored.current) return;
+    if (!restored) return;
     if (!visible) return;
     setSaveState("saving");
     const id = setTimeout(() => {
@@ -601,7 +620,7 @@ function Lebenslauf() {
       keepSnapshot("Automatisch");
     }, 400);
     return () => clearTimeout(id);
-  }, [payload, keepSnapshot, visible, markWritten]);
+  }, [payload, keepSnapshot, visible, markWritten, restored]);
 
   useEffect(() => {
     const onDown = (e: MouseEvent) => {
@@ -2355,17 +2374,14 @@ function Lebenslauf() {
 
                     <label className="flex flex-col gap-1 text-xs">
                       <span className="text-muted-foreground">
-                        Schriftgrösse{" "}
-                        {design.sectionTitleFontSizePx ?? CV_SECTION_TITLE_DEFAULTS.fontSizePx} px
+                        Schriftgrösse {design.sectionTitleFontSizePx ?? rubricDefaultPx} px
                       </span>
                       <input
                         type="range"
                         min={CV_SECTION_TITLE_FONT_SIZE_MIN}
                         max={CV_SECTION_TITLE_FONT_SIZE_MAX}
                         step={1}
-                        value={
-                          design.sectionTitleFontSizePx ?? CV_SECTION_TITLE_DEFAULTS.fontSizePx
-                        }
+                        value={design.sectionTitleFontSizePx ?? rubricDefaultPx}
                         onChange={(event) =>
                           setDesign((current) => ({
                             ...current,

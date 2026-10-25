@@ -3,6 +3,7 @@ import {
   semanticListItemIds,
   CV_PERSON_FIELD_IDS,
   referenceContactFields,
+  referenceHasContent,
   dossierChromeFieldId,
   dossierElementFieldId,
 } from "@/lib/dossier-semantic-fields";
@@ -15,6 +16,7 @@ import {
   entryFilled,
   isCustomSectionKey,
   type CvEntry,
+  type CvLayoutSectionKey,
 } from "@/components/cv/types";
 import { cvPersonalInfoRows } from "@/lib/cv-personal-info";
 import { resolveCvRubricOptions } from "@/components/cv/citrus-rubric";
@@ -35,9 +37,23 @@ import { walkBlocks } from "./model";
 import { nextTemplate } from "./templates";
 import { color, compositeTextColor } from "./colors";
 export { color } from "./colors";
+import { composeAuthoredCover } from "./cover-authored";
+import { composeSourceCompactBands } from "./compact-chrome";
+import { composeMeasuredHeaders } from "./interior-composition";
+import { ownFlowSurfaceSpacing } from "./flow-surface-spacing";
+import { composeCvReadingColumns } from "./cv-reading-columns";
+import { scaleCvReadingFlow } from "./cv-flow-scale";
+import type { InteriorTextMetrics, CvPersonalHeaderMetrics } from "./interior-metrics";
+import type { CoverTextMetrics } from "@/components/cover/text-metrics";
 import { composeCover } from "./cover-composition";
-import { applyContinuationMargin } from "./continuation-margin";
+import { applyContinuationMargin, applyFlowPageTops } from "./continuation-margin";
 import { composeCvSidebar } from "./cv-sidebar-composition";
+import { composeSharedCvSidebar } from "./cv-sidebar-shared";
+import { applyCvSidebarTypography } from "./cv-sidebar-typography";
+import type { CvSidebarTextMetrics } from "./cv-sidebar-text-metrics";
+import { cvSidebarGeometry, cvSidebarPhotoWidthMm } from "@/components/cv/sidebar-geometry";
+import { sidebarPlan } from "@/components/cv/intelligence";
+import { cvFrameFor } from "@/components/cv/archetype";
 import {
   chromeTextHeight,
   composeCompactMasthead,
@@ -48,9 +64,10 @@ import {
 import { ensureFirstHeader } from "./page-artwork";
 import { templateMotifs, composePageMotifs } from "./template-motifs";
 import { DEFAULT_DOSSIER_CHROME_STATE } from "@/lib/dossier-chrome";
-import { CV_FLOW_LAYOUTS, cvWordLayout, datedEntryBlocks } from "./layouts";
+import { CV_FLOW_LAYOUTS, cvWordLayout, datedEntryBlocks, nativeTextWidthMm } from "./layouts";
 import { wordFont as fontForKey, createFontResolver } from "./fonts";
 import { richLetterBlocks } from "./rich-text";
+import { composeSourceLetterFlow } from "./letter-source-flow";
 import { textElement, imageElement, shapeElement, flowingElementBox } from "./elements";
 import {
   dossierPhotoRatio,
@@ -62,12 +79,42 @@ import { resolveLetterPalette, resolveLetterPaperColor } from "@/components/lett
 import { resolveCvPalette } from "@/components/cv/cv-paper";
 
 import type { DossierAppSnapshot } from "./source";
+import { DOSSIER_LETTER_BODY_PT } from "@/lib/dossier-reading-settings";
 export type { DossierAppSnapshot } from "./source";
 const name = (first: string, last: string) => [first, last].filter(Boolean).join(" ");
 
 export type BuildModelOptions = {
+  /** Unaccepted bounded Modern/Sans plain-letter CSS-flow candidate. */
+  letterFlowComposition?: "source-lines";
+  /** Shared flowing-CV trial: native date/language rows and semantic lists. */
+  cvContentComposition?: "reading-rows";
+  /** Explicit one-template Word trial; no default serialization change. */
+  cvRubricSpacing?: "previous-block";
+  /** Separate measured header candidate, captured at the app boundary. */
+  interiorTextMetrics?: InteriorTextMetrics;
+  cvPersonalHeaderMetrics?: CvPersonalHeaderMetrics;
+  /** Explicit candidate only: source-sized empty compact chrome, declared per template. */
+  compactChromeComposition?: "source-bands";
+  /** Guarded fixed-page candidate; not a production export switch. */
+  coverComposition?: "authored-frames" | "graphic-family-qa";
+  /** Explicit candidate: keep authored text badge paint in the active body story. */
+  coverBadgePlacement?: "body";
+  /** Explicit candidate: one native shape contains badge paint and editable text. */
+  coverBadgeComposition?: "native-shape";
+  /** Diagnostic no-photo candidate: one anchored Word shape owns outline and editable initials. */
+  nativeAvatarComposition?: "writer-vml" | "writer-frame";
+  /** Explicit three-family QA only: respect saved photo page positioning. */
+  coverPhotoPlacement?: "authored-page";
+  /** Explicit classic-CV candidate: one shared native content-sized contact grid. */
+  cvContactComposition?: "compact-grid";
+  /** Diagnostic font measurements only; source/renderer never read live browser state. */
+  coverTextMetrics?: CoverTextMetrics;
   /** Unaccepted shared native Sidebar body composition; renderer opt-in is also required. */
-  cvSidebarComposition?: "body-stories";
+  cvSidebarComposition?: "body-stories" | "shared-body-stories";
+  /** Ordinary body-anchored picture, outside table cells and content controls. */
+  cvPhotoComposition?: "ordinary-picture";
+  /** Fresh source-bound Web typography; internal shared Sidebar candidate only. */
+  cvSidebarTextMetrics?: CvSidebarTextMetrics;
   /** Unaccepted native identity separation for first-page header/footer stories. */
   chromeFirstPageIdentity?: "distinct-stories";
 };
@@ -78,7 +125,55 @@ export function buildDossierDocModel(
   options: BuildModelOptions = {},
 ): DossierDocModel {
   const { cover, letter, cv, settings } = input;
+  const capturedInteriorMetrics = options.interiorTextMetrics;
+  const capturedSidebarMetrics = options.cvSidebarTextMetrics;
+  const personalMetrics = options.cvPersonalHeaderMetrics;
+  if (
+    personalMetrics &&
+    (personalMetrics.version !== 1 ||
+      personalMetrics.sourceKey !== JSON.stringify(input) ||
+      !personalMetrics.profile.startsWith("brief-sans-v1;") ||
+      options.cvContactComposition !== "compact-grid" ||
+      ![
+        personalMetrics.valueOffsetMm,
+        personalMetrics.personalGapMm,
+        personalMetrics.contactTopGapMm,
+      ].every((v) => Number.isFinite(v) && v >= 0 && v < 170) ||
+      personalMetrics.valueOffsetMm <= 0 ||
+      Object.entries(personalMetrics.paragraphs).some(
+        ([id, v]) =>
+          !id.startsWith("cv.person.") ||
+          ["cv.person.name", "cv.person.subtitle"].includes(id) ||
+          !Number.isFinite(v.lineHeightPt) ||
+          v.lineHeightPt <= 0 ||
+          !Number.isFinite(v.style.sizePt) ||
+          v.style.sizePt < 5 ||
+          v.style.sizePt > 72 ||
+          !Number.isFinite(v.afterMm) ||
+          v.afterMm < 0,
+      ))
+  )
+    throw Error("DOCX Next: Persönliche Header-Messwerte fehlen oder sind veraltet.");
+  if (
+    capturedInteriorMetrics &&
+    (capturedInteriorMetrics.version !== 1 ||
+      capturedInteriorMetrics.sourceKey !== JSON.stringify(input) ||
+      !capturedInteriorMetrics.profile.startsWith("brief-sans-v1;"))
+  )
+    throw Error("DOCX Next: Innenlayout-Messwerte fehlen oder sind veraltet.");
+  if (options.interiorTextMetrics && options.coverComposition !== "authored-frames")
+    throw Error("DOCX Next measured headers require an authored candidate");
+  if (options.coverTextMetrics && options.coverComposition !== "authored-frames")
+    throw Error("DOCX Next cover metrics require authored frame composition");
   const cvVariant = cvWordLayout(settings.cvLayout);
+  if (
+    options.cvPhotoComposition !== undefined &&
+    (options.cvPhotoComposition !== "ordinary-picture" ||
+      options.cvSidebarComposition !== "shared-body-stories")
+  )
+    throw Error("DOCX Next ordinary CV picture requires shared Sidebar composition");
+  if (options.cvSidebarTextMetrics && options.cvSidebarComposition !== "shared-body-stories")
+    throw Error("DOCX Next: Sidebar-Schriftwerte benötigen den expliziten gemeinsamen Kandidaten.");
   if (
     options.chromeFirstPageIdentity !== undefined &&
     options.chromeFirstPageIdentity !== "distinct-stories"
@@ -86,15 +181,110 @@ export function buildDossierDocModel(
     throw new Error("DOCX Next invalid diagnostic first-page story identity");
   if (
     options.cvSidebarComposition !== undefined &&
-    (options.cvSidebarComposition !== "body-stories" || cvVariant !== "sidebar")
+    (!["body-stories", "shared-body-stories"].includes(options.cvSidebarComposition) ||
+      cvVariant !== "sidebar")
   )
     throw new Error("DOCX Next invalid diagnostic Sidebar composition");
-  const cvFlow = CV_FLOW_LAYOUTS[cvVariant];
+  if (
+    options.coverComposition !== undefined &&
+    !["authored-frames", "graphic-family-qa"].includes(options.coverComposition)
+  )
+    throw Error("DOCX Next invalid authored cover composition");
+  if (
+    options.coverBadgePlacement !== undefined &&
+    (options.coverBadgePlacement !== "body" || options.coverComposition !== "authored-frames")
+  )
+    throw Error("DOCX Next body badge paint requires an authored candidate");
+  const readingRows = options.cvContentComposition === "reading-rows";
+  if (
+    options.cvContentComposition !== undefined &&
+    (!readingRows || cvVariant !== "classic" || cv.design.useElements)
+  )
+    throw Error("DOCX Next: Lesefluss-Test benötigt ein klassisches CV ohne freie Elemente.");
+  if (readingRows) {
+    const personLayout = cvSectionLayout(cv.data, "person");
+    if (
+      cvSectionOrder(cv.data)[0] !== "person" ||
+      personLayout.page !== 1 ||
+      personLayout.width !== "full" ||
+      personLayout.positioning !== "flow" ||
+      personLayout.packing !== "rows"
+    )
+      throw Error(
+        "DOCX Next: Verschobene persönliche Angaben benötigen eine eigene Lesefluss-Prüfung.",
+      );
+  }
+  const cvFlow = readingRows
+    ? {
+        ...CV_FLOW_LAYOUTS.classic,
+        entryGapMm: 0.6,
+        sectionGapMm: 1.2,
+        dateRail: {
+          textWidthMm: 27,
+          paddingXMm: 0,
+          axisWidthMm: 0,
+          contentGapMm: 5,
+          allowSplit: true,
+        },
+      }
+    : CV_FLOW_LAYOUTS[cvVariant];
+  if (
+    options.coverBadgeComposition !== undefined &&
+    (options.coverBadgeComposition !== "native-shape" ||
+      options.coverComposition !== "authored-frames" ||
+      !options.coverTextMetrics)
+  )
+    throw Error("DOCX Next native badge requires fresh authored cover metrics");
+  if (
+    options.cvContactComposition !== undefined &&
+    (options.cvContactComposition !== "compact-grid" || cvVariant !== "classic")
+  )
+    throw Error("DOCX Next compact contact grid requires a classic CV candidate");
   const placements =
     cvVariant === "sidebar"
       ? { ...DEFAULT_CV_PLACEMENTS, ...settings.placements }
       : settings.placements;
   const template = nextTemplate(String(cover.template));
+  if (
+    options.coverComposition === "graphic-family-qa" &&
+    template.cover.nativePhotoPlaceholder !== "editable-initials"
+  )
+    throw Error(
+      "DOCX Next graphic-family page positions require a declared editable cover capability",
+    );
+  if (
+    options.nativeAvatarComposition !== undefined &&
+    (!["writer-vml", "writer-frame"].includes(options.nativeAvatarComposition) ||
+      options.coverComposition !== undefined ||
+      template.cover.nativePhotoPlaceholder !== "editable-initials" ||
+      !!cover.data.foto)
+  )
+    throw Error("DOCX Next native avatar trial requires an approved no-photo flow family");
+  if (
+    options.coverPhotoPlacement !== undefined &&
+    (options.coverPhotoPlacement !== "authored-page" ||
+      options.coverComposition !== undefined ||
+      template.cover.nativePhotoPlaceholder !== "editable-initials" ||
+      !cover.data.foto)
+  )
+    throw Error("DOCX Next authored photo positioning requires an approved photo QA candidate");
+  if (
+    options.compactChromeComposition !== undefined &&
+    (options.compactChromeComposition !== "source-bands" ||
+      options.coverComposition !== "authored-frames" ||
+      !template.chrome.sourceCompactBands)
+  )
+    throw Error("DOCX Next source compact chrome requires a declared authored candidate");
+  const sourceCompactBands = options.compactChromeComposition === "source-bands";
+  if (
+    capturedSidebarMetrics?.contactHeaders &&
+    (sourceCompactBands ||
+      !capturedInteriorMetrics?.headers.cv ||
+      !capturedInteriorMetrics.headers.letter)
+  )
+    throw Error(
+      "DOCX Next: Sidebar-Kontaktkopf benötigt frische Header-Messwerte für CV und Anschreiben.",
+    );
   if (String(letter.design.template) !== template.id || String(cv.design.template) !== template.id)
     throw new Error("DOCX Next requires matching dossier templates.");
   const fonts = createFontResolver(settings.fontPolicy);
@@ -136,6 +326,7 @@ export function buildDossierDocModel(
       italic: false,
       underline: false,
       ...patch,
+      ...personalMetrics?.paragraphs[id]?.style,
       ...settings.fieldStyles?.[id],
     };
     return {
@@ -164,6 +355,21 @@ export function buildDossierDocModel(
     keepNext: false,
     keepLines: false,
     ...layout,
+    ...(personalMetrics?.paragraphs[id]
+      ? {
+          minimumLineHeightPt: personalMetrics.paragraphs[id].lineHeightPt,
+          lineHeight:
+            personalMetrics.paragraphs[id].lineHeightPt /
+            personalMetrics.paragraphs[id].style.sizePt,
+          afterMm: personalMetrics.paragraphs[id].afterMm,
+        }
+      : {}),
+    ...(personalMetrics &&
+    ((id === "cv.person.name" && !input.cv.data.person.untertitel) || id === "cv.person.subtitle")
+      ? {
+          afterMm: personalMetrics.contactTopGapMm,
+        }
+      : {}),
   });
   const compound = (
     paragraph: Paragraph,
@@ -235,24 +441,48 @@ export function buildDossierDocModel(
     style,
     fieldStyles: settings.fieldStyles,
   });
-  coverPart.blocks = composeCover(
-    cover,
-    template,
-    coverPart.page,
-    elementContext(cover.colors, theme.font, cover.fontScale),
-    theme.accent,
-    color,
-    p("cover.fullName", name(cover.data.vorname, cover.data.nachname), {
-      sizePt: template.typography.namePt,
-      bold: true,
-    }),
-  );
+  coverPart.blocks =
+    options.coverComposition === "authored-frames" ||
+    options.coverComposition === "graphic-family-qa"
+      ? composeAuthoredCover(
+          cover,
+          coverPart.page,
+          elementContext(cover.colors, theme.font, cover.fontScale),
+          options.coverTextMetrics,
+          template.cover.hiddenDecorationIds,
+          options.coverBadgeComposition,
+          options.coverComposition === "graphic-family-qa",
+        )
+      : composeCover(
+          cover,
+          template,
+          coverPart.page,
+          elementContext(cover.colors, theme.font, cover.fontScale),
+          theme.accent,
+          color,
+          p("cover.fullName", name(cover.data.vorname, cover.data.nachname), {
+            sizePt: template.typography.namePt,
+            bold: true,
+          }),
+          options.nativeAvatarComposition,
+          options.coverPhotoPlacement,
+        );
 
   if (template.cover.decorationPlacement === "first-header") {
+    // composeAuthoredCover owns this generated identity; user shapes retain their
+    // existing header placement. Only the explicitly selected candidate changes story.
+    const bodyBadge = (block: DocBlock) =>
+      options.coverBadgePlacement === "body" &&
+      block.kind === "decorative-shape" &&
+      block.id.endsWith(".badge-paint");
     coverPart.headerShapes = coverPart.blocks.flatMap((block) =>
-      block.kind === "decorative-shape" ? [{ ...block, repeat: "first" as const }] : [],
+      block.kind === "decorative-shape" && !bodyBadge(block)
+        ? [{ ...block, repeat: "first" as const }]
+        : [],
     );
-    coverPart.blocks = coverPart.blocks.filter((block) => block.kind !== "decorative-shape");
+    coverPart.blocks = coverPart.blocks.filter(
+      (block) => block.kind !== "decorative-shape" || bodyBadge(block),
+    );
     ensureFirstHeader(coverPart);
   }
   if (template.cover.motifs) {
@@ -374,7 +604,7 @@ export function buildDossierDocModel(
   const bodyStyle = style("letter.body", {
     color: letterInk,
     font: wordFont(design.bodyFont, letterFont),
-    sizePt: design.bodyFontSizePt ?? 10.5,
+    sizePt: design.bodyFontSizePt ?? DOSSIER_LETTER_BODY_PT,
   });
   letterPart.blocks.push(
     ...(ld.images ?? []).map((image) => ({
@@ -424,23 +654,34 @@ export function buildDossierDocModel(
         { beforeMm: ld.unterschriftAbstandMm ?? 1, afterMm: 5 },
       ),
     );
-  if (ld.showBeilagen !== false)
-    (ld.beilagen ?? ["Lebenslauf", "Zeugnis"])
-      .map((text, index) => ({ text, index }))
-      .filter(({ text }) => text.trim())
-      .forEach(({ text, index }) =>
-        letterPart.blocks.push(
-          p(
-            `letter.attachment:${semanticListItemIds((ld.beilagen ?? ["Lebenslauf", "Zeugnis"]).length, ld.attachmentIds)[index]}`,
-            text,
-            {
-              color: letterInk,
-              font: wordFont(design.attachmentsFont, letterFont),
-              sizePt: design.attachmentsFontSizePt ?? 9,
-            },
-          ),
-        ),
-      );
+  const visibleAttachments = (ld.beilagen ?? ["Lebenslauf", "Zeugnis"])
+    .map((text, index) => ({ text, index }))
+    .filter(({ text }) => text.trim());
+  if (ld.showBeilagen !== false && visibleAttachments.length) {
+    const attachmentStyle = {
+      color: letterInk,
+      font: wordFont(design.attachmentsFont, letterFont),
+      sizePt: design.attachmentsFontSizePt ?? 9,
+    };
+    letterPart.blocks.push(
+      p(
+        "letter.attachments-heading",
+        "Beilagen",
+        { ...attachmentStyle, bold: true },
+        {
+          beforeMm: 1.8,
+          afterMm: 0.7,
+          keepNext: true,
+        },
+      ),
+    );
+    const ids = semanticListItemIds(
+      (ld.beilagen ?? ["Lebenslauf", "Zeugnis"]).length,
+      ld.attachmentIds,
+    );
+    for (const { text, index } of visibleAttachments)
+      letterPart.blocks.push(p(`letter.attachment:${ids[index]}`, text, attachmentStyle));
+  }
 
   if (template.letter.keepTailTogether) composeLetterTail(letterPart);
   const data = cv.data,
@@ -471,7 +712,13 @@ export function buildDossierDocModel(
       {
         role: "heading",
         beforeMm: sectionGapMm,
-        afterMm: ((cd.sectionTitleMarginBottomPx ?? 7) * 25.4) / 96,
+        // Match default-pagination-density.css in the shared classic reading flow.
+        // The old 7 px fallback added 1.35 mm per heading to Word. Keep an
+        // explicit user value (including zero); null in older JSON means unset.
+        afterMm:
+          cd.sectionTitleMarginBottomPx == null && readingRows
+            ? 0.5
+            : ((cd.sectionTitleMarginBottomPx ?? 7) * 25.4) / 96,
         keepNext: true,
         keepLines: true,
         ...(cd.headingRule !== "none" && template.cv.headingRule ? { ruleColor: cvAccent } : {}),
@@ -567,7 +814,7 @@ export function buildDossierDocModel(
       },
     });
   }
-  const entries = (values: CvEntry[], section: string): DocBlock[] =>
+  const entries = (values: CvEntry[], section: CvLayoutSectionKey): DocBlock[] =>
     values.filter(entryFilled).map((entry) => {
       const id = `cv.entry.${section}:${entry.id}`;
       const fields = Object.entries({
@@ -599,7 +846,9 @@ export function buildDossierDocModel(
               },
             ),
           ),
-          cvFlow,
+          readingRows && cvSectionLayout(data, section).width === "half"
+            ? { ...cvFlow, dateRail: { ...cvFlow.dateRail!, textWidthMm: 20 } }
+            : cvFlow,
           cvAccent,
         ),
       };
@@ -637,7 +886,7 @@ export function buildDossierDocModel(
           .map((pair) =>
             pair
               .map((field) => blocks.find((block) => block.id === `cv.person.${field}`))
-              .map((block) => (block ? [block] : [])),
+              .map((block) => (block?.kind === "paragraph" ? [block] : [])),
           )
           .filter((cells) => cells.some((cell) => cell.length));
         const details = cvPersonalInfoRows(person).map((row) => [
@@ -687,6 +936,71 @@ export function buildDossierDocModel(
               ]
             : []),
         ];
+        if (options.cvContactComposition === "compact-grid") {
+          const contactLayout = cvSectionLayout(data, "person");
+          if (contactLayout.width !== "full" || contactLayout.positioning !== "flow")
+            throw Error(
+              "DOCX Next: Der Kontaktblock muss für diesen Test die ganze Breite verwenden und im Textfluss liegen.",
+            );
+          const pairedRows = contactPairs.map(([left, right]) =>
+            left.length ? [left, right] : [right, []],
+          );
+          const rows = [...pairedRows, ...details].map((cells, index) => ({
+            cells: cells.map((cell) =>
+              cell.map((paragraph) => ({
+                ...paragraph,
+                beforeMm:
+                  index === contactPairs.length && contactPairs.length
+                    ? (personalMetrics?.personalGapMm ?? 1.35)
+                    : 0,
+                afterMm: personalMetrics ? 0 : 0.6,
+              })),
+            ),
+            keepTogether: false,
+          }));
+          // Fresh Web column geometry takes precedence when available. The
+          // independent native composition retains its conservative fallback.
+          // Rows always grow with text; no measured fixed row heights.
+          const padding = 1.25;
+          const columns = [0, 1].map((column) =>
+            Math.max(
+              10,
+              ...rows.flatMap((row) =>
+                row.cells[column].map((paragraph) => nativeTextWidthMm(paragraph) + 2 * padding),
+              ),
+            ),
+          );
+          const contentWidth =
+            cvPart.page.widthMm -
+            cvPart.page.margins.left -
+            cvPart.page.margins.right -
+            cvFlow.indentMm;
+          if (personalMetrics && personalMetrics.valueOffsetMm >= contentWidth)
+            throw Error("DOCX Next: Die gemessene Kontaktspalte überschreitet den Textbereich.");
+          blocks = rows.length
+            ? [
+                {
+                  kind: "table",
+                  id: "cv.person.contact",
+                  widths: columns,
+                  widthMm: Math.min(contentWidth, columns[0] + columns[1]),
+                  ...(personalMetrics
+                    ? {
+                        widthMm: contentWidth,
+                        columnWidthsMm: [personalMetrics.valueOffsetMm, null],
+                      }
+                    : {}),
+                  rows,
+                  decoration: {
+                    borderColor: cvAccent,
+                    borderWidthMm: 0,
+                    paddingXMm: personalMetrics ? 0 : 1.25,
+                    paddingYMm: 0,
+                  },
+                },
+              ]
+            : [];
+        }
       }
     } else if (isCustomSectionKey(key)) {
       const section = customSectionForKey(data, key);
@@ -697,7 +1011,7 @@ export function buildDossierDocModel(
       if (data.hidden[key]) continue;
       title = data.labels[key] || CV_SECTION_LABELS[key];
       if (key === "schule" || key === "erfahrung") blocks = entries(data[key], key);
-      if (key === "sprachen")
+      if (key === "sprachen") {
         blocks = data.sprachen
           .filter((e) => e.name.trim() || e.niveau.trim())
           .map((e) => ({
@@ -708,51 +1022,111 @@ export function buildDossierDocModel(
                 `cv.entry.sprachen:${e.id}.name`,
                 e.name,
                 { ...body, bold: true },
-                { keepNext: !!e.niveau },
+                {
+                  keepNext: !!e.niveau,
+                  ...(readingRows ? { afterMm: cvFlow.entryGapMm } : {}),
+                },
               ),
-              ...(e.niveau ? [p(`cv.entry.sprachen:${e.id}.level`, e.niveau, body)] : []),
+              ...(e.niveau
+                ? [
+                    p(`cv.entry.sprachen:${e.id}.level`, e.niveau, body, {
+                      ...(readingRows ? { afterMm: cvFlow.entryGapMm } : {}),
+                    }),
+                  ]
+                : []),
             ],
           }));
+        if (readingRows)
+          blocks = blocks.map((entry) => {
+            if (entry.kind !== "entry") return entry;
+            const [language, level] = entry.blocks;
+            if (language?.kind !== "paragraph" || level?.kind !== "paragraph") return entry;
+            return {
+              ...entry,
+              blocks: [
+                {
+                  kind: "table",
+                  id: `${entry.id}.languageRow`,
+                  widths: [1, 1],
+                  columnWidthsMm: [cvSectionLayout(data, key).width === "half" ? 24 : 27, null],
+                  rows: [
+                    {
+                      cells: [
+                        [{ ...language, keepNext: false }],
+                        [{ ...level, indentMm: 5, keepNext: false }],
+                      ],
+                      keepTogether: false,
+                    },
+                  ],
+                  decoration: {
+                    borderColor: cvAccent,
+                    borderWidthMm: 0,
+                    paddingXMm: 0,
+                    paddingYMm: 0,
+                  },
+                },
+              ],
+            };
+          });
+      }
       if (key === "hobbys" || key === "staerken")
         blocks = data[key]
           .map((text, index) => ({ text, index }))
           .filter(({ text }) => text.trim())
-          .map(({ text, index }) => p(cvLineFieldId(key, index, data.lineIds?.[key]), text, body));
+          .map(({ text, index }) =>
+            p(cvLineFieldId(key, index, data.lineIds?.[key]), text, body, {
+              ...(readingRows
+                ? {
+                    list: "bullet",
+                    listGroupId: `cv.section.${key}.list`,
+                    afterMm: cvFlow.entryGapMm,
+                  }
+                : {}),
+            }),
+          );
       if (key === "referenzen")
-        blocks = data.referenzen
-          .filter((e) =>
-            [e.name, e.funktion, e.kontakt, e.email, e.zusatz].some((text) => text?.trim()),
-          )
-          .map((e) => ({
-            kind: "entry",
-            id: `cv.entry.referenzen:${e.id}`,
-            blocks: Object.entries({
-              name: e.name,
-              role: e.funktion,
-              ...referenceContactFields(e),
-            })
-              .filter(([, text]) => text.trim())
-              .map(([field, text], index) =>
-                p(
-                  `cv.entry.referenzen:${e.id}.${field}`,
-                  text,
-                  { ...body, bold: field === "name" },
-                  { keepNext: index === 0 },
-                ),
+        blocks = data.referenzen.filter(referenceHasContent).map((e) => ({
+          kind: "entry",
+          id: `cv.entry.referenzen:${e.id}`,
+          blocks: Object.entries({
+            name: e.name,
+            role: e.funktion,
+            ...referenceContactFields(e),
+          })
+            .filter(([, text]) => text.trim())
+            .map(([field, text], index) =>
+              p(
+                `cv.entry.referenzen:${e.id}.${field}`,
+                text,
+                { ...body, bold: field === "name" },
+                { keepNext: index === 0, ...(readingRows ? { afterMm: 0.35 } : {}) },
               ),
-          }));
+            ),
+        }));
     }
     if (!blocks.length) continue;
     const layout = cvSectionLayout(data, key);
-    if (key === "referenzen" && data.referencesSideBySide !== false && layout.width === "full") {
+    if (
+      key === "referenzen" &&
+      data.referencesSideBySide !== false &&
+      layout.width === "full" &&
+      (cvVariant !== "sidebar" || placements?.referenzen === "main")
+    ) {
       blocks = Array.from({ length: Math.ceil(blocks.length / 2) }, (_, index) => {
         const pair = blocks.slice(index * 2, index * 2 + 2);
         return {
           kind: "table",
           id: `cv.section.referenzen.pair:${pair.map((entry) => entry.id).join("|")}`,
-          widths: [1, 1],
-          rows: [{ cells: [pair.slice(0, 1), pair.slice(1)], keepTogether: false }],
-          decoration: { borderColor: cvAccent, borderWidthMm: 0, paddingXMm: 3, paddingYMm: 0 },
+          // An unpaired reference owns the full row, just as in the preview.
+          widths: pair.length === 1 ? [1] : [1, 1, 1],
+          columnWidthsMm: pair.length === 1 ? [null] : [null, 6, null],
+          rows: [
+            {
+              cells: pair.length === 1 ? [pair] : [pair.slice(0, 1), [], pair.slice(1)],
+              keepTogether: false,
+            },
+          ],
+          decoration: { borderColor: cvAccent, borderWidthMm: 0, paddingXMm: 0, paddingYMm: 0 },
         };
       });
     }
@@ -768,7 +1142,8 @@ export function buildDossierDocModel(
       key !== "person" &&
       layout.positioning === "flow" &&
       layout.width === "half" &&
-      layout.packing === "masonry"
+      layout.packing === "masonry" &&
+      !readingRows
     )
       issues.push({
         code: "masonry-section-converted-to-rows",
@@ -780,7 +1155,42 @@ export function buildDossierDocModel(
     sectionHeading.indentMm =
       cvFlow.indentMm +
       (layout.width === "half" ? Math.max(0, rubric.horizontalMm) : rubric.horizontalMm);
-    if (rubric.pill) {
+    if (rubric.pill && capturedInteriorMetrics?.rubrics) {
+      const measured = capturedInteriorMetrics.rubrics[sectionHeading.id];
+      // The generic native CV retains its contact metadata label. The Web
+      // personal header is not one of the user's rubric capsules.
+      if (!measured && key === "person") {
+        // Preserve the existing native label and all personal fields as-is.
+      } else {
+        if (
+          !measured ||
+          (!readingRows && layout.width !== "full") ||
+          layout.positioning !== "flow" ||
+          sectionHeading.runs
+            .map((r) => r.text)
+            .join("")
+            .toUpperCase() !== measured.text.toUpperCase()
+        )
+          throw Error(
+            `DOCX Next: Rubrik-Messwerte stimmen nicht mit der fliessenden Rubrik «${sectionHeading.id}» überein (${JSON.stringify(sectionHeading.runs.map((r) => r.text).join(""))} / ${JSON.stringify(measured?.text)}).`,
+          );
+        sectionHeading.runs = sectionHeading.runs.map((run) => ({
+          ...run,
+          style: { ...measured.style },
+        }));
+        sectionHeading.minimumLineHeightPt = measured.lineHeightPt;
+        sectionHeading.lineHeight = measured.lineHeightPt / measured.style.sizePt;
+        sectionHeading.flowSurface = {
+          ...structuredClone(measured.surface),
+          rowWidthMm:
+            cvPart.page.widthMm -
+            cvPart.page.margins.left -
+            cvPart.page.margins.right -
+            (sectionHeading.indentMm ?? 0),
+        };
+        delete sectionHeading.ruleColor;
+      }
+    } else if (rubric.pill) {
       for (const run of sectionHeading.runs) {
         const ink = run.style.color;
         const paper = color(cd.paperColor, "FFFFFF");
@@ -797,7 +1207,7 @@ export function buildDossierDocModel(
           .toUpperCase();
       }
     }
-    if (cd.headingRule === "short") {
+    if (cd.headingRule === "short" && !sectionHeading.flowSurface) {
       const afterMm = sectionHeading.afterMm;
       sectionHeading.afterMm = 0;
       delete sectionHeading.ruleColor;
@@ -814,12 +1224,18 @@ export function buildDossierDocModel(
     cvPart.blocks.push({
       kind: "section",
       id: `cv.section.${key}`,
-      heading: sectionHeading,
+      ...((readingRows || personalMetrics) && key === "person" ? {} : { heading: sectionHeading }),
       blocks,
       placement: placements?.[key === "person" ? "kontakt" : key] ?? "main",
       width: layout.width,
       startPage: layout.page,
-      contentIndentMm: cvFlow.indentMm + rubric.contentIndentMm,
+      // Rubric content indentation belongs to the CV sections, not the
+      // personal header. Its compact contact grid shares the name's origin.
+      contentIndentMm:
+        cvFlow.indentMm +
+        (key === "person" && options.cvContactComposition === "compact-grid"
+          ? 0
+          : rubric.contentIndentMm),
     });
   }
   if (cv.design.useElements) {
@@ -911,7 +1327,7 @@ export function buildDossierDocModel(
         bandPolicy?.surfaceSource === "descriptor"
           ? !!(authoredChrome.headerBackgroundColor || authoredChrome.headerGradientColor)
           : !!(options.headerBackgroundColor || options.headerGradientColor);
-      const partColors = input[scope].design.colors;
+      const partColors = options.resolvedPalette?.colors ?? input[scope].design.colors;
       const partInk =
         template.interiorPaletteSource === "dossier"
           ? scope === "letter"
@@ -1268,7 +1684,15 @@ export function buildDossierDocModel(
         const recipient = target.blocks.findIndex((block) =>
           block.id.startsWith("letter.recipient."),
         );
-        const gapMm = template.letter.recipientGapMm + (options.letterRecipientOffsetYMm ?? 0);
+        // Captured Web geometry already owns the leading content start. When
+        // contact chrome removes the sender, do not add the old template lead
+        // once more before the now-leading recipient. Explicit recipient
+        // offsets retain their existing authored composition.
+        const leadingStartOwned =
+          settings.flowPageTops?.letter && recipient === 0 && !options.letterRecipientOffsetYMm;
+        const gapMm = leadingStartOwned
+          ? 0
+          : template.letter.recipientGapMm + (options.letterRecipientOffsetYMm ?? 0);
         if (recipient >= 0 && gapMm > 0)
           target.blocks.splice(recipient, 0, {
             kind: "spacer",
@@ -1276,24 +1700,99 @@ export function buildDossierDocModel(
             heightMm: gapMm,
           });
       }
+      // Fresh Sidebar metrics own the CV bands. The adjacent letter still
+      // uses the current shared compact composition, never the legacy footer.
+      if (sourceCompactBands && !(scope === "cv" && capturedSidebarMetrics))
+        composeSourceCompactBands(target, options, content, template.chrome.sourceCompactBands!);
+      if (capturedInteriorMetrics?.headers[scope]) {
+        composeMeasuredHeaders(target, input, capturedInteriorMetrics, contact, options);
+        if (scope === "cv") cvHeaderReserveMm = target.page.margins.top;
+      }
     }
   }
-  issues.push(
-    ...applyContinuationMargin(
+  for (const target of [letterPart, cvPart]) {
+    const tops = settings.flowPageTops?.[target.id as "letter" | "cv"];
+    if (tops) {
+      const measured = capturedInteriorMetrics?.headers[target.id as "letter" | "cv"];
+      if (
+        measured &&
+        (measured.first.bodyTopMm !== tops.firstMm ||
+          measured.continuation.bodyTopMm !== tops.continuationMm)
+      )
+        throw Error(
+          "DOCX Next: Header-Messgeometrie stimmt nicht mit den gespeicherten Seitenrändern überein.",
+        );
+      applyFlowPageTops(target, tops);
+    }
+  }
+  if (!settings.flowPageTops?.cv && !capturedInteriorMetrics?.headers.cv)
+    issues.push(
+      ...applyContinuationMargin(
+        cvPart,
+        settings.cvContinuationTopMarginMm,
+        cvFirstTopMargin,
+        cvHeaderReserveMm,
+        cvMinimumFirstTopMm,
+      ),
+    );
+  if (options.cvSidebarComposition === "shared-body-stories") {
+    const chrome = resolveDossierChromeSnapshot(
+      { cover, letter, cv },
+      chromeState ?? DEFAULT_DOSSIER_CHROME_STATE,
+    );
+    const personLayout = cvSectionLayout(cv.data, "person");
+    const personCustomized =
+      cvSectionOrder(cv.data)[0] !== "person" ||
+      personLayout.page !== 1 ||
+      personLayout.width !== "full" ||
+      personLayout.positioning !== "flow" ||
+      personLayout.packing !== "rows";
+    const photoSide = resolveCvPhotoPosition(normalizeCvPhotoPlacement(settings.cvPhotoPlacement), {
+      template: cv.design.template,
+      layout: "modern",
+      legacyMirrored: cvPart.layout.side === "right",
+    });
+    const sidebarPhoto =
+      !!cv.data.person.foto && !personCustomized && photoSide === cvPart.layout.side;
+    const geometry = (pageIndex: number) =>
+      cvSidebarGeometry(
+        cvFrameFor(cv.design.template),
+        pageIndex,
+        cv.design.sidebarPct,
+        chrome.cv.options,
+        {
+          pageMargins: settings.margins?.cv ?? null,
+          continuationTopMarginMm: settings.cvContinuationTopMarginMm ?? null,
+        },
+        cvPart.layout.side,
+        pageIndex === 0 && sidebarPhoto,
+        personCustomized,
+      );
+    composeSharedCvSidebar(
       cvPart,
-      settings.cvContinuationTopMarginMm,
-      cvFirstTopMargin,
-      cvHeaderReserveMm,
-      cvMinimumFirstTopMm,
-    ),
-  );
-  composeCvSidebar(
-    cvPart,
-    cvAccent,
-    color(cv.design.paperColor, color(cvPalette?.paper, theme.paper)),
-    cv.design.bgOpacity,
-    options.cvSidebarComposition,
-  );
+      geometry(0),
+      geometry(1),
+      cvAccent,
+      color(cv.design.paperColor, color(cvPalette?.paper, theme.paper)),
+      cv.design.bgOpacity,
+      sidebarPhoto
+        ? cvSidebarPhotoWidthMm(
+            cvFrameFor(cv.design.template),
+            cv.design.sidebarPct,
+            sidebarPlan(cv.data).veryCompact,
+          )
+        : undefined,
+      options.cvPhotoComposition === "ordinary-picture",
+    );
+  } else {
+    composeCvSidebar(
+      cvPart,
+      cvAccent,
+      color(cv.design.paperColor, color(cvPalette?.paper, theme.paper)),
+      cv.design.bgOpacity,
+      options.cvSidebarComposition,
+    );
+  }
   for (const target of [coverPart, letterPart, cvPart]) {
     const policies = template.pageMotifs?.[target.id];
     if (policies)
@@ -1382,6 +1881,48 @@ export function buildDossierDocModel(
           })),
         }));
     }
+  if (options.cvRubricSpacing) {
+    if (
+      template.id !== "modern" ||
+      options.coverComposition !== "authored-frames" ||
+      !capturedInteriorMetrics?.rubrics
+    )
+      throw Error("DOCX Next: Rubrik-Abstandstest benötigt Modern und frische Messwerte.");
+    if (readingRows) composeCvReadingColumns(cvPart, data);
+    ownFlowSurfaceSpacing(cvPart, { readingColumns: readingRows });
+  } else if (readingRows) composeCvReadingColumns(cvPart, data);
+  // Only use measured roles for complete, matching editable paragraphs.
+  // Compound rows with distinct field styles and measured pills keep their own
+  // native composition; letter, cover, Sidebar and saved input are untouched.
+  for (const block of walkBlocks(cvPart.blocks)) {
+    if (block.kind !== "paragraph" || block.flowSurface || block.role === "contact") continue;
+    const role = capturedInteriorMetrics?.textRoles?.[block.id];
+    if (!role || !block.id.startsWith("cv.")) continue;
+    const nativeText = block.runs
+      .map((run) => run.text)
+      .join("")
+      .trim();
+    if (nativeText !== role.text) continue;
+    if (block.runs.some((run) => JSON.stringify(run.style) !== JSON.stringify(block.runs[0].style)))
+      continue;
+    for (const run of block.runs) run.style = { ...role.style };
+    block.minimumLineHeightPt = role.lineHeightPt;
+    block.lineHeight = role.lineHeightPt / role.style.sizePt;
+    if (role.afterMm !== undefined) block.afterMm = role.afterMm;
+  }
+  if (readingRows && capturedInteriorMetrics?.cvFlowScale !== undefined)
+    cvPart.blocks = scaleCvReadingFlow(cvPart, capturedInteriorMetrics.cvFlowScale);
+  if (options.cvSidebarTextMetrics)
+    applyCvSidebarTypography(cvPart, input, options.cvSidebarTextMetrics);
+  if (options.letterFlowComposition) {
+    if (options.letterFlowComposition !== "source-lines")
+      throw Error("DOCX Next invalid Letter flow composition");
+    composeSourceLetterFlow(letterPart, input);
+    issues.push({
+      code: "letter-source-flow-unaccepted",
+      message: "Source Letter spacing is an internal candidate pending native Word acceptance.",
+    });
+  }
   return {
     version: 1,
     metadata: {

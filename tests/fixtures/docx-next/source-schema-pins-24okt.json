@@ -1,0 +1,137 @@
+{
+  "sources": {
+    "ecmaMirror": {
+      "repository": "QtExcel/ecma-376-5th",
+      "commit": "6c1a7f9cac8d3ca0a1713dcfbcb59de2a82bb3aa",
+      "officialStandard": "https://ecma-international.org/publications-and-standards/standards/ecma-376/"
+    },
+    "wpsMetadata": {
+      "repository": "dotnet/Open-XML-SDK",
+      "blob": "50a33dfca81df216b180f3081b3d07201438d9a5",
+      "path": "data/schemas/schemas_microsoft_com_office_word_2010_wordprocessingShape.json"
+    },
+    "xmlNamespace": {
+      "repository": "plutext/docx4j",
+      "commit": "0eec2587ab38db5265ce66c12423849c1bea2c60",
+      "path": "xsd/wml/xml.xsd"
+    }
+  },
+  "files": [
+    {
+      "file": "OfficeOpenXML-XMLSchema-Transitional/dml-chart.xsd",
+      "gitBlobSha": "6454ef9a94d52512e4905df61280a3fd1dafc0a4"
+    },
+    {
+      "file": "OfficeOpenXML-XMLSchema-Transitional/dml-chartDrawing.xsd",
+      "gitBlobSha": "afa4f463e3140a3f626c73f7966d689270d89b2c"
+    },
+    {
+      "file": "OfficeOpenXML-XMLSchema-Transitional/dml-diagram.xsd",
+      "gitBlobSha": "64e66b8abd496d2e450c08110e40607e90b3fe13"
+    },
+    {
+      "file": "OfficeOpenXML-XMLSchema-Transitional/dml-lockedCanvas.xsd",
+      "gitBlobSha": "687eea8297caa298581aa06c40ca40ef7b8a58bc"
+    },
+    {
+      "file": "OfficeOpenXML-XMLSchema-Transitional/dml-main.xsd",
+      "gitBlobSha": "6ac81b06b7a3ef916d677953084ae225504a77bc"
+    },
+    {
+      "file": "OfficeOpenXML-XMLSchema-Transitional/dml-picture.xsd",
+      "gitBlobSha": "1dbf05140d07fa014f18a5630acc0613d8058e52"
+    },
+    {
+      "file": "OfficeOpenXML-XMLSchema-Transitional/dml-spreadsheetDrawing.xsd",
+      "gitBlobSha": "f1af17db4e83b1c40152577eca4a575ab63a1ca7"
+    },
+    {
+      "file": "OfficeOpenXML-XMLSchema-Transitional/dml-wordprocessingDrawing.xsd",
+      "gitBlobSha": "0a185ab6ed0c2dd9b383a403c56c909bbab8b9a1"
+    },
+    {
+      "file": "OfficeOpenXML-XMLSchema-Transitional/pml.xsd",
+      "gitBlobSha": "14ef488865f3ae6150776220ebbcf4788f89066a"
+    },
+    {
+      "file": "OfficeOpenXML-XMLSchema-Transitional/shared-additionalCharacteristics.xsd",
+      "gitBlobSha": "c20f3bf14720d34247e8e1302dc3c40f7b832099"
+    },
+    {
+      "file": "OfficeOpenXML-XMLSchema-Transitional/shared-bibliography.xsd",
+      "gitBlobSha": "ac60252262534e7b87523fd04d252f085b38bec0"
+    },
+    {
+      "file": "OfficeOpenXML-XMLSchema-Transitional/shared-commonSimpleTypes.xsd",
+      "gitBlobSha": "5686c3c6d27ee2d74602e76eff0d7909c738e6bc"
+    },
+    {
+      "file": "OfficeOpenXML-XMLSchema-Transitional/shared-customXmlDataProperties.xsd",
+      "gitBlobSha": "2bddce29214882eb9fdf2be8a50ed5bdd0c69dfc"
+    },
+    {
+      "file": "OfficeOpenXML-XMLSchema-Transitional/shared-customXmlSchemaProperties.xsd",
+      "gitBlobSha": "8a8c18ba2d5caa7e60a365e77ae0d1b872141bb0"
+    },
+    {
+      "file": "OfficeOpenXML-XMLSchema-Transitional/shared-documentPropertiesCustom.xsd",
+      "gitBlobSha": "5c42706a0d53c5e8b96818d9c29a292d1504f720"
+    },
+    {
+      "file": "OfficeOpenXML-XMLSchema-Transitional/shared-documentPropertiesExtended.xsd",
+      "gitBlobSha": "853c341c87feb51e10d757aea28b4185ae4c2731"
+    },
+    {
+      "file": "OfficeOpenXML-XMLSchema-Transitional/shared-documentPropertiesVariantTypes.xsd",
+      "gitBlobSha": "da835ee82d5cc31be9fa9792512930f7ae3fb5ce"
+    },
+    {
+      "file": "OfficeOpenXML-XMLSchema-Transitional/shared-math.xsd",
+      "gitBlobSha": "5ecd223b0727f26de99aedacdaef4d9a87374db2"
+    },
+    {
+      "file": "OfficeOpenXML-XMLSchema-Transitional/shared-relationshipReference.xsd",
+      "gitBlobSha": "9e86f1b2be0d431cd3c250ddeaf4efabdbcb088b"
+    },
+    {
+      "file": "OfficeOpenXML-XMLSchema-Transitional/sml.xsd",
+      "gitBlobSha": "d0be42e757f3cce533c1c80770239f0097d3de6b"
+    },
+    {
+      "file": "OfficeOpenXML-XMLSchema-Transitional/vml-main.xsd",
+      "gitBlobSha": "8821dd183caf9c8c3b809e0e2d9e0df56c4e9ed9"
+    },
+    {
+      "file": "OfficeOpenXML-XMLSchema-Transitional/vml-officeDrawing.xsd",
+      "gitBlobSha": "ca2575c753be78cdaa96de56b3ff8770173c324d"
+    },
+    {
+      "file": "OfficeOpenXML-XMLSchema-Transitional/vml-presentationDrawing.xsd",
+      "gitBlobSha": "dd079e603f5770176212776a1d565b108875cf64"
+    },
+    {
+      "file": "OfficeOpenXML-XMLSchema-Transitional/vml-spreadsheetDrawing.xsd",
+      "gitBlobSha": "3dd6cf625a740398c2a4dc8abbe18e25e0ac5e9f"
+    },
+    {
+      "file": "OfficeOpenXML-XMLSchema-Transitional/vml-wordprocessingDrawing.xsd",
+      "gitBlobSha": "f1041e34ef365926f5670b896f5bb23e553ac36d"
+    },
+    {
+      "file": "OfficeOpenXML-XMLSchema-Transitional/wml.xsd",
+      "gitBlobSha": "0cd6a8cdf067e896f5440cf93b66e65fab732382"
+    },
+    {
+      "file": "OpenPackagingConventions-XMLSchema/opc-contentTypes.xsd",
+      "gitBlobSha": "a6de9d2733d3f0eea12ae87b24122495df1f0928"
+    },
+    {
+      "file": "OpenPackagingConventions-XMLSchema/opc-relationships.xsd",
+      "gitBlobSha": "56497467120b52b742756379959d4b2536be6df7"
+    },
+    {
+      "file": "xml.xsd",
+      "gitBlobSha": "737710d0e253b60fd9cc80c05b3115df61fc95d5"
+    }
+  ]
+}

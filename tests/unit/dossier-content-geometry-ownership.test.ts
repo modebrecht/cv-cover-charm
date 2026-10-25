@@ -39,10 +39,10 @@ describe("Package 4 dossier content geometry ownership", () => {
 
   test("Letter outer geometry stays owned by letterPageGeometry while recipient offset stays local", () => {
     expect(letterCanvas).toContain("const geometry = letterPageGeometry(data, effectiveDesign");
-    expect(letterCanvas).toContain('left: `${geometry.content.left}mm`');
-    expect(letterCanvas).toContain('right: `${geometry.content.right}mm`');
-    expect(letterCanvas).toContain('top: `${geometry.content.top}mm`');
-    expect(letterCanvas).toContain('bottom: `${geometry.content.bottom}mm`');
+    expect(letterCanvas).toContain("left: `${geometry.content.left}mm`");
+    expect(letterCanvas).toContain("right: `${geometry.content.right}mm`");
+    expect(letterCanvas).toContain("top: `${geometry.content.top}mm`");
+    expect(letterCanvas).toContain("bottom: `${geometry.content.bottom}mm`");
     expect(letterCanvas).toContain("chrome.letterRecipientOffsetYMm ?? 0");
   });
 });

@@ -81,7 +81,10 @@ function transformScale(style: CSSStyleDeclaration) {
 }
 
 function fontFamily(value: string, fallback: string) {
-  const first = value.split(",")[0]?.trim().replace(/^['"]|['"]$/g, "");
+  const first = value
+    .split(",")[0]
+    ?.trim()
+    .replace(/^['"]|['"]$/g, "");
   return first || fallback;
 }
 
@@ -133,12 +136,7 @@ function measuredTextLines(
   });
 }
 
-function badgeRects(
-  pageRect: DOMRect,
-  inner: HTMLElement,
-  mmX: number,
-  mmY: number,
-) {
+function badgeRects(pageRect: DOMRect, inner: HTMLElement, mmX: number, mmY: number) {
   const badges = Array.from(inner.children).flatMap((line) => {
     const span = line.querySelector<HTMLElement>(":scope > span");
     if (!span) return [];

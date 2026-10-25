@@ -1,0 +1,19 @@
+[
+  {
+    "scenario": "chrome-content",
+    "message": "DOCX Next compact chrome: Dieser Modern-Test unterstützt nur leere kompakte Kopf- und Fussstreifen ohne Verlauf. Benutzertexte und andere Modi benötigen eine eigene Layoutprüfung.",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  },
+  {
+    "scenario": "chrome-mode",
+    "message": "DOCX Next compact chrome: Dieser Modern-Test unterstützt nur leere kompakte Kopf- und Fussstreifen ohne Verlauf. Benutzertexte und andere Modi benötigen eine eigene Layoutprüfung.",
+    "downloads": 0,
+    "result": "PASS explicit rejection"
+  },
+  {
+    "scenario": "opt-in-off",
+    "message": "Error: Design DOCX Next: Testexport ist nicht aktiviert.",
+    "result": "PASS hidden and rejected"
+  }
+]

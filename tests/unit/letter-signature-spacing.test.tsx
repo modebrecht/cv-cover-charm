@@ -19,12 +19,8 @@ describe("motivation-letter closing and signature spacing", () => {
       }),
     );
 
-    expect(markup).toContain(
-      `data-letter-closing-gap-mm="${DEFAULT_LETTER_CLOSING_GAP_MM}"`,
-    );
-    expect(markup).toContain(
-      `data-letter-signature-gap-mm="${DEFAULT_LETTER_SIGNATURE_GAP_MM}"`,
-    );
+    expect(markup).toContain(`data-letter-closing-gap-mm="${DEFAULT_LETTER_CLOSING_GAP_MM}"`);
+    expect(markup).toContain(`data-letter-signature-gap-mm="${DEFAULT_LETTER_SIGNATURE_GAP_MM}"`);
   });
 
   test("renders both user-defined distances independently", () => {

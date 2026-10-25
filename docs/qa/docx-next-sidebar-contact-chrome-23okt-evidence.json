@@ -1,0 +1,725 @@
+{
+  "baseCommit": "4521a8451dd04273a9788cba5dc3feefda134d48",
+  "branch": "fix/docx-next-shared-integration-22okt",
+  "sourcePhoto": "CHECKED_SYNTHETIC_FIXTURE_ONLY",
+  "wordAcceptance": "UNVERIFIED",
+  "saveReopen": "NOT_RUN",
+  "exactGeometryGate": "NOT_RUN",
+  "productSidebarGuard": "CLOSED",
+  "writer": "LibreOfficeDev 26.8 alpha0; seven renders, one aborted hung import",
+  "unitTests": {
+    "passed": 528,
+    "failed": 0,
+    "files": 75,
+    "expectations": 9206
+  },
+  "focusedStrictTypeScript": "PASS",
+  "cases": [
+    {
+      "case": "left-compact",
+      "docxSha256": "046502a25d84152dc122d1bc8693b37a522c7fc08e03eaba47bb2e3751fb586b",
+      "appPdfSha256": "d91d845a92d23ceb20945ae3dd1263a37cd0307ae9621604f966eaed4c3bc033",
+      "appCvPages": 1,
+      "modelCvPagination": {
+        "firstTopMarginMm": 24,
+        "continuationTopMarginMm": 24,
+        "firstPageLeadMm": 0
+      },
+      "sourceContinuationOverridePresent": false,
+      "uniqueFieldTags": 86,
+      "controls": 86,
+      "uniquePerStoryAndTag": true,
+      "repeatedCanonicalTagsAcrossStories": {},
+      "photoControls": [
+        {
+          "owners": [
+            "cv.person.photo"
+          ],
+          "representation": "DrawingML",
+          "pixels": {
+            "width": 120,
+            "height": 180,
+            "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+          },
+          "embeddedFileSha256": "b55b592a4b251518601207931566e1fe63b77ed8294163ea519a7fe33dc4ab0f",
+          "cropMarkup": {
+            "l": "0",
+            "t": "8333",
+            "r": "0",
+            "b": "8333"
+          }
+        }
+      ],
+      "adjacentPartsModelUnchanged": true,
+      "persistedParagraphIdentity": "UNASSESSABLE_WITHOUT_SOURCE_PARAGRAPH_IDS_AND_WORD_SAVE",
+      "writerStatus": "RENDERED",
+      "writerCvPages": 1,
+      "allControlTextPresentInRenderedDossier": true,
+      "writerPdfSha256": "b24f12262c28e45aa4e4cd1e45a33fb2fe3822a11c637be8bfa13140e5c9515e",
+      "photoClearanceMm": 19.98917370976251,
+      "pageStarts": [
+        {
+          "headerMm": 3.996182631373227,
+          "mainTopMm": 23.989486617583925,
+          "clearanceMm": 19.993303986210694
+        }
+      ],
+      "nativeContactFrames": 0,
+      "productGuardPreserved": true
+    },
+    {
+      "case": "left-contact-inline",
+      "docxSha256": "561084cc3d0fbeacbc61e170213d77b622c25befb2adf318e999a9b74b7ce186",
+      "appPdfSha256": "7c9cb29f947c2b49b0f9a78a1ed43d0be00456b5f6743ec7b5408905449cd8dd",
+      "appCvPages": 1,
+      "modelCvPagination": {
+        "firstTopMarginMm": 46,
+        "continuationTopMarginMm": 46,
+        "firstPageLeadMm": 0
+      },
+      "sourceContinuationOverridePresent": false,
+      "uniqueFieldTags": 85,
+      "controls": 96,
+      "uniquePerStoryAndTag": true,
+      "repeatedCanonicalTagsAcrossStories": {
+        "cv.person.address": [
+          "word/cv-header-first.xml",
+          "word/cv-header.xml"
+        ],
+        "cv.person.email": [
+          "word/cv-header-first.xml",
+          "word/cv-header.xml"
+        ],
+        "cv.person.name": [
+          "word/cv-header-first.xml",
+          "word/cv-header.xml",
+          "word/document.xml"
+        ],
+        "cv.person.phone": [
+          "word/cv-header-first.xml",
+          "word/cv-header.xml"
+        ],
+        "cv.person.place": [
+          "word/cv-header-first.xml",
+          "word/cv-header.xml"
+        ],
+        "letter.sender.address": [
+          "word/letter-header-first.xml",
+          "word/letter-header.xml"
+        ],
+        "letter.sender.email": [
+          "word/letter-header-first.xml",
+          "word/letter-header.xml"
+        ],
+        "letter.sender.name": [
+          "word/letter-header-first.xml",
+          "word/letter-header.xml"
+        ],
+        "letter.sender.phone": [
+          "word/letter-header-first.xml",
+          "word/letter-header.xml"
+        ],
+        "letter.sender.place": [
+          "word/letter-header-first.xml",
+          "word/letter-header.xml"
+        ]
+      },
+      "photoControls": [
+        {
+          "owners": [
+            "cv.person.photo"
+          ],
+          "representation": "DrawingML",
+          "pixels": {
+            "width": 120,
+            "height": 180,
+            "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+          },
+          "embeddedFileSha256": "b55b592a4b251518601207931566e1fe63b77ed8294163ea519a7fe33dc4ab0f",
+          "cropMarkup": {
+            "l": "0",
+            "t": "8333",
+            "r": "0",
+            "b": "8333"
+          }
+        }
+      ],
+      "adjacentPartsModelUnchanged": true,
+      "persistedParagraphIdentity": "UNASSESSABLE_WITHOUT_SOURCE_PARAGRAPH_IDS_AND_WORD_SAVE",
+      "writerStatus": "RENDERED",
+      "writerCvPages": 1,
+      "allControlTextPresentInRenderedDossier": true,
+      "writerPdfSha256": "ad9eb65d274e7d2a05b81708ffe4bd4c462606fe4e3e69d7d4a9601a9ff92bba",
+      "photoClearanceMm": 19.989173709762508,
+      "pageStarts": [
+        {
+          "headerMm": 25.989647743753057,
+          "mainTopMm": 45.978821453515565,
+          "clearanceMm": 19.98917370976251
+        }
+      ],
+      "nativeContactFrames": 2,
+      "productGuardPreserved": true
+    },
+    {
+      "case": "left-contact-stacked",
+      "docxSha256": "67e403388f297fbca42dd906378fb9ed984055afe90e4aebaba10ee313eb844a",
+      "appPdfSha256": "de225c78c6802f7c8c716ea11be69cb372ddb50b76f49a645e01e020d717877b",
+      "appCvPages": 1,
+      "modelCvPagination": {
+        "firstTopMarginMm": 52,
+        "continuationTopMarginMm": 52,
+        "firstPageLeadMm": 0
+      },
+      "sourceContinuationOverridePresent": false,
+      "uniqueFieldTags": 93,
+      "controls": 104,
+      "uniquePerStoryAndTag": true,
+      "repeatedCanonicalTagsAcrossStories": {
+        "cv.person.address": [
+          "word/cv-header-first.xml",
+          "word/cv-header.xml"
+        ],
+        "cv.person.email": [
+          "word/cv-header-first.xml",
+          "word/cv-header.xml"
+        ],
+        "cv.person.name": [
+          "word/cv-header-first.xml",
+          "word/cv-header.xml",
+          "word/document.xml"
+        ],
+        "cv.person.phone": [
+          "word/cv-header-first.xml",
+          "word/cv-header.xml"
+        ],
+        "cv.person.place": [
+          "word/cv-header-first.xml",
+          "word/cv-header.xml"
+        ],
+        "letter.sender.address": [
+          "word/letter-header-first.xml",
+          "word/letter-header.xml"
+        ],
+        "letter.sender.email": [
+          "word/letter-header-first.xml",
+          "word/letter-header.xml"
+        ],
+        "letter.sender.name": [
+          "word/letter-header-first.xml",
+          "word/letter-header.xml"
+        ],
+        "letter.sender.phone": [
+          "word/letter-header-first.xml",
+          "word/letter-header.xml"
+        ],
+        "letter.sender.place": [
+          "word/letter-header-first.xml",
+          "word/letter-header.xml"
+        ]
+      },
+      "photoControls": [
+        {
+          "owners": [
+            "cv.person.photo"
+          ],
+          "representation": "DrawingML",
+          "pixels": {
+            "width": 120,
+            "height": 180,
+            "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+          },
+          "embeddedFileSha256": "b55b592a4b251518601207931566e1fe63b77ed8294163ea519a7fe33dc4ab0f",
+          "cropMarkup": {
+            "l": "0",
+            "t": "8333",
+            "r": "0",
+            "b": "8333"
+          }
+        }
+      ],
+      "adjacentPartsModelUnchanged": true,
+      "persistedParagraphIdentity": "UNASSESSABLE_WITHOUT_SOURCE_PARAGRAPH_IDS_AND_WORD_SAVE",
+      "writerStatus": "RENDERED",
+      "writerCvPages": 1,
+      "allControlTextPresentInRenderedDossier": true,
+      "writerPdfSha256": "e5ef6040705658d8ee59b8ff223c9fc859b1b0ef2c4ce3e8873662fb405b241f",
+      "photoClearanceMm": 19.98917370976251,
+      "pageStarts": [
+        {
+          "headerMm": 31.98598682903699,
+          "mainTopMm": 51.979295487506114,
+          "clearanceMm": 19.99330865846912
+        }
+      ],
+      "nativeContactFrames": 6,
+      "productGuardPreserved": true
+    },
+    {
+      "case": "right-compact",
+      "docxSha256": "79be19f278b5e2ce4f138eafcada752b3b8436e34a0c5fd8a95ceba13ae3f37f",
+      "appPdfSha256": "f876e228114803d3406e53c048651ce0a00e58738296c942b3a78579b324551f",
+      "appCvPages": 1,
+      "modelCvPagination": {
+        "firstTopMarginMm": 24,
+        "continuationTopMarginMm": 24,
+        "firstPageLeadMm": 0
+      },
+      "sourceContinuationOverridePresent": false,
+      "uniqueFieldTags": 86,
+      "controls": 86,
+      "uniquePerStoryAndTag": true,
+      "repeatedCanonicalTagsAcrossStories": {},
+      "photoControls": [
+        {
+          "owners": [
+            "cv.person.photo"
+          ],
+          "representation": "DrawingML",
+          "pixels": {
+            "width": 120,
+            "height": 180,
+            "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+          },
+          "embeddedFileSha256": "b55b592a4b251518601207931566e1fe63b77ed8294163ea519a7fe33dc4ab0f",
+          "cropMarkup": {
+            "l": "0",
+            "t": "8333",
+            "r": "0",
+            "b": "8333"
+          }
+        }
+      ],
+      "adjacentPartsModelUnchanged": true,
+      "persistedParagraphIdentity": "UNASSESSABLE_WITHOUT_SOURCE_PARAGRAPH_IDS_AND_WORD_SAVE",
+      "writerStatus": "RENDERED",
+      "writerCvPages": 1,
+      "allControlTextPresentInRenderedDossier": true,
+      "writerPdfSha256": "6b768a0116335d43a725ca7df6d20a4d184736131ddb837742f5e2ff434f2e5f",
+      "photoClearanceMm": 19.98917370976251,
+      "pageStarts": [
+        {
+          "headerMm": 3.996182631373227,
+          "mainTopMm": 23.989486617583925,
+          "clearanceMm": 19.993303986210694
+        }
+      ],
+      "nativeContactFrames": 0,
+      "productGuardPreserved": true
+    },
+    {
+      "case": "right-contact-inline",
+      "docxSha256": "fa15ed89cd5e19ef25b87d561acf68343a3937ac7567a1ea09f7224d7ec8c81f",
+      "appPdfSha256": "e81af7c0d813b58a8c2fe28023bf5df4a9595adedd827b5c98c19772a1975111",
+      "appCvPages": 1,
+      "modelCvPagination": {
+        "firstTopMarginMm": 46,
+        "continuationTopMarginMm": 46,
+        "firstPageLeadMm": 0
+      },
+      "sourceContinuationOverridePresent": false,
+      "uniqueFieldTags": 85,
+      "controls": 96,
+      "uniquePerStoryAndTag": true,
+      "repeatedCanonicalTagsAcrossStories": {
+        "cv.person.address": [
+          "word/cv-header-first.xml",
+          "word/cv-header.xml"
+        ],
+        "cv.person.email": [
+          "word/cv-header-first.xml",
+          "word/cv-header.xml"
+        ],
+        "cv.person.name": [
+          "word/cv-header-first.xml",
+          "word/cv-header.xml",
+          "word/document.xml"
+        ],
+        "cv.person.phone": [
+          "word/cv-header-first.xml",
+          "word/cv-header.xml"
+        ],
+        "cv.person.place": [
+          "word/cv-header-first.xml",
+          "word/cv-header.xml"
+        ],
+        "letter.sender.address": [
+          "word/letter-header-first.xml",
+          "word/letter-header.xml"
+        ],
+        "letter.sender.email": [
+          "word/letter-header-first.xml",
+          "word/letter-header.xml"
+        ],
+        "letter.sender.name": [
+          "word/letter-header-first.xml",
+          "word/letter-header.xml"
+        ],
+        "letter.sender.phone": [
+          "word/letter-header-first.xml",
+          "word/letter-header.xml"
+        ],
+        "letter.sender.place": [
+          "word/letter-header-first.xml",
+          "word/letter-header.xml"
+        ]
+      },
+      "photoControls": [
+        {
+          "owners": [
+            "cv.person.photo"
+          ],
+          "representation": "DrawingML",
+          "pixels": {
+            "width": 120,
+            "height": 180,
+            "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+          },
+          "embeddedFileSha256": "b55b592a4b251518601207931566e1fe63b77ed8294163ea519a7fe33dc4ab0f",
+          "cropMarkup": {
+            "l": "0",
+            "t": "8333",
+            "r": "0",
+            "b": "8333"
+          }
+        }
+      ],
+      "adjacentPartsModelUnchanged": true,
+      "persistedParagraphIdentity": "UNASSESSABLE_WITHOUT_SOURCE_PARAGRAPH_IDS_AND_WORD_SAVE",
+      "writerStatus": "RENDERED",
+      "writerCvPages": 1,
+      "allControlTextPresentInRenderedDossier": true,
+      "writerPdfSha256": "839120bb50af99526fd124954a1e2c665a695765c0dad5fc973348862138bf35",
+      "photoClearanceMm": 19.989173709762508,
+      "pageStarts": [
+        {
+          "headerMm": 25.989647743753057,
+          "mainTopMm": 45.978821453515565,
+          "clearanceMm": 19.98917370976251
+        }
+      ],
+      "nativeContactFrames": 2,
+      "productGuardPreserved": true
+    },
+    {
+      "case": "right-contact-stacked",
+      "docxSha256": "f8be6f12a00ea545502bb9248fefddbb137531c50e8453bac8d17890bbe2c76d",
+      "appPdfSha256": "54c5de4058878835aefa1a49871209a6f4f326a6934ed2034965385b5aa313a3",
+      "appCvPages": 1,
+      "modelCvPagination": {
+        "firstTopMarginMm": 52,
+        "continuationTopMarginMm": 52,
+        "firstPageLeadMm": 0
+      },
+      "sourceContinuationOverridePresent": false,
+      "uniqueFieldTags": 93,
+      "controls": 104,
+      "uniquePerStoryAndTag": true,
+      "repeatedCanonicalTagsAcrossStories": {
+        "cv.person.address": [
+          "word/cv-header-first.xml",
+          "word/cv-header.xml"
+        ],
+        "cv.person.email": [
+          "word/cv-header-first.xml",
+          "word/cv-header.xml"
+        ],
+        "cv.person.name": [
+          "word/cv-header-first.xml",
+          "word/cv-header.xml",
+          "word/document.xml"
+        ],
+        "cv.person.phone": [
+          "word/cv-header-first.xml",
+          "word/cv-header.xml"
+        ],
+        "cv.person.place": [
+          "word/cv-header-first.xml",
+          "word/cv-header.xml"
+        ],
+        "letter.sender.address": [
+          "word/letter-header-first.xml",
+          "word/letter-header.xml"
+        ],
+        "letter.sender.email": [
+          "word/letter-header-first.xml",
+          "word/letter-header.xml"
+        ],
+        "letter.sender.name": [
+          "word/letter-header-first.xml",
+          "word/letter-header.xml"
+        ],
+        "letter.sender.phone": [
+          "word/letter-header-first.xml",
+          "word/letter-header.xml"
+        ],
+        "letter.sender.place": [
+          "word/letter-header-first.xml",
+          "word/letter-header.xml"
+        ]
+      },
+      "photoControls": [
+        {
+          "owners": [
+            "cv.person.photo"
+          ],
+          "representation": "DrawingML",
+          "pixels": {
+            "width": 120,
+            "height": 180,
+            "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+          },
+          "embeddedFileSha256": "b55b592a4b251518601207931566e1fe63b77ed8294163ea519a7fe33dc4ab0f",
+          "cropMarkup": {
+            "l": "0",
+            "t": "8333",
+            "r": "0",
+            "b": "8333"
+          }
+        }
+      ],
+      "adjacentPartsModelUnchanged": true,
+      "persistedParagraphIdentity": "UNASSESSABLE_WITHOUT_SOURCE_PARAGRAPH_IDS_AND_WORD_SAVE",
+      "writerStatus": "RENDERED",
+      "writerCvPages": 1,
+      "allControlTextPresentInRenderedDossier": true,
+      "writerPdfSha256": "9a1dc9000a05ccd5bdcfb44eafcccbcfe3553300da6104ec96d8077271cf670f",
+      "photoClearanceMm": 19.98917370976251,
+      "pageStarts": [
+        {
+          "headerMm": 31.98598682903699,
+          "mainTopMm": 51.979295487506114,
+          "clearanceMm": 19.99330865846912
+        }
+      ],
+      "nativeContactFrames": 6,
+      "productGuardPreserved": true
+    },
+    {
+      "case": "right-contact-long",
+      "docxSha256": "e9fab35e4c4eb628af8c096a2ef3a78e7e1ea54659c01affffcc760f45b4a58a",
+      "appPdfSha256": "20d71aaa4962813a33bc6f6b890b6f29f5f083c9825444aa266b16ffab72e2c3",
+      "appCvPages": 2,
+      "modelCvPagination": {
+        "firstTopMarginMm": 52,
+        "continuationTopMarginMm": 52,
+        "firstPageLeadMm": 0
+      },
+      "sourceContinuationOverridePresent": false,
+      "uniqueFieldTags": 134,
+      "controls": 145,
+      "uniquePerStoryAndTag": true,
+      "repeatedCanonicalTagsAcrossStories": {
+        "cv.person.address": [
+          "word/cv-header-first.xml",
+          "word/cv-header.xml"
+        ],
+        "cv.person.email": [
+          "word/cv-header-first.xml",
+          "word/cv-header.xml"
+        ],
+        "cv.person.name": [
+          "word/cv-header-first.xml",
+          "word/cv-header.xml",
+          "word/document.xml"
+        ],
+        "cv.person.phone": [
+          "word/cv-header-first.xml",
+          "word/cv-header.xml"
+        ],
+        "cv.person.place": [
+          "word/cv-header-first.xml",
+          "word/cv-header.xml"
+        ],
+        "letter.sender.address": [
+          "word/letter-header-first.xml",
+          "word/letter-header.xml"
+        ],
+        "letter.sender.email": [
+          "word/letter-header-first.xml",
+          "word/letter-header.xml"
+        ],
+        "letter.sender.name": [
+          "word/letter-header-first.xml",
+          "word/letter-header.xml"
+        ],
+        "letter.sender.phone": [
+          "word/letter-header-first.xml",
+          "word/letter-header.xml"
+        ],
+        "letter.sender.place": [
+          "word/letter-header-first.xml",
+          "word/letter-header.xml"
+        ]
+      },
+      "photoControls": [
+        {
+          "owners": [
+            "cv.person.photo"
+          ],
+          "representation": "DrawingML",
+          "pixels": {
+            "width": 120,
+            "height": 180,
+            "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+          },
+          "embeddedFileSha256": "b55b592a4b251518601207931566e1fe63b77ed8294163ea519a7fe33dc4ab0f",
+          "cropMarkup": {
+            "l": "0",
+            "t": "8333",
+            "r": "0",
+            "b": "8333"
+          }
+        }
+      ],
+      "adjacentPartsModelUnchanged": true,
+      "persistedParagraphIdentity": "UNASSESSABLE_WITHOUT_SOURCE_PARAGRAPH_IDS_AND_WORD_SAVE",
+      "writerStatus": "ABORTED_HUNG_IMPORT",
+      "allControlTextPresentInRenderedDossier": "UNVERIFIED",
+      "writerCvPages": null,
+      "photoClearanceMm": 19.98917370976251,
+      "pageStarts": [
+        {
+          "headerMm": 31.98598682903699,
+          "mainTopMm": 51.979295487506114,
+          "clearanceMm": 19.99330865846912
+        },
+        {
+          "headerMm": 31.98601953484597,
+          "mainTopMm": 51.97932352105666,
+          "clearanceMm": 19.993303986210694
+        }
+      ],
+      "nativeContactFrames": 6,
+      "productGuardPreserved": true
+    },
+    {
+      "case": "right-contact-reduced",
+      "docxSha256": "d0eb9e9dd4f26b680da4b2166b76126f598826c47508b0e57e0e9b37519d92ef",
+      "appPdfSha256": "1849c4d1497904de3e3f666d723f4efa0d5d67c05d9508af0a0a21cd15f9fcf9",
+      "appCvPages": 2,
+      "modelCvPagination": {
+        "firstTopMarginMm": 52,
+        "continuationTopMarginMm": 38,
+        "firstPageLeadMm": 14
+      },
+      "sourceContinuationOverridePresent": false,
+      "uniqueFieldTags": 131,
+      "controls": 138,
+      "uniquePerStoryAndTag": true,
+      "repeatedCanonicalTagsAcrossStories": {
+        "cv.person.email": [
+          "word/cv-header-first.xml",
+          "word/cv-header.xml"
+        ],
+        "cv.person.name": [
+          "word/cv-header-first.xml",
+          "word/cv-header.xml",
+          "word/document.xml"
+        ],
+        "cv.person.phone": [
+          "word/cv-header-first.xml",
+          "word/cv-header.xml"
+        ],
+        "letter.sender.email": [
+          "word/letter-header-first.xml",
+          "word/letter-header.xml"
+        ],
+        "letter.sender.name": [
+          "word/letter-header-first.xml",
+          "word/letter-header.xml"
+        ],
+        "letter.sender.phone": [
+          "word/letter-header-first.xml",
+          "word/letter-header.xml"
+        ]
+      },
+      "photoControls": [
+        {
+          "owners": [
+            "cv.person.photo"
+          ],
+          "representation": "DrawingML",
+          "pixels": {
+            "width": 120,
+            "height": 180,
+            "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+          },
+          "embeddedFileSha256": "b55b592a4b251518601207931566e1fe63b77ed8294163ea519a7fe33dc4ab0f",
+          "cropMarkup": {
+            "l": "0",
+            "t": "8333",
+            "r": "0",
+            "b": "8333"
+          }
+        }
+      ],
+      "adjacentPartsModelUnchanged": true,
+      "persistedParagraphIdentity": "UNASSESSABLE_WITHOUT_SOURCE_PARAGRAPH_IDS_AND_WORD_SAVE",
+      "writerStatus": "RENDERED",
+      "writerCvPages": 2,
+      "allControlTextPresentInRenderedDossier": true,
+      "writerPdfSha256": "385b7ed11252d2819880fb2be5251eb0de979dfc9c78e0eb61c930bb2dfb2f29",
+      "photoClearanceMm": 19.98917370976251,
+      "pageStarts": [
+        {
+          "headerMm": 31.98598682903699,
+          "mainTopMm": 51.979295487506114,
+          "clearanceMm": 19.99330865846912
+        },
+        {
+          "headerMm": 17.99316622133369,
+          "mainTopMm": 37.9823586201299,
+          "clearanceMm": 19.989192398796213
+        }
+      ],
+      "nativeContactFrames": 4,
+      "productGuardPreserved": true
+    }
+  ],
+  "displayScaleChecks": [
+    {
+      "case": "left-contact-inline",
+      "deviceScaleFactor": 2,
+      "outerCssZoom": 0.75,
+      "docxByteIdentical": true,
+      "sha256": "561084cc3d0fbeacbc61e170213d77b622c25befb2adf318e999a9b74b7ce186"
+    },
+    {
+      "case": "right-contact-reduced",
+      "deviceScaleFactor": 2,
+      "outerCssZoom": 0.75,
+      "docxByteIdentical": true,
+      "sha256": "d0eb9e9dd4f26b680da4b2166b76126f598826c47508b0e57e0e9b37519d92ef"
+    }
+  ],
+  "existingSavedAppRegression": [
+    {
+      "id": "03-Sidebar-rechts-Folgeseite",
+      "webCvPages": 2,
+      "productGuardPreserved": true,
+      "savedStateUnchanged": true,
+      "primaryPdfDownloaded": true,
+      "adjacentPartsUnchanged": true,
+      "docxSha256": "870b0162a07f46c4818a47c5896697fb2baff60237b1a5245ff0e0218fe75689"
+    },
+    {
+      "id": "05-Sidebar-links-Foto-frei",
+      "webCvPages": 1,
+      "productGuardPreserved": true,
+      "savedStateUnchanged": true,
+      "primaryPdfDownloaded": true,
+      "adjacentPartsUnchanged": true,
+      "docxSha256": "8b133070f0030f33baa0c640c9b0e216688405580417d06c806e9d55d18f6e63"
+    },
+    {
+      "id": "06-Sidebar-rechts-Foto-frei",
+      "webCvPages": 1,
+      "productGuardPreserved": true,
+      "savedStateUnchanged": true,
+      "primaryPdfDownloaded": true,
+      "adjacentPartsUnchanged": true,
+      "docxSha256": "90ca1d6752a7ded3fbfae1de0d71192b9ca5bbb89e34e1d02a647813584bb70c"
+    }
+  ]
+}

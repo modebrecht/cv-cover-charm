@@ -121,7 +121,8 @@ function documents(template = "freundlich") {
     },
     design: { template, colors: {}, bgOpacity: 0.25, useElements: false },
   });
-  if (!cover || !letter || !cv) throw new Error("Warm-Testdokumente konnten nicht erstellt werden.");
+  if (!cover || !letter || !cv)
+    throw new Error("Warm-Testdokumente konnten nicht erstellt werden.");
   return { cover, letter, cv };
 }
 

@@ -20,10 +20,11 @@ export const normalizeBrowserImage: ImageNormalizer = async (source) => {
   });
   if (!image.naturalWidth || !image.naturalHeight)
     throw new Error("DOCX Next image has no dimensions.");
-  const ratio = Math.min(1, 1600 / Math.max(image.naturalWidth, image.naturalHeight));
   const canvas = document.createElement("canvas");
-  canvas.width = Math.max(1, Math.round(image.naturalWidth * ratio));
-  canvas.height = Math.max(1, Math.round(image.naturalHeight * ratio));
+  // This is the editable picture asset. Native frame/crop geometry owns its
+  // displayed size; a preview resolution limit must not discard source pixels.
+  canvas.width = image.naturalWidth;
+  canvas.height = image.naturalHeight;
   const context = canvas.getContext("2d", { colorSpace: "srgb" });
   if (!context) throw new Error("DOCX Next image normalization could not allocate a canvas.");
   context.drawImage(image, 0, 0, canvas.width, canvas.height);

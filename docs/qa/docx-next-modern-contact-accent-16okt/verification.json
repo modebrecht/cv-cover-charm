@@ -1,0 +1,51 @@
+{
+  "status": "PARTIAL",
+  "branch": "investigate/docx-next-design-fidelity-16okt",
+  "parent": "560345bb39042da0c15909a78673a235740a1ac7",
+  "dev": "8901a830a792d75e9e792345c5180827218b4e1e",
+  "unit": {
+    "pass": 1200,
+    "fail": 0,
+    "assertions": 23056,
+    "files": 249
+  },
+  "docx": {
+    "pass": 387,
+    "fail": 0,
+    "assertions": 5975,
+    "files": 59,
+    "overlapsUnit": true
+  },
+  "typecheck": "PASS",
+  "formatting": "PASS targeted changed paths",
+  "lint": {
+    "errors": 0,
+    "existingWarnings": 21
+  },
+  "build": "PASS exit 0",
+  "actualAppCases": 13,
+  "nativeA4Pages": 52,
+  "negativeBrowserGates": 17,
+  "letterWholePageRastersIdentical": 13,
+  "briefAppPackagesByteIdentical": 7,
+  "ordinaryNextPackagesByteIdentical": 10,
+  "otherAuditedWebCoversIdentical": ["verlauf", "neon", "freundlich"],
+  "otherTemplatesEnabled": false,
+  "newCandidateWordAcceptance": "UNVERIFIED",
+  "wordR2Header": "PASS bounded normal; shared transform with 0.0247mm nominal page rounding",
+  "wordR2NativeControlsRetained": 82,
+  "wordR2IntentionalNativeEdits": 1,
+  "newContactDesignImplemented": true,
+  "sharedModernBadgeAccentAndRadiusImplemented": true,
+  "contactFontAdvanceMeasured": false,
+  "contactConservativeReservation": "0.6 em, existing fixed table and automatic row heights",
+  "pdfExporterImplementationChanged": false,
+  "legacyDocxImplementationChanged": false,
+  "nativeRendererChanged": false,
+  "productionDefaultChanged": false,
+  "prePublication": {
+    "vercelBranchDeployments": 0,
+    "githubBranchWorkflowRuns": 0
+  },
+  "userOriginalAttachmentsRepublished": false
+}

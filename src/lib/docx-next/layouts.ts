@@ -1,5 +1,28 @@
 import type { DocBlock, Paragraph, TableBlock } from "./model";
 
+/** Same conservative advance reservation as nativeTextHeightMm, not a font
+ * measurement. Fixed native cells may wrap and grow with target-font metrics.
+ */
+export function nativeTextWidthMm(paragraph: Paragraph): number {
+  let width = 0,
+    line = 0;
+  for (const run of paragraph.runs) {
+    const tracking = run.style.trackingPt ?? 0;
+    if (!Number.isFinite(tracking)) throw Error("DOCX Next invalid contact text tracking");
+    const advance = Math.max(
+      0,
+      ((Math.max(10, run.style.sizePt) * 25.4) / 72) * 0.6 + (tracking * 25.4) / 72,
+    );
+    for (const character of run.text) {
+      if (character === "\n") {
+        width = Math.max(width, line);
+        line = 0;
+      } else line += advance;
+    }
+  }
+  return Math.max(width, line);
+}
+
 /** Conservative authored-text reservation; no browser/PDF measurements. */
 export function nativeTextHeightMm(
   paragraphs: Paragraph[],
@@ -14,8 +37,19 @@ export function nativeTextHeightMm(
       .join("")
       .split("\n")
       .reduce((n, line) => n + Math.max(1, Math.ceil(line.length / chars)), 0);
+    const height =
+      p.minimumLineHeightPt === undefined
+        ? ((lines * (p.fontLineHeightFactor ? Math.round(pt * 2) / 2 : pt) * 25.4) / 72) *
+          p.lineHeight *
+          (p.fontLineHeightFactor ?? 1) *
+          lineMetricFactor
+        : ((lines * p.minimumLineHeightPt * 25.4) / 72) * lineMetricFactor;
     return (
-      sum + p.beforeMm + p.afterMm + ((lines * pt * 25.4) / 72) * p.lineHeight * lineMetricFactor
+      sum +
+      p.beforeMm +
+      p.afterMm +
+      height +
+      (p.bottomRule ? p.bottomRule.gapMm + p.bottomRule.heightMm : 0)
     );
   }, 0);
 }
@@ -27,7 +61,13 @@ export type CvFlowDefinition = {
   headerGapMm: number;
   entryGapMm: number;
   indentMm: number;
-  dateRail?: { textWidthMm: number; paddingXMm: number; axisWidthMm: number };
+  dateRail?: {
+    textWidthMm: number;
+    paddingXMm: number;
+    axisWidthMm: number;
+    contentGapMm?: number;
+    allowSplit?: boolean;
+  };
 };
 
 /** Shared Word compositions; no template IDs, XML or visible-text matching. */
@@ -73,7 +113,20 @@ export function datedEntryBlocks(
       id: `${id}.dateRail`,
       widths: [1, 1],
       columnWidthsMm: [rail.textWidthMm + rail.paddingXMm * 2, null],
-      rows: [{ cells: [[{ ...date, keepNext: false }], content], keepTogether: true }],
+      rows: [
+        {
+          cells: [
+            [{ ...date, keepNext: false }],
+            content.map((paragraph) => ({
+              ...paragraph,
+              ...(rail.contentGapMm
+                ? { indentMm: (paragraph.indentMm ?? 0) + rail.contentGapMm }
+                : {}),
+            })),
+          ],
+          keepTogether: !rail.allowSplit,
+        },
+      ],
       decoration: {
         borderColor: accent,
         borderWidthMm: rail.axisWidthMm,
@@ -104,7 +157,16 @@ export function tableColumnWidths(value: TableBlock, tableWidthMm: number): numb
     (width, index) => width ?? (remaining * value.widths[index]) / flexibleWeight,
   );
   const padding = (value.decoration?.paddingXMm ?? 2) * 2;
-  if (value.columnWidthsMm && widths.some((width) => width - padding < 10))
+  if (
+    value.columnWidthsMm &&
+    widths.some(
+      (width, index) =>
+        !Number.isFinite(width) ||
+        width <= 0 ||
+        // Empty spacer tracks need no text width; populated tracks retain the existing gate.
+        (width - padding < 10 && value.rows.some((row) => row.cells[index]?.length)),
+    )
+  )
     throw new Error(`DOCX Next fixed column leaves insufficient text width ${value.id}`);
   return widths;
 }

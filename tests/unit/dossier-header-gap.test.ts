@@ -90,11 +90,14 @@ describe("dossier header spacing", () => {
   test("keeps CV header spacing with page margins and links there from Header & Footer", () => {
     expect(cvMargins).toContain("data-dossier-header-gap-control");
     expect(cvMargins).toContain("Zusätzlicher Abstand nach Header");
-    expect(cvMargins).toContain(
-      "Wird im Lebenslauf auf Seite 1 zusätzlich zum oberen Seitenrand gerechnet.",
-    );
-    expect(cvMargins).toContain("data-cv-continuation-top-margin-control");
-    expect(cvMargins).toContain("Oberer Rand ab Seite 2");
+    expect(cvMargins).toContain("Gilt auf allen Seiten zusätzlich zum oberen Seitenrand.");
+    expect(
+      readFileSync(
+        new URL("../../src/components/dossier/ContinuationTopMarginControl.tsx", import.meta.url),
+        "utf8",
+      ),
+    ).toContain("data-cv-continuation-top-margin-control");
+    expect(cvMargins).toContain("<ContinuationTopMarginControl");
     expect(cvMargins).toContain("min={0}");
     expect(cvMargins).toContain("max={40}");
 

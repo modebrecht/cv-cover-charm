@@ -13,7 +13,7 @@ import {
 import { DEFAULT_DOSSIER_PHOTO_STYLE, type DossierPhotoStyle } from "@/lib/dossier-photo";
 import {
   defaultCvLayoutForTemplate,
-  getCvContinuationTopMarginMm,
+  getCvContinuationTopMarginOverrideMm,
   getCvInfoPosition,
   getCvLayoutChoiceForTemplate,
   getCvSectionGapMm,
@@ -41,7 +41,7 @@ export type CvPresentation = {
   placements: CvPlacements;
   sectionGapMm: number | null;
   documentTitleMarginTopPx: number;
-  continuationTopMarginMm: number;
+  continuationTopMarginMm: number | null;
   pageMargins: DossierPageMargins | null;
   bodyAlignment: ReturnType<typeof getCvTextAlignment>;
 };
@@ -61,10 +61,11 @@ export function useCvPresentation(
     () => "standard" as const,
   );
   const sectionGapMm = useSyncExternalStore(subscribeCvLayout, getCvSectionGapMm, () => null);
+  const getContinuation = getCvContinuationTopMarginOverrideMm;
   const continuationTopMarginMm = useSyncExternalStore(
     subscribeCvLayout,
-    getCvContinuationTopMarginMm,
-    () => 10,
+    getContinuation,
+    () => null,
   );
   const photoStyle = useSyncExternalStore(
     subscribeCvPhotoStyle,

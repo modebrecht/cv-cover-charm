@@ -1,0 +1,354 @@
+{
+  "baseCommit": "037bceb5c506685be25fb8c20b9283591f06fcd1",
+  "candidate": "shared-body-stories",
+  "runtime": {
+    "browser": "Chrome for Testing 156.0.8078.47",
+    "nativeRender": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+    "appServer": "temporary QA Vite SPA; not a clean original-lockfile SSR server"
+  },
+  "checks": {
+    "unitTests": 74,
+    "expectations": 809,
+    "files": 6,
+    "failures": 0,
+    "strictFocusedTypecheck": "PASS",
+    "fullTypecheck": "NOT PASS in recovered environment: missing dependency types and unrelated calendar/chart errors",
+    "wordSaveReopen": "UNVERIFIED",
+    "original22CaseGate": "NOT RERUN; unchanged",
+    "guardedProductSidebarExport": "REJECTED as required"
+  },
+  "savedAppCases": [
+    {
+      "id": "01-Sidebar-links-Portrait",
+      "composition": "shared-body-stories",
+      "side": "left",
+      "webCvPages": 1,
+      "webSidebarGeometry": {
+        "leftMm": 0,
+        "widthMm": 62.97602570756682
+      },
+      "nativeSidebarSurface": {
+        "kind": "decorative-artwork",
+        "id": "cv.artwork.sidebar-surface",
+        "semanticText": false,
+        "fill": {
+          "color": "FBFBFC"
+        },
+        "xMm": 0,
+        "yMm": 0,
+        "widthMm": 63,
+        "heightMm": 297
+      },
+      "appRestoredProject": true,
+      "actualProjectSave": true,
+      "primaryPdfDownloaded": false,
+      "pdfPreflight": "Dossier herunterladenNur lokal auf deinem Gerät · kein Upload.JSONProjekt speichern (*.json)ZwischenstandPDFFertiges Dossier (PDF)Briefinhalt prüfenDOCXBearbeitbares Dossier (DOCX)Bereit · Vorlage ModernWas fehlt noch? · 1 Punkt▾Motivationsschreiben kann nicht sicher exportiert werden. Lebenslauf Seite 1: Text wird abgeschnitten oder überlappt.Lebenslauf Seite 1: Text wird abgeschnitten oder überlappt.Vor dem Versenden Inhalt, Rechtschreibung und Kontaktdaten selbst kontrollieren.Modern-Testexport · editierbares Word-Dossier mit leeren kompakten Kopf- und Fussstreifen. Vor der Verwendung in Word prüfen.Modern DOCX Next testenZurück zum BearbeitenPDF herunterladen",
+      "nativeScope": "Explicit internal candidate from fresh saved-app capture; guarded regular export remains rejected",
+      "productGuardPreserved": true,
+      "savedStateUnchanged": true,
+      "jsErrors": [],
+      "picture": {
+        "source": {
+          "width": 120,
+          "height": 180,
+          "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+        },
+        "normalized": {
+          "width": 120,
+          "height": 180,
+          "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+        },
+        "normalizedFileSha256": "b55b592a4b251518601207931566e1fe63b77ed8294163ea519a7fe33dc4ab0f"
+      },
+      "pixelsPreserved": true,
+      "docxSha256": "eda51915b625805d72b5cd2653f5691de747eff5a526dfb6d4a84270ca228502"
+    },
+    {
+      "id": "02-Sidebar-rechts-Foto",
+      "composition": "shared-body-stories",
+      "side": "right",
+      "webCvPages": 1,
+      "webSidebarGeometry": {
+        "leftMm": 147.02393691436578,
+        "widthMm": 62.97606308563422
+      },
+      "nativeSidebarSurface": {
+        "kind": "decorative-artwork",
+        "id": "cv.artwork.sidebar-surface",
+        "semanticText": false,
+        "fill": {
+          "color": "FBFBFC"
+        },
+        "xMm": 147,
+        "yMm": 0,
+        "widthMm": 63,
+        "heightMm": 297
+      },
+      "appRestoredProject": true,
+      "actualProjectSave": true,
+      "primaryPdfDownloaded": false,
+      "pdfPreflight": "Dossier herunterladenNur lokal auf deinem Gerät · kein Upload.JSONProjekt speichern (*.json)ZwischenstandPDFFertiges Dossier (PDF)Briefinhalt prüfenDOCXBearbeitbares Dossier (DOCX)Bereit · Vorlage ModernWas fehlt noch? · 1 Punkt▾Motivationsschreiben kann nicht sicher exportiert werden. Lebenslauf Seite 1: Text wird abgeschnitten oder überlappt.Lebenslauf Seite 1: Text wird abgeschnitten oder überlappt.Vor dem Versenden Inhalt, Rechtschreibung und Kontaktdaten selbst kontrollieren.Modern-Testexport · editierbares Word-Dossier mit leeren kompakten Kopf- und Fussstreifen. Vor der Verwendung in Word prüfen.Modern DOCX Next testenZurück zum BearbeitenPDF herunterladen",
+      "nativeScope": "Explicit internal candidate from fresh saved-app capture; guarded regular export remains rejected",
+      "productGuardPreserved": true,
+      "savedStateUnchanged": true,
+      "jsErrors": [],
+      "picture": {
+        "source": {
+          "width": 1920,
+          "height": 2880,
+          "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6"
+        },
+        "normalized": {
+          "width": 1920,
+          "height": 2880,
+          "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6"
+        },
+        "normalizedFileSha256": "f8ba8f4b000d9aa4f18a5f476a630615232905810aec92c69d4e128cbfdec69c"
+      },
+      "pixelsPreserved": true,
+      "docxSha256": "ab498f39025717fae30c7bc83339de18e24d716a7ee83b44b78f5a6b833cbcc6"
+    },
+    {
+      "id": "03-Sidebar-rechts-Folgeseite",
+      "composition": "shared-body-stories",
+      "side": "right",
+      "webCvPages": 2,
+      "webSidebarGeometry": {
+        "leftMm": 147.02393691436578,
+        "widthMm": 62.97606308563422
+      },
+      "nativeSidebarSurface": {
+        "kind": "decorative-artwork",
+        "id": "cv.artwork.sidebar-surface",
+        "semanticText": false,
+        "fill": {
+          "color": "FBFBFC"
+        },
+        "xMm": 147,
+        "yMm": 0,
+        "widthMm": 63,
+        "heightMm": 297
+      },
+      "appRestoredProject": true,
+      "actualProjectSave": true,
+      "primaryPdfDownloaded": true,
+      "pdfPreflight": "Dossier herunterladenNur lokal auf deinem Gerät · kein Upload.JSONProjekt speichern (*.json)ZwischenstandPDFFertiges Dossier (PDF)BereitDOCXBearbeitbares Dossier (DOCX)Bereit · Vorlage ModernAlles bereit▾PDF: bereit.Word (DOCX): bereit.Vor dem Versenden Inhalt, Rechtschreibung und Kontaktdaten selbst kontrollieren.Modern-Testexport · editierbares Word-Dossier mit leeren kompakten Kopf- und Fussstreifen. Vor der Verwendung in Word prüfen.Modern DOCX Next testenZurück zum BearbeitenPDF herunterladen",
+      "nativeScope": "Explicit internal candidate from fresh saved-app capture; guarded regular export remains rejected",
+      "productGuardPreserved": true,
+      "savedStateUnchanged": true,
+      "jsErrors": [],
+      "pixelsPreserved": true,
+      "docxSha256": "5201745fe50ea382afd67f553a1f00d5bd4c7177768c5e254b6a21f26de1507c"
+    },
+    {
+      "id": "04-Sidebar-rechts-Foto-x25",
+      "composition": "shared-body-stories",
+      "side": "right",
+      "webCvPages": 1,
+      "webSidebarGeometry": {
+        "leftMm": 147.02393691436578,
+        "widthMm": 62.97606308563422
+      },
+      "nativeSidebarSurface": {
+        "kind": "decorative-artwork",
+        "id": "cv.artwork.sidebar-surface",
+        "semanticText": false,
+        "fill": {
+          "color": "FBFBFC"
+        },
+        "xMm": 147,
+        "yMm": 0,
+        "widthMm": 63,
+        "heightMm": 297
+      },
+      "appRestoredProject": true,
+      "actualProjectSave": true,
+      "primaryPdfDownloaded": false,
+      "pdfPreflight": "Dossier herunterladenNur lokal auf deinem Gerät · kein Upload.JSONProjekt speichern (*.json)ZwischenstandPDFFertiges Dossier (PDF)Briefinhalt prüfenDOCXBearbeitbares Dossier (DOCX)Bereit · Vorlage ModernWas fehlt noch? · 1 Punkt▾Motivationsschreiben kann nicht sicher exportiert werden. Lebenslauf Seite 1: Text wird abgeschnitten oder überlappt.Lebenslauf Seite 1: Text wird abgeschnitten oder überlappt.Vor dem Versenden Inhalt, Rechtschreibung und Kontaktdaten selbst kontrollieren.Modern-Testexport · editierbares Word-Dossier mit leeren kompakten Kopf- und Fussstreifen. Vor der Verwendung in Word prüfen.Modern DOCX Next testenZurück zum BearbeitenPDF herunterladen",
+      "nativeScope": "Explicit internal candidate from fresh saved-app capture; guarded regular export remains rejected",
+      "productGuardPreserved": true,
+      "savedStateUnchanged": true,
+      "jsErrors": [],
+      "picture": {
+        "source": {
+          "width": 1920,
+          "height": 2880,
+          "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6"
+        },
+        "normalized": {
+          "width": 1920,
+          "height": 2880,
+          "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6"
+        },
+        "normalizedFileSha256": "f8ba8f4b000d9aa4f18a5f476a630615232905810aec92c69d4e128cbfdec69c"
+      },
+      "pixelsPreserved": true,
+      "docxSha256": "3147195b58084451550522cef5057dbf89f8e3a85241952dfe82572320d5b0ad"
+    }
+  ],
+  "packageVerification": [
+    {
+      "case": "01-Sidebar-links-Portrait",
+      "snapshotUnchanged": true,
+      "coverMetricsUnchanged": true,
+      "coverAndLetterModelsUnchanged": {
+        "cover": true,
+        "letter": true
+      },
+      "webScreenshotsByteEqual": {
+        "Web-CV-1.png": true
+      },
+      "activeFields": 90,
+      "fieldIdsAndTextsUnchanged": true,
+      "pictures": {
+        "cv.person.photo": {
+          "representation": "DrawingML",
+          "width": 120,
+          "height": 180,
+          "embeddedFileSha256": "b55b592a4b251518601207931566e1fe63b77ed8294163ea519a7fe33dc4ab0f",
+          "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+          "crop": {
+            "l": "11818",
+            "t": "31313",
+            "r": "27576",
+            "b": "18182"
+          }
+        }
+      },
+      "nativeDossierPages": 3,
+      "nativeCvPages": 1,
+      "appDossierPages": null,
+      "sourcePackageSha256": "eda51915b625805d72b5cd2653f5691de747eff5a526dfb6d4a84270ca228502",
+      "nativeImageRectanglesPt": [
+        {
+          "page": 1,
+          "rects": []
+        },
+        {
+          "page": 2,
+          "rects": []
+        },
+        {
+          "page": 3,
+          "rects": []
+        }
+      ]
+    },
+    {
+      "case": "02-Sidebar-rechts-Foto",
+      "snapshotUnchanged": true,
+      "coverMetricsUnchanged": true,
+      "coverAndLetterModelsUnchanged": {
+        "cover": true,
+        "letter": true
+      },
+      "webScreenshotsByteEqual": {
+        "Web-CV-1.png": true
+      },
+      "activeFields": 90,
+      "fieldIdsAndTextsUnchanged": true,
+      "pictures": {
+        "cv.person.photo": {
+          "representation": "DrawingML",
+          "width": 1920,
+          "height": 2880,
+          "embeddedFileSha256": "f8ba8f4b000d9aa4f18a5f476a630615232905810aec92c69d4e128cbfdec69c",
+          "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6",
+          "crop": {
+            "l": "8400",
+            "t": "24400",
+            "r": "11600",
+            "b": "22267"
+          }
+        }
+      },
+      "nativeDossierPages": 3,
+      "nativeCvPages": 1,
+      "appDossierPages": null,
+      "sourcePackageSha256": "ab498f39025717fae30c7bc83339de18e24d716a7ee83b44b78f5a6b833cbcc6",
+      "nativeImageRectanglesPt": [
+        {
+          "page": 1,
+          "rects": []
+        },
+        {
+          "page": 2,
+          "rects": []
+        },
+        {
+          "page": 3,
+          "rects": []
+        }
+      ]
+    },
+    {
+      "case": "03-Sidebar-rechts-Folgeseite",
+      "snapshotUnchanged": true,
+      "coverMetricsUnchanged": true,
+      "coverAndLetterModelsUnchanged": {
+        "cover": true,
+        "letter": true
+      },
+      "webScreenshotsByteEqual": {
+        "Web-CV-2.png": true,
+        "Web-CV-1.png": true
+      },
+      "activeFields": 130,
+      "fieldIdsAndTextsUnchanged": true,
+      "pictures": {},
+      "nativeDossierPages": 4,
+      "nativeCvPages": 2,
+      "appDossierPages": 4,
+      "sourcePackageSha256": "5201745fe50ea382afd67f553a1f00d5bd4c7177768c5e254b6a21f26de1507c",
+      "nativeImageRectanglesPt": [
+        {
+          "page": 1,
+          "rects": []
+        },
+        {
+          "page": 2,
+          "rects": []
+        },
+        {
+          "page": 3,
+          "rects": []
+        },
+        {
+          "page": 4,
+          "rects": []
+        }
+      ]
+    }
+  ],
+  "x25PackageVerification": {
+    "case": "04-Sidebar-rechts-Foto-x25",
+    "activeFields": 90,
+    "pictures": {
+      "cv.person.photo": {
+        "representation": "DrawingML",
+        "width": 1920,
+        "height": 2880,
+        "embeddedFileSha256": "f8ba8f4b000d9aa4f18a5f476a630615232905810aec92c69d4e128cbfdec69c",
+        "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6",
+        "crop": {
+          "l": "8400",
+          "t": "24400",
+          "r": "11600",
+          "b": "22267"
+        }
+      }
+    },
+    "sourceXmm": 25,
+    "physicalXmm": 151,
+    "yMm": 20,
+    "widthMm": 34,
+    "sourcePixelsPreservedInPictureControl": true,
+    "sourcePackageSha256": "3147195b58084451550522cef5057dbf89f8e3a85241952dfe82572320d5b0ad"
+  },
+  "limits": [
+    "Nonempty photo inputs still fail normal PDF preflight due existing source overlap.",
+    "Typography, chrome, continuation editing and Word save/reopen remain separate open gates.",
+    "No full XSD/Open XML SDK validation claim.",
+    "Decoded pixels preserved; no original JPEG/EXIF/ICC byte-preservation claim."
+  ]
+}

@@ -169,29 +169,22 @@ function polishSonneCover(source: string, cover: CoverPdfDocument) {
         ])
       : "",
     attachments.length
-      ? textBoxRun(
-          "sonne-docx-cover-attachments",
-          142,
-          236,
-          48,
-          38,
-          [
-            {
-              text: "BEILAGEN",
-              size: 10,
-              color: primary,
-              bold: true,
-              align: "right",
-              tracking: 28,
-            },
-            ...attachments.map((text) => ({
-              text,
-              size: 10.5,
-              color: coverWhite,
-              align: "right" as const,
-            })),
-          ],
-        )
+      ? textBoxRun("sonne-docx-cover-attachments", 142, 236, 48, 38, [
+          {
+            text: "BEILAGEN",
+            size: 10,
+            color: primary,
+            bold: true,
+            align: "right",
+            tracking: 28,
+          },
+          ...attachments.map((text) => ({
+            text,
+            size: 10.5,
+            color: coverWhite,
+            align: "right" as const,
+          })),
+        ])
       : "",
   ].join("");
 

@@ -1,4 +1,9 @@
 import { CANONICAL_DOSSIER_PRESENTATION } from "@/lib/dossier-default-presentation";
+import { cvReadingDefaults } from "./reading-defaults";
+import {
+  DOSSIER_CONTINUATION_TOP_MM,
+  normalizeDossierContinuationTopMm,
+} from "@/lib/dossier-reading-settings";
 
 export type CvLayoutId = "classic" | "modern" | "minimal" | "timeline" | "executive" | "editorial";
 export type CvRenderLayoutId = "classic" | "modern";
@@ -109,8 +114,8 @@ export const CV_SECTION_GAP_CUSTOM_DEFAULT_MM = 4;
  * protected separately by the renderer.
  */
 export const CV_CONTINUATION_TOP_MARGIN_MIN_MM = 0;
-export const CV_CONTINUATION_TOP_MARGIN_MAX_MM = 40;
-export const CV_CONTINUATION_TOP_MARGIN_DEFAULT_MM = 10;
+export const CV_CONTINUATION_TOP_MARGIN_MAX_MM = 120;
+export const CV_CONTINUATION_TOP_MARGIN_DEFAULT_MM = DOSSIER_CONTINUATION_TOP_MM;
 
 function valid(value: string | null): value is CvLayoutId {
   return (
@@ -193,12 +198,7 @@ export function normalizeCvSectionGapMm(value: unknown): number | null {
 }
 
 export function normalizeCvContinuationTopMarginMm(value: unknown): number {
-  const numeric = typeof value === "number" ? value : Number(value);
-  if (!Number.isFinite(numeric)) return CV_CONTINUATION_TOP_MARGIN_DEFAULT_MM;
-  return Math.max(
-    CV_CONTINUATION_TOP_MARGIN_MIN_MM,
-    Math.min(CV_CONTINUATION_TOP_MARGIN_MAX_MM, Math.round(numeric * 2) / 2),
-  );
+  return normalizeDossierContinuationTopMm(value) ?? CV_CONTINUATION_TOP_MARGIN_DEFAULT_MM;
 }
 
 function readSectionGap(): number | null {
@@ -212,19 +212,32 @@ function readSectionGap(): number | null {
   }
 }
 
-function readContinuationTopMargin(): number {
-  if (typeof window === "undefined") return CV_CONTINUATION_TOP_MARGIN_DEFAULT_MM;
+/** Null is automatic. Never persist a resolved default as an authored override. */
+export function getCvContinuationTopMarginOverrideMm(): number | null {
+  if (typeof window === "undefined") return null;
+  try {
+    return (
+      normalizeDossierContinuationTopMm(
+        window.localStorage.getItem(CV_CONTINUATION_TOP_MARGIN_STORAGE_KEY) ??
+          window.localStorage.getItem(CV_CONTINUATION_GAP_STORAGE_KEY),
+      ) ?? null
+    );
+  } catch {
+    return null;
+  }
+}
+
+function readContinuationTopMargin(fallback = CV_CONTINUATION_TOP_MARGIN_DEFAULT_MM): number {
+  if (typeof window === "undefined") return fallback;
   try {
     const raw = window.localStorage.getItem(CV_CONTINUATION_TOP_MARGIN_STORAGE_KEY);
-    if (raw !== null) return normalizeCvContinuationTopMarginMm(raw);
+    if (raw !== null) return normalizeDossierContinuationTopMm(raw) ?? fallback;
     // The old control stored a 0–20 mm continuation gap. Treat that value
     // as the new top margin once, so recent project files remain predictable.
     const legacy = window.localStorage.getItem(CV_CONTINUATION_GAP_STORAGE_KEY);
-    return legacy === null
-      ? CV_CONTINUATION_TOP_MARGIN_DEFAULT_MM
-      : normalizeCvContinuationTopMarginMm(legacy);
+    return normalizeDossierContinuationTopMm(legacy) ?? fallback;
   } catch {
-    return CV_CONTINUATION_TOP_MARGIN_DEFAULT_MM;
+    return fallback;
   }
 }
 
@@ -291,8 +304,8 @@ export function getCvSectionGapMm(): number | null {
 }
 
 /** Independent CV top margin from page 2 onward. */
-export function getCvContinuationTopMarginMm(): number {
-  return readContinuationTopMargin();
+export function getCvContinuationTopMarginMm(template?: string, layout = "classic"): number {
+  return readContinuationTopMargin(cvReadingDefaults(template, layout).continuationTopMm);
 }
 
 export function setCvLayout(layout: CvLayoutId) {
@@ -352,11 +365,12 @@ export function setCvSectionGapMm(value: number | null) {
   window.dispatchEvent(new CustomEvent(CV_LAYOUT_EVENT));
 }
 
-export function setCvContinuationTopMarginMm(value: number) {
+export function setCvContinuationTopMarginMm(value: number | null) {
   if (typeof window === "undefined") return;
   const normalized = normalizeCvContinuationTopMarginMm(value);
   try {
-    window.localStorage.setItem(CV_CONTINUATION_TOP_MARGIN_STORAGE_KEY, String(normalized));
+    if (value === null) window.localStorage.removeItem(CV_CONTINUATION_TOP_MARGIN_STORAGE_KEY);
+    else window.localStorage.setItem(CV_CONTINUATION_TOP_MARGIN_STORAGE_KEY, String(normalized));
     window.localStorage.removeItem(CV_CONTINUATION_GAP_STORAGE_KEY);
   } catch {
     // Die laufende Seite reagiert trotzdem über das Event.

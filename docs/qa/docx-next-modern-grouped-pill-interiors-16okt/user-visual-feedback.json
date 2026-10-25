@@ -1,0 +1,14 @@
+{
+  "screenshotSha256": "bd460eac0276ab06450def87eaaf63367442086386b56cdd60d2cc42322153df",
+  "userReport": "ohja sieht heftig gut aus danke",
+  "scope": "User-reported visual approval of preceding Modern cover; cropped screenshot inspected",
+  "notProven": [
+    "new native-shape candidate",
+    "all stress cases",
+    "dragging",
+    "text editing",
+    "close/reopen",
+    "new Word-generated PDF"
+  ],
+  "attachmentRepublished": false
+}

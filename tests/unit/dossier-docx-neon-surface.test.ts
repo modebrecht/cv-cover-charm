@@ -2,7 +2,9 @@ import { describe, expect, test } from "bun:test";
 import { dossierDocxTemplateRecipe } from "@/lib/dossier-docx-template-recipes";
 
 function shape(template: "neon" | "verlauf" | "citrus", page: "letter" | "cv", id: string) {
-  return dossierDocxTemplateRecipe(template)?.[page].shapes.find((candidate) => candidate.id === id);
+  return dossierDocxTemplateRecipe(template)?.[page].shapes.find(
+    (candidate) => candidate.id === id,
+  );
 }
 
 describe("legacy DOCX light-card surfaces", () => {

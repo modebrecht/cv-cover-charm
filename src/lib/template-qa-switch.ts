@@ -48,13 +48,10 @@ export function useTemplateQaTemplateSwitch(
     const onStep = (event: Event) => {
       const direction =
         (event as CustomEvent<TemplateQaStepDetail>).detail?.direction === -1 ? -1 : 1;
-      const currentIndex = QA_TEMPLATES.findIndex(
-        (template) => template.id === valueRef.current,
-      );
+      const currentIndex = QA_TEMPLATES.findIndex((template) => template.id === valueRef.current);
       if (currentIndex < 0 || QA_TEMPLATES.length < 2) return;
 
-      const nextIndex =
-        (currentIndex + direction + QA_TEMPLATES.length) % QA_TEMPLATES.length;
+      const nextIndex = (currentIndex + direction + QA_TEMPLATES.length) % QA_TEMPLATES.length;
       const nextTemplate = QA_TEMPLATES[nextIndex];
       if (!nextTemplate) return;
 

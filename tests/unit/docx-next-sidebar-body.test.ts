@@ -6,6 +6,8 @@ import { walkBlocks, type TableBlock } from "../../src/lib/docx-next/model";
 import { SIDEBAR_FIXTURES, sidebarFixture } from "../fixtures/docx-next/sidebar";
 import { briefFixture } from "../fixtures/docx-next/brief";
 import { paragraphSignature } from "../fixtures/docx-next/sidebar-floating";
+import { tableColumnWidths } from "../../src/lib/docx-next/layouts";
+import { readZipEntries } from "../../src/lib/docx-next/zip";
 
 const diagnostic = { cvSidebarComposition: "body-stories" as const };
 
@@ -24,8 +26,8 @@ test("shared sidebar lowering preserves authored paragraphs, physical tracks and
     expect(model.cv.page).toEqual(old.cv.page);
     const flow = old.cv.blocks.find((block) => block.kind === "parallel-flow")!;
     const table = model.cv.blocks.find((block) => block.kind === "table") as TableBlock;
-    expect(table.bodyBoundary).toBe("paragraph");
-    expect(table.bodyBoundaryKeepNext).toBe(true);
+    expect(table.bodyBoundary).toBe("section-start");
+    expect(table.bodyBoundaryKeepNext).toBeUndefined();
     expect(table.position).toBeUndefined();
     expect(table.rows).toHaveLength(1);
     expect(table.rows[0].keepTogether).toBe(false);
@@ -47,16 +49,64 @@ test("shared sidebar lowering preserves authored paragraphs, physical tracks and
   }
 });
 
-test("first-page lead rejects invalid geometry and a missing real kept boundary", async () => {
+test("legacy paragraph boundaries still reject invalid lead geometry", async () => {
   for (const value of [NaN, Infinity, -1, 300, "64", null]) {
     const model = buildDossierDocModel(sidebarFixture("chrome-leading"), diagnostic);
     Object.assign(model.cv.blocks.find((block) => block.kind === "table")!, {
+      bodyBoundary: "paragraph",
+      bodyBoundaryKeepNext: true,
       bodyBoundaryLeadMm: value,
     });
     await expect(renderDossierDocx(model, { allowUnacceptedModelIssues: true })).rejects.toThrow(
       "invalid table body boundary lead",
     );
   }
+});
+
+test("free main-track photos keep authored coordinates and wrap instead of preceding the CV header", async () => {
+  for (const kind of [
+    "photo-free-portrait",
+    "photo-free-main",
+    "photo-free-mirrored-main",
+    "photo-free-low",
+  ] as const) {
+    const input = sidebarFixture(kind);
+    const before = structuredClone(input);
+    const model = buildDossierDocModel(input, diagnostic);
+    const table = model.cv.blocks.find((block) => block.kind === "table") as TableBlock;
+    const cellIndex = input.settings.sidebarSide === "right" ? 0 : 2;
+    const cell = table.rows[0].cells[cellIndex];
+    const image = cell[0];
+    expect(image.kind).toBe("image");
+    if (image.kind !== "image") throw new Error("Missing main-track picture");
+    expect(image.placement).toBe("free");
+    expect(image.coordinateOrigin).toBe("content");
+    expect(image.sourceLayout?.xMm).toBe(input.settings.cvPhotoPlacement!.xMm);
+    expect(image.sourceLayout?.yMm).toBe(input.settings.cvPhotoPlacement!.yMm);
+    expect(image.frame?.zoom).toBe(input.settings.cvPhotoStyle!.zoom);
+    const available =
+      model.cv.page.widthMm - model.cv.page.margins.left - model.cv.page.margins.right;
+    const widths = tableColumnWidths(table, available);
+    const mainLeft =
+      model.cv.page.margins.left + widths.slice(0, cellIndex).reduce((a, b) => a + b, 0);
+    const physicalX =
+      input.settings.sidebarSide === "right"
+        ? model.cv.page.widthMm - input.settings.cvPhotoPlacement!.xMm - image.widthMm
+        : input.settings.cvPhotoPlacement!.xMm;
+    expect(mainLeft + image.xMm).toBeCloseTo(physicalX, 8);
+    expect(cell[1].id).toBe("cv.documentTitle");
+    expect(input).toEqual(before);
+  }
+  const model = buildDossierDocModel(sidebarFixture("both-long"), diagnostic);
+  const bytes = new Uint8Array(
+    await (await renderDossierDocx(model, { allowUnacceptedModelIssues: true })).arrayBuffer(),
+  );
+  const xml = new TextDecoder().decode(
+    readZipEntries(bytes).find((part) => part.name === "word/document.xml")!.bytes,
+  );
+  const caption = xml.indexOf('w:tblCaption w:val="cv.sidebar"');
+  const start = xml.lastIndexOf("<w:tbl>", caption);
+  expect(xml.slice(0, start).endsWith("</w:sectPr></w:pPr></w:p>")).toBe(true);
 });
 
 test("diagnostic composition uses the shared export path and stays blocked without its explicit gate", async () => {
@@ -85,7 +135,11 @@ test("whole stories keep native picture ownership and reject invalid source geom
   const input = sidebarFixture("photo-free-mirrored-main");
   // Body stories no longer use the old, picture-before-span restriction.
   const model = buildDossierDocModel(input, diagnostic);
-  expect(walkBlocks(model.cv.blocks).some((block) => block.kind === "image-zone")).toBe(true);
+  expect(
+    walkBlocks(model.cv.blocks).some(
+      (block) => block.kind === "image" && block.placement === "free",
+    ),
+  ).toBe(true);
   input.settings.cvPhotoPlacement!.xMm = 60;
   expect(() => buildDossierDocModel(input, diagnostic)).toThrow(
     "free photo must fit one native track",

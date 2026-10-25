@@ -36,6 +36,15 @@ export function validateDossierDocModel(model: DossierDocModel): void {
   const ids = new Set<string>();
   for (const part of [model.cover, model.letter, model.cv]) {
     if (
+      (part.headerFrames?.length || part.headerImages?.length) &&
+      (part.id === "cover" ||
+        !part.firstHeader ||
+        [...(part.headerFrames ?? []), ...(part.headerImages ?? [])].some(
+          (b) => !["first", "continuation"].includes(b.repeat),
+        ))
+    )
+      throw Error("DOCX Next invalid measured header story");
+    if (
       part.firstFooter !== undefined &&
       (!part.firstHeader ||
         !Array.isArray(part.firstFooter) ||
@@ -60,8 +69,9 @@ export function validateDossierDocModel(model: DossierDocModel): void {
           block.kind === "parallel-flow" ||
           (block.kind === "table" &&
             block.id === "cv.sidebar" &&
-            block.bodyBoundary === "paragraph" &&
-            block.bodyBoundaryKeepNext === true &&
+            ((block.bodyBoundary === "paragraph" && block.bodyBoundaryKeepNext === true) ||
+              (block.bodyBoundary === "section-start" &&
+                block.bodyBoundaryKeepNext === undefined)) &&
             !block.position &&
             block.rows.length === 1 &&
             block.rows[0].cells.length === 3 &&
@@ -74,6 +84,13 @@ export function validateDossierDocModel(model: DossierDocModel): void {
     const margins = part.page.margins;
     if (part.pagePaintComposition !== undefined && part.pagePaintComposition !== "single-asset")
       throw new Error(`DOCX Next invalid page paint composition ${part.id}`);
+    if (
+      part.pagePaintCoverage !== undefined &&
+      (part.pagePaintCoverage !== "native-grid" ||
+        part.pagePaintComposition !== "single-asset" ||
+        part.id === "cover")
+    )
+      throw Error("DOCX Next invalid native page paint coverage");
     if (
       [...part.artwork, ...(part.headerShapes ?? [])].some((value) => value.repeat) &&
       !part.firstHeader
@@ -125,15 +142,102 @@ export function validateDossierDocModel(model: DossierDocModel): void {
       ...part.footer,
       ...(part.firstFooter ?? []),
       ...(part.headerShapes ?? []),
+      ...(part.headerFrames ?? []),
+      ...(part.headerImages ?? []),
     ])) {
       if (ids.has(block.id)) throw new Error(`DOCX Next duplicate semantic identity ${block.id}`);
       ids.add(block.id);
+      if (
+        block.kind === "paragraph" &&
+        (block.fieldControls !== undefined || block.tabStopsMm !== undefined)
+      ) {
+        if (
+          !part.headerFrames?.some((f) => f.paragraphs.includes(block)) ||
+          block.fieldControls !== true ||
+          block.tabStopsMm?.some(
+            (n, i, a) => !Number.isFinite(n) || n <= 0 || (i > 0 && n <= a[i - 1]),
+          )
+        )
+          throw Error("DOCX Next invalid authored header tabs");
+      }
+      if (block.kind === "paragraph" && block.bottomRule) {
+        const rule = block.bottomRule;
+        if (
+          part.id !== "cv" ||
+          part.layout.mode !== "sidebar" ||
+          block.role !== "heading" ||
+          block.flowSurface ||
+          block.ruleColor ||
+          !/^[0-9A-F]{6}$/.test(rule.color) ||
+          ![rule.heightMm, rule.gapMm].every(Number.isFinite) ||
+          rule.heightMm < 0.1 ||
+          rule.heightMm > 4 ||
+          rule.gapMm < 0 ||
+          rule.gapMm > 10
+        )
+          throw Error("DOCX Next invalid wrapped Sidebar heading rule");
+      }
+      if (block.kind === "paragraph" && block.flowSurface) {
+        const s = block.flowSurface;
+        if (
+          (s.variant !== undefined &&
+            (s.variant !== "rule" ||
+              s.paddingXMm !== 0 ||
+              s.paddingYMm !== 0 ||
+              s.outlineMm !== 0)) ||
+          part.id !== "cv" ||
+          block.role !== "heading" ||
+          block.align !== "left" ||
+          block.list ||
+          (s.spacingOwner !== undefined &&
+            !["previous-block", "origin"].includes(s.spacingOwner)) ||
+          (s.spacingOwner !== undefined && block.beforeMm !== 0) ||
+          ![s.widthMm, s.rowWidthMm, s.heightMm, s.paddingXMm, s.paddingYMm, s.outlineMm].every(
+            Number.isFinite,
+          ) ||
+          s.widthMm <= 2 * s.paddingXMm ||
+          s.rowWidthMm < s.widthMm ||
+          s.heightMm <= 2 * s.paddingYMm ||
+          Math.min(s.paddingXMm, s.paddingYMm, s.outlineMm) < 0 ||
+          s.outlineMm >= s.heightMm ||
+          !/^[0-9A-F]{6}$/.test(s.ink) ||
+          part.page.margins.left + (block.indentMm ?? 0) < 0 ||
+          block.runs.some((r) => r.style.font !== "Arial" || /[\r\n\t]/.test(r.text))
+        )
+          throw Error("DOCX Next invalid flowing rubric surface");
+        if (
+          s.rule &&
+          (![s.rule.gapMm, s.rule.heightMm, s.rule.opacity].every(Number.isFinite) ||
+            s.rule.gapMm < 0 ||
+            s.rule.heightMm <= 0 ||
+            s.rule.opacity < 0 ||
+            s.rule.opacity > 1 ||
+            !/^[0-9A-F]{6}$/.test(s.rule.color))
+        )
+          throw Error("DOCX Next invalid flowing rubric rule");
+      }
+      if (
+        block.kind === "paragraph" &&
+        ((block.rightIndentMm !== undefined &&
+          (!Number.isFinite(block.rightIndentMm) || block.rightIndentMm < 0)) ||
+          (block.listIndentMm !== undefined &&
+            (!block.list || !Number.isFinite(block.listIndentMm) || block.listIndentMm <= 0)))
+      )
+        throw Error(`DOCX Next invalid paragraph inset ${block.id}`);
       if (block.kind === "paragraph-frame") {
-        if (!part.blocks.includes(block))
+        if (
+          block.wrapMode !== undefined &&
+          (block.wrapMode !== "none" || block.surface !== undefined)
+        )
+          throw Error(`DOCX Next invalid native page frame wrap ${block.id}`);
+        const inHeader = part.headerFrames?.includes(
+          block as NonNullable<typeof part.headerFrames>[number],
+        );
+        if (!part.blocks.includes(block) && !inHeader)
           throw new Error(`DOCX Next nested paragraph frame is unsupported ${block.id}`);
         if (
           ![block.xMm, block.yMm, block.widthMm].every(Number.isFinite) ||
-          block.widthMm < 10 ||
+          block.widthMm < (inHeader ? 0.2 : 10) ||
           block.xMm < 0 ||
           block.yMm < 0 ||
           block.xMm + block.widthMm > part.page.widthMm ||
@@ -143,10 +247,44 @@ export function validateDossierDocModel(model: DossierDocModel): void {
             (paragraph) =>
               paragraph.kind !== "paragraph" ||
               (paragraph.indentMm ?? 0) < 0 ||
-              (paragraph.indentMm ?? 0) >= block.widthMm - 10,
+              (paragraph.indentMm ?? 0) >= block.widthMm - (inHeader ? 0 : 10),
           )
         )
           throw new Error(`DOCX Next invalid paragraph frame ${block.id}`);
+        if (block.surface) {
+          const s = block.surface;
+          if (
+            ![s.heightMm, s.radiusMm, s.paddingXMm, s.paddingYMm].every(Number.isFinite) ||
+            s.heightMm <= 0 ||
+            Math.min(s.radiusMm, s.paddingXMm, s.paddingYMm) < 0 ||
+            2 * s.radiusMm > Math.min(block.widthMm, s.heightMm) ||
+            2 * s.paddingXMm >= block.widthMm ||
+            2 * s.paddingYMm >= s.heightMm ||
+            block.yMm + s.heightMm > part.page.heightMm ||
+            (s.fillColor !== undefined && !/^[0-9A-F]{6}$/.test(s.fillColor)) ||
+            (s.borderColor !== undefined && !/^[0-9A-F]{6}$/.test(s.borderColor)) ||
+            (s.borderWidthMm !== undefined &&
+              (!Number.isFinite(s.borderWidthMm) ||
+                s.borderWidthMm < 0 ||
+                s.borderWidthMm >= Math.min(block.widthMm, s.heightMm))) ||
+            (!!s.borderWidthMm && !s.borderColor) ||
+            (s.verticalAlign !== undefined && !["top", "center"].includes(s.verticalAlign)) ||
+            (s.diagnosticShapeFormat !== undefined && s.diagnosticShapeFormat !== "legacy-vml") ||
+            block.paragraphs.length !== 1 ||
+            block.paragraphs.some(
+              (p) =>
+                p.beforeMm +
+                  p.afterMm +
+                  ((p.minimumLineHeightPt ??
+                    Math.max(...p.runs.map((r) => r.style.sizePt)) * p.lineHeight) *
+                    25.4) /
+                    72 >
+                s.heightMm - 2 * s.paddingYMm + 1e-7,
+            ) ||
+            block.paragraphs.some((p) => p.list || p.runs.some((r) => /[\r\n\t]/.test(r.text)))
+          )
+            throw Error(`DOCX Next invalid native text-shape surface ${block.id}`);
+        }
       }
       if (block.kind === "parallel-flow")
         parallelFlowTable(block, part.page.widthMm - margins.left - margins.right);
@@ -166,6 +304,13 @@ export function validateDossierDocModel(model: DossierDocModel): void {
         decorationPageGeometry(block, part.page);
       }
       if (block.kind === "paragraph") {
+        if (
+          block.listMarkerStyle &&
+          (!block.list ||
+            !/^[0-9A-F]{6}$/.test(block.listMarkerStyle.color) ||
+            typeof block.listMarkerStyle.bold !== "boolean")
+        )
+          throw new Error(`DOCX Next invalid list marker style ${block.id}`);
         if (block.controlPlacement !== undefined && block.controlPlacement !== "inline")
           throw new Error(`DOCX Next invalid paragraph control placement ${block.id}`);
         block.runs.forEach((run) => fontDefinition(run.style.font));
@@ -173,6 +318,13 @@ export function validateDossierDocModel(model: DossierDocModel): void {
           ![block.beforeMm, block.afterMm, block.lineHeight].every(Number.isFinite) ||
           Math.min(block.beforeMm, block.afterMm) < 0 ||
           block.lineHeight <= 0 ||
+          (block.fontLineHeightFactor !== undefined &&
+            (!Number.isFinite(block.fontLineHeightFactor) ||
+              block.fontLineHeightFactor < 1 ||
+              block.fontLineHeightFactor > 2 ||
+              block.minimumLineHeightPt !== undefined)) ||
+          (block.minimumLineHeightPt !== undefined &&
+            (!Number.isFinite(block.minimumLineHeightPt) || block.minimumLineHeightPt <= 0)) ||
           (block.indentMm !== undefined &&
             (!Number.isFinite(block.indentMm) ||
               block.indentMm < -margins.left ||
@@ -181,6 +333,7 @@ export function validateDossierDocModel(model: DossierDocModel): void {
           throw new Error(`DOCX Next invalid paragraph geometry ${block.id}`);
         for (const run of block.runs) {
           if (
+            (run.style.kerning !== undefined && typeof run.style.kerning !== "boolean") ||
             !Number.isFinite(run.style.sizePt) ||
             run.style.sizePt <= 0 ||
             !/^[0-9A-F]{6}$/.test(run.style.color) ||
@@ -232,6 +385,41 @@ export function validateDossierDocModel(model: DossierDocModel): void {
         throw new Error(`DOCX Next unsupported image opacity ${block.id}`);
       if (block.kind === "image" && !block.source.trim())
         throw new Error(`DOCX Next missing image source ${block.id}`);
+      if (
+        block.kind === "image" &&
+        block.nativeOwner !== undefined &&
+        (!["page-frame", "page-picture"].includes(block.nativeOwner) ||
+          part.id !== "cv" ||
+          part.layout.mode !== "sidebar" ||
+          block.placement !== "free" ||
+          block.coordinateOrigin !== "page" ||
+          !block.sourceLayout ||
+          !block.frame)
+      )
+        throw Error(`DOCX Next invalid page picture ownership ${block.id}`);
+      if (
+        block.kind === "image" &&
+        block.nativeOwner === "page-picture" &&
+        (!part.blocks.includes(block) || block.wrapMode !== undefined || block.gapMm !== 0)
+      )
+        throw Error(`DOCX Next ordinary picture must be outside cells and controls ${block.id}`);
+      if (
+        block.kind === "image" &&
+        block.verticalOrigin !== undefined &&
+        (block.verticalOrigin !== "paragraph" ||
+          block.nativeOwner !== "page-picture" ||
+          block.yMm !== 0)
+      )
+        throw Error(`DOCX Next invalid ordinary picture vertical anchor ${block.id}`);
+      if (
+        block.kind === "image" &&
+        block.wrapMode !== undefined &&
+        (block.wrapMode !== "none" ||
+          block.placement !== "free" ||
+          block.coordinateOrigin !== "page" ||
+          block.gapMm !== 0)
+      )
+        throw new Error(`DOCX Next invalid authored page picture wrap ${block.id}`);
 
       if (
         block.kind === "image" &&
@@ -256,8 +444,41 @@ export function validateDossierDocModel(model: DossierDocModel): void {
         throw new Error(`DOCX Next invalid table geometry ${block.id}`);
       if (block.kind === "table") {
         if (
+          block.rows.some(
+            (row) =>
+              row.minimumHeightMm !== undefined &&
+              (!Number.isFinite(row.minimumHeightMm) ||
+                row.minimumHeightMm <= 0 ||
+                Math.round((row.minimumHeightMm * 1440) / 25.4) < 1 ||
+                row.minimumHeightMm > part.page.heightMm - margins.top - margins.bottom),
+          )
+        )
+          throw Error(`DOCX Next invalid table row minimum height ${block.id}`);
+        if (
+          block.bodyBoundaryLeadByCellMm !== undefined &&
+          (block.bodyBoundary !== "section-start" ||
+            block.bodyBoundaryLeadMm !== undefined ||
+            block.bodyBoundaryLeadByCellMm.length !== block.widths.length ||
+            block.bodyBoundaryLeadByCellMm.some(
+              (n) =>
+                !Number.isFinite(n) ||
+                n < 0 ||
+                n > part.page.heightMm - margins.top - margins.bottom - 30,
+            ))
+        )
+          throw Error(`DOCX Next invalid cell body boundary lead ${block.id}`);
+        if (
+          block.afterMm !== undefined &&
+          (!Number.isFinite(block.afterMm) ||
+            block.afterMm < 0 ||
+            block.afterMm > part.page.heightMm ||
+            block.position)
+        )
+          throw Error("DOCX Next invalid table after-spacing");
+        if (
           block.columnRounding !== undefined &&
-          (block.columnRounding !== "cumulative" || block.bodyBoundary !== "paragraph")
+          (block.columnRounding !== "cumulative" ||
+            !["paragraph", "section-start"].includes(block.bodyBoundary ?? ""))
         )
           throw new Error(`DOCX Next invalid table column rounding ${block.id}`);
         if (
@@ -265,8 +486,8 @@ export function validateDossierDocModel(model: DossierDocModel): void {
           (!Number.isFinite(block.bodyBoundaryLeadMm) ||
             block.bodyBoundaryLeadMm < 0 ||
             block.bodyBoundaryLeadMm > part.page.heightMm - margins.top - margins.bottom - 30 ||
-            block.bodyBoundary !== "paragraph" ||
-            block.bodyBoundaryKeepNext !== true)
+            !["paragraph", "section-start"].includes(block.bodyBoundary ?? "") ||
+            (block.bodyBoundary === "paragraph" && block.bodyBoundaryKeepNext !== true))
         )
           throw new Error(`DOCX Next invalid table body boundary lead ${block.id}`);
         if (
@@ -276,11 +497,21 @@ export function validateDossierDocModel(model: DossierDocModel): void {
           throw new Error(`DOCX Next invalid table body boundary attachment ${block.id}`);
         if (
           block.bodyBoundary !== undefined &&
-          (block.bodyBoundary !== "paragraph" ||
+          (!["paragraph", "section-start"].includes(block.bodyBoundary) ||
             block.position !== undefined ||
             !part.blocks.includes(block))
         )
           throw new Error(`DOCX Next invalid table body boundary ${block.id}`);
+        if (
+          block.bodyBoundary === "section-start" &&
+          (part.id !== "cv" ||
+            part.blocks.find(
+              (candidate) =>
+                candidate.kind !== "decorative-shape" &&
+                !(candidate.kind === "image" && candidate.nativeOwner !== undefined),
+            ) !== block)
+        )
+          throw new Error(`DOCX Next section-start table must open the CV ${block.id}`);
         if (
           block.identityCarrier !== undefined &&
           (block.identityCarrier !== "cell-ending" || !block.rows.length)

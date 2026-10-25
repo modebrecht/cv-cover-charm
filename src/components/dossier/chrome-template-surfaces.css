@@ -1,4 +1,4 @@
-/* PRISM + NEON — CV header identity rework only.
+/* Shared authored mastheads for CV and Letter.
  *
  * These rules intentionally live on the shared dossier chrome surface. They do
  * not change header heights, stored chrome state, motif opacity, page margins or
@@ -12,8 +12,8 @@
 /* Mirror the established interior DNA: navy field + royal diagonal cap. The
  * page motif stays suppressed in Compact; identity now comes from the masthead
  * itself instead of restoring the large hero geometry. */
-[data-dossier-document="cv"][data-cv-template="prism"]
-  [data-dossier-chrome="cv"][data-dossier-template-chrome="prism"][data-dossier-header-custom-surface="false"]
+[data-dossier-document]
+  [data-dossier-chrome][data-dossier-template-chrome="prism"][data-dossier-header-custom-surface="false"]
   :is(
     [data-dossier-compact-header],
     [data-dossier-contact-header-background],
@@ -30,8 +30,8 @@
   overflow: hidden !important;
 }
 
-[data-dossier-document="cv"][data-cv-template="prism"]
-  [data-dossier-chrome="cv"][data-dossier-template-chrome="prism"][data-dossier-header-custom-surface="false"]
+[data-dossier-document]
+  [data-dossier-chrome][data-dossier-template-chrome="prism"][data-dossier-header-custom-surface="false"]
   :is(
     [data-dossier-compact-header],
     [data-dossier-contact-header-background],
@@ -53,8 +53,8 @@
   clip-path: polygon(0 0, 100% 0, 78% 100%, 0 72%);
 }
 
-[data-dossier-document="cv"][data-cv-template="prism"]
-  [data-dossier-chrome="cv"][data-dossier-template-chrome="prism"][data-dossier-header-custom-surface="false"]
+[data-dossier-document]
+  [data-dossier-chrome][data-dossier-template-chrome="prism"][data-dossier-header-custom-surface="false"]
   :is(
     [data-dossier-compact-header],
     [data-dossier-contact-header-background],
@@ -76,21 +76,21 @@
   clip-path: polygon(28% 0, 100% 0, 100% 100%, 0 78%);
 }
 
-[data-dossier-document="cv"][data-cv-template="prism"]
-  [data-dossier-chrome="cv"][data-dossier-template-chrome="prism"][data-dossier-header-custom-surface="false"][data-dossier-header-text-color="automatic"]
+[data-dossier-document]
+  [data-dossier-chrome][data-dossier-template-chrome="prism"][data-dossier-header-custom-surface="false"][data-dossier-header-text-color="automatic"]
   :is([data-dossier-integrated-contact], [data-dossier-continuation-contact-header]) {
   color: #ffffff !important;
   text-shadow: 0 0.25mm 0.55mm rgba(3, 10, 28, 0.3);
 }
 
-[data-dossier-document="cv"][data-cv-template="prism"]
-  [data-dossier-chrome="cv"][data-dossier-template-chrome="prism"][data-dossier-header-custom-surface="false"]
+[data-dossier-document]
+  [data-dossier-chrome][data-dossier-template-chrome="prism"][data-dossier-header-custom-surface="false"]
   [data-dossier-integrated-contact] {
   padding-right: 46mm !important;
 }
 
-[data-dossier-document="cv"][data-cv-template="prism"]
-  [data-dossier-chrome="cv"][data-dossier-template-chrome="prism"]
+[data-dossier-document]
+  [data-dossier-chrome][data-dossier-template-chrome="prism"]
   [data-dossier-continuation-contact] {
   position: relative;
   z-index: 1;
@@ -102,8 +102,8 @@
 /* Neon is one continuous dark gradient identity. The old solid-pink header is
  * replaced by a darkened pink-to-violet surface with one integrated glow; the
  * glow is part of the masthead, never a detached decorative block. */
-[data-dossier-document="cv"][data-cv-template="neon"]
-  [data-dossier-chrome="cv"][data-dossier-template-chrome="neon"][data-dossier-header-custom-surface="false"]
+[data-dossier-document]
+  [data-dossier-chrome][data-dossier-template-chrome="neon"][data-dossier-header-custom-surface="false"]
   :is(
     [data-dossier-compact-header],
     [data-dossier-contact-header-background],
@@ -127,8 +127,8 @@
   overflow: hidden !important;
 }
 
-[data-dossier-document="cv"][data-cv-template="neon"]
-  [data-dossier-chrome="cv"][data-dossier-template-chrome="neon"][data-dossier-header-custom-surface="false"]
+[data-dossier-document]
+  [data-dossier-chrome][data-dossier-template-chrome="neon"][data-dossier-header-custom-surface="false"]
   :is(
     [data-dossier-compact-header],
     [data-dossier-contact-header-background],
@@ -152,15 +152,15 @@
   opacity: 0.56;
 }
 
-[data-dossier-document="cv"][data-cv-template="neon"]
-  [data-dossier-chrome="cv"][data-dossier-template-chrome="neon"][data-dossier-header-custom-surface="false"][data-dossier-header-text-color="automatic"]
+[data-dossier-document]
+  [data-dossier-chrome][data-dossier-template-chrome="neon"][data-dossier-header-custom-surface="false"][data-dossier-header-text-color="automatic"]
   :is([data-dossier-integrated-contact], [data-dossier-continuation-contact-header]) {
   color: #ffffff !important;
   text-shadow: 0 0.3mm 0.7mm rgba(4, 3, 24, 0.36);
 }
 
-[data-dossier-document="cv"][data-cv-template="neon"]
-  [data-dossier-chrome="cv"][data-dossier-template-chrome="neon"]
+[data-dossier-document]
+  [data-dossier-chrome][data-dossier-template-chrome="neon"]
   [data-dossier-continuation-contact] {
   position: relative;
   z-index: 1;

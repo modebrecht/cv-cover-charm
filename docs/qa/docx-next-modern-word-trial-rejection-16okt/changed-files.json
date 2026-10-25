@@ -1,0 +1,17 @@
+[
+  "docs/qa/docx-next-modern-grouped-pill-interiors-16okt.md",
+  "docs/qa/docx-next-modern-word-trial-rejection-16okt.md",
+  "docs/qa/docx-next-modern-word-trial-rejection-16okt/changed-files.json",
+  "docs/qa/docx-next-modern-word-trial-rejection-16okt/long-app-evidence.json",
+  "docs/qa/docx-next-modern-word-trial-rejection-16okt/normal-app-evidence.json",
+  "docs/qa/docx-next-modern-word-trial-rejection-16okt/regression.json",
+  "docs/qa/docx-next-modern-word-trial-rejection-16okt/rejections.json",
+  "docs/qa/docx-next-modern-word-trial-rejection-16okt/scaled-app-evidence.json",
+  "docs/qa/docx-next-modern-word-trial-rejection-16okt/verification.json",
+  "docs/qa/docx-next-modern-word-trial-rejection-16okt/word-feedback.json",
+  "scripts/docx-next-brief-app37c.ts",
+  "src/components/dossier/DossierExportDialog.tsx",
+  "src/lib/brief-docx-next-export.ts",
+  "src/lib/docx-next/design-visibility.ts",
+  "tests/unit/docx-next-native-badge.test.ts"
+]

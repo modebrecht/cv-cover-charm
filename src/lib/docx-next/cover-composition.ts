@@ -16,6 +16,8 @@ export function composeCover(
   accent: string,
   color: CoverContext["color"],
   fallbackName: Paragraph,
+  avatarComposition?: "writer-vml" | "writer-frame",
+  photoPlacement?: "authored-page",
 ): DocBlock[] {
   if (
     Object.values(template.cover.fieldSpaceBeforeMm ?? {}).some(
@@ -145,6 +147,218 @@ export function composeCover(
     }
     if (block.kind === "photo" || block.kind === "image") {
       const source = block.kind === "photo" ? cover.data.foto : block.src;
+      if (source && block.kind === "photo" && photoPlacement === "authored-page") {
+        const s = block.style;
+        const widthMm = s.w,
+          heightMm = s.w * (s.ratio ?? 1);
+        if (
+          s.hidden ||
+          s.opacity !== 1 ||
+          s.follows ||
+          s.above ||
+          s.anchorBottom ||
+          ![s.x, s.y, widthMm, heightMm].every(Number.isFinite) ||
+          Math.min(s.x, s.y) < 0 ||
+          Math.min(widthMm, heightMm) <= 0 ||
+          s.x + widthMm > page.widthMm ||
+          s.y + heightMm > page.heightMm
+        )
+          throw Error("DOCX Next saved photo requires safe absolute page coordinates");
+        // The actual uploaded image is anchored to the saved Web x/y.
+        // A semantic spacer continues to occupy the original hero row slot.
+        // This avoids wrapSquare moving other text around the picture.
+        coverDecoration.push({
+          kind: "image",
+          id,
+          source,
+          alt: block.label,
+          widthMm,
+          maxHeightMm: heightMm,
+          placement: "free",
+          coordinateOrigin: "page",
+          wrapMode: "none",
+          xMm: s.x,
+          yMm: s.y,
+          gapMm: 0,
+          frame: {
+            heightRatio: s.ratio ?? 1,
+            radiusMm: s.radius ?? 0,
+            zoom: s.imgZoom ?? 1,
+            xPct: s.imgX ?? 50,
+            yPct: s.imgY ?? 50,
+            borderWidthMm: s.borderWidth ?? 0,
+            borderColor: color(cover.colors[s.borderColor ?? ""] ?? s.borderColor, accent),
+          },
+        });
+        blocks.push({ kind: "spacer", id: id + ".source-slot", heightMm });
+        continue;
+      }
+      if (
+        !source &&
+        block.kind === "photo" &&
+        template.cover.nativePhotoPlaceholder === "editable-initials"
+      ) {
+        const initials = [cover.data.vorname, cover.data.nachname]
+          .map((value) => value?.trim().charAt(0) ?? "")
+          .filter(Boolean)
+          .join("")
+          .toUpperCase();
+        if (initials) {
+          // The semantic fallback participates in ordinary Word flow and the
+          // existing cover row/hero ordering. The source photo stays untouched.
+          const maxAvailable = page.widthMm - page.margins.left - page.margins.right;
+          const widthMm = Math.min(
+            maxAvailable,
+            Math.max(10, block.style.w || template.cover.photoWidthMm),
+          );
+          const heightMm = widthMm * (block.style.ratio ?? 1);
+          const pointSize = Math.max(14, block.style.w * 0.42) * cover.fontScale;
+          const lineHeightMm = (pointSize * 1.2 * 25.4) / 72;
+          const paddingYMm = Math.max(0, (heightMm - lineHeightMm) / 2);
+          const ownerRow = template.cover.rows?.find((row) => row.fields.flat().includes(block.id));
+          const indentMm = ownerRow
+            ? 0
+            : Math.max(0, Math.min(maxAvailable - widthMm, block.style.x - page.margins.left));
+          // A Word table can only shade a rectangle. For a genuinely round
+          // source placeholder, put nonsemantic circular paint at its saved
+          // page position and keep only editable initials inside the table.
+          // For relative anchors (whose final Y requires font layout), keep
+          // the conservative table fallback instead of guessing a page Y.
+          const style = block.style;
+          const roundPaint =
+            (style.radius ?? 0) >= 999 && !style.follows && !style.above && !style.anchorBottom;
+          const singleOwner =
+            avatarComposition === "writer-vml" || avatarComposition === "writer-frame";
+          if (
+            singleOwner &&
+            (!roundPaint || style.opacity !== 1 || Math.abs(widthMm - heightMm) > 0.001)
+          )
+            throw Error(
+              "DOCX Next single-owner avatar requires an opaque, unanchored round source",
+            );
+          if (roundPaint && !singleOwner) {
+            const ink = color(cover.colors[style.color] ?? style.color, coverContext.ink);
+            const borderWidth = style.borderWidth ?? 25.4 / 96;
+            coverDecoration.push({
+              kind: "decorative-shape",
+              id: id + ".placeholder-paint",
+              semanticText: false,
+              clipToPage: true,
+              shape: "circle",
+              xMm: style.x,
+              yMm: style.y,
+              widthMm,
+              heightMm,
+              radiusMm: 0,
+              opacity: style.opacity,
+              fill: style.fill
+                ? {
+                    color: color(
+                      cover.colors[style.fill] ?? style.fill,
+                      coverContext.paper ?? "FFFFFF",
+                    ),
+                  }
+                : undefined,
+              stroke: { color: ink, widthMm: borderWidth },
+            });
+          }
+          const paragraphs = textElement(
+            {
+              ...block,
+              kind: "text",
+              lines: [initials],
+              style: {
+                ...block.style,
+                size: pointSize,
+                align: "center",
+                lineHeight: 1.2,
+                tracking: 0,
+                uppercase: false,
+                weight: block.style.weight >= 600 ? block.style.weight : 400,
+                bg: null,
+              },
+            },
+            id + ".initials",
+            { ...coverContext, fontScale: 1 },
+            { beforeMm: 0, afterMm: 0, keepNext: false, keepLines: true },
+          );
+          if (singleOwner) {
+            if (avatarComposition === "writer-frame") {
+              // Full-app Writer rendering proved VML text disappears underneath
+              // the first-header paint. A native editable Word paragraph frame
+              // instead stays in the foreground, on top of the existing circle.
+              // The 0.58 font-height fraction is measured from real A4 Writer
+              // page bboxes across all three cover families (error <0.35 mm).
+              coverDecoration.push({
+                kind: "paragraph-frame",
+                id: id + ".native-avatar",
+                xMm: style.x,
+                yMm: style.y + heightMm / 2 - ((pointSize * 25.4) / 72) * 0.58,
+                widthMm,
+                wrapMode: "none",
+                paragraphs,
+              });
+            } else {
+              // Explicit diagnostic candidate. One page-anchored editable Word shape
+              // owns circle, stroke and letters; flow reserves its source height.
+              coverDecoration.push({
+                kind: "paragraph-frame",
+                id: id + ".native-avatar",
+                xMm: style.x,
+                yMm: style.y,
+                widthMm,
+                paragraphs,
+                surface: {
+                  heightMm,
+                  radiusMm: Math.min(widthMm, heightMm) / 2,
+                  ...(style.fill
+                    ? {
+                        fillColor: color(
+                          cover.colors[style.fill] ?? style.fill,
+                          coverContext.paper ?? "FFFFFF",
+                        ),
+                      }
+                    : {}),
+                  borderColor: color(cover.colors[style.color] ?? style.color, coverContext.ink),
+                  borderWidthMm: style.borderWidth ?? 25.4 / 96,
+                  verticalAlign: "center",
+                  ...(avatarComposition === "writer-vml"
+                    ? { diagnosticShapeFormat: "legacy-vml" as const }
+                    : {}),
+                  paddingXMm: 0,
+                  paddingYMm: 0,
+                },
+              });
+            }
+            blocks.push({ kind: "spacer", id, heightMm });
+          } else
+            blocks.push({
+              kind: "table",
+              id,
+              widths: [1],
+              widthMm,
+              indentMm,
+              rows: [{ cells: [paragraphs], keepTogether: true }],
+              decoration: {
+                ...(!roundPaint && block.style.fill
+                  ? {
+                      fillColor: color(
+                        cover.colors[block.style.fill] ?? block.style.fill,
+                        coverContext.paper ?? "FFFFFF",
+                      ),
+                    }
+                  : {}),
+                borderColor: color(
+                  cover.colors[block.style.color] ?? block.style.color,
+                  coverContext.ink,
+                ),
+                borderWidthMm: roundPaint ? 0 : (block.style.borderWidth ?? 25.4 / 96),
+                paddingXMm: 0,
+                paddingYMm,
+              },
+            });
+        }
+      }
       if (source)
         blocks.push({
           kind: "image",
@@ -342,10 +556,13 @@ export function composeCover(
     const first = starts
       .map((id) => `cover.${aliases[id] ?? id}`)
       .find((id) => heroBlocks.some((block) => block.id === id));
-    const photo = heroBlocks.some((block) => block.id === "cover.photo");
+    const photo = heroBlocks.some(
+      (block) => block.id === "cover.photo" || block.id.startsWith("cover.photo."),
+    );
     const hero = blocks.findIndex((block) =>
       (template.cover.heroInRows ? walkBlocks([block]) : [block]).some(
-        (child) => child.id === "cover.photo" || child.id === first,
+        (child) =>
+          child.id === "cover.photo" || child.id.startsWith("cover.photo.") || child.id === first,
       ),
     );
     if (hero >= 0)

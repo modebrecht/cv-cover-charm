@@ -1,0 +1,154 @@
+{
+  "classification": "PARTIAL; old Word trial NO-GO; new engineering/supplementary PASS; new Word acceptance UNVERIFIED",
+  "unit": {
+    "pass": 1218,
+    "fail": 0,
+    "assertions": 23341,
+    "files": 253
+  },
+  "docx": {
+    "pass": 405,
+    "fail": 0,
+    "assertions": 6258,
+    "files": 63,
+    "overlapsUnit": true
+  },
+  "newSpacingTests": 4,
+  "typecheck": "PASS",
+  "lint": {
+    "errors": 0,
+    "existingWarnings": 21
+  },
+  "build": "PASS complete Vite/Nitro build",
+  "formatting": "PASS changed TS/TSX/JSON/Markdown; see final prepublication check",
+  "actualAppRubricPositiveCases": 1,
+  "actualAppHeaderRegressionCases": 1,
+  "actualAppNegativeCases": 2,
+  "nativeA4Pages": 4,
+  "nativePageRastersByteIdentical": 4,
+  "webCapturesByteIdentical": 3,
+  "ordinaryNextBaselinesByteIdentical": 2,
+  "allRenderedPagesIndividuallyInspected": true,
+  "WordVisualEditingSaveReopen": "UNVERIFIED for candidate 04",
+  "oldWordFailedRubrics": 6,
+  "otherTemplateFidelityExpanded": false,
+  "stressCasesExpanded": false,
+  "runtime": {
+    "Bun": "1.3.0",
+    "Chromium": "143.0.7499.0",
+    "font": "Liberation Sans 2.1.5 via fontconfig; Word requests Arial; target font identity unverified"
+  },
+  "logSha256": {
+    "unit": "1b8f839fdf93ca634002852d4fbe92140bc6304550a0de573cd1ed8ced6fc9d0",
+    "docx": "40972b388c99b0e292afa46f0e288a033fa03d2dd4696c00a000966c80341fab",
+    "typecheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "lint": "ef3d81ab5a98245e51ddbc83f64be6a74f38ff5cb65a23a34ac28d66550443d2",
+    "build": "1cf1fd11f4cca8eba50550ca5bffb4ac213a0068248146cb285a13a78dc27a24"
+  },
+  "publication": {
+    "branch": "investigate/docx-next-design-fidelity-16okt",
+    "parent": "6130fb4cb8504e535142189af192cec5ac4c2533",
+    "dev": "8901a830a792d75e9e792345c5180827218b4e1e",
+    "main": "44d7eb950b4fe972d6e890a72b6d3256ce365bc9",
+    "render": "4319c20fb85d3971ac355ae8898cdfef86ee7a8c",
+    "productionDefaultSwitched": false,
+    "deploymentRequested": false,
+    "exactBranchAndWildcardDeploymentDisabled": true,
+    "workflowBranchExclusions": [
+      {
+        "file": ".github/workflows/docx-next-model-gate.yml",
+        "pushBranches": [
+          "fix/docx-next-model-gate-15okt",
+          "fix/docx-next-pdf-print-boundary-15okt"
+        ],
+        "matchesBranch": false
+      },
+      {
+        "file": ".github/workflows/docx-next-nearest-engine.yml",
+        "pushBranches": ["dev"],
+        "matchesBranch": false
+      },
+      {
+        "file": ".github/workflows/docx-next-stable-sidebar.yml",
+        "pushBranches": ["dev", "docx-next/integrate-39-templates"],
+        "matchesBranch": false
+      },
+      {
+        "file": ".github/workflows/dossier-docx-gallery.yml",
+        "pushBranches": ["render"],
+        "matchesBranch": false
+      },
+      {
+        "file": ".github/workflows/dossier-pdf-gallery.yml",
+        "pushBranches": ["main", "render", "m13-visual-acceptance"],
+        "matchesBranch": false
+      },
+      {
+        "file": ".github/workflows/dossier-regression.yml",
+        "pushBranches": [
+          "letter-m1-m2",
+          "dev",
+          "dev-native-chromium-print",
+          "fix/pdf-text-search-12okt",
+          "fix/pdf-export-readiness-14okt",
+          "docx-next/integrate-39-templates",
+          "render",
+          "main"
+        ],
+        "matchesBranch": false
+      },
+      {
+        "file": ".github/workflows/dossier-visual-parity.yml",
+        "pushBranches": ["render"],
+        "matchesBranch": false
+      },
+      {
+        "file": ".github/workflows/dossier-web-gallery.yml",
+        "pushBranches": ["dev", "docx-next/integrate-39-templates", "render"],
+        "matchesBranch": false
+      },
+      {
+        "file": ".github/workflows/letter-flow-boundaries.yml",
+        "pushBranches": ["fix/letter-flow-boundaries-12okt"],
+        "matchesBranch": false
+      },
+      {
+        "file": ".github/workflows/letter-pdf-textlayer.yml",
+        "pushBranches": ["fix/letter-pdf-textlayer-12okt"],
+        "matchesBranch": false
+      },
+      {
+        "file": ".github/workflows/native-neon-text.yml",
+        "pushBranches": ["fix/native-neon-duplicate-text-14okt"],
+        "matchesBranch": false
+      },
+      {
+        "file": ".github/workflows/pagination-integration.yml",
+        "pushBranches": ["qa/pagination-integration-12okt"],
+        "matchesBranch": false
+      },
+      {
+        "file": ".github/workflows/pdf-preflight.yml",
+        "pushBranches": ["fix/pdf-preflight-*"],
+        "matchesBranch": false
+      },
+      {
+        "file": ".github/workflows/ribbon-cover-overflow.yml",
+        "pushBranches": ["fix/ribbon-cover-overflow-14okt"],
+        "matchesBranch": false
+      },
+      {
+        "file": ".github/workflows/template-contact-integrity.yml",
+        "pushBranches": ["dev", "render", "main"],
+        "matchesBranch": false
+      },
+      {
+        "file": ".github/workflows/template-font-audit.yml",
+        "pushBranches": ["template-font-audit"],
+        "matchesBranch": false
+      }
+    ],
+    "liveBranchDeploymentsBefore": 0,
+    "liveBranchWorkflowRunsBefore": 0
+  }
+}

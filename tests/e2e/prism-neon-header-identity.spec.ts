@@ -157,9 +157,11 @@ test.describe("Prism + Neon header identity", () => {
     expect(before.width).toBeGreaterThan(0);
     expect(after.width).toBeGreaterThan(0);
 
-    const motifOpacities = await root.locator("[data-dossier-sheet-motif]").evaluateAll((nodes) =>
-      nodes.map((node) => Number.parseFloat(getComputedStyle(node).opacity)),
-    );
+    const motifOpacities = await root
+      .locator("[data-dossier-sheet-motif]")
+      .evaluateAll((nodes) =>
+        nodes.map((node) => Number.parseFloat(getComputedStyle(node).opacity)),
+      );
     expect(motifOpacities.length).toBeGreaterThan(0);
     expect(motifOpacities.every((value) => value === 0)).toBe(true);
     expect(await storedOpacity(page)).toBe(0.25);
@@ -170,7 +172,9 @@ test.describe("Prism + Neon header identity", () => {
     expect((await pseudo(exportedCompact, "::after")).clipPath).not.toBe("none");
   });
 
-  test("Prism contact keeps readable contact data inside the same faceted identity", async ({ page }) => {
+  test("Prism contact keeps readable contact data inside the same faceted identity", async ({
+    page,
+  }) => {
     const root = await seed(page, "prism", "contact");
     const background = root.locator("[data-dossier-contact-header-background]").first();
     const contact = root.locator("[data-dossier-integrated-contact]").first();
@@ -180,7 +184,9 @@ test.describe("Prism + Neon header identity", () => {
     await expect(contact).toContainText("lea@example.ch");
     expect((await pseudo(background, "::before")).clipPath).not.toBe("none");
     expect((await pseudo(background, "::after")).clipPath).not.toBe("none");
-    expect(await contact.evaluate((node) => getComputedStyle(node).color)).toBe("rgb(255, 255, 255)");
+    expect(await contact.evaluate((node) => getComputedStyle(node).color)).toBe(
+      "rgb(255, 255, 255)",
+    );
     expect(await storedOpacity(page)).toBe(0.25);
     await expect(root.locator("[data-cv-page]")).toHaveCount(1);
   });
@@ -189,7 +195,9 @@ test.describe("Prism + Neon header identity", () => {
     let root = await seed(page, "neon", "compact");
     const compact = root.locator("[data-dossier-compact-header]").first();
     await expect(compact).toBeVisible();
-    const compactBackground = await compact.evaluate((node) => getComputedStyle(node).backgroundImage);
+    const compactBackground = await compact.evaluate(
+      (node) => getComputedStyle(node).backgroundImage,
+    );
     expect(compactBackground).toContain("linear-gradient");
     expect(compactBackground).toContain("radial-gradient");
     await expect(root.locator("[data-cv-page]")).toHaveCount(1);
@@ -200,16 +208,20 @@ test.describe("Prism + Neon header identity", () => {
     await expect(background).toBeVisible();
     await expect(contact).toContainText("Lea Müller");
     await expect(contact).toContainText("+41 79 123 45 67");
-    const contactBackground = await background.evaluate((node) => getComputedStyle(node).backgroundImage);
+    const contactBackground = await background.evaluate(
+      (node) => getComputedStyle(node).backgroundImage,
+    );
     expect(contactBackground).toContain("linear-gradient");
     expect(contactBackground).toContain("radial-gradient");
-    expect(await contact.evaluate((node) => getComputedStyle(node).color)).toBe("rgb(255, 255, 255)");
+    expect(await contact.evaluate((node) => getComputedStyle(node).color)).toBe(
+      "rgb(255, 255, 255)",
+    );
     await expect(root.locator("[data-cv-page]")).toHaveCount(1);
 
     const exported = exportCv(page, "neon");
     const exportedBackground = exported.locator("[data-dossier-contact-header-background]").first();
-    expect(await exportedBackground.evaluate((node) => getComputedStyle(node).backgroundImage)).toContain(
-      "linear-gradient",
-    );
+    expect(
+      await exportedBackground.evaluate((node) => getComputedStyle(node).backgroundImage),
+    ).toContain("linear-gradient");
   });
 });

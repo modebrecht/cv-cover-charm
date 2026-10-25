@@ -2,6 +2,7 @@ import {
   CV_PERSON_FIELD_IDS,
   cvLineFieldId,
   referenceContactFields,
+  referenceHasContent,
 } from "@/lib/dossier-semantic-fields";
 import { Fragment, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { cvFlowMeasurer, paginateCvFlow, type CvFlowRow } from "./flow-pagination";
@@ -17,7 +18,9 @@ import {
   type CustomField,
 } from "@/components/cover/types";
 import { resolveCvPlacement } from "./placement";
+import { cvSidebarGeometry, cvSidebarPhotoWidthMm } from "./sidebar-geometry";
 import type { CvPresentation } from "./presentation";
+import { cvSectionTitleFontSizePx } from "./reading-defaults";
 import { alphaHex, cvVisualPolicy, sidebarPlan, smartNameSize } from "./intelligence";
 import { onColorRoles, type CvOnColor } from "./palette";
 import { normalizeCvPaperColor, resolveCvPalette } from "./cv-paper";
@@ -37,6 +40,7 @@ import type { DossierChromeContact, DossierChromeOptions } from "@/lib/dossier-c
 import type { DossierChromeDocumentContent } from "@/lib/dossier-chrome-content";
 import { cvBodyData } from "@/lib/dossier-body-contact";
 import { cvPersonalInfoRows } from "@/lib/cv-personal-info";
+import { cvFlowColumns } from "@/lib/cv-flow-columns";
 import { dossierPhotoCropStyle, dossierPhotoRadius, dossierPhotoRatio } from "@/lib/dossier-photo";
 import {
   normalizeCvPhotoPlacement,
@@ -49,8 +53,6 @@ import {
   CV_DOC_TITLE_FONT_SIZE_MAX,
   CV_DOC_TITLE_FONT_SIZE_MIN,
   CV_DOC_TITLE_MARGIN_BOTTOM_MAX,
-  CV_SECTION_TITLE_FONT_SIZE_MAX,
-  CV_SECTION_TITLE_FONT_SIZE_MIN,
   CV_SECTION_TITLE_MARGIN_BOTTOM_MAX,
   CV_TYPE_DEFAULTS,
   customSectionForKey,
@@ -246,14 +248,7 @@ export function CvCanvas({
    */
   const theme = useMemo(() => dossierThemeFor(design.template), [design.template]);
   const headingStyle = theme.headingStyle;
-  const sectionTitleFontSizePx =
-    typeof design.sectionTitleFontSizePx === "number" &&
-    Number.isFinite(design.sectionTitleFontSizePx)
-      ? Math.max(
-          CV_SECTION_TITLE_FONT_SIZE_MIN,
-          Math.min(CV_SECTION_TITLE_FONT_SIZE_MAX, design.sectionTitleFontSizePx),
-        )
-      : null;
+  const sectionTitleFontSizePx = cvSectionTitleFontSizePx(design, layoutChoice) ?? null;
   const sectionTitleMarginBottomPx =
     typeof design.sectionTitleMarginBottomPx === "number" &&
     Number.isFinite(design.sectionTitleMarginBottomPx)
@@ -848,9 +843,7 @@ export function CvCanvas({
   };
 
   const referenceRows = (): Row[] => {
-    const list = data.referenzen.filter(
-      (r) => r.name.trim() || r.funktion.trim() || r.kontakt.trim(),
-    );
+    const list = data.referenzen.filter(referenceHasContent);
     if (!list.length || data.hidden.referenzen) return [];
 
     const referenceCard = (
@@ -881,7 +874,7 @@ export function CvCanvas({
             {r.funktion}
           </div>
         )}
-        {r.kontakt && (
+        {Object.values(referenceContactFields(r)).some((text) => text.trim()) && (
           <div
             data-cv-body
             style={{
@@ -926,7 +919,7 @@ export function CvCanvas({
             data-cv-reference-grid
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+              gridTemplateColumns: `repeat(${pair.length}, minmax(0, 1fr))`,
               columnGap: "6mm",
               rowGap: "2.1mm",
               marginBottom: "2.1mm",
@@ -1004,7 +997,9 @@ export function CvCanvas({
                 color: pal.ink,
               }}
             >
-              <span style={{ color: pal.accent, fontWeight: 700 }}>•</span>
+              <span data-cv-list-marker style={{ color: pal.accent, fontWeight: 700 }}>
+                •
+              </span>
               <span data-dossier-field-id={cvLineFieldId(key, i, data.lineIds?.[key])}>{v}</span>
             </div>
           ),
@@ -1261,13 +1256,7 @@ export function CvCanvas({
         masonry = [];
         return;
       }
-      const columns: [SectionUnit[], SectionUnit[]] = [[], []];
-      const columnWeights: [number, number] = [0, 0];
-      for (const item of masonry) {
-        const target: 0 | 1 = columnWeights[0] <= columnWeights[1] ? 0 : 1;
-        columns[target].push(item);
-        columnWeights[target] += Math.max(1, item.rows.length);
-      }
+      const columns = cvFlowColumns(masonry, (item) => item.rows.length);
       const render = (parts: Row[][]) => (
         <div
           data-cv-section-masonry
@@ -1822,11 +1811,7 @@ export function CvCanvas({
       fixedOnPage("sprachen") && data.sprachen.some((s) => s.name.trim() || s.niveau.trim());
     const hasStrengths = fixedOnPage("staerken") && data.staerken.some((value) => value.trim());
     const hasHobbies = fixedOnPage("hobbys") && data.hobbys.some((value) => value.trim());
-    const hasReferences =
-      fixedOnPage("referenzen") &&
-      data.referenzen.some((reference) =>
-        [reference.name, reference.funktion, reference.kontakt].some((value) => value.trim()),
-      );
+    const hasReferences = fixedOnPage("referenzen") && data.referenzen.some(referenceHasContent);
     const customSideKeys = contentSectionKeys.filter(
       (key) => isCustomSectionKey(key) && onPage(key) && sectionRows(key).length > 0,
     );
@@ -1869,7 +1854,7 @@ export function CvCanvas({
     overflowWrap: "anywhere",
   });
 
-  const sideHeading = (text: string, first = false) => (
+  const sideHeading = (key: CvLayoutSectionKey, text: string, first = false) => (
     <div
       data-cv-section="sidebar"
       data-cv-user-section-margin={sectionTitleMarginBottomPx === null ? undefined : "true"}
@@ -1894,10 +1879,26 @@ export function CvCanvas({
             : `${sectionTitleMarginBottomPx}px`,
       }}
     >
-      <div style={{ display: "flex", alignItems: "center", gap: "2mm", minWidth: 0 }}>
+      <div
+        style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "2mm", minWidth: 0 }}
+      >
         <div
           data-cv-section-title
+          data-dossier-field-id={`cv.section.${key}.heading`}
+          data-cv-user-section-size={sectionTitleFontSizePx === null ? undefined : "true"}
+          data-cv-user-section-color={sectionTitleColor ? "true" : undefined}
+          data-cv-user-section-weight={design.sectionTitleBold === undefined ? undefined : "true"}
+          data-cv-user-section-style={design.sectionTitleItalic === undefined ? undefined : "true"}
+          data-cv-user-section-decoration={
+            design.sectionTitleUnderline === undefined ? undefined : "true"
+          }
           style={{
+            ["--cv-user-section-font-size" as string]:
+              sectionTitleFontSizePx === null ? undefined : `${sectionTitleFontSizePx}px`,
+            ["--cv-user-section-color" as string]: sectionTitleColor || undefined,
+            ["--cv-user-section-weight" as string]: `${sectionTitleWeight}`,
+            ["--cv-user-section-style" as string]: sectionTitleFontStyle,
+            ["--cv-user-section-decoration" as string]: sectionTitleDecoration,
             fontSize:
               sectionTitleFontSizePx === null
                 ? ptHead(
@@ -1922,6 +1923,7 @@ export function CvCanvas({
             fontFamily: theme.typography.fontStack,
             color: sectionTitleColor || side.accent,
             lineHeight: headingStyle.lineHeight,
+            maxWidth: "100%",
             flexShrink: 0,
           }}
         >
@@ -2144,11 +2146,7 @@ export function CvCanvas({
   };
 
   const onColumn = frame.id === "column";
-  const sidebarWidth = sidebarWidthMm(frame, layout, sidebarPct);
-  const sidePhotoMm = Math.min(
-    sidePlan.veryCompact ? 25 : 28,
-    sidebarWidth - (onColumn ? 19 : 15.5),
-  );
+  const sidePhotoMm = cvSidebarPhotoWidthMm(frame, sidebarPct, sidePlan.veryCompact);
 
   const freeSectionKeys = orderedSectionKeys.filter((key) => {
     if (cvSectionLayout(data, key).positioning !== "free") return false;
@@ -2596,22 +2594,17 @@ export function CvCanvas({
   }, [elementBlocks, elements, exportMode, onLayoutWarnings, pages, shape]);
 
   const modernSidebar = (pageIndex: number) => {
-    const surface = cvSurface(frame, pageIndex, layout, sidebarPct, chromeOptions);
-    const contentBox = cvContentBox(
+    const sidebarPhoto = pageIndex === 0 && automaticPhotoInSidebar;
+    const { rail } = cvSidebarGeometry(
       frame,
       pageIndex,
-      layout,
       sidebarPct,
       chromeOptions,
       presentation,
+      sidebarPhysicalSide,
+      sidebarPhoto,
+      personLayoutCustomized,
     );
-    const cardHeaderClearanceMm =
-      frame.id === "card" && pageIndex === 0 && !personLayoutCustomized
-        ? contentBox.top + 38
-        : surface.top;
-    const sidebarTopMm = onColumn ? 0 : Math.max(surface.top, cardHeaderClearanceMm);
-    const sidebarLeftMm = onColumn ? 0 : frame.id === "card" ? surface.left : 0;
-    const sidebarRightMm = onColumn ? 0 : frame.id === "card" ? surface.right : 0;
     const {
       hasContact,
       hasSchool,
@@ -2633,24 +2626,21 @@ export function CvCanvas({
       hasHobbies ||
       hasReferences ||
       customSideKeys.length > 0;
-    const sidebarPhoto = pageIndex === 0 && automaticPhotoInSidebar;
     return (
       <div
         data-cv-sidebar
         data-cv-sidebar-side={sidebarPhysicalSide}
         style={{
           position: "absolute",
-          left: infoMirrored ? undefined : `${sidebarLeftMm}mm`,
-          right: infoMirrored ? `${sidebarRightMm}mm` : undefined,
-          top: `${sidebarTopMm}mm`,
-          bottom: onColumn ? 0 : `${surface.bottom}mm`,
-          width: `${sidebarWidth}mm`,
-          ["--cv-sidebar-edge" as string]: `${sidebarRightMm}mm`,
+          left: infoMirrored ? undefined : `${rail.leftMm}mm`,
+          right: infoMirrored ? `${rail.insetMm}mm` : undefined,
+          top: `${rail.topMm}mm`,
+          bottom: `${rail.bottomMm}mm`,
+          width: `${rail.widthMm}mm`,
+          ["--cv-sidebar-edge" as string]: `${rail.insetMm}mm`,
           ["--cv-sidebar-mirrored-bg" as string]: side.bg,
           ["--cv-sidebar-section-color" as string]: side.accent,
-          padding: onColumn
-            ? `${sidebarPhoto ? "16mm" : "13mm"} 9mm ${Math.max(12, frame.footMm + 8)}mm 10mm`
-            : `${sidebarPhoto ? "12.5mm" : "9.5mm"} 7.5mm 12mm 8mm`,
+          padding: `${rail.padding.top}mm ${rail.padding.right}mm ${rail.padding.bottom}mm ${rail.padding.left}mm`,
           boxSizing: "border-box",
           background: onColumn && !infoMirrored ? "transparent" : side.bg,
           fontFamily: SHEET_FONT,
@@ -2702,7 +2692,7 @@ export function CvCanvas({
               )}
               {hasContact && (
                 <div style={{ gridColumn: customSectionLayout ? "1 / -1" : undefined, order: 1 }}>
-                  {sideHeading(label(data, "kontakt"), firstSide === "contact")}
+                  {sideHeading("person", label(data, "kontakt"), firstSide === "contact")}
                   <div
                     data-cv-entry
                     data-cv-body
@@ -2749,19 +2739,19 @@ export function CvCanvas({
               )}
               {hasSchool && (
                 <div style={sideSectionStyle("schule")}>
-                  {sideHeading(label(data, "schule"), firstSide === "school")}
+                  {sideHeading("schule", label(data, "schule"), firstSide === "school")}
                   {sideEntries("schule")}
                 </div>
               )}
               {hasExperience && (
                 <div style={sideSectionStyle("erfahrung")}>
-                  {sideHeading(label(data, "erfahrung"), firstSide === "experience")}
+                  {sideHeading("erfahrung", label(data, "erfahrung"), firstSide === "experience")}
                   {sideEntries("erfahrung")}
                 </div>
               )}
               {hasLanguages && (
                 <div style={sideSectionStyle("sprachen")}>
-                  {sideHeading(label(data, "sprachen"), firstSide === "languages")}
+                  {sideHeading("sprachen", label(data, "sprachen"), firstSide === "languages")}
                   {data.sprachen
                     .filter((s) => s.name.trim() || s.niveau.trim())
                     .map((s) => (
@@ -2807,7 +2797,7 @@ export function CvCanvas({
               )}
               {hasStrengths && (
                 <div style={sideSectionStyle("staerken")}>
-                  {sideHeading(label(data, "staerken"), firstSide === "strengths")}
+                  {sideHeading("staerken", label(data, "staerken"), firstSide === "strengths")}
                   {data.staerken
                     .map((text, index) => ({ text, index }))
                     .filter(({ text }) => text.trim())
@@ -2826,7 +2816,9 @@ export function CvCanvas({
                               : "1.45mm",
                         }}
                       >
-                        <span style={{ color: side.accent, fontWeight: 800 }}>•</span>
+                        <span data-cv-list-marker style={{ color: side.accent, fontWeight: 800 }}>
+                          •
+                        </span>
                         <span
                           data-dossier-field-id={cvLineFieldId(
                             "staerken",
@@ -2847,7 +2839,7 @@ export function CvCanvas({
               )}
               {hasHobbies && (
                 <div style={sideSectionStyle("hobbys")}>
-                  {sideHeading(label(data, "hobbys"), firstSide === "hobbies")}
+                  {sideHeading("hobbys", label(data, "hobbys"), firstSide === "hobbies")}
                   {data.hobbys
                     .map((text, index) => ({ text, index }))
                     .filter(({ text }) => text.trim())
@@ -2875,63 +2867,61 @@ export function CvCanvas({
               )}
               {hasReferences && (
                 <div style={sideSectionStyle("referenzen")}>
-                  {sideHeading(label(data, "referenzen"), firstSide === "references")}
-                  {data.referenzen
-                    .filter((r) => r.name.trim() || r.funktion.trim() || r.kontakt.trim())
-                    .map((r) => (
-                      <div
-                        data-cv-entry
-                        key={`side-${r.id}`}
-                        style={{ marginBottom: sidePlan.compact ? "1.6mm" : "2mm" }}
-                      >
-                        {r.name && (
-                          <div
-                            data-dossier-field-id={`cv.entry.referenzen:${r.id}.name`}
-                            data-cv-entry-title
-                            style={{ fontSize: `${sideBody}pt`, fontWeight: 700, color: side.ink }}
-                          >
-                            {r.name}
-                          </div>
-                        )}
-                        {r.funktion && (
-                          <div
-                            data-dossier-field-id={`cv.entry.referenzen:${r.id}.role`}
-                            data-cv-muted
-                            style={{
-                              marginTop: "0.2mm",
-                              fontSize: `${sideSmall}pt`,
-                              color: side.muted,
-                              lineHeight: 1.28,
-                            }}
-                          >
-                            {r.funktion}
-                          </div>
-                        )}
-                        {r.kontakt && (
-                          <div
-                            data-cv-body
-                            style={{
-                              marginTop: "0.25mm",
-                              fontSize: `${sideSmall}pt`,
-                              color: side.ink,
-                              lineHeight: 1.28,
-                              overflowWrap: "anywhere",
-                            }}
-                          >
-                            {Object.entries(referenceContactFields(r))
-                              .filter(([, text]) => text)
-                              .map(([field, text]) => (
-                                <div
-                                  key={field}
-                                  data-dossier-field-id={`cv.entry.referenzen:${r.id}.${field}`}
-                                >
-                                  {text}
-                                </div>
-                              ))}
-                          </div>
-                        )}
-                      </div>
-                    ))}
+                  {sideHeading("referenzen", label(data, "referenzen"), firstSide === "references")}
+                  {data.referenzen.filter(referenceHasContent).map((r) => (
+                    <div
+                      data-cv-entry
+                      key={`side-${r.id}`}
+                      style={{ marginBottom: sidePlan.compact ? "1.6mm" : "2mm" }}
+                    >
+                      {r.name && (
+                        <div
+                          data-dossier-field-id={`cv.entry.referenzen:${r.id}.name`}
+                          data-cv-entry-title
+                          style={{ fontSize: `${sideBody}pt`, fontWeight: 700, color: side.ink }}
+                        >
+                          {r.name}
+                        </div>
+                      )}
+                      {r.funktion && (
+                        <div
+                          data-dossier-field-id={`cv.entry.referenzen:${r.id}.role`}
+                          data-cv-muted
+                          style={{
+                            marginTop: "0.2mm",
+                            fontSize: `${sideSmall}pt`,
+                            color: side.muted,
+                            lineHeight: 1.28,
+                          }}
+                        >
+                          {r.funktion}
+                        </div>
+                      )}
+                      {Object.values(referenceContactFields(r)).some((text) => text.trim()) && (
+                        <div
+                          data-cv-body
+                          style={{
+                            marginTop: "0.25mm",
+                            fontSize: `${sideSmall}pt`,
+                            color: side.ink,
+                            lineHeight: 1.28,
+                            overflowWrap: "anywhere",
+                          }}
+                        >
+                          {Object.entries(referenceContactFields(r))
+                            .filter(([, text]) => text)
+                            .map(([field, text]) => (
+                              <div
+                                key={field}
+                                data-dossier-field-id={`cv.entry.referenzen:${r.id}.${field}`}
+                              >
+                                {text}
+                              </div>
+                            ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
                 </div>
               )}
               {customSideKeys.map((key) => {
@@ -2939,7 +2929,7 @@ export function CvCanvas({
                 if (!custom) return null;
                 return (
                   <div key={key} style={sideSectionStyle(key)}>
-                    {sideHeading(custom.title.trim() || "Eigene Rubrik", firstSideKey === key)}
+                    {sideHeading(key, custom.title.trim() || "Eigene Rubrik", firstSideKey === key)}
                     {sideCustomEntries(key)}
                   </div>
                 );

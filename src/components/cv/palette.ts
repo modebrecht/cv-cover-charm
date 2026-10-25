@@ -139,8 +139,7 @@ export function cvPalette(colors: Record<string, string>): CvPalette {
     const fallbackInk = parse(roles.ink) ?? { r: 255, g: 255, b: 255 };
     const fallbackMuted = parse(roles.muted) ?? fallbackInk;
     const fallbackAccent = parse(roles.accent) ?? fallbackInk;
-    const automaticInk =
-      inkRaw && contrast(inkRaw, explicitSheet) >= 7 ? inkRaw : fallbackInk;
+    const automaticInk = inkRaw && contrast(inkRaw, explicitSheet) >= 7 ? inkRaw : fallbackInk;
     const automaticAccent =
       accentRaw && contrast(accentRaw, explicitSheet) >= 4.5 ? accentRaw : fallbackAccent;
 
@@ -155,8 +154,7 @@ export function cvPalette(colors: Record<string, string>): CvPalette {
   // Eine für dunklen Grund gedachte helle Textfarbe ist hier unbrauchbar.
   const automaticInk = inkRaw && contrastOnWhite(inkRaw) >= 8 ? inkRaw : { r: 26, g: 26, b: 30 };
   const ink = customInk ?? automaticInk;
-  const accent =
-    customAccent ?? (accentRaw ? darken(accentRaw, 5.5) : { r: 31, g: 41, b: 55 });
+  const accent = customAccent ?? (accentRaw ? darken(accentRaw, 5.5) : { r: 31, g: 41, b: 55 });
 
   // Sekundärtext soll zurücktreten, aber noch klar lesbar und druckfest sein.
   const mutedBase = {

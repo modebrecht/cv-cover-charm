@@ -1,0 +1,25 @@
+[
+  {
+    "pageIndex": 0,
+    "heightMm": 297,
+    "topMm": 33.98441610434621,
+    "cssTop": "128.504px",
+    "rubricSizes": [
+      "18px",
+      "18px",
+      "18px",
+      "18px",
+      "18px"
+    ]
+  },
+  {
+    "pageIndex": 1,
+    "heightMm": 297,
+    "topMm": 22.988249411042204,
+    "cssTop": "86.9291px",
+    "rubricSizes": [
+      "18px",
+      "18px"
+    ]
+  }
+]

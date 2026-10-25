@@ -1,4 +1,8 @@
-import { getCvInfoPosition, getCvLayoutChoiceForTemplate, getCvSectionGapMm } from "@/components/cv/layout";
+import {
+  getCvInfoPosition,
+  getCvLayoutChoiceForTemplate,
+  getCvSectionGapMm,
+} from "@/components/cv/layout";
 import { getCvPhotoPlacement } from "@/components/cv/photo-place";
 import { getCvPhotoStyle } from "@/components/cv/photo";
 import { getCvPlacements } from "@/components/cv/placement";

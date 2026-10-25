@@ -5,8 +5,7 @@ export type TextAlignment = (typeof TEXT_ALIGNMENTS)[number];
 export type BodyTextAlignment = (typeof BODY_TEXT_ALIGNMENTS)[number];
 
 export function isBodyTextAlignment(value: unknown): value is BodyTextAlignment {
-  return typeof value === "string" &&
-    (BODY_TEXT_ALIGNMENTS as readonly string[]).includes(value);
+  return typeof value === "string" && (BODY_TEXT_ALIGNMENTS as readonly string[]).includes(value);
 }
 
 export function normalizeTextAlignment(

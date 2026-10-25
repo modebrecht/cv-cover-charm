@@ -32,6 +32,10 @@ import { CvCanvas as BaseCvCanvas } from "./CvCanvasBase";
 import { resolveCvRubricOptions } from "./citrus-rubric";
 import {
   buildCvPageFitPlan,
+  measureCvPageFitSectionHeights,
+  measureCvPageFitCapacityPx,
+  chooseCvSmartPageFitMode,
+  cvPageFitKeepsManualPosition,
   consumeCvPageFitMode,
   getCvPageFitMode,
   getCvPageFitRevision,
@@ -253,6 +257,7 @@ export function CvCanvas({
   const pageFitLayout = presentation.layoutChoice === "modern" ? "modern" : "classic";
   const pageFitMode = useSyncExternalStore(subscribeCvPageFit, getCvPageFitMode, () => null);
   const pageFitRevision = useSyncExternalStore(subscribeCvPageFit, getCvPageFitRevision, () => 0);
+  const geometryScopeRef = useRef<HTMLDivElement>(null);
   const localContact = useMemo(() => contactFromCv(props.data), [props.data]);
   const resolvedContact = useMemo(
     () => resolveCvChromeContact(localContact, chromeContact),
@@ -261,7 +266,7 @@ export function CvCanvas({
   const pageFitPlan = useMemo(
     () =>
       pageFitMode && !props.exportMode
-        ? buildCvPageFitPlan(props.data, pageFitMode, {
+        ? buildCvPageFitPlan(props.data, pageFitMode === "auto" ? "two" : pageFitMode, {
             allowHalfWidth: pageFitLayout === "classic",
           })
         : null,
@@ -269,7 +274,9 @@ export function CvCanvas({
   );
   const baseDesign = useMemo(() => cvDesignWithFullSectionRules(props.design), [props.design]);
   const design = useMemo<CvDesign>(() => {
-    if (!pageFitPlan) return baseDesign;
+    // Intelligent fitting measures the user's actual typography. It must not
+    // silently scale down already-fitting text during its temporary action.
+    if (!pageFitPlan || pageFitMode === "auto") return baseDesign;
     // Page-fit actions are deterministic and idempotent: clicking the same
     // action again targets the same density instead of multiplying a prior fit.
     return {
@@ -278,7 +285,7 @@ export function CvCanvas({
       headingScale: clampCvScale(CV_TYPE_DEFAULTS.headingScale * pageFitPlan.headingScaleFactor),
       bodyScale: clampCvScale(CV_TYPE_DEFAULTS.bodyScale * pageFitPlan.bodyScaleFactor),
     };
-  }, [baseDesign, pageFitPlan]);
+  }, [baseDesign, pageFitMode, pageFitPlan]);
   const rubric = useMemo(() => resolveCvRubricOptions(design), [design]);
   const chromeDocumentContent = useMemo(
     () =>
@@ -332,18 +339,48 @@ export function CvCanvas({
       if (!pageFitPlan) appliedPageFit.current = null;
       return;
     }
-    const requestKey = `${pageFitRevision}:${pageFitPlan.assignmentSignature}`;
+    const heights = measureCvPageFitSectionHeights(geometryScopeRef.current);
+    const chosenMode =
+      pageFitMode === "auto"
+        ? chooseCvSmartPageFitMode(
+            props.data,
+            heights,
+            measureCvPageFitCapacityPx(geometryScopeRef.current),
+            geometryScopeRef.current?.querySelectorAll("[data-cv-page]").length === 1,
+          )
+        : pageFitPlan.mode;
+    const measuredPlan =
+      chosenMode === "two"
+        ? buildCvPageFitPlan(props.data, "two", {
+            allowHalfWidth: pageFitLayout === "classic",
+            measuredSectionHeightsPx: heights ?? undefined,
+          })
+        : buildCvPageFitPlan(props.data, "one", {
+            // Short CVs have enough space without shrinking or forcing
+            // small sections into half-width masonry. Existing manually
+            // compacted layouts stay compact on a repeated auto action.
+            allowHalfWidth:
+              pageFitMode === "auto" &&
+              !Object.values(props.data.sectionLayouts ?? {}).some(
+                (layout) => layout?.packing === "masonry",
+              )
+                ? false
+                : pageFitLayout === "classic",
+          });
+    const requestKey = `${pageFitRevision}:${measuredPlan.assignmentSignature}`;
     if (appliedPageFit.current === requestKey) return;
     appliedPageFit.current = requestKey;
 
-    for (const key of Object.keys(pageFitPlan.pageBySection) as CvLayoutSectionKey[]) {
-      const page = pageFitPlan.pageBySection[key];
+    for (const key of Object.keys(measuredPlan.pageBySection) as CvLayoutSectionKey[]) {
+      // Absolute user-positioned sections must never be reset by a preset.
+      if (cvPageFitKeepsManualPosition(props.data, key)) continue;
+      const page = measuredPlan.pageBySection[key];
       if (!page) continue;
       props.onSectionLayout(key, {
         page,
-        width: pageFitPlan.widthBySection[key] ?? "full",
+        width: measuredPlan.widthBySection[key] ?? "full",
         positioning: "flow",
-        packing: pageFitPlan.packingBySection[key] ?? "rows",
+        packing: measuredPlan.packingBySection[key] ?? "rows",
         x: null,
         y: null,
         widthMm: null,
@@ -351,15 +388,20 @@ export function CvCanvas({
       });
     }
 
-    props.onPageFitDesign?.({
-      titleScale: clampCvScale(CV_TYPE_DEFAULTS.titleScale * pageFitPlan.titleScaleFactor),
-      headingScale: clampCvScale(CV_TYPE_DEFAULTS.headingScale * pageFitPlan.headingScaleFactor),
-      bodyScale: clampCvScale(CV_TYPE_DEFAULTS.bodyScale * pageFitPlan.bodyScaleFactor),
-    });
-    consumeCvPageFitMode(pageFitPlan.mode);
+    if (pageFitMode !== "auto") {
+      props.onPageFitDesign?.({
+        titleScale: clampCvScale(CV_TYPE_DEFAULTS.titleScale * measuredPlan.titleScaleFactor),
+        headingScale: clampCvScale(CV_TYPE_DEFAULTS.headingScale * measuredPlan.headingScaleFactor),
+        bodyScale: clampCvScale(CV_TYPE_DEFAULTS.bodyScale * measuredPlan.bodyScaleFactor),
+      });
+    }
+    consumeCvPageFitMode(pageFitMode!);
   }, [
     pageFitPlan,
+    pageFitMode,
+    pageFitLayout,
     pageFitRevision,
+    props.data,
     props.exportMode,
     props.onPageFitDesign,
     props.onSectionLayout,
@@ -464,7 +506,6 @@ export function CvCanvas({
     "--dossier-motif-opacity": String(Math.max(0, Math.min(1, design.bgOpacity))),
   } as CSSProperties;
 
-  const geometryScopeRef = useRef<HTMLDivElement>(null);
   useLayoutEffect(() => {
     const scope = geometryScopeRef.current;
     if (!scope) return;

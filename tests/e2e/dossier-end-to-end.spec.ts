@@ -39,10 +39,7 @@ async function applyExampleData(
 
   const menu = page.locator("[data-editor-action-menu]");
   await expect(menu).toBeVisible();
-  await menu
-    .getByRole("button")
-    .filter({ hasText: "Beispieldaten übernehmen" })
-    .click();
+  await menu.getByRole("button").filter({ hasText: "Beispieldaten übernehmen" }).click();
   await expect(menu.getByText("Beispieldaten übernehmen?", { exact: true })).toBeVisible();
   await menu.getByRole("button", { name: "Ja", exact: true }).click();
 
@@ -71,9 +68,7 @@ async function downloadCompleteDossier(page: Page) {
   // Waiting for network idle avoids racing the hydration boundary.
   await page.goto(BASE_URL, { waitUntil: "networkidle" });
 
-  const dossierCard = page
-    .getByRole("button")
-    .filter({ hasText: "Gesamtdossier herunterladen" });
+  const dossierCard = page.getByRole("button").filter({ hasText: "Gesamtdossier herunterladen" });
   await expect(dossierCard).toBeVisible();
   await dossierCard.click();
 
@@ -205,9 +200,8 @@ test.describe("complete dossier end-to-end", () => {
     const panelIdAfterReload = await headerAfterReload.getAttribute("aria-controls");
     expect(panelIdAfterReload).toBeTruthy();
     const panelAfterReload = page.locator(`[id="${panelIdAfterReload}"]`);
-    await expect(panelAfterReload.getByRole("button", { name: "Edge", exact: true })).toHaveAttribute(
-      "aria-pressed",
-      "true",
-    );
+    await expect(
+      panelAfterReload.getByRole("button", { name: "Edge", exact: true }),
+    ).toHaveAttribute("aria-pressed", "true");
   });
 });

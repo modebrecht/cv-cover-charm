@@ -1,0 +1,329 @@
+{
+  "date": "2026-10-25",
+  "branch": "fix/docx-next-shared-integration-22okt",
+  "startingHead": "4e87dd8b88f2d1d3d4205d36f1efa956b5d61665",
+  "change": {
+    "productFile": "src/lib/docx-next/decoration.ts",
+    "compiledProductChange": "paintLayer lower bound 1 -> 0 only",
+    "upperBoundUnchanged": 2147483647,
+    "rendererAndComposerUnchanged": true,
+    "sourcePhotoFormUnchanged": true,
+    "packageAndLockUnchanged": true,
+    "wordPhotoOrGeometryGatesChanged": false
+  },
+  "runtime": {
+    "bun": "1.3.13",
+    "node": "24.22.1",
+    "typescript": "5.9.3",
+    "prettier": "3.8.3",
+    "react": "19.2.5",
+    "jsdom": "26.1.0",
+    "jsdomInstalledOutsideRepository": true
+  },
+  "checks": {
+    "focused": {
+      "passed": 33,
+      "failed": 0,
+      "files": 4,
+      "expectCalls": 359
+    },
+    "fullUnit": {
+      "passed": 1412,
+      "failed": 0,
+      "files": 275,
+      "expectCalls": 26947,
+      "exitCode": 0
+    },
+    "typecheck": {
+      "command": "bun run typecheck",
+      "exitCode": 0
+    },
+    "changedFileFormatting": {
+      "files": 5,
+      "exitCode": 0
+    },
+    "changedFileLint": {
+      "files": 5,
+      "exitCode": 0
+    },
+    "fullFormatting": {
+      "exitCode": 1,
+      "remainingUnchangedFiles": 170
+    },
+    "newLayerBoundaryTestBeforeFix": "FAIL_AS_EXPECTED",
+    "normalizedCompiledProductChangeVerified": true
+  },
+  "bounds": {
+    "accepted": [
+      0,
+      1,
+      2147483647
+    ],
+    "rejected": [
+      "-1",
+      "0.5",
+      "NaN",
+      "Infinity",
+      "-Infinity",
+      "2147483648",
+      "Number.MAX_SAFE_INTEGER"
+    ],
+    "invalidNestedLayerStillRejected": true
+  },
+  "photoDom": {
+    "actualClientReactMount": true,
+    "mockedReact": false,
+    "strictMode": true,
+    "realBrowserOrWordTest": false,
+    "currentCases": [
+      {
+        "mode": "auto",
+        "side": "standard",
+        "formSourceGitBlob": "c9eeb38821b44e76b446451b539d3a0937665eb0",
+        "actualReactClientMount": true,
+        "strictMode": true,
+        "savedStatePreservedOnMountAndRerender": true,
+        "personUnchanged": true,
+        "cropUnchanged": true,
+        "explicitFreeTransitionChecked": true,
+        "realBrowserOrWordTest": false
+      },
+      {
+        "mode": "auto",
+        "side": "mirrored",
+        "formSourceGitBlob": "c9eeb38821b44e76b446451b539d3a0937665eb0",
+        "actualReactClientMount": true,
+        "strictMode": true,
+        "savedStatePreservedOnMountAndRerender": true,
+        "personUnchanged": true,
+        "cropUnchanged": true,
+        "explicitFreeTransitionChecked": true,
+        "realBrowserOrWordTest": false
+      },
+      {
+        "mode": "left",
+        "side": "standard",
+        "formSourceGitBlob": "c9eeb38821b44e76b446451b539d3a0937665eb0",
+        "actualReactClientMount": true,
+        "strictMode": true,
+        "savedStatePreservedOnMountAndRerender": true,
+        "personUnchanged": true,
+        "cropUnchanged": true,
+        "explicitFreeTransitionChecked": true,
+        "realBrowserOrWordTest": false
+      },
+      {
+        "mode": "left",
+        "side": "mirrored",
+        "formSourceGitBlob": "c9eeb38821b44e76b446451b539d3a0937665eb0",
+        "actualReactClientMount": true,
+        "strictMode": true,
+        "savedStatePreservedOnMountAndRerender": true,
+        "personUnchanged": true,
+        "cropUnchanged": true,
+        "explicitFreeTransitionChecked": true,
+        "realBrowserOrWordTest": false
+      },
+      {
+        "mode": "right",
+        "side": "standard",
+        "formSourceGitBlob": "c9eeb38821b44e76b446451b539d3a0937665eb0",
+        "actualReactClientMount": true,
+        "strictMode": true,
+        "savedStatePreservedOnMountAndRerender": true,
+        "personUnchanged": true,
+        "cropUnchanged": true,
+        "explicitFreeTransitionChecked": true,
+        "realBrowserOrWordTest": false
+      },
+      {
+        "mode": "right",
+        "side": "mirrored",
+        "formSourceGitBlob": "c9eeb38821b44e76b446451b539d3a0937665eb0",
+        "actualReactClientMount": true,
+        "strictMode": true,
+        "savedStatePreservedOnMountAndRerender": true,
+        "personUnchanged": true,
+        "cropUnchanged": true,
+        "explicitFreeTransitionChecked": true,
+        "realBrowserOrWordTest": false
+      },
+      {
+        "mode": "frei",
+        "side": "standard",
+        "formSourceGitBlob": "c9eeb38821b44e76b446451b539d3a0937665eb0",
+        "actualReactClientMount": true,
+        "strictMode": true,
+        "savedStatePreservedOnMountAndRerender": true,
+        "personUnchanged": true,
+        "cropUnchanged": true,
+        "explicitFreeTransitionChecked": false,
+        "realBrowserOrWordTest": false
+      },
+      {
+        "mode": "frei",
+        "side": "mirrored",
+        "formSourceGitBlob": "c9eeb38821b44e76b446451b539d3a0937665eb0",
+        "actualReactClientMount": true,
+        "strictMode": true,
+        "savedStatePreservedOnMountAndRerender": true,
+        "personUnchanged": true,
+        "cropUnchanged": true,
+        "explicitFreeTransitionChecked": false,
+        "realBrowserOrWordTest": false
+      }
+    ],
+    "legacySourceCommit": "fc0cafa8dc61437ee77f59031055ff6a5efd545d",
+    "legacySourceGitBlob": "6033a46bd6a2180e0b4c668dec2177b54d6cbf9b",
+    "legacyAuto": {
+      "exitCode": 1,
+      "expectedFailure": "Opening the actual form changed saved state.",
+      "observedModeChange": "auto -> frei",
+      "observedXChangeMm": "39 -> 20"
+    },
+    "legacyFree": {
+      "exitCode": 0
+    },
+    "externalDependenciesAddedToRepository": false
+  },
+  "packageInvariance": {
+    "adapter": "deterministic one-pixel synthetic decoration adapter; no visual rendering",
+    "allThreeDocxBytesUnchanged": true,
+    "sourceModelsUnchanged": true,
+    "cases": [
+      {
+        "template": "brief",
+        "sha256": "d942dc8d5532f867d3bb1ae636c1e8880921f9fcd91bdd7f05983125e6c277a4",
+        "bytes": 68100,
+        "fields": 79,
+        "paints": [],
+        "sourceModelUnchanged": true,
+        "paintValidated": true
+      },
+      {
+        "template": "neon",
+        "sha256": "16fc991211d20311959773f1427613af9fcb5a1c45ae41307fb73f23256d4551",
+        "bytes": 92465,
+        "fields": 96,
+        "paints": [
+          {
+            "id": ""
+          },
+          {
+            "id": ""
+          },
+          {
+            "id": ""
+          }
+        ],
+        "sourceModelUnchanged": true,
+        "paintValidated": true
+      },
+      {
+        "template": "verlauf",
+        "sha256": "7d88c2f2ab2ed2318f241d2f5bb6bcf0946b76d941ba569b9e90e2ffe7515f55",
+        "bytes": 91348,
+        "fields": 95,
+        "paints": [
+          {
+            "id": ""
+          },
+          {
+            "id": ""
+          },
+          {
+            "id": ""
+          }
+        ],
+        "sourceModelUnchanged": true,
+        "paintValidated": true
+      }
+    ],
+    "normalizedPaintKeysDropIdentityAndPaintLayer": true
+  },
+  "sourceFiles": [
+    {
+      "path": "src/lib/docx-next/decoration.ts",
+      "chars": 15260,
+      "bytes": 15260,
+      "sha": "10064c9e1c77660c28141f58c8af6b82acb32299"
+    },
+    {
+      "path": "tests/unit/cv-photo-frame.test.ts",
+      "chars": 1886,
+      "bytes": 1886,
+      "sha": "d61509d42cb692b491b6c64884dfcf04aa5cede4"
+    },
+    {
+      "path": "tests/unit/docx-next-composite-paint.test.ts",
+      "chars": 7778,
+      "bytes": 7779,
+      "sha": "8e06af0150f4f8c3ad0d36715785ac36490fbb8a"
+    },
+    {
+      "path": "scripts/qa-cv-photo-preservation-25okt.mjs",
+      "chars": 5476,
+      "bytes": 5476,
+      "sha": "80a8c1e0007ae7afb8e7b16c269c3de4e48cc6c3"
+    },
+    {
+      "path": "scripts/qa-docx-paint-layer-25okt.ts",
+      "chars": 1983,
+      "bytes": 1983,
+      "sha": "5ef919a6531906e8aa48864a0d5eb43db2c88a4e"
+    }
+  ],
+  "logs": {
+    "alt-fix-unit": {
+      "sha256": "97c3ee7f1d22b770d0c51c1665ec5449c2c591619201bed2a8dea389f2cc9af7",
+      "bytes": 177432
+    },
+    "alt-fix-focused": {
+      "sha256": "4e5fe9d3bbc5d45a74d32b766ff404bb2ae70f0e614d1b523f8458c86a71d1e1",
+      "bytes": 4419
+    },
+    "alt-fix-typecheck": {
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+      "bytes": 15
+    },
+    "alt-fix-format": {
+      "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "bytes": 66
+    },
+    "alt-fix-lint": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "alt-fix-format-full": {
+      "sha256": "eec41c30ade9cfa7c063c2964bd56f5c1757b45ef89bfa841a7495bb3295019b",
+      "bytes": 8399
+    },
+    "zero-layer-before": {
+      "sha256": "575a91a637d2d0741bcb8ee728377bf5e87db7af7f5a24c21bbc7584eae8d658",
+      "bytes": 2542
+    }
+  },
+  "verdict": {
+    "fourPreviousUnitFailures": "RESOLVED",
+    "fullUnit": "PASS",
+    "fullTypecheck": "PASS",
+    "wordPictureEditing": "UNVERIFIED_UNCHANGED",
+    "wordLetterAcceptance": "OPEN_UNCHANGED",
+    "referenceWrap": "OPEN_UNCHANGED",
+    "generalSidebarRelease": "NO_GO_UNCHANGED",
+    "normalExportSwitchChanged": false,
+    "photoPacketModified": false
+  },
+  "limits": [
+    "DOM tests execute actual React effects and button events in jsdom; they are not Chromium or Word layout tests.",
+    "The UI proof checks stored placement/crop values and an empty person form, not original-image pixels or crop editing in Word.",
+    "Three unchanged synthetic DOCX controls do not establish all-template or visual Word fidelity.",
+    "The full formatting gate still fails outside the changed scope; no global Prettier PASS is claimed.",
+    "No new Office rendering, Save/Reopen, build, full lint, CI dispatch, merge or deployment.",
+    "Raw source controls, DOCX/PDF/images, local tools and raw logs are not committed."
+  ],
+  "integrity": {
+    "verifiedFiles": 920,
+    "mismatches": []
+  }
+}

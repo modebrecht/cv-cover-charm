@@ -240,7 +240,9 @@ function patchAtBounds(
   for (const index of [2, 1, 0] as const) {
     const range = bounds[index];
     next =
-      next.slice(0, range.start) + mutate(next.slice(range.start, range.end), index) + next.slice(range.end);
+      next.slice(0, range.start) +
+      mutate(next.slice(range.start, range.end), index) +
+      next.slice(range.end);
   }
   return next;
 }

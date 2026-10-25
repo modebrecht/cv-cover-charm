@@ -3,7 +3,10 @@ import { readFileSync } from "node:fs";
 import { emptyCv } from "../../src/components/cv/types";
 
 const route = readFileSync(new URL("../../src/routes/lebenslauf.tsx", import.meta.url), "utf8");
-const canvas = readFileSync(new URL("../../src/components/cv/CvCanvasBase.tsx", import.meta.url), "utf8");
+const canvas = readFileSync(
+  new URL("../../src/components/cv/CvCanvasBase.tsx", import.meta.url),
+  "utf8",
+);
 
 describe("CV reference columns", () => {
   test("defaults side-by-side references to on", () => {
@@ -18,9 +21,9 @@ describe("CV reference columns", () => {
   });
 
   test("renders pairs only when references have full section width", () => {
-    expect(canvas).toContain('data.referencesSideBySide !== false');
+    expect(canvas).toContain("data.referencesSideBySide !== false");
     expect(canvas).toContain('cvSectionLayout(data, "referenzen").width === "full"');
     expect(canvas).toContain("data-cv-reference-grid");
-    expect(canvas).toContain('gridTemplateColumns: "repeat(2, minmax(0, 1fr))"');
+    expect(canvas).toContain("gridTemplateColumns: `repeat(${pair.length}, minmax(0, 1fr))`");
   });
 });

@@ -1,0 +1,16 @@
+{
+  "browserProfile": "brief-sans-v1; browser=Liberation Sans; Word=Arial; target-font-identity=unverified",
+  "environment": "Chromium 143, system Liberation Sans regular/bold via fontconfig; no fake Arial face",
+  "nativeCoverRequest": "Arial",
+  "modernEffectiveWeights": [
+    400,
+    600,
+    650,
+    700,
+    800
+  ],
+  "weightsVerifiedAgainstAvailableBinaryFaces": true,
+  "wordFontIdentityAttested": false,
+  "lettersAndCVSettingsPreserved": true,
+  "photoCSSFilters": "Web family contrast/saturation not reproduced as editable native image effects"
+}

@@ -212,11 +212,7 @@ export function auditDossierDocxV2Cover(
     for (const baselineNode of baseline.nodes) {
       const renderedNode = renderedById.get(baselineNode.id);
       if (!renderedNode) continue;
-      if (
-        baselineNode.kind === "text" &&
-        textValue(baselineNode) &&
-        !textValue(renderedNode)
-      ) {
+      if (baselineNode.kind === "text" && textValue(baselineNode) && !textValue(renderedNode)) {
         issue(
           issues,
           "blocker",
@@ -228,15 +224,14 @@ export function auditDossierDocxV2Cover(
     }
   }
 
-  const lateLayoutNodeIds =
-    measuredInBrowser
-      ? baseline.nodes
-          .filter((baselineNode) => {
-            const renderedNode = renderedById.get(baselineNode.id);
-            return renderedNode ? hasMeaningfulLateLayout(baselineNode, renderedNode) : false;
-          })
-          .map((node) => node.id)
-      : [];
+  const lateLayoutNodeIds = measuredInBrowser
+    ? baseline.nodes
+        .filter((baselineNode) => {
+          const renderedNode = renderedById.get(baselineNode.id);
+          return renderedNode ? hasMeaningfulLateLayout(baselineNode, renderedNode) : false;
+        })
+        .map((node) => node.id)
+    : [];
 
   for (const nodeId of lateLayoutNodeIds) {
     const baselineNode = baselineById.get(nodeId)!;

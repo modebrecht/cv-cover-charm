@@ -1,6 +1,12 @@
 import { describe, expect, test } from "bun:test";
 import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
-import { walkBlocks, type Paragraph, type SectionBlock } from "../../src/lib/docx-next/model";
+import {
+  walkBlocks,
+  type Paragraph,
+  type SectionBlock,
+  type TableBlock,
+} from "../../src/lib/docx-next/model";
+import { tableColumnWidths } from "../../src/lib/docx-next/layouts";
 import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
 import { readZipEntries } from "../../src/lib/docx-next/zip";
 import { DEFAULT_DOSSIER_CHROME_STATE } from "../../src/lib/dossier-chrome";
@@ -79,17 +85,32 @@ describe("native Brief CV presentation and letter separators", () => {
   });
   test("references pair by source identity; odd and half-width entries stay editable", () => {
     const input = briefLayoutFixture("references-paired");
-    let refs = section(buildDossierDocModel(input), "referenzen").blocks;
+    const model = buildDossierDocModel(input);
+    let refs = section(model, "referenzen").blocks;
     expect(refs).toHaveLength(3);
-    expect(refs[2]).toMatchObject({
-      kind: "table",
-      rows: [
-        {
-          keepTogether: false,
-          cells: [[expect.objectContaining({ id: "cv.entry.referenzen:layout-reference-4" })], []],
-        },
-      ],
-    });
+    const odd = refs[2] as TableBlock;
+    expect(odd.kind).toBe("table");
+    expect(odd.rows[0].keepTogether).toBe(false);
+    expect(odd.rows[0].cells.map((cell) => cell.length)).toEqual([1]);
+    expect(odd.rows[0].cells[0][0].id).toBe("cv.entry.referenzen:layout-reference-4");
+    const availableWidth =
+      model.cv.page.widthMm - model.cv.page.margins.left - model.cv.page.margins.right;
+    for (const pair of refs as TableBlock[]) {
+      expect(pair.columnWidthsMm).toEqual(pair === odd ? [null] : [null, 6, null]);
+      expect(pair.indentMm ?? 0).toBe(0);
+      expect(pair.decoration?.paddingXMm).toBe(0);
+      const widths = tableColumnWidths(pair, availableWidth);
+      if (pair === odd) expect(widths).toEqual([availableWidth]);
+      else {
+        expect(pair.rows[0].cells[1]).toEqual([]);
+        expect(widths[0]).toBe(widths[2]);
+        expect(widths[1]).toBe(6);
+      }
+      expect(widths.reduce((a, b) => a + b)).toBeCloseTo(availableWidth);
+    }
+    expect(
+      (refs as TableBlock[]).flatMap((pair) => pair.rows[0].cells.flat().map((entry) => entry.id)),
+    ).toEqual(input.cv.data.referenzen.map((entry) => `cv.entry.referenzen:${entry.id}`));
     input.cv.data.sectionLayouts = { referenzen: { width: "half", page: 1 } };
     refs = section(buildDossierDocModel(input), "referenzen").blocks;
     expect(refs).toHaveLength(5);

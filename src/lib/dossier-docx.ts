@@ -5,7 +5,11 @@ import {
   DEFAULT_LETTER_SIGNATURE_GAP_MM,
   normalizeLetterSpacingMm,
 } from "@/components/letter/types";
-import type { CoverPdfDocument, CvPdfDocument, LetterPdfDocument } from "@/lib/dossier-pdf-document";
+import type {
+  CoverPdfDocument,
+  CvPdfDocument,
+  LetterPdfDocument,
+} from "@/lib/dossier-pdf-document";
 import { cvPersonalInfoLines } from "@/lib/cv-personal-info";
 import { downloadBlob } from "@/lib/download";
 
@@ -179,7 +183,9 @@ function coverPage(document: CoverPdfDocument, images: EmbeddedImage[]) {
   if (photo) images.push(photo);
   const fullName = [data.vorname, data.nachname].filter(Boolean).join(" ");
   const placeDate = [data.ort, data.datum].filter(Boolean).join(", ");
-  const contact = [data.adresse, data.plzOrt, data.telefon, data.email, data.geburtsdatum].filter(Boolean);
+  const contact = [data.adresse, data.plzOrt, data.telefon, data.email, data.geburtsdatum].filter(
+    Boolean,
+  );
   const attachments = coverAttachmentValues(data).filter((value) => value.trim());
   const kicker = (data.kicker || "Bewerbung um eine Lehrstelle als").toUpperCase();
   const eyebrow = (data.eyebrow || "Bewerbung").toUpperCase();
@@ -432,7 +438,10 @@ function cvPage(document: CvPdfDocument, images: EmbeddedImage[]) {
     content.push(cvHeading(labels.schule || CV_SECTION_LABELS.schule), entryTable(data.schule));
   }
   if (!hidden.erfahrung && data.erfahrung.some(entryFilled)) {
-    content.push(cvHeading(labels.erfahrung || CV_SECTION_LABELS.erfahrung), entryTable(data.erfahrung));
+    content.push(
+      cvHeading(labels.erfahrung || CV_SECTION_LABELS.erfahrung),
+      entryTable(data.erfahrung),
+    );
   }
   if (!hidden.sprachen && data.sprachen.some((entry) => entry.name.trim() || entry.niveau.trim())) {
     content.push(
@@ -470,9 +479,14 @@ function cvPage(document: CvPdfDocument, images: EmbeddedImage[]) {
       spacer(2),
     );
   }
-  if (!hidden.referenzen && data.referenzen.some((entry) => entry.name.trim() || entry.kontakt.trim())) {
+  if (
+    !hidden.referenzen &&
+    data.referenzen.some((entry) => entry.name.trim() || entry.kontakt.trim())
+  ) {
     content.push(cvHeading(labels.referenzen || CV_SECTION_LABELS.referenzen));
-    for (const reference of data.referenzen.filter((entry) => entry.name.trim() || entry.kontakt.trim())) {
+    for (const reference of data.referenzen.filter(
+      (entry) => entry.name.trim() || entry.kontakt.trim(),
+    )) {
       content.push(
         paragraphRuns(
           [
@@ -482,7 +496,9 @@ function cvPage(document: CvPdfDocument, images: EmbeddedImage[]) {
           { after: 0.5 },
         ),
       );
-      for (const line of [reference.kontakt, reference.email, reference.zusatz].filter(Boolean) as string[]) {
+      for (const line of [reference.kontakt, reference.email, reference.zusatz].filter(
+        Boolean,
+      ) as string[]) {
         content.push(paragraph(line, { size: 9.5, after: 0.5 }));
       }
     }
@@ -696,7 +712,10 @@ export function createBriefDossierDocxBlob(
     [cv.data.person.vorname, cv.data.person.nachname].filter(Boolean).join(" ") ||
     "Bewerbungsdossier";
   const encoder = new TextEncoder();
-  const textEntry = (name: string, value: string): ZipEntry => ({ name, bytes: encoder.encode(value) });
+  const textEntry = (name: string, value: string): ZipEntry => ({
+    name,
+    bytes: encoder.encode(value),
+  });
 
   const entries: ZipEntry[] = [
     textEntry("[Content_Types].xml", contentTypesXml(images)),

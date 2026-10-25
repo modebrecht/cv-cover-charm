@@ -63,9 +63,8 @@ export async function createLazyTemplateDossierDocxBlob(
   templateId: string,
   documents: DossierDocxDocuments,
 ) {
-  const loader = DOSSIER_DOCX_TEMPLATE_LOADERS[
-    templateId as keyof typeof DOSSIER_DOCX_TEMPLATE_LOADERS
-  ];
+  const loader =
+    DOSSIER_DOCX_TEMPLATE_LOADERS[templateId as keyof typeof DOSSIER_DOCX_TEMPLATE_LOADERS];
   if (!loader) throw new Error(`Kein lazy DOCX-Modul für ${templateId} registriert.`);
   const module = await loader();
   const blob = await module.createDossierDocxBlob(documents);

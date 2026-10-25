@@ -1,4 +1,3 @@
-import { Mail, Smartphone } from "lucide-react";
 import type { CSSProperties } from "react";
 import { FONT_STACKS, type FontKey } from "@/components/cover/types";
 import { cvPalette, onColorRoles } from "@/components/cv/palette";
@@ -16,7 +15,9 @@ import { getDossierPageMargins } from "@/lib/dossier-page-margins";
 import type { DossierChromeDocumentContent } from "@/lib/dossier-chrome-content";
 import { resolveTemplateChromeOptions } from "@/lib/template-chrome";
 import { dossierChromeFieldId } from "@/lib/dossier-semantic-fields";
+import { automaticBorderColor } from "@/lib/dossier-chrome-colors";
 import "./chrome-policy.css";
+import "./chrome-template-surfaces.css";
 
 function surfaceBackground(first: string, second: string | null): string {
   return second ? `linear-gradient(90deg, ${first}, ${second})` : first;
@@ -28,44 +29,6 @@ function normalizedHex(value: string | null | undefined): string | null {
   return /^#[0-9a-f]{6}$/.test(color) ? color : null;
 }
 
-function automaticBorderColor({
-  colors,
-  headerBackground,
-  headerGradient,
-  footerBackground,
-  footerGradient,
-  palette,
-}: {
-  colors: Record<string, string>;
-  headerBackground: string;
-  headerGradient: string | null;
-  footerBackground: string;
-  footerGradient: string | null;
-  palette: ReturnType<typeof cvPalette>;
-}): string {
-  const occupied = new Set(
-    [headerBackground, headerGradient, footerBackground, footerGradient]
-      .map(normalizedHex)
-      .filter((value): value is string => value !== null),
-  );
-  const candidates = [
-    colors.cvHeading,
-    colors.accent,
-    colors.secondary,
-    colors.primary,
-    palette.accent,
-    palette.ink,
-    palette.muted,
-    "#94a3b8",
-    "#cbd5e1",
-  ];
-  for (const candidate of candidates) {
-    const normalized = normalizedHex(candidate);
-    if (normalized && !occupied.has(normalized)) return normalized;
-  }
-  return "#94a3b8";
-}
-
 type ContactRow = {
   key: "name" | "address" | "place" | "phone" | "email";
   value: string;
@@ -74,36 +37,13 @@ type ContactRow = {
 
 function InlineContactSeparator({
   style,
-  rowKey,
   index,
   compact = false,
 }: {
   style: DossierChromeInlineSeparator;
-  rowKey: ContactRow["key"];
   index: number;
   compact?: boolean;
 }) {
-  if (style === "icons" && (rowKey === "phone" || rowKey === "email")) {
-    const Icon = rowKey === "phone" ? Smartphone : Mail;
-    return (
-      <span
-        aria-hidden="true"
-        className="inline-flex shrink-0 items-center justify-center"
-        style={{
-          marginLeft: index ? (compact ? "1mm" : "1.5mm") : 0,
-          marginRight: compact ? "0.7mm" : "0.9mm",
-          color: "currentColor",
-          opacity: 0.94,
-        }}
-      >
-        <Icon
-          style={{ width: compact ? "2.5mm" : "3mm", height: compact ? "2.5mm" : "3mm" }}
-          strokeWidth={1.7}
-        />
-      </span>
-    );
-  }
-
   if (index === 0) return null;
 
   if (style === "space") {
@@ -158,6 +98,8 @@ export function DossierHeaderFooterChrome({
   headerFontOverride?: FontKey;
   footerFontOverride?: FontKey;
 }) {
+  colors = options.resolvedPalette?.colors ?? colors;
+  const paletteTemplate = options.resolvedPalette?.template ?? template;
   const resolvedContact = contact;
   const headerMode = effectiveDossierHeaderModeForOptions(options, pageIndex);
   const differentFirstPage = options.headerDifferentFirstPage !== false;
@@ -189,11 +131,13 @@ export function DossierHeaderFooterChrome({
   const continuationContact = hasReducedContinuationHeader(options, pageIndex);
   const sourcePalette = cvPalette(colors);
   const primary =
-    template === "brief"
+    paletteTemplate === "brief"
       ? "#111111"
       : (colors.primary ?? colors.accent ?? colors.secondary ?? sourcePalette.accent);
   const secondary =
-    template === "brief" ? "#4b5563" : (colors.accent ?? colors.secondary ?? sourcePalette.accent);
+    paletteTemplate === "brief"
+      ? "#4b5563"
+      : (colors.accent ?? colors.secondary ?? sourcePalette.accent);
   const headerBackground = headerVisualOptions.headerBackgroundColor ?? primary;
   const footerBackground = visualOptions.footerBackgroundColor ?? secondary;
   const headerRoles = onColorRoles(
@@ -295,7 +239,9 @@ export function DossierHeaderFooterChrome({
    */
   const warmContactDecoration =
     template === "freundlich" && pageIndex === 0 && headerMode === "contact";
-  const inlineSeparator = options.headerInlineSeparator ?? "icons";
+  // Old saved icon selections are rendered as plain separators too.
+  const inlineSeparator =
+    options.headerInlineSeparator === "icons" ? "dot" : (options.headerInlineSeparator ?? "dot");
   const headerContentOffsetY = options.headerContentOffsetYMm ?? 0;
   const footerContentOffsetY = options.footerContentOffsetYMm ?? 0;
   const headerContentTransform =
@@ -398,13 +344,11 @@ export function DossierHeaderFooterChrome({
             >
               {continuationRows.map((row, index) => (
                 <span key={row.key} className="inline-flex min-w-0 items-center">
-                  <InlineContactSeparator
-                    style={inlineSeparator}
-                    rowKey={row.key}
-                    index={index}
-                    compact
-                  />
-                  <span className={row.strong ? "min-w-0 font-semibold" : "min-w-0"}>
+                  <InlineContactSeparator style={inlineSeparator} index={index} compact />
+                  <span
+                    data-dossier-contact-field={row.key}
+                    className={row.strong ? "min-w-0 font-semibold" : "min-w-0"}
+                  >
                     {row.value}
                   </span>
                 </span>
@@ -481,6 +425,7 @@ export function DossierHeaderFooterChrome({
                 >
                   {stackedName ? (
                     <div
+                      data-dossier-contact-field="name"
                       className="font-semibold"
                       style={{
                         fontSize: `${headerFontSizePt ?? 9.5}pt`,
@@ -497,13 +442,12 @@ export function DossierHeaderFooterChrome({
                     >
                       {rows.map((row, index) => (
                         <span key={row.key} className="inline-flex min-w-0 items-center">
-                          <InlineContactSeparator
-                            style={inlineSeparator}
-                            rowKey={row.key}
-                            index={index}
-                            compact
-                          />
-                          <span className="min-w-0" style={{ overflowWrap: "anywhere" }}>
+                          <InlineContactSeparator style={inlineSeparator} index={index} compact />
+                          <span
+                            data-dossier-contact-field={row.key}
+                            className="min-w-0"
+                            style={{ overflowWrap: "anywhere" }}
+                          >
                             {row.value}
                           </span>
                         </span>
@@ -519,12 +463,9 @@ export function DossierHeaderFooterChrome({
                 >
                   {contactRows.map((row, index) => (
                     <span key={row.key} className="inline-flex min-w-0 items-center">
-                      <InlineContactSeparator
-                        style={inlineSeparator}
-                        rowKey={row.key}
-                        index={index}
-                      />
+                      <InlineContactSeparator style={inlineSeparator} index={index} />
                       <span
+                        data-dossier-contact-field={row.key}
                         className={row.strong ? "min-w-0 font-semibold" : "min-w-0 opacity-95"}
                         style={{ overflowWrap: "anywhere" }}
                       >
@@ -589,7 +530,7 @@ export function DossierHeaderFooterChrome({
             boxSizing: "border-box",
             background: footerSurface,
             borderTop: borderStyle,
-            opacity: template === "brief" ? 0.75 : 0.92,
+            opacity: 1,
           }}
           aria-hidden="true"
         />
