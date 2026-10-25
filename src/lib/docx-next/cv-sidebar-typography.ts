@@ -2,11 +2,7 @@ import type { CvSidebarTextMetrics } from "./cv-sidebar-text-metrics";
 import type { DocBlock, DocumentPart, Paragraph, TableBlock } from "./model";
 import type { DossierAppSnapshot } from "./source";
 import { cvPersonalInfoRows } from "@/lib/cv-personal-info";
-import {
-  datedEntryBlocks,
-  tableColumnWidths,
-  nativeTextHeightMm,
-} from "./layouts";
+import { datedEntryBlocks, tableColumnWidths, nativeTextHeightMm } from "./layouts";
 import { interiorMetricsKey } from "./interior-metrics";
 import { resolveDossierChromeSnapshot } from "@/lib/dossier-resolved-chrome";
 import { resolveCvRubricOptions } from "@/components/cv/citrus-rubric";
@@ -57,23 +53,14 @@ export function applyCvSidebarTypography(
     );
   if (contactHeaders && (!part.firstHeader || !part.headerFrames?.length))
     throw Error("DOCX Next: Sidebar-Kontaktkopf benötigt frische native Header-Besitzer.");
-  const body = part.blocks.find(
-    (b) => b.kind === "table" && b.id === "cv.sidebar",
-  ) as TableBlock;
+  const body = part.blocks.find((b) => b.kind === "table" && b.id === "cv.sidebar") as TableBlock;
   if (!body?.bodyBoundaryLeadByCellMm)
-    throw Error(
-      "DOCX Next: Sidebar-Schriftwerte benötigen die gemeinsame Geometrie.",
-    );
+    throw Error("DOCX Next: Sidebar-Schriftwerte benötigen die gemeinsame Geometrie.");
   const personal = new Map(
-    cvPersonalInfoRows(source.cv.data.person).map((row) => [
-      `cv.person.${row.key}`,
-      row,
-    ]),
+    cvPersonalInfoRows(source.cv.data.person).map((row) => [`cv.person.${row.key}`, row]),
   );
   const fail = (id: string): never => {
-    throw Error(
-      `DOCX Next: Ungültige oder unvollständige Sidebar-Schriftwerte (${id}).`,
-    );
+    throw Error(`DOCX Next: Ungültige oder unvollständige Sidebar-Schriftwerte (${id}).`);
   };
   const seen = new Set<string>();
   const paragraphWidths = new Map<Paragraph, number>();
@@ -177,23 +164,16 @@ export function applyCvSidebarTypography(
       p.listMarkerStyle = { ...field.listMarkerStyle! };
     }
     const heading = metrics.headings[p.id];
-    if (p.id.startsWith("cv.section.") && p.id.endsWith(".heading") && !heading)
-      fail(p.id);
+    if (p.id.startsWith("cv.section.") && p.id.endsWith(".heading") && !heading) fail(p.id);
     if (heading) {
-      if (
-        ![heading.beforeMm, heading.afterMm].every(
-          (n) => Number.isFinite(n) && n >= 0,
-        )
-      )
+      if (![heading.beforeMm, heading.afterMm].every((n) => Number.isFinite(n) && n >= 0))
         fail(p.id);
       p.beforeMm += heading.beforeMm;
       p.afterMm += heading.afterMm;
       if (heading.rule) {
         const r = heading.rule;
         if (
-          ![r.textWidthMm, r.gapMm, r.heightMm, r.opacity].every(
-            Number.isFinite,
-          ) ||
+          ![r.textWidthMm, r.gapMm, r.heightMm, r.opacity].every(Number.isFinite) ||
           Math.min(r.textWidthMm, r.heightMm) <= 0 ||
           r.gapMm < 0 ||
           r.opacity < 0 ||
@@ -241,17 +221,13 @@ export function applyCvSidebarTypography(
     if (block.kind === "paragraph") paragraph(block, widthMm);
     else if (block.kind === "section") {
       if (block.heading) paragraph(block.heading, widthMm);
-      block.blocks.forEach((b) =>
-        visit(b, widthMm - (block.contentIndentMm ?? 0)),
-      );
+      block.blocks.forEach((b) => visit(b, widthMm - (block.contentIndentMm ?? 0)));
     } else if (block.kind === "entry" || block.kind === "group") {
       const entry = metrics.entries[block.id];
       if (block.kind === "entry" && !entry) fail(block.id);
       if (entry?.dateRail) {
         if (
-          ![entry.dateRail.widthMm, entry.dateRail.gapMm].every(
-            Number.isFinite,
-          ) ||
+          ![entry.dateRail.widthMm, entry.dateRail.gapMm].every(Number.isFinite) ||
           entry.dateRail.widthMm <= 0 ||
           entry.dateRail.gapMm < 0 ||
           block.blocks.some((b) => b.kind !== "paragraph")
@@ -296,16 +272,12 @@ export function applyCvSidebarTypography(
         // Only bounded short entries get cantSplit. An oversized cantSplit row
         // can clip in Word; long descriptions must retain ordinary native flow.
         const shortBudget =
-          (part.page.heightMm -
-            part.page.margins.top -
-            part.page.margins.bottom) /
-          4;
+          (part.page.heightMm - part.page.margins.top - part.page.margins.bottom) / 4;
         rail.rows[0].keepTogether = height <= shortBudget;
         dateHeights.set(rail, height);
       }
       if (entry) {
-        if (!Number.isFinite(entry.afterMm) || entry.afterMm < 0)
-          fail(block.id);
+        if (!Number.isFinite(entry.afterMm) || entry.afterMm < 0) fail(block.id);
         const last = lastFlow(block.blocks);
         if (last)
           last.afterMm =
@@ -348,17 +320,11 @@ export function applyCvSidebarTypography(
       }
     }
   }
-  visit(
-    body,
-    part.page.widthMm - part.page.margins.left - part.page.margins.right,
-  );
-  const headerId = source.cv.data.person.untertitel
-    ? "cv.person.subtitle"
-    : "cv.person.name";
+  visit(body, part.page.widthMm - part.page.margins.left - part.page.margins.right);
+  const headerId = source.cv.data.person.untertitel ? "cv.person.subtitle" : "cv.person.name";
   const header = findParagraph(body.rows[0].cells.flat(), headerId);
   if (!header) throw Error(`DOCX Next: Sidebar-Kopf fehlt (${headerId}).`);
-  if (!Number.isFinite(metrics.headerAfterMm) || metrics.headerAfterMm < 0)
-    fail(headerId);
+  if (!Number.isFinite(metrics.headerAfterMm) || metrics.headerAfterMm < 0) fail(headerId);
   header.afterMm += metrics.headerAfterMm;
   if (!seen.has("cv.person.name")) fail("cv.person.name");
 
@@ -373,23 +339,18 @@ export function applyCvSidebarTypography(
           b.beforeMm = 0;
         } else if (origin(b.beforeMm)) b.beforeMm = 0;
         if (b.flowSurface && b.beforeMm) fail(b.id);
-        if (b.flowSurface)
-          b.flowSurface.spacingOwner = previous ? "previous-block" : "origin";
+        if (b.flowSurface) b.flowSurface.spacingOwner = previous ? "previous-block" : "origin";
         previous = b;
       } else if (b.kind === "section") {
         if (b.heading) one(b.heading);
         b.blocks.forEach(one);
-      } else if (b.kind === "entry" || b.kind === "group")
-        b.blocks.forEach(one);
+      } else if (b.kind === "entry" || b.kind === "group") b.blocks.forEach(one);
       else if (b.kind === "table") {
         b.rows.forEach((row) =>
           row.cells.forEach((cell) =>
             fold(
               cell,
-              !previous &&
-                ["cv.sidebar.side-story", "cv.sidebar.main-story"].includes(
-                  b.id,
-                )
+              !previous && ["cv.sidebar.side-story", "cv.sidebar.main-story"].includes(b.id)
                 ? origin
                 : () => false,
             ),
@@ -410,8 +371,7 @@ export function applyCvSidebarTypography(
   // keepNext alone does not reliably bind a heading across a nested table.
   // Use the existing flowing entry owner only for a bounded heading + short
   // first row. Long entries remain splittable, with no fixed text-box height.
-  const leadBudget =
-    (part.page.heightMm - part.page.margins.top - part.page.margins.bottom) / 4;
+  const leadBudget = (part.page.heightMm - part.page.margins.top - part.page.margins.bottom) / 4;
   const attachLeads = (blocks: DocBlock[]) => {
     for (const block of blocks) {
       if (block.kind === "section") {
@@ -427,10 +387,7 @@ export function applyCvSidebarTypography(
           dateHeights.has(rail) &&
           rail.rows[0].keepTogether &&
           dateHeights.get(rail)! +
-            nativeTextHeightMm(
-              [block.heading],
-              paragraphWidths.get(block.heading)!,
-            ) <=
+            nativeTextHeightMm([block.heading], paragraphWidths.get(block.heading)!) <=
             leadBudget
         ) {
           const heading = block.heading;
@@ -443,16 +400,11 @@ export function applyCvSidebarTypography(
           };
           // The grouping owner adds two native one-point boundaries. Spend
           // available authored after-space, retaining any unavoidable minimum.
-          rail.afterMm = Math.max(
-            0,
-            (rail.afterMm ?? 0) - 2 * NATIVE_BOUNDARY_HEIGHT_MM,
-          );
+          rail.afterMm = Math.max(0, (rail.afterMm ?? 0) - 2 * NATIVE_BOUNDARY_HEIGHT_MM);
         }
         attachLeads(block.blocks);
-      } else if (block.kind === "entry" || block.kind === "group")
-        attachLeads(block.blocks);
-      else if (block.kind === "table")
-        block.rows.forEach((row) => row.cells.forEach(attachLeads));
+      } else if (block.kind === "entry" || block.kind === "group") attachLeads(block.blocks);
+      else if (block.kind === "table") block.rows.forEach((row) => row.cells.forEach(attachLeads));
     }
   };
   body.rows[0].cells.forEach(attachLeads);
@@ -460,9 +412,7 @@ export function applyCvSidebarTypography(
   // Page motifs sit behind the reading plane and the opaque rail in the App.
   // Keep them as decoration; no semantic text or photo is flattened into paint.
   const railWidth = body.columnWidthsMm![part.layout.side === "right" ? 2 : 0]!;
-  const rail = part.artwork.find(
-    (a) => a.id === "cv.artwork.sidebar-surface",
-  ) ?? {
+  const rail = part.artwork.find((a) => a.id === "cv.artwork.sidebar-surface") ?? {
     kind: "decorative-artwork" as const,
     id: "cv.artwork.sidebar-surface",
     semanticText: false as const,
@@ -477,14 +427,10 @@ export function applyCvSidebarTypography(
   };
   if (!metrics.surfaces) fail("surfaces");
   part.artwork = part.artwork.filter(
-    (a) =>
-      !["cv.artwork.sidebar-surface", "cv.artwork.sidebar-edge"].includes(a.id),
+    (a) => !["cv.artwork.sidebar-surface", "cv.artwork.sidebar-edge"].includes(a.id),
   );
   part.headerShapes = (part.headerShapes ?? []).map((shape) => {
-    if (
-      source.cv.design.template === "modern" &&
-      shape.id.startsWith("cv.artwork.motif.")
-    ) {
+    if (source.cv.design.template === "modern" && shape.id.startsWith("cv.artwork.motif.")) {
       const circle = MODERN_SHEET_CIRCLE;
       return {
         ...shape,
@@ -498,9 +444,7 @@ export function applyCvSidebarTypography(
     }
     return { ...shape, paintLayer: shape.id.startsWith("cv.measured.") ? 40 : 10 };
   });
-  for (const [pageIndex, repeat] of (
-    ["first", "continuation"] as const
-  ).entries()) {
+  for (const [pageIndex, repeat] of (["first", "continuation"] as const).entries()) {
     const paint = metrics.surfaces[repeat];
     if (
       !paint ||
@@ -580,10 +524,7 @@ export function applyCvSidebarTypography(
         id: `cv.artwork.${zone}-edge`,
         semanticText: false,
         xMm: 0,
-        yMm:
-          zone === "header"
-            ? b.heightMm - b.borderMm
-            : part.page.heightMm - b.heightMm,
+        yMm: zone === "header" ? b.heightMm - b.borderMm : part.page.heightMm - b.heightMm,
         widthMm: part.page.widthMm,
         heightMm: b.borderMm,
         fill: { color: b.borderColor },

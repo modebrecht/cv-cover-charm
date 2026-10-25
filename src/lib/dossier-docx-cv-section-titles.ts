@@ -36,7 +36,8 @@ function sectionRuleColor(design: CvDesign) {
 
 function hasExplicitSectionTitleOverride(design: CvDesign) {
   return (
-    (typeof design.sectionTitleFontSizePx === "number" && Number.isFinite(design.sectionTitleFontSizePx)) ||
+    (typeof design.sectionTitleFontSizePx === "number" &&
+      Number.isFinite(design.sectionTitleFontSizePx)) ||
     !!wordColor(design.sectionTitleColor) ||
     design.sectionTitleBold !== undefined ||
     design.sectionTitleItalic !== undefined ||
@@ -69,7 +70,9 @@ function headingTextSet(data: CvData) {
 }
 
 function paragraphTextXml(paragraph: string) {
-  return Array.from(paragraph.matchAll(/<w:t\b[^>]*>([\s\S]*?)<\/w:t>/g), (match) => match[1]).join("");
+  return Array.from(paragraph.matchAll(/<w:t\b[^>]*>([\s\S]*?)<\/w:t>/g), (match) => match[1]).join(
+    "",
+  );
 }
 
 function ensureRunProperties(run: string, mutate: (properties: string) => string) {
@@ -94,11 +97,7 @@ function replaceOrAppendTag(properties: string, pattern: RegExp, tag: string) {
   return pattern.test(properties) ? properties.replace(pattern, tag) : `${properties}${tag}`;
 }
 
-function setBooleanRunProperty(
-  properties: string,
-  tag: "b" | "bCs" | "i" | "iCs",
-  value: boolean,
-) {
+function setBooleanRunProperty(properties: string, tag: "b" | "bCs" | "i" | "iCs", value: boolean) {
   const pattern = new RegExp(`<w:${tag}(?:\\s[^>]*)?\\/>`, "g");
   const cleaned = properties.replace(pattern, "");
   return `${cleaned}<w:${tag}${value ? "" : ' w:val="0"'}/>`;
@@ -108,15 +107,30 @@ function patchRun(run: string, design: CvDesign) {
   return ensureRunProperties(run, (initial) => {
     let properties = initial;
 
-    if (typeof design.sectionTitleFontSizePx === "number" && Number.isFinite(design.sectionTitleFontSizePx)) {
+    if (
+      typeof design.sectionTitleFontSizePx === "number" &&
+      Number.isFinite(design.sectionTitleFontSizePx)
+    ) {
       const halfPoints = Math.max(1, Math.round(design.sectionTitleFontSizePx * PX_TO_HALF_POINTS));
-      properties = replaceOrAppendTag(properties, /<w:sz\b[^>]*\/>/g, `<w:sz w:val="${halfPoints}"/>`);
-      properties = replaceOrAppendTag(properties, /<w:szCs\b[^>]*\/>/g, `<w:szCs w:val="${halfPoints}"/>`);
+      properties = replaceOrAppendTag(
+        properties,
+        /<w:sz\b[^>]*\/>/g,
+        `<w:sz w:val="${halfPoints}"/>`,
+      );
+      properties = replaceOrAppendTag(
+        properties,
+        /<w:szCs\b[^>]*\/>/g,
+        `<w:szCs w:val="${halfPoints}"/>`,
+      );
     }
 
     const color = wordColor(design.sectionTitleColor);
     if (color) {
-      properties = replaceOrAppendTag(properties, /<w:color\b[^>]*\/>/g, `<w:color w:val="${color}"/>`);
+      properties = replaceOrAppendTag(
+        properties,
+        /<w:color\b[^>]*\/>/g,
+        `<w:color w:val="${color}"/>`,
+      );
     }
 
     if (design.sectionTitleBold !== undefined) {
@@ -131,9 +145,7 @@ function patchRun(run: string, design: CvDesign) {
 
     if (design.sectionTitleUnderline !== undefined) {
       properties = properties.replace(/<w:u\b[^>]*\/>/g, "");
-      properties += design.sectionTitleUnderline
-        ? '<w:u w:val="single"/>'
-        : '<w:u w:val="none"/>';
+      properties += design.sectionTitleUnderline ? '<w:u w:val="single"/>' : '<w:u w:val="none"/>';
     }
 
     return properties;
@@ -205,7 +217,9 @@ function patchHeadingTable(table: string, design: CvDesign, headings: Set<string
   let next = table.replace(/<w:p(?:\s[^>]*)?>[\s\S]*?<\/w:p>/g, (paragraph) => {
     let patched = paragraph;
     if (headings.has(paragraphTextXml(paragraph))) {
-      patched = patched.replace(/<w:r(?:\s[^>]*)?>[\s\S]*?<\/w:r>/g, (run) => patchRun(run, design));
+      patched = patched.replace(/<w:r(?:\s[^>]*)?>[\s\S]*?<\/w:r>/g, (run) =>
+        patchRun(run, design),
+      );
     }
     if (
       typeof design.sectionTitleMarginBottomPx === "number" &&
@@ -279,7 +293,9 @@ export function applyCvSectionTitleStyleToDocumentXml(
   });
 
   body = body.replace(/<w:p(?:\s[^>]*)?>[\s\S]*?<\/w:p>/g, (paragraph) =>
-    headings.has(paragraphTextXml(paragraph)) ? patchHeadingParagraph(paragraph, cv.design) : paragraph,
+    headings.has(paragraphTextXml(paragraph))
+      ? patchHeadingParagraph(paragraph, cv.design)
+      : paragraph,
   );
 
   body = body.replace(/__CV_SECTION_TITLE_TABLE_(\d+)__/g, (_token, rawIndex) => {

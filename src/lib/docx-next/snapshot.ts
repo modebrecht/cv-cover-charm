@@ -85,7 +85,8 @@ export function captureDossierDocxNextSnapshot(
       },
       cvLayout: cvWordLayout(layoutChoice),
       ...(cvWordLayout(layoutChoice) === "sidebar"
-        ? { cvDocumentTitleMarginTopPx: getCvDocumentTitleMarginTopPx() } : {}),
+        ? { cvDocumentTitleMarginTopPx: getCvDocumentTitleMarginTopPx() }
+        : {}),
       sidebarSide: getCvInfoPosition() === "mirrored" ? "right" : "left",
       placements: getCvPlacements(),
       cvAlignment: getCvTextAlignment(),

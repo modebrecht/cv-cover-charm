@@ -98,11 +98,13 @@ function liveJob(pathname: string): string {
     if (typeof document === "undefined") return "";
     const module = studentModuleFromPath(pathname);
     if (module === "Titelblatt") {
-      return document.querySelector<HTMLInputElement>('input[list="lehrberufe"]')?.value.trim() ?? "";
+      return (
+        document.querySelector<HTMLInputElement>('input[list="lehrberufe"]')?.value.trim() ?? ""
+      );
     }
     if (module === "Motivationsschreiben") {
-      const subject = Array.from(document.querySelectorAll<HTMLInputElement>("input")).find((input) =>
-        input.placeholder?.toLowerCase().startsWith("bewerbung um eine lehrstelle als"),
+      const subject = Array.from(document.querySelectorAll<HTMLInputElement>("input")).find(
+        (input) => input.placeholder?.toLowerCase().startsWith("bewerbung um eine lehrstelle als"),
       )?.value;
       return extractLehrberuf(subject ?? "");
     }
@@ -121,9 +123,7 @@ function requestedPersonPart(fileName: string): string {
     "Motivationsschreiben",
     "Lebenslauf",
   ];
-  const prefix = prefixes.find((candidate) =>
-    new RegExp(`^${candidate}(?:-|$)`, "i").test(base),
-  );
+  const prefix = prefixes.find((candidate) => new RegExp(`^${candidate}(?:-|$)`, "i").test(base));
   if (!prefix) return "";
   const suffix = base.slice(prefix.length).replace(/^-+/, "").trim();
   if (!suffix || /^(?:Bewerbung|Dossier|Bewerbungsdossier)$/i.test(suffix)) return "";
@@ -162,7 +162,10 @@ export function resolveStudentDownloadFileName(
   }
 
   if (!prefix) return requestedName;
-  return [prefix, identity.personName?.trim(), identity.job?.trim()].filter(Boolean).join("-") + `.${extension}`;
+  return (
+    [prefix, identity.personName?.trim(), identity.job?.trim()].filter(Boolean).join("-") +
+    `.${extension}`
+  );
 }
 
 function runtimeDownloadFileName(fileName: string): string {

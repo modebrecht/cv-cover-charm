@@ -29,11 +29,11 @@ describe("templateFIX Studio 2 / Studio 3 interiors", () => {
   test("Studio 2 letter and CV use one two-tone contact masthead", () => {
     expect(css).toContain('[data-letter-fresh-template="studio2"] [data-letter-motif="rail"]');
     expect(css).toContain('[data-letter-fresh-template="studio2"] [data-letter-motif="signal"]');
-    expect(css).toContain('width: 58mm !important;');
+    expect(css).toContain("width: 58mm !important;");
     expect(css).not.toContain('[data-letter-motif="rail-rule"]');
     expect(chromePolicy).toContain('[data-letter-motif="rail-rule"]');
     expect(css).toContain('[data-cv-template="studio2"]');
-    expect(css).toContain('height: 22mm !important;');
+    expect(css).toContain("height: 22mm !important;");
   });
 
   test("Studio 3 letter and CV use the deep-green/mint masthead", () => {
@@ -42,7 +42,7 @@ describe("templateFIX Studio 2 / Studio 3 interiors", () => {
     expect(css).not.toContain('[data-letter-motif="top-rule"]');
     expect(chromePolicy).toContain('[data-letter-motif="top-rule"]');
     expect(css).toContain('[data-cv-template="studio3"]');
-    expect(css).toContain('height: 22mm !important;');
+    expect(css).toContain("height: 22mm !important;");
   });
 
   test("both CV interiors remove decorative heading strokes", () => {

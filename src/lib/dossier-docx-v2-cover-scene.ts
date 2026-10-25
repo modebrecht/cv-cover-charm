@@ -112,11 +112,7 @@ function resolveCoverColorToken(
   return dossierDocxV2ResolveColor(value, cover.colors);
 }
 
-function lineRuns(
-  line: Line,
-  block: Block,
-  cover: CoverPdfDocument,
-): DossierDocxV2TextRun[] {
+function lineRuns(line: Line, block: Block, cover: CoverPdfDocument): DossierDocxV2TextRun[] {
   if (typeof line === "string") {
     return [
       {

@@ -104,22 +104,24 @@ export async function captureInteriorTextMetrics(
             <div
               data-dossier-document={scope}
               data-cv-template="modern"
-              style={{
-                "--dossier-font":
-                  scope === "cv"
-                    ? FONT_STACKS.sans
-                    : effectiveDossierFont(
-                        source.letter.design.template,
-                        source.letter.design.fontOverride,
-                      ),
-                fontFamily:
-                  scope === "cv"
-                    ? FONT_STACKS.sans
-                    : effectiveDossierFont(
-                        source.letter.design.template,
-                        source.letter.design.fontOverride,
-                      ),
-              } as React.CSSProperties}
+              style={
+                {
+                  "--dossier-font":
+                    scope === "cv"
+                      ? FONT_STACKS.sans
+                      : effectiveDossierFont(
+                          source.letter.design.template,
+                          source.letter.design.fontOverride,
+                        ),
+                  fontFamily:
+                    scope === "cv"
+                      ? FONT_STACKS.sans
+                      : effectiveDossierFont(
+                          source.letter.design.template,
+                          source.letter.design.fontOverride,
+                        ),
+                } as React.CSSProperties
+              }
             >
               <div
                 data-cv-page={pageIndex}

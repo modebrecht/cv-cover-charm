@@ -10,20 +10,11 @@ describe("CV PDF selection geometry", () => {
     const mmY = 297 / 1122;
     const ascentRatio = 0.93;
 
-    const geometry = resolveCvPdfSelectionGeometry(
-      topMm,
-      rectHeightPx,
-      mmY,
-      10.5,
-      ascentRatio,
-    );
+    const geometry = resolveCvPdfSelectionGeometry(topMm, rectHeightPx, mmY, 10.5, ascentRatio);
     const expectedHeightMm = rectHeightPx * mmY;
 
     expect(geometry.fontSizePt * MM_PER_PT).toBeCloseTo(expectedHeightMm, 8);
-    expect(geometry.baselineMm).toBeCloseTo(
-      topMm + expectedHeightMm * ascentRatio,
-      8,
-    );
+    expect(geometry.baselineMm).toBeCloseTo(topMm + expectedHeightMm * ascentRatio, 8);
   });
 
   test("keeps a safe fallback when a DOM rectangle cannot be measured", () => {

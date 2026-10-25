@@ -28,17 +28,13 @@ for (const side of ["left", "right"] as const) {
     expect(g.mainText.widthMm).toBe(119);
   });
   test(`native rail, fixed grid and picture ownership use authored geometry: ${side}`, async () => {
-    const input = sidebarFixture(
-      side === "left" ? "photo-free-side" : "photo-free-mirrored-side",
-    );
+    const input = sidebarFixture(side === "left" ? "photo-free-side" : "photo-free-mirrored-side");
     const source = structuredClone(input);
     const model = buildDossierDocModel(input, {
       cvSidebarComposition: "shared-body-stories",
     });
     expect(input).toEqual(source);
-    const surface = model.cv.artwork.find(
-      (a) => a.id === "cv.artwork.sidebar-surface",
-    )!;
+    const surface = model.cv.artwork.find((a) => a.id === "cv.artwork.sidebar-surface")!;
     expect(surface.widthMm).toBe(63);
     expect(surface.xMm).toBe(side === "left" ? 0 : 147);
     expect(surface.heightMm).toBe(297);
@@ -49,9 +45,7 @@ for (const side of ["left", "right"] as const) {
     const paint = table.rows[0].cellDecorations![side === "left" ? 0 : 2]!;
     expect(paint.paddingLeftMm).toBe(8);
     expect(paint.paddingRightMm).toBe(7.5);
-    const photo = walkBlocks(model.cv.blocks).find(
-      (b) => b.id === "cv.person.photo",
-    )!;
+    const photo = walkBlocks(model.cv.blocks).find((b) => b.id === "cv.person.photo")!;
     expect(photo.kind).toBe("image");
     if (photo.kind !== "image") throw Error("Missing picture");
     expect(photo.nativeOwner).toBe("page-frame");
@@ -62,9 +56,7 @@ for (const side of ["left", "right"] as const) {
     expect(photo.frame?.zoom).toBe(1.25);
     expect(model.cv.blocks).toContain(photo);
     expect(
-      walkBlocks(table.rows.flatMap((row) => row.cells.flat())).some(
-        (b) => b.id === photo.id,
-      ),
+      walkBlocks(table.rows.flatMap((row) => row.cells.flat())).some((b) => b.id === photo.id),
     ).toBe(false);
     await expect(renderDossierDocx(model)).rejects.toThrow(/unaccepted/);
     const blob = await renderDossierDocx(model, {
@@ -91,9 +83,7 @@ for (const side of ["left", "right"] as const) {
     expect(xml).toContain(
       `<wp:positionH relativeFrom="page"><wp:posOffset>${(photo.xMm - 0.4) * 36000}</wp:posOffset>`,
     );
-    expect(xml).toContain(
-      '<wp:positionV relativeFrom="page"><wp:posOffset>705600</wp:posOffset>',
-    );
+    expect(xml).toContain('<wp:positionV relativeFrom="page"><wp:posOffset>705600</wp:posOffset>');
     expect(xml.match(/<w:tag w:val="cv.person.photo"\/>/g)).toHaveLength(1);
     expect(xml).toContain("<w:picture/>");
   });
@@ -106,10 +96,9 @@ test("shared grid preserves authored margins and the full Web sidebar width rang
     const model = buildDossierDocModel(input, {
       cvSidebarComposition: "shared-body-stories",
     });
-    expect(
-      model.cv.artwork.find((a) => a.id === "cv.artwork.sidebar-surface")!
-        .widthMm,
-    ).toBe(Math.round(210 * pct));
+    expect(model.cv.artwork.find((a) => a.id === "cv.artwork.sidebar-surface")!.widthMm).toBe(
+      Math.round(210 * pct),
+    );
   }
   for (const side of ["left", "right"] as const) {
     const g = cvSidebarGeometry(
@@ -165,21 +154,14 @@ test("page picture carriers never admit ordinary text ahead of the section-start
   const model = buildDossierDocModel(sidebarFixture("photo-free-side"), {
     cvSidebarComposition: "shared-body-stories",
   });
-  const paragraph = walkBlocks(model.cv.blocks).find(
-    (b) => b.kind === "paragraph",
-  );
-  if (!paragraph || paragraph.kind !== "paragraph")
-    throw Error("Missing source paragraph");
+  const paragraph = walkBlocks(model.cv.blocks).find((b) => b.kind === "paragraph");
+  if (!paragraph || paragraph.kind !== "paragraph") throw Error("Missing source paragraph");
   model.cv.blocks.unshift({
     ...paragraph,
     id: "cv.unexpected-opening",
-    runs: [
-      { text: "Zusätzlicher Flusstext", style: { ...paragraph.runs[0].style } },
-    ],
+    runs: [{ text: "Zusätzlicher Flusstext", style: { ...paragraph.runs[0].style } }],
   });
-  expect(() => validateDossierDocModel(model)).toThrow(
-    /section-start table must open/,
-  );
+  expect(() => validateDossierDocModel(model)).toThrow(/section-start table must open/);
 });
 
 test("automatic rail photos use Web compact sizing while free-photo width stays authored", () => {
@@ -187,9 +169,7 @@ test("automatic rail photos use Web compact sizing while free-photo width stays 
   const model = buildDossierDocModel(input, {
     cvSidebarComposition: "shared-body-stories",
   });
-  const photo = walkBlocks(model.cv.blocks).find(
-    (b) => b.id === "cv.person.photo",
-  );
+  const photo = walkBlocks(model.cv.blocks).find((b) => b.id === "cv.person.photo");
   expect(photo?.kind === "image" && photo.widthMm).toBe(28);
   expect(input.settings.cvPhotoPlacement!.widthMm).toBe(34);
 });

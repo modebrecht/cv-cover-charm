@@ -64,8 +64,9 @@ describe("native picture geometry", () => {
     );
     expect(custom.shape).toBe("roundRect");
     expect(custom.cornerAdjustment).toBe(10000);
-    expect(pictureGeometry({ ...image, frame: square }, { widthPx: 120, heightPx: 120 }, 100)
-      .shape).toBe("ellipse");
+    expect(
+      pictureGeometry({ ...image, frame: square }, { widthPx: 120, heightPx: 120 }, 100).shape,
+    ).toBe("ellipse");
   });
 
   test("zoom/pan match the editor's centered object-fit crop at each extreme", () => {

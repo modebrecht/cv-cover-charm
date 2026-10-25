@@ -132,7 +132,10 @@ describe("dossier field typography", () => {
 
     const first = result.indexOf("Hubersdorf");
     const second = result.indexOf("Hubersdorf", first + 1);
-    const firstParagraph = result.slice(result.lastIndexOf("<w:p>", first), result.indexOf("</w:p>", first));
+    const firstParagraph = result.slice(
+      result.lastIndexOf("<w:p>", first),
+      result.indexOf("</w:p>", first),
+    );
     const secondParagraph = result.slice(
       result.lastIndexOf("<w:p>", second),
       result.indexOf("</w:p>", second),

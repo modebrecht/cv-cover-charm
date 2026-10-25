@@ -1,10 +1,5 @@
 import type { CvSidebarGeometry } from "@/components/cv/sidebar-geometry";
-import type {
-  CellDecoration,
-  DocBlock,
-  DocumentPart,
-  TableBlock,
-} from "./model";
+import type { CellDecoration, DocBlock, DocumentPart, TableBlock } from "./model";
 import { walkBlocks } from "./model";
 import { imageZoneExtent } from "./image-zone";
 import { compositeTextColor } from "./colors";
@@ -19,8 +14,7 @@ export function composeSharedCvSidebar(
   opacity: number,
   automaticSidePhotoWidthMm?: number,
 ): void {
-  if (part.layout.mode !== "sidebar")
-    throw Error("DOCX Next shared grid requires Sidebar");
+  if (part.layout.mode !== "sidebar") throw Error("DOCX Next shared grid requires Sidebar");
   const { rail, mainText, sideText } = first;
   const sideRight = first.side === "right";
   if (
@@ -39,14 +33,9 @@ export function composeSharedCvSidebar(
     ? rail.leftMm - mainText.leftMm - mainText.widthMm
     : mainText.leftMm - rail.leftMm - rail.widthMm;
   if (
-    ![
-      rail.leftMm,
-      rail.widthMm,
-      sideText.widthMm,
-      mainText.leftMm,
-      mainText.widthMm,
-      gapMm,
-    ].every(Number.isFinite) ||
+    ![rail.leftMm, rail.widthMm, sideText.widthMm, mainText.leftMm, mainText.widthMm, gapMm].every(
+      Number.isFinite,
+    ) ||
     rail.leftMm < 0 ||
     mainText.leftMm < 0 ||
     gapMm <= 0 ||
@@ -64,20 +53,16 @@ export function composeSharedCvSidebar(
   for (const block of part.blocks) {
     if (block.id === "cv.firstPageLead") continue;
     if (block.kind === "decorative-shape") outside.push(block);
-    else if (block.kind === "section")
-      (block.placement === "side" ? side : main).push(block);
+    else if (block.kind === "section") (block.placement === "side" ? side : main).push(block);
     else if (block.kind === "image") {
       if (block.placement === "free") {
         const { borderOutsetMm, heightMm } = imageZoneExtent(block);
-        const xMm = sideRight
-          ? part.page.widthMm - block.xMm - block.widthMm
-          : block.xMm;
+        const xMm = sideRight ? part.page.widthMm - block.xMm - block.widthMm : block.xMm;
         // A free photo belongs to the complete rail or main area, not its text padding.
         const owner = [rail, mainText].find(
           (area) =>
             xMm - borderOutsetMm >= area.leftMm - 0.001 &&
-            xMm + block.widthMm + borderOutsetMm <=
-              area.leftMm + area.widthMm + 0.001,
+            xMm + block.widthMm + borderOutsetMm <= area.leftMm + area.widthMm + 0.001,
         );
         if (
           !owner ||
@@ -85,9 +70,7 @@ export function composeSharedCvSidebar(
           block.yMm - borderOutsetMm < 0 ||
           block.yMm + heightMm + borderOutsetMm > part.page.heightMm
         )
-          throw Error(
-            `DOCX Next free photo must fit one shared Sidebar area ${block.id}`,
-          );
+          throw Error(`DOCX Next free photo must fit one shared Sidebar area ${block.id}`);
         // A page-owned drawing needs a body paragraph outside the continuous
         // table; page coordinates must not depend on a cell's imported origin.
         pagePictures.push({
@@ -111,9 +94,7 @@ export function composeSharedCvSidebar(
           widthMm + 2 * (block.frame?.borderWidthMm ?? 0) >
           (target === side ? sideText.widthMm : mainText.widthMm)
         )
-          throw Error(
-            `DOCX Next sidebar photo exceeds shared text area ${block.id}`,
-          );
+          throw Error(`DOCX Next sidebar photo exceeds shared text area ${block.id}`);
         target.unshift({
           ...block,
           widthMm,
@@ -133,15 +114,10 @@ export function composeSharedCvSidebar(
       block.kind === "parallel-flow" ||
       block.kind === "page-break" ||
       block.kind === "decorative-shape" ||
-      ((block.kind === "section" || block.kind === "group") &&
-        block.startPage === 2) ||
-      (block.kind === "image" &&
-        block.placement !== "inline" &&
-        block.nativeOwner !== "page-frame")
+      ((block.kind === "section" || block.kind === "group") && block.startPage === 2) ||
+      (block.kind === "image" && block.placement !== "inline" && block.nativeOwner !== "page-frame")
     )
-      throw Error(
-        `DOCX Next unsupported shared Sidebar content ${block.id} (${block.kind})`,
-      );
+      throw Error(`DOCX Next unsupported shared Sidebar content ${block.id} (${block.kind})`);
     if (block.kind === "entry") block.keepTogether = false;
   }
 
@@ -170,9 +146,7 @@ export function composeSharedCvSidebar(
   const sideLeadMm = first.sideText.topMm - continuation.sideText.topMm;
   const mainLeadMm = first.mainText.topMm - continuation.mainText.topMm;
   if (Math.min(sideLeadMm, mainLeadMm) < 0)
-    throw Error(
-      "DOCX Next shared Sidebar needs a smaller first-page inset than continuation",
-    );
+    throw Error("DOCX Next shared Sidebar needs a smaller first-page inset than continuation");
   // Word processors can apply the largest vertical cell margin to the whole
   // row. Give each independent story its own one-cell inset owner, so a rail
   // inset cannot move or shorten the adjacent main story.
@@ -236,15 +210,11 @@ export function composeSharedCvSidebar(
     columnWidthsMm: widths,
     columnRounding: "cumulative",
     bodyBoundary: "section-start",
-    bodyBoundaryLeadByCellMm: sideRight
-      ? [mainLeadMm, 0, sideLeadMm]
-      : [sideLeadMm, 0, mainLeadMm],
+    bodyBoundaryLeadByCellMm: sideRight ? [mainLeadMm, 0, sideLeadMm] : [sideLeadMm, 0, mainLeadMm],
     rows: [
       {
         keepTogether: false,
-        cells: sideRight
-          ? [mainStory, [], sideStory]
-          : [sideStory, [], mainStory],
+        cells: sideRight ? [mainStory, [], sideStory] : [sideStory, [], mainStory],
         cellDecorations: sideRight
           ? [mainPaint, { paddingXMm: 0, paddingYMm: 0 }, sidePaint]
           : [sidePaint, { paddingXMm: 0, paddingYMm: 0 }, mainPaint],

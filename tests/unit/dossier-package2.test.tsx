@@ -134,15 +134,11 @@ describe("Package 2 continuation header model", () => {
       { key: "phone" as const, value: "079 123" },
       { key: "email" as const, value: "lea@example.ch" },
     ];
-    expect(dossierDocxInlineHeaderText(rows, "dot")).toBe(
-      "Lea Müller · 079 123 · lea@example.ch",
-    );
+    expect(dossierDocxInlineHeaderText(rows, "dot")).toBe("Lea Müller · 079 123 · lea@example.ch");
     expect(dossierDocxInlineHeaderText(rows, "slash")).toBe(
       "Lea Müller / 079 123 / lea@example.ch",
     );
-    expect(dossierDocxInlineHeaderText(rows, "pipe")).toBe(
-      "Lea Müller | 079 123 | lea@example.ch",
-    );
+    expect(dossierDocxInlineHeaderText(rows, "pipe")).toBe("Lea Müller | 079 123 | lea@example.ch");
     expect(dossierDocxInlineHeaderText(rows, "space")).toBe(
       "Lea Müller     079 123     lea@example.ch",
     );

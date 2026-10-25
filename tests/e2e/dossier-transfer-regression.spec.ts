@@ -313,8 +313,8 @@ test.describe("M7 dossier transfer regression", () => {
     await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
     await expect
       .poll(() =>
-        page.evaluate(() =>
-          JSON.parse(localStorage.getItem("lebenslauf:v1") ?? "null")?.data?.person?.vorname,
+        page.evaluate(
+          () => JSON.parse(localStorage.getItem("lebenslauf:v1") ?? "null")?.data?.person?.vorname,
         ),
       )
       .toBe("Mia");

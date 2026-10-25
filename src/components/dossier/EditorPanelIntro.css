@@ -84,11 +84,7 @@
  * between every accordion.
  */
 [data-editor-panel] > aside > div:last-child > .h-px.bg-border,
-[data-editor-panel]
-  > aside
-  > div:last-child
-  > div:has(> [data-editor-section])
-  > .h-px.bg-border {
+[data-editor-panel] > aside > div:last-child > div:has(> [data-editor-section]) > .h-px.bg-border {
   display: none;
 }
 
@@ -213,15 +209,11 @@
     transform 160ms ease;
 }
 
-[data-editor-panel]
-  [data-editor-section-body]
-  button.rounded-md:not([data-editor-section-toggle]) {
+[data-editor-panel] [data-editor-section-body] button.rounded-md:not([data-editor-section-toggle]) {
   min-height: 2rem;
 }
 
-[data-editor-panel]
-  [data-editor-section-body]
-  button:not([data-editor-section-toggle]):hover {
+[data-editor-panel] [data-editor-section-body] button:not([data-editor-section-toggle]):hover {
   box-shadow: 0 2px 8px rgb(15 23 42 / 0.07);
 }
 

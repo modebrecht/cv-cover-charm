@@ -1,8 +1,5 @@
 import { FONT_LABELS, type FontKey } from "@/components/cover/types";
-import {
-  LETTER_FONT_SIZE_MAX,
-  LETTER_FONT_SIZE_MIN,
-} from "@/components/letter/types";
+import { LETTER_FONT_SIZE_MAX, LETTER_FONT_SIZE_MIN } from "@/components/letter/types";
 
 export function LetterFontSizeControl({
   label,
@@ -42,7 +39,8 @@ export function LetterFontSizeControl({
         <div className="min-w-0">
           <div className="text-xs font-medium">{label}</div>
           <div className="text-[10px] leading-snug text-muted-foreground">
-            {hint ?? (font === undefined && value === undefined ? "Wie Vorlage" : "Eigene Typografie")}
+            {hint ??
+              (font === undefined && value === undefined ? "Wie Vorlage" : "Eigene Typografie")}
           </div>
         </div>
         <span className="shrink-0 text-xs font-medium tabular-nums">

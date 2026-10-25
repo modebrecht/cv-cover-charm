@@ -940,7 +940,8 @@ function Titelblatt() {
     } catch (error) {
       setStatus({
         kind: "error",
-        text: error instanceof Error ? error.message : "DOCX-Testexport konnte nicht erstellt werden.",
+        text:
+          error instanceof Error ? error.message : "DOCX-Testexport konnte nicht erstellt werden.",
       });
     } finally {
       setDownloading(false);

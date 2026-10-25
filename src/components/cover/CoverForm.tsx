@@ -75,12 +75,8 @@ export function FormBewerbung({ data, onChange }: Props) {
       ...(personal.foto ? { foto: personal.foto } : {}),
       ...(application.beruf?.trim() ? { beruf: application.beruf } : {}),
       ...(application.lehrbetrieb?.trim() ? { lehrbetrieb: application.lehrbetrieb } : {}),
-      ...(application.ansprechperson?.trim()
-        ? { ansprechperson: application.ansprechperson }
-        : {}),
-      ...(application.betriebAdresse?.trim()
-        ? { betriebAdresse: application.betriebAdresse }
-        : {}),
+      ...(application.ansprechperson?.trim() ? { ansprechperson: application.ansprechperson } : {}),
+      ...(application.betriebAdresse?.trim() ? { betriebAdresse: application.betriebAdresse } : {}),
       ...(application.ort?.trim() ? { ort: application.ort } : {}),
       ...(application.datum?.trim() ? { datum: application.datum } : {}),
       ...(application.showBetriebOnCover === true ? { showBetriebOnCover: true } : {}),
@@ -120,9 +116,7 @@ export function FormBewerbung({ data, onChange }: Props) {
           </button>
         </div>
         <div className="mt-1.5 space-y-0.5 text-[11px] text-muted-foreground">
-          <div>
-            Persönliche Angaben: {dossierSource?.personalSource ?? "noch nicht verfügbar"}
-          </div>
+          <div>Persönliche Angaben: {dossierSource?.personalSource ?? "noch nicht verfügbar"}</div>
           <div>
             Betrieb und Bewerbung: {dossierSource?.applicationSource ?? "noch nicht verfügbar"}
           </div>

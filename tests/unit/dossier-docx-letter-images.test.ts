@@ -137,6 +137,6 @@ describe("DOCX letter image parity", () => {
     );
     expect(document).toContain('<wp:positionH relativeFrom="column">');
     expect(document).toContain('<wp:wrapSquare wrapText="left"/>');
-    expect(document).not.toContain('<wp:wrapNone/>');
+    expect(document).not.toContain("<wp:wrapNone/>");
   });
 });

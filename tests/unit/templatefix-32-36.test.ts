@@ -28,14 +28,37 @@ describe("templateFIX 32–36 dossier rebuild", () => {
   it("uses harmonized default palettes instead of unrelated third hues", () => {
     const palette = Object.fromEntries(
       FRESH_TEMPLATE_REGISTRY.filter(({ id }) => IDS.includes(id as (typeof IDS)[number])).map(
-        ({ id, slots }) => [id, Object.fromEntries(slots.map(({ key, default: value }) => [key, value]))],
+        ({ id, slots }) => [
+          id,
+          Object.fromEntries(slots.map(({ key, default: value }) => [key, value])),
+        ],
       ),
     );
 
-    expect(palette.prism).toMatchObject({ primary: "#172554", secondary: "#2f66e6", accent: "#6f95f2" });
-    expect(palette.gallery).toMatchObject({ primary: "#4b2f40", secondary: "#d6b7a4", accent: "#a97d6d" });
-    expect(palette.orbit).toMatchObject({ primary: "#24204f", secondary: "#625fe8", accent: "#8d8af0" });
-    expect(palette.ribbon).toMatchObject({ primary: "#174d3f", secondary: "#d5a13d", accent: "#a57a2d" });
-    expect(palette.cove).toMatchObject({ primary: "#5a244f", secondary: "#e36d5a", accent: "#b84959" });
+    expect(palette.prism).toMatchObject({
+      primary: "#172554",
+      secondary: "#2f66e6",
+      accent: "#6f95f2",
+    });
+    expect(palette.gallery).toMatchObject({
+      primary: "#4b2f40",
+      secondary: "#d6b7a4",
+      accent: "#a97d6d",
+    });
+    expect(palette.orbit).toMatchObject({
+      primary: "#24204f",
+      secondary: "#625fe8",
+      accent: "#8d8af0",
+    });
+    expect(palette.ribbon).toMatchObject({
+      primary: "#174d3f",
+      secondary: "#d5a13d",
+      accent: "#a57a2d",
+    });
+    expect(palette.cove).toMatchObject({
+      primary: "#5a244f",
+      secondary: "#e36d5a",
+      accent: "#b84959",
+    });
   });
 });

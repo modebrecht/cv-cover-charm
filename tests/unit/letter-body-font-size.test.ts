@@ -12,10 +12,7 @@ const control = readFileSync(
   new URL("../../src/components/letter/LetterFontSizeControl.tsx", import.meta.url),
   "utf8",
 );
-const route = readFileSync(
-  new URL("../../src/routes/anschreiben.tsx", import.meta.url),
-  "utf8",
-);
+const route = readFileSync(new URL("../../src/routes/anschreiben.tsx", import.meta.url), "utf8");
 const canvas = readFileSync(
   new URL("../../src/components/letter/LetterCanvas.tsx", import.meta.url),
   "utf8",
@@ -32,10 +29,18 @@ describe("letter body font size", () => {
     expect(LETTER_BODY_FONT_SIZE_MIN).toBe(5);
     expect(LETTER_BODY_FONT_SIZE_MAX).toBe(30);
 
-    expect(normalizeLetterDesign({ ...emptyLetterDesign(), bodyFontSizePt: 4 }).bodyFontSizePt).toBe(5);
-    expect(normalizeLetterDesign({ ...emptyLetterDesign(), bodyFontSizePt: 31 }).bodyFontSizePt).toBe(30);
-    expect(normalizeLetterDesign({ ...emptyLetterDesign(), bodyFontSizePt: 11.24 }).bodyFontSizePt).toBe(11);
-    expect(normalizeLetterDesign({ ...emptyLetterDesign(), bodyFontSizePt: 11.26 }).bodyFontSizePt).toBe(11.5);
+    expect(
+      normalizeLetterDesign({ ...emptyLetterDesign(), bodyFontSizePt: 4 }).bodyFontSizePt,
+    ).toBe(5);
+    expect(
+      normalizeLetterDesign({ ...emptyLetterDesign(), bodyFontSizePt: 31 }).bodyFontSizePt,
+    ).toBe(30);
+    expect(
+      normalizeLetterDesign({ ...emptyLetterDesign(), bodyFontSizePt: 11.24 }).bodyFontSizePt,
+    ).toBe(11);
+    expect(
+      normalizeLetterDesign({ ...emptyLetterDesign(), bodyFontSizePt: 11.26 }).bodyFontSizePt,
+    ).toBe(11.5);
   });
 
   test("offers the shared 5–30 pt control with half-point steps", () => {

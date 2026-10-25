@@ -154,7 +154,9 @@ test.describe("M7 dossier state isolation", () => {
     expect(siblingsAfter).toEqual(siblingsBefore);
   });
 
-  test("switching letter template changes design only and preserves user data", async ({ page }) => {
+  test("switching letter template changes design only and preserves user data", async ({
+    page,
+  }) => {
     await seedDossier(page);
     await openLetter(page);
 

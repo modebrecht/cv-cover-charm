@@ -17,15 +17,15 @@ function colorChannels(value: string, fallback: string) {
 }
 
 function weightedColor(parts: Array<[string, number]>) {
-  const channels = parts.map(([color, weight]) => [colorChannels(color, "#000000"), weight] as const);
+  const channels = parts.map(
+    ([color, weight]) => [colorChannels(color, "#000000"), weight] as const,
+  );
   const rgb = [0, 1, 2].map((channel) =>
     Math.max(
       0,
       Math.min(
         255,
-        Math.round(
-          channels.reduce((sum, [values, weight]) => sum + values[channel] * weight, 0),
-        ),
+        Math.round(channels.reduce((sum, [values, weight]) => sum + values[channel] * weight, 0)),
       ),
     ),
   );
@@ -117,12 +117,14 @@ function softenCvSecondaryText(source: string, documents: DossierDocxDocuments) 
     documents.cv.design.colors?.primary ?? documents.cover.colors?.primary,
     "#202a3b",
   );
-  const paper = hex(
-    documents.cv.design.colors?.bg ?? documents.cover.colors?.bg,
-    "#fbfbf8",
-  );
+  const paper = hex(documents.cv.design.colors?.bg ?? documents.cover.colors?.bg, "#fbfbf8");
   const primaryWord = wordColor(primary);
-  const mutedWord = wordColor(weightedColor([[primary, 0.7], [paper, 0.3]]));
+  const mutedWord = wordColor(
+    weightedColor([
+      [primary, 0.7],
+      [paper, 0.3],
+    ]),
+  );
   const primaryPattern = new RegExp(`<w:color w:val="${regexEscape(primaryWord)}"\\/>`, "g");
 
   return transformSection(source, 2, (segment) =>
@@ -137,8 +139,7 @@ export async function createDossierDocxBlob(documents: DossierDocxDocuments) {
   const base = await createStudio2DossierDocxBlob(documents);
   return transformStoredDocxDocumentXml(
     base,
-    (xml) =>
-      softenCvSecondaryText(polishContactBoxes(roundCoverSignal(xml, documents)), documents),
+    (xml) => softenCvSecondaryText(polishContactBoxes(roundCoverSignal(xml, documents)), documents),
     "Studio 2 DOCX refined PDF parity",
   );
 }

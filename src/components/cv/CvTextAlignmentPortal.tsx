@@ -12,14 +12,12 @@ import {
 
 const TARGET_SELECTOR = '[data-editor-section-title="Layout"] [data-editor-section-body]';
 
-export function CvTextAlignmentPortal(
-  _props: {
-    template: TemplateId;
-    sidebarPct?: number;
-    chromeOptions: DossierChromeOptions;
-    accentColor?: string;
-  },
-) {
+export function CvTextAlignmentPortal(_props: {
+  template: TemplateId;
+  sidebarPct?: number;
+  chromeOptions: DossierChromeOptions;
+  accentColor?: string;
+}) {
   const alignment = useSyncExternalStore(
     subscribeCvTextAlignment,
     getCvTextAlignment,

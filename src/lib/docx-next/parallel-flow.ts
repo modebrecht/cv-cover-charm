@@ -67,7 +67,8 @@ export function parallelFlowTable(value: ParallelFlowBlock, widthMm: number): Ta
   value.tracks.forEach((track, index) => {
     if (track.decoration) validateCellDecoration(track.decoration, value.id);
     const width = (available * track.weight) / totalWeight;
-    const textWidth = width -
+    const textWidth =
+      width -
       (track.decoration?.paddingLeftMm ?? track.decoration?.paddingXMm ?? 0) -
       (track.decoration?.paddingRightMm ?? track.decoration?.paddingXMm ?? 0);
     if (textWidth < 20)
@@ -77,8 +78,7 @@ export function parallelFlowTable(value: ParallelFlowBlock, widthMm: number): Ta
       // body regions in LibreOffice. Do not export that known counterexample.
       if (block.kind === "image" && value.spanningTracks?.some((span) => span > index))
         throw new Error(`DOCX Next picture before a spanning track is unsupported ${block.id}`);
-      if (block.kind === "image-zone")
-        imageZoneTable(block, textWidth);
+      if (block.kind === "image-zone") imageZoneTable(block, textWidth);
       if (
         value.spanningTracks?.includes(index) &&
         ((block.kind === "entry" && block.keepTogether) ||

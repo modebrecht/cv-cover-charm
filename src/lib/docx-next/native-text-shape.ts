@@ -29,9 +29,10 @@ export function nativeTextShapeRun(
   const fill = surface.fillColor
     ? `<a:solidFill><a:srgbClr val="${xml(surface.fillColor)}"/></a:solidFill>`
     : "<a:noFill/>";
-  const outline = surface.borderWidthMm && surface.borderColor
-    ? `<a:ln w="${emu(surface.borderWidthMm)}"><a:solidFill><a:srgbClr val="${xml(surface.borderColor)}"/></a:solidFill></a:ln>`
-    : "<a:ln><a:noFill/></a:ln>";
+  const outline =
+    surface.borderWidthMm && surface.borderColor
+      ? `<a:ln w="${emu(surface.borderWidthMm)}"><a:solidFill><a:srgbClr val="${xml(surface.borderColor)}"/></a:solidFill></a:ln>`
+      : "<a:ln><a:noFill/></a:ln>";
   const anchor = surface.verticalAlign === "center" ? "ctr" : "t";
   const shape = `<a:graphic><a:graphicData uri="${ns}"><wps:wsp xmlns:wps="${ns}"><wps:cNvSpPr txBox="1"/><wps:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm>${geometry}${fill}${outline}</wps:spPr><wps:txbx><w:txbxContent>${content}</w:txbxContent></wps:txbx><wps:bodyPr lIns="${emu(surface.paddingXMm)}" rIns="${emu(surface.paddingXMm)}" tIns="${emu(surface.paddingYMm)}" bIns="${emu(surface.paddingYMm)}" anchor="${anchor}" anchorCtr="0" wrap="none" vertOverflow="overflow" horzOverflow="overflow"><a:noAutofit/></wps:bodyPr></wps:wsp></a:graphicData></a:graphic>`;
   return `<w:r><w:drawing><wp:anchor distT="0" distB="0" distL="0" distR="0" simplePos="0" relativeHeight="${id}" behindDoc="0" locked="0" layoutInCell="1" allowOverlap="1"><wp:simplePos x="0" y="0"/><wp:positionH relativeFrom="page"><wp:posOffset>${emu(frame.xMm)}</wp:posOffset></wp:positionH><wp:positionV relativeFrom="page"><wp:posOffset>${emu(frame.yMm)}</wp:posOffset></wp:positionV><wp:extent cx="${cx}" cy="${cy}"/><wp:effectExtent l="0" t="0" r="0" b="0"/><wp:wrapNone/><wp:docPr id="${id}" name="${xml(frame.id)}"/><wp:cNvGraphicFramePr/>${shape}</wp:anchor></w:drawing></w:r>`;

@@ -109,10 +109,7 @@ async function seedBriefDossier(page: import("@playwright/test").Page) {
   await page.waitForLoadState("networkidle");
 }
 
-async function setWholeDossierTemplate(
-  page: import("@playwright/test").Page,
-  template: string,
-) {
+async function setWholeDossierTemplate(page: import("@playwright/test").Page, template: string) {
   await page.evaluate((nextTemplate) => {
     const cover = JSON.parse(localStorage.getItem("titelblatt:v3") ?? "null");
     const letter = JSON.parse(localStorage.getItem("anschreiben:v1") ?? "null");

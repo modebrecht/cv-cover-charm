@@ -309,7 +309,10 @@ async function expectInvisibleNativeTextLayer(path: string, pageNumber: number) 
     expect(renderingMode, `page ${pageNumber}: native letter text must stay invisible`).toBe(3);
   }
 
-  expect(nativeTextRuns, `page ${pageNumber}: searchable native letter text must exist`).toBeGreaterThan(0);
+  expect(
+    nativeTextRuns,
+    `page ${pageNumber}: searchable native letter text must exist`,
+  ).toBeGreaterThan(0);
 }
 
 test.describe("Motivation-letter PDF rich-text wrap regression", () => {

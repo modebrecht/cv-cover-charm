@@ -3,7 +3,9 @@ import { expect, test } from "@playwright/test";
 const BASE_URL = "http://127.0.0.1:4173";
 
 test.describe("motivation letter spacing inputs", () => {
-  test("defaults are compact and fields stay empty while the user replaces a value", async ({ page }) => {
+  test("defaults are compact and fields stay empty while the user replaces a value", async ({
+    page,
+  }) => {
     await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
     await page.evaluate(() => localStorage.clear());
     await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "networkidle" });

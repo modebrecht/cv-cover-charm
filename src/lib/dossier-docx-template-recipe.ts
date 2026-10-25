@@ -105,9 +105,7 @@ const frame = (
  * shared. A template only gets a recipe after visual QA shows that the broad
  * family fallback is not close enough.
  */
-export const DOSSIER_DOCX_TEMPLATE_RECIPES: Readonly<
-  Record<string, DossierDocxTemplateRecipe>
-> = {
+export const DOSSIER_DOCX_TEMPLATE_RECIPES: Readonly<Record<string, DossierDocxTemplateRecipe>> = {
   serioes: {
     templateId: "serioes",
     label: "Seriös",

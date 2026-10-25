@@ -35,9 +35,16 @@ describe("template typography contracts", () => {
     expect(effectiveDossierFont(template)).toContain(stack);
 
     const definition = fresh(id);
-    const blocks = buildBlocks(template, DEMO_DATA, [], {}, definition.slots.map((slot) => ({ ...slot })));
+    const blocks = buildBlocks(
+      template,
+      DEMO_DATA,
+      [],
+      {},
+      definition.slots.map((slot) => ({ ...slot })),
+    );
     const dossierText = blocks.filter(
-      (block) => block.kind === "text" && ["eyebrow", "beruf", "name", "kontakt"].includes(block.id),
+      (block) =>
+        block.kind === "text" && ["eyebrow", "beruf", "name", "kontakt"].includes(block.id),
     );
     expect(dossierText.length).toBeGreaterThan(0);
     expect(new Set(dossierText.map((block) => block.style.font))).toEqual(new Set([key]));

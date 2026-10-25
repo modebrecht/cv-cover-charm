@@ -58,14 +58,11 @@ describe("M7 legacy motivation-letter compatibility", () => {
     expect(restored.images).toEqual([]);
     expect(restored.showBeilagen).toBe(true);
     expect(restored.beilagen).toEqual(["Lebenslauf", "Zeugnis"]);
+    expect(normalizeLetterSpacingMm(restored.grussAbstandMm, DEFAULT_LETTER_CLOSING_GAP_MM)).toBe(
+      DEFAULT_LETTER_CLOSING_GAP_MM,
+    );
     expect(
-      normalizeLetterSpacingMm(restored.grussAbstandMm, DEFAULT_LETTER_CLOSING_GAP_MM),
-    ).toBe(DEFAULT_LETTER_CLOSING_GAP_MM);
-    expect(
-      normalizeLetterSpacingMm(
-        restored.unterschriftAbstandMm,
-        DEFAULT_LETTER_SIGNATURE_GAP_MM,
-      ),
+      normalizeLetterSpacingMm(restored.unterschriftAbstandMm, DEFAULT_LETTER_SIGNATURE_GAP_MM),
     ).toBe(DEFAULT_LETTER_SIGNATURE_GAP_MM);
   });
 

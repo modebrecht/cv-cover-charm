@@ -22,8 +22,7 @@ import type { CvSidebarTextMetrics } from "./docx-next/cv-sidebar-text-metrics";
 import type { DossierAppSnapshot } from "./docx-next/source";
 
 const mm = (px: number) => (px * 25.4) / 96;
-const number = (value: string) =>
-  Number.isFinite(parseFloat(value)) ? parseFloat(value) : 0;
+const number = (value: string) => (Number.isFinite(parseFloat(value)) ? parseFloat(value) : 0);
 function rgb(value: string): string {
   const parts = value.match(/[\d.]+/g)?.map(Number);
   if (!parts || parts.length < 3 || (parts[3] !== undefined && parts[3] !== 1))
@@ -37,11 +36,7 @@ function rgb(value: string): string {
 
 function solidSurface(el: HTMLElement) {
   const css = getComputedStyle(el);
-  if (
-    css.backgroundImage !== "none" ||
-    css.mixBlendMode !== "normal" ||
-    css.filter !== "none"
-  )
+  if (css.backgroundImage !== "none" || css.mixBlendMode !== "normal" || css.filter !== "none")
     throw Error("DOCX Next: Sidebar-Fläche benötigt eine geprüfte Vollfarbe.");
   return { color: rgb(css.backgroundColor), opacity: Number(css.opacity) };
 }
@@ -51,22 +46,15 @@ function sidebarColor(el: HTMLElement): string {
     css = getComputedStyle(el);
   if (
     base.opacity !== 1 ||
-    [
-      css.borderLeftWidth,
-      css.borderRightWidth,
-      css.borderTopWidth,
-      css.borderBottomWidth,
-    ].some((v) => number(v) !== 0)
+    [css.borderLeftWidth, css.borderRightWidth, css.borderTopWidth, css.borderBottomWidth].some(
+      (v) => number(v) !== 0,
+    )
   )
     throw Error("DOCX Next: Sidebar-Flächenrahmen ist nicht geprüft.");
   const tint = el.querySelector<HTMLElement>("[data-cv-sidebar-tint]");
   if (!tint || getComputedStyle(tint).display === "none") return base.color;
   const s = getComputedStyle(tint);
-  if (
-    s.backgroundImage !== "none" ||
-    s.mixBlendMode !== "normal" ||
-    s.filter !== "none"
-  )
+  if (s.backgroundImage !== "none" || s.mixBlendMode !== "normal" || s.filter !== "none")
     throw Error("DOCX Next: Sidebar-Tönung ist nicht geprüft.");
   const rgba = s.backgroundColor.match(/[\d.]+/g)?.map(Number);
   if (!rgba || rgba.length < 3) throw Error("DOCX Next: Sidebar-Tönung fehlt.");
@@ -75,11 +63,7 @@ function sidebarColor(el: HTMLElement): string {
     .map((n) => Math.round(n).toString(16).padStart(2, "0"))
     .join("")
     .toUpperCase();
-  return compositeTextColor(
-    color,
-    base.color,
-    (rgba[3] ?? 1) * Number(s.opacity),
-  );
+  return compositeTextColor(color, base.color, (rgba[3] ?? 1) * Number(s.opacity));
 }
 
 /** Measure effective authored text styles, never positions, page counts or fragments. */
@@ -92,9 +76,7 @@ export async function captureCvSidebarTextMetrics(
     source.cv.design.font !== "sans" ||
     !profile.startsWith("brief-sans-v1;")
   )
-    throw Error(
-      "DOCX Next: Sidebar-Schriftprüfung benötigt einen gespeicherten Sans-Entwurf.",
-    );
+    throw Error("DOCX Next: Sidebar-Schriftprüfung benötigt einen gespeicherten Sans-Entwurf.");
   const resolved = resolveDossierChromeSnapshot(
     source,
     source.settings.chrome ?? DEFAULT_DOSSIER_CHROME_STATE,
@@ -108,9 +90,7 @@ export async function captureCvSidebarTextMetrics(
     );
   const bodyAlignment = source.settings.cvAlignment ?? "left";
   if (bodyAlignment !== "left" && bodyAlignment !== "justify")
-    throw Error(
-      "DOCX Next: Sidebar-Schriftprüfung unterstützt linksbündigen Text und Blocksatz.",
-    );
+    throw Error("DOCX Next: Sidebar-Schriftprüfung unterstützt linksbündigen Text und Blocksatz.");
   if (
     !["compact", "contact"].includes(options.headerMode) ||
     effectiveDossierHeaderModeForOptions(options, 1) !== options.headerMode ||
@@ -135,8 +115,7 @@ export async function captureCvSidebarTextMetrics(
     compactChrome: { header: null!, footer: null! },
   };
   const host = document.createElement("div");
-  host.style.cssText =
-    "position:fixed;left:-20000px;top:0;width:210mm;pointer-events:none";
+  host.style.cssText = "position:fixed;left:-20000px;top:0;width:210mm;pointer-events:none";
   document.body.append(host);
   // Keep the isolated measuring surface at physical scale 1. Browser previews
   // can zoom ancestors; Chrome otherwise quantizes used border/track widths at
@@ -157,23 +136,16 @@ export async function captureCvSidebarTextMetrics(
           exportMode
           presentation={{
             layoutChoice: "modern",
-            infoPosition:
-              source.settings.sidebarSide === "right" ? "mirrored" : "standard",
+            infoPosition: source.settings.sidebarSide === "right" ? "mirrored" : "standard",
             placements: {
               ...DEFAULT_CV_PLACEMENTS,
               ...source.settings.placements,
             },
-            photoStyle: normalizeDossierPhotoStyle(
-              source.settings.cvPhotoStyle,
-            ),
-            photoPlacement: normalizeCvPhotoPlacement(
-              source.settings.cvPhotoPlacement,
-            ),
+            photoStyle: normalizeDossierPhotoStyle(source.settings.cvPhotoStyle),
+            photoPlacement: normalizeCvPhotoPlacement(source.settings.cvPhotoPlacement),
             sectionGapMm: source.settings.cvSectionGapMm ?? null,
-            documentTitleMarginTopPx:
-              source.settings.cvDocumentTitleMarginTopPx ?? 0,
-            continuationTopMarginMm:
-              source.settings.cvContinuationTopMarginMm ?? null,
+            documentTitleMarginTopPx: source.settings.cvDocumentTitleMarginTopPx ?? 0,
+            continuationTopMarginMm: source.settings.cvContinuationTopMarginMm ?? null,
             pageMargins: source.settings.margins?.cv ?? null,
             bodyAlignment,
           }}
@@ -185,11 +157,8 @@ export async function captureCvSidebarTextMetrics(
       requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
     );
     const canvas = document.createElement("canvas").getContext("2d");
-    if (!canvas)
-      throw Error("DOCX Next: Sidebar-Schriftmessung nicht verfügbar.");
-    const paper = resolveCvPalette(source.cv.design)
-      .paper.replace("#", "")
-      .toUpperCase();
+    if (!canvas) throw Error("DOCX Next: Sidebar-Schriftmessung nicht verfügbar.");
+    const paper = resolveCvPalette(source.cv.design).paper.replace("#", "").toUpperCase();
     const normalFactors = new Map<string, number>();
     const normalFactor = (css: CSSStyleDeclaration, weight: number) => {
       const font = `${css.fontStyle} ${weight >= 600 ? 700 : 400} 2048px ${FONT_STACKS.sans}`;
@@ -204,9 +173,7 @@ export async function captureCvSidebarTextMetrics(
         const factor = probe.getBoundingClientRect().height / 2048;
         probe.remove();
         if (!Number.isFinite(factor) || factor < 1 || factor > 2)
-          throw Error(
-            "DOCX Next: Natürliche Sidebar-Zeilenhöhe ist nicht geprüft.",
-          );
+          throw Error("DOCX Next: Natürliche Sidebar-Zeilenhöhe ist nicht geprüft.");
         normalFactors.set(font, factor);
       }
       return normalFactors.get(font)!;
@@ -223,9 +190,7 @@ export async function captureCvSidebarTextMetrics(
     );
     for (const el of fields) {
       if (!el.closest("[data-cv-main], [data-cv-sidebar]")) continue;
-      const id = el.hasAttribute("data-cv-name")
-        ? "cv.person.name"
-        : el.dataset.dossierFieldId!;
+      const id = el.hasAttribute("data-cv-name") ? "cv.person.name" : el.dataset.dossierFieldId!;
       if (result.fields[id]) continue;
       const text = (el.textContent ?? "").trim();
       if (!text) continue;
@@ -240,18 +205,13 @@ export async function captureCvSidebarTextMetrics(
         ![sizePx, linePx, weight, zoom].every(Number.isFinite) ||
         !["normal", "italic"].includes(css.fontStyle)
       )
-        throw Error(
-          `DOCX Next: Nicht unterstützte Sidebar-Typografie (${id}).`,
-        );
-      const shown =
-        css.textTransform === "uppercase" ? text.toUpperCase() : text;
+        throw Error(`DOCX Next: Nicht unterstützte Sidebar-Typografie (${id}).`);
+      const shown = css.textTransform === "uppercase" ? text.toUpperCase() : text;
       canvas.font = `${css.fontStyle} ${weight} 48px ${css.fontFamily}`;
       const sourceWidth = canvas.measureText(shown).width;
       canvas.font = `${css.fontStyle} ${weight >= 600 ? 700 : 400} 48px ${FONT_STACKS.sans}`;
       if (Math.abs(sourceWidth - canvas.measureText(shown).width) > 0.01)
-        throw Error(
-          `DOCX Next: Sidebar-Ersatzschrift ist nicht geprüft (${id}).`,
-        );
+        throw Error(`DOCX Next: Sidebar-Ersatzschrift ist nicht geprüft (${id}).`);
       let opacity = 1;
       for (
         let node: HTMLElement | null = el;
@@ -281,8 +241,7 @@ export async function captureCvSidebarTextMetrics(
         node = node.parentElement
       )
         if (node.querySelector("[data-dossier-field-id]") === el)
-          beforeMm +=
-            mm(number(getComputedStyle(node).marginTop)) * cvDocumentZoom(node);
+          beforeMm += mm(number(getComputedStyle(node).marginTop)) * cvDocumentZoom(node);
       result.fields[id] = {
         text,
         style,
@@ -337,14 +296,10 @@ export async function captureCvSidebarTextMetrics(
         };
       }
     }
-    const measurement = host.querySelector<HTMLElement>(
-      "[data-cv-measure-page]",
-    )!;
+    const measurement = host.querySelector<HTMLElement>("[data-cv-measure-page]")!;
     for (const entry of [
       ...measurement.querySelectorAll<HTMLElement>("[data-cv-entry]"),
-      ...host.querySelectorAll<HTMLElement>(
-        "[data-cv-page] [data-cv-sidebar] [data-cv-entry]",
-      ),
+      ...host.querySelectorAll<HTMLElement>("[data-cv-page] [data-cv-sidebar] [data-cv-entry]"),
     ]) {
       if (entry.hasAttribute("data-dossier-field-id")) continue;
       const first = entry.querySelector<HTMLElement>("[data-dossier-field-id]");
@@ -352,9 +307,7 @@ export async function captureCvSidebarTextMetrics(
       if (!id?.startsWith("cv.entry.") || result.entries[id]) continue;
       const css = getComputedStyle(entry),
         zoom = cvDocumentZoom(entry);
-      const date = entry.querySelector<HTMLElement>(
-        "[data-cv-rail][data-cv-date]",
-      );
+      const date = entry.querySelector<HTMLElement>("[data-cv-rail][data-cv-date]");
       result.entries[id] = {
         afterMm: mm(number(css.marginBottom)) * zoom,
         ...(date
@@ -370,15 +323,11 @@ export async function captureCvSidebarTextMetrics(
     const header = measurement.querySelector<HTMLElement>("[data-cv-header]");
     if (header)
       result.headerAfterMm =
-        mm(number(getComputedStyle(header).marginBottom)) *
-        cvDocumentZoom(header);
-    const references = measurement.querySelector<HTMLElement>(
-      "[data-cv-reference-grid]",
-    );
+        mm(number(getComputedStyle(header).marginBottom)) * cvDocumentZoom(header);
+    const references = measurement.querySelector<HTMLElement>("[data-cv-reference-grid]");
     if (references)
       result.referenceGapMm =
-        mm(number(getComputedStyle(references).columnGap)) *
-        cvDocumentZoom(references);
+        mm(number(getComputedStyle(references).columnGap)) * cvDocumentZoom(references);
     const pages = host.querySelectorAll<HTMLElement>("[data-cv-page]");
     for (const [index, repeat] of ["first", "continuation"].entries()) {
       const page = pages[Math.min(index, pages.length - 1)];
@@ -400,19 +349,15 @@ export async function captureCvSidebarTextMetrics(
       );
       if (!el) throw Error("DOCX Next: Kompakte Sidebar-Zone fehlt.");
       const css = getComputedStyle(el);
-      const border =
-        zone === "header" ? css.borderBottomWidth : css.borderTopWidth;
+      const border = zone === "header" ? css.borderBottomWidth : css.borderTopWidth;
       result.compactChrome[zone] = {
         heightMm: mm(number(css.height)),
         color: rgb(css.backgroundColor),
         borderMm: mm(number(border)),
-        borderColor: rgb(
-          zone === "header" ? css.borderBottomColor : css.borderTopColor,
-        ),
+        borderColor: rgb(zone === "header" ? css.borderBottomColor : css.borderTopColor),
       };
     }
-    if (!result.fields["cv.person.name"])
-      throw Error("DOCX Next: Sidebar-Schriftwerte fehlen.");
+    if (!result.fields["cv.person.name"]) throw Error("DOCX Next: Sidebar-Schriftwerte fehlen.");
     return result;
   } finally {
     flushSync(() => root.unmount());

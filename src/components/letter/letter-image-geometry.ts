@@ -75,16 +75,8 @@ export function normalizeLetterImageGeometry(
         ? maxX
         : clampLetterImageValue(storedX ?? maxX, 0, maxX);
   const side = xMm + widthMm / 2 < contentWidthMm / 2 ? "left" : "right";
-  const topMm = clampLetterImageValue(
-    Number(image.topMm) || 0,
-    0,
-    LETTER_IMAGE_MAX_TOP_MM,
-  );
-  const gapMm = clampLetterImageValue(
-    Number(image.gapMm) || LETTER_IMAGE_DEFAULT_GAP_MM,
-    0,
-    12,
-  );
+  const topMm = clampLetterImageValue(Number(image.topMm) || 0, 0, LETTER_IMAGE_MAX_TOP_MM);
+  const gapMm = clampLetterImageValue(Number(image.gapMm) || LETTER_IMAGE_DEFAULT_GAP_MM, 0, 12);
   return {
     placement,
     side,
@@ -121,8 +113,7 @@ export function letterImageResizePatch(
   const geometry = normalizeLetterImageGeometry(image, contentWidthMm);
   const direction = geometry.placement === "right" ? -1 : 1;
   const adjustedDelta = deltaMm * direction;
-  const available =
-    geometry.placement === "free" ? contentWidthMm - geometry.xMm : contentWidthMm;
+  const available = geometry.placement === "free" ? contentWidthMm - geometry.xMm : contentWidthMm;
   const widthMm = clampLetterImageValue(
     geometry.widthMm + adjustedDelta,
     LETTER_IMAGE_MIN_WIDTH_MM,

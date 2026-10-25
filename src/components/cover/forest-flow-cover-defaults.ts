@@ -529,7 +529,12 @@ export function applyForestFlowCoverDefaults(
   for (const [key, value] of Object.entries(defaults) as Array<
     [keyof BlockStyle, BlockStyle[keyof BlockStyle]]
   >) {
-    if (templateId === "ribbon" && key === "follows" && custom.y !== undefined && custom.follows === undefined) {
+    if (
+      templateId === "ribbon" &&
+      key === "follows" &&
+      custom.y !== undefined &&
+      custom.follows === undefined
+    ) {
       // Older drafts can hold a manual Y without an explicit follows:null.
       // Never reinterpret that editor position as a linked default.
       patch.follows = null;

@@ -96,11 +96,7 @@ function documentXml(bytes: Uint8Array) {
 
 function letterSection(xml: string) {
   const sections = [...xml.matchAll(/<w:sectPr>[\s\S]*?<\/w:sectPr>/g)];
-  if (
-    sections.length < 2 ||
-    sections[0].index === undefined ||
-    sections[1].index === undefined
-  ) {
+  if (sections.length < 2 || sections[0].index === undefined || sections[1].index === undefined) {
     throw new Error("DOCX enthält nicht die erwarteten drei Dossier-Sektionen.");
   }
   const start = sections[0].index + sections[0][0].length;

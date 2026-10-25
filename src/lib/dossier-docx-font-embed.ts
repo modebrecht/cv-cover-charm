@@ -12,8 +12,7 @@ const FONT_RELATIONSHIP =
   "http://schemas.openxmlformats.org/officeDocument/2006/relationships/font";
 const OFFICE_RELATIONSHIPS_NS =
   "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
-const OBFUSCATED_FONT_CONTENT_TYPE =
-  "application/vnd.openxmlformats-officedocument.obfuscatedFont";
+const OBFUSCATED_FONT_CONTENT_TYPE = "application/vnd.openxmlformats-officedocument.obfuscatedFont";
 
 type CabinFace = {
   fileName: string;
@@ -115,11 +114,11 @@ function patchFontTable(source: string) {
     : source.replace("<w:fonts ", `<w:fonts xmlns:r="${OFFICE_RELATIONSHIPS_NS}" `);
 
   const embeds = CABIN_FACES.map(
-    (face) =>
-      `<w:${face.embedTag} r:id="${face.relId}" w:fontKey="${face.fontKey}"/>`,
+    (face) => `<w:${face.embedTag} r:id="${face.relId}" w:fontKey="${face.fontKey}"/>`,
   ).join("");
   const cabinPattern = /(<w:font w:name="Cabin">)([\s\S]*?)(<\/w:font>)/;
-  if (!cabinPattern.test(xml)) throw new Error("DOCX-Font-Embedding: Cabin fehlt in fontTable.xml.");
+  if (!cabinPattern.test(xml))
+    throw new Error("DOCX-Font-Embedding: Cabin fehlt in fontTable.xml.");
   xml = xml.replace(cabinPattern, (_match, open: string, body: string, close: string) => {
     const cleanBody = body.replace(/<w:embed(?:Regular|Bold|Italic|BoldItalic)\b[^>]*\/>/g, "");
     return `${open}${cleanBody}${embeds}${close}`;

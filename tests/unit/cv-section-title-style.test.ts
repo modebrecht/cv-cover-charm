@@ -89,14 +89,14 @@ describe("CV rubric title styling", () => {
     );
 
     expect(xml).toContain("<w:pBdr>");
-    expect(xml).toContain(
-      '<w:bottom w:val="single" w:sz="8" w:space="1" w:color="445566"/>',
-    );
+    expect(xml).toContain('<w:bottom w:val="single" w:sz="8" w:space="1" w:color="445566"/>');
     expect(xml.match(/<w:bottom\b/g)?.length).toBe(1);
   });
 
   test("missing rubric overrides preserve the DOCX template exactly", () => {
-    expect(applyCvSectionTitleStyleToDocumentXml(documentXml, cvWith(baseDesign))).toBe(documentXml);
+    expect(applyCvSectionTitleStyleToDocumentXml(documentXml, cvWith(baseDesign))).toBe(
+      documentXml,
+    );
   });
 
   test("rubric overrides survive dossier JSON export and import", () => {

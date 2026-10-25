@@ -13,26 +13,16 @@ import contactCover from "../fixtures/docx-next/modern-header-metrics.json";
 import contactMetrics from "../fixtures/docx-next/modern-header-interior-metrics.json";
 
 function webBottom(input: DossierAppSnapshot) {
-  const chrome = resolveDossierChromeSnapshot(input, input.settings.chrome!).cv
-    .options;
-  return cvContentBox(
-    cvFrameFor(input.cv.design.template),
-    0,
-    "classic",
-    undefined,
-    chrome,
-    {
-      pageMargins: input.settings.margins?.cv ?? null,
-      continuationTopMarginMm: input.settings.cvContinuationTopMarginMm ?? null,
-    },
-  ).bottom;
+  const chrome = resolveDossierChromeSnapshot(input, input.settings.chrome!).cv.options;
+  return cvContentBox(cvFrameFor(input.cv.design.template), 0, "classic", undefined, chrome, {
+    pageMargins: input.settings.margins?.cv ?? null,
+    continuationTopMarginMm: input.settings.cvContinuationTopMarginMm ?? null,
+  }).bottom;
 }
 
 test("painted compact CV uses the Web footer budget and retains custom footer heights and saved values", () => {
   for (const height of [null, 8, 18]) {
-    const input = structuredClone(
-      compactSource,
-    ) as unknown as DossierAppSnapshot;
+    const input = structuredClone(compactSource) as unknown as DossierAppSnapshot;
     input.settings.chrome!.shared.footerHeightMm = height;
     const before = JSON.stringify(input);
     const model = buildDossierDocModel(input, {
@@ -45,9 +35,7 @@ test("painted compact CV uses the Web footer budget and retains custom footer he
     expect(model.cv.page.margins.bottom).toBe(1 + (height ?? 4));
     expect(model.cv.footer).toEqual([]);
     expect(JSON.stringify(input)).toBe(before);
-    const band = model.cv.headerShapes!.find(
-      (shape) => shape.id === "cv.compact.footer",
-    )!;
+    const band = model.cv.headerShapes!.find((shape) => shape.id === "cv.compact.footer")!;
     expect(band.yMm + band.heightMm).toBe(297);
   }
 });
@@ -58,9 +46,7 @@ test("measured contact CV replaces the old text-footer reserve and leaves Letter
   const options = {
     coverComposition: "authored-frames" as const,
     coverTextMetrics: structuredClone(contactCover) as CoverTextMetrics,
-    interiorTextMetrics: structuredClone(
-      contactMetrics,
-    ) as unknown as InteriorTextMetrics,
+    interiorTextMetrics: structuredClone(contactMetrics) as unknown as InteriorTextMetrics,
   };
   const model = buildDossierDocModel(input, options);
   const prior = buildDossierDocModel(input, {
@@ -69,9 +55,7 @@ test("measured contact CV replaces the old text-footer reserve and leaves Letter
   });
   expect(model.cv.page.margins.bottom).toBe(webBottom(input));
   expect(model.cv.page.margins.bottom).toBe(5);
-  expect(model.letter.page.margins.bottom).toBe(
-    prior.letter.page.margins.bottom,
-  );
+  expect(model.letter.page.margins.bottom).toBe(prior.letter.page.margins.bottom);
   expect(model.cover).toEqual(prior.cover);
   expect(JSON.stringify(input)).toBe(before);
   expect(model.cv.headerFrames?.length).toBeGreaterThan(0);
@@ -81,12 +65,9 @@ test("painted-footer adjustment rejects a live native footer instead of exposing
   const input = structuredClone(contactSource) as unknown as DossierAppSnapshot;
   const model = buildDossierDocModel(input);
   const before = structuredClone(model.cv);
-  const chrome = resolveDossierChromeSnapshot(input, input.settings.chrome!).cv
-    .options;
+  const chrome = resolveDossierChromeSnapshot(input, input.settings.chrome!).cv.options;
   expect(model.cv.footer.length).toBeGreaterThan(0);
-  expect(() => applyCvPaintedFooterReserve(model.cv, chrome)).toThrow(
-    "Textfusszeile",
-  );
+  expect(() => applyCvPaintedFooterReserve(model.cv, chrome)).toThrow("Textfusszeile");
   expect(model.cv).toEqual(before);
   const letterBefore = structuredClone(model.letter);
   applyCvPaintedFooterReserve(model.letter, chrome);

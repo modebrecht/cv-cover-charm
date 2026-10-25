@@ -25,10 +25,7 @@ function setParagraphColor(source: string, text: string, color: string) {
   const wordColor = color.replace("#", "").toUpperCase();
   let paragraph = source.slice(start, end + 6);
   if (/<w:color w:val="[^"]+"\/>/.test(paragraph)) {
-    paragraph = paragraph.replace(
-      /<w:color w:val="[^"]+"\/>/g,
-      `<w:color w:val="${wordColor}"/>`,
-    );
+    paragraph = paragraph.replace(/<w:color w:val="[^"]+"\/>/g, `<w:color w:val="${wordColor}"/>`);
   } else {
     paragraph = paragraph.replace(/<w:rPr>/g, `<w:rPr><w:color w:val="${wordColor}"/>`);
   }
@@ -42,7 +39,7 @@ function polishStudioCover(source: string, documents: DossierDocxDocuments) {
   let cover = source.slice(0, sectionStart);
   const texts = [
     "BEILAGEN",
-    ...(documents.cover.data.showBeilagenOnCover ? documents.cover.data.beilagen ?? [] : []),
+    ...(documents.cover.data.showBeilagenOnCover ? (documents.cover.data.beilagen ?? []) : []),
   ].filter(Boolean) as string[];
   for (const text of texts) cover = setParagraphColor(cover, text, "#232b3a");
   return cover + source.slice(sectionStart);

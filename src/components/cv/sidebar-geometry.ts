@@ -1,9 +1,4 @@
-import {
-  cvContentBox,
-  cvSurface,
-  sidebarWidthMm,
-  type CvFrame,
-} from "./archetype";
+import { cvContentBox, cvSurface, sidebarWidthMm, type CvFrame } from "./archetype";
 import type { DossierChromeOptions } from "@/lib/dossier-chrome";
 import type { DossierPageMargins } from "@/lib/dossier-page-margins";
 
@@ -17,8 +12,7 @@ export function cvSidebarPhotoWidthMm(
 ): number {
   return Math.min(
     veryCompact ? 25 : 28,
-    sidebarWidthMm(frame, "modern", sidebarPct) -
-      (frame.id === "column" ? 19 : 15.5),
+    sidebarWidthMm(frame, "modern", sidebarPct) - (frame.id === "column" ? 19 : 15.5),
   );
 }
 
@@ -38,14 +32,7 @@ export function cvSidebarGeometry(
 ) {
   const pageWidthMm = 210;
   const surface = cvSurface(frame, pageIndex, "modern", sidebarPct, chrome);
-  const logicalMain = cvContentBox(
-    frame,
-    pageIndex,
-    "modern",
-    sidebarPct,
-    chrome,
-    presentation,
-  );
+  const logicalMain = cvContentBox(frame, pageIndex, "modern", sidebarPct, chrome, presentation);
   const column = frame.id === "column";
   const insetMm = column ? 0 : frame.id === "card" ? surface.left : 0;
   const widthMm = sidebarWidthMm(frame, "modern", sidebarPct);

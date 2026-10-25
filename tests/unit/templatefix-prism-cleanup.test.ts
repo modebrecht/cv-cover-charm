@@ -27,7 +27,7 @@ describe("Prism interior cleanup", () => {
   test("CV removes the large diagonal hero and decorative heading rules", () => {
     expect(css).toContain('[data-dossier-document="cv"]');
     expect(css).toContain("height: 9mm !important;");
-    expect(css).toContain('[data-cv-sidebar-tint]');
+    expect(css).toContain("[data-cv-sidebar-tint]");
     expect(css).toContain('[data-cv-accent="header"]');
     expect(css).toContain('[data-cv-accent="section"]');
     expect(css).toContain("box-shadow: none !important;");

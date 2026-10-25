@@ -40,7 +40,10 @@ function hex(value: string | undefined, fallback: string) {
 function luminance(color: string) {
   const raw = color.replace("#", "");
   const channels = [0, 2, 4].map((offset) => parseInt(raw.slice(offset, offset + 2), 16) / 255);
-  return channels.reduce((sum, channel, index) => sum + channel * [0.2126, 0.7152, 0.0722][index], 0);
+  return channels.reduce(
+    (sum, channel, index) => sum + channel * [0.2126, 0.7152, 0.0722][index],
+    0,
+  );
 }
 
 function palette(colors: Record<string, string> | undefined): Palette {
@@ -80,7 +83,11 @@ function warmCompatibleDocuments(
 ) {
   const templateId = String(cover.template);
   return {
-    cover: { ...cover, template: "freundlich", colors: warmColors(cover.colors) } as CoverPdfDocument,
+    cover: {
+      ...cover,
+      template: "freundlich",
+      colors: warmColors(cover.colors),
+    } as CoverPdfDocument,
     letter: {
       ...letter,
       design: {
@@ -109,8 +116,7 @@ function fillOpacity(opacity = 1) {
 }
 
 function shapeRun(shape: RuntimeShape, colors: Palette, templateId: string) {
-  const neonPageBackground =
-    templateId === "neon" && /neon-(?:cover|letter|cv)-bg$/.test(shape.id);
+  const neonPageBackground = templateId === "neon" && /neon-(?:cover|letter|cv)-bg$/.test(shape.id);
   const sonneCvAccent = templateId === "sonne" && shape.id === "sonne-cv-light";
   const color =
     shape.fillHex ??
@@ -130,7 +136,11 @@ function shapeRun(shape: RuntimeShape, colors: Palette, templateId: string) {
   return `<w:r><w:pict><v:${tag} id="${shape.id}" style="${vmlStyle(shape.x, shape.y, shape.w, shape.h, shape.zIndex)}" fillcolor="${color}" stroked="f">${fillOpacity(opacity)}</v:${tag}></w:pict></w:r>`;
 }
 
-function recipeShapes(shapes: readonly DossierDocxRecipeShape[], colors: Palette, templateId: string) {
+function recipeShapes(
+  shapes: readonly DossierDocxRecipeShape[],
+  colors: Palette,
+  templateId: string,
+) {
   return shapes.map((shape) => shapeRun(shape as RuntimeShape, colors, templateId)).join("");
 }
 
@@ -244,11 +254,7 @@ function clearFirstText(source: string, text: string) {
   return source.replace(pattern, "$1$2");
 }
 
-function photoFrameRun(
-  recipe: RuntimeRecipe,
-  colors: Palette,
-  cover: CoverPdfDocument,
-) {
+function photoFrameRun(recipe: RuntimeRecipe, colors: Palette, cover: CoverPdfDocument) {
   const frame = recipe.cover.photoFrame;
   if (!frame) return "";
   const tag = frame.kind === "oval" ? "oval" : "rect";
@@ -339,11 +345,7 @@ function patchCoverContact(
   return xml;
 }
 
-function patchLightCoverContent(
-  source: string,
-  recipe: RuntimeRecipe,
-  cover: CoverPdfDocument,
-) {
+function patchLightCoverContent(source: string, recipe: RuntimeRecipe, cover: CoverPdfDocument) {
   if (recipe.cover.contentSurface !== "light") return source;
   const fullName = [cover.data.vorname, cover.data.nachname].filter(Boolean).join(" ");
   const texts = [
@@ -366,11 +368,7 @@ function patchLightCoverContent(
 
 function sectionBounds(source: string) {
   const matches = [...source.matchAll(/<w:sectPr>[\s\S]*?<\/w:sectPr>/g)];
-  if (
-    matches.length < 2 ||
-    matches[0].index === undefined ||
-    matches[1].index === undefined
-  ) {
+  if (matches.length < 2 || matches[0].index === undefined || matches[1].index === undefined) {
     return null;
   }
   const firstIndex = matches[0].index;
@@ -395,11 +393,7 @@ function recolorSection(source: string, sectionIndex: 0 | 1 | 2, color: string) 
   return source.slice(0, range.start) + middle + source.slice(range.end);
 }
 
-function patchContentSurfaces(
-  source: string,
-  recipe: RuntimeRecipe,
-  coverColors: Palette,
-) {
+function patchContentSurfaces(source: string, recipe: RuntimeRecipe, coverColors: Palette) {
   let xml = source;
   if (["neon", "verlauf", "edelDark"].includes(recipe.templateId)) {
     xml = recolorSection(xml, 0, coverColors.ink);
@@ -452,11 +446,7 @@ function patchRecipeDocumentXml(
   return xml;
 }
 
-function sameTemplate(
-  cover: CoverPdfDocument,
-  letter: LetterPdfDocument,
-  cv: CvPdfDocument,
-) {
+function sameTemplate(cover: CoverPdfDocument, letter: LetterPdfDocument, cv: CvPdfDocument) {
   const template = String(cover.template);
   return template === String(letter.design.template) && template === String(cv.design.template)
     ? template
@@ -483,7 +473,9 @@ export async function createLegacyRecipeDossierDocxBlob(
     ? (ALL_DOSSIER_DOCX_TEMPLATE_RECIPES[template] as RuntimeRecipe | undefined)
     : undefined;
   if (!template || !recipe) {
-    throw new Error("DOCX-Einzelrezept benötigt dieselbe gemappte Vorlage in allen drei Dossierteilen.");
+    throw new Error(
+      "DOCX-Einzelrezept benötigt dieselbe gemappte Vorlage in allen drei Dossierteilen.",
+    );
   }
 
   const compatible = warmCompatibleDocuments(cover, letter, cv);

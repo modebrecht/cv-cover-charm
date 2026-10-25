@@ -19,15 +19,22 @@ import { renderDossierDocx } from "@/lib/docx-next/renderer";
 import { walkBlocks } from "@/lib/docx-next/model";
 import { cvWordLayout } from "@/lib/docx-next/layouts";
 
-import { coverFamilyDocxQaEnabled, isCoverFamilyDocxQaTemplate } from "./docx-next/cover-family-visibility";
+import {
+  coverFamilyDocxQaEnabled,
+  isCoverFamilyDocxQaTemplate,
+} from "./docx-next/cover-family-visibility";
 
 /** Only the explicit developer QA path may build a full unaccepted family dossier. */
 export function buildFullCoverFamilyQaModel(snapshot: DossierAppSnapshot) {
   const family = snapshot.cover.template;
-  if (!isCoverFamilyDocxQaTemplate(family) ||
-      snapshot.letter.design.template !== family ||
-      snapshot.cv.design.template !== family)
-    throw Error("DOCX Next Cover QA: Titelblatt, Anschreiben und CV müssen dieselbe geprüfte Vorlage verwenden.");
+  if (
+    !isCoverFamilyDocxQaTemplate(family) ||
+    snapshot.letter.design.template !== family ||
+    snapshot.cv.design.template !== family
+  )
+    throw Error(
+      "DOCX Next Cover QA: Titelblatt, Anschreiben und CV müssen dieselbe geprüfte Vorlage verwenden.",
+    );
   if (cvWordLayout(snapshot.settings.cvLayout) !== "classic")
     throw Error("DOCX Next Cover QA: Das Sidebar-CV ist hier nicht freigegeben.");
 
@@ -43,8 +50,11 @@ export function buildFullCoverFamilyQaModel(snapshot: DossierAppSnapshot) {
   // The renderer's broad diagnostic allowance is required for the native
   // editable avatar shape. Refuse unrelated unaccepted structures explicitly.
   for (const part of [model.cover, model.letter, model.cv]) {
-    if (part.firstFooter || model.floatingTableTextFlow ||
-        walkBlocks(part.blocks).some((block) =>
+    if (
+      part.firstFooter ||
+      model.floatingTableTextFlow ||
+      walkBlocks(part.blocks).some(
+        (block) =>
           (block.kind === "paragraph-frame" &&
             (part.id !== "cover" ||
               !block.id.startsWith("cover.") ||
@@ -56,11 +66,13 @@ export function buildFullCoverFamilyQaModel(snapshot: DossierAppSnapshot) {
               block.bodyBoundary !== undefined ||
               block.identityCarrier !== undefined ||
               block.afterMm !== undefined)) ||
-          (block.kind === "parallel-flow") ||
+          block.kind === "parallel-flow" ||
           (block.kind === "paragraph" &&
             (block.controlPlacement !== undefined ||
               block.flowSurface !== undefined ||
-              block.tabStopsMm !== undefined))))
+              block.tabStopsMm !== undefined)),
+      )
+    )
       throw Error("DOCX Next Cover QA: Diese Dokumentstruktur hat noch keine Exportfreigabe.");
   }
   return model;
@@ -73,17 +85,24 @@ export async function createSavedCoverFamilyDocxNext() {
   const cover = coverPdfDocumentFromSaved(readStoredDossierPart(COVER_STORAGE_KEY));
   const letter = letterPdfDocumentFromSaved(readStoredDossierPart(LETTER_STORAGE_KEY));
   const cv = cvPdfDocumentFromSaved(readStoredDossierPart(CV_STORAGE_KEY));
-  if (!cover || !letter || !cv ||
-      !coverPdfHasContent(cover.data) ||
-      !cvPdfHasContent(cv.data) ||
-      !letterReadiness(letter.data).readyToSend)
-    throw Error("DOCX Next Cover QA: Alle drei gespeicherten Dossierteile müssen vollständig sein.");
+  if (
+    !cover ||
+    !letter ||
+    !cv ||
+    !coverPdfHasContent(cover.data) ||
+    !cvPdfHasContent(cv.data) ||
+    !letterReadiness(letter.data).readyToSend
+  )
+    throw Error(
+      "DOCX Next Cover QA: Alle drei gespeicherten Dossierteile müssen vollständig sein.",
+    );
 
-  const capture = () => captureDossierDocxNextSnapshot(
-    coverPdfDocumentFromSaved(readStoredDossierPart(COVER_STORAGE_KEY))!,
-    letterPdfDocumentFromSaved(readStoredDossierPart(LETTER_STORAGE_KEY))!,
-    cvPdfDocumentFromSaved(readStoredDossierPart(CV_STORAGE_KEY))!,
-  );
+  const capture = () =>
+    captureDossierDocxNextSnapshot(
+      coverPdfDocumentFromSaved(readStoredDossierPart(COVER_STORAGE_KEY))!,
+      letterPdfDocumentFromSaved(readStoredDossierPart(LETTER_STORAGE_KEY))!,
+      cvPdfDocumentFromSaved(readStoredDossierPart(CV_STORAGE_KEY))!,
+    );
   const snapshot = captureDossierDocxNextSnapshot(cover, letter, cv);
   const before = JSON.stringify(snapshot);
   const model = buildFullCoverFamilyQaModel(snapshot);
@@ -96,15 +115,17 @@ export async function createSavedCoverFamilyDocxNext() {
   });
   if (JSON.stringify(capture()) !== before)
     throw Error("DOCX Next Cover QA: Gespeicherte Daten haben sich während des Exports verändert.");
-  if (blob.size < 2000)
-    throw Error("DOCX Next Cover QA: DOCX-Ausgabe ist unvollständig.");
+  if (blob.size < 2000) throw Error("DOCX Next Cover QA: DOCX-Ausgabe ist unvollständig.");
   return { blob, snapshot, model };
 }
 
 export async function downloadSavedCoverFamilyDocxNext() {
   const { blob, snapshot } = await createSavedCoverFamilyDocxNext();
   const person = [snapshot.cover.data.vorname, snapshot.cover.data.nachname]
-    .filter(Boolean).join(" ");
-  downloadBlob(blob,
-    safeFileName(`Bewerbungsdossier-${person}-${snapshot.cover.template}-DOCX-QA`) + ".docx");
+    .filter(Boolean)
+    .join(" ");
+  downloadBlob(
+    blob,
+    safeFileName(`Bewerbungsdossier-${person}-${snapshot.cover.template}-DOCX-QA`) + ".docx",
+  );
 }

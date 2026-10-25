@@ -21,7 +21,10 @@ const letterLayoutControls = readFileSync(
   new URL("../../src/components/letter/LetterLayoutControls.tsx", import.meta.url),
   "utf8",
 );
-const coverRoute = readFileSync(new URL("../../src/routes/titelblatt.tsx", import.meta.url), "utf8");
+const coverRoute = readFileSync(
+  new URL("../../src/routes/titelblatt.tsx", import.meta.url),
+  "utf8",
+);
 const letterRoute = readFileSync(
   new URL("../../src/routes/anschreiben.tsx", import.meta.url),
   "utf8",
@@ -47,7 +50,7 @@ describe("shared dossier form UI", () => {
 
   test("sections share content, design and advanced hierarchy without ellipsis", () => {
     expect(section).toContain('type FormGroup = "content" | "design" | "advanced"');
-    expect(section).toContain('data-form-group={group}');
+    expect(section).toContain("data-form-group={group}");
     expect(section).toContain("Inhalt");
     expect(section).toContain("Gestaltung");
     expect(section).toContain("Erweitert");

@@ -4,10 +4,7 @@ import type {
   LetterPdfDocument,
 } from "@/lib/dossier-pdf-document";
 import { downloadBlob } from "@/lib/download";
-import {
-  createWarmDossierDocxBlob,
-  warmDossierDocxSupported,
-} from "@/lib/dossier-docx-warm";
+import { createWarmDossierDocxBlob, warmDossierDocxSupported } from "@/lib/dossier-docx-warm";
 import { transformStoredDocxDocumentXml } from "@/lib/dossier-docx-package";
 
 export { warmDossierDocxSupported };
@@ -50,7 +47,9 @@ function reclaimWarmCvPaginationSlack(source: string) {
   // reference phone number remains on page three.
   const compactTop = Math.max(0, Number(topMargin[1]) - twips(0.35));
   const compactSection = section.replace(topMargin[0], `w:top="${compactTop}"`);
-  return source.slice(0, sectionStart) + compactSection + source.slice(sectionStart + section.length);
+  return (
+    source.slice(0, sectionStart) + compactSection + source.slice(sectionStart + section.length)
+  );
 }
 
 function polishDocumentXml(source: string, cover: CoverPdfDocument) {

@@ -7,7 +7,7 @@ const source = readFileSync(
 );
 
 test("normal editor resets clear the hidden Dev Tools translation layer", () => {
-  expect(source).toContain('sessionStorage.removeItem(OFFSET_STORAGE_KEY)');
+  expect(source).toContain("sessionStorage.removeItem(OFFSET_STORAGE_KEY)");
   expect(source).toContain("offsets = {};");
   expect(source).toContain("[data-template-qa-moved='true']");
   expect(source).toContain("clearOffset(element)");

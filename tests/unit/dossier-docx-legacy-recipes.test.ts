@@ -4,7 +4,10 @@ import {
   cvPdfDocumentFromSaved,
   letterPdfDocumentFromSaved,
 } from "../../src/lib/dossier-pdf-document";
-import { createDossierDocxBlob, resolveDossierDocxProfile } from "../../src/lib/dossier-docx-export";
+import {
+  createDossierDocxBlob,
+  resolveDossierDocxProfile,
+} from "../../src/lib/dossier-docx-export";
 import { readStoredDocxEntries } from "../../src/lib/dossier-docx-package";
 import { ALL_DOSSIER_DOCX_TEMPLATE_RECIPES } from "../../src/lib/dossier-docx-template-recipes";
 

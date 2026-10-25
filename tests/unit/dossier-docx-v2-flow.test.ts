@@ -67,29 +67,43 @@ const cvOptions: DossierDocxV2CvFlowOptions = {
 
 function minimalPackage(documentXml: string) {
   const entries = [
-    { name: "[Content_Types].xml", bytes: encoder.encode('<?xml version="1.0"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="xml" ContentType="application/xml"/></Types>') },
+    {
+      name: "[Content_Types].xml",
+      bytes: encoder.encode(
+        '<?xml version="1.0"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="xml" ContentType="application/xml"/></Types>',
+      ),
+    },
     { name: "word/document.xml", bytes: encoder.encode(documentXml) },
-    { name: "word/_rels/document.xml.rels", bytes: encoder.encode('<?xml version="1.0"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"></Relationships>') },
+    {
+      name: "word/_rels/document.xml.rels",
+      bytes: encoder.encode(
+        '<?xml version="1.0"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"></Relationships>',
+      ),
+    },
   ];
   return new Blob([writeStoredDocxEntries(entries)]);
 }
 
 function syntheticDocumentXml() {
-  return '<?xml version="1.0"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:v="urn:schemas-microsoft-com:vml"><w:body>' +
-    '<w:p><w:r><w:t>COVER OLD</w:t></w:r></w:p>' +
+  return (
+    '<?xml version="1.0"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:v="urn:schemas-microsoft-com:vml"><w:body>' +
+    "<w:p><w:r><w:t>COVER OLD</w:t></w:r></w:p>" +
     '<w:p><w:pPr><w:sectPr><w:pgSz w:w="11906" w:h="16838"/></w:sectPr></w:pPr></w:p>' +
-    '<w:p><w:r><w:t>LETTER OLD</w:t></w:r></w:p>' +
+    "<w:p><w:r><w:t>LETTER OLD</w:t></w:r></w:p>" +
     '<w:p><w:r><w:pict><v:rect style="position:absolute;z-index:-251658240" fillcolor="#eeeeee"/></w:pict></w:r></w:p>' +
     '<w:p><w:pPr><w:sectPr><w:pgSz w:w="11906" w:h="16838"/></w:sectPr></w:pPr></w:p>' +
-    '<w:p><w:r><w:t>CV OLD</w:t></w:r></w:p>' +
+    "<w:p><w:r><w:t>CV OLD</w:t></w:r></w:p>" +
     '<w:sectPr><w:pgSz w:w="11906" w:h="16838"/></w:sectPr>' +
-    '</w:body></w:document>';
+    "</w:body></w:document>"
+  );
 }
 
 describe("DOCX V2 semantic Letter/CV flow foundation", () => {
   test("builds the letter from semantic content instead of a Warm text skeleton", () => {
     const scene = buildDossierDocxV2LetterFlowScene(letter());
-    const ids = scene.blocks.flatMap((block) => (block.kind === "paragraph" && block.id ? [block.id] : []));
+    const ids = scene.blocks.flatMap((block) =>
+      block.kind === "paragraph" && block.id ? [block.id] : [],
+    );
     expect(ids).toContain("sender");
     expect(ids).toContain("date");
     expect(ids).toContain("subject");
@@ -107,7 +121,9 @@ describe("DOCX V2 semantic Letter/CV flow foundation", () => {
       staerken: { width: "half" },
     };
     const scene = buildDossierDocxV2CvFlowScene(cv(data), cvOptions);
-    expect(scene.blocks.some((block) => block.kind === "page-break" && block.id === "cv-page-2")).toBe(true);
+    expect(
+      scene.blocks.some((block) => block.kind === "page-break" && block.id === "cv-page-2"),
+    ).toBe(true);
     expect(
       scene.blocks.some(
         (block) => block.kind === "table" && block.id?.startsWith("half-pair-hobbys-staerken"),
@@ -121,7 +137,9 @@ describe("DOCX V2 semantic Letter/CV flow foundation", () => {
     const cvScene = buildDossierDocxV2CvFlowScene(cv(data), cvOptions);
     const report = auditDossierDocxV2Flow(buildDossierDocxV2LetterFlowScene(letter()), cvScene);
     expect(report.accepted).toBe(false);
-    expect(report.blockers.some((issue) => issue.code === "cv-free-section-unsupported")).toBe(true);
+    expect(report.blockers.some((issue) => issue.code === "cv-free-section-unsupported")).toBe(
+      true,
+    );
   });
 
   test("replaces only semantic letter/CV bodies while preserving section boundaries and skin", async () => {
@@ -138,7 +156,7 @@ describe("DOCX V2 semantic Letter/CV flow foundation", () => {
     expect(text).not.toContain("CV OLD");
     expect(text).toContain("Bewerbung um eine Lehrstelle als Informatiker");
     expect(text).toContain("Lea");
-    expect(text).toContain('z-index:-251658240');
+    expect(text).toContain("z-index:-251658240");
   });
 
   test("removes Warm metadata identity from non-Warm V2 packages", () => {
@@ -321,7 +339,9 @@ describe("DOCX V2 browser-measured flow calibration", () => {
   test("replaces heuristic letter body pagination with measured LetterDocument fragments", () => {
     const baseline = buildDossierDocxV2LetterFlowScene(letter());
     const calibrated = calibrateDossierDocxV2LetterFlowScene(baseline, measuredLetter(2));
-    const bodyIds = calibrated.blocks.flatMap((block) => (block.id?.startsWith("body-") ? [block.id] : []));
+    const bodyIds = calibrated.blocks.flatMap((block) =>
+      block.id?.startsWith("body-") ? [block.id] : [],
+    );
     expect(bodyIds).toEqual(["body-measured-p1-1", "body-measured-p2-1"]);
     expect(
       calibrated.blocks.some(
@@ -343,9 +363,13 @@ describe("DOCX V2 browser-measured flow calibration", () => {
       ...cvOptions,
       photoPlacement: { ...cvOptions.photoPlacement, mode: "auto" },
     });
-    expect(baseline.issues.some((issue) => issue.code === "cv-photo-auto-placement-approximate")).toBe(true);
+    expect(
+      baseline.issues.some((issue) => issue.code === "cv-photo-auto-placement-approximate"),
+    ).toBe(true);
     const calibrated = calibrateDossierDocxV2CvFlowScene(baseline, measuredCv(1));
-    expect(calibrated.issues.some((issue) => issue.code === "cv-photo-auto-placement-approximate")).toBe(false);
+    expect(
+      calibrated.issues.some((issue) => issue.code === "cv-photo-auto-placement-approximate"),
+    ).toBe(false);
     expect(calibrated.photo).toMatchObject({
       x: 151.25,
       y: 27.5,
@@ -378,7 +402,9 @@ describe("DOCX V2 browser-measured flow calibration", () => {
       layout: "modern",
     });
     const calibrated = calibrateDossierDocxV2CvFlowScene(baseline, measuredCv(2, "modern"));
-    expect(calibrated.issues.some((issue) => issue.code === "cv-browser-pagination-mismatch")).toBe(false);
+    expect(calibrated.issues.some((issue) => issue.code === "cv-browser-pagination-mismatch")).toBe(
+      false,
+    );
     expect(calibrated.overlays).toHaveLength(4);
     expect(calibrated.artwork).toHaveLength(2);
     expect(calibrated.artwork[1]).toMatchObject({ pageIndex: 1, width: 210, height: 297 });

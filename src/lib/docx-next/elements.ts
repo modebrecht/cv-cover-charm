@@ -216,15 +216,9 @@ export function nativeFlowBadgeIndentMm(
 ): number {
   const autoFitted = !!block.style.bg && !hasUserStyle(block, "w") && widthMm < maxWidthMm;
   const extraMm = autoFitted ? Math.max(0, block.style.w - widthMm) : 0;
-  const shiftMm = block.style.align === "center"
-    ? extraMm / 2
-    : block.style.align === "right"
-      ? extraMm
-      : 0;
-  return Math.max(
-    0,
-    Math.min(availableMm - widthMm, block.style.x - marginLeftMm + shiftMm),
-  );
+  const shiftMm =
+    block.style.align === "center" ? extraMm / 2 : block.style.align === "right" ? extraMm : 0;
+  return Math.max(0, Math.min(availableMm - widthMm, block.style.x - marginLeftMm + shiftMm));
 }
 
 export function flowingElementBox(
@@ -242,7 +236,11 @@ export function flowingElementBox(
   const maxWidthMm = Math.max(10, Math.min(available, block.style.w));
   const widthMm = nativeFlowBadgeWidthMm(block, paragraphs, maxWidthMm);
   const indentMm = nativeFlowBadgeIndentMm(
-    block, widthMm, maxWidthMm, available, page.margins.left,
+    block,
+    widthMm,
+    maxWidthMm,
+    available,
+    page.margins.left,
   );
   return [
     {

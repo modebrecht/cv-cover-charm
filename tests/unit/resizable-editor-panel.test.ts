@@ -28,7 +28,7 @@ describe("Resizable editor panel", () => {
     const panel = read("src/components/dossier/ResizableEditorPanel.tsx");
     expect(panel).toContain('document.body.style.cursor = "col-resize"');
     expect(panel).toContain('document.body.style.userSelect = "none"');
-    expect(panel).toContain("data-resizing={resizing ? \"true\" : \"false\"}");
+    expect(panel).toContain('data-resizing={resizing ? "true" : "false"}');
     expect(panel).toContain("aria-valuetext={`Formularbreite ${currentWidth} Pixel`}");
     expect(panel).toContain("const step = event.shiftKey ? 50 : 20");
     expect(panel).toContain("w-8 translate-x-1/2 cursor-col-resize");

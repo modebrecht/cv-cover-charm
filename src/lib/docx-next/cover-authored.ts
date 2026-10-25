@@ -23,8 +23,10 @@ export function composeAuthoredCover(
   badgeComposition?: "native-shape",
   graphicFamilyQa = false,
 ): DocBlock[] {
-  if (!TEMPLATES.find((t) => t.id === cover.template)?.authoredCoverPresentation &&
-      !graphicFamilyQa)
+  if (
+    !TEMPLATES.find((t) => t.id === cover.template)?.authoredCoverPresentation &&
+    !graphicFamilyQa
+  )
     throw Error("DOCX Next authored cover presentation is not declared for this template");
   if (cover.template === "modern" && cover.customFieldIds?.length)
     throw Error("DOCX Next Modern prototype does not yet accept custom cover elements");
@@ -169,11 +171,18 @@ export function composeAuthoredCover(
       // capsules; explicit user radius, crop and aspect ratio remain authoritative.
       const source = b.kind === "photo" ? cover.data.foto : b.src,
         h = s.w * (s.ratio ?? 1);
-      if (graphicFamilyQa && b.kind === "photo" && source &&
-          (s.follows || s.above || s.anchorBottom ||
-            ![s.x, s.y, s.w, h].every(Number.isFinite) ||
-            Math.min(s.x, s.y, s.w, h) < 0 ||
-            s.x + s.w > page.widthMm || s.y + h > page.heightMm))
+      if (
+        graphicFamilyQa &&
+        b.kind === "photo" &&
+        source &&
+        (s.follows ||
+          s.above ||
+          s.anchorBottom ||
+          ![s.x, s.y, s.w, h].every(Number.isFinite) ||
+          Math.min(s.x, s.y, s.w, h) < 0 ||
+          s.x + s.w > page.widthMm ||
+          s.y + h > page.heightMm)
+      )
         throw Error("DOCX Next saved photo requires safe absolute page coordinates");
       check(id, s.x, pos.y, s.w, h);
       if (s.w > page.widthMm - page.margins.left - page.margins.right)
@@ -336,10 +345,17 @@ export function composeAuthoredCover(
     if (s.bg) {
       // QA-only fallback: no fresh browser advance supplied by the saved-state
       // fixture. This is a prototype approximation, NOT Word pixel acceptance.
-      const advance = measured?.badgeAdvanceMm ?? (graphicFamilyQa
-        ? Math.max(1, Math.min(s.w - 2 * s.padX,
-            lineText(b.lines[0] ?? "").length * (pos.size * 25.4 / 72) * 0.53))
-        : undefined);
+      const advance =
+        measured?.badgeAdvanceMm ??
+        (graphicFamilyQa
+          ? Math.max(
+              1,
+              Math.min(
+                s.w - 2 * s.padX,
+                lineText(b.lines[0] ?? "").length * ((pos.size * 25.4) / 72) * 0.53,
+              ),
+            )
+          : undefined);
       if (
         b.lines.length !== 1 ||
         (measured?.lines ?? (graphicFamilyQa ? 1 : undefined)) !== 1 ||

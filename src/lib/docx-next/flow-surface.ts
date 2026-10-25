@@ -16,27 +16,30 @@ export function flowSurfacePaint(p: Paragraph): DecorationPaint {
     opacity: 1,
     stroke: { color: "000000", widthMm: 0 },
   };
-  const layers: DecorativeShape[] = s.variant === "rule" ? [] : [
-    {
-      ...base,
-      id: base.id + ".fill",
-      widthMm: s.widthMm,
-      radiusMm: s.heightMm / 2,
-      fill: { color: s.ink },
-      opacity: 0.14,
-    },
-    {
-      ...base,
-      id: base.id + ".outline",
-      xMm: s.outlineMm / 2,
-      yMm: s.outlineMm / 2,
-      widthMm: s.widthMm - s.outlineMm,
-      heightMm: s.heightMm - s.outlineMm,
-      radiusMm: (s.heightMm - s.outlineMm) / 2,
-      stroke: { color: s.ink, widthMm: s.outlineMm },
-      opacity: 0.3,
-    },
-  ];
+  const layers: DecorativeShape[] =
+    s.variant === "rule"
+      ? []
+      : [
+          {
+            ...base,
+            id: base.id + ".fill",
+            widthMm: s.widthMm,
+            radiusMm: s.heightMm / 2,
+            fill: { color: s.ink },
+            opacity: 0.14,
+          },
+          {
+            ...base,
+            id: base.id + ".outline",
+            xMm: s.outlineMm / 2,
+            yMm: s.outlineMm / 2,
+            widthMm: s.widthMm - s.outlineMm,
+            heightMm: s.heightMm - s.outlineMm,
+            radiusMm: (s.heightMm - s.outlineMm) / 2,
+            stroke: { color: s.ink, widthMm: s.outlineMm },
+            opacity: 0.3,
+          },
+        ];
   if (s.rule && s.rowWidthMm > s.widthMm + s.rule.gapMm)
     layers.push({
       ...base,

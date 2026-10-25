@@ -1,10 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
 
-const route = readFileSync(
-  new URL("../../src/routes/lebenslauf.tsx", import.meta.url),
-  "utf8",
-);
+const route = readFileSync(new URL("../../src/routes/lebenslauf.tsx", import.meta.url), "utf8");
 
 const resetPositionsOnly = route.match(
   /const resetPositionsOnly = \(\) => \{([\s\S]*?)\n {2}\};\n\n {2}const resetEverything/,

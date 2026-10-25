@@ -47,8 +47,11 @@
 [data-letter-canvas][data-letter-user-recipient-style="true"] [data-letter-section="recipient"] * {
   font-style: var(--letter-user-recipient-style) !important;
 }
-[data-letter-canvas][data-letter-user-recipient-decoration="true"] [data-letter-section="recipient"],
-[data-letter-canvas][data-letter-user-recipient-decoration="true"] [data-letter-section="recipient"] * {
+[data-letter-canvas][data-letter-user-recipient-decoration="true"]
+  [data-letter-section="recipient"],
+[data-letter-canvas][data-letter-user-recipient-decoration="true"]
+  [data-letter-section="recipient"]
+  * {
   text-decoration: var(--letter-user-recipient-decoration) !important;
   text-decoration-line: var(--letter-user-recipient-decoration) !important;
 }
@@ -75,7 +78,9 @@
   font-style: var(--letter-user-subject-style) !important;
 }
 [data-letter-canvas][data-letter-user-subject-decoration="true"] [data-letter-pdf-text="subject"],
-[data-letter-canvas][data-letter-user-subject-decoration="true"] [data-letter-pdf-text="subject"] * {
+[data-letter-canvas][data-letter-user-subject-decoration="true"]
+  [data-letter-pdf-text="subject"]
+  * {
   text-decoration: var(--letter-user-subject-decoration) !important;
   text-decoration-line: var(--letter-user-subject-decoration) !important;
 }

@@ -178,7 +178,15 @@ function frameRun(id: string, x: number, y: number, width: number, height: numbe
   return `<w:r><w:pict><v:rect id="${id}" style="${vmlStyle(x, y, width, height)}" filled="f" strokecolor="#${color}" strokeweight="0.7pt"/></w:pict></w:r>`;
 }
 
-function ovalRun(id: string, x: number, y: number, width: number, height: number, fill: string, stroke: string) {
+function ovalRun(
+  id: string,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  fill: string,
+  stroke: string,
+) {
   return `<w:r><w:pict><v:oval id="${id}" style="${vmlStyle(x, y, width, height)}" fillcolor="#${fill}" strokecolor="#${stroke}" strokeweight="1pt"/></w:pict></w:r>`;
 }
 
@@ -232,7 +240,12 @@ function patchParagraphContaining(
   return source.slice(0, propertiesStart + 7) + next + source.slice(propertiesEnd);
 }
 
-function setAlignment(source: string, text: string, alignment: "left" | "right", rightIndentMm = 0) {
+function setAlignment(
+  source: string,
+  text: string,
+  alignment: "left" | "right",
+  rightIndentMm = 0,
+) {
   return patchParagraphContaining(source, text, (properties) => {
     const jc = `<w:jc w:val="${alignment}"/>`;
     const indent = rightIndentMm ? `<w:ind w:right="${twips(rightIndentMm)}"/>` : "";
@@ -244,8 +257,11 @@ function setAlignment(source: string, text: string, alignment: "left" | "right",
 }
 
 function addLeftBorder(source: string, text: string, color: string) {
-  return patchParagraphContaining(source, text, (properties) =>
-    `${properties}<w:pBdr><w:left w:val="single" w:sz="18" w:space="5" w:color="${color}"/></w:pBdr>`,
+  return patchParagraphContaining(
+    source,
+    text,
+    (properties) =>
+      `${properties}<w:pBdr><w:left w:val="single" w:sz="18" w:space="5" w:color="${color}"/></w:pBdr>`,
   );
 }
 
@@ -258,7 +274,12 @@ function paragraph(
   text: string,
   size: number,
   color: string,
-  { bold = false, before = 0, after = 0, trackingPt = 0 }: { bold?: boolean; before?: number; after?: number; trackingPt?: number } = {},
+  {
+    bold = false,
+    before = 0,
+    after = 0,
+    trackingPt = 0,
+  }: { bold?: boolean; before?: number; after?: number; trackingPt?: number } = {},
 ) {
   return `<w:p><w:pPr><w:spacing w:before="${twips(before)}" w:after="${twips(after)}" w:line="276" w:lineRule="auto"/><w:jc w:val="left"/></w:pPr>${run(text, size, color, bold, trackingPt)}</w:p>`;
 }
@@ -286,14 +307,27 @@ function studioHeadingLabels(cv: CvPdfDocument) {
   const labels = cv.data.labels ?? {};
   const hidden = cv.data.hidden ?? {};
   const values: string[] = [];
-  if (!hidden.schule && cv.data.schule.some(entryFilled)) values.push(labels.schule || CV_SECTION_LABELS.schule);
-  if (!hidden.erfahrung && cv.data.erfahrung.some(entryFilled)) values.push(labels.erfahrung || CV_SECTION_LABELS.erfahrung);
-  if (!hidden.sprachen && cv.data.sprachen.some((entry) => entry.name.trim() || entry.niveau.trim())) values.push(labels.sprachen || CV_SECTION_LABELS.sprachen);
-  if (!hidden.hobbys && cv.data.hobbys.some((item) => item.trim())) values.push(labels.hobbys || CV_SECTION_LABELS.hobbys);
-  if (!hidden.staerken && cv.data.staerken.some((item) => item.trim())) values.push(labels.staerken || CV_SECTION_LABELS.staerken);
-  if (!hidden.referenzen && cv.data.referenzen.some((entry) => entry.name.trim() || entry.kontakt.trim())) values.push(labels.referenzen || CV_SECTION_LABELS.referenzen);
+  if (!hidden.schule && cv.data.schule.some(entryFilled))
+    values.push(labels.schule || CV_SECTION_LABELS.schule);
+  if (!hidden.erfahrung && cv.data.erfahrung.some(entryFilled))
+    values.push(labels.erfahrung || CV_SECTION_LABELS.erfahrung);
+  if (
+    !hidden.sprachen &&
+    cv.data.sprachen.some((entry) => entry.name.trim() || entry.niveau.trim())
+  )
+    values.push(labels.sprachen || CV_SECTION_LABELS.sprachen);
+  if (!hidden.hobbys && cv.data.hobbys.some((item) => item.trim()))
+    values.push(labels.hobbys || CV_SECTION_LABELS.hobbys);
+  if (!hidden.staerken && cv.data.staerken.some((item) => item.trim()))
+    values.push(labels.staerken || CV_SECTION_LABELS.staerken);
+  if (
+    !hidden.referenzen &&
+    cv.data.referenzen.some((entry) => entry.name.trim() || entry.kontakt.trim())
+  )
+    values.push(labels.referenzen || CV_SECTION_LABELS.referenzen);
   for (const section of cv.data.customSections ?? []) {
-    if (section.title.trim() || section.entries.some(entryFilled)) values.push(section.title || "Weitere Angaben");
+    if (section.title.trim() || section.entries.some(entryFilled))
+      values.push(section.title || "Weitere Angaben");
   }
   return values.map((label) => label.toLocaleUpperCase("de-CH"));
 }
@@ -308,7 +342,8 @@ function replaceCvIntro(source: string, cv: CvPdfDocument, paper: string) {
   let firstHeadingIndex = -1;
   for (const label of labels) {
     const index = source.indexOf(`>${xmlEscape(label)}</w:t>`, decorationsEnd);
-    if (index >= 0 && (firstHeadingIndex < 0 || index < firstHeadingIndex)) firstHeadingIndex = index;
+    if (index >= 0 && (firstHeadingIndex < 0 || index < firstHeadingIndex))
+      firstHeadingIndex = index;
   }
   if (firstHeadingIndex < 0) return source;
   const firstTable = source.lastIndexOf("<w:tbl>", firstHeadingIndex);
@@ -372,7 +407,9 @@ function patchStudioDocumentXml(
     "warm-cover-photo-mat",
     ovalRun("studio3-cover-photo-mat", 130, 60, 48, 48, coverPalette.paper, coverPalette.primary),
   );
-  const photoRelationship = xml.match(/<v:oval id="warm-cover-photo"[\s\S]*?<v:imagedata r:id="([^"]+)"/)?.[1];
+  const photoRelationship = xml.match(
+    /<v:oval id="warm-cover-photo"[\s\S]*?<v:imagedata r:id="([^"]+)"/,
+  )?.[1];
   if (photoRelationship) {
     xml = replaceDrawing(
       xml,
@@ -383,7 +420,8 @@ function patchStudioDocumentXml(
   }
 
   const coverName = [cover.data.vorname, cover.data.nachname].filter(Boolean).join(" ");
-  const coverInitials = `${cover.data.vorname.trim().charAt(0)}${cover.data.nachname.trim().charAt(0)}`.toUpperCase();
+  const coverInitials =
+    `${cover.data.vorname.trim().charAt(0)}${cover.data.nachname.trim().charAt(0)}`.toUpperCase();
   xml = setAlignment(xml, coverInitials, "right", 38);
   xml = setAlignment(xml, coverName, "left");
   xml = setAlignment(xml, cover.data.beruf, "left");
@@ -396,8 +434,16 @@ function patchStudioDocumentXml(
     );
   }
 
-  xml = replaceDrawing(xml, "warm-letter-masthead", rectRun("studio3-letter-primary", 0, 0, 210, 22, letterPalette.primary));
-  xml = replaceDrawing(xml, "warm-letter-ring", rectRun("studio3-letter-mint", 146, 0, 64, 22, letterPalette.secondary));
+  xml = replaceDrawing(
+    xml,
+    "warm-letter-masthead",
+    rectRun("studio3-letter-primary", 0, 0, 210, 22, letterPalette.primary),
+  );
+  xml = replaceDrawing(
+    xml,
+    "warm-letter-ring",
+    rectRun("studio3-letter-mint", 146, 0, 64, 22, letterPalette.secondary),
+  );
   xml = replaceDrawing(xml, "warm-letter-orb", "");
   xml = replaceDrawing(xml, "warm-letter-footer", "");
   const oldLetterSpacer = `<w:spacing w:before="0" w:after="0" w:line="${twips(23)}" w:lineRule="exact"/>`;
@@ -421,9 +467,19 @@ function patchStudioDocumentXml(
       cvPalette.primary,
     ),
   );
-  xml = replaceDrawing(xml, "warm-cv-orb", rectRun("studio3-cv-mint", 146, 0, 64, 22, cvPalette.secondary));
-  xml = replaceDrawing(xml, "warm-cv-bottom-band", frameRun("studio3-cv-frame", 10, 10, 190, 277, cvPalette.accent));
-  const cvPhotoRelationship = xml.match(/<v:oval id="warm-cv-photo"[\s\S]*?<v:imagedata r:id="([^"]+)"/)?.[1];
+  xml = replaceDrawing(
+    xml,
+    "warm-cv-orb",
+    rectRun("studio3-cv-mint", 146, 0, 64, 22, cvPalette.secondary),
+  );
+  xml = replaceDrawing(
+    xml,
+    "warm-cv-bottom-band",
+    frameRun("studio3-cv-frame", 10, 10, 190, 277, cvPalette.accent),
+  );
+  const cvPhotoRelationship = xml.match(
+    /<v:oval id="warm-cv-photo"[\s\S]*?<v:imagedata r:id="([^"]+)"/,
+  )?.[1];
   if (cvPhotoRelationship) {
     xml = replaceDrawing(
       xml,
@@ -439,7 +495,10 @@ function patchStudioDocumentXml(
     const before = xml.slice(0, cvAnchor);
     let tail = xml.slice(cvAnchor);
     tail = tail.replace(
-      new RegExp(`<w:bottom w:val="single" w:sz="8" w:space="1" w:color="${cvPalette.primary}"/>`, "g"),
+      new RegExp(
+        `<w:bottom w:val="single" w:sz="8" w:space="1" w:color="${cvPalette.primary}"/>`,
+        "g",
+      ),
       `<w:bottom w:val="single" w:sz="8" w:space="1" w:color="${cvPalette.accent}"/>`,
     );
     xml = before + tail;
@@ -495,7 +554,9 @@ export async function createStudio3DossierDocxBlob(
   cv: CvPdfDocument,
 ) {
   if (!studio3DossierDocxSupported(cover, letter, cv)) {
-    throw new Error("Der DOCX-Referenzexport Studio 3 benötigt Studio 3 in allen drei Dossierteilen.");
+    throw new Error(
+      "Der DOCX-Referenzexport Studio 3 benötigt Studio 3 in allen drei Dossierteilen.",
+    );
   }
 
   const compatible = warmCompatibleDocuments(cover, letter, cv);
@@ -513,7 +574,9 @@ export async function createStudio3DossierDocxBlob(
   const core = entries.find((entry) => entry.name === "docProps/core.xml");
   if (core) {
     core.bytes = encoder.encode(
-      decoder.decode(core.bytes).replace("Bewerbungsdossier – Warm", "Bewerbungsdossier – Studio 3"),
+      decoder
+        .decode(core.bytes)
+        .replace("Bewerbungsdossier – Warm", "Bewerbungsdossier – Studio 3"),
     );
   }
 
