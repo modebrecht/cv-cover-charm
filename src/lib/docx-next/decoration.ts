@@ -154,7 +154,8 @@ export function validateDecoration(shape: DecorationPaint): void {
   if (
     shape.paintLayer !== undefined &&
     (!Number.isSafeInteger(shape.paintLayer) ||
-      shape.paintLayer < 1 ||
+      // Zero is the page underlay, matching the native picture renderer.
+      shape.paintLayer < 0 ||
       shape.paintLayer > 2147483647)
   )
     throw new Error(`DOCX Next invalid decoration paint layer ${shape.id}`);

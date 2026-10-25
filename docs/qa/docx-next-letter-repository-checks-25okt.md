@@ -1,5 +1,7 @@
 # Brief-Kandidat mit echten Repository-Prüfungen abgesichert
 
+**Nachtrag 25. Oktober:** Die vier hier dokumentierten bestehenden Unit-Fehler sind im [anschliessenden Korrekturschritt](docx-next-existing-check-fixes-25okt.md) geschlossen. Aktuell 1412 Unit-Tests bestanden, keine Fehler. Dieser Bericht bewahrt den vorausgehenden Prüfschritt auf `4e87dd8`.
+
 25. Oktober 2026. Branch `fix/docx-next-shared-integration-22okt`.
 Ausgangspunkt: `9eb1494017bf8f0f9e01dcd2e6235fac14f8dd3f`.
 
