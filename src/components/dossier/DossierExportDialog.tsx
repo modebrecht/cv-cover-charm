@@ -23,7 +23,10 @@ import {
 } from "@/lib/dossier-project";
 import { nativePrintUiEnabled } from "@/lib/native-print-visibility";
 import { briefDocxNextUiEnabled } from "@/lib/docx-next/brief-visibility";
-import { coverFamilyDocxQaEnabled, isCoverFamilyDocxQaTemplate } from "@/lib/docx-next/cover-family-visibility";
+import {
+  coverFamilyDocxQaEnabled,
+  isCoverFamilyDocxQaTemplate,
+} from "@/lib/docx-next/cover-family-visibility";
 import {
   designDocxNextUiEnabled,
   designNativeBadgeUiEnabled,
@@ -538,9 +541,11 @@ export function DossierExportDialog({
         onCoverFamilyDocxNext ? (
           <div className="mt-3 rounded-lg border px-3 py-2" data-cover-family-docx-next-qa>
             <p className="text-xs text-muted-foreground">
-              Vollständiges DOCX-Testdossier mit Titelblatt, Anschreiben und CV
-              aus dem gespeicherten Projekt. Nur QA, keine Produktfreigabe.
-              {coverChanged ? " Hinweis: Titelblatt und zuletzt übernommene CV-Kopfdaten unterscheiden sich." : ""}
+              Vollständiges DOCX-Testdossier mit Titelblatt, Anschreiben und CV aus dem
+              gespeicherten Projekt. Nur QA, keine Produktfreigabe.
+              {coverChanged
+                ? " Hinweis: Titelblatt und zuletzt übernommene CV-Kopfdaten unterscheiden sich."
+                : ""}
             </p>
             <button
               type="button"

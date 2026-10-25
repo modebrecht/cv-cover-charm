@@ -51,7 +51,7 @@ for (const [id, input] of inputs) {
     (a) => !a.id.startsWith("cv.artwork.sidebar-"),
   );
   assert.deepEqual(withoutPaint, before, "Only page paint may change");
-  const outputs: any = {};
+  const outputs: Partial<Record<"before" | "after", ReturnType<typeof readZipEntries>>> = {};
   for (const [kind, model] of [
     ["before", before],
     ["after", after],

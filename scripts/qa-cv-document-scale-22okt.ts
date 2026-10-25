@@ -19,7 +19,7 @@ const browser = await chromium.launch({
   args: ["--no-sandbox", "--disable-gpu"],
 });
 const results = [];
-let baseline: any;
+let baseline: { bytes: Buffer; proof: unknown } | undefined;
 try {
   for (const item of [
     { id: "baseline", width: 1440, dpr: 1, preview: 1 },
@@ -33,10 +33,15 @@ try {
     try {
       const page = await context.newPage(),
         errors: string[] = [];
-      page.on("dialog", (d: any) => void d.accept());
+      page.on("dialog", (d: { accept: () => Promise<void> }) => void d.accept());
       page.on("pageerror", (e: Error) => errors.push(e.message));
-      await page.route("**/*", (r: any) =>
-        r.request().url().startsWith(base) ? r.continue() : r.abort(),
+      await page.route(
+        "**/*",
+        (r: {
+          request: () => { url: () => string };
+          continue: () => Promise<void>;
+          abort: () => Promise<void>;
+        }) => (r.request().url().startsWith(base) ? r.continue() : r.abort()),
       );
       await page.goto(base + "/" + query, { waitUntil: "networkidle" });
       await Promise.all([
