@@ -23,6 +23,7 @@ import {
 } from "@/lib/dossier-project";
 import { nativePrintUiEnabled } from "@/lib/native-print-visibility";
 import { briefDocxNextUiEnabled } from "@/lib/docx-next/brief-visibility";
+import { savedAppDocxNextAvailability } from "@/lib/docx-next/app-source";
 import {
   coverFamilyDocxQaEnabled,
   isCoverFamilyDocxQaTemplate,
@@ -122,6 +123,9 @@ export function DossierExportDialog({
   const [format, setFormat] = useState<DossierExportFormat>("pdf");
   const [preflight, setPreflight] = useState<PdfPreflightResult | null>(null);
   const [overrideError, setOverrideError] = useState<string | null>(null);
+  const [creatingDocxNext, setCreatingDocxNext] = useState(false);
+  const [docxNextError, setDocxNextError] = useState<string | null>(null);
+  const docxNext = open ? savedAppDocxNextAvailability() : { available: false, reason: "" };
   const letterOverflow =
     preflight?.status === "blocked"
       ? true
@@ -134,7 +138,26 @@ export function DossierExportDialog({
     jsonAvailable !== undefined || pdfAvailable !== undefined || docxAvailable !== undefined;
   const canDownloadPdf = pdfAvailable ?? true;
   const canDownloadDocx = docxAvailable ?? false;
-  const busy = downloading || nativePrinting;
+  const busy = downloading || nativePrinting || creatingDocxNext;
+
+  const downloadDocxNext = async () => {
+    if (busy || !docxNext.available) return;
+    setCreatingDocxNext(true);
+    setDocxNextError(null);
+    try {
+      const { downloadSavedDossierDocxNext } = await import("@/lib/dossier-docx-next-export");
+      await downloadSavedDossierDocxNext();
+      onClose();
+    } catch (error) {
+      setDocxNextError(
+        error instanceof Error
+          ? error.message.replaceAll("Brief DOCX Next", "DOCX Next")
+          : "DOCX Next konnte nicht erstellt werden.",
+      );
+    } finally {
+      setCreatingDocxNext(false);
+    }
+  };
 
   const cover = coverPdfDocumentFromSaved(readStoredDossierPart(COVER_STORAGE_KEY));
   const letter = letterPdfDocumentFromSaved(readStoredDossierPart(LETTER_STORAGE_KEY));
@@ -467,6 +490,29 @@ export function DossierExportDialog({
             </p>
           </div>
         </details>
+
+        <section className="mt-3 rounded-lg border px-3 py-3" aria-labelledby="docx-next-title">
+          <h3 id="docx-next-title" className="text-sm font-semibold">
+            Word mit DOCX Next
+          </h3>
+          <p id="docx-next-description" className="mt-1 text-xs text-muted-foreground">
+            Vorschau aus dem gespeicherten Dossier · {docxNext.reason}
+          </p>
+          <button
+            type="button"
+            onClick={() => void downloadDocxNext()}
+            disabled={busy || !docxNext.available}
+            aria-describedby="docx-next-description"
+            className="mt-2 rounded-md border px-3 py-2 text-sm font-medium disabled:opacity-50"
+          >
+            {creatingDocxNext ? "DOCX Next wird erstellt…" : "DOCX Next herunterladen"}
+          </button>
+          {docxNextError ? (
+            <p role="alert" className="mt-2 text-sm text-destructive">
+              {docxNextError}
+            </p>
+          ) : null}
+        </section>
 
         {designDocxNextUiEnabled() && cover?.template === "modern" && onDesignDocxNext ? (
           <div className="mt-3 rounded-lg border px-3 py-2" data-design-docx-next-qa>
