@@ -1,5 +1,7 @@
 # Referenzzeilen nutzen belegte Spalten
 
+**Benutzerrückmeldung am 25. Oktober zur aktualisierten Datei:** «sieht super aus, lässt sich wie ein normales bild verschieben done». Die Darstellung wird positiv bewertet und die normale Fotobewegung ist in Word abgenommen. Der unten genannte offene Foto-Bedienungsnachweis ist damit erledigt. Ein separater Referenz-Zeilenumbruch-Nachweis oder gespeicherter DOCX-Rücklauf wurde damit nicht geliefert; keine weitere Speichermatrix anfordern.
+
 25. Oktober 2026. Branch `fix/docx-next-shared-integration-22okt`.
 Ausgangskopf `f78304e91d2c2ac8c378900f6e2ab20f9177379e`.
 

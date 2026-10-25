@@ -1,5 +1,7 @@
 # Gewöhnliches Word Foto und Korrektur der zusätzlichen Fotoseite
 
+**Abnahme am 25. Oktober:** Der Benutzer bestätigt zur zuletzt aktualisierten `CV-Foto.docx` (Version 2; Quellstand `36854783d755a28610770a5a5d6d40b05acea5ef`): «sieht super aus, lässt sich wie ein normales bild verschieben done». Darstellung und normale Bildbewegung in Word sind damit abgenommen; der Foto-Fix ist erledigt. Die untenstehenden Hinweise zur fehlenden Fotobedienungsabnahme beschreiben frühere Zwischenstände. Keine weitere Fotodiagnose oder Speichermatrix. Kein neuer gespeicherter DOCX-Rücklauf wurde ausgewertet; eine exakte Seitenzahl wird aus dieser Meldung nicht abgeleitet.
+
 25. Oktober 2026. Branch `fix/docx-next-shared-integration-22okt`.
 Ausgangskopf dieser Korrektur: `7b424023d286b4fc47ccebdbc8f86ab923156f3b`.
 
