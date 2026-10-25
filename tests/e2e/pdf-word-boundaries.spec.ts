@@ -60,7 +60,7 @@ test("all 39 automatic Letter PDFs preserve literal recipient, address and salut
     // exporter. Combined covers have their own safety/ordering regressions.
     await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "networkidle" });
     await page.getByRole("button", { name: "Download", exact: true }).click();
-    const button = page.getByRole("button", { name: /Nur Motivationsschreiben als PDF/ });
+    const button = page.getByRole("menuitem", { name: "PDF", exact: true });
     await expect(button).toBeEnabled({ timeout: 30000 });
     const expectedPages = await page
       .locator("[data-letter-standalone-export] [data-letter-document-pages] [data-letter-page]")

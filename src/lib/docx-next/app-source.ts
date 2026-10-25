@@ -17,6 +17,15 @@ import { DEFAULT_DOSSIER_CHROME_STATE } from "@/lib/dossier-chrome";
 import { captureDossierDocxNextSnapshot } from "./snapshot";
 import type { DossierAppSnapshot } from "./source";
 
+export class DocxDownloadError extends Error {}
+
+/** Keep implementation diagnostics out of the ordinary download interface. */
+export function docxDownloadErrorMessage(error: unknown): string {
+  return error instanceof DocxDownloadError
+    ? error.message
+    : "Die DOCX-Datei konnte mit diesen Einstellungen nicht erstellt werden. Bitte prüfe dein Dossier.";
+}
+
 /** The reviewed application composition, independently of the older URL-only trials. */
 export function assertAppDocxNextSource(source: DossierAppSnapshot): void {
   if (
@@ -25,12 +34,14 @@ export function assertAppDocxNextSource(source: DossierAppSnapshot): void {
     source.cv.design.template !== "modern" ||
     source.settings.cvLayout !== "sidebar"
   )
-    throw Error("DOCX Next ist derzeit für Modern mit Sidebar im Lebenslauf verfügbar.");
+    throw new DocxDownloadError(
+      "Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+    );
   if (
     source.cv.design.font !== "sans" ||
     (source.letter.design.fontOverride ?? source.letter.design.font) !== "sans"
   )
-    throw Error("Für diese DOCX-Next-Ausgabe bitte Sans in Brief und Lebenslauf wählen.");
+    throw new DocxDownloadError("Bitte in Brief und Lebenslauf die Schrift «Sans» wählen.");
   const chrome = resolveDossierChromeSnapshot(
     source,
     source.settings.chrome ?? DEFAULT_DOSSIER_CHROME_STATE,
@@ -40,8 +51,8 @@ export function assertAppDocxNextSource(source: DossierAppSnapshot): void {
       ({ options }) => options.headerMode !== "contact" || options.footerMode !== "compact",
     )
   )
-    throw Error(
-      "DOCX Next benötigt derzeit Kontaktkopfzeilen und kompakte Fusszeilen in Brief und CV.",
+    throw new DocxDownloadError(
+      "Bitte in Brief und Lebenslauf eine Kopfzeile mit Kontaktdaten und eine kompakte Fusszeile wählen.",
     );
 }
 
@@ -57,7 +68,7 @@ export function captureSavedAppDocxNextSource(): DossierAppSnapshot {
     !cvPdfHasContent(cv.data) ||
     !letterReadiness(letter.data).readyToSend
   )
-    throw Error(
+    throw new DocxDownloadError(
       "Bitte zuerst Titelblatt, Motivationsschreiben und Lebenslauf vollständig ausfüllen.",
     );
   const source = captureDossierDocxNextSnapshot(cover, letter, cv);
@@ -68,14 +79,11 @@ export function captureSavedAppDocxNextSource(): DossierAppSnapshot {
 export function savedAppDocxNextAvailability(): { available: boolean; reason: string } {
   try {
     captureSavedAppDocxNextSource();
-    return { available: true, reason: "Modern mit Sidebar · frei bewegliches CV-Foto" };
+    return { available: true, reason: "Bereit" };
   } catch (error) {
     return {
       available: false,
-      reason:
-        error instanceof Error
-          ? error.message
-          : "DOCX Next ist für diesen Entwurf nicht verfügbar.",
+      reason: docxDownloadErrorMessage(error),
     };
   }
 }

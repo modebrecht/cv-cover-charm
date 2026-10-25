@@ -258,7 +258,7 @@ test.describe("letter image placement hardening", () => {
     // Both previously manipulated image geometries intentionally remain
     // saved. In this state the physical preflight detects overlapping ink;
     // do not turn that unsafe layout into a successful PDF.
-    const exportAction = page.getByRole("button", { name: /Nur Motivationsschreiben als PDF/i });
+    const exportAction = page.getByRole("menuitem", { name: "PDF", exact: true });
     await expect(exportAction).toBeDisabled();
     await expect(page.locator("[data-pdf-preflight-message]")).toContainText(
       /ausserhalb|abgeschnitten|überlappt|Seitenbereich/i,

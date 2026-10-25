@@ -69,7 +69,7 @@ test("a retired Frame cover import replaces the current template with canonical 
   const covers = page.locator('[data-dossier-document="cover"]');
   await expect(covers.first()).toHaveAttribute("data-cover-template", "diagonal");
 
-  await page.getByRole("button", { name: "Download" }).click();
+  await page.getByRole("button", { name: "Menü", exact: true }).click();
   await page.locator('input[type="file"][accept="application/json"]').setInputFiles({
     name: "legacy-frame-cover.json",
     mimeType: "application/json",

@@ -167,7 +167,7 @@ async function expectHealthy(preview: Locator, exported: Locator, label: string)
 async function clickDownloadPdf(page: Page) {
   const download = page.getByRole("button", { name: "Download", exact: true });
   await download.click();
-  const button = page.getByRole("button", { name: /Nur Motivationsschreiben als PDF/ });
+  const button = page.getByRole("menuitem", { name: "PDF", exact: true });
   await expect(button).toBeVisible();
   return button;
 }
@@ -300,7 +300,7 @@ test.describe("M8 adversarial motivation-letter content", () => {
       expect(scenario.label).toBe("many");
       expect(problems.some((problem) => problem.includes("footer"))).toBe(true);
       await download.click();
-      const pdfButton = page.getByRole("button", { name: /Nur Motivationsschreiben als PDF/ });
+      const pdfButton = page.getByRole("menuitem", { name: "PDF", exact: true });
       if (await pdfButton.isDisabled()) {
         await expect(page.getByRole("alert")).toContainText("Zu viel Text für eine Seite");
       } else {

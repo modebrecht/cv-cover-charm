@@ -55,6 +55,8 @@ import {
 } from "./native-text";
 
 export type RenderOptions = {
+  /** Omit unrelated dossier stories and assets for a single-document download. */
+  part?: DocumentPart["id"];
   normalizeImage?: ImageNormalizer;
   allowUnacceptedModelIssues?: boolean;
   rasterizeDecoration?: DecorationRasterizer;
@@ -65,15 +67,16 @@ export async function renderDossierDocx(
   model: DossierDocModel,
   options: RenderOptions = {},
 ): Promise<Blob> {
+  const parts = [model.cover, model.letter, model.cv].filter(
+    (part) => options.part === undefined || part.id === options.part,
+  );
+  if (!parts.length) throw new Error("Unknown document part");
   if (model.issues.length && !options.allowUnacceptedModelIssues)
     throw new Error(
       `DOCX Next has unaccepted model issues: ${model.issues.map((issue) => issue.code).join(", ")}`,
     );
   validateDossierDocModel(model);
-  if (
-    [model.cover, model.letter, model.cv].some((part) => part.firstFooter !== undefined) &&
-    !options.allowUnacceptedModelIssues
-  )
+  if (parts.some((part) => part.firstFooter !== undefined) && !options.allowUnacceptedModelIssues)
     throw new Error("DOCX Next first footer identity is unaccepted; diagnostic opt-in required");
   if (model.floatingTableTextFlow !== undefined && !options.allowUnacceptedModelIssues)
     throw new Error(
@@ -95,7 +98,7 @@ export async function renderDossierDocx(
   const pkg = new WordPackage();
   const normalize = imageCache(options.normalizeImage ?? normalizeBrowserImage);
   const sources = new Map<string, { asset: NormalizedImage; rid: string; file: string }>();
-  const blocks = [model.cover, model.letter, model.cv].flatMap((part) => [
+  const blocks = parts.flatMap((part) => [
     ...walkBlocks(part.blocks),
     ...(part.headerShapes ?? []),
     ...(part.headerFrames ?? []),
@@ -115,7 +118,7 @@ export async function renderDossierDocx(
     throw new Error(
       "DOCX Next floating table pagination is unaccepted; diagnostic opt-in required",
     );
-  const storyBlocks = [model.cover, model.letter, model.cv].flatMap((part) =>
+  const storyBlocks = parts.flatMap((part) =>
     walkBlocks([
       ...part.blocks,
       ...part.header,
@@ -171,10 +174,7 @@ export async function renderDossierDocx(
     !options.allowUnacceptedModelIssues
   )
     throw new Error("DOCX Next table identity carrier is unaccepted; diagnostic opt-in required");
-  if (
-    [model.cover, model.letter, model.cv].some((part) => part.pagePaintCoverage) &&
-    !options.allowUnacceptedModelIssues
-  )
+  if (parts.some((part) => part.pagePaintCoverage) && !options.allowUnacceptedModelIssues)
     throw Error("DOCX Next native page coverage requires the explicit candidate gate");
   if (
     storyBlocks.some(
@@ -199,14 +199,14 @@ export async function renderDossierDocx(
   const rasterize = options.rasterizeDecoration ?? rasterizeDecoration;
   const normalizeDecoration = imageCache((key) => rasterize(JSON.parse(key) as DecorationPaint));
   const composedPaint = new Map<string, DecorationPaint>();
-  for (const part of [model.cover, model.letter, model.cv]) {
+  for (const part of parts) {
     if (part.pagePaintComposition)
       for (const first of [false, true]) {
         const paint = compositePagePaint(part, first);
         if (paint) composedPaint.set(paint.id, paint);
       }
   }
-  for (const part of [model.cover, model.letter, model.cv])
+  for (const part of parts)
     for (const block of [
       ...walkBlocks(part.blocks).flatMap((block) =>
         block.kind === "paragraph" && block.flowSurface
@@ -870,7 +870,6 @@ export async function renderDossierDocx(
     }
     return `<w:sectPr>${references}<w:type w:val="${planned.breakBefore}"/><w:pgSz w:w="${twips(part.page.widthMm)}" w:h="${twips(part.page.heightMm)}"/><w:pgMar w:top="${twips(m.top)}" w:right="${twips(m.right)}" w:bottom="${twips(m.bottom)}" w:left="${twips(m.left)}" w:header="${twips(part.page.headerDistanceMm)}" w:footer="${twips(part.page.footerDistanceMm)}" w:gutter="0"/>${part.chrome.borderColor ? `<w:pgBorders w:offsetFrom="page">${["top", "left", "bottom", "right"].map((edge) => `<w:${edge} w:val="single" w:sz="${Math.max(1, Math.round(((part.chrome.borderWidthMm * 72) / 25.4) * 8))}" w:space="12" w:color="${part.chrome.borderColor}"/>`).join("")}</w:pgBorders>` : ""}<w:cols w:equalWidth="1" w:num="${planned.columns.count}" w:space="${twips(planned.columns.gapMm)}"/>${part.firstHeader && planned.logicalStart ? "<w:titlePg/>" : ""}</w:sectPr>`;
   }
-  const parts = [model.cover, model.letter, model.cv];
   const physicalSections = parts.flatMap((part) =>
     planPartSections(part).map((planned) => ({ part, planned })),
   );

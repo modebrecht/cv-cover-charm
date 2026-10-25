@@ -468,11 +468,7 @@ test.describe("M5 final letter QA", () => {
     await expect(page.getByRole("alert")).toHaveCount(0);
     const download = page.getByRole("button", { name: "Download", exact: true });
     await download.click();
-    await expect(
-      page
-        .locator("[data-editor-action-menu] button")
-        .filter({ hasText: "Nur Motivationsschreiben als PDF" }),
-    ).toBeEnabled();
+    await expect(page.getByRole("menuitem", { name: "PDF", exact: true })).toBeEnabled();
   });
 
   test("multi-page-sized content paginates without clipping and remains exportable", async ({
@@ -504,10 +500,6 @@ test.describe("M5 final letter QA", () => {
 
     const download = page.getByRole("button", { name: "Download", exact: true });
     await download.click();
-    await expect(
-      page.locator("[data-editor-action-menu] button").filter({
-        hasText: "Nur Motivationsschreiben als PDF",
-      }),
-    ).toBeEnabled();
+    await expect(page.getByRole("menuitem", { name: "PDF", exact: true })).toBeEnabled();
   });
 });

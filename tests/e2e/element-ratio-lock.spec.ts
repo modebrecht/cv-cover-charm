@@ -164,7 +164,7 @@ async function resetSelected(page: Page) {
 
 /** Reset only geometry, which must preserve visual/user preferences such as lockRatio. */
 async function resetGeometry(page: Page) {
-  await page.getByRole("button", { name: "Download" }).click();
+  await page.getByRole("button", { name: "Menü", exact: true }).click();
   await page.getByRole("button", { name: /Positionen\s*&\s*Grössen zurücksetzen/ }).click();
 }
 

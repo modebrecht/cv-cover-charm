@@ -2,16 +2,8 @@ import { useDossierChromePalette } from "@/lib/dossier-chrome-palette.browser";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { ThemeToggle } from "@/components/cover/ThemeToggle";
-import {
-  FileDown,
-  Files,
-  FolderOpen,
-  History,
-  MoveDiagonal2,
-  RotateCcw,
-  Save,
-  Sparkles,
-} from "lucide-react";
+import { FolderOpen, History, MoveDiagonal2, RotateCcw, Menu, Sparkles } from "lucide-react";
+import { EditorDownloadMenu } from "@/components/dossier/EditorDownloadMenu";
 import { EditorMenuLabel } from "@/components/dossier/EditorMenuLabel";
 import { DossierChromeControls } from "@/components/dossier/DossierChromeControls";
 import { DossierChromeDocumentContentControls } from "@/components/dossier/DossierChromeDocumentContentControls";
@@ -340,6 +332,7 @@ function Lebenslauf() {
   const [history, setHistory] = useState<Snapshot[]>([]);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [downloadMenuOpen, setDownloadMenuOpen] = useState(false);
   /** Zweiter Klick bestätigt "Alles zurücksetzen" – sonst wäre alles weg. */
   const [confirmWipe, setConfirmWipe] = useState(false);
   /** Beispieldaten überschreiben den aktuellen Inhalt und brauchen eine Rückfrage. */
@@ -1257,78 +1250,43 @@ function Lebenslauf() {
                 ))}
               </select>
             </label>
+            <EditorDownloadMenu
+              part="cv"
+              ready={saveState !== "idle"}
+              open={downloadMenuOpen}
+              onOpenChange={(open) => {
+                setDownloadMenuOpen(open);
+                if (open) setMenuOpen(false);
+              }}
+              busy={downloading || nativePrint.printing}
+              onPdf={downloadPdf}
+              onJson={downloadDossier}
+              onDossierPdf={() => {
+                setDossierWarnings(null);
+                setDossierReviewOpen(true);
+              }}
+              dossierPdfDisabled={!canDownloadDossierPdf}
+              dossierPdfHint={dossierPdfHint}
+            />
             <div className="relative" ref={menuRef}>
               <button
                 type="button"
-                onClick={() => setMenuOpen((v) => !v)}
-                disabled={downloading}
+                onClick={() => {
+                  setDownloadMenuOpen(false);
+                  setMenuOpen((v) => !v);
+                }}
                 aria-expanded={menuOpen}
-                data-editor-ready={saveState === "idle" ? "false" : "true"}
-                className="inline-flex items-center gap-2 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-60 sm:px-4"
+                aria-label="Menü"
+                title="Menü"
+                className="inline-flex shrink-0 items-center rounded-md border border-input bg-background px-2.5 py-2 hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
-                {downloading ? "PDF…" : "Download"}
-                <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
-                  <path
-                    d="M3 4.5l3 3 3-3"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                <Menu className="h-5 w-5" aria-hidden="true" />
               </button>
               {menuOpen && (
                 <div
                   data-editor-action-menu
                   className="absolute right-0 mt-2 w-72 overflow-hidden rounded-md border bg-popover shadow-lg"
                 >
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMenuOpen(false);
-                      setDossierWarnings(null);
-                      setDossierReviewOpen(true);
-                    }}
-                    disabled={!canDownloadDossierPdf}
-                    title={
-                      canDownloadDossierPdf
-                        ? "Titelblatt, Motivationsschreiben und alle CV-Seiten gemeinsam herunterladen"
-                        : dossierPdfHint
-                    }
-                    className="flex w-full items-center justify-between px-3 py-2 text-left text-sm font-medium hover:bg-accent disabled:cursor-not-allowed disabled:opacity-45"
-                  >
-                    <EditorMenuLabel icon={Files}>Ganzes Dossier als PDF</EditorMenuLabel>
-                    <span className="text-xs text-muted-foreground">
-                      Titelblatt + Motivationsschreiben + CV
-                    </span>
-                  </button>
-                  {!canDownloadDossierPdf ? (
-                    <p className="border-t bg-muted/30 px-3 py-2 text-[11px] leading-relaxed text-muted-foreground">
-                      {dossierPdfHint}
-                    </p>
-                  ) : null}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMenuOpen(false);
-                      downloadPdf();
-                    }}
-                    className="flex w-full items-center justify-between border-t px-3 py-2 text-left text-sm hover:bg-accent"
-                  >
-                    <EditorMenuLabel icon={FileDown}>Nur Lebenslauf als PDF</EditorMenuLabel>
-                    <span className="text-xs text-muted-foreground">.pdf</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={downloadDossier}
-                    className="flex w-full items-center justify-between px-3 py-2 text-left text-sm hover:bg-accent"
-                  >
-                    <EditorMenuLabel icon={Save}>Dossier speichern</EditorMenuLabel>
-                    <span className="text-xs text-muted-foreground">
-                      Titelblatt + Motivationsschreiben + CV
-                    </span>
-                  </button>
                   <label className="flex cursor-pointer items-center justify-between border-t px-3 py-2 text-left text-sm hover:bg-accent">
                     <EditorMenuLabel icon={FolderOpen}>Dossier laden</EditorMenuLabel>
                     <span className="text-xs text-muted-foreground">.json</span>

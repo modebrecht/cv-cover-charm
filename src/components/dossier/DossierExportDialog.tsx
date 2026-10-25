@@ -22,20 +22,7 @@ import {
   readStoredDossierPart,
 } from "@/lib/dossier-project";
 import { nativePrintUiEnabled } from "@/lib/native-print-visibility";
-import { briefDocxNextUiEnabled } from "@/lib/docx-next/brief-visibility";
-import { savedAppDocxNextAvailability } from "@/lib/docx-next/app-source";
-import {
-  coverFamilyDocxQaEnabled,
-  isCoverFamilyDocxQaTemplate,
-} from "@/lib/docx-next/cover-family-visibility";
-import {
-  designDocxNextUiEnabled,
-  designNativeBadgeUiEnabled,
-  designInteriorAuditUiEnabled,
-  designRubricSpacingUiEnabled,
-  designReadingRowsUiEnabled,
-  NATIVE_BADGE_WORD_REJECTION,
-} from "@/lib/docx-next/design-visibility";
+import { savedAppDocxNextAvailability, docxDownloadErrorMessage } from "@/lib/docx-next/app-source";
 
 export type DossierExportFormat = "json" | "pdf" | "docx";
 
@@ -47,17 +34,11 @@ type Props = {
   downloading: boolean;
   jsonAvailable?: boolean;
   pdfAvailable?: boolean;
-  docxAvailable?: boolean;
-  docxTemplateLabel?: string | null;
   onClose: () => void;
   onDownload: (format: DossierExportFormat, consent?: PdfAdvisoryConsent) => void | Promise<void>;
   onNativePrint?: () => void | Promise<void>;
   nativePrinting?: boolean;
   nativePrintError?: string | null;
-  onBriefDocxNext?: () => void | Promise<void>;
-  onDesignDocxNext?: () => void | Promise<void>;
-  onCoverFamilyDocxNext?: () => void | Promise<void>;
-  briefDocxNextError?: string | null;
 };
 
 function joinParts(parts: string[]) {
@@ -107,17 +88,11 @@ export function DossierExportDialog({
   downloading,
   jsonAvailable,
   pdfAvailable,
-  docxAvailable,
-  docxTemplateLabel,
   onClose,
   onDownload,
   onNativePrint,
   nativePrinting = false,
   nativePrintError,
-  onBriefDocxNext,
-  onDesignDocxNext,
-  onCoverFamilyDocxNext,
-  briefDocxNextError,
 }: Props) {
   const downloadRef = useRef<HTMLButtonElement>(null);
   const [format, setFormat] = useState<DossierExportFormat>("pdf");
@@ -134,10 +109,9 @@ export function DossierExportDialog({
         : false;
   const letterPaginationError =
     preflight?.issues.find((issue) => issue.severity === "blocked")?.message ?? null;
-  const formatSelectionEnabled =
-    jsonAvailable !== undefined || pdfAvailable !== undefined || docxAvailable !== undefined;
+  const formatSelectionEnabled = jsonAvailable !== undefined || pdfAvailable !== undefined;
   const canDownloadPdf = pdfAvailable ?? true;
-  const canDownloadDocx = docxAvailable ?? false;
+  const canDownloadDocx = docxNext.available;
   const busy = downloading || nativePrinting || creatingDocxNext;
 
   const downloadDocxNext = async () => {
@@ -149,11 +123,7 @@ export function DossierExportDialog({
       await downloadSavedDossierDocxNext();
       onClose();
     } catch (error) {
-      setDocxNextError(
-        error instanceof Error
-          ? error.message.replaceAll("Brief DOCX Next", "DOCX Next")
-          : "DOCX Next konnte nicht erstellt werden.",
-      );
+      setDocxNextError(docxDownloadErrorMessage(error));
     } finally {
       setCreatingDocxNext(false);
     }
@@ -284,7 +254,7 @@ export function DossierExportDialog({
     : !letterState.readyToSend
       ? missingFieldsCompact
       : !canDownloadDocx
-        ? "Design angleichen"
+        ? "Nicht verfügbar"
         : "Bereit";
   const checkSummary = blockingCount
     ? `Was fehlt noch? · ${blockingCount} Punkt${blockingCount === 1 ? "" : "e"}`
@@ -306,7 +276,7 @@ export function DossierExportDialog({
         ? "PDF wird erstellt…"
         : "PDF herunterladen"
       : format === "docx"
-        ? downloading
+        ? creatingDocxNext
           ? "DOCX wird erstellt…"
           : "DOCX herunterladen"
         : downloading
@@ -399,9 +369,6 @@ export function DossierExportDialog({
                   <span className="block text-sm font-semibold">Bearbeitbares Dossier (DOCX)</span>
                   <span className="mt-1 block text-xs text-muted-foreground">
                     {docxCompactStatus}
-                    {docxCompactStatus === "Bereit" && docxTemplateLabel
-                      ? ` · Vorlage ${docxTemplateLabel}`
-                      : ""}
                   </span>
                 </span>
               </span>
@@ -442,9 +409,8 @@ export function DossierExportDialog({
               ) : null}
               {docxDesignIssue ? (
                 <li data-dossier-docx-design-issue>
-                  <span className="font-medium text-foreground">Word (DOCX):</span> Titelblatt,
-                  Motivationsschreiben und Lebenslauf müssen dasselbe Design verwenden. Wähle bei
-                  allen drei dieselbe Vorlage.
+                  <span className="font-medium text-foreground">Word (DOCX):</span>{" "}
+                  {docxNext.reason}
                 </li>
               ) : null}
               {!blockingCount && layoutPending && canDownloadPdf ? (
@@ -490,119 +456,6 @@ export function DossierExportDialog({
             </p>
           </div>
         </details>
-
-        <section className="mt-3 rounded-lg border px-3 py-3" aria-labelledby="docx-next-title">
-          <h3 id="docx-next-title" className="text-sm font-semibold">
-            Word mit DOCX Next
-          </h3>
-          <p id="docx-next-description" className="mt-1 text-xs text-muted-foreground">
-            Vorschau aus dem gespeicherten Dossier · {docxNext.reason}
-          </p>
-          <button
-            type="button"
-            onClick={() => void downloadDocxNext()}
-            disabled={busy || !docxNext.available}
-            aria-describedby="docx-next-description"
-            className="mt-2 rounded-md border px-3 py-2 text-sm font-medium disabled:opacity-50"
-          >
-            {creatingDocxNext ? "DOCX Next wird erstellt…" : "DOCX Next herunterladen"}
-          </button>
-          {docxNextError ? (
-            <p role="alert" className="mt-2 text-sm text-destructive">
-              {docxNextError}
-            </p>
-          ) : null}
-        </section>
-
-        {designDocxNextUiEnabled() && cover?.template === "modern" && onDesignDocxNext ? (
-          <div className="mt-3 rounded-lg border px-3 py-2" data-design-docx-next-qa>
-            <p id="design-docx-next-help" className="text-xs text-muted-foreground">
-              {designNativeBadgeUiEnabled()
-                ? NATIVE_BADGE_WORD_REJECTION
-                : designReadingRowsUiEnabled()
-                  ? "Modern CV-Zeilen · gespeicherte Schriftgrössen und kompakte Rubrikspalten übernehmen. Darstellung und Bearbeitung in Word sind noch zu prüfen."
-                  : designRubricSpacingUiEnabled()
-                    ? "Modern CV-Pills · neuer Abstandstest nach Word-Rückmeldung. Benötigt Sans. Darstellung, Bearbeitung und Speichern in Word sind noch zu prüfen."
-                    : designInteriorAuditUiEnabled()
-                      ? "Modern-Innenlayout-Test · gemessene Kontakt-Header. Bisherige CV-Rubrik-Pills sind nach der Word-Prüfung gesperrt. Benötigt Sans im Lebenslauf."
-                      : "Modern-Testexport · editierbares Word-Dossier mit leeren kompakten Kopf- und Fussstreifen. Vor der Verwendung in Word prüfen."}
-            </p>
-            <button
-              type="button"
-              onClick={() => void onDesignDocxNext()}
-              disabled={
-                busy ||
-                missingParts.length > 0 ||
-                !letterState.readyToSend ||
-                designNativeBadgeUiEnabled()
-              }
-              aria-describedby="design-docx-next-help"
-              className="mt-2 rounded-md border px-3 py-2 text-sm font-medium disabled:opacity-50"
-            >
-              {downloading
-                ? "Dossier wird erstellt…"
-                : designNativeBadgeUiEnabled()
-                  ? "Pillenversuch gesperrt"
-                  : designReadingRowsUiEnabled()
-                    ? "Modern CV-Zeilen testen"
-                    : designRubricSpacingUiEnabled()
-                      ? "Modern CV-Pills Abstand testen"
-                      : designInteriorAuditUiEnabled()
-                        ? "Modern Header und Rubriken prüfen"
-                        : "Modern DOCX Next testen"}
-            </button>
-            {briefDocxNextError ? (
-              <p role="alert" className="mt-2 text-sm text-destructive">
-                {briefDocxNextError}
-              </p>
-            ) : null}
-          </div>
-        ) : null}
-
-        {briefDocxNextUiEnabled() && cover?.template === "brief" && onBriefDocxNext ? (
-          <div className="mt-3 rounded-lg border px-3 py-2" data-brief-docx-next-qa>
-            <p id="brief-docx-next-help" className="text-xs text-muted-foreground">
-              Brief-Testexport · editierbares Word-Dossier. Schriftprofil Arial/Liberation Sans; vor
-              der Verwendung in Word prüfen.
-            </p>
-            <button
-              type="button"
-              onClick={() => void onBriefDocxNext()}
-              disabled={busy || missingParts.length > 0 || !letterState.readyToSend}
-              aria-describedby="brief-docx-next-help"
-              className="mt-2 rounded-md border px-3 py-2 text-sm font-medium disabled:opacity-50"
-            >
-              {downloading ? "Dossier wird erstellt…" : "Brief DOCX Next testen"}
-            </button>
-            {briefDocxNextError ? (
-              <p role="alert" className="mt-2 text-sm text-destructive">
-                {briefDocxNextError}
-              </p>
-            ) : null}
-          </div>
-        ) : null}
-
-        {coverFamilyDocxQaEnabled() &&
-        isCoverFamilyDocxQaTemplate(cover?.template) &&
-        onCoverFamilyDocxNext ? (
-          <div className="mt-3 rounded-lg border px-3 py-2" data-cover-family-docx-next-qa>
-            <p className="text-xs text-muted-foreground">
-              Vollständiges DOCX-Testdossier mit Titelblatt, Anschreiben und CV aus dem
-              gespeicherten Projekt. Nur QA, keine Produktfreigabe.
-              {coverChanged
-                ? " Hinweis: Titelblatt und zuletzt übernommene CV-Kopfdaten unterscheiden sich."
-                : ""}
-            </p>
-            <button
-              type="button"
-              onClick={() => void onCoverFamilyDocxNext()}
-              disabled={busy || missingParts.length > 0 || !letterState.readyToSend}
-              className="mt-2 rounded-md border px-3 py-2 text-sm font-medium disabled:opacity-50"
-            >
-              {downloading ? "Dossier wird erstellt…" : "Ganzes DOCX-Testdossier herunterladen"}
-            </button>
-          </div>
-        ) : null}
 
         {nativePrintUiEnabled() && onNativePrint ? (
           <div className="mt-3 rounded-lg border px-3 py-2">
@@ -652,13 +505,21 @@ export function DossierExportDialog({
           <button
             ref={downloadRef}
             type="button"
-            onClick={() => void onDownload(format)}
+            onClick={() => {
+              if (format === "docx") void downloadDocxNext();
+              else void onDownload(format);
+            }}
             disabled={downloadBlocked}
             className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-60"
           >
             {actionLabel}
           </button>
         </div>
+        {docxNextError ? (
+          <p role="alert" className="mt-2 text-sm text-destructive">
+            {docxNextError}
+          </p>
+        ) : null}
         {overrideError ? (
           <p role="alert" className="mt-2 text-sm text-destructive">
             {overrideError}

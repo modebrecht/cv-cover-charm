@@ -93,7 +93,8 @@ export async function waitEditorReady(page: Page) {
 
 async function loadDemoThroughUi(page: Page, route: string) {
   await page.goto(`${BASE_URL}${route}`, { waitUntil: "domcontentloaded" });
-  const toggle = await waitEditorReady(page);
+  await waitEditorReady(page);
+  const toggle = page.getByRole("button", { name: "Menü", exact: true });
   await toggle.click();
   const demo = page.getByRole("button", { name: "Beispieldaten übernehmen", exact: true });
   await expect(demo).toBeVisible();

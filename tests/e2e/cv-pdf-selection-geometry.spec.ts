@@ -93,7 +93,7 @@ async function seedCv(page: import("@playwright/test").Page) {
 async function downloadStandaloneCv(page: import("@playwright/test").Page) {
   await page.getByRole("button", { name: "Download" }).click();
   const downloadPromise = page.waitForEvent("download", { timeout: 90_000 });
-  await page.getByRole("button", { name: /Nur Lebenslauf als PDF/i }).click();
+  await page.getByRole("menuitem", { name: "PDF", exact: true }).click();
   return downloadPromise;
 }
 

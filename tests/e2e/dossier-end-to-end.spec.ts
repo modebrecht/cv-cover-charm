@@ -35,7 +35,7 @@ async function applyExampleData(
 
   const downloadMenuButton = page.getByRole("button", { name: "Download", exact: true });
   await expect(downloadMenuButton).toHaveAttribute("data-editor-ready", "true");
-  await downloadMenuButton.click();
+  await page.getByRole("button", { name: "Menü", exact: true }).click();
 
   const menu = page.locator("[data-editor-action-menu]");
   await expect(menu).toBeVisible();

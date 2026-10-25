@@ -205,7 +205,7 @@ test.describe("CV long-content pagination hardening", () => {
 
     await page.getByRole("button", { name: "Download", exact: true }).click();
     const downloadPromise = page.waitForEvent("download", { timeout: 90_000 });
-    await page.getByRole("button", { name: /Nur Lebenslauf als PDF/i }).click();
+    await page.getByRole("menuitem", { name: "PDF", exact: true }).click();
     const download = await downloadPromise;
     const path = await download.path();
     expect(path).not.toBeNull();

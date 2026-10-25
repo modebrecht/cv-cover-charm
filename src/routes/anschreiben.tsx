@@ -5,7 +5,9 @@ import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore
 import { ColorChooser } from "@/components/cover/ColorChooser";
 import { Section } from "@/components/cover/Section";
 import { ThemeToggle } from "@/components/cover/ThemeToggle";
-import { FileDown, Files, FolderOpen, History, RotateCcw, Save, Sparkles } from "lucide-react";
+import { FolderOpen, History, Menu, RotateCcw, Sparkles } from "lucide-react";
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { EditorDownloadMenu } from "@/components/dossier/EditorDownloadMenu";
 import { EditorMenuLabel } from "@/components/dossier/EditorMenuLabel";
 import { DossierChromeControls } from "@/components/dossier/DossierChromeControls";
 import { DossierChromeDocumentContentControls } from "@/components/dossier/DossierChromeDocumentContentControls";
@@ -260,6 +262,7 @@ function Anschreiben() {
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const [panelOpen, setPanelOpen] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [downloadMenuOpen, setDownloadMenuOpen] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [confirmDemo, setConfirmDemo] = useState(false);
   const [confirmWipe, setConfirmWipe] = useState(false);
@@ -274,7 +277,7 @@ function Anschreiben() {
   const [pdfPreflight, setPdfPreflight] = useState<PdfPreflightResult | null>(null);
   const [dossierPreflight, setDossierPreflight] = useState<PdfPreflightResult | null>(null);
   useEffect(() => {
-    if (!menuOpen) {
+    if (!downloadMenuOpen) {
       setPdfPreflight(null);
       return;
     }
@@ -286,9 +289,9 @@ function Anschreiben() {
       "letter",
       setPdfPreflight,
     );
-  }, [menuOpen]);
+  }, [downloadMenuOpen]);
   useEffect(() => {
-    if (!menuOpen) {
+    if (!downloadMenuOpen) {
       setDossierPreflight(null);
       return;
     }
@@ -297,7 +300,7 @@ function Anschreiben() {
       "dossier",
       setDossierPreflight,
     );
-  }, [menuOpen]);
+  }, [downloadMenuOpen]);
   const [source, setSource] = useState<LetterDossierSource | null>(null);
   const [transferNote, setTransferNote] = useState<{
     kind: "ok" | "error";
@@ -482,8 +485,17 @@ function Anschreiben() {
         setConfirmWipe(false);
       }
     };
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setMenuOpen(false);
+      menuRef.current?.querySelector<HTMLButtonElement>("button")?.focus();
+    };
     document.addEventListener("pointerdown", close);
-    return () => document.removeEventListener("pointerdown", close);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", close);
+      document.removeEventListener("keydown", onKey);
+    };
   }, [menuOpen]);
 
   useEffect(() => {
@@ -639,7 +651,7 @@ function Anschreiben() {
         },
         consent,
       );
-      setTransferNote({ kind: "ok", text: "Ganzes Dossier als PDF heruntergeladen" });
+      setTransferNote({ kind: "ok", text: "Dossier PDF heruntergeladen" });
     } catch (error) {
       setPdfError(
         error instanceof Error ? error.message : "Dossier-PDF konnte nicht erstellt werden.",
@@ -843,156 +855,125 @@ function Anschreiben() {
         </div>
         <SaveStatus state={saveState} />
         <ThemeToggle />
+        <EditorDownloadMenu
+          part="letter"
+          ready={hydrated}
+          open={downloadMenuOpen}
+          onOpenChange={(open) => {
+            setDownloadMenuOpen(open);
+            if (open) setMenuOpen(false);
+          }}
+          busy={pdfDownloading || nativePrint.printing}
+          onPdf={() => downloadMotivationLetter()}
+          pdfDisabled={
+            !letterPagination.ready ||
+            !!letterPagination.issue ||
+            !letterHasStarted(data) ||
+            pdfPreflight?.status !== "pass"
+          }
+          pdfHint={
+            !letterHasStarted(data)
+              ? "Bitte zuerst das Motivationsschreiben ausfüllen."
+              : (letterPagination.issue?.message ??
+                pdfPreflight?.issues.find((issue) => issue.severity === pdfPreflight.status)
+                  ?.message ??
+                "Layout wird geprüft…")
+          }
+          onJson={downloadDossierProject}
+          onDossierPdf={() => downloadWholeDossier()}
+          dossierPdfDisabled={!canDownloadDossierPdf || dossierPreflight?.status !== "pass"}
+          dossierPdfHint={
+            !canDownloadDossierPdf
+              ? dossierPdfHint
+              : (dossierPreflight?.issues.find(
+                  (issue) => issue.severity === dossierPreflight.status,
+                )?.message ?? "Layout wird geprüft…")
+          }
+        >
+          {pdfPreflight?.status === "advisory" && letterHasStarted(data) ? (
+            <div className="border-t px-3 py-2">
+              <p className="mb-2 text-xs text-muted-foreground" data-pdf-advisory>
+                {pdfPreflight.issues.find((issue) => issue.severity === "advisory")?.message}
+              </p>
+              <DropdownMenuItem asChild>
+                <button
+                  type="button"
+                  disabled={pdfDownloading}
+                  onClick={() => {
+                    setDownloadMenuOpen(false);
+                    void downloadMotivationLetter(true);
+                  }}
+                  className="rounded-md border border-input px-3 py-2 text-sm hover:bg-accent"
+                >
+                  PDF trotzdem herunterladen
+                </button>
+              </DropdownMenuItem>
+            </div>
+          ) : null}
+          {dossierPreflight?.status === "advisory" ? (
+            <div className="border-t px-3 py-2">
+              <p className="mb-2 text-xs text-muted-foreground">
+                {dossierPreflight.issues.find((issue) => issue.severity === "advisory")?.message}
+              </p>
+              {dossierPreflight.issues.every((issue) => issue.overridePermitted) ? (
+                <DropdownMenuItem asChild>
+                  <button
+                    type="button"
+                    disabled={pdfDownloading}
+                    onClick={() => {
+                      setDownloadMenuOpen(false);
+                      void downloadWholeDossier(true);
+                    }}
+                    className="rounded-md border border-input px-3 py-2 text-sm hover:bg-accent"
+                  >
+                    Dossier PDF trotzdem herunterladen
+                  </button>
+                </DropdownMenuItem>
+              ) : null}
+            </div>
+          ) : null}
+          {nativePrintUiEnabled() ? (
+            <DropdownMenuItem asChild>
+              <button
+                type="button"
+                onClick={() => {
+                  setDownloadMenuOpen(false);
+                  void nativePrint.print();
+                }}
+                disabled={!canDownloadDossierPdf || pdfDownloading || nativePrint.printing}
+                className="flex w-full flex-col gap-1 border-t px-3 py-2 text-left text-sm hover:bg-accent disabled:opacity-45"
+              >
+                <span>
+                  {nativePrint.printing
+                    ? "Druckdialog wird vorbereitet…"
+                    : "Drucken / als PDF speichern"}
+                </span>
+                <span className="text-xs text-muted-foreground">
+                  Experiment · öffnet den Druckdialog
+                </span>
+              </button>
+            </DropdownMenuItem>
+          ) : null}
+        </EditorDownloadMenu>
         <div className="relative" ref={menuRef}>
           <button
             type="button"
-            onClick={() => setMenuOpen((value) => !value)}
-            disabled={pdfDownloading}
+            onClick={() => {
+              setDownloadMenuOpen(false);
+              setMenuOpen((value) => !value);
+            }}
             aria-expanded={menuOpen}
-            data-editor-ready={hydrated ? "true" : "false"}
-            className="inline-flex items-center gap-2 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-60 sm:px-4"
+            aria-label="Menü"
+            title="Menü"
+            className="inline-flex shrink-0 items-center rounded-md border border-input bg-background px-2.5 py-2 hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            {pdfDownloading ? "PDF…" : "Download"}
-            <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
-              <path
-                d="M3 4.5l3 3 3-3"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <Menu className="h-5 w-5" aria-hidden="true" />
           </button>
           {menuOpen ? (
             <div
               data-editor-action-menu
               className="absolute right-0 z-50 mt-2 w-72 overflow-hidden rounded-md border bg-popover shadow-lg"
             >
-              <button
-                type="button"
-                onClick={() => void downloadWholeDossier()}
-                disabled={
-                  !canDownloadDossierPdf ||
-                  nativePrint.printing ||
-                  pdfDownloading ||
-                  dossierPreflight?.status !== "pass"
-                }
-                title={
-                  canDownloadDossierPdf
-                    ? "Titelblatt, Motivationsschreiben und alle CV-Seiten gemeinsam herunterladen"
-                    : dossierPdfHint
-                }
-                className="flex w-full items-center justify-between px-3 py-2 text-left text-sm font-medium hover:bg-accent disabled:cursor-not-allowed disabled:opacity-45"
-              >
-                <EditorMenuLabel icon={Files}>Ganzes Dossier als PDF</EditorMenuLabel>
-                <span className="text-xs text-muted-foreground">
-                  Titelblatt + Motivationsschreiben + CV
-                </span>
-              </button>
-              {dossierPreflight?.status === "advisory" ? (
-                <div className="border-t px-3 py-2">
-                  <p className="mb-2 text-xs text-muted-foreground">
-                    {
-                      dossierPreflight.issues.find((issue) => issue.severity === "advisory")
-                        ?.message
-                    }
-                  </p>
-                  {dossierPreflight.issues.every((issue) => issue.overridePermitted) ? (
-                    <button
-                      type="button"
-                      disabled={pdfDownloading}
-                      onClick={() => {
-                        setMenuOpen(false);
-                        void downloadWholeDossier(true);
-                      }}
-                      className="rounded-md border border-input px-3 py-2 text-sm hover:bg-accent"
-                    >
-                      Gesamtdossier trotzdem herunterladen
-                    </button>
-                  ) : null}
-                </div>
-              ) : null}
-              {nativePrintUiEnabled() ? (
-                <button
-                  type="button"
-                  onClick={() => void nativePrint.print()}
-                  disabled={!canDownloadDossierPdf || pdfDownloading || nativePrint.printing}
-                  className="flex w-full flex-col gap-1 border-t px-3 py-2 text-left text-sm hover:bg-accent disabled:opacity-45"
-                >
-                  <span>
-                    {nativePrint.printing
-                      ? "Druckdialog wird vorbereitet…"
-                      : "Drucken / als PDF speichern"}
-                  </span>
-                  <span className="text-xs text-muted-foreground">
-                    Experiment · öffnet den Druckdialog
-                  </span>
-                </button>
-              ) : null}
-              {!canDownloadDossierPdf ? (
-                <p className="border-t bg-muted/30 px-3 py-2 text-[11px] leading-relaxed text-muted-foreground">
-                  {dossierPdfHint}
-                </p>
-              ) : null}
-              <button
-                type="button"
-                onClick={() => {
-                  setMenuOpen(false);
-                  void downloadMotivationLetter();
-                }}
-                disabled={
-                  !letterPagination.ready ||
-                  !!letterPagination.issue ||
-                  !letterHasStarted(data) ||
-                  pdfPreflight?.status !== "pass" ||
-                  pdfDownloading
-                }
-                className="flex w-full items-center justify-between border-t px-3 py-2 text-left text-sm hover:bg-accent disabled:cursor-not-allowed disabled:opacity-45"
-              >
-                <EditorMenuLabel icon={FileDown}>Nur Motivationsschreiben als PDF</EditorMenuLabel>
-                <span className="text-xs text-muted-foreground">.pdf</span>
-              </button>
-              {pdfPreflight?.status === "advisory" && letterHasStarted(data) ? (
-                <div className="border-t px-3 py-2">
-                  <p className="mb-2 text-xs text-muted-foreground" data-pdf-advisory>
-                    {pdfPreflight.issues.find((issue) => issue.severity === "advisory")?.message}
-                  </p>
-                  <button
-                    type="button"
-                    disabled={pdfDownloading}
-                    onClick={() => {
-                      setMenuOpen(false);
-                      void downloadMotivationLetter(true);
-                    }}
-                    className="rounded-md border border-input px-3 py-2 text-sm hover:bg-accent"
-                  >
-                    PDF trotzdem herunterladen
-                  </button>
-                </div>
-              ) : null}
-              {pdfPreflight &&
-              (pdfPreflight.status === "blocked" || pdfPreflight.status === "pending") ? (
-                <p
-                  className="border-t px-3 py-2 text-xs text-muted-foreground"
-                  data-pdf-preflight-message
-                >
-                  {
-                    pdfPreflight.issues.find((issue) => issue.severity === pdfPreflight.status)
-                      ?.message
-                  }
-                </p>
-              ) : null}
-              <button
-                type="button"
-                onClick={downloadDossierProject}
-                className="flex w-full items-center justify-between px-3 py-2 text-left text-sm hover:bg-accent"
-              >
-                <EditorMenuLabel icon={Save}>Dossier speichern</EditorMenuLabel>
-                <span className="text-xs text-muted-foreground">
-                  Titelblatt + Motivationsschreiben + CV
-                </span>
-              </button>
               <label className="flex cursor-pointer items-center justify-between border-t px-3 py-2 text-left text-sm hover:bg-accent">
                 <EditorMenuLabel icon={FolderOpen}>Dossier laden</EditorMenuLabel>
                 <span className="text-xs text-muted-foreground">.json</span>

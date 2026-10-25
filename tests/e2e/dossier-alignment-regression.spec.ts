@@ -135,14 +135,14 @@ async function seedCv(page: Page, align: BodyAlignment) {
 async function downloadLetter(page: Page) {
   await page.getByRole("button", { name: "Download" }).click();
   const downloadPromise = page.waitForEvent("download", { timeout: 90_000 });
-  await page.getByRole("button", { name: /Nur Motivationsschreiben als PDF/i }).click();
+  await page.getByRole("menuitem", { name: "PDF", exact: true }).click();
   return downloadPromise;
 }
 
 async function downloadCv(page: Page) {
   await page.getByRole("button", { name: "Download" }).click();
   const downloadPromise = page.waitForEvent("download", { timeout: 90_000 });
-  await page.getByRole("button", { name: /Nur Lebenslauf als PDF/i }).click();
+  await page.getByRole("menuitem", { name: "PDF", exact: true }).click();
   return downloadPromise;
 }
 

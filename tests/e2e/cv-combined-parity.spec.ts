@@ -259,7 +259,7 @@ for (const sidebar of [false, true]) {
       ).toEqual(canonical);
       await preview.getByRole("button", { name: "Download", exact: true }).click();
       const promise = preview.waitForEvent("download", { timeout: 120_000 });
-      await preview.getByRole("button", { name: /Nur Lebenslauf als PDF/ }).click();
+      await preview.getByRole("menuitem", { name: "PDF", exact: true }).click();
       const path = await (await promise).path();
       standaloneText = await textPages(path!);
     } finally {

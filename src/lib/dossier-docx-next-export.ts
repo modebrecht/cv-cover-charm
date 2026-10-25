@@ -3,14 +3,18 @@ import { captureCoverTextMetrics } from "@/components/cover/resolve";
 import { FONT_STACKS, lineText } from "@/components/cover/types";
 import { measureLines } from "./text-fit";
 import { downloadBlob, safeFileName } from "./download";
-import { assertAppDocxNextSource, captureSavedAppDocxNextSource } from "./docx-next/app-source";
+import {
+  assertAppDocxNextSource,
+  captureSavedAppDocxNextSource,
+  DocxDownloadError,
+} from "./docx-next/app-source";
 import { prepareBriefFontProfile } from "./docx-next/brief-fonts.browser";
 import { captureCoverBadgeAdvances } from "./docx-next/cover-badges.browser";
 import { captureCvSidebarTextMetrics } from "./docx-next-sidebar-metrics.browser";
 import { captureInteriorTextMetrics } from "./docx-next-interior-metrics.browser";
 import { buildDossierDocModel } from "./docx-next/build-model";
 import { renderDossierDocx } from "./docx-next/renderer";
-import { walkBlocks, type DossierDocModel } from "./docx-next/model";
+import { walkBlocks, type DossierDocModel, type DocumentPart } from "./docx-next/model";
 import type { DossierAppSnapshot } from "./docx-next/source";
 import type { CoverTextMetrics } from "@/components/cover/text-metrics";
 import type { CvSidebarTextMetrics } from "./docx-next/cv-sidebar-text-metrics";
@@ -60,12 +64,14 @@ export function buildAppDocxNextModel(
 }
 
 /** Fresh saved inputs and actual browser measurements; no fixture or frozen asset replay. */
-export async function createSavedDossierDocxNext() {
+export async function createSavedDossierDocxNext(part?: DocumentPart["id"]) {
   const source = captureSavedAppDocxNextSource();
   const key = JSON.stringify(source);
   const unchanged = () => {
     if (JSON.stringify(captureSavedAppDocxNextSource()) !== key)
-      throw Error("Der Entwurf wurde während des Exports geändert. Bitte erneut herunterladen.");
+      throw new DocxDownloadError(
+        "Der Entwurf wurde während des Exports geändert. Bitte erneut herunterladen.",
+      );
   };
   const blocks = normalizedCoverLabels(source.cover.blocks, source.cover.data.labelKontakt);
   const visible = blocks
@@ -131,9 +137,12 @@ export async function createSavedDossierDocxNext() {
     fonts.verify();
     const model = buildAppDocxNextModel(source, { cover, interior, sidebar });
     const blob = await renderDossierDocx(model, {
+      part,
       allowUnacceptedModelIssues: true,
-      onDecorationFailure: (id) => {
-        throw Error(`DOCX Next: Gestaltungselement «${id}» konnte nicht erstellt werden.`);
+      onDecorationFailure: () => {
+        throw new DocxDownloadError(
+          `Ein Gestaltungselement konnte nicht erstellt werden. Bitte versuche den Download erneut.`,
+        );
       },
     });
     unchanged();
@@ -144,8 +153,11 @@ export async function createSavedDossierDocxNext() {
   }
 }
 
-export async function downloadSavedDossierDocxNext() {
-  const { blob, source } = await createSavedDossierDocxNext();
+export async function downloadSavedDossierDocxNext(part?: DocumentPart["id"]) {
+  const { blob, source } = await createSavedDossierDocxNext(part);
   const name = [source.cover.data.vorname, source.cover.data.nachname].filter(Boolean).join(" ");
-  downloadBlob(blob, `${safeFileName(`Bewerbungsdossier-${name || "Modern"}-DOCX-Next`)}.docx`);
+  const label = part
+    ? { cover: "Titelblatt", letter: "Motivationsschreiben", cv: "Lebenslauf" }[part]
+    : "Bewerbungsdossier";
+  downloadBlob(blob, `${safeFileName(name ? `${label}-${name}` : label)}.docx`);
 }

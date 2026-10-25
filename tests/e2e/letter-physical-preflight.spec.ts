@@ -112,7 +112,7 @@ test.describe("letter physical PDF preflight", () => {
     expect(legacyScrollMetricWouldBlock).toBe(true);
 
     await page.getByRole("button", { name: "Download", exact: true }).click();
-    const pdfButton = page.getByRole("button", { name: /Nur Motivationsschreiben als PDF/i });
+    const pdfButton = page.getByRole("menuitem", { name: "PDF", exact: true });
     // The deliberately broken hidden probe is now an explicit advisory. The
     // inflated aggregate scroll metric itself remains irrelevant to safety.
     await expect(pdfButton).toBeDisabled();

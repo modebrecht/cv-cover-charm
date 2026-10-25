@@ -738,7 +738,7 @@ test.describe("M5.8 dossier regression", () => {
 
     await page.getByRole("button", { name: "Download" }).click();
     const downloadPromise = page.waitForEvent("download", { timeout: 90_000 });
-    await page.getByRole("button", { name: /Nur Lebenslauf als PDF/i }).click();
+    await page.getByRole("menuitem", { name: "PDF", exact: true }).click();
     const download = await downloadPromise;
     expect(download.suggestedFilename().toLowerCase()).toMatch(/\.pdf$/);
     const path = await download.path();
@@ -876,9 +876,7 @@ test.describe("M5.8 dossier regression", () => {
     await expect(downloadToggle).toHaveAttribute("aria-expanded", "false");
     await downloadToggle.click();
     await expect(downloadToggle).toHaveAttribute("aria-expanded", "true");
-    const button = page
-      .locator("[data-editor-action-menu] button")
-      .filter({ hasText: "Nur Motivationsschreiben als PDF" });
+    const button = page.getByRole("menuitem", { name: "PDF", exact: true });
     await expect(button).toBeEnabled();
     const downloadPromise = page.waitForEvent("download", { timeout: 90_000 });
     await button.click();
@@ -956,11 +954,7 @@ test.describe("M5.8 dossier regression", () => {
 
     const downloadToggle = page.getByRole("button", { name: "Download", exact: true });
     await downloadToggle.click();
-    await expect(
-      page.locator("[data-editor-action-menu] button").filter({
-        hasText: "Nur Motivationsschreiben als PDF",
-      }),
-    ).toBeEnabled();
+    await expect(page.getByRole("menuitem", { name: "PDF", exact: true })).toBeEnabled();
 
     await body.fill(
       "Ich interessiere mich sehr für die Lehrstelle und freue mich auf ein Gespräch.",
@@ -1232,19 +1226,16 @@ test.describe("M5.8 dossier regression", () => {
     const cases = [
       {
         path: "/titelblatt",
-        ownPdf: "Nur Titelblatt als PDF",
         reset: "Titelblatt zurücksetzen",
         positionReset: true,
       },
       {
         path: "/lebenslauf",
-        ownPdf: "Nur Lebenslauf als PDF",
         reset: "Lebenslauf zurücksetzen",
         positionReset: true,
       },
       {
         path: "/anschreiben",
-        ownPdf: "Nur Motivationsschreiben als PDF",
         reset: "Motivationsschreiben zurücksetzen",
         positionReset: false,
       },
@@ -1254,25 +1245,32 @@ test.describe("M5.8 dossier regression", () => {
       await page.goto(`${BASE_URL}${item.path}`, { waitUntil: "domcontentloaded" });
       const downloadToggle = page.getByRole("button", { name: "Download", exact: true });
       await expect(downloadToggle).toHaveAttribute("data-editor-ready", "true");
-      await expect(downloadToggle).toHaveAttribute("aria-expanded", "false");
       await downloadToggle.click();
-      await expect(downloadToggle).toHaveAttribute("aria-expanded", "true");
+      const downloadMenu = page.locator("[data-editor-download-menu]");
+      await expect(downloadMenu.getByRole("menuitem")).toHaveText([
+        "PDF",
+        "DOCX",
+        "Dossier JSON",
+        "Dossier PDF",
+        "Dossier DOCX",
+      ]);
+      await page.keyboard.press("Escape");
+      const editToggle = page.getByRole("button", { name: "Menü", exact: true });
+      await editToggle.click();
+      await expect(editToggle).toHaveAttribute("aria-expanded", "true");
       let menu = page.locator("[data-editor-action-menu]");
       await expect(menu).toBeVisible();
 
       await page.getByRole("button", { name: "Beispieldaten übernehmen", exact: true }).click();
       await page.getByRole("button", { name: "Ja", exact: true }).click();
-      await expect(downloadToggle).toHaveAttribute("aria-expanded", "false");
-      await downloadToggle.click();
-      await expect(downloadToggle).toHaveAttribute("aria-expanded", "true");
+      await expect(editToggle).toHaveAttribute("aria-expanded", "false");
+      await editToggle.click();
+      await expect(editToggle).toHaveAttribute("aria-expanded", "true");
       menu = page.locator("[data-editor-action-menu]");
       await expect(menu).toBeVisible();
 
       const labels = await menu.locator("[data-editor-menu-label]").allTextContents();
       expect(labels).toEqual([
-        "Ganzes Dossier als PDF",
-        item.ownPdf,
-        "Dossier speichern",
         "Dossier laden",
         "Beispieldaten übernehmen",
         ...(item.positionReset ? ["Positionen & Grössen zurücksetzen"] : []),
@@ -1340,7 +1338,7 @@ test.describe("M5.8 dossier regression", () => {
     await expect(page.getByRole("textbox", { name: "Titel / Betreff", exact: true })).toHaveValue(
       "Aktueller Betreff",
     );
-    await downloadToggle.click();
+    await page.getByRole("button", { name: "Menü", exact: true }).click();
 
     const historyButton = page
       .locator("[data-editor-action-menu] button")

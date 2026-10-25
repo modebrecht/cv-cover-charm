@@ -198,15 +198,31 @@ test.describe("M9 responsive product smoke", () => {
         await expectInsideViewport(page, route.preview, `${viewport.name}/${route.name}/preview`);
 
         await download.click();
-        const menu = page.locator("[data-editor-action-menu]");
+        const menu = page.locator("[data-editor-download-menu]");
         await expect(menu, `${route.name}: download menu`).toBeVisible();
+        await expect(menu.getByRole("menuitem")).toHaveText([
+          "PDF",
+          "DOCX",
+          "Dossier JSON",
+          "Dossier PDF",
+          "Dossier DOCX",
+        ]);
         await expectInsideViewport(
           page,
-          "[data-editor-action-menu]",
+          "[data-editor-download-menu]",
           `${viewport.name}/${route.name}/download-menu`,
         );
         await download.click();
         await expect(menu).toHaveCount(0);
+        const editToggle = page.getByRole("button", { name: "Menü", exact: true });
+        await expectInsideViewport(page, 'button[aria-label="Menü"]', `${route.name}/menu-button`);
+        await editToggle.click();
+        const editMenu = page.locator("[data-editor-action-menu]");
+        await expect(editMenu).toBeVisible();
+        await expect(editMenu).toContainText("Dossier laden");
+        await expect(editMenu).not.toContainText("Dossier speichern");
+        await editToggle.click();
+        await expect(editMenu).toHaveCount(0);
       }
     });
   }

@@ -32,7 +32,7 @@ import {
 import { downloadCombinedDossierPdf } from "@/lib/dossier-pdf";
 import type { PdfAdvisoryConsent } from "@/lib/pdf-preflight";
 import { downloadDossierProjectFromBrowser } from "@/lib/dossier-project-file";
-import { downloadDossierDocx, resolveDossierDocxProfile } from "@/lib/dossier-docx-export";
+import { docxDownloadErrorMessage } from "@/lib/docx-next/app-source";
 import {
   COVER_STORAGE_KEY,
   CV_STORAGE_KEY,
@@ -412,7 +412,6 @@ function Start() {
   const [cvPageCount, setCvPageCount] = useState(0);
   const [downloading, setDownloading] = useState(false);
   const [dossierNote, setDossierNote] = useState<string | null>(null);
-  const [briefDocxNextError, setBriefDocxNextError] = useState<string | null>(null);
   const dossierExportRef = useRef<HTMLDivElement>(null);
   const nativePrint = useDossierNativePrint(dossierExportRef);
 
@@ -445,17 +444,11 @@ function Start() {
   const readiness = useMemo(() => dossierReadiness(documents), [documents]);
   const missingParts = useMemo(() => missingDossierParts(readiness), [readiness]);
   const projectAvailable = !!(documents.cover || documents.letter || documents.cv);
-  const docxProfile = useMemo(
-    () => resolveDossierDocxProfile(documents.cover, documents.letter, documents.cv),
-    [documents],
-  );
-  const docxAvailable = readiness.complete && docxProfile !== null;
 
   const openDossierReview = () => {
     const freshDocuments = readDossierDocuments();
     setDocuments(freshDocuments);
     setDossierNote(null);
-    setBriefDocxNextError(null);
     setWarnings(null);
     setCvPageCount(0);
     setReviewOpen(true);
@@ -527,83 +520,15 @@ function Start() {
   };
 
   const downloadDocx = async () => {
-    const { cover, letter, cv } = readDossierDocuments();
-    if (
-      !cover ||
-      !letter ||
-      !cv ||
-      !coverPdfHasContent(cover.data) ||
-      !letterPdfHasContent(letter.data) ||
-      !cvPdfHasContent(cv.data)
-    ) {
-      setDossierNote(
-        "Für DOCX müssen Titelblatt, Motivationsschreiben und Lebenslauf ausgefüllt sein.",
-      );
-      return;
-    }
-
-    const profile = resolveDossierDocxProfile(cover, letter, cv);
-    if (!profile) {
-      setDossierNote(
-        "Für DOCX muss in Titelblatt, Motivationsschreiben und Lebenslauf dieselbe aktive Vorlage gewählt sein.",
-      );
-      return;
-    }
-
-    const author =
-      [cover.data.vorname, cover.data.nachname].filter(Boolean).join(" ") ||
-      [cv.data.person.vorname, cv.data.person.nachname].filter(Boolean).join(" ") ||
-      "Bewerbungsdossier";
-    const fileName =
-      author === "Bewerbungsdossier"
-        ? "Bewerbungsdossier.docx"
-        : `Bewerbungsdossier-${author}.docx`;
-
-    setDownloading(true);
-    try {
-      await downloadDossierDocx(cover, letter, cv, fileName);
-      setReviewOpen(false);
-      setDossierNote(`DOCX-Referenz ${profile.label} wurde erstellt.`);
-    } catch (error) {
-      setDossierNote(
-        error instanceof Error ? error.message : "Das DOCX-Dossier konnte nicht erstellt werden.",
-      );
-    } finally {
-      setDownloading(false);
-    }
-  };
-
-  const downloadBriefDocxNext = async () => {
     if (downloading) return;
     setDownloading(true);
-    setBriefDocxNextError(null);
     try {
-      const { downloadSavedBriefDocxNext } = await import("@/lib/brief-docx-next-export");
-      await downloadSavedBriefDocxNext();
+      const { downloadSavedDossierDocxNext } = await import("@/lib/dossier-docx-next-export");
+      await downloadSavedDossierDocxNext();
       setReviewOpen(false);
-      setDossierNote("Brief DOCX Next Testdatei wurde erstellt. Bitte in Word prüfen.");
+      setDossierNote("DOCX-Datei wurde erstellt.");
     } catch (error) {
-      setBriefDocxNextError(
-        error instanceof Error ? error.message : "Brief DOCX Next konnte nicht erstellt werden.",
-      );
-    } finally {
-      setDownloading(false);
-    }
-  };
-
-  const downloadDesignDocxNext = async () => {
-    if (downloading) return;
-    setDownloading(true);
-    setBriefDocxNextError(null);
-    try {
-      const { downloadSavedDesignDocxNext } = await import("@/lib/design-docx-next-export");
-      await downloadSavedDesignDocxNext();
-      setReviewOpen(false);
-      setDossierNote("Modern DOCX Next Testdatei wurde erstellt. Bitte in Word prüfen.");
-    } catch (error) {
-      setBriefDocxNextError(
-        error instanceof Error ? error.message : "Design DOCX Next konnte nicht erstellt werden.",
-      );
+      setDossierNote(docxDownloadErrorMessage(error));
     } finally {
       setDownloading(false);
     }
@@ -704,11 +629,6 @@ function Start() {
         downloading={downloading}
         jsonAvailable={projectAvailable}
         pdfAvailable={readiness.complete}
-        docxAvailable={docxAvailable}
-        docxTemplateLabel={docxProfile?.label ?? null}
-        onBriefDocxNext={downloadBriefDocxNext}
-        onDesignDocxNext={downloadDesignDocxNext}
-        briefDocxNextError={briefDocxNextError}
         onNativePrint={nativePrint.print}
         nativePrinting={nativePrint.printing}
         nativePrintError={nativePrint.error}
