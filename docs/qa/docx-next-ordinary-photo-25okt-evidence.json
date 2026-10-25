@@ -1,92 +1,70 @@
 {
-  "sourceSha256": "b663a5efa1eb2b86494955983f869af5f3d744c40b85b23620e8c201099d7e2b",
-  "candidateSha256": "9e70906511454b503135f2fb9fe1804ae91be0ad061a4f39e43fd14889140155",
-  "image": {
-    "story": "word/document.xml",
-    "sha256": "f8ba8f4b000d9aa4f18a5f476a630615232905810aec92c69d4e128cbfdec69c",
-    "pixels": [
-      1920,
-      2880
-    ],
-    "crop": {
-      "l": "0",
-      "t": "8333",
-      "r": "0",
-      "b": "8333"
-    },
-    "extent": {
-      "cx": "1008000",
-      "cy": "1260000"
-    },
-    "placement": "anchor",
-    "attrs": {
-      "distT": "0",
-      "distB": "0",
-      "distL": "0",
-      "distR": "0",
-      "simplePos": "0",
-      "relativeHeight": "8",
-      "behindDoc": "0",
-      "locked": "0",
-      "layoutInCell": "0",
-      "allowOverlap": "1"
-    },
-    "ancestors": [
-      "drawing",
-      "r",
-      "p",
-      "body",
-      "document"
-    ]
-  },
-  "allStoryTextFieldsPreserved": 144,
-  "allTextUnchanged": true,
-  "pictureSubtreeUnchanged": true,
-  "changedParts": [
-    "word/document.xml"
+  "baseCommit": "7b424023d286b4fc47ccebdbc8f86ab923156f3b",
+  "candidateSha256": "03379503d8f09a8362b13f78f07c2eadedaf6c74d1c5aaa1a13a2254f957f018",
+  "wordScreenshotShowsPriorVersionPages": 5,
+  "sourceCorrection": "reuse existing CV table opening paragraph; no separate body photo paragraph",
+  "ordinaryPictureAncestors": [
+    "graphicData",
+    "graphic",
+    "anchor",
+    "drawing",
+    "r",
+    "p",
+    "tc",
+    "tr",
+    "tbl",
+    "body",
+    "document"
   ],
-  "render": [
+  "layoutInCell": 0,
+  "anchorLocked": false,
+  "verticalAnchor": "paragraph",
+  "verticalOffsetEmu": 0,
+  "contentControlOrTextFrame": false,
+  "pictureSubtreeOriginalAndCropUnchanged": true,
+  "bodyTextAndCanonicalTextFieldsUnchanged": true,
+  "onlyChangedPackagePart": "word/document.xml",
+  "internalPdfPageCount": 4,
+  "internalPdfComparison": [
     {
       "page": 1,
-      "pixelsEqual": true,
-      "sourceTextWords": 31,
-      "candidateTextWords": 31
+      "textUnchanged": true,
+      "pixelsUnchanged": true
     },
     {
       "page": 2,
-      "pixelsEqual": true,
-      "sourceTextWords": 122,
-      "candidateTextWords": 122
+      "textUnchanged": true,
+      "pixelsUnchanged": true
     },
     {
       "page": 3,
-      "pixelsEqual": false,
-      "sourceTextWords": 215,
-      "candidateTextWords": 215
+      "textUnchanged": true,
+      "pixelsUnchanged": false
     },
     {
       "page": 4,
-      "pixelsEqual": true,
-      "sourceTextWords": 60,
-      "candidateTextWords": 60
+      "textUnchanged": true,
+      "pixelsUnchanged": true
     }
   ],
-  "allFourPagesVisuallyReviewed": true,
-  "wordMovementUi": "NOT_EXECUTED_BY_AGENT",
-  "normalSidebarExport": "CLOSED",
-  "baseCommit": "a03f92128ff44ab78d576521d4bd86ac9a94312f",
+  "allFourPagesReviewed": true,
+  "wordUiAndPaginationAfterCorrection": "UNVERIFIED",
+  "userPriorities": [
+    "photo page regression",
+    "reference wrapping"
+  ],
+  "rubricMoveIsMandatory": false,
+  "extraSaveMatrixRequested": false,
   "unitTests": {
     "pass": 1418,
     "fail": 0,
     "files": 276,
-    "expects": 27018
+    "expects": 27038
   },
-  "fullTypecheck": "PASS",
-  "productionBuild": "PASS",
+  "typecheck": "PASS",
   "scopedEslint": "PASS",
   "scopedPrettier": "PASS",
-  "oldPhotoSdtRemovedByDesign": true,
-  "oldReadersUnchanged": true,
-  "normalExportSwitchChanged": false,
-  "mergePerformed": false
+  "productionBuildRerun": false,
+  "library_file_id": "libfile_bd54fc4069388191ac5044c6bc04f3d6",
+  "libraryVersion": 1
 }

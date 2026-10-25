@@ -31,7 +31,7 @@ for (const name of [
   "photo-free-side",
   "photo-free-mirrored-side",
 ] as SidebarFixture[]) {
-  test(`ordinary CV photo preserves source and exits all cells and controls: ${name}`, async () => {
+  test(`ordinary CV photo reuses the CV opening paragraph without a separate photo page: ${name}`, async () => {
     const input = sidebarFixture(name),
       original = structuredClone(input);
     const model = buildDossierDocModel(input, options);
@@ -49,8 +49,22 @@ for (const name of [
     const xml = new TextDecoder().decode(
       entries.find((p) => p.name === "word/document.xml")!.bytes,
     );
-    const start = xml.indexOf("<wp:docPr", xml.indexOf("<wp:anchor"));
-    expect(start).toBeGreaterThan(0);
+    // Inspect the serialized ancestor path, including mirrored cases. Merely
+    // counting four pages in a different renderer missed the Word regression.
+    const stack: string[] = [];
+    let ancestors: string[] | undefined;
+    for (const match of xml.matchAll(/<\/?[\w:]+(?:\s[^<>]*?)?\/?>/g)) {
+      const token = match[0],
+        tag = token.match(/^<\/?([\w:]+)/)![1];
+      if (tag === "wp:docPr" && token.includes('name="cv.person.photo"')) ancestors = [...stack];
+      if (token.startsWith("</")) stack.pop();
+      else if (!token.endsWith("/>")) stack.push(tag);
+    }
+    expect(ancestors).toBeDefined();
+    expect(ancestors).toContain("w:tc");
+    expect(ancestors).not.toContain("w:sdt");
+    expect(ancestors?.filter((tag) => tag === "w:tbl")).toHaveLength(1);
+    expect(ancestors).toContain("wp:anchor");
     expect(xml).toContain('layoutInCell="0"');
     expect(xml).toContain('name="cv.person.photo"');
     expect(xml).not.toContain('<w:tag w:val="cv.person.photo"');

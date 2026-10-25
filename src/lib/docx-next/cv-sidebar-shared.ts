@@ -3,7 +3,6 @@ import type { CellDecoration, DocBlock, DocumentPart, TableBlock } from "./model
 import { walkBlocks } from "./model";
 import { imageZoneExtent } from "./image-zone";
 import { compositeTextColor } from "./colors";
-import { NATIVE_BOUNDARY_HEIGHT_MM } from "./flow-boundaries";
 
 /** Two complete native stories on the authored page grid. No browser pagination. */
 export function composeSharedCvSidebar(
@@ -81,7 +80,7 @@ export function composeSharedCvSidebar(
           ...block,
           xMm,
           nativeOwner: ordinaryPicture ? "page-picture" : "page-frame",
-          ...(ordinaryPicture ? { gapMm: 0, wrapMode: "none" as const } : {}),
+          ...(ordinaryPicture ? { gapMm: 0, wrapMode: undefined } : {}),
           sourceLayout: {
             xMm: block.xMm,
             yMm: block.yMm,
@@ -114,10 +113,10 @@ export function composeSharedCvSidebar(
             placement: "free",
             coordinateOrigin: "page",
             nativeOwner: "page-picture",
-            wrapMode: "none",
             gapMm: 0,
             xMm: area.leftMm + borderOutsetMm,
-            yMm: area.topMm + NATIVE_BOUNDARY_HEIGHT_MM + borderOutsetMm,
+            yMm: 0,
+            verticalOrigin: "paragraph",
             sourceLayout: {
               xMm: area.leftMm,
               yMm: area.topMm,

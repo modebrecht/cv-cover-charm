@@ -95,6 +95,8 @@ export type ImageBlock = {
   coordinateOrigin?: "content" | "page";
   /** Sidebar page image: legacy picture frame, or ordinary unwrapped body picture. */
   nativeOwner?: "page-frame" | "page-picture";
+  /** Automatic ordinary photo follows the opening flow paragraph, without a page-Y offset. */
+  verticalOrigin?: "paragraph";
   /** Explicitly opted-in QA page picture: no Word text wrap. */
   wrapMode?: "none";
   sourceLayout?: ElementSourceLayout;

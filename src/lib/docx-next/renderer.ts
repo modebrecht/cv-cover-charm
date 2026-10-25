@@ -306,7 +306,7 @@ export async function renderDossierDocx(
             pageOrigin ? inset : 0,
             Math.min(page.heightMm - finalHeight - inset, value.yMm),
           );
-      drawing = `<wp:anchor ${distances} simplePos="0" relativeHeight="${paintLayer ?? id}" behindDoc="${behind ? 1 : 0}" locked="0" layoutInCell="${value.nativeOwner === "page-picture" ? 0 : 1}" allowOverlap="${behind || noTextWrap ? 1 : 0}"><wp:simplePos x="0" y="0"/><wp:positionH relativeFrom="${pageOrigin ? "page" : "column"}"><wp:posOffset>${emu(x)}</wp:posOffset></wp:positionH><wp:positionV relativeFrom="${authoredParagraphOffsets ? "line" : pageOrigin ? "page" : "paragraph"}"><wp:posOffset>${emu(y)}</wp:posOffset></wp:positionV>${extent}${behind || noTextWrap ? "<wp:wrapNone/>" : '<wp:wrapSquare wrapText="bothSides"/>'}${properties}${picture}</wp:anchor>`;
+      drawing = `<wp:anchor ${distances} simplePos="0" relativeHeight="${paintLayer ?? id}" behindDoc="${behind ? 1 : 0}" locked="0" layoutInCell="${value.nativeOwner === "page-picture" ? 0 : 1}" allowOverlap="${behind || noTextWrap ? 1 : 0}"><wp:simplePos x="0" y="0"/><wp:positionH relativeFrom="${pageOrigin ? "page" : "column"}"><wp:posOffset>${emu(x)}</wp:posOffset></wp:positionH><wp:positionV relativeFrom="${value.verticalOrigin ?? (authoredParagraphOffsets ? "line" : pageOrigin ? "page" : "paragraph")}"><wp:posOffset>${emu(y)}</wp:posOffset></wp:positionV>${extent}${behind || noTextWrap ? "<wp:wrapNone/>" : '<wp:wrapSquare wrapText="bothSides"/>'}${properties}${picture}</wp:anchor>`;
     }
     return `<w:r><w:drawing>${drawing}</w:drawing></w:r>`;
   }
@@ -452,6 +452,7 @@ export async function renderDossierDocx(
     widthMm: number,
     page: DocumentPart["page"],
     cumulativeGrid = false,
+    openingDrawings = "",
   ): string {
     const tableWidth = value.widthMm ?? widthMm - (value.indentMm ?? 0);
     if (
@@ -504,7 +505,9 @@ export async function renderDossierDocx(
               const cellStart =
                 value.bodyBoundary === "section-start" && rowIndex === 0 && cell.length
                   ? emptyParagraphWithRuns(
-                      "",
+                      index === row.cells.findIndex((content) => content.length > 0)
+                        ? openingDrawings
+                        : "",
                       true,
                       20 +
                         twips(
@@ -717,6 +720,19 @@ export async function renderDossierDocx(
           cursor++;
         }
         const anchor = values[cursor];
+        if (
+          ordinaryPicture &&
+          anchor?.kind === "table" &&
+          anchor.bodyBoundary === "section-start"
+        ) {
+          // A body paragraph before a continuous CV row can strand the photo
+          // on its own Word page. Reuse the row's existing structural paragraph.
+          // layoutInCell=0 leaves the ordinary picture free of cell layout bounds;
+          // no content control or enclosing shape is introduced.
+          result += table(anchor, widthMm, page, cumulativeGrid, drawings.join(""));
+          index = cursor;
+          continue;
+        }
         if (anchor?.kind === "paragraph") {
           // Keep text ownership separate from the native picture frame anchored here.
           result += renderParagraph(

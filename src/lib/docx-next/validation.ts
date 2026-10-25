@@ -400,9 +400,17 @@ export function validateDossierDocModel(model: DossierDocModel): void {
       if (
         block.kind === "image" &&
         block.nativeOwner === "page-picture" &&
-        (!part.blocks.includes(block) || block.wrapMode !== "none" || block.gapMm !== 0)
+        (!part.blocks.includes(block) || block.wrapMode !== undefined || block.gapMm !== 0)
       )
         throw Error(`DOCX Next ordinary picture must be outside cells and controls ${block.id}`);
+      if (
+        block.kind === "image" &&
+        block.verticalOrigin !== undefined &&
+        (block.verticalOrigin !== "paragraph" ||
+          block.nativeOwner !== "page-picture" ||
+          block.yMm !== 0)
+      )
+        throw Error(`DOCX Next invalid ordinary picture vertical anchor ${block.id}`);
       if (
         block.kind === "image" &&
         block.wrapMode !== undefined &&
