@@ -1,0 +1,218 @@
+{
+  "date": "2026-10-25",
+  "startingHead": "7b4d7a444551d05eca9f8e1db71a17fe8c3a3153",
+  "scope": "SEPARATE_LETTER_RECIPIENT_MINIMUM_WORD_PACKET_V2",
+  "libraryFileId": "libfile_0fc827a8c3f48191b79346cf69758434",
+  "packetFilename": "CV-Brief-Empfaenger-Word-v2-25okt.zip",
+  "packetSha256": "3cd2ee59d0e83e6610b14d38a7b65e17a170da9c62e1dcaf79dd28166ce5359a",
+  "packetBytes": 1820379,
+  "packetManifest": {
+    "scope": "SEPARATE_LETTER_RECIPIENT_MINIMUM_WORD_PACKET_V2",
+    "files": {
+      "01-Brief-Standard.docx": {
+        "sha256": "b663a5efa1eb2b86494955983f869af5f3d744c40b85b23620e8c201099d7e2b",
+        "bytes": 513994
+      },
+      "02-Brief-Breiter-Empfaenger.docx": {
+        "sha256": "b157868f87d21ff065f2af798add7375542b306f1ca2cb11940607b636b841bc",
+        "bytes": 514052
+      },
+      "03-App-Referenz-Standard.pdf": {
+        "sha256": "031159442ef39dc2f7191d409b1e507cc45fccf6b591f39d474976d70fe5345b",
+        "bytes": 1879811
+      },
+      "README.md": {
+        "sha256": "6e38566738cbfdecb91cf5a21e7bd3ee42197444cc2bb01921aeaad6124f82b5",
+        "bytes": 3234
+      }
+    },
+    "initialChecks": {
+      "01-Brief-Standard.docx": {
+        "controlOccurrences": 145,
+        "canonicalTags": 134,
+        "recipientMinimumTwips": 1381,
+        "recipientHeightRule": "atLeast",
+        "recipientFields": [
+          "letter.recipient.company",
+          "letter.recipient.name",
+          "letter.recipient.address",
+          "letter.recipient.place"
+        ],
+        "recipientRowCanSplit": true,
+        "originalPhotoSha256": "f8ba8f4b000d9aa4f18a5f476a630615232905810aec92c69d4e128cbfdec69c",
+        "photoPixels": {
+          "width": 1920,
+          "height": 2880,
+          "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6"
+        },
+        "photoCropFractions": [
+          "0",
+          "0.08333",
+          "0",
+          "0.08333"
+        ],
+        "typedPhotoOwner": true
+      },
+      "02-Brief-Breiter-Empfaenger.docx": {
+        "controlOccurrences": 145,
+        "canonicalTags": 134,
+        "recipientMinimumTwips": 1381,
+        "recipientHeightRule": "atLeast",
+        "recipientFields": [
+          "letter.recipient.company",
+          "letter.recipient.name",
+          "letter.recipient.address",
+          "letter.recipient.place"
+        ],
+        "recipientRowCanSplit": true,
+        "originalPhotoSha256": "f8ba8f4b000d9aa4f18a5f476a630615232905810aec92c69d4e128cbfdec69c",
+        "photoPixels": {
+          "width": 1920,
+          "height": 2880,
+          "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6"
+        },
+        "photoCropFractions": [
+          "0",
+          "0.08333",
+          "0",
+          "0.08333"
+        ],
+        "typedPhotoOwner": true
+      }
+    },
+    "freshBrowserCapture": false,
+    "wordAcceptance": "UNVERIFIED",
+    "wordUiOrSaveReopenPerformed": false,
+    "photoOwnerOrAnchorChanged": false,
+    "productionExportChanged": false,
+    "existingPhotoPacketSha256": "430f88185d3091270d8cc7f40bade4fa295abc000cbdb22a6575b7c6e510f509"
+  },
+  "replayCurrentFilesVerified": 164,
+  "rendering": {
+    "engine": "LibreOfficeDev 26.8.0.0.alpha0",
+    "pages": 8,
+    "allEightPagesVisuallyReviewed": true,
+    "currentPages": {
+      "standard": [
+        {
+          "page": "page-1.png",
+          "size": [
+            1414,
+            2000
+          ],
+          "pixelIdenticalToPriorReviewedPage": true
+        },
+        {
+          "page": "page-2.png",
+          "size": [
+            1414,
+            2000
+          ],
+          "pixelIdenticalToPriorReviewedPage": true
+        },
+        {
+          "page": "page-3.png",
+          "size": [
+            1414,
+            2000
+          ],
+          "pixelIdenticalToPriorReviewedPage": true
+        },
+        {
+          "page": "page-4.png",
+          "size": [
+            1414,
+            2000
+          ],
+          "pixelIdenticalToPriorReviewedPage": true
+        }
+      ],
+      "wide": [
+        {
+          "page": "page-1.png",
+          "size": [
+            1414,
+            2000
+          ],
+          "pixelIdenticalToPriorReviewedPage": true
+        },
+        {
+          "page": "page-2.png",
+          "size": [
+            1414,
+            2000
+          ],
+          "pixelIdenticalToPriorReviewedPage": true
+        },
+        {
+          "page": "page-3.png",
+          "size": [
+            1414,
+            2000
+          ],
+          "pixelIdenticalToPriorReviewedPage": true
+        },
+        {
+          "page": "page-4.png",
+          "size": [
+            1414,
+            2000
+          ],
+          "pixelIdenticalToPriorReviewedPage": true
+        }
+      ]
+    },
+    "wordRendering": false
+  },
+  "packaging": {
+    "byteIdenticalBuilds": true,
+    "zipIntegrity": true,
+    "copiedDocumentsByteIdentical": true,
+    "negativeGuards": [
+      "Use a new output ZIP path",
+      "Only the exact pinned recipient-minimum inputs are accepted"
+    ]
+  },
+  "readerCompatibility": {
+    "Letter-Candidate.docx": {
+      "sourceSha256": "b663a5efa1eb2b86494955983f869af5f3d744c40b85b23620e8c201099d7e2b",
+      "fieldOccurrences": 145,
+      "allFieldTokensRolesAndNestingPreservedInSelfCheck": true,
+      "originalPhotoInsideTypedOwner": true,
+      "numericCropUnchanged": true,
+      "wordAcceptance": "UNVERIFIED",
+      "selfComparisonOnly": true
+    },
+    "wide-Candidate.docx": {
+      "sourceSha256": "b157868f87d21ff065f2af798add7375542b306f1ca2cb11940607b636b841bc",
+      "fieldOccurrences": 145,
+      "allFieldTokensRolesAndNestingPreservedInSelfCheck": true,
+      "originalPhotoInsideTypedOwner": true,
+      "numericCropUnchanged": true,
+      "wordAcceptance": "UNVERIFIED",
+      "selfComparisonOnly": true
+    }
+  },
+  "readerDependenciesVerified": 2,
+  "historicalPhotoPacketUnchanged": true,
+  "checksNotRerun": [
+    "1412-unit-test suite",
+    "full TypeScript",
+    "full lint/format"
+  ],
+  "wordUiPerformed": false,
+  "wordSaveReopenPerformed": false,
+  "wordAcceptance": "UNVERIFIED",
+  "productionExportChanged": false,
+  "photoOwnerOrAnchorChanged": false,
+  "mergePerformed": false,
+  "limits": [
+    "Fresh render of byte-identical existing candidates; no new behavior fix.",
+    "Read-only self-comparisons establish reader compatibility, not Office Save/Reopen.",
+    "No fresh browser capture for either packet case.",
+    "Wide recipient uses frozen original styles and intentionally synthetic W groups.",
+    "Reference wrap and actual Word photo editing remain open."
+  ],
+  "publicationParent": "e51a94cd870d1373dc4b068611e122df5d5d1771",
+  "concurrentRemoteChangesPreserved": true
+}
