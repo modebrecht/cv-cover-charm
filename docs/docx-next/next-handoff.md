@@ -1,4 +1,6 @@
-## Current Sidebar handoff — 2026-10-24
+## Current Sidebar handoff — 2026-10-25
+
+**Evening Word review — 25 October:** [Current open points and return protocol](../qa/docx-next-evening-word-review-25okt.md). Both existing packets remain byte-identical: photo review first, separate Letter-v2 standard/wide recipient review next, reference wrap observed from the same PDF. A new read-only, pinned-source Letter return checker passes 39 adversarial tests, including growable minimum/split-style inheritance, canonical fields and original typed photo/crop/frame. Existing readers/photo pins and production guards remain unchanged. No new Word return, review DOCX/PDF, engine/save attempt or acceptance is claimed; the next product decision requires the actual evening Word evidence.
 
 **Complete current handoff:** [24 October consolidated transfer](../qa/docx-next-sidebar-handoff-24okt.md). This names every work branch, distinguishes integrated inputs from new fixes, verifies the remaining local repository copies, and defines the next photo-editing task. Use it before the historical sections below.
 
