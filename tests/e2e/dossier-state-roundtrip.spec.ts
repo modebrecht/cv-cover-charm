@@ -62,7 +62,7 @@ test.describe("M7 dossier state roundtrip", () => {
 
     const download = page.getByRole("button", { name: "Download", exact: true });
     await expect(download).toHaveAttribute("data-editor-ready", "true");
-    await download.click();
+    await page.getByRole("button", { name: "Menü", exact: true }).click();
     const menu = page.locator("[data-editor-action-menu]");
     await menu.getByRole("button").filter({ hasText: "Beispieldaten übernehmen" }).click();
     await menu.getByRole("button", { name: "Ja", exact: true }).click();
@@ -71,7 +71,7 @@ test.describe("M7 dossier state roundtrip", () => {
     await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
     const letterDownload = page.getByRole("button", { name: "Download", exact: true });
     await expect(letterDownload).toHaveAttribute("data-editor-ready", "true");
-    await letterDownload.click();
+    await page.getByRole("button", { name: "Menü", exact: true }).click();
     const letterMenu = page.locator("[data-editor-action-menu]");
     await letterMenu.getByRole("button").filter({ hasText: "Beispieldaten übernehmen" }).click();
     await letterMenu.getByRole("button", { name: "Ja", exact: true }).click();
@@ -85,7 +85,7 @@ test.describe("M7 dossier state roundtrip", () => {
     await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
     const cvDownload = page.getByRole("button", { name: "Download", exact: true });
     await expect(cvDownload).toHaveAttribute("data-editor-ready", "true");
-    await cvDownload.click();
+    await page.getByRole("button", { name: "Menü", exact: true }).click();
     const cvMenu = page.locator("[data-editor-action-menu]");
     await cvMenu.getByRole("button").filter({ hasText: "Beispieldaten übernehmen" }).click();
     await cvMenu.getByRole("button", { name: "Ja", exact: true }).click();
@@ -208,11 +208,11 @@ test.describe("M7 dossier state roundtrip", () => {
     const titleDownload = page.getByRole("button", { name: "Download", exact: true });
     await expect(titleDownload).toHaveAttribute("data-editor-ready", "true");
     await titleDownload.click();
-    const titleMenu = page.locator("[data-editor-action-menu]");
+    const titleMenu = page.locator("[data-editor-download-menu]");
 
     const [projectDownload] = await Promise.all([
       page.waitForEvent("download"),
-      titleMenu.getByRole("button", { name: /Dossier speichern/ }).click(),
+      titleMenu.getByRole("menuitem", { name: "Dossier JSON", exact: true }).click(),
     ]);
     const projectPath = await projectDownload.path();
     expect(projectPath).not.toBeNull();
@@ -252,7 +252,7 @@ test.describe("M7 dossier state roundtrip", () => {
       "data-editor-ready",
       "true",
     );
-    await page.getByRole("button", { name: "Download", exact: true }).click();
+    await page.getByRole("button", { name: "Menü", exact: true }).click();
 
     const fileInput = page.locator(
       '[data-editor-action-menu] input[type="file"][accept="application/json"]',

@@ -1,0 +1,80 @@
+{
+  "status": "PASS automated; Word unverified",
+  "results": [
+    {
+      "id": "01-Modern-Eine-CV-Seite",
+      "webCvPages": 1,
+      "supplementalNativePages": 3,
+      "wordAcceptance": "UNVERIFIED",
+      "publishedDownloadByteIdentical": true
+    },
+    {
+      "id": "04-Modern-Kontakt-senkrecht",
+      "webCvPages": 2,
+      "supplementalNativePages": 5,
+      "wordAcceptance": "UNVERIFIED",
+      "publishedDownloadByteIdentical": true
+    },
+    {
+      "id": "05-Modern-Eigene-Werte-Referenzen",
+      "webCvPages": 1,
+      "supplementalNativePages": 4,
+      "wordAcceptance": "UNVERIFIED",
+      "publishedDownloadByteIdentical": true
+    },
+    {
+      "id": "08-Brief-Standard",
+      "webCvPages": 1,
+      "supplementalNativePages": 4,
+      "wordAcceptance": "UNVERIFIED",
+      "sharedDateLanguageRows": true,
+      "nativeListItems": 6,
+      "sameSavedSnapshot": true,
+      "adjacentModelsIdentical": true,
+      "allCvFieldIdentitiesAndTextsPreserved": true,
+      "webRastersByteIdentical": true
+    },
+    {
+      "id": "09-Brief-Lang-115-Prozent",
+      "webCvPages": 1,
+      "supplementalNativePages": 4,
+      "wordAcceptance": "UNVERIFIED",
+      "sharedDateLanguageRows": true,
+      "nativeListItems": 6,
+      "sameSavedSnapshot": true,
+      "adjacentModelsIdentical": true,
+      "allCvFieldIdentitiesAndTextsPreserved": true,
+      "webRastersByteIdentical": true
+    },
+    {
+      "id": "10-Brief-Foto-Hochformat",
+      "webCvPages": 1,
+      "supplementalNativePages": 4,
+      "wordAcceptance": "UNVERIFIED",
+      "sharedDateLanguageRows": true,
+      "nativeListItems": 6,
+      "sameSavedSnapshot": true,
+      "adjacentModelsIdentical": true,
+      "allCvFieldIdentitiesAndTextsPreserved": true,
+      "webRastersByteIdentical": true
+    },
+    {
+      "id": "11-Brief-Eine-CV-Seite",
+      "webCvPages": 1,
+      "supplementalNativePages": 3,
+      "wordAcceptance": "UNVERIFIED",
+      "sharedDateLanguageRows": true,
+      "nativeListItems": 6,
+      "presetPageCountMatches": true
+    },
+    {
+      "id": "12-Brief-Zwei-CV-Seiten",
+      "webCvPages": 2,
+      "supplementalNativePages": 4,
+      "wordAcceptance": "UNVERIFIED",
+      "sharedDateLanguageRows": true,
+      "nativeListItems": 6,
+      "presetPageCountMatches": true
+    }
+  ]
+}

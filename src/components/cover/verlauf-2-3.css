@@ -10,19 +10,22 @@
 /* ========================================================================== */
 /* VERLAUF 2 — deep blue -> cyan, cool light depth                            */
 /* ========================================================================== */
-html[data-dossier-template="verlauf2"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="verlauf2"]
   [data-fresh-cover-field="primary"] {
   inset: 0 !important;
   width: 100% !important;
   height: 100% !important;
   border-radius: 0 !important;
   opacity: 1 !important;
-  background: linear-gradient(148deg, var(--cover-primary) 2%, var(--cover-secondary) 68%, var(--cover-accent) 118%) !important;
+  background: linear-gradient(
+    148deg,
+    var(--cover-primary) 2%,
+    var(--cover-secondary) 68%,
+    var(--cover-accent) 118%
+  ) !important;
 }
 
-html[data-dossier-template="verlauf2"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="verlauf2"]
   [data-fresh-cover-field="secondary"] {
   left: 116mm !important;
   top: -22mm !important;
@@ -34,8 +37,7 @@ html[data-dossier-template="verlauf2"]
   background: #ffffff !important;
 }
 
-html[data-dossier-template="verlauf2"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="verlauf2"]
   [data-fresh-cover-field="accent"] {
   left: -42mm !important;
   top: 192mm !important;
@@ -47,23 +49,21 @@ html[data-dossier-template="verlauf2"]
   background: #ffffff !important;
 }
 
-html[data-dossier-template="verlauf2"] [data-dossier-document="cover"] [data-block-id="foto"] {
+div[data-dossier-document="cover"][data-dossier-template="verlauf2"] [data-block-id="foto"] {
   transform: translate(49mm, -22mm) scale(0.8);
   transform-origin: top left;
 }
 
-html[data-dossier-template="verlauf2"] [data-dossier-document="cover"] [data-block-id="name"] {
+div[data-dossier-document="cover"][data-dossier-template="verlauf2"] [data-block-id="name"] {
   transform: translateY(-11mm);
 }
 
-html[data-dossier-template="verlauf2"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="verlauf2"]
   :is([data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
   transform: translateY(-8mm);
 }
 
-html[data-dossier-template="verlauf2"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="verlauf2"]
   :is(
     [data-block-id="eyebrow"],
     [data-block-id="ortDatum"],
@@ -78,8 +78,7 @@ html[data-dossier-template="verlauf2"]
     [data-block-id="beilagenTitel"],
     [data-block-id="beilagen"]
   ),
-html[data-dossier-template="verlauf2"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="verlauf2"]
   :is(
     [data-block-id="eyebrow"],
     [data-block-id="ortDatum"],
@@ -93,18 +92,19 @@ html[data-dossier-template="verlauf2"]
     [data-block-id="empfaenger"],
     [data-block-id="beilagenTitel"],
     [data-block-id="beilagen"]
-  ) * {
+  )
+  * {
   color: #ffffff !important;
 }
 
-html[data-dossier-template="verlauf2"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="verlauf2"][data-dossier-document="cv"] [data-cv-surface] {
   border-radius: 9mm !important;
   box-shadow: 0 4mm 18mm rgb(36 71 184 / 0.07);
 }
 
 /* Keep the pill signature horizontal-only so it does not consume extra A4
  * vertical rhythm or push the final CV section onto a continuation page. */
-html[data-dossier-template="verlauf2"] [data-dossier-document="cv"] [data-cv-section-title] {
+div[data-cv-template="verlauf2"][data-dossier-document="cv"] [data-cv-section-title] {
   padding: 0 2.4mm;
   border-radius: 999px;
   background: color-mix(in srgb, currentColor 9%, transparent);
@@ -113,19 +113,22 @@ html[data-dossier-template="verlauf2"] [data-dossier-document="cv"] [data-cv-sec
 /* ========================================================================== */
 /* VERLAUF 3 — berry -> orange, richer warm editorial gradient                */
 /* ========================================================================== */
-html[data-dossier-template="verlauf3"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="verlauf3"]
   [data-fresh-cover-field="primary"] {
   inset: 0 !important;
   width: 100% !important;
   height: 100% !important;
   border-radius: 0 !important;
   opacity: 1 !important;
-  background: linear-gradient(162deg, var(--cover-primary) 0%, var(--cover-secondary) 72%, var(--cover-accent) 125%) !important;
+  background: linear-gradient(
+    162deg,
+    var(--cover-primary) 0%,
+    var(--cover-secondary) 72%,
+    var(--cover-accent) 125%
+  ) !important;
 }
 
-html[data-dossier-template="verlauf3"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="verlauf3"]
   [data-fresh-cover-field="secondary"] {
   left: -28mm !important;
   top: -30mm !important;
@@ -137,8 +140,7 @@ html[data-dossier-template="verlauf3"]
   background: #ffffff !important;
 }
 
-html[data-dossier-template="verlauf3"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="verlauf3"]
   [data-fresh-cover-field="accent"] {
   left: 126mm !important;
   top: 184mm !important;
@@ -150,23 +152,21 @@ html[data-dossier-template="verlauf3"]
   background: #ffffff !important;
 }
 
-html[data-dossier-template="verlauf3"] [data-dossier-document="cover"] [data-block-id="foto"] {
+div[data-dossier-document="cover"][data-dossier-template="verlauf3"] [data-block-id="foto"] {
   transform: translate(47mm, -20mm) scale(0.81);
   transform-origin: top left;
 }
 
-html[data-dossier-template="verlauf3"] [data-dossier-document="cover"] [data-block-id="name"] {
+div[data-dossier-document="cover"][data-dossier-template="verlauf3"] [data-block-id="name"] {
   transform: translateY(-10mm);
 }
 
-html[data-dossier-template="verlauf3"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="verlauf3"]
   :is([data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
   transform: translateY(-7mm);
 }
 
-html[data-dossier-template="verlauf3"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="verlauf3"]
   :is(
     [data-block-id="eyebrow"],
     [data-block-id="ortDatum"],
@@ -181,8 +181,7 @@ html[data-dossier-template="verlauf3"]
     [data-block-id="beilagenTitel"],
     [data-block-id="beilagen"]
   ),
-html[data-dossier-template="verlauf3"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="verlauf3"]
   :is(
     [data-block-id="eyebrow"],
     [data-block-id="ortDatum"],
@@ -196,16 +195,17 @@ html[data-dossier-template="verlauf3"]
     [data-block-id="empfaenger"],
     [data-block-id="beilagenTitel"],
     [data-block-id="beilagen"]
-  ) * {
+  )
+  * {
   color: #ffffff !important;
 }
 
-html[data-dossier-template="verlauf3"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="verlauf3"][data-dossier-document="cv"] [data-cv-surface] {
   border-radius: 9mm !important;
   box-shadow: 0 4mm 18mm rgb(123 49 93 / 0.07);
 }
 
-html[data-dossier-template="verlauf3"] [data-dossier-document="cv"] [data-cv-section-title] {
+div[data-cv-template="verlauf3"][data-dossier-document="cv"] [data-cv-section-title] {
   padding: 0 2.4mm;
   border-radius: 999px;
   background: color-mix(in srgb, currentColor 9%, transparent);
@@ -235,8 +235,7 @@ html[data-dossier-template="verlauf3"] [data-dossier-document="cv"] [data-cv-sec
     [data-dossier-continuation-contact-header],
     [data-dossier-footer]
   ),
-html[data-dossier-template="verlauf2"]
-  [data-dossier-document="cv"]
+div[data-cv-template="verlauf2"][data-dossier-document="cv"]
   [data-dossier-chrome="cv"]
   :is(
     [data-dossier-compact-header],
@@ -244,8 +243,7 @@ html[data-dossier-template="verlauf2"]
     [data-dossier-continuation-contact-header],
     [data-dossier-footer]
   ),
-html[data-dossier-template="verlauf3"]
-  [data-dossier-document="cv"]
+div[data-cv-template="verlauf3"][data-dossier-document="cv"]
   [data-dossier-chrome="cv"]
   :is(
     [data-dossier-compact-header],

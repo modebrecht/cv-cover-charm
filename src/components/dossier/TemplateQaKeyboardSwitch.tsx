@@ -291,7 +291,9 @@ export function TemplateQaKeyboardSwitch() {
       } catch {
         // QA helper only.
       }
-      for (const element of document.querySelectorAll<HTMLElement>("[data-template-qa-moved='true']")) {
+      for (const element of document.querySelectorAll<HTMLElement>(
+        "[data-template-qa-moved='true']",
+      )) {
         clearOffset(element);
       }
       selectElement(null);
@@ -314,7 +316,9 @@ export function TemplateQaKeyboardSwitch() {
       const layoutReset = label.includes("Positionen & Grössen zurücksetzen");
       const confirmedFullReset =
         label === "Ja" &&
-        (resetButton.parentElement?.textContent ?? "").replace(/\s+/g, " ").includes("Wirklich alles?");
+        (resetButton.parentElement?.textContent ?? "")
+          .replace(/\s+/g, " ")
+          .includes("Wirklich alles?");
       if (layoutReset || confirmedFullReset) resetOffsets();
     };
 

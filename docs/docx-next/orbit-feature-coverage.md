@@ -1,0 +1,26 @@
+# Orbit candidate coverage
+
+Orbit is the fifth isolated DOCX Next candidate. **5/39 configured candidates; 0/39 Microsoft Word accepted migrations.** Production DOCX remains Legacy/V2. The semantic source boundary, model builder and single renderer remain independent of Legacy/V2.
+
+| Design / authored input                            | Word representation / acceptance limit                                                                                                                                                 |
+| -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Midnight/indigo circular cover                     | Declarative page-clipped circles in the cover's first native header story; no semantic text in raster assets.                                                                          |
+| Right document label/date and photo                | Shared native row with grouped fields, right native circular picture, existing photo/no-photo hero lead. Authored crop/frame/opacity remains authoritative.                            |
+| Left name/profession/start                         | Generic descriptor field-alignment defaults, respecting explicit saved alignment provenance. Editable runs and growing native badge; no visible-value or occurrence matching.          |
+| Contact, recipient, attachments and custom fields  | Shared native rows and flow boxes. Longer editable content can add pages; the custom cover fixture intentionally has two pages.                                                        |
+| Letter stationery                                  | Palette-bound seven-millimeter rule and small clipped circle, independently scoped to first/continuation stories and contact-header mode.                                              |
+| CV stationery                                      | Ten-millimeter rule and genuine transparent-center outline motif. New generic optional fill and palette-bound stroke configure existing raster/relationship ownership.                 |
+| Native contact chrome                              | Existing descriptor-owned growing bands, editable sender paragraphs and explicit user surface/text precedence. Running text can reserve more space than the thin stationery.           |
+| Long content, Timeline, Magazin, rich text, images | Existing native flow, date rail, half-width sections, runs, numbering, tables, image crop/frame and short-tail keep controls.                                                          |
+| CV motif visibility / palette                      | Existing `bgOpacity` scales configured paint; zero removes it. Changed palette updates fill and stroke. Invalid geometry and unpainted/fill-less gradient descriptors fail explicitly. |
+| Source and unsupported inputs                      | Neutral immutable source adapter; authored presentation only. Sidebar still fails explicitly; no Classic simulation or Legacy fallback.                                                |
+
+The browser/PDF design was inspected in `next-signature-templates.css`, `templatefix-32-36.css`, `templatefix-32-36-cv-masthead.css`, `fresh-cover-visual-cleanup.css`, `CoverBackground.tsx`, `DossierSheetBackground.tsx`, the letter motif descriptor and actual Orbit editor pages. The retired third CV signal stays absent.
+
+Word adaptations are deliberate: the native 60 mm photo preserves its authored block dimensions instead of importing the browser's CSS scale; the hero begins below the circular paint, including without a photo; the start badge becomes a growing rectangular native box; contact and attachments flow rather than pinning to browser bottom coordinates. Native fields keep authored fonts/sizes and may produce more CV pages than the browser. These are candidate layout policies, not approved pixel-parity claims.
+
+Reusable additions are outline motif configuration and native field-alignment defaults with saved-style precedence. Templates emit no XML. `renderer.ts` and `build-model.ts` are unchanged. All 124 previous Brief/Warm/Prism/Human packages regenerate byte-identically.
+
+Thirteen scenarios cover normal/no-photo, long letter, long CV, long values, photos/images, custom fields/rich content, compact/disabled headers, signed continuation chrome, Timeline, Magazin, zero CV motif visibility and changed colors. All 95 pages pass structural, text, media, bounds, native composition and stable LibreOfficeKit 25.8.7.3 render/save-reopen checks. The packaged ring's transparent center and visible outline were also checked in actual raster pixels. Representative browser, cover, letter, CV, custom and continuation pages were visually inspected.
+
+Microsoft Word acceptance: pending. Actual Word open/edit/save/close/reopen and human approval remain required. Existing blockers remain: Modern/sidebar, free section positions, unresolved anonymous typography, oversized continuation margins, translucent semantic images, unsupported fonts and enabled font embedding. The remaining 34 templates have no silent Next fallback.

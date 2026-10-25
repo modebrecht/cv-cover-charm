@@ -171,11 +171,7 @@ test("Kolumne keeps the reviewed gutter before and through mirror yes/no", async
     "mirrored",
     "preview mirrored yes",
   );
-  expectReviewedGeometry(
-    await geometry(page, "mirrored", true),
-    "mirrored",
-    "export mirrored yes",
-  );
+  expectReviewedGeometry(await geometry(page, "mirrored", true), "mirrored", "export mirrored yes");
 
   await setMirror(page, "standard");
   expectReviewedGeometry(

@@ -6,7 +6,12 @@ const STORAGE_KEY = "lebenslauf:v1";
 
 const SCHOOL_MARKERS = Array.from({ length: 14 }, (_, index) => `SchoolMarker${index + 1}`);
 const WORK_MARKERS = Array.from({ length: 12 }, (_, index) => `WorkMarker${index + 1}`);
-const REQUIRED_MARKERS = [...SCHOOL_MARKERS, ...WORK_MARKERS, "FamilyFinalMarker", "ReferenceFinalMarker"];
+const REQUIRED_MARKERS = [
+  ...SCHOOL_MARKERS,
+  ...WORK_MARKERS,
+  "FamilyFinalMarker",
+  "ReferenceFinalMarker",
+];
 
 function longCvPayload() {
   return {
@@ -37,7 +42,7 @@ function longCvPayload() {
         id: `work-${index}`,
         zeit: `202${index % 7}`,
         titel: marker,
-        ort: `Beispielbetrieb ${index + 1}`, 
+        ort: `Beispielbetrieb ${index + 1}`,
         beschreibung:
           "Schnupper- und Praxiserfahrung mit mehreren Aufgaben, Rückmeldungen aus dem Team und eigener Dokumentation.",
       })),
@@ -115,11 +120,12 @@ async function pageMarkerDistribution(page: Page, exportMode: boolean) {
   const pages = page.locator(
     `[data-dossier-document="cv"][data-export-mode="${exportMode ? "true" : "false"}"] [data-cv-page]`,
   );
-  return pages.evaluateAll((nodes, markers) =>
-    nodes.map((node) => {
-      const text = (node.textContent ?? "").replace(/\s+/g, " ");
-      return (markers as string[]).filter((marker) => text.includes(marker));
-    }),
+  return pages.evaluateAll(
+    (nodes, markers) =>
+      nodes.map((node) => {
+        const text = (node.textContent ?? "").replace(/\s+/g, " ");
+        return (markers as string[]).filter((marker) => text.includes(marker));
+      }),
     REQUIRED_MARKERS,
   );
 }
@@ -199,7 +205,7 @@ test.describe("CV long-content pagination hardening", () => {
 
     await page.getByRole("button", { name: "Download", exact: true }).click();
     const downloadPromise = page.waitForEvent("download", { timeout: 90_000 });
-    await page.getByRole("button", { name: /Nur Lebenslauf als PDF/i }).click();
+    await page.getByRole("menuitem", { name: "PDF", exact: true }).click();
     const download = await downloadPromise;
     const path = await download.path();
     expect(path).not.toBeNull();

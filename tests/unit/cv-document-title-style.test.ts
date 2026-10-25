@@ -2,10 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
 
 const canvas = readFileSync("src/components/cv/CvCanvas.tsx", "utf8");
-const titleOverride = readFileSync(
-  "src/components/cv/document-title-user-override.css",
-  "utf8",
-);
+const titleOverride = readFileSync("src/components/cv/document-title-user-override.css", "utf8");
 const geometryContract = readFileSync("src/components/cv/content-geometry-contract.css", "utf8");
 const titleSpacingControl = readFileSync(
   "src/components/dossier/DossierHyphenationControl.tsx",
@@ -34,9 +31,7 @@ describe("CV document title style controls", () => {
     expect(titleOverride).toContain("font-style: var(--cv-user-doc-style) !important");
 
     expect(titleOverride).toContain('[data-cv-user-doc-decoration="true"]');
-    expect(titleOverride).toContain(
-      "text-decoration: var(--cv-user-doc-decoration) !important",
-    );
+    expect(titleOverride).toContain("text-decoration: var(--cv-user-doc-decoration) !important");
   });
 
   test("offers one global document-title top-spacing control for all header modes", () => {

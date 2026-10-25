@@ -16,6 +16,7 @@ import {
   type DossierFieldTypographyScope,
   type DossierFieldTypographyStyle,
 } from "@/lib/dossier-field-typography";
+import { isSemanticDossierFieldId } from "@/lib/dossier-semantic-fields";
 
 type TextControl = HTMLInputElement | HTMLTextAreaElement;
 type Bubble = { left: number; top: number; placement: "above" | "below" };
@@ -39,6 +40,16 @@ function isTextControl(target: EventTarget | null): target is TextControl {
   if (target instanceof HTMLTextAreaElement) return true;
   if (!(target instanceof HTMLInputElement)) return false;
   return ["text", "email", "tel", "url", "search"].includes(target.type);
+}
+function isTypographyControl(
+  target: EventTarget | null,
+  scope: DossierFieldTypographyScope,
+): target is TextControl {
+  return (
+    isTextControl(target) &&
+    (!!target.closest("[data-editor-panel]") ||
+      isSemanticDossierFieldId(scope, target.dataset.dossierFieldId ?? ""))
+  );
 }
 
 function labelText(control: TextControl): string {
@@ -100,8 +111,7 @@ function fieldDocxOccurrence(control: TextControl): number {
   const value = normalizeDossierFieldText(control.value).toLocaleLowerCase("de-CH");
   if (!value) return 0;
   const matches = textControls(panel).filter(
-    (candidate) =>
-      normalizeDossierFieldText(candidate.value).toLocaleLowerCase("de-CH") === value,
+    (candidate) => normalizeDossierFieldText(candidate.value).toLocaleLowerCase("de-CH") === value,
   );
   return Math.max(0, matches.indexOf(control));
 }
@@ -117,6 +127,8 @@ function fieldMeta(
     (scope === "cv" ? "Lebenslauf" : "Motivationsschreiben");
   const fieldId = control.dataset.dossierFieldId?.trim();
   const contextValues = fieldContextValues(control);
+  // Keep legacy-export projection metadata until its production path is retired.
+  // Canonical preview and Next export resolve exclusively by fieldId.
   return {
     scope,
     section,
@@ -161,9 +173,9 @@ function candidateContextText(element: HTMLElement): string {
     element.closest<HTMLElement>(
       "[data-cv-entry], [data-cv-header], [data-cv-sidebar], [data-letter-pdf-text]",
     ) ?? element.parentElement;
-  return normalizeDossierFieldText(anchor?.textContent ?? element.textContent ?? "").toLocaleLowerCase(
-    "de-CH",
-  );
+  return normalizeDossierFieldText(
+    anchor?.textContent ?? element.textContent ?? "",
+  ).toLocaleLowerCase("de-CH");
 }
 
 function replicaRoot(element: HTMLElement): HTMLElement {
@@ -194,7 +206,8 @@ function contextualCandidates(
       return { element, score };
     });
     const max = Math.max(...scored.map(({ score }) => score));
-    if (max > 0) selected = scored.filter(({ score }) => score === max).map(({ element }) => element);
+    if (max > 0)
+      selected = scored.filter(({ score }) => score === max).map(({ element }) => element);
   }
 
   const occurrence = entry.docxOccurrence;
@@ -217,10 +230,7 @@ function contextualCandidates(
   return picked;
 }
 
-function leafMatches(
-  rootSelector: string,
-  entry: DossierFieldTypographyEntry,
-): HTMLElement[] {
+function leafMatches(rootSelector: string, entry: DossierFieldTypographyEntry): HTMLElement[] {
   const needle = normalizeDossierFieldText(entry.value).toLocaleLowerCase("de-CH");
   if (!needle) return [];
   const candidates: HTMLElement[] = [];
@@ -286,13 +296,22 @@ function cvTargets(entry: DossierFieldTypographyEntry): HTMLElement[] {
 
 function applyPreviewTypography(scope: DossierFieldTypographyScope) {
   for (const element of document.querySelectorAll<HTMLElement>(
-    '[data-dossier-field-typography="true"]',
+    '[data-dossier-document] [data-dossier-field-typography="true"]',
   )) {
     clearTypographyAttributes(element);
   }
 
   for (const entry of getDossierFieldTypographyEntries(scope)) {
-    const targets = scope === "letter" ? letterTargets(entry) : cvTargets(entry);
+    const targets =
+      entry.fieldId && isSemanticDossierFieldId(scope, entry.fieldId)
+        ? Array.from(
+            document.querySelectorAll<HTMLElement>(
+              "[data-dossier-document] [data-dossier-field-id]",
+            ),
+          ).filter((element) => element.dataset.dossierFieldId === entry.fieldId)
+        : scope === "letter"
+          ? letterTargets(entry)
+          : cvTargets(entry);
     for (const target of targets) setTypographyAttributes(target, entry.style);
   }
 }
@@ -315,14 +334,15 @@ function resolveControlTypography(
   return {
     meta: resolvedMeta,
     key: entry?.key ?? dossierFieldTypographyKey(resolvedMeta),
-    style: entry?.style ?? getDossierFieldTypography(scope, dossierFieldTypographyKey(resolvedMeta)),
+    style:
+      entry?.style ?? getDossierFieldTypography(scope, dossierFieldTypographyKey(resolvedMeta)),
   };
 }
 
 function syncInputTypography(scope: DossierFieldTypographyScope) {
-  const panel = document.querySelector<HTMLElement>("[data-editor-panel]");
-  if (!panel) return;
-  for (const control of textControls(panel)) {
+  for (const control of textControls(document).filter((control) =>
+    isTypographyControl(control, scope),
+  )) {
     clearTypographyAttributes(control);
     const resolved = resolveControlTypography(control, scope);
     if (resolved && hasExplicitStyle(resolved.style)) {
@@ -354,7 +374,7 @@ export function ContextualFieldTypography() {
   const readSelection = useCallback(() => {
     if (!scope) return;
     const control = document.activeElement;
-    if (!isTextControl(control) || !control.closest("[data-editor-panel]")) {
+    if (!isTypographyControl(control, scope)) {
       setBubble(null);
       setActiveKey(null);
       return;
@@ -442,7 +462,7 @@ export function ContextualFieldTypography() {
     if (!scope) return;
 
     const onInput = (event: Event) => {
-      if (!isTextControl(event.target) || !event.target.closest("[data-editor-panel]")) return;
+      if (!isTypographyControl(event.target, scope)) return;
       const control = event.target;
       const previousKey = keyByControlRef.current.get(control);
       let meta = fieldMeta(control, scope);
@@ -452,8 +472,7 @@ export function ContextualFieldTypography() {
         if (hasExplicitStyle(previousStyle)) {
           if (!meta.fieldId) {
             const existing = findDossierFieldTypographyEntry(meta);
-            const fieldId =
-              existing?.fieldId ?? newDossierFieldTypographyFieldId(scope);
+            const fieldId = existing?.fieldId ?? newDossierFieldTypographyFieldId(scope);
             control.dataset.dossierFieldId = fieldId;
             meta = { ...meta, fieldId };
           }
@@ -525,6 +544,7 @@ export function ContextualFieldTypography() {
         <div
           data-dossier-field-selection-toolbar
           data-dossier-field-scope={scope}
+          data-dossier-field-key={activeKey}
           role="toolbar"
           aria-label="Textfeld formatieren"
           className="fixed z-[90] flex items-center gap-1 rounded-xl border bg-popover p-1 shadow-xl"
@@ -563,9 +583,7 @@ export function ContextualFieldTypography() {
             className={`rounded-md px-2.5 py-1.5 text-xs italic hover:bg-muted ${
               style.italic === true ? "bg-primary text-primary-foreground" : ""
             }`}
-            onClick={() =>
-              updateStyle({ ...style, italic: style.italic === true ? false : true })
-            }
+            onClick={() => updateStyle({ ...style, italic: style.italic === true ? false : true })}
           >
             I
           </button>

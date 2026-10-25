@@ -148,10 +148,7 @@ test("real browser DOCX gallery covers every Fresh template", async ({ page }) =
 
     const downloadButton = page.getByRole("button", { name: "DOCX herunterladen" });
     await expect(downloadButton).toBeEnabled();
-    const [download] = await Promise.all([
-      page.waitForEvent("download"),
-      downloadButton.click(),
-    ]);
+    const [download] = await Promise.all([page.waitForEvent("download"), downloadButton.click()]);
     const path = await download.path();
     expect(path).not.toBeNull();
     const bytes = await readFile(path!);

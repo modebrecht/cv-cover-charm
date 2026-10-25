@@ -24,7 +24,10 @@ function hex(value: string | undefined, fallback: string) {
 function luminance(color: string) {
   const raw = color.replace("#", "");
   const channels = [0, 2, 4].map((offset) => parseInt(raw.slice(offset, offset + 2), 16) / 255);
-  return channels.reduce((sum, channel, index) => sum + channel * [0.2126, 0.7152, 0.0722][index], 0);
+  return channels.reduce(
+    (sum, channel, index) => sum + channel * [0.2126, 0.7152, 0.0722][index],
+    0,
+  );
 }
 
 function palette(colors: Record<string, string> | undefined) {
@@ -110,11 +113,7 @@ function replaceDrawing(source: string, id: string, replacement: string, require
   return source.replace(pattern, replacement);
 }
 
-function replacePageShapes(
-  source: string,
-  ids: readonly string[],
-  shapes: string,
-) {
+function replacePageShapes(source: string, ids: readonly string[], shapes: string) {
   let xml = source;
   ids.forEach((id, index) => {
     xml = replaceDrawing(xml, id, index === 0 ? shapes : "");
@@ -221,11 +220,7 @@ function frameRun(
   return `<w:r><w:pict><v:${kind} id="${id}" style="${vmlStyle(x, y, w, h, 251657900)}" filled="f" strokecolor="${color}" strokeweight="0.8pt"/></w:pict></w:r>`;
 }
 
-function patchPhotoFrame(
-  source: string,
-  recipe: DossierDocxTemplateRecipe,
-  colors: Palette,
-) {
+function patchPhotoFrame(source: string, recipe: DossierDocxTemplateRecipe, colors: Palette) {
   const frame = recipe.cover.photoFrame;
   if (!frame) return source;
   let xml = replaceDrawing(
@@ -332,11 +327,7 @@ function patchRecipeDocumentXml(
   return xml;
 }
 
-function sameTemplate(
-  cover: CoverPdfDocument,
-  letter: LetterPdfDocument,
-  cv: CvPdfDocument,
-) {
+function sameTemplate(cover: CoverPdfDocument, letter: LetterPdfDocument, cv: CvPdfDocument) {
   const template = String(cover.template);
   return template === String(letter.design.template) && template === String(cv.design.template)
     ? template
@@ -361,7 +352,9 @@ export async function createIndividualRecipeDossierDocxBlob(
   const template = sameTemplate(cover, letter, cv);
   const recipe = template ? dossierDocxTemplateRecipe(template) : null;
   if (!template || !recipe) {
-    throw new Error("DOCX-Einzelrezept benötigt dieselbe gemappte Vorlage in allen drei Dossierteilen.");
+    throw new Error(
+      "DOCX-Einzelrezept benötigt dieselbe gemappte Vorlage in allen drei Dossierteilen.",
+    );
   }
 
   const compatible = warmCompatibleDocuments(cover, letter, cv);

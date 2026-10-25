@@ -1,10 +1,16 @@
 import { describe, expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
 
-const css = readFileSync(new URL("../../src/components/cover/Section.css", import.meta.url), "utf8");
+const css = readFileSync(
+  new URL("../../src/components/cover/Section.css", import.meta.url),
+  "utf8",
+);
 const form = readFileSync(new URL("../../src/components/cv/CvForm.tsx", import.meta.url), "utf8");
 const types = readFileSync(new URL("../../src/components/cv/types.ts", import.meta.url), "utf8");
-const canvas = readFileSync(new URL("../../src/components/cv/CvCanvasBase.tsx", import.meta.url), "utf8");
+const canvas = readFileSync(
+  new URL("../../src/components/cv/CvCanvasBase.tsx", import.meta.url),
+  "utf8",
+);
 
 describe("CV family compact rows", () => {
   test("defaults to one-line rows with colons, shared alignment and compact spacing", () => {

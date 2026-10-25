@@ -130,7 +130,7 @@ test.describe("M7 dossier state isolation", () => {
     }));
 
     await openLetter(page);
-    await page.getByRole("button", { name: "Download", exact: true }).click();
+    await page.getByRole("button", { name: "Menü", exact: true }).click();
     const menu = page.locator("[data-editor-action-menu]");
     await menu.getByRole("button", { name: /Motivationsschreiben zurücksetzen/ }).click();
     await expect(
@@ -154,7 +154,9 @@ test.describe("M7 dossier state isolation", () => {
     expect(siblingsAfter).toEqual(siblingsBefore);
   });
 
-  test("switching letter template changes design only and preserves user data", async ({ page }) => {
+  test("switching letter template changes design only and preserves user data", async ({
+    page,
+  }) => {
     await seedDossier(page);
     await openLetter(page);
 

@@ -35,6 +35,8 @@ describe("Violet Pulse interior cleanup", () => {
     expect(css).toContain('[data-cv-accent="section"]');
     expect(css).toContain('[data-cv-accent="header"]');
     expect(css).toContain("box-shadow: none !important;");
-    expect(chromePolicy).toContain('[data-dossier-sheet-background="violetPulse"] > div:nth-child(2)');
+    expect(chromePolicy).toContain(
+      '[data-dossier-sheet-background="violetPulse"] > div:nth-child(2)',
+    );
   });
 });

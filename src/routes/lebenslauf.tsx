@@ -1,33 +1,38 @@
+import { useDossierChromePalette } from "@/lib/dossier-chrome-palette.browser";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { ThemeToggle } from "@/components/cover/ThemeToggle";
-import {
-  FileDown,
-  Files,
-  FolderOpen,
-  History,
-  MoveDiagonal2,
-  RotateCcw,
-  Save,
-  Sparkles,
-} from "lucide-react";
+import { FolderOpen, History, MoveDiagonal2, RotateCcw, Menu, Sparkles } from "lucide-react";
+import { EditorDownloadMenu } from "@/components/dossier/EditorDownloadMenu";
 import { EditorMenuLabel } from "@/components/dossier/EditorMenuLabel";
 import { DossierChromeControls } from "@/components/dossier/DossierChromeControls";
 import { DossierChromeDocumentContentControls } from "@/components/dossier/DossierChromeDocumentContentControls";
 import { DossierHyphenationControl } from "@/components/dossier/DossierHyphenationControl";
 import { Section } from "@/components/cover/Section";
 import { TemplatePicker } from "@/components/cover/TemplatePicker";
-import { normalizeActiveTemplateId } from "@/components/cover/fresh-templates";
+import {
+  migrateCvDesign,
+  CV_DEFAULT_BG_OPACITY as DEFAULT_BG_OPACITY,
+} from "@/components/cv/design";
 import { useTemplateQaTemplateSwitch } from "@/lib/template-qa-switch";
 import { ColorChooser } from "@/components/cover/ColorChooser";
 import { ScaledPreview } from "@/components/cover/ScaledPreview";
 import { CvCanvas, type CvLayoutWarning } from "@/components/cv/CvCanvas";
 import { CvPageMarginsControl } from "@/components/cv/CvPageMarginsControl";
 import { CitrusRubricControls } from "@/components/cv/CitrusRubricControls";
+import { cvReadingDefaults } from "@/components/cv/reading-defaults";
+import {
+  getCvLayoutChoiceForTemplate,
+  defaultCvLayoutForTemplate,
+  subscribeCvLayout,
+} from "@/components/cv/layout";
 import { ElementBar } from "@/components/cover/ElementBar";
+import { dossierElementFieldId } from "@/lib/dossier-semantic-fields";
 import { AddElementMenu } from "@/components/cover/AddElementMenu";
 import { DossierExportDialog } from "@/components/dossier/DossierExportDialog";
 import { DossierPdfCanvas } from "@/components/dossier/DossierPdfCanvas";
+import { DossierNativePrintRoot } from "@/components/dossier/DossierNativePrintRoot";
+import { useDossierNativePrint } from "@/components/dossier/useDossierNativePrint";
 import { ResizableEditorPanel } from "@/components/dossier/ResizableEditorPanel";
 import {
   coverPdfDocumentFromSaved,
@@ -111,6 +116,7 @@ import {
 } from "@/components/cover/types";
 import { downloadBlob, safeFileName } from "@/lib/download";
 import { downloadCombinedDossierPdf } from "@/lib/dossier-pdf";
+import type { PdfAdvisoryConsent } from "@/lib/pdf-preflight";
 import { registerCabinPdfFonts } from "@/lib/pdf-fonts";
 import {
   emitPdfRasterCanvasDiagnostic,
@@ -166,7 +172,6 @@ export const Route = createFileRoute("/lebenslauf")({
 
 const STORAGE_KEY = CV_STORAGE_KEY;
 const SAVE_VERSION = 6;
-const DESIGN_MIGRATION_VERSION = 5;
 
 /**
  * Vorgabe: 75 % Transparenz.
@@ -176,8 +181,6 @@ const DESIGN_MIGRATION_VERSION = 5;
  * sichtbar sein. Der frühere Wert von 6 % stammt aus der Zeit, als der
  * Hintergrund die Vorlage allein tragen musste und dabei unsichtbar wurde.
  */
-const DEFAULT_BG_OPACITY = 0.25;
-const LEGACY_DEFAULT_BG_OPACITIES = [0.06, 0.12];
 
 function defaultColors(template: TemplateId): Record<string, string> {
   const t =
@@ -201,26 +204,6 @@ type Saved = {
   /** Titelblatt-Stand der letzten bewussten Übernahme. */
   coverFingerprint?: string | null;
 };
-
-/**
- * Alte Entwürfe trugen noch den deutlich kräftigeren damaligen Standardwert.
- * Nur diese bekannten Defaults werden migriert; bewusst gewählte Werte bleiben erhalten.
- */
-function migratedDesign(current: CvDesign, incoming: CvDesign, version?: number): CvDesign {
-  const merged = {
-    ...current,
-    ...incoming,
-    template: normalizeActiveTemplateId(incoming.template),
-  };
-  merged.paperColor = normalizeCvPaperColor(incoming.paperColor);
-  if (!merged.font || !(merged.font in FONT_LABELS)) delete merged.font;
-  const isOldSave = (version ?? 1) < DESIGN_MIGRATION_VERSION;
-  const usedOldDefault = LEGACY_DEFAULT_BG_OPACITIES.some(
-    (value) => Math.abs(merged.bgOpacity - value) < 0.001,
-  );
-  if (isOldSave && usedOldDefault) merged.bgOpacity = DEFAULT_BG_OPACITY;
-  return merged;
-}
 
 /** Trägt der Lebenslauf überhaupt Inhalt? Leere Stände sind nichts wert. */
 function cvHasContent(d: CvData): boolean {
@@ -276,7 +259,6 @@ function Lebenslauf() {
     getDossierChromeState,
     () => DEFAULT_DOSSIER_CHROME_STATE,
   );
-  const chromeOptions = chromeState.sync ? chromeState.shared : chromeState.cv;
   const [data, setData] = useState<CvData>(emptyCv);
   const [design, setDesign] = useState<CvDesign>(() => {
     const d = emptyCoverDraft();
@@ -289,6 +271,17 @@ function Lebenslauf() {
       useElements: false,
     };
   });
+  const chromeOptions = useDossierChromePalette("cv", design, chromeState);
+  const getReadingLayout = useCallback(
+    () => getCvLayoutChoiceForTemplate(design.template),
+    [design.template],
+  );
+  const readingLayout = useSyncExternalStore(subscribeCvLayout, getReadingLayout, () =>
+    defaultCvLayoutForTemplate(design.template),
+  );
+  const rubricDefaultPx =
+    cvReadingDefaults(design.template, readingLayout).sectionTitleFontSizePx ??
+    CV_SECTION_TITLE_DEFAULTS.fontSizePx;
   useTemplateQaTemplateSwitch(
     design.template,
     (template) =>
@@ -339,6 +332,7 @@ function Lebenslauf() {
   const [history, setHistory] = useState<Snapshot[]>([]);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [downloadMenuOpen, setDownloadMenuOpen] = useState(false);
   /** Zweiter Klick bestätigt "Alles zurücksetzen" – sonst wäre alles weg. */
   const [confirmWipe, setConfirmWipe] = useState(false);
   /** Beispieldaten überschreiben den aktuellen Inhalt und brauchen eine Rückfrage. */
@@ -349,8 +343,11 @@ function Lebenslauf() {
 
   const exportRef = useRef<HTMLDivElement>(null);
   const dossierExportRef = useRef<HTMLDivElement>(null);
+  const nativePrint = useDossierNativePrint(dossierExportRef);
   const menuRef = useRef<HTMLDivElement>(null);
-  const restored = useRef(false);
+  // State gates autosave until the loaded payload has committed. A mutable ref
+  // becomes visible to the initial empty render's effects too early.
+  const [restored, setRestored] = useState(false);
 
   /** Einen gespeicherten oder importierten Lebenslauf übernehmen. */
   const applySaved = useCallback((p: Partial<Saved>) => {
@@ -362,7 +359,7 @@ function Lebenslauf() {
           person: { ...emptyCv.person, ...p.data.person },
         }),
       );
-    if (p.design) setDesign((d) => migratedDesign(d, p.design!, p.version));
+    if (p.design) setDesign((d) => migrateCvDesign(d, p.design!, p.version));
     if (Array.isArray(p.elements)) setElements(p.elements);
     if (p.elementStyles) setElementStyles(p.elementStyles);
     setLastCoverFingerprint(
@@ -531,7 +528,7 @@ function Lebenslauf() {
   }, [markWritten, applySaved]);
 
   useEffect(() => {
-    restored.current = true;
+    setRestored(true);
     setHistory(readHistory(HISTORY_KEYS.cv));
     const draft = readCoverDraft();
     setCover(draft);
@@ -551,14 +548,14 @@ function Lebenslauf() {
   }, [applyEverythingFromCover]);
 
   useEffect(() => {
-    if (!visible || !restored.current) return;
+    if (!visible || !restored) return;
     if (changedElsewhere()) {
       loadFromStorage();
       setHistory(readHistory(HISTORY_KEYS.cv));
       setStatus({ kind: "ok", text: "Neuerer Stand aus einem anderen Fenster geladen" });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visible]);
+  }, [visible, restored]);
 
   useEffect(() => {
     const refreshCover = () => {
@@ -601,7 +598,7 @@ function Lebenslauf() {
   );
 
   useEffect(() => {
-    if (!restored.current) return;
+    if (!restored) return;
     if (!visible) return;
     setSaveState("saving");
     const id = setTimeout(() => {
@@ -616,7 +613,7 @@ function Lebenslauf() {
       keepSnapshot("Automatisch");
     }, 400);
     return () => clearTimeout(id);
-  }, [payload, keepSnapshot, visible, markWritten]);
+  }, [payload, keepSnapshot, visible, markWritten, restored]);
 
   useEffect(() => {
     const onDown = (e: MouseEvent) => {
@@ -936,7 +933,7 @@ function Lebenslauf() {
     }
   };
 
-  const downloadDossierPdf = async () => {
+  const downloadDossierPdf = async (_format?: unknown, consent?: PdfAdvisoryConsent) => {
     if (!dossierExportRef.current || !canDownloadDossierPdf || downloading) return;
     setMenuOpen(false);
     setSelected(null);
@@ -944,15 +941,23 @@ function Lebenslauf() {
     setDownloading(true);
     const name = [data.person.vorname, data.person.nachname].filter(Boolean).join(" ");
     try {
-      await downloadCombinedDossierPdf(dossierExportRef.current, `${dossierFileBase()}.pdf`, {
-        title: name ? `Bewerbungsdossier – ${name}` : "Bewerbungsdossier",
-        author: name,
-      });
+      await downloadCombinedDossierPdf(
+        dossierExportRef.current,
+        `${dossierFileBase()}.pdf`,
+        {
+          title: name ? `Bewerbungsdossier – ${name}` : "Bewerbungsdossier",
+          author: name,
+        },
+        consent,
+      );
       setStatus({ kind: "ok", text: "Ganzes Dossier als PDF heruntergeladen" });
       setDossierReviewOpen(false);
     } catch (error) {
       console.error(error);
-      setStatus({ kind: "error", text: "Dossier-PDF konnte nicht erstellt werden." });
+      setStatus({
+        kind: "error",
+        text: error instanceof Error ? error.message : "Dossier-PDF konnte nicht erstellt werden.",
+      });
       setDossierReviewOpen(false);
     } finally {
       setDownloading(false);
@@ -1245,78 +1250,43 @@ function Lebenslauf() {
                 ))}
               </select>
             </label>
+            <EditorDownloadMenu
+              part="cv"
+              ready={saveState !== "idle"}
+              open={downloadMenuOpen}
+              onOpenChange={(open) => {
+                setDownloadMenuOpen(open);
+                if (open) setMenuOpen(false);
+              }}
+              busy={downloading || nativePrint.printing}
+              onPdf={downloadPdf}
+              onJson={downloadDossier}
+              onDossierPdf={() => {
+                setDossierWarnings(null);
+                setDossierReviewOpen(true);
+              }}
+              dossierPdfDisabled={!canDownloadDossierPdf}
+              dossierPdfHint={dossierPdfHint}
+            />
             <div className="relative" ref={menuRef}>
               <button
                 type="button"
-                onClick={() => setMenuOpen((v) => !v)}
-                disabled={downloading}
+                onClick={() => {
+                  setDownloadMenuOpen(false);
+                  setMenuOpen((v) => !v);
+                }}
                 aria-expanded={menuOpen}
-                data-editor-ready={saveState === "idle" ? "false" : "true"}
-                className="inline-flex items-center gap-2 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-60 sm:px-4"
+                aria-label="Menü"
+                title="Menü"
+                className="inline-flex shrink-0 items-center rounded-md border border-input bg-background px-2.5 py-2 hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
-                {downloading ? "PDF…" : "Download"}
-                <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
-                  <path
-                    d="M3 4.5l3 3 3-3"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                <Menu className="h-5 w-5" aria-hidden="true" />
               </button>
               {menuOpen && (
                 <div
                   data-editor-action-menu
                   className="absolute right-0 mt-2 w-72 overflow-hidden rounded-md border bg-popover shadow-lg"
                 >
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMenuOpen(false);
-                      setDossierWarnings(null);
-                      setDossierReviewOpen(true);
-                    }}
-                    disabled={!canDownloadDossierPdf}
-                    title={
-                      canDownloadDossierPdf
-                        ? "Titelblatt, Motivationsschreiben und alle CV-Seiten gemeinsam herunterladen"
-                        : dossierPdfHint
-                    }
-                    className="flex w-full items-center justify-between px-3 py-2 text-left text-sm font-medium hover:bg-accent disabled:cursor-not-allowed disabled:opacity-45"
-                  >
-                    <EditorMenuLabel icon={Files}>Ganzes Dossier als PDF</EditorMenuLabel>
-                    <span className="text-xs text-muted-foreground">
-                      Titelblatt + Motivationsschreiben + CV
-                    </span>
-                  </button>
-                  {!canDownloadDossierPdf ? (
-                    <p className="border-t bg-muted/30 px-3 py-2 text-[11px] leading-relaxed text-muted-foreground">
-                      {dossierPdfHint}
-                    </p>
-                  ) : null}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMenuOpen(false);
-                      downloadPdf();
-                    }}
-                    className="flex w-full items-center justify-between border-t px-3 py-2 text-left text-sm hover:bg-accent"
-                  >
-                    <EditorMenuLabel icon={FileDown}>Nur Lebenslauf als PDF</EditorMenuLabel>
-                    <span className="text-xs text-muted-foreground">.pdf</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={downloadDossier}
-                    className="flex w-full items-center justify-between px-3 py-2 text-left text-sm hover:bg-accent"
-                  >
-                    <EditorMenuLabel icon={Save}>Dossier speichern</EditorMenuLabel>
-                    <span className="text-xs text-muted-foreground">
-                      Titelblatt + Motivationsschreiben + CV
-                    </span>
-                  </button>
                   <label className="flex cursor-pointer items-center justify-between border-t px-3 py-2 text-left text-sm hover:bg-accent">
                     <EditorMenuLabel icon={FolderOpen}>Dossier laden</EditorMenuLabel>
                     <span className="text-xs text-muted-foreground">.json</span>
@@ -1600,6 +1570,7 @@ function Lebenslauf() {
                     <span className="text-muted-foreground">Titel des Dokuments</span>
                     <input
                       type="text"
+                      data-dossier-field-id="cv.documentTitle"
                       value={data.titel ?? ""}
                       placeholder={DEFAULT_CV_TITLE}
                       onChange={(e) => patchData({ titel: e.target.value })}
@@ -1781,6 +1752,7 @@ function Lebenslauf() {
               >
                 {opts("schule")}
                 <FormCvEntries
+                  sectionId="schule"
                   entries={data.schule}
                   onChange={(schule) => patchData({ schule })}
                   titelLabel="Schule / Stufe"
@@ -1798,6 +1770,7 @@ function Lebenslauf() {
               >
                 {opts("erfahrung")}
                 <FormCvEntries
+                  sectionId="erfahrung"
                   entries={data.erfahrung}
                   onChange={(erfahrung) => patchData({ erfahrung })}
                   titelLabel="Was hast du gemacht?"
@@ -1830,8 +1803,12 @@ function Lebenslauf() {
               >
                 {opts("staerken")}
                 <FormCvLines
+                  sectionId="staerken"
+                  ids={data.lineIds?.staerken}
                   list={data.staerken}
-                  onChange={(staerken) => patchData({ staerken })}
+                  onChange={(staerken, ids) =>
+                    patchData({ staerken, lineIds: { ...data.lineIds, staerken: ids } })
+                  }
                   placeholder="z. B. Zuverlässig und pünktlich"
                   addLabel="+ Stärke"
                 />
@@ -1847,8 +1824,12 @@ function Lebenslauf() {
               >
                 {opts("hobbys")}
                 <FormCvLines
+                  sectionId="hobbys"
+                  ids={data.lineIds?.hobbys}
                   list={data.hobbys}
-                  onChange={(hobbys) => patchData({ hobbys })}
+                  onChange={(hobbys, ids) =>
+                    patchData({ hobbys, lineIds: { ...data.lineIds, hobbys: ids } })
+                  }
                   placeholder="z. B. Volleyball im Verein"
                   addLabel="+ Hobby"
                 />
@@ -1916,6 +1897,7 @@ function Lebenslauf() {
                       <label className="flex flex-col gap-1 text-xs">
                         <span className="text-muted-foreground">Rubriktitel</span>
                         <input
+                          data-dossier-field-id={`cv.section.${key}.heading`}
                           value={section.title}
                           onChange={(event) =>
                             patchCustomSection(section.id, { title: event.target.value })
@@ -1957,6 +1939,7 @@ function Lebenslauf() {
                       </p>
                     ) : null}
                     <FormCvEntries
+                      sectionId={key}
                       entries={section.entries}
                       onChange={(entries) => patchCustomSection(section.id, { entries })}
                       titelLabel={
@@ -2155,6 +2138,7 @@ function Lebenslauf() {
               <Section title="Header & Footer" open={open.chrome} onToggle={() => toggle("chrome")}>
                 <DossierChromeControls scope="cv" />
                 <DossierChromeDocumentContentControls
+                  scope="cv"
                   value={design.chromeContent}
                   defaultTitle={data.titel?.trim() || DEFAULT_CV_TITLE}
                   onChange={(chromeContent) =>
@@ -2348,17 +2332,14 @@ function Lebenslauf() {
 
                     <label className="flex flex-col gap-1 text-xs">
                       <span className="text-muted-foreground">
-                        Schriftgrösse{" "}
-                        {design.sectionTitleFontSizePx ?? CV_SECTION_TITLE_DEFAULTS.fontSizePx} px
+                        Schriftgrösse {design.sectionTitleFontSizePx ?? rubricDefaultPx} px
                       </span>
                       <input
                         type="range"
                         min={CV_SECTION_TITLE_FONT_SIZE_MIN}
                         max={CV_SECTION_TITLE_FONT_SIZE_MAX}
                         step={1}
-                        value={
-                          design.sectionTitleFontSizePx ?? CV_SECTION_TITLE_DEFAULTS.fontSizePx
-                        }
+                        value={design.sectionTitleFontSizePx ?? rubricDefaultPx}
                         onChange={(event) =>
                           setDesign((current) => ({
                             ...current,
@@ -2587,6 +2568,9 @@ function Lebenslauf() {
                   onReset={() => resetElement(selectedBlock.id)}
                   onClose={() => setSelected(null)}
                   custom={selectedCustom ?? undefined}
+                  dossierFieldId={
+                    selectedCustom ? dossierElementFieldId("cv", selectedCustom.id) : undefined
+                  }
                   onCustomChange={
                     selectedCustom ? (p) => patchCustom(selectedCustom.id, p) : undefined
                   }
@@ -2751,21 +2735,15 @@ function Lebenslauf() {
         warnings={dossierWarnings}
         coverChanged={coverChanged}
         downloading={downloading}
+        onNativePrint={nativePrint.print}
+        nativePrinting={nativePrint.printing}
+        nativePrintError={nativePrint.error}
         onClose={closeDossierReview}
         onDownload={downloadDossierPdf}
       />
 
       {canDownloadDossierPdf && (dossierReviewOpen || downloading) ? (
-        <div
-          aria-hidden
-          style={{
-            position: "fixed",
-            left: "-20000px",
-            top: 0,
-            pointerEvents: "none",
-            zIndex: -1,
-          }}
-        >
+        <DossierNativePrintRoot>
           <DossierPdfCanvas
             ref={dossierExportRef}
             cover={storedCoverDocument}
@@ -2774,7 +2752,7 @@ function Lebenslauf() {
             onCvLayoutWarnings={receiveDossierWarnings}
             onCvPageCount={setDossierCvPageCount}
           />
-        </div>
+        </DossierNativePrintRoot>
       ) : null}
     </div>
   );

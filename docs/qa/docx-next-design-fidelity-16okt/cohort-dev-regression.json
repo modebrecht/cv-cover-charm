@@ -1,0 +1,20 @@
+[
+  {
+    "template": "verlauf",
+    "sourceAndDefaultModelsIdenticalToDev": true,
+    "webPixelsIdenticalToDev": true,
+    "devSourceSha256": "8e0fa68575a7d1dc6b14935e1e529e4bff350b0e8cf93c35f2a697f854ba47d0"
+  },
+  {
+    "template": "neon",
+    "sourceAndDefaultModelsIdenticalToDev": true,
+    "webPixelsIdenticalToDev": true,
+    "devSourceSha256": "309260eb3770516a9003b97995db93319f9f7cb7c87b014905084e6c3d0e48ab"
+  },
+  {
+    "template": "freundlich",
+    "sourceAndDefaultModelsIdenticalToDev": true,
+    "webPixelsIdenticalToDev": true,
+    "devSourceSha256": "30ce25be2061963a10c54ab3815187bd52f5eab2aba1522c9d99bb6c09df8043"
+  }
+]

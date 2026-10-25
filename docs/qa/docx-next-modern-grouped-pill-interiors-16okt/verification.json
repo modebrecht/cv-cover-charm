@@ -1,0 +1,47 @@
+{
+  "status": "PARTIAL",
+  "parent": "82f979ed0cab55e0124e1eee76b09b8b90900276",
+  "branch": "investigate/docx-next-design-fidelity-16okt",
+  "dev": "8901a830a792d75e9e792345c5180827218b4e1e",
+  "unit": {
+    "pass": 1204,
+    "fail": 0,
+    "assertions": 23100,
+    "files": 250
+  },
+  "docx": {
+    "pass": 391,
+    "fail": 0,
+    "assertions": 6019,
+    "files": 60,
+    "overlapsUnit": true
+  },
+  "typecheck": "PASS",
+  "formatting": "PASS changed source paths",
+  "lint": {
+    "errors": 0,
+    "existingWarnings": 21
+  },
+  "build": "PASS direct Node Vite; complete Nitro output",
+  "groupedAppCases": 13,
+  "groupedNativePages": 52,
+  "neighborWholePageRastersIdentical": 39,
+  "webCapturesByteIdentical": 39,
+  "ordinaryNextPackagesByteIdentical": 13,
+  "reviewedModernUiPackagesByteIdentical": 3,
+  "briefUiPackagesByteIdentical": 7,
+  "interiorAuditAppCases": 6,
+  "interiorNativePages": 25,
+  "interiorFidelity": "FAIL 6/6 supplementary; not promoted",
+  "negativeBrowserPaths": 19,
+  "nativeBadgeWordDragEditingReopen": "UNVERIFIED",
+  "userReportedVisualApproval": "preceding normal Modern cover only",
+  "all39Acceptance": false,
+  "productionDefaultChanged": false,
+  "pdfPrintLegacyExporterImplementationChanged": false,
+  "frozenSidebarChanged": false,
+  "prePublication": {
+    "vercelDeployments": 0,
+    "githubWorkflowRuns": 0
+  }
+}

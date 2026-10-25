@@ -15,7 +15,10 @@ import type {
 const MEASURED_EMPTY_PARAGRAPH_SPACER_MM = 4.5;
 
 function normalized(value: string) {
-  return value.replace(/\u00a0/g, " ").replace(/\s+/g, " ").trim();
+  return value
+    .replace(/\u00a0/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function paragraphText(paragraph: DossierDocxV2FlowParagraph) {
@@ -86,7 +89,10 @@ function calibrateBlock(
 }
 
 function compactMeasuredText(value: string) {
-  return value.replace(/\u00a0/g, " ").replace(/\s+/g, " ").trim();
+  return value
+    .replace(/\u00a0/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function normalizeMeasuredCvBlock(block: DossierDocxV2FlowBlock): DossierDocxV2FlowBlock {
@@ -176,7 +182,9 @@ export function calibrateDossierDocxV2LetterFlowScene(
   const calibrated = scene.blocks.map((block) => calibrateBlock(block, allMetrics));
   const kept = calibrated.filter((block) => !isBodyBlock(block));
   const insertion = bodyInsertionIndex(calibrated);
-  const keptBeforeInsertion = calibrated.slice(0, insertion).filter((block) => !isBodyBlock(block)).length;
+  const keptBeforeInsertion = calibrated
+    .slice(0, insertion)
+    .filter((block) => !isBodyBlock(block)).length;
   kept.splice(keptBeforeInsertion, 0, ...browserBodyBlocks(measured));
 
   const floating = scene.floating.map((box) => ({
@@ -291,10 +299,12 @@ export function calibrateDossierDocxV2CvFlowScene(
     if (browserPagination) blocks = browserPagination;
   }
   if (measured.measuredInBrowser && measured.layout === "modern") {
-    overlays = measured.pages.flatMap((page) => page.overlays).map((box) => ({
-      ...box,
-      blocks: box.blocks.map(normalizeMeasuredCvBlock),
-    }));
+    overlays = measured.pages
+      .flatMap((page) => page.overlays)
+      .map((box) => ({
+        ...box,
+        blocks: box.blocks.map(normalizeMeasuredCvBlock),
+      }));
     const missingMain = measured.pages.filter(
       (page) => !page.overlays.some((overlay) => overlay.role === "main"),
     );
@@ -307,7 +317,9 @@ export function calibrateDossierDocxV2CvFlowScene(
       });
     } else {
       blocks = measured.pages.flatMap((page, index) =>
-        index === 0 ? [] : [{ kind: "page-break" as const, id: `cv-browser-page-${page.pageIndex + 1}` }],
+        index === 0
+          ? []
+          : [{ kind: "page-break" as const, id: `cv-browser-page-${page.pageIndex + 1}` }],
       );
     }
   }
@@ -337,7 +349,8 @@ export function calibrateDossierDocxV2CvFlowScene(
         code: "cv-browser-photo-missing",
         scope: "cv",
         id: "cv-photo",
-        message: "Das CV-Foto existiert im V2-Modell, konnte aber in der echten Browser-Seite nicht vermessen werden.",
+        message:
+          "Das CV-Foto existiert im V2-Modell, konnte aber in der echten Browser-Seite nicht vermessen werden.",
       });
     } else if (measured.photo.pageIndex !== 0) {
       issues.push({
@@ -345,7 +358,8 @@ export function calibrateDossierDocxV2CvFlowScene(
         code: "cv-browser-photo-page-unsupported",
         scope: "cv",
         id: "cv-photo",
-        message: "Das Browser-CV platziert das Foto nicht auf Seite 1; dieser Zustand braucht einen seitengebundenen Word-Anker.",
+        message:
+          "Das Browser-CV platziert das Foto nicht auf Seite 1; dieser Zustand braucht einen seitengebundenen Word-Anker.",
       });
     } else {
       photo = {

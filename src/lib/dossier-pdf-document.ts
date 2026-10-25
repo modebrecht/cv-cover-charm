@@ -1,3 +1,4 @@
+import { migrateCvDesign } from "@/components/cv/design";
 import { buildBlocks, type StyleOverrides } from "@/components/cover/layouts";
 import {
   EMPTY_META,
@@ -20,6 +21,7 @@ import {
 } from "@/components/letter/types";
 import { emptyCoverDraft } from "@/lib/dossier";
 import { DEFAULTS } from "@/default-config";
+import { normalizeDossierChromeDocumentContentSettings } from "@/lib/dossier-chrome-content";
 
 export type CoverPdfDocument = {
   template: TemplateId;
@@ -27,6 +29,8 @@ export type CoverPdfDocument = {
   colors: Record<string, string>;
   blocks: Block[];
   fontScale: number;
+  /** Saved custom identity, independent of its current visible value. */
+  customFieldIds?: string[];
 };
 
 export type LetterPdfDocument = {
@@ -181,7 +185,14 @@ export function coverPdfDocumentFromSaved(raw: unknown): CoverPdfDocument | null
       )
     : built;
 
-  return { template, data, colors, blocks, fontScale };
+  return {
+    template,
+    data,
+    colors,
+    blocks,
+    fontScale,
+    customFieldIds: customs.map((field) => field.id),
+  };
 }
 
 /** Baut die druckbare Anschreibenansicht aus dem gespeicherten Projektteil. */
@@ -254,9 +265,52 @@ export function cvPdfDocumentFromSaved(raw: unknown): CvPdfDocument | null {
       : {}),
   };
 
+  // Document-specific typography/content must survive saved-project export too.
+  for (const key of [
+    "docTitleFontSizePx",
+    "docTitleMarginBottomPx",
+    "sectionTitleFontSizePx",
+    "sectionTitleMarginBottomPx",
+  ] as const)
+    if (typeof incomingDesign[key] === "number" && Number.isFinite(incomingDesign[key]))
+      design[key] = incomingDesign[key];
+  for (const key of [
+    "showDocumentTitle",
+    "docTitleBold",
+    "docTitleItalic",
+    "docTitleUnderline",
+    "sectionTitleBold",
+    "sectionTitleItalic",
+    "sectionTitleUnderline",
+  ] as const)
+    if (typeof incomingDesign[key] === "boolean") design[key] = incomingDesign[key];
+  for (const key of ["docTitleColor", "sectionTitleColor"] as const)
+    if (
+      typeof incomingDesign[key] === "string" &&
+      /^#[\da-f]{3}(?:[\da-f]{3})?$/i.test(incomingDesign[key])
+    )
+      design[key] = incomingDesign[key];
+  if (isRecord(incomingDesign.chromeContent))
+    design.chromeContent = normalizeDossierChromeDocumentContentSettings(
+      incomingDesign.chromeContent,
+    );
+
+  // Missing font fields inherit the editor's historic Cabin default. Explicit
+  // invalid/null values still request the template font, just as in the editor.
+  const migrated = migrateCvDesign(
+    { ...design, font: "freundlich" },
+    {
+      ...design,
+      ...(Object.prototype.hasOwnProperty.call(incomingDesign, "font")
+        ? { font: incomingDesign.font }
+        : {}),
+    },
+    typeof raw.version === "number" ? raw.version : undefined,
+  );
+
   return {
     data,
-    design,
+    design: migrated,
     elements: Array.isArray(raw.elements) ? (raw.elements as CustomField[]) : [],
     elementStyles: isRecord(raw.elementStyles) ? (raw.elementStyles as StyleOverrides) : {},
     coverFingerprint: typeof raw.coverFingerprint === "string" ? raw.coverFingerprint : null,

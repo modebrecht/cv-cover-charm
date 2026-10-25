@@ -1,0 +1,190 @@
+{
+  "fixture": "sidebar-photo-main",
+  "sourceDocxSha256": "60e8e210395f1715b92cefff606f9089c40da1f89c338edf1aa16e12675d2fd2",
+  "sourceDev": "3f23bcdd6b21461b9243ae910ab6ba618cb3ba60",
+  "workflowRun": 37622625200,
+  "workflowJob": 112796413560,
+  "workflowUrl": "https://github.com/modebrecht/cv-cover-charm/actions/runs/37622625200",
+  "sourceTransfer": "Byte-identical native browser-generated source decoded from synthetic CI replay record; SHA-256 checked before rendering. No package edits or image renormalization.",
+  "stable": {
+    "version": "LibreOffice 25.8.7.3 580(Build:3)",
+    "interface": "LibreOfficeKit",
+    "pages": 4,
+    "nativePdfTextAndImages": "pass",
+    "saveReopen": "pass",
+    "identity": {
+      "fixture": "sidebar-photo-main",
+      "sourceDocxSha256": "60e8e210395f1715b92cefff606f9089c40da1f89c338edf1aa16e12675d2fd2",
+      "savedDocxSha256": "d894050549b25c1d64f9ac239bb07a9f46d002a4b7c363216688d6c045d191ec",
+      "sourceTaggedFields": 78,
+      "savedMatchingTaggedFields": 78,
+      "completeNativeText": "pass",
+      "missingCompleteNativeText": [],
+      "fieldIdentity": "pass",
+      "missingOrChangedTaggedFields": [],
+      "tableIdentity": "fail",
+      "missingTableIds": ["cv.section.referenzen.pair:cv.entry.referenzen:demo-r1", "cv.sidebar"],
+      "saveReopenIdentity": "fail"
+    }
+  },
+  "development": {
+    "version": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+    "interface": "soffice CLI",
+    "pages": 4,
+    "nativePdfTextAndImages": "pass",
+    "saveReopen": "same visible result",
+    "identity": {
+      "fixture": "sidebar-photo-main",
+      "sourceDocxSha256": "60e8e210395f1715b92cefff606f9089c40da1f89c338edf1aa16e12675d2fd2",
+      "savedDocxSha256": "47877bb61ba27e004071cffc352e7fdea8771e19fd93f7345cfde958f3526962",
+      "sourceTaggedFields": 78,
+      "savedMatchingTaggedFields": 51,
+      "completeNativeText": "pass",
+      "missingCompleteNativeText": [],
+      "fieldIdentity": "fail",
+      "missingOrChangedTaggedFields": [
+        {
+          "fieldId": "cv.documentTitle",
+          "characters": 10,
+          "textSha256": "e3b4327857f62441535598f90be89221e3fda56a5007a3b64e2902da5d384f35"
+        },
+        {
+          "fieldId": "cv.entry.custom:familie:demo-familie.description",
+          "characters": 69,
+          "textSha256": "9b0f88392dfe3012643f0a720aed699392995e6d636bc69573b111e5476d0325"
+        },
+        {
+          "fieldId": "cv.entry.custom:familie:demo-familie.place",
+          "characters": 62,
+          "textSha256": "9966515a75b86119723788f2dd2e21682dd2fc86a50f2392f3317120173867b2"
+        },
+        {
+          "fieldId": "cv.entry.erfahrung:demo-p1.date",
+          "characters": 9,
+          "textSha256": "c0b5de1d66a88246e7574f731f317f474258ae99bdac938d5890bccdcef3c0dc"
+        },
+        {
+          "fieldId": "cv.entry.erfahrung:demo-p1.description",
+          "characters": 40,
+          "textSha256": "2098d936d5e670f8de83f34ecc68b68507441f31104c0f0c08545d089a45b36f"
+        },
+        {
+          "fieldId": "cv.entry.erfahrung:demo-p1.place",
+          "characters": 21,
+          "textSha256": "2b5bbefd6d86e2c4fd50a276da80504e90311e9f54212e0a735797f4d1c8007f"
+        },
+        {
+          "fieldId": "cv.entry.erfahrung:demo-p1.title",
+          "characters": 24,
+          "textSha256": "87fcf5c00c05ea0ebbc0c3e9a5e1a77f0bdc1c266b68e2ef79eb80232063aa61"
+        },
+        {
+          "fieldId": "cv.entry.erfahrung:demo-p2.date",
+          "characters": 8,
+          "textSha256": "90ab6a0b14675e3d7f2bd6e426b2ae067e9f1985944933a4a90eee4db413d8f3"
+        },
+        {
+          "fieldId": "cv.entry.erfahrung:demo-p2.description",
+          "characters": 30,
+          "textSha256": "5254d3bc79ee4e5dc1d7bf0e13f4f3e66c455387a5d3e246f88a60ec776a6cb2"
+        },
+        {
+          "fieldId": "cv.entry.erfahrung:demo-p2.place",
+          "characters": 21,
+          "textSha256": "69f0ccdf7a8396db56a0a166de4f66c61b69e6c6253212354bb01615c7b33e34"
+        },
+        {
+          "fieldId": "cv.entry.erfahrung:demo-p2.title",
+          "characters": 24,
+          "textSha256": "ad117f862dc3501dfad0e5b6dd879847bc7e2f89f1f85560bc1dcc24b3ddbb17"
+        },
+        {
+          "fieldId": "cv.entry.referenzen:demo-r1.contact",
+          "characters": 10,
+          "textSha256": "6659d52f8a56cb58ad6229a80c91cd7609ad49b762417fab6e16de4cf801cd05"
+        },
+        {
+          "fieldId": "cv.entry.referenzen:demo-r1.name",
+          "characters": 15,
+          "textSha256": "be1e1f063d0b90d8984721a133f32173a7c5c71fb7597e08feb96876a1317360"
+        },
+        {
+          "fieldId": "cv.entry.referenzen:demo-r1.role",
+          "characters": 30,
+          "textSha256": "0687283ebddfdd393ad2010c31457dd392cfd3c741d1f422d10001370c8c6f6f"
+        },
+        {
+          "fieldId": "cv.entry.schule:demo-s1.date",
+          "characters": 10,
+          "textSha256": "45b4f2d11d913aac2cfc5b894bd029e83ec3d29acbf987170bf41cad941f63ff"
+        },
+        {
+          "fieldId": "cv.entry.schule:demo-s1.description",
+          "characters": 34,
+          "textSha256": "0e6786e5c9fd32f7d18c92028c81ac533cf80cf9bea9aebe9cb863407ba9a1d7"
+        },
+        {
+          "fieldId": "cv.entry.schule:demo-s1.place",
+          "characters": 27,
+          "textSha256": "a5d274d3a4c0fb5702af67e5dec4e0bb443e8387b0f4b1fa94a22de442def888"
+        },
+        {
+          "fieldId": "cv.entry.schule:demo-s1.title",
+          "characters": 22,
+          "textSha256": "af456f86a2f0d550d9ed841c7181872a54fd7a37a6396b11fb7bf11e3d0fd6fe"
+        },
+        {
+          "fieldId": "cv.entry.schule:demo-s2.date",
+          "characters": 9,
+          "textSha256": "dc9eb9bcccba5da6c1502170fba818296483170b330aa3576b59ed515d80a980"
+        },
+        {
+          "fieldId": "cv.entry.schule:demo-s2.place",
+          "characters": 22,
+          "textSha256": "ce480c4a22e6576c1e7140fe7c2371511661cb15750836d563f0043393b1b437"
+        },
+        {
+          "fieldId": "cv.entry.schule:demo-s2.title",
+          "characters": 12,
+          "textSha256": "45f0d14e3310394ff97ae4ee82c3f11d712a6b0099394edeb0f1ad3784cbbaa7"
+        },
+        {
+          "fieldId": "cv.person.name",
+          "characters": 9,
+          "textSha256": "a3f6368f197d58d32d40626f9071e32c0b2e012be29018a02981f7349177cc76"
+        },
+        {
+          "fieldId": "cv.person.photo",
+          "characters": 0,
+          "textSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "fieldId": "cv.section.custom:familie.heading",
+          "characters": 7,
+          "textSha256": "47324fe12daaecf94d8a7812825097a523c609fbb509b090fbffa461851ccd60"
+        },
+        {
+          "fieldId": "cv.section.erfahrung.heading",
+          "characters": 22,
+          "textSha256": "70cb37772d173d3778a1697ec4348286b3245a5181a7c33f0bc110aad51424e2"
+        },
+        {
+          "fieldId": "cv.section.referenzen.heading",
+          "characters": 10,
+          "textSha256": "d9825991644fde40e065758354a99e8d2fb8fd71a74cf6ced59b8bc8e0df2c3b"
+        },
+        {
+          "fieldId": "cv.section.schule.heading",
+          "characters": 12,
+          "textSha256": "a343c1c554164e8c668a5286c1af2ee0ec5ce57a5811717011039ad676d22dc6"
+        }
+      ],
+      "tableIdentity": "fail",
+      "missingTableIds": ["cv.section.referenzen.pair:cv.entry.referenzen:demo-r1", "cv.sidebar"],
+      "saveReopenIdentity": "fail"
+    }
+  },
+  "conclusion": "Same source preserves all 78 tagged fields on stable; development CLI loses 27. Both lose two table captions. This isolates source/image-adapter differences but does not identify the engine/interface cause.",
+  "architectureAcceptance": "blocked: container identity and left long-opening failures remain; no export enablement",
+  "microsoftWord": "pending"
+}

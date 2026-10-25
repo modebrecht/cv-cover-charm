@@ -30,6 +30,12 @@
 }
 
 /* Measurement canvases are real-layout probes, never export pages. */
+[data-letter-document-root] [data-letter-pdf-richtext="body"] {
+  /* Emergency breaks preserve long tokens without adding hyphens. The height
+     sandbox lives in this same scope and therefore measures the same wrapping. */
+  overflow-wrap: anywhere;
+}
+
 [data-letter-pagination-measurements] {
   position: fixed;
   left: -40000px;
@@ -42,4 +48,23 @@
 
 [data-letter-pagination-measurements] [data-letter-measurement-page] {
   box-shadow: none !important;
+}
+
+/* A details footer owns actual document text. Decorative template cleanup may
+   suppress empty footer stripes, but must not hide attachments/custom content.
+   Preserve the already resolved user colours in every renderer and clone. */
+[data-letter-document-root] [data-letter-page] [data-dossier-footer="details"] {
+  opacity: 1 !important;
+  background: var(--dossier-semantic-footer-surface) !important;
+  color: var(--dossier-semantic-footer-ink) !important;
+}
+
+/* Contact glyphs may extend beyond a template's decorative top motif when the
+   user selects larger type. Their authored surface follows the measured
+   contact box, preserving its colours and dimensions without shrinking text. */
+[data-letter-document-root]
+  [data-letter-page]
+  :is([data-letter-integrated-contact], [data-dossier-continuation-contact-header]) {
+  background: var(--dossier-semantic-contact-surface) !important;
+  color: var(--dossier-semantic-contact-ink) !important;
 }

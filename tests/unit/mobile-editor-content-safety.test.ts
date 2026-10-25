@@ -20,17 +20,17 @@ describe("mobile editor content safety", () => {
 
   test("legacy letter/CV first-child hiding is neutralized after the app stylesheet", () => {
     expect(appCss).toContain(
-      'body:has([data-letter-page]) [data-editor-panel] > aside > div > div:first-child',
+      "body:has([data-letter-canvas]) [data-editor-panel] > aside > div > div:first-child",
     );
     expect(appCss).toContain(
-      'body:has([data-cv-page]) [data-editor-panel] > aside > div > div:first-child',
+      "body:has([data-cv-page]) [data-editor-panel] > aside > div > div:first-child",
     );
 
     expect(guardCss).toContain(
-      'body:has([data-letter-page]) [data-editor-panel] > aside > div > div:first-child',
+      "body:has([data-letter-canvas]) [data-editor-panel] > aside > div > div:first-child",
     );
     expect(guardCss).toContain(
-      'body:has([data-cv-page]) [data-editor-panel] > aside > div > div:first-child',
+      "body:has([data-cv-page]) [data-editor-panel] > aside > div > div:first-child",
     );
     expect(guardCss).toContain("display: block !important");
     expect(guardCss).toContain("[data-cv-content-editor]");

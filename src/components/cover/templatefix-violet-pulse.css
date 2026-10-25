@@ -8,7 +8,7 @@
  */
 
 /* Motivation letter: one calm full-width gradient cap. */
-html[data-dossier-template="violetPulse"]
+article[data-letter-template="violetPulse"]
   [data-letter-fresh-template="violetPulse"]
   [data-letter-motif="top-field"] {
   left: 0 !important;
@@ -20,8 +20,7 @@ html[data-dossier-template="violetPulse"]
 }
 
 /* CV: compress the old expressive motif into one soft top-right signature. */
-html[data-dossier-template="violetPulse"]
-  [data-dossier-document="cv"]
+div[data-cv-template="violetPulse"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child {
@@ -38,14 +37,12 @@ html[data-dossier-template="violetPulse"]
   overflow: hidden !important;
 }
 
-html[data-dossier-template="violetPulse"]
-  [data-dossier-document="cv"]
+div[data-cv-template="violetPulse"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child
   > div:first-child,
-html[data-dossier-template="violetPulse"]
-  [data-dossier-document="cv"]
+div[data-cv-template="violetPulse"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child
@@ -54,8 +51,7 @@ html[data-dossier-template="violetPulse"]
 }
 
 /* DossierSheetBackground fallback used by PDF/export paths. */
-html[data-dossier-template="violetPulse"]
-  [data-dossier-document="cv"]
+div[data-cv-template="violetPulse"][data-dossier-document="cv"]
   [data-dossier-sheet-background="violetPulse"]
   > div:first-child {
   left: auto !important;
@@ -69,7 +65,7 @@ html[data-dossier-template="violetPulse"]
   filter: none !important;
 }
 
-html[data-dossier-template="violetPulse"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="violetPulse"][data-dossier-document="cv"] [data-cv-surface] {
   left: 0 !important;
   right: 0 !important;
   top: 0 !important;
@@ -81,15 +77,11 @@ html[data-dossier-template="violetPulse"] [data-dossier-document="cv"] [data-cv-
 }
 
 /* Typography carries the hierarchy; decorative heading/header dashes do not. */
-html[data-dossier-template="violetPulse"]
-  [data-dossier-document="cv"]
-  [data-cv-accent="section"],
-html[data-dossier-template="violetPulse"]
-  [data-dossier-document="cv"]
-  [data-cv-accent="header"] {
+div[data-cv-template="violetPulse"][data-dossier-document="cv"] [data-cv-accent="section"],
+div[data-cv-template="violetPulse"][data-dossier-document="cv"] [data-cv-accent="header"] {
   display: none !important;
 }
 
-html[data-dossier-template="violetPulse"] [data-dossier-document="cv"] [data-cv-section-title] {
+div[data-cv-template="violetPulse"][data-dossier-document="cv"] [data-cv-section-title] {
   letter-spacing: 0.055em !important;
 }

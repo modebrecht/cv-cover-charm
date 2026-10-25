@@ -31,10 +31,7 @@ const normalizedSide = (
   return roundHalfMm(Math.max(min, Math.min(max, numeric)));
 };
 
-const normalizedMinimumSide = (
-  value: unknown,
-  min = DOSSIER_PAGE_MARGIN_MIN_MM,
-): number => {
+const normalizedMinimumSide = (value: unknown, min = DOSSIER_PAGE_MARGIN_MIN_MM): number => {
   const numeric = typeof value === "number" ? value : Number(value);
   if (!Number.isFinite(numeric)) return min;
   return roundHalfMm(Math.max(min, Math.min(DOSSIER_PAGE_MARGIN_HARD_MAX_MM, numeric)));

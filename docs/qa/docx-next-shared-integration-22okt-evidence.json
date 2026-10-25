@@ -1,0 +1,397 @@
+{
+  "date": "2026-10-22",
+  "branch": "fix/docx-next-shared-integration-22okt",
+  "status": "INTEGRATED_CODE_CHECKPOINT_BOUNDED_APP_QA_PASS_WORD_PENDING",
+  "base": {
+    "commit": "7be40063856d1376acb60e917fe85599a6033dad",
+    "tree": "3afcccd2b52b345926ba3897e76033120fa989d7"
+  },
+  "sources": {
+    "sidebar": "f73c776e2eca6b9b0d858ee2ab997230259797ac",
+    "cvRepair": "e1f11779db1da78c08651b22b552cf6f54006e5d",
+    "pageSurface": "f256e1817bad54767f58cfba6c958d21a2151441",
+    "documentScale": "727124a7071aa6184b2e0976c6801a59ff5f14d0"
+  },
+  "assembly": {
+    "patchOrder": [
+      "26-file combined transport published at e1f1177",
+      "page surface published at f256e181",
+      "document scale published at 727124a7"
+    ],
+    "builderResolution": "Skip older formatting hunk; preserve current Fidelity conditions and add only scale import plus final CV-flow conversion",
+    "remoteBaseBlobsVerified": 17,
+    "checkpointFilesComparedExactly": 7,
+    "checkpointFileMismatches": 0,
+    "fullLocalTreeRereadAfterDisconnection": false
+  },
+  "localVerificationBeforeDisconnection": {
+    "tests": {
+      "pass": 206,
+      "fail": 0,
+      "testFiles": 27,
+      "expectations": 2851,
+      "fullRepositorySuite": false
+    },
+    "focusedStrictTypescript": "PASS",
+    "dependencyInstallation": {
+      "lockfile": "Original Fidelity bun.lock",
+      "frozen": true,
+      "packages": 463
+    },
+    "originalBuild": {
+      "observedProcessExitCode": 0,
+      "logRead": false,
+      "artifactInspection": false,
+      "status": "PROCESS_EXIT_ZERO_ARTIFACTS_UNVERIFIED"
+    },
+    "initialTestLoadFailures": {
+      "count": 2,
+      "cause": "jsPDF unavailable in partial runtime",
+      "resolved": true,
+      "finalRuntime": "Existing real jsPDF 4.2.1 UMD module link"
+    }
+  },
+  "runtime": {
+    "status": "RECOVERED",
+    "previousReportedError": "409 Conflict, environment_offline: Environment is not connected",
+    "newCombinedAppDownloads": 5,
+    "newCombinedPrimaryPdfDownloads": 3,
+    "newCombinedNativeRenders": {
+      "uniqueDossiers": 6,
+      "pages": 26,
+      "engine": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5"
+    },
+    "newWordAcceptance": "UNVERIFIED"
+  },
+  "inheritedAcceptance": {
+    "originalWord02and12": "CLOSED for original accepted packages only",
+    "sidebarPhotos": "Prior tested scope only",
+    "currentCombinedPackageAcceptance": "NOT_TRANSFERRED"
+  },
+  "candidateFilesBeforeIntegrationReport": [
+    {
+      "path": "src/lib/docx-next/build-model.ts",
+      "sha": "6a15d18d16d496ac4e846b86f16a69b2892ff4c3",
+      "bytes": 69545,
+      "status": "modified"
+    },
+    {
+      "path": "src/lib/docx-next/compact-chrome.ts",
+      "sha": "6d52cedf6a32b31ee0cde895db93efaae3d14c6d",
+      "bytes": 4617,
+      "status": "modified"
+    },
+    {
+      "path": "src/lib/docx-next/interior-composition.ts",
+      "sha": "94e529ec76da988d54034666d7fd593f22c158e6",
+      "bytes": 6302,
+      "status": "modified"
+    },
+    {
+      "path": "src/lib/docx-next/cv-sidebar-body.ts",
+      "sha": "80f823421dc4e0fa908546aed6764ac72687f2a9",
+      "bytes": 1903,
+      "status": "modified"
+    },
+    {
+      "path": "src/lib/docx-next/cv-sidebar-composition.ts",
+      "sha": "ef329bea6242ab2811e6f05fdaf5693de1ca0c84",
+      "bytes": 6603,
+      "status": "modified"
+    },
+    {
+      "path": "src/lib/docx-next/image-zone.ts",
+      "sha": "dcc1debb19b7732192f8633d98480604c510262b",
+      "bytes": 3782,
+      "status": "modified"
+    },
+    {
+      "path": "src/lib/docx-next/layouts.ts",
+      "sha": "af0a13fccd3388fa97761e6e888db95a4087a115",
+      "bytes": 5613,
+      "status": "modified"
+    },
+    {
+      "path": "src/lib/docx-next/model.ts",
+      "sha": "eae9a2449183272262f3b8e7fc8ac3e9e93fb35a",
+      "bytes": 13185,
+      "status": "modified"
+    },
+    {
+      "path": "src/lib/docx-next/native-text.ts",
+      "sha": "a283bb55fca886e296c30a8f7e0e492ffce05633",
+      "bytes": 4992,
+      "status": "modified"
+    },
+    {
+      "path": "src/lib/docx-next/renderer.ts",
+      "sha": "7b7ca10e299a5d2089c0d7faa228d7079995a610",
+      "bytes": 37221,
+      "status": "modified"
+    },
+    {
+      "path": "src/lib/docx-next/validation.ts",
+      "sha": "0e4da4eff00748ed03caeb6dc00f8fbb85af96fa",
+      "bytes": 23507,
+      "status": "modified"
+    },
+    {
+      "path": "tests/unit/docx-next-table-grid.test.ts",
+      "sha": "5b336c272f89d0f11c439c23c9ea621506facc81",
+      "bytes": 9492,
+      "status": "modified"
+    },
+    {
+      "path": "tests/unit/docx-next-sidebar-body.test.ts",
+      "sha": "d2cf96c13b0fa1e638ac4b74cfda87ab1dbf0148",
+      "bytes": 8444,
+      "status": "modified"
+    },
+    {
+      "path": "tests/unit/docx-next-image-zone.test.ts",
+      "sha": "b8aace87cf1a19ac5723f6e9cd8cbae01944de19",
+      "bytes": 7767,
+      "status": "modified"
+    },
+    {
+      "path": "tests/unit/docx-next-renderer.test.ts",
+      "sha": "819980289d0dd8705dfa5e8e0b709bae95044ecd",
+      "bytes": 6736,
+      "status": "modified"
+    },
+    {
+      "path": "src/lib/docx-next/interior-metrics.ts",
+      "sha": "b0ae46cbebd44c2f4c7c33e66741e0c3787569d8",
+      "bytes": 1583,
+      "status": "modified"
+    },
+    {
+      "path": "src/lib/docx-next-interior-metrics.browser.tsx",
+      "sha": "bff7f346d0da7929c98d282145f296b4b7884da6",
+      "bytes": 21849,
+      "status": "modified"
+    },
+    {
+      "path": "src/lib/docx-next/cv-painted-footer.ts",
+      "sha": "771131c88d1b7efb66b275c11de4cd4d1bbe98e7",
+      "bytes": 909,
+      "status": "added"
+    },
+    {
+      "path": "tests/unit/docx-next-reading-spacing.test.ts",
+      "sha": "b62cb841724ea1e39678834cf608b793d5bbbe26",
+      "bytes": 3541,
+      "status": "added"
+    },
+    {
+      "path": "tests/unit/docx-next-cv-painted-footer.test.ts",
+      "sha": "cebf525c8f96b0b79133f8fa5c0633c935483b1e",
+      "bytes": 4392,
+      "status": "added"
+    },
+    {
+      "path": "src/lib/docx-next/native-picture-frame.ts",
+      "sha": "8901422b53b382c3aeb9095735bfeb2d2c97d2cf",
+      "bytes": 2183,
+      "status": "added"
+    },
+    {
+      "path": "scripts/docx-next-sidebar-cv-photo-packet.py",
+      "sha": "796aa3a77c7a96bb80cafee54706d57f2d4dbc92",
+      "bytes": 3143,
+      "status": "added"
+    },
+    {
+      "path": "scripts/docx-next-sidebar-word-layout-qa.py",
+      "sha": "369983c2817cb105cff755bd09585d006ae68447",
+      "bytes": 8177,
+      "status": "added"
+    },
+    {
+      "path": "scripts/docx-next-sidebar-word-layout-packet.ts",
+      "sha": "791b41a9fe75056dcbb0e78c94bb13b4cf28a62a",
+      "bytes": 4620,
+      "status": "added"
+    },
+    {
+      "path": "scripts/docx-next-sidebar-word-layout-test.py",
+      "sha": "5464b9384f3af4c97f66a7e35eac4835760253c9",
+      "bytes": 1879,
+      "status": "added"
+    },
+    {
+      "path": "tests/unit/docx-next-picture-ownership.test.ts",
+      "sha": "e1a476e85987b2edd02cb4248ae57e1007035157",
+      "bytes": 4887,
+      "status": "added"
+    },
+    {
+      "path": "tests/fixtures/docx-next/picture-ownership.ts",
+      "sha": "6ceb6256c54f0a6aebb24967a86652f4d13b56c2",
+      "bytes": 797,
+      "status": "added"
+    },
+    {
+      "path": "tests/unit/docx-next-sidebar-fidelity-transport.test.ts",
+      "sha": "f1565d9108eb5380a187c32540ad794ec527fc71",
+      "bytes": 3481,
+      "status": "added"
+    },
+    {
+      "path": "tests/unit/docx-next-sidebar-page-surface.test.ts",
+      "sha": "198fb82b01f2afead8c6a7e17fa54b2e82757cd8",
+      "bytes": 4308,
+      "status": "added"
+    },
+    {
+      "path": "src/lib/docx-next/cv-flow-scale.ts",
+      "sha": "de2211d834d1677c41f13b807ac108aedd9e1968",
+      "bytes": 6703,
+      "status": "added"
+    },
+    {
+      "path": "src/lib/docx-next-cv-zoom.browser.ts",
+      "sha": "0824e3eec9c50b27bd454f9457f3bb51662cefb1",
+      "bytes": 996,
+      "status": "added"
+    },
+    {
+      "path": "tests/unit/docx-next-cv-flow-scale.test.ts",
+      "sha": "8b48642e28d6cacccdf6041b79bdf604a06c0d34",
+      "bytes": 4928,
+      "status": "added"
+    },
+    {
+      "path": "scripts/qa-sidebar-page-surface-22okt.ts",
+      "sha": "7c1be7f033321921f709fd68201fa7c289a80556",
+      "bytes": 4348,
+      "status": "added"
+    },
+    {
+      "path": "scripts/docx-next-sidebar-page-surface-verify.py",
+      "sha": "bfdfc68dfca1346e1e8eaf4d9a10a54c058096d6",
+      "bytes": 2557,
+      "status": "added"
+    },
+    {
+      "path": "docs/qa/docx-next-sidebar-page-surface-22okt.md",
+      "sha": "49ae1bedcbbfde4eb49c9fbee768ffa8639ef140",
+      "bytes": 6493,
+      "status": "added"
+    },
+    {
+      "path": "docs/qa/docx-next-sidebar-page-surface-22okt-evidence.json",
+      "sha": "581fb8c01459c62d0c42036ded54447d38eb8a71",
+      "bytes": 18248,
+      "status": "added"
+    },
+    {
+      "path": "docs/qa/docx-next-sidebar-page-surface-22okt.patch",
+      "sha": "837cc68b6281d6cbe7c8371cbf8a81c1b5cc5cc5",
+      "bytes": 6094,
+      "status": "added"
+    },
+    {
+      "path": "tests/fixtures/docx-next/cv-document-scale-custom-values-project.json",
+      "sha": "3cd6e3b78a94345b77d529a36561ef9602615a02",
+      "bytes": 7632,
+      "status": "added"
+    },
+    {
+      "path": "scripts/qa-cv-document-scale-22okt.ts",
+      "sha": "7115a6f4ce64c649d1e995a0e0cb9718efce0194",
+      "bytes": 6054,
+      "status": "added"
+    },
+    {
+      "path": "scripts/qa-pagination-edge-probe.ts",
+      "sha": "d21f06b45755a19b075d0318aa60d7047097004d",
+      "bytes": 20577,
+      "status": "added"
+    },
+    {
+      "path": "scripts/qa-pagination-edge-one-probe.ts",
+      "sha": "8f2d3c8351220595a0f23429f2f0d65aea2f6814",
+      "bytes": 20553,
+      "status": "added"
+    },
+    {
+      "path": "docs/qa/docx-next-cv-document-scale-recovery-22okt.md",
+      "sha": "f2a97ffa63077b5903e69b4067f5d18912357955",
+      "bytes": 5468,
+      "status": "added"
+    },
+    {
+      "path": "docs/qa/docx-next-cv-document-scale-recovery-22okt-evidence.json",
+      "sha": "3b1399adfac6802c4fc228e457028e89389ea7f9",
+      "bytes": 4631,
+      "status": "added"
+    },
+    {
+      "path": "docs/qa/docx-next-cv-document-scale-recovery-22okt.patch",
+      "sha": "0384db4fbb358620f963fd1db0ed966ee3981fda",
+      "bytes": 16604,
+      "status": "added"
+    },
+    {
+      "path": "docs/qa/docx-next-local-work-checkpoint-22okt.md",
+      "sha": "18147f1029e8f51f2eebc4a656f8d43f36a29d39",
+      "bytes": 2273,
+      "status": "added"
+    }
+  ],
+  "actionsNotPerformed": [
+    "merge to dev/main/render",
+    "modify source workstream branches",
+    "deployment",
+    "CI dispatch",
+    "production export switch",
+    "LibreOffice engine patch"
+  ],
+  "remoteVerification": {
+    "codeCommit": "90216cb21ffeaf3b555ebde48b5e65c7bc64f602",
+    "branch": "fix/docx-next-shared-integration-22okt",
+    "deploymentId": "dpl_J1oekFwwk8BZZaSY4xN6ym4NAoRp",
+    "deploymentUrl": "https://cv-cover-charm-4tvjpk8js-modebrechts-projects.vercel.app",
+    "dashboardUrl": "https://vercel.com/modebrechts-projects/cv-cover-charm/J1oekFwwk8BZZaSY4xN6ym4NAoRp",
+    "target": "PREVIEW",
+    "source": "git",
+    "readyState": "READY",
+    "readyAt": "2026-10-22T09:50:24.718Z",
+    "build": {
+      "status": "PASS",
+      "command": "bun run build / vite build",
+      "clientBuildSeconds": 5.96,
+      "ssrBuildSeconds": 1.81,
+      "outputListingReviewed": true,
+      "nitroOutputManifestGenerated": true,
+      "artifactContentInspected": false
+    },
+    "httpSmoke": {
+      "status": "UNVERIFIED",
+      "vercelConnector": "MCP request timed out",
+      "webFetch": "URL is not accessible via this tool",
+      "productFailureInferred": false
+    },
+    "appExports": "NOT_RUN",
+    "wordAcceptance": "UNVERIFIED",
+    "agentTriggeredDeployment": false,
+    "agentTriggeredCiDispatch": false,
+    "reviewedLogStatements": [
+      "Cloning github.com/modebrecht/cv-cover-charm (Branch: fix/docx-next-shared-integration-22okt, Commit: 90216cb)",
+      "Running \"bun run build\"",
+      "$ vite build",
+      "✓ built in 5.96s",
+      "✓ built in 1.81s",
+      "Generated .vercel/output/nitro.json",
+      "Build Completed in .vercel/build-output [16s]",
+      "Deployment completed"
+    ]
+  },
+  "currentMaterialization": {
+    "files": 432,
+    "mismatchesAfterQa": [],
+    "originalCabinFontFilesVerified": 4
+  },
+  "currentAppQaEvidence": "docx-next-shared-integration-app-qa-22okt.json"
+}

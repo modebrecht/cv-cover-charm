@@ -1,0 +1,342 @@
+[
+  {
+    "case": "normal",
+    "pages": 4,
+    "coverPixelsUnchanged": true,
+    "wholePagePixelsIdenticalToPriorCase": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "neighborWholePagePixelsIdenticalToChromeCandidate": [
+      true,
+      true,
+      true
+    ],
+    "neighborBodyPixelsIdentical": [
+      true,
+      true,
+      true
+    ],
+    "neighborBodyGlyphPositionsIdentical": [
+      true,
+      true,
+      true
+    ],
+    "nativeCoverControlsIdentical": true,
+    "badgePaintInBody": true,
+    "badgeAbsentFromHeaders": true,
+    "webPixelsUnchanged": true,
+    "defaultNextBytesUnchanged": true,
+    "actualAppExport": true,
+    "sha256": "936416981a8e980ac61101b623a26b15a379e3f594c11ec53607f996c20d3337",
+    "wordAcceptance": "UNVERIFIED"
+  },
+  {
+    "case": "scaled",
+    "pages": 4,
+    "coverPixelsUnchanged": true,
+    "wholePagePixelsIdenticalToPriorCase": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "neighborWholePagePixelsIdenticalToChromeCandidate": [
+      true,
+      true,
+      true
+    ],
+    "neighborBodyPixelsIdentical": [
+      true,
+      true,
+      true
+    ],
+    "neighborBodyGlyphPositionsIdentical": [
+      true,
+      true,
+      true
+    ],
+    "nativeCoverControlsIdentical": true,
+    "badgePaintInBody": true,
+    "badgeAbsentFromHeaders": true,
+    "webPixelsUnchanged": true,
+    "defaultNextBytesUnchanged": true,
+    "actualAppExport": true,
+    "sha256": "d694d60f1871e2c56b8f791683221ffca35b334503853e4c628173335ae35f62",
+    "wordAcceptance": "UNVERIFIED"
+  },
+  {
+    "case": "long",
+    "pages": 4,
+    "coverPixelsUnchanged": true,
+    "wholePagePixelsIdenticalToPriorCase": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "neighborWholePagePixelsIdenticalToChromeCandidate": [
+      true,
+      true,
+      true
+    ],
+    "neighborBodyPixelsIdentical": [
+      true,
+      true,
+      true
+    ],
+    "neighborBodyGlyphPositionsIdentical": [
+      true,
+      true,
+      true
+    ],
+    "nativeCoverControlsIdentical": true,
+    "badgePaintInBody": true,
+    "badgeAbsentFromHeaders": true,
+    "webPixelsUnchanged": true,
+    "defaultNextBytesUnchanged": true,
+    "actualAppExport": true,
+    "sha256": "14e26b64ba5c24e708d4b63f93cc15fe0e010cc00ec7c0012b65638d9d6fff6a",
+    "wordAcceptance": "UNVERIFIED"
+  },
+  {
+    "case": "moved",
+    "pages": 4,
+    "coverPixelsUnchanged": true,
+    "wholePagePixelsIdenticalToPriorCase": [
+      true,
+      false,
+      false,
+      false
+    ],
+    "neighborWholePagePixelsIdenticalToChromeCandidate": [
+      true,
+      true,
+      true
+    ],
+    "neighborBodyPixelsIdentical": [
+      true,
+      true,
+      true
+    ],
+    "neighborBodyGlyphPositionsIdentical": [
+      true,
+      true,
+      true
+    ],
+    "nativeCoverControlsIdentical": true,
+    "badgePaintInBody": true,
+    "badgeAbsentFromHeaders": true,
+    "webPixelsUnchanged": true,
+    "defaultNextBytesUnchanged": true,
+    "actualAppExport": true,
+    "sha256": "9274bd03dd1c890e0c3fed396f01445b81d954597b6aeb82fc38546479ef4da2",
+    "wordAcceptance": "UNVERIFIED"
+  },
+  {
+    "case": "photo-portrait",
+    "pages": 4,
+    "coverPixelsUnchanged": true,
+    "wholePagePixelsIdenticalToPriorCase": [
+      true,
+      false,
+      false,
+      false
+    ],
+    "neighborWholePagePixelsIdenticalToChromeCandidate": [
+      true,
+      true,
+      true
+    ],
+    "neighborBodyPixelsIdentical": [
+      true,
+      true,
+      true
+    ],
+    "neighborBodyGlyphPositionsIdentical": [
+      true,
+      true,
+      true
+    ],
+    "nativeCoverControlsIdentical": true,
+    "badgePaintInBody": true,
+    "badgeAbsentFromHeaders": true,
+    "webPixelsUnchanged": true,
+    "defaultNextBytesUnchanged": true,
+    "actualAppExport": true,
+    "sha256": "c2dcb3a9162863f17607b7dd7213c24ed5cbd86163da6a7a9f4803fde9fc5186",
+    "wordAcceptance": "UNVERIFIED"
+  },
+  {
+    "case": "photo-circle",
+    "pages": 4,
+    "coverPixelsUnchanged": true,
+    "wholePagePixelsIdenticalToPriorCase": [
+      true,
+      false,
+      false,
+      false
+    ],
+    "neighborWholePagePixelsIdenticalToChromeCandidate": [
+      true,
+      true,
+      true
+    ],
+    "neighborBodyPixelsIdentical": [
+      true,
+      true,
+      true
+    ],
+    "neighborBodyGlyphPositionsIdentical": [
+      true,
+      true,
+      true
+    ],
+    "nativeCoverControlsIdentical": true,
+    "badgePaintInBody": true,
+    "badgeAbsentFromHeaders": true,
+    "webPixelsUnchanged": true,
+    "defaultNextBytesUnchanged": true,
+    "actualAppExport": true,
+    "sha256": "4107759e7ab576b54434f507b7b7dd29271a7c20a6890d77ea61b0dec09012c0",
+    "wordAcceptance": "UNVERIFIED"
+  },
+  {
+    "case": "hidden",
+    "pages": 4,
+    "coverPixelsUnchanged": true,
+    "wholePagePixelsIdenticalToPriorCase": [
+      true,
+      false,
+      false,
+      false
+    ],
+    "neighborWholePagePixelsIdenticalToChromeCandidate": [
+      true,
+      true,
+      true
+    ],
+    "neighborBodyPixelsIdentical": [
+      true,
+      true,
+      true
+    ],
+    "neighborBodyGlyphPositionsIdentical": [
+      true,
+      true,
+      true
+    ],
+    "nativeCoverControlsIdentical": true,
+    "badgePaintInBody": false,
+    "badgeAbsentFromHeaders": true,
+    "webPixelsUnchanged": true,
+    "defaultNextBytesUnchanged": true,
+    "actualAppExport": true,
+    "sha256": "6e5725f388b3f2586c94018145353a5e5ebcb233b2cbbdb6e53da902b55844ca",
+    "wordAcceptance": "UNVERIFIED"
+  },
+  {
+    "case": "badge-center",
+    "pages": 4,
+    "coverPixelsUnchanged": true,
+    "wholePagePixelsIdenticalToPriorCase": [
+      true,
+      false,
+      false,
+      false
+    ],
+    "neighborWholePagePixelsIdenticalToChromeCandidate": [
+      true,
+      true,
+      true
+    ],
+    "neighborBodyPixelsIdentical": [
+      true,
+      true,
+      true
+    ],
+    "neighborBodyGlyphPositionsIdentical": [
+      true,
+      true,
+      true
+    ],
+    "nativeCoverControlsIdentical": true,
+    "badgePaintInBody": true,
+    "badgeAbsentFromHeaders": true,
+    "webPixelsUnchanged": true,
+    "defaultNextBytesUnchanged": true,
+    "actualAppExport": true,
+    "sha256": "42b2686c3ce6cde9ec16a00af4d690444142e9ba84236b2c6cfa94cd6a39524e",
+    "wordAcceptance": "UNVERIFIED"
+  },
+  {
+    "case": "badge-right",
+    "pages": 4,
+    "coverPixelsUnchanged": true,
+    "wholePagePixelsIdenticalToPriorCase": [
+      true,
+      false,
+      false,
+      false
+    ],
+    "neighborWholePagePixelsIdenticalToChromeCandidate": [
+      true,
+      true,
+      true
+    ],
+    "neighborBodyPixelsIdentical": [
+      true,
+      true,
+      true
+    ],
+    "neighborBodyGlyphPositionsIdentical": [
+      true,
+      true,
+      true
+    ],
+    "nativeCoverControlsIdentical": true,
+    "badgePaintInBody": true,
+    "badgeAbsentFromHeaders": true,
+    "webPixelsUnchanged": true,
+    "defaultNextBytesUnchanged": true,
+    "actualAppExport": true,
+    "sha256": "619e75518c057234fa0b3b3492bfad8509aef9465d5cd426b7e799f298fe8192",
+    "wordAcceptance": "UNVERIFIED"
+  },
+  {
+    "case": "badge-long",
+    "pages": 4,
+    "coverPixelsUnchanged": true,
+    "wholePagePixelsIdenticalToPriorCase": [
+      true,
+      false,
+      false,
+      false
+    ],
+    "neighborWholePagePixelsIdenticalToChromeCandidate": [
+      true,
+      true,
+      true
+    ],
+    "neighborBodyPixelsIdentical": [
+      true,
+      true,
+      true
+    ],
+    "neighborBodyGlyphPositionsIdentical": [
+      true,
+      true,
+      true
+    ],
+    "nativeCoverControlsIdentical": true,
+    "badgePaintInBody": true,
+    "badgeAbsentFromHeaders": true,
+    "webPixelsUnchanged": true,
+    "defaultNextBytesUnchanged": true,
+    "actualAppExport": true,
+    "sha256": "56b909bd657ef939b289359f5fc12acf572a012c115e698196beded58b899eaf",
+    "wordAcceptance": "UNVERIFIED"
+  }
+]

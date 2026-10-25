@@ -1,0 +1,192 @@
+[
+  [
+    {
+      "tag": "DIV",
+      "attributes": [
+        ["data-dossier-contact-header-background", "true"],
+        ["data-dossier-header-height-mm", "32"],
+        ["data-tsd-source", "/src/components/dossier/DossierHeaderFooterChrome.tsx:416:13"]
+      ],
+      "text": "",
+      "xMm": 0,
+      "yMm": 0,
+      "widthMm": 210,
+      "heightMm": 31.984361298551264,
+      "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "sizePx": "16px",
+      "lineHeight": "24px",
+      "align": "start",
+      "padding": "0px",
+      "radius": "0px",
+      "background": "rgb(36, 74, 97)",
+      "shadow": "none"
+    },
+    {
+      "tag": "DIV",
+      "attributes": [
+        ["data-dossier-integrated-contact", "true"],
+        ["data-tsd-source", "/src/components/dossier/DossierHeaderFooterChrome.tsx:459:13"]
+      ],
+      "text": "Lea Müller\nDorfstrasse 12\n·\n4535 Hubersdorf\n079 123 45 67\nlea.mueller@example.ch",
+      "xMm": 0,
+      "yMm": 0,
+      "widthMm": 210,
+      "heightMm": 31.984361298551264,
+      "font": "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+      "sizePx": "18.6667px",
+      "lineHeight": "20.16px",
+      "align": "start",
+      "padding": "3.77953px 86.9291px 3.77953px 90.7087px",
+      "radius": "0px",
+      "background": "rgba(0, 0, 0, 0)",
+      "shadow": "none"
+    },
+    {
+      "tag": "DIV",
+      "attributes": [
+        ["data-dossier-field-id", "cv.section.custom:familie.heading"],
+        ["data-cv-section-title", "true"],
+        ["data-tsd-source", "/src/components/cv/CvCanvasBase.tsx:561:11"]
+      ],
+      "text": "FAMILIE",
+      "xMm": 19.98917370976251,
+      "yMm": 80.91133948257288,
+      "widthMm": 17.27408696060779,
+      "heightMm": 4.153006170213837,
+      "font": "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+      "sizePx": "16.32px",
+      "lineHeight": "17.4624px",
+      "align": "start",
+      "padding": "0px",
+      "radius": "0px",
+      "background": "rgba(0, 0, 0, 0)",
+      "shadow": "none"
+    },
+    {
+      "tag": "DIV",
+      "attributes": [
+        ["data-dossier-field-id", "cv.section.schule.heading"],
+        ["data-cv-section-title", "true"],
+        ["data-tsd-source", "/src/components/cv/CvCanvasBase.tsx:561:11"]
+      ],
+      "text": "SCHULBILDUNG",
+      "xMm": 19.98917370976251,
+      "yMm": 96.73823103757249,
+      "widthMm": 34.75066960137893,
+      "heightMm": 4.153006170213837,
+      "font": "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+      "sizePx": "16.32px",
+      "lineHeight": "17.4624px",
+      "align": "start",
+      "padding": "0px",
+      "radius": "0px",
+      "background": "rgba(0, 0, 0, 0)",
+      "shadow": "none"
+    },
+    {
+      "tag": "DIV",
+      "attributes": [
+        ["data-dossier-field-id", "cv.section.erfahrung.heading"],
+        ["data-cv-section-title", "true"],
+        ["data-tsd-source", "/src/components/cv/CvCanvasBase.tsx:561:11"]
+      ],
+      "text": "PRAKTIKA & SCHNUPPERTAGE",
+      "xMm": 19.98917370976251,
+      "yMm": 128.10274129651256,
+      "widthMm": 63.947182654868016,
+      "heightMm": 4.153006170213837,
+      "font": "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+      "sizePx": "16.32px",
+      "lineHeight": "17.4624px",
+      "align": "start",
+      "padding": "0px",
+      "radius": "0px",
+      "background": "rgba(0, 0, 0, 0)",
+      "shadow": "none"
+    },
+    {
+      "tag": "DIV",
+      "attributes": [
+        ["data-dossier-field-id", "cv.section.sprachen.heading"],
+        ["data-cv-section-title", "true"],
+        ["data-tsd-source", "/src/components/cv/CvCanvasBase.tsx:561:11"]
+      ],
+      "text": "SPRACHEN",
+      "xMm": 19.98917370976251,
+      "yMm": 164.77317234314594,
+      "widthMm": 23.522522421500717,
+      "heightMm": 4.153015514255799,
+      "font": "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+      "sizePx": "16.32px",
+      "lineHeight": "17.4624px",
+      "align": "start",
+      "padding": "0px",
+      "radius": "0px",
+      "background": "rgba(0, 0, 0, 0)",
+      "shadow": "none"
+    },
+    {
+      "tag": "DIV",
+      "attributes": [
+        ["data-dossier-field-id", "cv.section.hobbys.heading"],
+        ["data-cv-section-title", "true"],
+        ["data-tsd-source", "/src/components/cv/CvCanvasBase.tsx:561:11"]
+      ],
+      "text": "HOBBYS & INTERESSEN",
+      "xMm": 19.98917370976251,
+      "yMm": 185.3770651905807,
+      "widthMm": 50.70233922625265,
+      "heightMm": 4.152996826171875,
+      "font": "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+      "sizePx": "16.32px",
+      "lineHeight": "17.4624px",
+      "align": "start",
+      "padding": "0px",
+      "radius": "0px",
+      "background": "rgba(0, 0, 0, 0)",
+      "shadow": "none"
+    },
+    {
+      "tag": "DIV",
+      "attributes": [
+        ["data-dossier-field-id", "cv.section.staerken.heading"],
+        ["data-cv-section-title", "true"],
+        ["data-tsd-source", "/src/components/cv/CvCanvasBase.tsx:561:11"]
+      ],
+      "text": "STÄRKEN",
+      "xMm": 19.98917370976251,
+      "yMm": 206.56359643051306,
+      "widthMm": 19.65443442712238,
+      "heightMm": 4.153015514255799,
+      "font": "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+      "sizePx": "16.32px",
+      "lineHeight": "17.4624px",
+      "align": "start",
+      "padding": "0px",
+      "radius": "0px",
+      "background": "rgba(0, 0, 0, 0)",
+      "shadow": "none"
+    },
+    {
+      "tag": "DIV",
+      "attributes": [
+        ["data-dossier-field-id", "cv.section.referenzen.heading"],
+        ["data-cv-section-title", "true"],
+        ["data-tsd-source", "/src/components/cv/CvCanvasBase.tsx:561:11"]
+      ],
+      "text": "REFERENZEN",
+      "xMm": 19.98917370976251,
+      "yMm": 227.75014635852932,
+      "widthMm": 28.609696084273658,
+      "heightMm": 4.152996826171875,
+      "font": "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+      "sizePx": "16.32px",
+      "lineHeight": "17.4624px",
+      "align": "start",
+      "padding": "0px",
+      "radius": "0px",
+      "background": "rgba(0, 0, 0, 0)",
+      "shadow": "none"
+    }
+  ]
+]

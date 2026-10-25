@@ -1,0 +1,35 @@
+{
+  "status": "PARTIAL",
+  "candidateWordAcceptance": "UNVERIFIED",
+  "case": "normal",
+  "actualAppExport": true,
+  "pages": [
+    {
+      "page": 1,
+      "nativeGlyphPositionsUnchanged": true,
+      "wholePagePixelsIdentical": true
+    },
+    {
+      "page": 2,
+      "nativeGlyphPositionsUnchanged": true,
+      "wholePagePixelsIdentical": false
+    },
+    {
+      "page": 3,
+      "nativeGlyphPositionsUnchanged": true,
+      "wholePagePixelsIdentical": false
+    },
+    {
+      "page": 4,
+      "nativeGlyphPositionsUnchanged": true,
+      "wholePagePixelsIdentical": false
+    }
+  ],
+  "canonicalBodyAndPageGeometryUnchanged": true,
+  "coverModelUnchanged": true,
+  "defaultNextBytesUnchanged": true,
+  "allThreeWebCapturesUnchanged": true,
+  "nativeControlsUnchanged": 82,
+  "singlePaintAnchorPerInteriorHeader": true,
+  "candidateSha256": "08995f810340419b57b9ae56f5a1e99f55c01bfcdeac30b0d4baccb886f6701b"
+}

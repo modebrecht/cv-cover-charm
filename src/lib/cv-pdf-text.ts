@@ -1,5 +1,6 @@
 import { jsPDF } from "jspdf";
 import type { jsPDF as JsPdf } from "jspdf";
+import { fittedPdfHorizontalScale as fittedHorizontalScale } from "./pdf-text-width";
 
 const MASK_STYLE_ID = "cv-pdf-raster-text-mask";
 const PLUGIN_FLAG = "__cvPdfTextPluginInstalled";
@@ -56,7 +57,10 @@ function rgb(cssColor: string): [number, number, number] {
     ];
   }
 
-  const values = cssColor.match(/[\d.]+/g)?.slice(0, 3).map(Number);
+  const values = cssColor
+    .match(/[\d.]+/g)
+    ?.slice(0, 3)
+    .map(Number);
   if (!values || values.length !== 3 || !values.every(Number.isFinite)) return [17, 17, 17];
   if (/^color\(/i.test(cssColor) && values.every((value) => value >= 0 && value <= 1)) {
     return values.map((value) => Math.round(value * 255)) as [number, number, number];
@@ -77,11 +81,7 @@ function pdfFontForFamily(value: string): PdfFont {
   ) {
     return "times";
   }
-  if (
-    family.includes("mono") ||
-    family.includes("courier") ||
-    family.includes("maschine")
-  ) {
+  if (family.includes("mono") || family.includes("courier") || family.includes("maschine")) {
     return "courier";
   }
   return "helvetica";
@@ -125,8 +125,9 @@ function transformed(text: string, style: CSSStyleDeclaration): string {
     case "lowercase":
       return text.toLocaleLowerCase("de-CH");
     case "capitalize":
-      return text.replace(/(^|\s)(\p{L})/gu, (_, prefix: string, letter: string) =>
-        `${prefix}${letter.toLocaleUpperCase("de-CH")}`,
+      return text.replace(
+        /(^|\s)(\p{L})/gu,
+        (_, prefix: string, letter: string) => `${prefix}${letter.toLocaleUpperCase("de-CH")}`,
       );
     default:
       return text;
@@ -190,24 +191,12 @@ export function resolveCvPdfSelectionGeometry(
     Number.isFinite(measuredFontSizePt) && measuredFontSizePt > 0
       ? measuredFontSizePt
       : fallbackFontSizePt;
-  const safeAscentRatio =
-    Number.isFinite(ascentRatio) && ascentRatio > 0 ? ascentRatio : 0.8;
+  const safeAscentRatio = Number.isFinite(ascentRatio) && ascentRatio > 0 ? ascentRatio : 0.8;
 
   return {
     fontSizePt,
     baselineMm: topMm + fontSizePt * MM_PER_PT * safeAscentRatio,
   };
-}
-
-function fittedHorizontalScale(pdf: JsPdf, text: string, targetWidthMm: number): number {
-  const renderedWidthMm = pdf.getTextWidth(text);
-  if (!Number.isFinite(renderedWidthMm) || renderedWidthMm <= 0 || targetWidthMm <= 0) return 1;
-
-  // This text is invisible, so exact browser selection geometry matters more
-  // than keeping the native font near its natural width. The old 0.5–1.5 clamp
-  // left visibly misplaced selection boxes when browser/PDF metrics diverged.
-  const scale = targetWidthMm / renderedWidthMm;
-  return Math.max(0.1, Math.min(10, scale));
 }
 
 function unionRects(rects: DOMRect[]): DOMRect {
@@ -338,9 +327,7 @@ export function addCvTextLayer(pdf: JsPdf, page: HTMLElement) {
 function exportRoots(): HTMLElement[] {
   if (typeof document === "undefined") return [];
   return Array.from(
-    document.querySelectorAll<HTMLElement>(
-      '[data-dossier-document="cv"][data-export-mode="true"]',
-    ),
+    document.querySelectorAll<HTMLElement>('[data-dossier-document="cv"][data-export-mode="true"]'),
   );
 }
 
@@ -353,7 +340,7 @@ function isDossierRoot(root: HTMLElement): boolean {
   if (!exportBoundary) return false;
   return Boolean(
     exportBoundary.querySelector('[data-dossier-document="cover"]') &&
-      exportBoundary.querySelector('[data-dossier-document="letter"]'),
+    exportBoundary.querySelector('[data-dossier-document="letter"]'),
   );
 }
 

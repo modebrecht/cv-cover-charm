@@ -174,19 +174,51 @@ function vmlStyle(x: number, y: number, w: number, h: number, z = -251658240) {
   return `position:absolute;margin-left:${x}mm;margin-top:${y}mm;width:${w}mm;height:${h}mm;z-index:${z};mso-position-horizontal-relative:page;mso-position-vertical-relative:page;mso-wrap-distance-left:0;mso-wrap-distance-right:0;mso-wrap-distance-top:0;mso-wrap-distance-bottom:0`;
 }
 
-function vmlRect(id: string, x: number, y: number, w: number, h: number, color: string, opacity = 1) {
+function vmlRect(
+  id: string,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  color: string,
+  opacity = 1,
+) {
   return `<w:r><w:pict><v:rect id="${id}" style="${vmlStyle(x, y, w, h)}" fillcolor="#${color}" stroked="f"><v:fill opacity="${opacity}"/></v:rect></w:pict></w:r>`;
 }
 
-function vmlOval(id: string, x: number, y: number, w: number, h: number, color: string, opacity = 1) {
+function vmlOval(
+  id: string,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  color: string,
+  opacity = 1,
+) {
   return `<w:r><w:pict><v:oval id="${id}" style="${vmlStyle(x, y, w, h)}" fillcolor="#${color}" stroked="f"><v:fill opacity="${opacity}"/></v:oval></w:pict></w:r>`;
 }
 
-function vmlRing(id: string, x: number, y: number, w: number, h: number, color: string, opacity = 1) {
+function vmlRing(
+  id: string,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  color: string,
+  opacity = 1,
+) {
   return `<w:r><w:pict><v:oval id="${id}" style="${vmlStyle(x, y, w, h)}" filled="f" strokecolor="#${color}" strokeweight="2.25pt"><v:stroke opacity="${opacity}"/></v:oval></w:pict></w:r>`;
 }
 
-function vmlPhoto(id: string, image: EmbeddedImage, x: number, y: number, w: number, h: number, border: string) {
+function vmlPhoto(
+  id: string,
+  image: EmbeddedImage,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  border: string,
+) {
   return `<w:r><w:pict><v:oval id="${id}" style="${vmlStyle(x, y, w, h, 251658000)}" fillcolor="#FFFFFF" strokecolor="#${border}" strokeweight="1.5pt"><v:imagedata r:id="${image.rid}" o:title="Bewerbungsfoto"/></v:oval></w:pict></w:r>`;
 }
 
@@ -205,7 +237,9 @@ function coverPage(document: CoverPdfDocument, images: EmbeddedImage[]) {
   if (photo) images.push(photo);
   const fullName = [data.vorname, data.nachname].filter(Boolean).join(" ");
   const placeDate = [data.ort, data.datum].filter(Boolean).join(", ");
-  const contact = [data.adresse, data.plzOrt, data.telefon, data.email, data.geburtsdatum].filter(Boolean);
+  const contact = [data.adresse, data.plzOrt, data.telefon, data.email, data.geburtsdatum].filter(
+    Boolean,
+  );
   const attachments = coverAttachmentValues(data).filter((value) => value.trim());
   const kicker = data.kicker || "Bewerbung um eine Lehrstelle als";
   const eyebrow = (data.eyebrow || "Bewerbung").toUpperCase();
@@ -221,8 +255,19 @@ function coverPage(document: CoverPdfDocument, images: EmbeddedImage[]) {
 
   const header = noBorderTable(
     row([
-      cell(paragraph(eyebrow, { size: 9.5, bold: true, color: palette.paper, trackingPt: 2.1 }), 89),
-      cell(paragraph(placeDate.toUpperCase(), { size: 9.5, color: palette.paper, trackingPt: 1.4, align: "right" }), 89),
+      cell(
+        paragraph(eyebrow, { size: 9.5, bold: true, color: palette.paper, trackingPt: 2.1 }),
+        89,
+      ),
+      cell(
+        paragraph(placeDate.toUpperCase(), {
+          size: 9.5,
+          color: palette.paper,
+          trackingPt: 1.4,
+          align: "right",
+        }),
+        89,
+      ),
     ]),
     [89, 89],
   );
@@ -248,7 +293,9 @@ function coverPage(document: CoverPdfDocument, images: EmbeddedImage[]) {
       keepNext: true,
       after: 2,
     }),
-    ...attachments.map((line) => paragraph(line, { size: 9.5, color: palette.ink, align: "right", after: 0.5 })),
+    ...attachments.map((line) =>
+      paragraph(line, { size: 9.5, color: palette.ink, align: "right", after: 0.5 }),
+    ),
   ].join("");
 
   return [
@@ -264,7 +311,14 @@ function coverPage(document: CoverPdfDocument, images: EmbeddedImage[]) {
           align: "center",
           after: 10,
         }),
-    paragraph(fullName, { size: 24, bold: true, color: palette.ink, align: "center", after: 2, keepNext: true }),
+    paragraph(fullName, {
+      size: 24,
+      bold: true,
+      color: palette.ink,
+      align: "center",
+      after: 2,
+      keepNext: true,
+    }),
     paragraphRuns(
       [
         run(`${kicker} `, { size: 13, color: palette.ink }),
@@ -336,20 +390,42 @@ function letterPage(document: LetterPdfDocument) {
       before: 5,
       after: 0,
     }),
-    paragraph(data.betreff, { size: 12, bold: true, color: palette.ink, before: 7, after: 8, keepNext: true }),
+    paragraph(data.betreff, {
+      size: 12,
+      bold: true,
+      color: palette.ink,
+      before: 7,
+      after: 8,
+      keepNext: true,
+    }),
     paragraph(data.anrede, { size: 10.5, color: palette.ink, after: 5, keepNext: true }),
-    ...bodyParagraphs.map((text) => paragraph(text, { size: 10.5, color: palette.ink, after: 4.5, line: 1.48 })),
+    ...bodyParagraphs.map((text) =>
+      paragraph(text, { size: 10.5, color: palette.ink, after: 4.5, line: 1.48 }),
+    ),
     paragraph(data.gruss, {
       size: 10.5,
       color: palette.ink,
       before: normalizeLetterSpacingMm(data.grussAbstandMm, DEFAULT_LETTER_CLOSING_GAP_MM),
       after: normalizeLetterSpacingMm(data.unterschriftAbstandMm, DEFAULT_LETTER_SIGNATURE_GAP_MM),
     }),
-    paragraph(data.unterschrift || data.absenderName, { size: 10.5, bold: true, color: palette.ink }),
+    paragraph(data.unterschrift || data.absenderName, {
+      size: 10.5,
+      bold: true,
+      color: palette.ink,
+    }),
     data.showBeilagen !== false && (data.beilagen ?? []).some((item) => item.trim())
       ? [
-          paragraph("Beilagen", { size: 9.5, bold: true, color: palette.primary, before: 8, after: 1.5, keepNext: true }),
-          ...(data.beilagen ?? []).filter((item) => item.trim()).map((item) => paragraph(item, { size: 9.5, color: palette.ink, after: 0.3 })),
+          paragraph("Beilagen", {
+            size: 9.5,
+            bold: true,
+            color: palette.primary,
+            before: 8,
+            after: 1.5,
+            keepNext: true,
+          }),
+          ...(data.beilagen ?? [])
+            .filter((item) => item.trim())
+            .map((item) => paragraph(item, { size: 9.5, color: palette.ink, after: 0.3 })),
         ].join("")
       : "",
   ].join("");
@@ -361,7 +437,17 @@ function cvHeading(label: string, primary: string) {
   const ruleWidth = 170 - labelWidth;
   return noBorderTable(
     row([
-      cell(paragraph(title, { size: 10.5, bold: true, color: primary, trackingPt: 0.5, keepNext: true, after: 1.2 }), labelWidth),
+      cell(
+        paragraph(title, {
+          size: 10.5,
+          bold: true,
+          color: primary,
+          trackingPt: 0.5,
+          keepNext: true,
+          after: 1.2,
+        }),
+        labelWidth,
+      ),
       cell(paragraph("", { borderBottom: { color: primary, size: 8 }, after: 1.2 }), ruleWidth),
     ]),
     [labelWidth, ruleWidth],
@@ -380,7 +466,9 @@ function entryTable(entries: CvEntry[], ink: string, primary: string) {
             [
               paragraph(entry.titel, { size: 10.5, bold: true, color: ink, keepNext: true }),
               entry.ort ? paragraph(entry.ort, { size: 9.5, color: primary, after: 0.8 }) : "",
-              entry.beschreibung ? paragraph(entry.beschreibung, { size: 9.5, color: ink, after: 4, line: 1.22 }) : spacer(2),
+              entry.beschreibung
+                ? paragraph(entry.beschreibung, { size: 9.5, color: ink, after: 4, line: 1.22 })
+                : spacer(2),
             ].join(""),
             132,
           ),
@@ -422,17 +510,25 @@ function cvPage(document: CvPdfDocument, images: EmbeddedImage[]) {
       after: 1.2,
     }),
     paragraph(fullName, { size: 25, bold: true, color: palette.ink, after: 1.2, keepNext: true }),
-    person.untertitel ? paragraph(person.untertitel, { size: 10.5, color: palette.primary, after: 3 }) : "",
+    person.untertitel
+      ? paragraph(person.untertitel, { size: 10.5, color: palette.primary, after: 3 })
+      : "",
     address ? paragraph(address, { size: 9.5, color: palette.ink, after: 0.4 }) : "",
     direct ? paragraph(direct, { size: 9.5, color: palette.ink, after: 0.4 }) : "",
     personal ? paragraph(personal, { size: 9.5, color: palette.primary, after: 5 }) : spacer(3),
   ];
 
   if (!hidden.schule && data.schule.some(entryFilled)) {
-    content.push(cvHeading(labels.schule || CV_SECTION_LABELS.schule, palette.primary), entryTable(data.schule, palette.ink, palette.primary));
+    content.push(
+      cvHeading(labels.schule || CV_SECTION_LABELS.schule, palette.primary),
+      entryTable(data.schule, palette.ink, palette.primary),
+    );
   }
   if (!hidden.erfahrung && data.erfahrung.some(entryFilled)) {
-    content.push(cvHeading(labels.erfahrung || CV_SECTION_LABELS.erfahrung, palette.primary), entryTable(data.erfahrung, palette.ink, palette.primary));
+    content.push(
+      cvHeading(labels.erfahrung || CV_SECTION_LABELS.erfahrung, palette.primary),
+      entryTable(data.erfahrung, palette.ink, palette.primary),
+    );
   }
   if (!hidden.sprachen && data.sprachen.some((entry) => entry.name.trim() || entry.niveau.trim())) {
     content.push(
@@ -440,10 +536,15 @@ function cvPage(document: CvPdfDocument, images: EmbeddedImage[]) {
       noBorderTable(
         data.sprachen
           .filter((entry) => entry.name.trim() || entry.niveau.trim())
-          .map((entry) => row([
-            cell(paragraph(entry.name, { size: 9.5, bold: true, color: palette.ink, after: 1 }), 70),
-            cell(paragraph(entry.niveau, { size: 9.5, color: palette.primary, after: 1 }), 100),
-          ]))
+          .map((entry) =>
+            row([
+              cell(
+                paragraph(entry.name, { size: 9.5, bold: true, color: palette.ink, after: 1 }),
+                70,
+              ),
+              cell(paragraph(entry.niveau, { size: 9.5, color: palette.primary, after: 1 }), 100),
+            ]),
+          )
           .join(""),
         [70, 100],
       ),
@@ -453,32 +554,53 @@ function cvPage(document: CvPdfDocument, images: EmbeddedImage[]) {
   if (!hidden.hobbys && data.hobbys.some((item) => item.trim())) {
     content.push(
       cvHeading(labels.hobbys || CV_SECTION_LABELS.hobbys, palette.primary),
-      ...data.hobbys.filter((item) => item.trim()).map((item) => paragraph(`• ${item}`, { size: 9.5, color: palette.ink, after: 0.7 })),
+      ...data.hobbys
+        .filter((item) => item.trim())
+        .map((item) => paragraph(`• ${item}`, { size: 9.5, color: palette.ink, after: 0.7 })),
       spacer(2),
     );
   }
   if (!hidden.staerken && data.staerken.some((item) => item.trim())) {
     content.push(
       cvHeading(labels.staerken || CV_SECTION_LABELS.staerken, palette.primary),
-      ...data.staerken.filter((item) => item.trim()).map((item) => paragraph(`• ${item}`, { size: 9.5, color: palette.ink, after: 0.7 })),
+      ...data.staerken
+        .filter((item) => item.trim())
+        .map((item) => paragraph(`• ${item}`, { size: 9.5, color: palette.ink, after: 0.7 })),
       spacer(2),
     );
   }
-  if (!hidden.referenzen && data.referenzen.some((entry) => entry.name.trim() || entry.kontakt.trim())) {
+  if (
+    !hidden.referenzen &&
+    data.referenzen.some((entry) => entry.name.trim() || entry.kontakt.trim())
+  ) {
     content.push(cvHeading(labels.referenzen || CV_SECTION_LABELS.referenzen, palette.primary));
-    for (const reference of data.referenzen.filter((entry) => entry.name.trim() || entry.kontakt.trim())) {
-      content.push(paragraphRuns([
-        run(reference.name, { size: 9.5, bold: true, color: palette.ink }),
-        reference.funktion ? run(` · ${reference.funktion}`, { size: 9.5, color: palette.primary }) : "",
-      ], { after: 0.5 }));
-      for (const line of [reference.kontakt, reference.email, reference.zusatz].filter(Boolean) as string[]) {
+    for (const reference of data.referenzen.filter(
+      (entry) => entry.name.trim() || entry.kontakt.trim(),
+    )) {
+      content.push(
+        paragraphRuns(
+          [
+            run(reference.name, { size: 9.5, bold: true, color: palette.ink }),
+            reference.funktion
+              ? run(` · ${reference.funktion}`, { size: 9.5, color: palette.primary })
+              : "",
+          ],
+          { after: 0.5 },
+        ),
+      );
+      for (const line of [reference.kontakt, reference.email, reference.zusatz].filter(
+        Boolean,
+      ) as string[]) {
         content.push(paragraph(line, { size: 9.5, color: palette.ink, after: 0.5 }));
       }
     }
   }
   for (const section of data.customSections ?? []) {
     if (!section.title.trim() && !section.entries.some(entryFilled)) continue;
-    content.push(cvHeading(section.title || "Weitere Angaben", palette.primary), entryTable(section.entries, palette.ink, palette.primary));
+    content.push(
+      cvHeading(section.title || "Weitere Angaben", palette.primary),
+      entryTable(section.entries, palette.ink, palette.primary),
+    );
   }
 
   return content.join("");
@@ -523,7 +645,12 @@ function documentXml(
 }
 
 function relationshipsXml(images: EmbeddedImage[]) {
-  const imageRels = images.map((image) => `<Relationship Id="${image.rid}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/${image.fileName}"/>`).join("");
+  const imageRels = images
+    .map(
+      (image) =>
+        `<Relationship Id="${image.rid}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/${image.fileName}"/>`,
+    )
+    .join("");
   return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rIdStyles" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/><Relationship Id="rIdFonts" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/fontTable" Target="fontTable.xml"/><Relationship Id="rIdSettings" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/settings" Target="settings.xml"/>${imageRels}</Relationships>`;
 }
 
@@ -533,7 +660,9 @@ function contentTypesXml(images: EmbeddedImage[]) {
     ["xml", "application/xml"],
   ]);
   for (const image of images) defaults.set(image.extension, image.contentType);
-  const defaultXml = [...defaults.entries()].map(([extension, type]) => `<Default Extension="${extension}" ContentType="${type}"/>`).join("");
+  const defaultXml = [...defaults.entries()]
+    .map(([extension, type]) => `<Default Extension="${extension}" ContentType="${type}"/>`)
+    .join("");
   return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">${defaultXml}<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/><Override PartName="/word/fontTable.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.fontTable+xml"/><Override PartName="/word/settings.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml"/><Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/><Override PartName="/docProps/app.xml" ContentType="application/vnd.openxmlformats-officedocument.extended-properties+xml"/></Types>`;
 }
 
@@ -651,7 +780,9 @@ export function createWarmDossierDocxBlob(
   cv: CvPdfDocument,
 ): Blob {
   if (!warmDossierDocxSupported(cover, letter, cv)) {
-    throw new Error("Der DOCX-Referenzexport Warm benötigt die Vorlage Warm in allen drei Dossierteilen.");
+    throw new Error(
+      "Der DOCX-Referenzexport Warm benötigt die Vorlage Warm in allen drei Dossierteilen.",
+    );
   }
 
   const images: EmbeddedImage[] = [];
@@ -661,7 +792,10 @@ export function createWarmDossierDocxBlob(
     [cv.data.person.vorname, cv.data.person.nachname].filter(Boolean).join(" ") ||
     "Bewerbungsdossier";
   const encoder = new TextEncoder();
-  const textEntry = (name: string, value: string): ZipEntry => ({ name, bytes: encoder.encode(value) });
+  const textEntry = (name: string, value: string): ZipEntry => ({
+    name,
+    bytes: encoder.encode(value),
+  });
   const entries: ZipEntry[] = [
     textEntry("[Content_Types].xml", contentTypesXml(images)),
     textEntry("_rels/.rels", packageRelsXml),

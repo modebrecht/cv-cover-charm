@@ -2,10 +2,7 @@ import {
   FRESH_TEMPLATE_REGISTRY,
   type FreshTemplateId,
 } from "@/components/cover/fresh-template-registry";
-import {
-  FRESH_LETTER_SPECS,
-  type FreshLetterMotif,
-} from "@/components/letter/fresh-letter-system";
+import { FRESH_LETTER_SPECS, type FreshLetterMotif } from "@/components/letter/fresh-letter-system";
 import type {
   DossierDocxColorRole,
   DossierDocxRecipeShape,
@@ -107,7 +104,9 @@ function motifShape(prefix: string, motif: FreshLetterMotif): DossierDocxRecipeS
 }
 
 function motifShapes(template: FreshTemplateId, prefix: "letter" | "cv") {
-  return FRESH_LETTER_SPECS[template].motifs.map((motif) => motifShape(`${template}-${prefix}`, motif));
+  return FRESH_LETTER_SPECS[template].motifs.map((motif) =>
+    motifShape(`${template}-${prefix}`, motif),
+  );
 }
 
 type CoverSpec = RuntimeCover;
@@ -343,7 +342,12 @@ function freshRecipe(template: FreshTemplateId, label: string): RuntimeRecipe {
     },
     cv: {
       shapes: motifShapes(template, "cv"),
-      margins: { top: 24, right: Math.max(20, spec.right), bottom: 20, left: Math.max(20, spec.left) },
+      margins: {
+        top: 24,
+        right: Math.max(20, spec.right),
+        bottom: 20,
+        left: Math.max(20, spec.left),
+      },
       contentSurface: lightContentSurface ? "light" : undefined,
     },
   };
@@ -355,6 +359,7 @@ function freshRecipe(template: FreshTemplateId, label: string): RuntimeRecipe {
  * CSS translation, while the template-specific motifs and margins remain
  * individually configurable for later visual QA.
  */
-export const FRESH_DOSSIER_DOCX_RECIPES: Readonly<Record<string, RuntimeRecipe>> = Object.fromEntries(
-  FRESH_TEMPLATE_REGISTRY.map(({ id, name }) => [id, freshRecipe(id as FreshTemplateId, name)]),
-);
+export const FRESH_DOSSIER_DOCX_RECIPES: Readonly<Record<string, RuntimeRecipe>> =
+  Object.fromEntries(
+    FRESH_TEMPLATE_REGISTRY.map(({ id, name }) => [id, freshRecipe(id as FreshTemplateId, name)]),
+  );

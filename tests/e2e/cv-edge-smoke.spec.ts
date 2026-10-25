@@ -102,7 +102,9 @@ async function seedTemplate(page: Page, template: string) {
     .locator('[data-dossier-document="cv"][data-export-mode="false"] [data-cv-page]')
     .first();
   await sheet.waitFor({ state: "visible" });
-  await page.waitForFunction(() => document.documentElement.dataset.cvVariant !== undefined);
+  await expect(
+    page.locator('[data-dossier-document="cv"][data-export-mode="false"]').first(),
+  ).toHaveAttribute("data-cv-variant", "classic");
   await page.evaluate(
     () =>
       new Promise<void>((resolve) => {

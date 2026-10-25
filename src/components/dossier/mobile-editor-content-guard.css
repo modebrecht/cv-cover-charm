@@ -11,7 +11,7 @@
  * hide real form content because of sibling order.
  */
 @media (max-width: 639px) {
-  body:has([data-letter-page]) [data-editor-panel] > aside > div > div:first-child,
+  body:has([data-letter-canvas]) [data-editor-panel] > aside > div > div:first-child,
   body:has([data-cv-page]) [data-editor-panel] > aside > div > div:first-child {
     display: block !important;
   }

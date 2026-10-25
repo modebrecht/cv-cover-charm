@@ -17,8 +17,8 @@ function findOrCreateHost(): HTMLElement | null {
   const existing = menu.querySelector<HTMLElement>(`[${HOST_ATTR}]`);
   if (existing) return existing;
 
-  const resetButton = Array.from(menu.querySelectorAll<HTMLButtonElement>("button")).find((button) =>
-    button.textContent?.includes("Positionen & Grössen zurücksetzen"),
+  const resetButton = Array.from(menu.querySelectorAll<HTMLButtonElement>("button")).find(
+    (button) => button.textContent?.includes("Positionen & Grössen zurücksetzen"),
   );
   if (!resetButton) return null;
 
@@ -52,7 +52,7 @@ export function CvPageFitMenuPortal() {
       type="button"
       data-cv-page-fit-mode-control={next}
       onClick={() => setCvPageFitMode(next)}
-      className="rounded-md border border-input bg-background px-2 py-2 text-xs font-semibold transition hover:bg-accent"
+      className="w-full rounded-md border border-input bg-background px-2 py-2 text-xs font-semibold transition hover:bg-accent"
     >
       {label}
     </button>
@@ -63,6 +63,7 @@ export function CvPageFitMenuPortal() {
       <div className="grid grid-cols-2 gap-1.5">
         {action("one", "Alles auf 1 Seite")}
         {action("two", "Alles auf 2 Seiten")}
+        <div className="col-span-2">{action("auto", "Automatisch: 1–2 Seiten")}</div>
       </div>
       {pageCount > 0 ? (
         <div className="mt-1.5 text-center text-[10px] text-muted-foreground">

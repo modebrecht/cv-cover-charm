@@ -11,13 +11,10 @@ export type DossierPageReserves = {
   footerReserveMm: number;
 };
 
-const finiteNonNegative = (value: number) =>
-  Number.isFinite(value) ? Math.max(0, value) : 0;
+const finiteNonNegative = (value: number) => (Number.isFinite(value) ? Math.max(0, value) : 0);
 const ceilHalfMm = (value: number) => Math.ceil(value * 2) / 2;
 
-export function normalizeDossierPageReserves(
-  reserves: DossierPageReserves,
-): DossierPageReserves {
+export function normalizeDossierPageReserves(reserves: DossierPageReserves): DossierPageReserves {
   const headerReserveMm = finiteNonNegative(reserves.headerReserveMm);
   return {
     headerReserveMm,
@@ -104,10 +101,7 @@ export function dossierPageMarginMinimumsForContentMinimums(
       ),
     ),
     bottom: ceilHalfMm(
-      Math.max(
-        DOSSIER_PAGE_MARGIN_MIN_MM,
-        contentMinimums.bottom - resolved.footerReserveMm,
-      ),
+      Math.max(DOSSIER_PAGE_MARGIN_MIN_MM, contentMinimums.bottom - resolved.footerReserveMm),
     ),
   };
 }

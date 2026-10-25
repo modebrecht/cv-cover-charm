@@ -39,7 +39,10 @@ function finiteOverride(value: unknown): value is number {
   return typeof value === "number" && Number.isFinite(value);
 }
 
-export function resolveCvRubricOptions(design: CvDesign) {
+export function resolveCvRubricOptions(
+  design: CvDesign,
+  defaultPill: boolean = CV_RUBRIC_DEFAULTS.pill,
+) {
   const rubric = design as RubricCvDesign;
   const horizontalSource =
     rubric.sectionTitleOffsetMm !== undefined
@@ -56,7 +59,7 @@ export function resolveCvRubricOptions(design: CvDesign) {
         ? rubric.sectionTitlePill
         : typeof rubric.citrusRubricPill === "boolean"
           ? rubric.citrusRubricPill
-          : CV_RUBRIC_DEFAULTS.pill,
+          : defaultPill,
     horizontalMm: finiteMm(
       horizontalSource,
       CV_RUBRIC_DEFAULTS.horizontalMm,

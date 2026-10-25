@@ -1,0 +1,191 @@
+[
+  {
+    "path": "package.json",
+    "referenceCommit": "dcb38f05fd33387d98a3e8ba4c44c4eb22929194",
+    "referenceBlob": "c8b227a3250a69e103a12f27e8b3441999fbf569",
+    "currentBlob": "902926ccd4b7e0c24e630eb17c066424c4c3f4b8",
+    "unchangedFrom37C": false
+  },
+  {
+    "path": "scripts/docx-next-brief-app37c.ts",
+    "referenceCommit": "dcb38f05fd33387d98a3e8ba4c44c4eb22929194",
+    "referenceBlob": "7e115012290cdb8f0aa8fbab8ac8cfb508125c43",
+    "currentBlob": "1f1d156695a960b7df1e81a6bfec1ce470e59398",
+    "unchangedFrom37C": false
+  },
+  {
+    "path": "scripts/docx-next-brief-qa37c.py",
+    "referenceCommit": "dcb38f05fd33387d98a3e8ba4c44c4eb22929194",
+    "referenceBlob": "f02f55eb9f2717b0c97895e0ad3827eef4f14859",
+    "currentBlob": "f02f55eb9f2717b0c97895e0ad3827eef4f14859",
+    "unchangedFrom37C": true
+  },
+  {
+    "path": "src/components/cover/BlockLayer.tsx",
+    "referenceCommit": "dcb38f05fd33387d98a3e8ba4c44c4eb22929194",
+    "referenceBlob": "a247a8ddd5212e8823ea7685a98979d455c727e3",
+    "currentBlob": "a247a8ddd5212e8823ea7685a98979d455c727e3",
+    "unchangedFrom37C": true
+  },
+  {
+    "path": "src/components/cover/CoverCanvas.tsx",
+    "referenceCommit": "dcb38f05fd33387d98a3e8ba4c44c4eb22929194",
+    "referenceBlob": "3ba4471dfd29cec9a709f91555e11b99768570a1",
+    "currentBlob": "3ba4471dfd29cec9a709f91555e11b99768570a1",
+    "unchangedFrom37C": true
+  },
+  {
+    "path": "src/components/cover/anchors.ts",
+    "referenceCommit": "dcb38f05fd33387d98a3e8ba4c44c4eb22929194",
+    "referenceBlob": "9cc83f12a2c19ffc2a4731204771fc1b0741a037",
+    "currentBlob": "9cc83f12a2c19ffc2a4731204771fc1b0741a037",
+    "unchangedFrom37C": true
+  },
+  {
+    "path": "src/components/cover/presentation.ts",
+    "referenceCommit": "dcb38f05fd33387d98a3e8ba4c44c4eb22929194",
+    "referenceBlob": "cbd387447df626bdd38472b09dad3f3948541433",
+    "currentBlob": "cbd387447df626bdd38472b09dad3f3948541433",
+    "unchangedFrom37C": true
+  },
+  {
+    "path": "src/components/cover/resolve.ts",
+    "referenceCommit": "dcb38f05fd33387d98a3e8ba4c44c4eb22929194",
+    "referenceBlob": "da80284e45594e0460a09fa485872b001a5f2036",
+    "currentBlob": "da80284e45594e0460a09fa485872b001a5f2036",
+    "unchangedFrom37C": true
+  },
+  {
+    "path": "src/components/cover/text-metrics.ts",
+    "referenceCommit": "dcb38f05fd33387d98a3e8ba4c44c4eb22929194",
+    "referenceBlob": "afa20a518c805e231baa3f5796a288115c8fc52a",
+    "currentBlob": "3589fa113b1e0d96a47efcb0f0c790054b21aade",
+    "unchangedFrom37C": false
+  },
+  {
+    "path": "src/components/cover/types.ts",
+    "referenceCommit": "dcb38f05fd33387d98a3e8ba4c44c4eb22929194",
+    "referenceBlob": "bb3c690f92de292c9539356f6916648dffc6977c",
+    "currentBlob": "bc7a26ea49cbabb0a629dabdde2f8cc3e0c605dd",
+    "unchangedFrom37C": false
+  },
+  {
+    "path": "src/components/dossier/DossierExportDialog.tsx",
+    "referenceCommit": "dcb38f05fd33387d98a3e8ba4c44c4eb22929194",
+    "referenceBlob": "8640e04503fe742b04002cd5855b477a5006ced4",
+    "currentBlob": "82ded5071a9432db4343f04ecb80c651e66fbe4c",
+    "unchangedFrom37C": false
+  },
+  {
+    "path": "src/lib/brief-docx-next-export.ts",
+    "referenceCommit": "dcb38f05fd33387d98a3e8ba4c44c4eb22929194",
+    "referenceBlob": "78a8b6298ad4342a6e896cd2f10cd66f9a6a8823",
+    "currentBlob": "2afb8de7a47a8e657aeb85272177e878cba515a9",
+    "unchangedFrom37C": false
+  },
+  {
+    "path": "src/lib/docx-next/brief-fonts.browser.ts",
+    "referenceCommit": "dcb38f05fd33387d98a3e8ba4c44c4eb22929194",
+    "referenceBlob": "8b777626be0472f466f2d9e7cd979e98dc7d47e3",
+    "currentBlob": "ecd1cec033a9b3639c990a1c86324a911308b997",
+    "unchangedFrom37C": false
+  },
+  {
+    "path": "src/lib/docx-next/brief-visibility.ts",
+    "referenceCommit": "dcb38f05fd33387d98a3e8ba4c44c4eb22929194",
+    "referenceBlob": "400fae65d1bde78ee5d69a1d6b17d66f465fa3ed",
+    "currentBlob": "400fae65d1bde78ee5d69a1d6b17d66f465fa3ed",
+    "unchangedFrom37C": true
+  },
+  {
+    "path": "src/lib/docx-next/build-model.ts",
+    "referenceCommit": "dcb38f05fd33387d98a3e8ba4c44c4eb22929194",
+    "referenceBlob": "497f97ed6fde5855bab704e5122e727d66a37217",
+    "currentBlob": "2a24efef06c0f29e5ef739428df9fbf5160ec643",
+    "unchangedFrom37C": false
+  },
+  {
+    "path": "src/lib/docx-next/cover-authored.ts",
+    "referenceCommit": "dcb38f05fd33387d98a3e8ba4c44c4eb22929194",
+    "referenceBlob": "2ae90cf57e5340ea1040296648094701094dcdda",
+    "currentBlob": "14a34a0e74a338cf44a4d96f47abcd9fcdb867e0",
+    "unchangedFrom37C": false
+  },
+  {
+    "path": "src/lib/docx-next/layouts.ts",
+    "referenceCommit": "dcb38f05fd33387d98a3e8ba4c44c4eb22929194",
+    "referenceBlob": "1d3ae8cf18b2d530ab322a4063b10883e84218f2",
+    "currentBlob": "1d3ae8cf18b2d530ab322a4063b10883e84218f2",
+    "unchangedFrom37C": true
+  },
+  {
+    "path": "src/lib/docx-next/model.ts",
+    "referenceCommit": "dcb38f05fd33387d98a3e8ba4c44c4eb22929194",
+    "referenceBlob": "f7fed234b36b54b52d6a49a3cf6a964d107c7f5f",
+    "currentBlob": "f7fed234b36b54b52d6a49a3cf6a964d107c7f5f",
+    "unchangedFrom37C": true
+  },
+  {
+    "path": "src/lib/docx-next/native-text.ts",
+    "referenceCommit": "dcb38f05fd33387d98a3e8ba4c44c4eb22929194",
+    "referenceBlob": "2102354ee16ca9e7bbfd00d080531ffb64f8f399",
+    "currentBlob": "2102354ee16ca9e7bbfd00d080531ffb64f8f399",
+    "unchangedFrom37C": true
+  },
+  {
+    "path": "src/lib/docx-next/validation.ts",
+    "referenceCommit": "dcb38f05fd33387d98a3e8ba4c44c4eb22929194",
+    "referenceBlob": "12322fd75a439b2b755571a234cf26aeaefca392",
+    "currentBlob": "12322fd75a439b2b755571a234cf26aeaefca392",
+    "unchangedFrom37C": true
+  },
+  {
+    "path": "src/routes/index.tsx",
+    "referenceCommit": "dcb38f05fd33387d98a3e8ba4c44c4eb22929194",
+    "referenceBlob": "ecd9f2cc85a89d3602f2c50bcc46074a391ca137",
+    "currentBlob": "87db03abc1ab60cbac5de2205eb02673fc10ba3b",
+    "unchangedFrom37C": false
+  },
+  {
+    "path": "tests/fixtures/docx-next/brief-project.ts",
+    "referenceCommit": "dcb38f05fd33387d98a3e8ba4c44c4eb22929194",
+    "referenceBlob": "be3205f9dd580a7cd573793a2e965c8c0b7a46e7",
+    "currentBlob": "be3205f9dd580a7cd573793a2e965c8c0b7a46e7",
+    "unchangedFrom37C": true
+  },
+  {
+    "path": "tests/fixtures/docx-next/cover-authored.ts",
+    "referenceCommit": "dcb38f05fd33387d98a3e8ba4c44c4eb22929194",
+    "referenceBlob": "0fc015119dd0df4c0e26865113ba4dbeb5da3a1e",
+    "currentBlob": "0fc015119dd0df4c0e26865113ba4dbeb5da3a1e",
+    "unchangedFrom37C": true
+  },
+  {
+    "path": "tests/fixtures/docx-next/cover-text-metrics.json",
+    "referenceCommit": "dcb38f05fd33387d98a3e8ba4c44c4eb22929194",
+    "referenceBlob": "c4dac2af83bbc19dd6c59f91e4ead2c26b03dfe9",
+    "currentBlob": "c4dac2af83bbc19dd6c59f91e4ead2c26b03dfe9",
+    "unchangedFrom37C": true
+  },
+  {
+    "path": "tests/unit/docx-next-brief-integration.test.ts",
+    "referenceCommit": "dcb38f05fd33387d98a3e8ba4c44c4eb22929194",
+    "referenceBlob": "a51e684a41c632602b6bab9a94c5b56b21348017",
+    "currentBlob": "a51e684a41c632602b6bab9a94c5b56b21348017",
+    "unchangedFrom37C": true
+  },
+  {
+    "path": "tests/unit/docx-next-cover-authored.test.ts",
+    "referenceCommit": "dcb38f05fd33387d98a3e8ba4c44c4eb22929194",
+    "referenceBlob": "c3bd92febc6c77a9562b40a9da4cb237722d46e5",
+    "currentBlob": "c3bd92febc6c77a9562b40a9da4cb237722d46e5",
+    "unchangedFrom37C": true
+  },
+  {
+    "path": "vercel.json",
+    "referenceCommit": "dcb38f05fd33387d98a3e8ba4c44c4eb22929194",
+    "referenceBlob": "d8fa63081f89e9992817cdfd4fddad7fa3f9f331",
+    "currentBlob": "3bb8141d1b75c14276a208cda2578438c275e2e8",
+    "unchangedFrom37C": false
+  }
+]

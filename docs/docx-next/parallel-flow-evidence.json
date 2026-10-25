@@ -1,0 +1,43 @@
+{
+  "startingDev": "c189563ac054c19e51ea94c9d137f76f005377ae",
+  "libreOffice": "25.8.7.3 580(Build:3)",
+  "wordAcceptance": "pending",
+  "fixtures": [
+    {
+      "fixture": "short",
+      "pages": 4,
+      "renderAndReopen": "pass",
+      "tracks": 2,
+      "docxSha256": "5cfdc84df01951c7a22844d1084c8769d0c91b734897b021e33bba4afe2e2a89"
+    },
+    {
+      "fixture": "main-long",
+      "pages": 12,
+      "renderAndReopen": "pass",
+      "tracks": 2,
+      "docxSha256": "3106e48db50d5d0bce03359f8105a0e277e819a586a8275c4bfec5c2efb56706"
+    },
+    {
+      "fixture": "side-long",
+      "pages": 8,
+      "renderAndReopen": "pass",
+      "tracks": 2,
+      "docxSha256": "aab60263be491883abb6f62082a1c743238c7e0aeb1c0d2a03f76f5943da6ccb"
+    },
+    {
+      "fixture": "both-long",
+      "pages": 12,
+      "renderAndReopen": "pass",
+      "tracks": 2,
+      "docxSha256": "88497b290af845f4f61ad446ac54011462dadc82357d6b1455cda683fb6c1ea8"
+    }
+  ],
+  "pages": 36,
+  "semanticCheck": "Every native paragraph is present in its own track in normal and reopened render; no rasterized text.",
+  "visualReview": ["both-long CV first page", "side-long continuation page"],
+  "checks": {
+    "docxNextTests": 259,
+    "typescript": "pass",
+    "changedFileLint": "pass"
+  }
+}

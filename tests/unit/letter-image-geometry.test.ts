@@ -44,10 +44,7 @@ describe("letter image geometry", () => {
 
   test("uses explicit modern placement for true free coordinates", () => {
     expect(
-      normalizeLetterImageGeometry(
-        image({ placement: "free", xMm: 61.4, topMm: 27.8 }),
-        160,
-      ),
+      normalizeLetterImageGeometry(image({ placement: "free", xMm: 61.4, topMm: 27.8 }), 160),
     ).toMatchObject({
       placement: "free",
       xMm: 61.4,

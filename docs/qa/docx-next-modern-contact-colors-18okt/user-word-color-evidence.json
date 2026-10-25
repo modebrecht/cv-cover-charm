@@ -1,0 +1,110 @@
+{
+  "inputPdfSha256": "f1ab5cf2afd60b90a9860847584a482b38ce64477205ce7ce2630857df795e34",
+  "inputScreenshotSha256": "6a7c51133e629c882a15e22935ef9f94b245305870ee5e5d8e4a960e0e73d7d8",
+  "pdfMetadata": {
+    "format": "PDF 1.7",
+    "title": "Bewerbungsdossier",
+    "author": "Lea M\u00fcller",
+    "subject": "",
+    "keywords": "",
+    "creator": "Microsoft\u00ae Word for Microsoft 365",
+    "producer": "Microsoft\u00ae Word for Microsoft 365",
+    "creationDate": "D:20261018110309+02'00'",
+    "modDate": "D:20261018110309+02'00'",
+    "trapped": "",
+    "encryption": null
+  },
+  "pages": 4,
+  "screenshotBackground": [
+    136,
+    140,
+    147
+  ],
+  "pdfBands": [
+    {
+      "page": 2,
+      "top": [
+        {
+          "rgb": [
+            17,
+            24,
+            39
+          ],
+          "count": 576
+        }
+      ],
+      "bottom": [
+        {
+          "rgb": [
+            53,
+            88,
+            109
+          ],
+          "count": 576
+        }
+      ]
+    },
+    {
+      "page": 3,
+      "top": [
+        {
+          "rgb": [
+            36,
+            74,
+            97
+          ],
+          "count": 461
+        },
+        {
+          "rgb": [
+            36,
+            73,
+            97
+          ],
+          "count": 114
+        }
+      ],
+      "bottom": [
+        {
+          "rgb": [
+            51,
+            86,
+            107
+          ],
+          "count": 576
+        }
+      ]
+    },
+    {
+      "page": 4,
+      "top": [
+        {
+          "rgb": [
+            36,
+            74,
+            97
+          ],
+          "count": 461
+        },
+        {
+          "rgb": [
+            36,
+            73,
+            97
+          ],
+          "count": 114
+        }
+      ],
+      "bottom": [
+        {
+          "rgb": [
+            51,
+            86,
+            107
+          ],
+          "count": 576
+        }
+      ]
+    }
+  ]
+}

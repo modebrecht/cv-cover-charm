@@ -523,11 +523,7 @@ export function buildBlocks(
     );
   });
   const decorations = templateDecorations(layoutTemplate, overrides).map((block) =>
-    templateDefaultAdjustment(
-      template,
-      withUserStyleKeys(block, overrides[block.id]),
-      overrides,
-    ),
+    templateDefaultAdjustment(template, withUserStyleKeys(block, overrides[block.id]), overrides),
   );
 
   const companyVisible = data.showBetriebOnCover === true;

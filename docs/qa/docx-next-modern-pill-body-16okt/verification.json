@@ -1,0 +1,41 @@
+{
+  "status": "PARTIAL",
+  "wordEditingAndSaveReopen": "UNVERIFIED",
+  "parent": "cf16595b16b75ba0334b0477c79cce775d71b1f9",
+  "dev": "8901a830a792d75e9e792345c5180827218b4e1e",
+  "branch": "investigate/docx-next-design-fidelity-16okt",
+  "unit": {
+    "pass": 1192,
+    "fail": 0,
+    "assertions": 22978,
+    "files": 248
+  },
+  "docx": {
+    "pass": 379,
+    "fail": 0,
+    "assertions": 5897,
+    "files": 58,
+    "overlapsFullSuite": true
+  },
+  "appCases": 10,
+  "nativeA4Pages": 40,
+  "unchangedCoverRasters": 10,
+  "unchangedLetterCvWholePageRasters": 30,
+  "negativeAppCases": 16,
+  "briefNormalByteIdentical": true,
+  "defaultNextPackagesUnchanged": 10,
+  "typecheck": "PASS",
+  "build": "PASS",
+  "formatting": "PASS",
+  "lint": {
+    "errors": 0,
+    "existingWarnings": 21
+  },
+  "supplementaryRenderer": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+  "visualInspection": "Ten covers, three distinct adjacent pages, three comparison PDF pages",
+  "vercelBranchDisabledInRepository": true,
+  "prePublicationBranchDeployments": 0,
+  "prePublicationBranchWorkflowRuns": 0,
+  "rightEdgeReport": "OPEN: original Word-generated PDF unavailable",
+  "postPublicationVerification": "Reported in handoff"
+}

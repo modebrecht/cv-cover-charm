@@ -1,0 +1,44 @@
+[
+  {
+    "case": "normal",
+    "candidateByteIdenticalTo37C": true,
+    "webPixelIdenticalTo37C": true,
+    "sha256": "dfe4357557483bff32edee86349a9f978c5e26f02ef315f416ca7d418723ccb3"
+  },
+  {
+    "case": "scaled",
+    "candidateByteIdenticalTo37C": true,
+    "webPixelIdenticalTo37C": true,
+    "sha256": "4e1e0e311fc6f798cf769fb141c95a60b35c3f3b3f00b069134bc75e49b8a4f4"
+  },
+  {
+    "case": "long",
+    "candidateByteIdenticalTo37C": true,
+    "webPixelIdenticalTo37C": true,
+    "sha256": "575fe432700b630d474e7667a79252ed73e89eb6398ec98b029400669dde570a"
+  },
+  {
+    "case": "moved",
+    "candidateByteIdenticalTo37C": true,
+    "webPixelIdenticalTo37C": true,
+    "sha256": "61815029f0ed439e61fb5d4e18bf3745e8fe48599c400707709464fb4767f01d"
+  },
+  {
+    "case": "photo-portrait",
+    "candidateByteIdenticalTo37C": true,
+    "webPixelIdenticalTo37C": true,
+    "sha256": "92839b7322059502dc7afe052de0f49c4cbd8573917a47db7ada45f108710e4a"
+  },
+  {
+    "case": "photo-circle",
+    "candidateByteIdenticalTo37C": true,
+    "webPixelIdenticalTo37C": true,
+    "sha256": "37143b8fb11c490e711644457389ba3780da25c54a1e170a5e5977341ddd72d9"
+  },
+  {
+    "case": "hidden",
+    "candidateByteIdenticalTo37C": true,
+    "webPixelIdenticalTo37C": true,
+    "sha256": "5d27c388cac1646e6272cb6cb880d7fbf1cce8bb699d9ea029b3e29bc5b790fc"
+  }
+]

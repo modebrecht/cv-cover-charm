@@ -181,7 +181,9 @@ async function openDocxOption(page: import("@playwright/test").Page) {
 }
 
 test.describe("Studio 3 DOCX reference download", () => {
-  test("complete Studio 3 dossier downloads a real DOCX package for render QA", async ({ page }) => {
+  test("complete Studio 3 dossier downloads a real DOCX package for render QA", async ({
+    page,
+  }) => {
     await seedStudio3Dossier(page);
 
     const option = await openDocxOption(page);

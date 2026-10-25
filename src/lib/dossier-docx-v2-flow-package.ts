@@ -16,8 +16,7 @@ import type {
   DossierDocxV2LetterFlowScene,
 } from "@/lib/dossier-docx-v2-flow-scene";
 
-const IMAGE_REL_TYPE =
-  "http://schemas.openxmlformats.org/officeDocument/2006/relationships/image";
+const IMAGE_REL_TYPE = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/image";
 const FLOW_MEDIA_PREFIX = "word/media/docx-v2-flow-";
 const FLOW_REL_PREFIX = "rIdDocxV2Flow";
 
@@ -48,7 +47,8 @@ export function dossierDocxV2FlowSectionBounds(
   const firstIndex = sectionProperties[0].index;
   const secondIndex = sectionProperties[1].index;
   const finalIndex = sectionProperties.at(-1)?.index;
-  if (firstIndex === undefined || secondIndex === undefined || finalIndex === undefined) return null;
+  if (firstIndex === undefined || secondIndex === undefined || finalIndex === undefined)
+    return null;
   const firstBreak = enclosingParagraph(source, firstIndex);
   const secondBreak = enclosingParagraph(source, secondIndex);
   if (!firstBreak || !secondBreak) return null;
@@ -134,8 +134,14 @@ function renderCv(
   artworkXmlByPage: Map<number, string>,
 ) {
   const pages = flowPages(scene.blocks);
-  const overlayMaxPage = scene.overlays.reduce((max, overlay) => Math.max(max, overlay.pageIndex), -1);
-  const artworkMaxPage = scene.artwork.reduce((max, artwork) => Math.max(max, artwork.pageIndex), -1);
+  const overlayMaxPage = scene.overlays.reduce(
+    (max, overlay) => Math.max(max, overlay.pageIndex),
+    -1,
+  );
+  const artworkMaxPage = scene.artwork.reduce(
+    (max, artwork) => Math.max(max, artwork.pageIndex),
+    -1,
+  );
   while (pages.length <= Math.max(overlayMaxPage, artworkMaxPage)) pages.push([]);
   return pages
     .map((blocks, pageIndex) => {
@@ -160,7 +166,9 @@ export async function applyDossierDocxV2FlowToDocx(
     ? await dossierDocxV2DataUrlImageAsset(scenes.cv.photo.dataUrl)
     : null;
   if (scenes.cv.photo && !photoAsset) {
-    throw new Error("DOCX V2 Flow: CV-Foto konnte nicht in ein Word-kompatibles Bild umgewandelt werden.");
+    throw new Error(
+      "DOCX V2 Flow: CV-Foto konnte nicht in ein Word-kompatibles Bild umgewandelt werden.",
+    );
   }
 
   const artworkAssets = await Promise.all(
@@ -170,7 +178,9 @@ export async function applyDossierDocxV2FlowToDocx(
     })),
   );
   if (artworkAssets.some((item) => !item.asset)) {
-    throw new Error("DOCX V2 Flow: CV-Hintergrund konnte nicht in ein Word-kompatibles PNG umgewandelt werden.");
+    throw new Error(
+      "DOCX V2 Flow: CV-Hintergrund konnte nicht in ein Word-kompatibles PNG umgewandelt werden.",
+    );
   }
 
   return transformStoredDocxEntries(
@@ -187,7 +197,8 @@ export async function applyDossierDocxV2FlowToDocx(
 
       let documentXml = decoder.decode(documentEntry.bytes);
       const bounds = dossierDocxV2FlowSectionBounds(documentXml);
-      if (!bounds) throw new Error("DOCX V2 Flow: drei Dossierabschnitte konnten nicht erkannt werden.");
+      if (!bounds)
+        throw new Error("DOCX V2 Flow: drei Dossierabschnitte konnten nicht erkannt werden.");
       const letterSection = documentXml.slice(bounds[1].start, bounds[1].end);
       const cvSection = documentXml.slice(bounds[2].start, bounds[2].end);
       const letterSkin = dossierDocxV2FlowSkin(letterSection);
@@ -244,7 +255,10 @@ export async function applyDossierDocxV2FlowToDocx(
 }
 
 export async function dossierDocxV2FlowDocumentXml(blob: Blob) {
-  const entries = readStoredDocxEntries(new Uint8Array(await blob.arrayBuffer()), "DOCX V2 Flow QA");
+  const entries = readStoredDocxEntries(
+    new Uint8Array(await blob.arrayBuffer()),
+    "DOCX V2 Flow QA",
+  );
   const documentEntry = entries.find((entry) => entry.name === "word/document.xml");
   return documentEntry ? new TextDecoder().decode(documentEntry.bytes) : "";
 }

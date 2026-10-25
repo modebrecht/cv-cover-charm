@@ -1,21 +1,20 @@
+import { useDossierChromePalette } from "@/lib/dossier-chrome-palette.browser";
+import { LETTER_FIELD_IDS } from "@/lib/dossier-semantic-fields";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { ColorChooser } from "@/components/cover/ColorChooser";
 import { Section } from "@/components/cover/Section";
 import { ThemeToggle } from "@/components/cover/ThemeToggle";
-import {
-  FileDown,
-  Files,
-  FolderOpen,
-  History,
-  RotateCcw,
-  Save,
-  Sparkles,
-} from "lucide-react";
+import { FolderOpen, History, Menu, RotateCcw, Sparkles } from "lucide-react";
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { EditorDownloadMenu } from "@/components/dossier/EditorDownloadMenu";
 import { EditorMenuLabel } from "@/components/dossier/EditorMenuLabel";
 import { DossierChromeControls } from "@/components/dossier/DossierChromeControls";
 import { DossierChromeDocumentContentControls } from "@/components/dossier/DossierChromeDocumentContentControls";
 import { DossierPdfCanvas } from "@/components/dossier/DossierPdfCanvas";
+import { DossierNativePrintRoot } from "@/components/dossier/DossierNativePrintRoot";
+import { useDossierNativePrint } from "@/components/dossier/useDossierNativePrint";
+import { nativePrintUiEnabled } from "@/lib/native-print-visibility";
 import { useForeignWrite, usePageVisible } from "@/lib/autosave";
 import {
   HISTORY_KEYS,
@@ -43,6 +42,12 @@ import { resolveLetterPalette, resolveLetterPaperColor } from "@/components/lett
 import { DocumentTextColorControl } from "@/components/dossier/DocumentTextColorControl";
 import { downloadCombinedDossierPdf, downloadLetterPdf } from "@/lib/dossier-pdf";
 import {
+  createPdfAdvisoryConsent,
+  inspectPdfPreflight,
+  observePdfPreflight,
+  type PdfPreflightResult,
+} from "@/lib/pdf-preflight";
+import {
   coverPdfDocumentFromSaved,
   coverPdfHasContent,
   cvPdfDocumentFromSaved,
@@ -61,6 +66,7 @@ import { readPhoto } from "@/lib/image";
 import { readDossierContact } from "@/lib/dossier-contact";
 import {
   DEFAULT_DOSSIER_CHROME_STATE,
+  type DossierChromeOptions,
   applyPortableDossierChromeState,
   getDossierChromeState,
   patchDossierChrome,
@@ -136,12 +142,14 @@ function dossierHasMeaningfulSource(source: LetterDossierSource | null): boolean
 }
 
 function Field({
+  fieldId,
   label,
   value,
   onChange,
   placeholder,
   type = "text",
 }: {
+  fieldId: string;
   label: string;
   value: string;
   onChange: (value: string) => void;
@@ -153,6 +161,7 @@ function Field({
       {label}
       <input
         type={type}
+        data-dossier-field-id={fieldId}
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
@@ -240,11 +249,20 @@ function Anschreiben() {
     getDossierChromeState,
     () => DEFAULT_DOSSIER_CHROME_STATE,
   );
-  const chromeOptions = chromeState.sync ? chromeState.shared : chromeState.letter;
+  const chromeOptions = useDossierChromePalette("letter", design, chromeState);
+  const syncLegacyChromeDesign = useCallback((patch: Partial<DossierChromeOptions>) => {
+    const values = legacyLetterChromePatch(patch);
+    setDesign((current) =>
+      Object.entries(values).every(([key, value]) => current[key as keyof LetterDesign] === value)
+        ? current
+        : { ...current, ...values },
+    );
+  }, []);
   const [hydrated, setHydrated] = useState(false);
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const [panelOpen, setPanelOpen] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [downloadMenuOpen, setDownloadMenuOpen] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [confirmDemo, setConfirmDemo] = useState(false);
   const [confirmWipe, setConfirmWipe] = useState(false);
@@ -256,6 +274,33 @@ function Anschreiben() {
   });
   const [pdfDownloading, setPdfDownloading] = useState(false);
   const [pdfError, setPdfError] = useState<string | null>(null);
+  const [pdfPreflight, setPdfPreflight] = useState<PdfPreflightResult | null>(null);
+  const [dossierPreflight, setDossierPreflight] = useState<PdfPreflightResult | null>(null);
+  useEffect(() => {
+    if (!downloadMenuOpen) {
+      setPdfPreflight(null);
+      return;
+    }
+    return observePdfPreflight(
+      () =>
+        document.querySelector<HTMLElement>(
+          "[data-letter-standalone-export] [data-letter-document-root]",
+        ),
+      "letter",
+      setPdfPreflight,
+    );
+  }, [downloadMenuOpen]);
+  useEffect(() => {
+    if (!downloadMenuOpen) {
+      setDossierPreflight(null);
+      return;
+    }
+    return observePdfPreflight(
+      () => document.querySelector<HTMLElement>("[data-dossier-pdf-canvas]"),
+      "dossier",
+      setDossierPreflight,
+    );
+  }, [downloadMenuOpen]);
   const [source, setSource] = useState<LetterDossierSource | null>(null);
   const [transferNote, setTransferNote] = useState<{
     kind: "ok" | "error";
@@ -263,6 +308,7 @@ function Anschreiben() {
   } | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const dossierExportRef = useRef<HTMLDivElement>(null);
+  const nativePrint = useDossierNativePrint(dossierExportRef);
   const visible = usePageVisible();
   const { markWritten, changedElsewhere } = useForeignWrite(LETTER_STORAGE_KEY);
   const [takeover, setTakeover] = useState({
@@ -439,8 +485,17 @@ function Anschreiben() {
         setConfirmWipe(false);
       }
     };
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setMenuOpen(false);
+      menuRef.current?.querySelector<HTMLButtonElement>("button")?.focus();
+    };
     document.addEventListener("pointerdown", close);
-    return () => document.removeEventListener("pointerdown", close);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", close);
+      document.removeEventListener("keydown", onKey);
+    };
   }, [menuOpen]);
 
   useEffect(() => {
@@ -461,15 +516,23 @@ function Anschreiben() {
     [design.template],
   );
 
-  const storedCoverDocument = coverPdfDocumentFromSaved(readStoredDossierPart(COVER_STORAGE_KEY));
-  const storedCvDocument = cvPdfDocumentFromSaved(readStoredDossierPart(CV_STORAGE_KEY));
+  const storedCoverSnapshot = JSON.stringify(readStoredDossierPart(COVER_STORAGE_KEY) ?? null);
+  const storedCvSnapshot = JSON.stringify(readStoredDossierPart(CV_STORAGE_KEY) ?? null);
+  const storedCoverDocument = useMemo(
+    () => coverPdfDocumentFromSaved(JSON.parse(storedCoverSnapshot)),
+    [storedCoverSnapshot],
+  );
+  const storedCvDocument = useMemo(
+    () => cvPdfDocumentFromSaved(JSON.parse(storedCvSnapshot)),
+    [storedCvSnapshot],
+  );
+  const currentLetterDocument = useMemo(() => ({ data, design }), [data, design]);
   const coverReadyForDossier =
     !!storedCoverDocument && coverPdfHasContent(storedCoverDocument.data);
   const cvReadyForDossier = !!storedCvDocument && cvPdfHasContent(storedCvDocument.data);
   const letterReadyForDossier =
     letterHasStarted(data) && letterPagination.ready && !letterPagination.issue;
-  const canDownloadDossierPdf =
-    coverReadyForDossier && letterReadyForDossier && cvReadyForDossier;
+  const canDownloadDossierPdf = coverReadyForDossier && letterReadyForDossier && cvReadyForDossier;
   const dossierPdfHint = !coverReadyForDossier
     ? cvReadyForDossier
       ? "Zuerst das Titelblatt bearbeiten."
@@ -527,7 +590,7 @@ function Anschreiben() {
   };
   useTemplateQaTemplateSwitch(design.template, changeTemplate, "letter");
 
-  const downloadMotivationLetter = async () => {
+  const downloadMotivationLetter = async (override = false) => {
     if (
       pdfDownloading ||
       !letterPagination.ready ||
@@ -542,16 +605,26 @@ function Anschreiben() {
         "[data-letter-standalone-export] [data-letter-document-root]",
       );
       if (!root) throw new Error("Exportansicht ist noch nicht bereit");
+      const consent = override ? createPdfAdvisoryConsent(root, "letter") : undefined;
+      if (!override && inspectPdfPreflight(root, "letter").status !== "pass")
+        throw new Error(
+          "Bitte die aktuelle Layoutprüfung abwarten oder eine verfügbare Layoutwarnung ausdrücklich bestätigen.",
+        );
       const namePart = data.absenderName
         .trim()
         .replace(/\s+/g, "-")
         .replace(/[^A-Za-z0-9ÄÖÜäöüß_-]/g, "");
-      await downloadLetterPdf(root, `Motivationsschreiben-${namePart || "Bewerbung"}.pdf`, {
-        title: data.betreff || "Motivationsschreiben",
-        author: data.absenderName.trim(),
-        subject: "Motivationsschreiben",
-        keywords: "Bewerbung, Motivationsschreiben, Lehrstelle",
-      });
+      await downloadLetterPdf(
+        root,
+        `Motivationsschreiben-${namePart || "Bewerbung"}.pdf`,
+        {
+          title: data.betreff || "Motivationsschreiben",
+          author: data.absenderName.trim(),
+          subject: "Motivationsschreiben",
+          keywords: "Bewerbung, Motivationsschreiben, Lehrstelle",
+        },
+        consent,
+      );
     } catch (error) {
       setPdfError(error instanceof Error ? error.message : "PDF konnte nicht erstellt werden.");
     } finally {
@@ -559,13 +632,16 @@ function Anschreiben() {
     }
   };
 
-  const downloadWholeDossier = async () => {
+  const downloadWholeDossier = async (override = false) => {
     if (!dossierExportRef.current || !canDownloadDossierPdf || pdfDownloading) return;
     setMenuOpen(false);
     setPdfError(null);
     setPdfDownloading(true);
     const name = data.absenderName.trim();
     try {
+      const consent = override
+        ? createPdfAdvisoryConsent(dossierExportRef.current, "dossier")
+        : undefined;
       await downloadCombinedDossierPdf(
         dossierExportRef.current,
         `Bewerbungsdossier-${name || "Bewerbung"}.pdf`,
@@ -573,10 +649,13 @@ function Anschreiben() {
           title: name ? `Bewerbungsdossier – ${name}` : "Bewerbungsdossier",
           author: name,
         },
+        consent,
       );
-      setTransferNote({ kind: "ok", text: "Ganzes Dossier als PDF heruntergeladen" });
+      setTransferNote({ kind: "ok", text: "Dossier PDF heruntergeladen" });
     } catch (error) {
-      setPdfError(error instanceof Error ? error.message : "Dossier-PDF konnte nicht erstellt werden.");
+      setPdfError(
+        error instanceof Error ? error.message : "Dossier-PDF konnte nicht erstellt werden.",
+      );
     } finally {
       setPdfDownloading(false);
     }
@@ -776,73 +855,125 @@ function Anschreiben() {
         </div>
         <SaveStatus state={saveState} />
         <ThemeToggle />
+        <EditorDownloadMenu
+          part="letter"
+          ready={hydrated}
+          open={downloadMenuOpen}
+          onOpenChange={(open) => {
+            setDownloadMenuOpen(open);
+            if (open) setMenuOpen(false);
+          }}
+          busy={pdfDownloading || nativePrint.printing}
+          onPdf={() => downloadMotivationLetter()}
+          pdfDisabled={
+            !letterPagination.ready ||
+            !!letterPagination.issue ||
+            !letterHasStarted(data) ||
+            pdfPreflight?.status !== "pass"
+          }
+          pdfHint={
+            !letterHasStarted(data)
+              ? "Bitte zuerst das Motivationsschreiben ausfüllen."
+              : (letterPagination.issue?.message ??
+                pdfPreflight?.issues.find((issue) => issue.severity === pdfPreflight.status)
+                  ?.message ??
+                "Layout wird geprüft…")
+          }
+          onJson={downloadDossierProject}
+          onDossierPdf={() => downloadWholeDossier()}
+          dossierPdfDisabled={!canDownloadDossierPdf || dossierPreflight?.status !== "pass"}
+          dossierPdfHint={
+            !canDownloadDossierPdf
+              ? dossierPdfHint
+              : (dossierPreflight?.issues.find(
+                  (issue) => issue.severity === dossierPreflight.status,
+                )?.message ?? "Layout wird geprüft…")
+          }
+        >
+          {pdfPreflight?.status === "advisory" && letterHasStarted(data) ? (
+            <div className="border-t px-3 py-2">
+              <p className="mb-2 text-xs text-muted-foreground" data-pdf-advisory>
+                {pdfPreflight.issues.find((issue) => issue.severity === "advisory")?.message}
+              </p>
+              <DropdownMenuItem asChild>
+                <button
+                  type="button"
+                  disabled={pdfDownloading}
+                  onClick={() => {
+                    setDownloadMenuOpen(false);
+                    void downloadMotivationLetter(true);
+                  }}
+                  className="rounded-md border border-input px-3 py-2 text-sm hover:bg-accent"
+                >
+                  PDF trotzdem herunterladen
+                </button>
+              </DropdownMenuItem>
+            </div>
+          ) : null}
+          {dossierPreflight?.status === "advisory" ? (
+            <div className="border-t px-3 py-2">
+              <p className="mb-2 text-xs text-muted-foreground">
+                {dossierPreflight.issues.find((issue) => issue.severity === "advisory")?.message}
+              </p>
+              {dossierPreflight.issues.every((issue) => issue.overridePermitted) ? (
+                <DropdownMenuItem asChild>
+                  <button
+                    type="button"
+                    disabled={pdfDownloading}
+                    onClick={() => {
+                      setDownloadMenuOpen(false);
+                      void downloadWholeDossier(true);
+                    }}
+                    className="rounded-md border border-input px-3 py-2 text-sm hover:bg-accent"
+                  >
+                    Dossier PDF trotzdem herunterladen
+                  </button>
+                </DropdownMenuItem>
+              ) : null}
+            </div>
+          ) : null}
+          {nativePrintUiEnabled() ? (
+            <DropdownMenuItem asChild>
+              <button
+                type="button"
+                onClick={() => {
+                  setDownloadMenuOpen(false);
+                  void nativePrint.print();
+                }}
+                disabled={!canDownloadDossierPdf || pdfDownloading || nativePrint.printing}
+                className="flex w-full flex-col gap-1 border-t px-3 py-2 text-left text-sm hover:bg-accent disabled:opacity-45"
+              >
+                <span>
+                  {nativePrint.printing
+                    ? "Druckdialog wird vorbereitet…"
+                    : "Drucken / als PDF speichern"}
+                </span>
+                <span className="text-xs text-muted-foreground">
+                  Experiment · öffnet den Druckdialog
+                </span>
+              </button>
+            </DropdownMenuItem>
+          ) : null}
+        </EditorDownloadMenu>
         <div className="relative" ref={menuRef}>
           <button
             type="button"
-            onClick={() => setMenuOpen((value) => !value)}
-            disabled={pdfDownloading}
+            onClick={() => {
+              setDownloadMenuOpen(false);
+              setMenuOpen((value) => !value);
+            }}
             aria-expanded={menuOpen}
-            data-editor-ready={hydrated ? "true" : "false"}
-            className="inline-flex items-center gap-2 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-60 sm:px-4"
+            aria-label="Menü"
+            title="Menü"
+            className="inline-flex shrink-0 items-center rounded-md border border-input bg-background px-2.5 py-2 hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            {pdfDownloading ? "PDF…" : "Download"}
-            <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
-              <path
-                d="M3 4.5l3 3 3-3"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <Menu className="h-5 w-5" aria-hidden="true" />
           </button>
           {menuOpen ? (
             <div
               data-editor-action-menu
               className="absolute right-0 z-50 mt-2 w-72 overflow-hidden rounded-md border bg-popover shadow-lg"
             >
-              <button
-                type="button"
-                onClick={() => void downloadWholeDossier()}
-                disabled={!canDownloadDossierPdf}
-                title={canDownloadDossierPdf ? "Titelblatt, Motivationsschreiben und alle CV-Seiten gemeinsam herunterladen" : dossierPdfHint}
-                className="flex w-full items-center justify-between px-3 py-2 text-left text-sm font-medium hover:bg-accent disabled:cursor-not-allowed disabled:opacity-45"
-              >
-                <EditorMenuLabel icon={Files}>Ganzes Dossier als PDF</EditorMenuLabel>
-                <span className="text-xs text-muted-foreground">
-                  Titelblatt + Motivationsschreiben + CV
-                </span>
-              </button>
-              {!canDownloadDossierPdf ? (
-                <p className="border-t bg-muted/30 px-3 py-2 text-[11px] leading-relaxed text-muted-foreground">
-                  {dossierPdfHint}
-                </p>
-              ) : null}
-              <button
-                type="button"
-                onClick={() => {
-                  setMenuOpen(false);
-                  void downloadMotivationLetter();
-                }}
-                disabled={
-                  !letterPagination.ready || !!letterPagination.issue || !letterHasStarted(data)
-                }
-                className="flex w-full items-center justify-between border-t px-3 py-2 text-left text-sm hover:bg-accent disabled:cursor-not-allowed disabled:opacity-45"
-              >
-                <EditorMenuLabel icon={FileDown}>Nur Motivationsschreiben als PDF</EditorMenuLabel>
-                <span className="text-xs text-muted-foreground">.pdf</span>
-              </button>
-              <button
-                type="button"
-                onClick={downloadDossierProject}
-                className="flex w-full items-center justify-between px-3 py-2 text-left text-sm hover:bg-accent"
-              >
-                <EditorMenuLabel icon={Save}>Dossier speichern</EditorMenuLabel>
-                <span className="text-xs text-muted-foreground">
-                  Titelblatt + Motivationsschreiben + CV
-                </span>
-              </button>
               <label className="flex cursor-pointer items-center justify-between border-t px-3 py-2 text-left text-sm hover:bg-accent">
                 <EditorMenuLabel icon={FolderOpen}>Dossier laden</EditorMenuLabel>
                 <span className="text-xs text-muted-foreground">.json</span>
@@ -1132,9 +1263,7 @@ function Anschreiben() {
                     onChange={(dateFontSizePt) =>
                       setDesign((current) => ({ ...current, dateFontSizePt }))
                     }
-                    onFontChange={(dateFont) =>
-                      setDesign((current) => ({ ...current, dateFont }))
-                    }
+                    onFontChange={(dateFont) => setDesign((current) => ({ ...current, dateFont }))}
                   />
                   <LetterFontSizeControl
                     label="Titel / Betreff"
@@ -1177,9 +1306,7 @@ function Anschreiben() {
                     onChange={(bodyFontSizePt) =>
                       setDesign((current) => ({ ...current, bodyFontSizePt }))
                     }
-                    onFontChange={(bodyFont) =>
-                      setDesign((current) => ({ ...current, bodyFont }))
-                    }
+                    onFontChange={(bodyFont) => setDesign((current) => ({ ...current, bodyFont }))}
                   />
                   <LetterFontSizeControl
                     label="Grussformel"
@@ -1207,9 +1334,15 @@ function Anschreiben() {
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-2">
-                  <Field label="Ort" value={data.ort} onChange={(value) => patch({ ort: value })} />
+                  <Field
+                    label="Ort"
+                    fieldId={LETTER_FIELD_IDS.ort}
+                    value={data.ort}
+                    onChange={(value) => patch({ ort: value })}
+                  />
                   <Field
                     label="Datum"
+                    fieldId={LETTER_FIELD_IDS.datum}
                     value={data.datum}
                     onChange={(value) => patch({ datum: value })}
                     placeholder="25.08.2026"
@@ -1217,12 +1350,14 @@ function Anschreiben() {
                 </div>
                 <Field
                   label="Titel / Betreff"
+                  fieldId={LETTER_FIELD_IDS.betreff}
                   value={data.betreff}
                   onChange={(value) => patch({ betreff: value })}
                   placeholder="Bewerbung um eine Lehrstelle als …"
                 />
                 <Field
                   label="Anrede"
+                  fieldId={LETTER_FIELD_IDS.anrede}
                   value={data.anrede}
                   onChange={(value) => patch({ anrede: value })}
                 />
@@ -1251,11 +1386,13 @@ function Anschreiben() {
                 </div>
                 <Field
                   label="Grussformel"
+                  fieldId={LETTER_FIELD_IDS.gruss}
                   value={data.gruss}
                   onChange={(value) => patch({ gruss: value })}
                 />
                 <Field
                   label="Name unter der Unterschrift"
+                  fieldId={LETTER_FIELD_IDS.unterschrift}
                   value={data.unterschrift}
                   onChange={(value) => patch({ unterschrift: value })}
                 />
@@ -1322,27 +1459,32 @@ function Anschreiben() {
                 />
                 <Field
                   label="Vorname und Nachname"
+                  fieldId={LETTER_FIELD_IDS.absenderName}
                   value={data.absenderName}
                   onChange={(value) => patch({ absenderName: value })}
                 />
                 <Field
                   label="Adresse"
+                  fieldId={LETTER_FIELD_IDS.absenderAdresse}
                   value={data.absenderAdresse}
                   onChange={(value) => patch({ absenderAdresse: value })}
                 />
                 <Field
                   label="PLZ und Ort"
+                  fieldId={LETTER_FIELD_IDS.absenderPlzOrt}
                   value={data.absenderPlzOrt}
                   onChange={(value) => patch({ absenderPlzOrt: value })}
                 />
                 <Field
                   label="Telefon"
+                  fieldId={LETTER_FIELD_IDS.absenderTelefon}
                   value={data.absenderTelefon}
                   onChange={(value) => patch({ absenderTelefon: value })}
                   type="tel"
                 />
                 <Field
                   label="E-Mail"
+                  fieldId={LETTER_FIELD_IDS.absenderEmail}
                   value={data.absenderEmail}
                   onChange={(value) => patch({ absenderEmail: value })}
                   type="email"
@@ -1379,22 +1521,26 @@ function Anschreiben() {
                 />
                 <Field
                   label="Lehrbetrieb"
+                  fieldId={LETTER_FIELD_IDS.empfaengerFirma}
                   value={data.empfaengerFirma}
                   onChange={(value) => patch({ empfaengerFirma: value })}
                 />
                 <Field
                   label="Ansprechperson"
+                  fieldId={LETTER_FIELD_IDS.empfaengerName}
                   value={data.empfaengerName}
                   onChange={(value) => patch({ empfaengerName: value })}
                   placeholder="z. B. Frau Anna Muster"
                 />
                 <Field
                   label="Adresse"
+                  fieldId={LETTER_FIELD_IDS.empfaengerAdresse}
                   value={data.empfaengerAdresse}
                   onChange={(value) => patch({ empfaengerAdresse: value })}
                 />
                 <Field
                   label="PLZ und Ort"
+                  fieldId={LETTER_FIELD_IDS.empfaengerPlzOrt}
                   value={data.empfaengerPlzOrt}
                   onChange={(value) => patch({ empfaengerPlzOrt: value })}
                 />
@@ -1449,8 +1595,10 @@ function Anschreiben() {
                   <span>Im Motivationsschreiben anzeigen</span>
                 </label>
                 <AttachmentListEditor
+                  fieldIdPrefix="letter.attachment"
+                  ids={data.attachmentIds}
                   values={letterAttachmentValues(data)}
-                  onChange={(beilagen) => patch({ beilagen })}
+                  onChange={(beilagen, attachmentIds) => patch({ beilagen, attachmentIds })}
                 />
               </div>
             </Section>
@@ -1467,13 +1615,9 @@ function Anschreiben() {
             </Section>
 
             <Section title="Header & Footer" open={open.chrome} onToggle={() => toggle("chrome")}>
-              <DossierChromeControls
-                scope="letter"
-                onOptionsChange={(patch) =>
-                  setDesign((current) => ({ ...current, ...legacyLetterChromePatch(patch) }))
-                }
-              />
+              <DossierChromeControls scope="letter" onOptionsChange={syncLegacyChromeDesign} />
               <DossierChromeDocumentContentControls
+                scope="letter"
                 value={design.chromeContent}
                 defaultTitle="Motivationsschreiben"
                 onChange={(chromeContent) =>
@@ -1560,7 +1704,6 @@ function Anschreiben() {
                 ) : null}
               </div>
             </Section>
-
           </div>
         </ResizableEditorPanel>
 
@@ -1579,6 +1722,12 @@ function Anschreiben() {
           </div>
         </main>
 
+        {nativePrint.error ? (
+          <p role="alert" className="text-sm text-destructive">
+            {nativePrint.error}
+          </p>
+        ) : null}
+
         <div
           data-letter-standalone-export
           className="pointer-events-none fixed left-[-10000px] top-0"
@@ -1595,24 +1744,15 @@ function Anschreiben() {
         </div>
 
         {canDownloadDossierPdf ? (
-          <div
-            aria-hidden
-            style={{
-              position: "fixed",
-              left: "-20000px",
-              top: 0,
-              pointerEvents: "none",
-              zIndex: -1,
-            }}
-          >
+          <DossierNativePrintRoot>
             <DossierPdfCanvas
               ref={dossierExportRef}
               cover={storedCoverDocument}
-              letter={{ data, design }}
+              letter={currentLetterDocument}
               cv={storedCvDocument}
               chromeState={chromeState}
             />
-          </div>
+          </DossierNativePrintRoot>
         ) : null}
       </div>
     </div>

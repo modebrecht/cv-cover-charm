@@ -7,6 +7,10 @@ on:
     branches:
       - letter-m1-m2
       - dev
+      - dev-native-chromium-print
+      - fix/pdf-text-search-12okt
+      - fix/pdf-export-readiness-14okt
+      - docx-next/integrate-39-templates
       - render
       - main
     paths-ignore:
@@ -108,12 +112,22 @@ jobs:
               tests/e2e/letter-physical-preflight.spec.ts
           - group: cv-pdf
             files: >-
+              tests/e2e/dossier-native-print.spec.ts
+              tests/e2e/native-print-physical-fitting.spec.ts
+              tests/e2e/native-print-text-order.spec.ts
+              tests/e2e/pdf-word-boundaries.spec.ts
+              tests/e2e/native-print-background-paint.spec.ts
               tests/e2e/element-ratio-lock.spec.ts
               tests/e2e/cv-edge-smoke.spec.ts
               tests/e2e/cv-card-refresh.spec.ts
               tests/e2e/cv-section-gap.spec.ts
               tests/e2e/cv-pdf-text.spec.ts
               tests/e2e/cv-pdf-selection-geometry.spec.ts
+              tests/e2e/cv-local-template-scope.spec.ts
+              tests/e2e/cv-local-presentation.spec.ts
+              tests/e2e/cv-combined-parity.spec.ts
+              tests/e2e/cv-gallery-dom-parity.spec.ts
+              tests/e2e/cv-pdf-paint-parity.spec.ts
           - group: cv-m9-pagination
             files: >-
               tests/e2e/cv-demo-pagination.spec.ts
@@ -124,6 +138,7 @@ jobs:
           - group: templates-layout
             files: >-
               tests/e2e/cover-edge-smoke.spec.ts
+              tests/e2e/dossier-local-template-scope.spec.ts
               tests/e2e/template-cleanup.spec.ts
               tests/e2e/prism-neon-header-identity.spec.ts
               tests/e2e/gradient-edge-smoke.spec.ts
@@ -159,7 +174,8 @@ jobs:
         run: npm install --no-save --no-package-lock @playwright/test@1.55.0
 
       - name: Install Chromium
-        run: npx playwright install --with-deps chromium
+        timeout-minutes: 6
+        run: bash scripts/qa-browser-setup.sh
 
       - name: Start application
         shell: bash
@@ -227,6 +243,83 @@ jobs:
           if [ -f /tmp/cv-cover-charm.pid ]; then
             kill "$(cat /tmp/cv-cover-charm.pid)" || true
           fi
+
+  native-print-benchmark:
+    if: github.ref == 'refs/heads/dev-native-chromium-print'
+    needs: fast-checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install application dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Install Playwright runner
+        run: npm install --no-save --no-package-lock @playwright/test@1.55.0
+
+      - name: Install Chromium
+        timeout-minutes: 8
+        run: npx playwright install --with-deps chromium
+
+      - name: Install benchmark scorer dependencies
+        run: |
+          python3 -m venv .native-print-venv
+          .native-print-venv/bin/pip install --disable-pip-version-check \
+            pillow==11.3.0 \
+            numpy==2.2.6 \
+            scikit-image==0.25.2 \
+            pymupdf==1.26.4
+
+      - name: Test benchmark provenance and geometry guards
+        run: .native-print-venv/bin/python -m unittest discover -s scripts -p test_native_chromium_print_benchmark.py
+
+      - name: Capture same-SHA Web, current PDF and native Chromium PDF
+        run: |
+          python3 scripts/run_native_chromium_benchmark.py \
+            --capture-dir artifacts/native-chromium-capture
+
+      - name: Score 39-template native Chromium benchmark
+        run: |
+          .native-print-venv/bin/python scripts/native_chromium_print_benchmark.py \
+            --capture-dir artifacts/native-chromium-capture \
+            --out-dir artifacts/native-chromium-report
+
+      - name: Publish benchmark summary
+        shell: bash
+        run: |
+          {
+            echo '## Native Chromium print benchmark'
+            echo
+            echo "Source: $(git rev-parse HEAD)"
+            echo
+            echo '```json'
+            cat artifacts/native-chromium-report/native-chromium-print-summary.json
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload native Chromium benchmark report
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-chromium-print-benchmark
+          path: |
+            artifacts/native-chromium-report
+            artifacts/native-chromium-capture/manifest.json
+            artifacts/native-chromium-capture/capture.log
+          if-no-files-found: error
+          retention-days: 14
 
   publish-regression-status:
     if: always()

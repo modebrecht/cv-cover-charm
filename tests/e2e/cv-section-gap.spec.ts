@@ -48,7 +48,7 @@ const CV_DATA = {
   hidden: {},
 };
 
-test.describe("global CV rubric spacing", () => {
+test.describe("local CV rubric spacing", () => {
   test.setTimeout(90_000);
 
   test("changes only vertical spacing and keeps two half-width rubrics side by side", async ({
@@ -78,10 +78,21 @@ test.describe("global CV rubric spacing", () => {
     await page.reload({ waitUntil: "domcontentloaded" });
 
     await expect
-      .poll(() => page.evaluate(() => document.documentElement.dataset.cvSectionGap))
+      .poll(() =>
+        page
+          .locator('[data-dossier-document="cv"][data-export-mode="false"]')
+          .first()
+          .getAttribute("data-cv-section-gap"),
+      )
       .toBe("custom");
     await expect
-      .poll(() => page.evaluate(() => document.documentElement.style.getPropertyValue("--cv-section-gap")))
+      .poll(() =>
+        page.evaluate(() =>
+          getComputedStyle(
+            document.querySelector('[data-dossier-document="cv"][data-export-mode="false"]')!,
+          ).getPropertyValue("--cv-section-gap"),
+        ),
+      )
       .toBe("7.5mm");
 
     const preview = page.locator('[data-dossier-document="cv"][data-export-mode="false"]').first();
@@ -119,7 +130,9 @@ test.describe("global CV rubric spacing", () => {
     expect(margins.school).toBeGreaterThan(25);
     expect(Math.abs(margins.school - margins.experience)).toBeLessThanOrEqual(0.5);
 
-    const exportRoot = page.locator('[data-dossier-document="cv"][data-export-mode="true"]').first();
+    const exportRoot = page
+      .locator('[data-dossier-document="cv"][data-export-mode="true"]')
+      .first();
     const exportMargin = await exportRoot
       .locator('[data-cv-section="schule"]')
       .filter({ visible: true })
@@ -164,11 +177,13 @@ test.describe("global CV rubric spacing", () => {
     await page.reload({ waitUntil: "domcontentloaded" });
 
     const preview = page.locator('[data-dossier-document="cv"][data-export-mode="false"]').first();
-    const exportRoot = page.locator('[data-dossier-document="cv"][data-export-mode="true"]').first();
+    const exportRoot = page
+      .locator('[data-dossier-document="cv"][data-export-mode="true"]')
+      .first();
     await expect(preview).toBeVisible();
 
     const assertStyledHeadings = async (root: typeof preview) => {
-      const headings = root.locator('[data-cv-section-title]').filter({ visible: true });
+      const headings = root.locator("[data-cv-section-title]").filter({ visible: true });
       await expect.poll(() => headings.count()).toBeGreaterThanOrEqual(2);
       const count = Math.min(2, await headings.count());
       for (let index = 0; index < count; index += 1) {
@@ -189,7 +204,7 @@ test.describe("global CV rubric spacing", () => {
         expect(styles.textDecorationLine).toContain("underline");
       }
 
-      const section = root.locator('[data-cv-section]').filter({ visible: true }).first();
+      const section = root.locator("[data-cv-section]").filter({ visible: true }).first();
       await expect(section).toBeVisible();
       expect(
         await section.evaluate((node) => Number.parseFloat(getComputedStyle(node).marginBottom)),
@@ -219,10 +234,13 @@ test.describe("global CV rubric spacing", () => {
     await expect(noRulePreview).toBeVisible();
     await expect(noRulePreview.locator('[data-cv-accent="section"]')).toHaveCount(0);
 
-    const underlined = noRulePreview.locator('[data-cv-section-title]').filter({ visible: true }).first();
+    const underlined = noRulePreview
+      .locator("[data-cv-section-title]")
+      .filter({ visible: true })
+      .first();
     await expect(underlined).toBeVisible();
-    expect(await underlined.evaluate((node) => getComputedStyle(node).textDecorationLine)).toContain(
-      "underline",
-    );
+    expect(
+      await underlined.evaluate((node) => getComputedStyle(node).textDecorationLine),
+    ).toContain("underline");
   });
 });

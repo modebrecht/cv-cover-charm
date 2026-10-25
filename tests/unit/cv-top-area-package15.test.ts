@@ -65,25 +65,34 @@ describe("Package 1.5 CV top-area state", () => {
   test("explicit photo side ignores legacy mirror and free stays free", () => {
     for (const legacyMirrored of [false, true]) {
       expect(
-        resolveCvPhotoPosition({ mode: "left" }, {
-template: "brief",
-          layout: "classic",
-          legacyMirrored,
-        }),
+        resolveCvPhotoPosition(
+          { mode: "left" },
+          {
+            template: "brief",
+            layout: "classic",
+            legacyMirrored,
+          },
+        ),
       ).toBe("left");
       expect(
-        resolveCvPhotoPosition({ mode: "right" }, {
-          template: "brief",
-          layout: "classic",
-          legacyMirrored,
-        }),
+        resolveCvPhotoPosition(
+          { mode: "right" },
+          {
+            template: "brief",
+            layout: "classic",
+            legacyMirrored,
+          },
+        ),
       ).toBe("right");
       expect(
-        resolveCvPhotoPosition({ mode: "frei" }, {
-          template: "brief",
-          layout: "classic",
-          legacyMirrored,
-        }),
+        resolveCvPhotoPosition(
+          { mode: "frei" },
+          {
+            template: "brief",
+            layout: "classic",
+            legacyMirrored,
+          },
+        ),
       ).toBe("free");
     }
   });

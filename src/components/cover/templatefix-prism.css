@@ -1,5 +1,3 @@
-@import "./prism-neon-header-rework.css";
-
 /* -------------------------------------------------------------------------- */
 /* templateFIX — 32 Prism interiors only                                      */
 /* -------------------------------------------------------------------------- */
@@ -38,8 +36,7 @@
 }
 
 /* CV: compress the old diagonal hero into the same restrained top signature. */
-html[data-dossier-template="prism"]
-  [data-dossier-document="cv"]
+div[data-cv-template="prism"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child {
@@ -56,8 +53,7 @@ html[data-dossier-template="prism"]
   overflow: hidden !important;
 }
 
-html[data-dossier-template="prism"]
-  [data-dossier-document="cv"]
+div[data-cv-template="prism"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child
@@ -74,8 +70,7 @@ html[data-dossier-template="prism"]
   filter: none !important;
 }
 
-html[data-dossier-template="prism"]
-  [data-dossier-document="cv"]
+div[data-cv-template="prism"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child
@@ -83,7 +78,7 @@ html[data-dossier-template="prism"]
   display: none !important;
 }
 
-html[data-dossier-template="prism"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="prism"][data-dossier-document="cv"] [data-cv-surface] {
   left: 0 !important;
   right: 0 !important;
   top: 9mm !important;
@@ -93,13 +88,7 @@ html[data-dossier-template="prism"] [data-dossier-document="cv"] [data-cv-surfac
   opacity: 1 !important;
 }
 
-html[data-dossier-template="prism"]
-  [data-dossier-document="cv"][data-cv-layout="classic"]
-  [data-cv-main],
-html[data-dossier-template="prism"]
-  [data-dossier-document="cv"][data-cv-layout="classic"]
-  [data-cv-measure-page]
-  [data-cv-main] {
+div[data-cv-template="prism"][data-dossier-document="cv"][data-cv-layout="classic"] [data-cv-main] {
   left: 20mm !important;
   right: 20mm !important;
   top: 20mm !important;
@@ -107,16 +96,16 @@ html[data-dossier-template="prism"]
 }
 
 /* If a user explicitly selects Sidebar, keep it readable rather than tinted. */
-html[data-dossier-template="prism"] [data-dossier-document="cv"] [data-cv-sidebar-tint] {
+div[data-cv-template="prism"][data-dossier-document="cv"] [data-cv-sidebar-tint] {
   display: none !important;
 }
 
 /* Prism no longer stacks decorative dashes on top of its geometric signature. */
-html[data-dossier-template="prism"] [data-dossier-document="cv"] [data-cv-accent="header"],
-html[data-dossier-template="prism"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+div[data-cv-template="prism"][data-dossier-document="cv"] [data-cv-accent="header"],
+div[data-cv-template="prism"][data-dossier-document="cv"] [data-cv-accent="section"] {
   display: none !important;
 }
 
-html[data-dossier-template="prism"] [data-dossier-document="cv"] [data-cv-section-title] {
+div[data-cv-template="prism"][data-dossier-document="cv"] [data-cv-section-title] {
   letter-spacing: 0.055em !important;
 }

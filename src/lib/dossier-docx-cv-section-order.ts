@@ -121,10 +121,7 @@ type HeadingMatch = {
  * sections afterwards. Reorder only complete rubric chunks in the third dossier
  * section so Word follows the same persisted `sectionOrder` as Web/PDF.
  */
-export function applyCvSectionOrderToDocumentXml(
-  source: string,
-  cv: Pick<CvPdfDocument, "data">,
-) {
+export function applyCvSectionOrderToDocumentXml(source: string, cv: Pick<CvPdfDocument, "data">) {
   const start = cvDocumentStart(source);
   if (start === null) return source;
 

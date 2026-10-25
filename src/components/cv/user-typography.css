@@ -4,44 +4,38 @@
  * specificity so exported raster text remains transparent; addCvTextLayer()
  * disables that mask while reading these real computed values for vector text.
  */
-html[data-dossier-template]
-  [data-dossier-document="cv"]
+div[data-cv-template][data-dossier-document="cv"]
   :is([data-cv-page], [data-cv-measure-page])
   [data-cv-doc-title][data-cv-user-doc-size="true"] {
   font-size: var(--cv-user-doc-font-size) !important;
 }
 
-html[data-dossier-template]
-  [data-dossier-document="cv"]
+div[data-cv-template][data-dossier-document="cv"]
   :is([data-cv-page], [data-cv-measure-page])
   [data-cv-doc-title][data-cv-user-doc-color="true"] {
   color: var(--cv-user-doc-color) !important;
   -webkit-text-fill-color: var(--cv-user-doc-color) !important;
 }
 
-html[data-dossier-template]
-  [data-dossier-document="cv"]
+div[data-cv-template][data-dossier-document="cv"]
   :is([data-cv-page], [data-cv-measure-page])
   [data-cv-doc-title][data-cv-user-doc-weight="true"] {
   font-weight: var(--cv-user-doc-weight) !important;
 }
 
-html[data-dossier-template]
-  [data-dossier-document="cv"]
+div[data-cv-template][data-dossier-document="cv"]
   :is([data-cv-page], [data-cv-measure-page])
   [data-cv-doc-title][data-cv-user-doc-style="true"] {
   font-style: var(--cv-user-doc-style) !important;
 }
 
-html[data-dossier-template]
-  [data-dossier-document="cv"]
+div[data-cv-template][data-dossier-document="cv"]
   :is([data-cv-page], [data-cv-measure-page])
   [data-cv-doc-title][data-cv-user-doc-decoration="true"] {
   text-decoration-line: var(--cv-user-doc-decoration) !important;
 }
 
-html[data-dossier-template]
-  [data-dossier-document="cv"]
+div[data-cv-template][data-dossier-document="cv"]
   :is([data-cv-page], [data-cv-measure-page])
   [data-cv-doc-title][data-cv-user-doc-margin="true"] {
   margin-bottom: var(--cv-user-doc-margin-bottom) !important;
@@ -53,8 +47,7 @@ html[data-dossier-template]
  * the template/document hooks here deliberately: explicit user values must win
  * over those defaults, while untouched headings still keep template identity.
  */
-html[data-dossier-template][data-dossier-template][data-dossier-template]
-  [data-dossier-document="cv"][data-dossier-document="cv"]
+div[data-cv-template][data-cv-template][data-cv-template][data-dossier-document="cv"][data-dossier-document="cv"]
   :is([data-cv-page], [data-cv-measure-page])
   [data-cv-section][data-cv-user-section-margin="true"] {
   margin-bottom: var(--cv-user-section-margin-bottom) !important;
@@ -66,51 +59,44 @@ html[data-dossier-template][data-dossier-template][data-dossier-template]
  * Zwei 50%-Rubriken bleiben dadurch in derselben CSS-Grid-Zeile; der Regler
  * ändert weder Spaltenbreite noch column-gap.
  */
-html[data-cv-section-gap="custom"]
-  [data-dossier-document="cv"]
+div[data-cv-section-gap="custom"][data-dossier-document="cv"]
   :is([data-cv-page], [data-cv-measure-page])
   [data-cv-section] {
   margin-top: var(--cv-section-gap) !important;
 }
 
-html[data-dossier-template][data-dossier-template][data-dossier-template]
-  [data-dossier-document="cv"][data-dossier-document="cv"]
+div[data-cv-template][data-cv-template][data-cv-template][data-dossier-document="cv"][data-dossier-document="cv"]
   :is([data-cv-page], [data-cv-measure-page])
   [data-cv-section-title][data-cv-user-section-size="true"] {
   font-size: var(--cv-user-section-font-size) !important;
 }
 
-html[data-dossier-template][data-dossier-template][data-dossier-template]
-  [data-dossier-document="cv"][data-dossier-document="cv"]
+div[data-cv-template][data-cv-template][data-cv-template][data-dossier-document="cv"][data-dossier-document="cv"]
   :is([data-cv-page], [data-cv-measure-page])
   [data-cv-section-title][data-cv-user-section-color="true"] {
   color: var(--cv-user-section-color) !important;
   -webkit-text-fill-color: var(--cv-user-section-color) !important;
 }
 
-html[data-dossier-template][data-dossier-template][data-dossier-template]
-  [data-dossier-document="cv"][data-dossier-document="cv"]
+div[data-cv-template][data-cv-template][data-cv-template][data-dossier-document="cv"][data-dossier-document="cv"]
   :is([data-cv-page], [data-cv-measure-page])
   [data-cv-section-title][data-cv-user-section-weight="true"] {
   font-weight: var(--cv-user-section-weight) !important;
 }
 
-html[data-dossier-template][data-dossier-template][data-dossier-template]
-  [data-dossier-document="cv"][data-dossier-document="cv"]
+div[data-cv-template][data-cv-template][data-cv-template][data-dossier-document="cv"][data-dossier-document="cv"]
   :is([data-cv-page], [data-cv-measure-page])
   [data-cv-section-title][data-cv-user-section-style="true"] {
   font-style: var(--cv-user-section-style) !important;
 }
 
-html[data-dossier-template][data-dossier-template][data-dossier-template]
-  [data-dossier-document="cv"][data-dossier-document="cv"]
+div[data-cv-template][data-cv-template][data-cv-template][data-dossier-document="cv"][data-dossier-document="cv"]
   :is([data-cv-page], [data-cv-measure-page])
   [data-cv-section-title][data-cv-user-section-decoration="true"] {
   text-decoration-line: var(--cv-user-section-decoration) !important;
 }
 
-html[data-dossier-template][data-dossier-template][data-dossier-template]
-  [data-dossier-document="cv"][data-dossier-document="cv"]
+div[data-cv-template][data-cv-template][data-cv-template][data-dossier-document="cv"][data-dossier-document="cv"]
   :is([data-cv-page], [data-cv-measure-page])
   [data-cv-accent="section"][data-cv-user-section-color="true"] {
   background: var(--cv-user-section-color) !important;
@@ -127,8 +113,7 @@ html[data-dossier-template][data-dossier-template][data-dossier-template]
  * document node is inside it. Keep that ancestor order explicit here so the
  * same contract applies to editor preview, measurement and hidden PDF canvas.
  */
-html[data-dossier-template][data-dossier-template][data-dossier-template]
-  [data-cv-user-heading-rule="full"][data-cv-user-heading-rule="full"]
+div[data-cv-template][data-cv-template][data-cv-template][data-cv-user-heading-rule="full"][data-cv-user-heading-rule="full"]
   [data-dossier-document="cv"][data-dossier-document="cv"]
   :is([data-cv-page], [data-cv-measure-page])
   [data-cv-accent="section"] {
@@ -147,8 +132,7 @@ html[data-dossier-template][data-dossier-template][data-dossier-template]
  * Only rows without the semantic accent are neutralised; default/full rows keep
  * every template treatment intact. Text underline is deliberately untouched.
  */
-html[data-dossier-template][data-dossier-template][data-dossier-template]
-  [data-dossier-document="cv"][data-dossier-document="cv"]
+div[data-cv-template][data-cv-template][data-cv-template][data-dossier-document="cv"][data-dossier-document="cv"]
   :is([data-cv-page], [data-cv-measure-page])
   [data-cv-section]:not(:has([data-cv-accent="section"]))
   > div:first-child {
@@ -162,14 +146,12 @@ html[data-dossier-template][data-dossier-template][data-dossier-template]
  * state marker on the document so template-specific display/border rules can
  * never reintroduce a separator in preview, measurement or PDF export.
  */
-html[data-dossier-template][data-dossier-template][data-dossier-template]
-  [data-dossier-document="cv"][data-cv-heading-rule="none"]
+div[data-cv-template][data-cv-template][data-cv-template][data-dossier-document="cv"][data-cv-heading-rule="none"]
   [data-cv-accent="section"] {
   display: none !important;
 }
 
-html[data-dossier-template][data-dossier-template][data-dossier-template]
-  [data-dossier-document="cv"][data-cv-heading-rule="none"]
+div[data-cv-template][data-cv-template][data-cv-template][data-dossier-document="cv"][data-cv-heading-rule="none"]
   [data-cv-section]
   > div:first-child {
   border-bottom: 0 !important;
@@ -177,13 +159,11 @@ html[data-dossier-template][data-dossier-template][data-dossier-template]
   background-image: none !important;
 }
 
-html[data-dossier-template][data-dossier-template][data-dossier-template]
-  [data-dossier-document="cv"][data-dossier-document="cv"]
+div[data-cv-template][data-cv-template][data-cv-template][data-dossier-document="cv"][data-dossier-document="cv"]
   :is([data-cv-page], [data-cv-measure-page])
   [data-cv-section]:not(:has([data-cv-accent="section"]))
   > div:first-child::before,
-html[data-dossier-template][data-dossier-template][data-dossier-template]
-  [data-dossier-document="cv"][data-dossier-document="cv"]
+div[data-cv-template][data-cv-template][data-cv-template][data-dossier-document="cv"][data-dossier-document="cv"]
   :is([data-cv-page], [data-cv-measure-page])
   [data-cv-section]:not(:has([data-cv-accent="section"]))
   > div:first-child::after {

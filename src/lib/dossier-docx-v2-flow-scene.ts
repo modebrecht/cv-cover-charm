@@ -351,26 +351,28 @@ function richLetterBlocks(
     }
 
     if (tag === "table") {
-      const rows = Array.from(child.querySelectorAll(":scope > tbody > tr, :scope > tr")).map((rowEl) => {
-        const cells = Array.from(rowEl.querySelectorAll(":scope > td"));
-        const widthPct = cells.length ? 100 / cells.length : 100;
-        return {
-          cantSplit: true,
-          cells: cells.map((cell, cellIndex) => ({
-            widthPct,
-            paddingMm: 1.4,
-            blocks: [
-              {
-                ...paragraph("", bodyStyle, {
-                  id: `body-table-${index}-${cellIndex + 1}`,
-                  lineHeight: 1.4,
-                }),
-                runs: inlineRunsFromNode(cell, bodyStyle),
-              },
-            ],
-          })),
-        };
-      });
+      const rows = Array.from(child.querySelectorAll(":scope > tbody > tr, :scope > tr")).map(
+        (rowEl) => {
+          const cells = Array.from(rowEl.querySelectorAll(":scope > td"));
+          const widthPct = cells.length ? 100 / cells.length : 100;
+          return {
+            cantSplit: true,
+            cells: cells.map((cell, cellIndex) => ({
+              widthPct,
+              paddingMm: 1.4,
+              blocks: [
+                {
+                  ...paragraph("", bodyStyle, {
+                    id: `body-table-${index}-${cellIndex + 1}`,
+                    lineHeight: 1.4,
+                  }),
+                  runs: inlineRunsFromNode(cell, bodyStyle),
+                },
+              ],
+            })),
+          };
+        },
+      );
       blocks.push({ kind: "table", id: `body-table-${index}`, rows, afterMm: 4.2 });
       continue;
     }
@@ -387,7 +389,11 @@ function richLetterBlocks(
       });
     }
     const runs = withPrefix(inlineRunsFromNode(child, bodyStyle), listPrefix(child.dataset.list));
-    const visible = runs.map((item) => item.text).join("").replace(/\n/g, "").trim();
+    const visible = runs
+      .map((item) => item.text)
+      .join("")
+      .replace(/\n/g, "")
+      .trim();
     if (!visible) {
       blocks.push({ kind: "spacer", id: `body-${index}`, mm: 4.5 });
       continue;
@@ -415,7 +421,8 @@ export function buildDossierDocxV2LetterFlowScene(
   const palette = resolveLetterPalette(design);
   const theme = dossierThemeFor(design.template);
   const fallbackFont = dossierDefaultFontKey(design.template);
-  const baseFontKey = design.template === "brief" ? design.font : (design.fontOverride ?? fallbackFont);
+  const baseFontKey =
+    design.template === "brief" ? design.font : (design.fontOverride ?? fallbackFont);
   const font = wordFont(baseFontKey, fallbackFont);
   const geometry = letterPageGeometry(data, design, { chromeOptions });
   if ((data.images ?? []).length > 0) {
@@ -433,16 +440,21 @@ export function buildDossierDocxV2LetterFlowScene(
       code: "letter-recipient-offset-approximation",
       scope: "letter",
       id: "recipient",
-      message: "Der freie Empfänger-Y-Versatz wird in der Flow-Foundation noch nicht als Word-Overlay reproduziert.",
+      message:
+        "Der freie Empfänger-Y-Versatz wird in der Flow-Foundation noch nicht als Word-Overlay reproduziert.",
     });
   }
-  if ((chromeOptions?.headerContentOffsetYMm ?? 0) !== 0 && geometry.effectiveHeaderMode !== "contact") {
+  if (
+    (chromeOptions?.headerContentOffsetYMm ?? 0) !== 0 &&
+    geometry.effectiveHeaderMode !== "contact"
+  ) {
     issues.push({
       severity: "warning",
       code: "letter-sender-offset-approximation",
       scope: "letter",
       id: "sender",
-      message: "Der freie Absender-Y-Versatz wird in der Flow-Foundation noch nicht vollständig reproduziert.",
+      message:
+        "Der freie Absender-Y-Versatz wird in der Flow-Foundation noch nicht vollständig reproduziert.",
     });
   }
   const bodyStyle = baseStyle(font, palette.ink, 10.5, {
@@ -450,7 +462,10 @@ export function buildDossierDocxV2LetterFlowScene(
   });
   const senderStyle = roleStyle(baseStyle(font, palette.ink, 9.5), design.senderTypography);
   const recipientStyle = roleStyle(baseStyle(font, palette.ink, 10), design.recipientTypography);
-  const subjectStyle = roleStyle(baseStyle(font, palette.ink, 12, { bold: true }), design.subjectTypography);
+  const subjectStyle = roleStyle(
+    baseStyle(font, palette.ink, 12, { bold: true }),
+    design.subjectTypography,
+  );
   const mutedStyle = baseStyle(font, palette.muted, 9.5);
   const blocks: DossierDocxV2FlowBlock[] = [];
   const floating: DossierDocxV2FloatingTextBox[] = [];
@@ -468,7 +483,13 @@ export function buildDossierDocxV2LetterFlowScene(
     design.colors.secondary ?? design.colors.accent ?? palette.accent,
   ).ink;
   const sender = lines(
-    [data.absenderName, data.absenderAdresse, data.absenderPlzOrt, data.absenderTelefon, data.absenderEmail],
+    [
+      data.absenderName,
+      data.absenderAdresse,
+      data.absenderPlzOrt,
+      data.absenderTelefon,
+      data.absenderEmail,
+    ],
     senderStyle,
     "sender",
     design.senderAlign ?? "left",
@@ -518,7 +539,13 @@ export function buildDossierDocxV2LetterFlowScene(
       {
         minHeightMm: 24,
         cantSplit: true,
-        cells: [{ widthPct: 100, paddingMm: 0, blocks: recipient.length ? recipient : [paragraph("", recipientStyle)] }],
+        cells: [
+          {
+            widthPct: 100,
+            paddingMm: 0,
+            blocks: recipient.length ? recipient : [paragraph("", recipientStyle)],
+          },
+        ],
       },
     ],
     afterMm: design.ruleAfterRecipient ? 0 : 4,
@@ -587,15 +614,23 @@ export function buildDossierDocxV2LetterFlowScene(
   }
   const signature = data.unterschrift || data.absenderName;
   if (signature) {
-    blocks.push(paragraph(signature, { ...bodyStyle, bold: true }, { id: "signature", afterMm: 0 }));
+    blocks.push(
+      paragraph(signature, { ...bodyStyle, bold: true }, { id: "signature", afterMm: 0 }),
+    );
   }
 
   const attachments = visibleLetterAttachments(data);
   const showAttachmentsInBody =
-    data.showBeilagen !== false && attachments.length > 0 && geometry.requestedFooterMode !== "attachments";
+    data.showBeilagen !== false &&
+    attachments.length > 0 &&
+    geometry.requestedFooterMode !== "attachments";
   if (showAttachmentsInBody) {
     blocks.push(
-      paragraph("Beilagen", { ...bodyStyle, bold: true }, { id: "attachments-heading", beforeMm: 9, afterMm: 1.5, keepNext: true }),
+      paragraph(
+        "Beilagen",
+        { ...bodyStyle, bold: true },
+        { id: "attachments-heading", beforeMm: 9, afterMm: 1.5, keepNext: true },
+      ),
       ...attachments.map((item, index) =>
         paragraph(item, bodyStyle, { id: `attachment-${index + 1}`, afterMm: 0.4 }),
       ),
@@ -647,7 +682,10 @@ function cvHeading(
 ): DossierDocxV2FlowParagraph {
   const design = cv.design;
   const style = cvSectionTitleStyle(cv, font, accent);
-  const defaultGap = typeof design.sectionTitleMarginBottomPx === "number" ? design.sectionTitleMarginBottomPx * 0.264583 : 1.8;
+  const defaultGap =
+    typeof design.sectionTitleMarginBottomPx === "number"
+      ? design.sectionTitleMarginBottomPx * 0.264583
+      : 1.8;
   const rule = design.headingRule === "none" ? null : { color: style.color, widthPt: 0.7 };
   return paragraph(title, style, {
     id: `${id}-heading`,
@@ -691,9 +729,13 @@ function cvEntryTable(
           widthPct: 77,
           paddingMm: 0.7,
           blocks: [
-            ...(entry.titel ? [paragraph(entry.titel, title, { keepNext: true, afterMm: 0.5 })] : []),
+            ...(entry.titel
+              ? [paragraph(entry.titel, title, { keepNext: true, afterMm: 0.5 })]
+              : []),
             ...(entry.ort ? [paragraph(entry.ort, meta, { afterMm: 0.5 })] : []),
-            ...(entry.beschreibung ? [paragraph(entry.beschreibung, body, { afterMm: 2.2, lineHeight: 1.3 })] : []),
+            ...(entry.beschreibung
+              ? [paragraph(entry.beschreibung, body, { afterMm: 2.2, lineHeight: 1.3 })]
+              : []),
           ],
         },
       ],
@@ -763,17 +805,32 @@ function cvSectionBlocks(
     const values = data[key].filter((item) => item.trim());
     if (!values.length) return blocks;
     blocks.push(cvHeading(key, title, cv, font, accent, sectionGapMm));
-    blocks.push(...values.map((item, index) => paragraph(`• ${item}`, body, { id: `${key}-${index + 1}`, afterMm: 0.7, lineHeight: 1.3 })));
+    blocks.push(
+      ...values.map((item, index) =>
+        paragraph(`• ${item}`, body, { id: `${key}-${index + 1}`, afterMm: 0.7, lineHeight: 1.3 }),
+      ),
+    );
     return blocks;
   }
   if (key === "referenzen") {
-    const values = data.referenzen.filter((item) => item.name.trim() || item.kontakt.trim() || item.email?.trim());
+    const values = data.referenzen.filter(
+      (item) => item.name.trim() || item.kontakt.trim() || item.email?.trim(),
+    );
     if (!values.length) return blocks;
     blocks.push(cvHeading(key, title, cv, font, accent, sectionGapMm));
     for (const [index, item] of values.entries()) {
       const first = [item.name, item.funktion].filter(Boolean).join(" · ");
-      if (first) blocks.push(paragraph(first, { ...body, bold: true }, { id: `reference-${index + 1}`, afterMm: 0.4, keepNext: true }));
-      for (const value of [item.kontakt, item.email, item.zusatz].filter((part): part is string => Boolean(part?.trim()))) {
+      if (first)
+        blocks.push(
+          paragraph(
+            first,
+            { ...body, bold: true },
+            { id: `reference-${index + 1}`, afterMm: 0.4, keepNext: true },
+          ),
+        );
+      for (const value of [item.kontakt, item.email, item.zusatz].filter((part): part is string =>
+        Boolean(part?.trim()),
+      )) {
         for (const valueLine of value.split(/\r?\n/g).filter(Boolean)) {
           blocks.push(paragraph(valueLine, body, { afterMm: 0.4, lineHeight: 1.25 }));
         }
@@ -810,7 +867,9 @@ function sectionGroups(
     }
     const nextKey = keys[index + 1];
     const nextLayout = nextKey ? cvSectionLayout(cv.data, nextKey) : null;
-    const nextBlocks = nextKey ? cvSectionBlocks(cv, nextKey, font, ink, muted, accent, sectionGapMm) : [];
+    const nextBlocks = nextKey
+      ? cvSectionBlocks(cv, nextKey, font, ink, muted, accent, sectionGapMm)
+      : [];
     if (nextKey && nextLayout?.width === "half" && nextBlocks.length) {
       output.push({
         kind: "table",
@@ -848,13 +907,16 @@ function cvContactBlocks(cv: CvPdfDocument, font: string, ink: string, muted: st
     [person.plzOrt, body],
     [person.telefon, body],
     [person.email, body],
-    ...cvPersonalInfoLines(person, cv.design).map(
-      (value): [string, DossierDocxV2TextStyle] => [value, meta],
-    ),
+    ...cvPersonalInfoLines(person, cv.design).map((value): [string, DossierDocxV2TextStyle] => [
+      value,
+      meta,
+    ]),
   ];
   return values
     .filter(([value]) => value.trim())
-    .map(([value, style], index) => paragraph(value, style, { id: `contact-${index + 1}`, afterMm: 0.45, lineHeight: 1.28 }));
+    .map(([value, style], index) =>
+      paragraph(value, style, { id: `contact-${index + 1}`, afterMm: 0.45, lineHeight: 1.28 }),
+    );
 }
 
 function identityBlocks(cv: CvPdfDocument, font: string, ink: string, accent: string) {
@@ -868,14 +930,18 @@ function identityBlocks(cv: CvPdfDocument, font: string, ink: string, accent: st
   const titleStyle = cvTextStyle(
     font,
     validHex(design.docTitleColor, accent),
-    (typeof design.docTitleFontSizePx === "number" ? design.docTitleFontSizePx * 0.75 : CV_DOC_TITLE_DEFAULTS.fontSizePx * 0.75) * titleScale,
+    (typeof design.docTitleFontSizePx === "number"
+      ? design.docTitleFontSizePx * 0.75
+      : CV_DOC_TITLE_DEFAULTS.fontSizePx * 0.75) * titleScale,
     {
       bold: design.docTitleBold ?? CV_DOC_TITLE_DEFAULTS.bold,
       italic: design.docTitleItalic ?? CV_DOC_TITLE_DEFAULTS.italic,
       underline: design.docTitleUnderline ?? CV_DOC_TITLE_DEFAULTS.underline,
     },
   );
-  const nameFont = nameStyle?.font ? wordFont(nameStyle.font, dossierDefaultFontKey(design.template)) : font;
+  const nameFont = nameStyle?.font
+    ? wordFont(nameStyle.font, dossierDefaultFontKey(design.template))
+    : font;
   const name = cvTextStyle(
     nameFont,
     validHex(nameStyle?.color, ink),
@@ -897,8 +963,14 @@ function identityBlocks(cv: CvPdfDocument, font: string, ink: string, accent: st
       }),
     );
   }
-  if (fullName) result.push(paragraph(fullName, name, { id: "cv-name", afterMm: 1.2, keepNext: true, lineHeight: 1.05 }));
-  if (person.untertitel) result.push(paragraph(person.untertitel, subtitle, { id: "cv-subtitle", afterMm: 2.5, keepNext: true }));
+  if (fullName)
+    result.push(
+      paragraph(fullName, name, { id: "cv-name", afterMm: 1.2, keepNext: true, lineHeight: 1.05 }),
+    );
+  if (person.untertitel)
+    result.push(
+      paragraph(person.untertitel, subtitle, { id: "cv-subtitle", afterMm: 2.5, keepNext: true }),
+    );
   return result;
 }
 
@@ -912,7 +984,11 @@ export function buildDossierDocxV2CvFlowScene(
   options: DossierDocxV2CvFlowOptions,
 ): DossierDocxV2CvFlowScene {
   const issues: DossierDocxV2FlowIssue[] = [];
-  if (options.layout !== "classic" && options.layout !== "modern" && options.layout !== "executive") {
+  if (
+    options.layout !== "classic" &&
+    options.layout !== "modern" &&
+    options.layout !== "executive"
+  ) {
     issues.push({
       severity: "blocker",
       code: "cv-layout-variant-unsupported",
@@ -922,13 +998,18 @@ export function buildDossierDocxV2CvFlowScene(
     });
   }
   const personLayout = cvSectionLayout(cv.data, "person");
-  if (personLayout.page !== 1 || personLayout.width !== "full" || personLayout.positioning !== "flow") {
+  if (
+    personLayout.page !== 1 ||
+    personLayout.width !== "full" ||
+    personLayout.positioning !== "flow"
+  ) {
     issues.push({
       severity: "blocker",
       code: "cv-person-layout-unsupported",
       scope: "cv",
       id: "person",
-      message: "Eine explizit verschobene/umgebaute Personenrubrik darf im V2-Export nicht still auf Standard zurückfallen.",
+      message:
+        "Eine explizit verschobene/umgebaute Personenrubrik darf im V2-Export nicht still auf Standard zurückfallen.",
     });
   }
   if (cv.design.useElements && cv.elements.length > 0) {
@@ -936,7 +1017,8 @@ export function buildDossierDocxV2CvFlowScene(
       severity: "blocker",
       code: "cv-imported-cover-elements-unsupported",
       scope: "cv",
-      message: "Mitgenommene Titelblatt-Elemente brauchen vor V2-Freigabe einen eigenen CV-Dekorationslayer.",
+      message:
+        "Mitgenommene Titelblatt-Elemente brauchen vor V2-Freigabe einen eigenen CV-Dekorationslayer.",
     });
   }
   const explicitIndent =
@@ -966,7 +1048,9 @@ export function buildDossierDocxV2CvFlowScene(
   const accent = validHex(cv.design.sectionTitleColor, palette.accent);
   const identity = identityBlocks(cv, font, palette.ink, accent);
   const contact = cvContactBlocks(cv, font, palette.ink, palette.muted);
-  const ordered = cvSectionOrder(cv.data).filter((key) => key !== "person" && visibleSection(cv, key));
+  const ordered = cvSectionOrder(cv.data).filter(
+    (key) => key !== "person" && visibleSection(cv, key),
+  );
 
   for (const key of ordered) {
     const layout = cvSectionLayout(cv.data, key);
@@ -990,7 +1074,8 @@ export function buildDossierDocxV2CvFlowScene(
     });
   }
 
-  const pageKeys = (page: 1 | 2) => ordered.filter((key) => cvSectionLayout(cv.data, key).page === page);
+  const pageKeys = (page: 1 | 2) =>
+    ordered.filter((key) => cvSectionLayout(cv.data, key).page === page);
   const blocks: DossierDocxV2FlowBlock[] = [...identity];
 
   const renderClassicPage = (keys: CvLayoutSectionKey[], includeContact: boolean) => {
@@ -998,7 +1083,9 @@ export function buildDossierDocxV2CvFlowScene(
     if (includeContact && contact.length) {
       result.push(...contact, { kind: "spacer", mm: 2.2 });
     }
-    result.push(...sectionGroups(cv, keys, font, palette.ink, palette.muted, accent, options.sectionGapMm));
+    result.push(
+      ...sectionGroups(cv, keys, font, palette.ink, palette.muted, accent, options.sectionGapMm),
+    );
     return result;
   };
 
@@ -1008,14 +1095,45 @@ export function buildDossierDocxV2CvFlowScene(
     const sideBlocks: DossierDocxV2FlowBlock[] = [];
     const mainBlocks: DossierDocxV2FlowBlock[] = [];
     if (includeContact && contact.length) {
-      (options.placements.kontakt === "main" ? mainBlocks : sideBlocks).push(...contact, { kind: "spacer", mm: 2.2 });
+      (options.placements.kontakt === "main" ? mainBlocks : sideBlocks).push(...contact, {
+        kind: "spacer",
+        mm: 2.2,
+      });
     }
-    sideBlocks.push(...sectionGroups(cv, sideKeys, font, palette.ink, palette.muted, accent, options.sectionGapMm));
-    mainBlocks.push(...sectionGroups(cv, mainKeys, font, palette.ink, palette.muted, accent, options.sectionGapMm));
+    sideBlocks.push(
+      ...sectionGroups(
+        cv,
+        sideKeys,
+        font,
+        palette.ink,
+        palette.muted,
+        accent,
+        options.sectionGapMm,
+      ),
+    );
+    mainBlocks.push(
+      ...sectionGroups(
+        cv,
+        mainKeys,
+        font,
+        palette.ink,
+        palette.muted,
+        accent,
+        options.sectionGapMm,
+      ),
+    );
     const sidebarPct =
       Math.max(SIDEBAR_PCT_MIN, Math.min(SIDEBAR_PCT_MAX, cv.design.sidebarPct ?? 0.3)) * 100;
-    const sideCell: DossierDocxV2FlowCell = { widthPct: sidebarPct, paddingMm: 1.8, blocks: sideBlocks };
-    const mainCell: DossierDocxV2FlowCell = { widthPct: 100 - sidebarPct, paddingMm: 2.2, blocks: mainBlocks };
+    const sideCell: DossierDocxV2FlowCell = {
+      widthPct: sidebarPct,
+      paddingMm: 1.8,
+      blocks: sideBlocks,
+    };
+    const mainCell: DossierDocxV2FlowCell = {
+      widthPct: 100 - sidebarPct,
+      paddingMm: 2.2,
+      blocks: mainBlocks,
+    };
     const cells = options.infoPosition === "mirrored" ? [mainCell, sideCell] : [sideCell, mainCell];
     return [
       {
@@ -1028,11 +1146,15 @@ export function buildDossierDocxV2CvFlowScene(
   };
 
   const modern = options.layout === "modern" || options.layout === "executive";
-  blocks.push(...(modern ? renderModernPage(pageKeys(1), true) : renderClassicPage(pageKeys(1), true)));
+  blocks.push(
+    ...(modern ? renderModernPage(pageKeys(1), true) : renderClassicPage(pageKeys(1), true)),
+  );
   const secondPage = pageKeys(2);
   if (secondPage.length) {
     blocks.push({ kind: "page-break", id: "cv-page-2" });
-    blocks.push(...(modern ? renderModernPage(secondPage, false) : renderClassicPage(secondPage, false)));
+    blocks.push(
+      ...(modern ? renderModernPage(secondPage, false) : renderClassicPage(secondPage, false)),
+    );
   }
 
   let photo: DossierDocxV2CvPhoto | null = null;
@@ -1070,7 +1192,8 @@ export function buildDossierDocxV2CvFlowScene(
         code: "cv-photo-auto-placement-approximate",
         scope: "cv",
         id: "cv-photo",
-        message: "CV-Foto nutzt in der Flow-Foundation noch eine sichere Seitenposition; Browser-Messung folgt im Visual-Pass.",
+        message:
+          "CV-Foto nutzt in der Flow-Foundation noch eine sichere Seitenposition; Browser-Messung folgt im Visual-Pass.",
       });
     }
   }

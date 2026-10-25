@@ -19,13 +19,7 @@ export const SAMPLE_LOCATION = "Hubersdorf";
 export const SAMPLE_POSTAL_LOCATION = "4535 Hubersdorf";
 export const SAMPLE_DATE = "15.11.2026";
 
-export const RETIRED_TEMPLATE_IDS = new Set([
-  "edelBlockig",
-  "sonnig",
-  "warm4",
-  "warm5",
-  "frame",
-]);
+export const RETIRED_TEMPLATE_IDS = new Set(["edelBlockig", "sonnig", "warm4", "warm5", "frame"]);
 
 export const PRODUCT_TEMPLATES = [
   ...TEMPLATES.filter((template) => !RETIRED_TEMPLATE_IDS.has(template.id as string)).map(
@@ -99,7 +93,8 @@ export async function waitEditorReady(page: Page) {
 
 async function loadDemoThroughUi(page: Page, route: string) {
   await page.goto(`${BASE_URL}${route}`, { waitUntil: "domcontentloaded" });
-  const toggle = await waitEditorReady(page);
+  await waitEditorReady(page);
+  const toggle = page.getByRole("button", { name: "Menü", exact: true });
   await toggle.click();
   const demo = page.getByRole("button", { name: "Beispieldaten übernehmen", exact: true });
   await expect(demo).toBeVisible();

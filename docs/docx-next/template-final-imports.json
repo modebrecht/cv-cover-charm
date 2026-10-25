@@ -1,0 +1,22 @@
+{
+  "edelDark": {
+    "publishedEvidenceCommit": "f5353140e03adc4eedde06750075d0042bd96882",
+    "file": "edel-dark-stress-evidence.json"
+  },
+  "studio": {
+    "publishedEvidenceCommit": "f1bef45513f07234d01cb47241b21b4302945e06",
+    "file": "studio-template-stress-evidence.json"
+  },
+  "studio2": {
+    "publishedEvidenceCommit": "f1bef45513f07234d01cb47241b21b4302945e06",
+    "file": "studio2-template-stress-evidence.json"
+  },
+  "edge": {
+    "publishedEvidenceCommit": "1bd3014de2f641bf1935bf3c9a72e606a05fd16e",
+    "file": "edge-stress-evidence.json"
+  },
+  "gallery": {
+    "publishedEvidenceCommit": "1bd3014de2f641bf1935bf3c9a72e606a05fd16e",
+    "file": "gallery-stress-evidence.json"
+  }
+}

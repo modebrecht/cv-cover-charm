@@ -8,7 +8,8 @@ import {
   dossierContactFromCv,
   dossierContactFromLetter,
   resolveDossierContact,
-} from "@/lib/dossier-contact";
+} from "@/lib/dossier-contact-data";
+import { resolveDossierChromePalette } from "./dossier-chrome-palette";
 import { resolveTemplateChromeOptions } from "@/lib/template-chrome";
 import {
   resolveDossierChromeDocumentContent,
@@ -34,9 +35,7 @@ export function resolveDossierChromeSnapshot(
   const resolve = (scope: "letter" | "cv") => {
     const document = documents[scope];
     const defaultTitle =
-      scope === "cv"
-        ? documents.cv?.data.titel?.trim() || "Lebenslauf"
-        : "Motivationsschreiben";
+      scope === "cv" ? documents.cv?.data.titel?.trim() || "Lebenslauf" : "Motivationsschreiben";
     const content = resolveDossierChromeDocumentContent(
       document?.design.chromeContent,
       defaultTitle,
@@ -45,7 +44,11 @@ export function resolveDossierChromeSnapshot(
       resolveTemplateChromeOptions(
         document?.design.template ?? "brief",
         document?.design.colors ?? {},
-        { ...(state.sync ? state.shared : state[scope]) },
+        resolveDossierChromePalette(
+          { letter: documents.letter?.design, cv: documents.cv?.design },
+          state,
+          scope,
+        ),
       ),
       content,
     );

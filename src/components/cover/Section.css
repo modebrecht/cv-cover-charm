@@ -195,13 +195,11 @@
  * document order (used for CV/PDF layout) must never leak into the editor
  * navigation, otherwise the form jumps around after reordering the CV.
  */
-[data-cv-content-editor]
-  > [data-editor-rubric-tone]:nth-child(odd of [data-editor-rubric-tone]) {
+[data-cv-content-editor] > [data-editor-rubric-tone]:nth-child(odd of [data-editor-rubric-tone]) {
   --editor-section-accent: rgb(14 165 233 / 0.62);
 }
 
-[data-cv-content-editor]
-  > [data-editor-rubric-tone]:nth-child(even of [data-editor-rubric-tone]) {
+[data-cv-content-editor] > [data-editor-rubric-tone]:nth-child(even of [data-editor-rubric-tone]) {
   --editor-section-accent: rgb(124 58 237 / 0.58);
 }
 

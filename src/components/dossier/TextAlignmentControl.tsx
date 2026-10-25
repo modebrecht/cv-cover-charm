@@ -1,11 +1,5 @@
 import type { ComponentType } from "react";
-import {
-  AlignCenter,
-  AlignJustify,
-  AlignLeft,
-  AlignRight,
-  type LucideProps,
-} from "lucide-react";
+import { AlignCenter, AlignJustify, AlignLeft, AlignRight, type LucideProps } from "lucide-react";
 import { TEXT_ALIGNMENTS, type TextAlignment } from "@/lib/text-alignment";
 
 const LABELS: Record<TextAlignment, string> = {

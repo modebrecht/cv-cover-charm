@@ -13,17 +13,13 @@ describe("PDF visible-text ownership", () => {
   });
 
   test("keeps motivation-letter browser glyphs in the raster", () => {
-    expect(dossierPdf).not.toContain(
-      'text.style.setProperty("visibility", "hidden", "important")',
-    );
+    expect(dossierPdf).not.toContain('text.style.setProperty("visibility", "hidden", "important")');
     expect(dossierPdf).toContain('renderingMode: "invisible"');
   });
 
   test("does not install a global jsPDF hook that turns invisible text visible", () => {
     expect(cvPdfText).not.toContain("shouldExposeNativeText");
-    expect(cvPdfText).not.toContain(
-      '(this as unknown as { text: UnknownFn }).text =',
-    );
+    expect(cvPdfText).not.toContain("(this as unknown as { text: UnknownFn }).text =");
   });
 
   test("keeps title-page rendering outside this regression fix", () => {

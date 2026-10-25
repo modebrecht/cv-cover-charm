@@ -264,7 +264,9 @@ describe("combined dossier project", () => {
       });
       expect(storeDossierProject(fullProject)).toEqual({ cover: true, letter: true, cv: true });
       expect(JSON.parse(storage.get(COVER_STORAGE_KEY) ?? "null")?.data?.vorname).toBe("Lea");
-      expect(JSON.parse(storage.get(LETTER_STORAGE_KEY) ?? "null")?.data?.betreff).toBe("Neuer Brief");
+      expect(JSON.parse(storage.get(LETTER_STORAGE_KEY) ?? "null")?.data?.betreff).toBe(
+        "Neuer Brief",
+      );
       expect(JSON.parse(storage.get(CV_STORAGE_KEY) ?? "null")?.data?.titel).toBe("Lebenslauf");
 
       storage.set(
@@ -293,13 +295,13 @@ describe("combined dossier project", () => {
 
   test("rejects unrelated JSON but accepts empty project snapshots", () => {
     expect(parseDossierProject({ data: {} })).toBeNull();
-    expect(
-      parseDossierProject({ kind: DOSSIER_PROJECT_KIND, version: 1, savedAt: "now" }),
-    ).toEqual({
-      kind: DOSSIER_PROJECT_KIND,
-      version: 1,
-      savedAt: "now",
-    });
+    expect(parseDossierProject({ kind: DOSSIER_PROJECT_KIND, version: 1, savedAt: "now" })).toEqual(
+      {
+        kind: DOSSIER_PROJECT_KIND,
+        version: 1,
+        savedAt: "now",
+      },
+    );
     expect(
       parseDossierProject({
         kind: DOSSIER_PROJECT_KIND,

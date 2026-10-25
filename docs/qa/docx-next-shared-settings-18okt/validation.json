@@ -1,0 +1,165 @@
+{
+  "classification": "PARTIAL: shared reading/settings engineering PASS; full design and Word acceptance pending",
+  "browserCases": 10,
+  "authoredEntryAndLetterTextRetained": true,
+  "firstPageWebComparison": [
+    {
+      "template": "brief",
+      "scope": "cv",
+      "pixelIdentical": true
+    },
+    {
+      "template": "brief",
+      "scope": "letter",
+      "pixelIdentical": true
+    },
+    {
+      "template": "modern",
+      "scope": "cv",
+      "pixelIdentical": true
+    },
+    {
+      "template": "modern",
+      "scope": "letter",
+      "pixelIdentical": true
+    },
+    {
+      "template": "freundlich",
+      "scope": "cv",
+      "pixelIdentical": true
+    },
+    {
+      "template": "freundlich",
+      "scope": "letter",
+      "pixelIdentical": true
+    },
+    {
+      "template": "verlauf",
+      "scope": "cv",
+      "pixelIdentical": true
+    },
+    {
+      "template": "verlauf",
+      "scope": "letter",
+      "pixelIdentical": true
+    },
+    {
+      "template": "neon",
+      "scope": "cv",
+      "pixelIdentical": true
+    },
+    {
+      "template": "neon",
+      "scope": "letter",
+      "pixelIdentical": true
+    }
+  ],
+  "sourcePolicy": {
+    "topMm": 20,
+    "cvRubricPx": 14,
+    "letterBodyPt": 10.5,
+    "visibleContinuationHeaderClearanceMm": 4,
+    "frozenSidebarExcluded": true
+  },
+  "nativeA4Pages": 4,
+  "logicalPages": {
+    "cover": 1,
+    "letter": 1,
+    "cv": 2
+  },
+  "rubricContainment": [
+    {
+      "label": "FAMILIE",
+      "page": 3,
+      "contained": true
+    },
+    {
+      "label": "SCHULBILDUNG",
+      "page": 3,
+      "contained": true
+    },
+    {
+      "label": "PRAKTIKA & SCHNUPPERTAGE",
+      "page": 3,
+      "contained": true
+    },
+    {
+      "label": "SPRACHEN",
+      "page": 3,
+      "contained": true
+    },
+    {
+      "label": "HOBBYS & INTERESSEN",
+      "page": 4,
+      "contained": true
+    },
+    {
+      "label": "STÄRKEN",
+      "page": 4,
+      "contained": true
+    },
+    {
+      "label": "REFERENZEN",
+      "page": 4,
+      "contained": true
+    }
+  ],
+  "originalPackageControlsPreserved": 86,
+  "newEmptyLeadControl": "letter.measured.firstPageLead",
+  "originalMediaByteIdentical": 13,
+  "changedPartsFrom06": [
+    "word/document.xml"
+  ],
+  "completeCoverXmlUnchanged": true,
+  "snapshotToModelTops": {
+    "letter": {
+      "firstTopMarginMm": 34,
+      "continuationTopMarginMm": 20,
+      "firstPageLeadMm": 14
+    },
+    "cv": {
+      "firstTopMarginMm": 34,
+      "continuationTopMarginMm": 20,
+      "firstPageLeadMm": 14
+    }
+  },
+  "knownCompactSyncSourceColours": {
+    "letter": "111827",
+    "cv": "111111"
+  },
+  "sameSourcePrimaryPdf": {
+    "pages": 3,
+    "producer": "jsPDF 4.2.1",
+    "sourceEqualsNativeCandidate": true,
+    "coloursLetterThenCv": [
+      {
+        "headerRgb": [
+          17,
+          24,
+          40
+        ],
+        "footerRgb": [
+          36,
+          42,
+          56
+        ]
+      },
+      {
+        "headerRgb": [
+          17,
+          17,
+          17
+        ],
+        "footerRgb": [
+          36,
+          36,
+          36
+        ]
+      }
+    ]
+  },
+  "wordVisualEditingSaveReopen": "UNVERIFIED",
+  "full39Acceptance": false,
+  "productionEngineDefaultSwitched": false,
+  "candidateSha256": "d2f2e50fc9881abb5994d5517a154e84f4e8e30a38968efc26b41c5abaedd975"
+}

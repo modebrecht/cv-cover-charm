@@ -1,0 +1,299 @@
+{
+  "sourceRebuiltByteExactly": true,
+  "sourceSha256": "5e469d60181f8405fffcb43a57f92377fc6b0daa414d71ac22cd33ed3a6a25e0",
+  "candidateSha256": "4818ed92d27358cc719309a5431a1d45278b0631cb851089d3a6aa71bd0c0c73",
+  "coverModelUnchanged": true,
+  "cvModelUnchanged": true,
+  "scope": "Current frozen synthetic long case; full model and native renderer; reused frozen nonsemantic paint",
+  "normalExportGuard": "CLOSED",
+  "wordAcceptance": "UNVERIFIED",
+  "baseCommit": "b0cfa992bcd50c89ab7b99a8d4c80c8ad4152886",
+  "changedPackageParts": [
+    "word/document.xml"
+  ],
+  "unitChecks": {
+    "runner": "Node 24.22.1 native TS; bun:test test function mapped to node:test; node:assert/strict assertions",
+    "passed": 11,
+    "failed": 0,
+    "fullBunSuite": "NOT_RUN",
+    "fullTypecheckAndFormatter": "NOT_RUN_NOT_AVAILABLE"
+  },
+  "fieldComparison": {
+    "sourceOccurrences": 145,
+    "matchedOccurrences": 145,
+    "unchangedTokens": 145,
+    "pictureTypedOwner": true,
+    "pictureOriginalPixelsOwned": true,
+    "pictureNumericCropUnchanged": true
+  },
+  "render": {
+    "engine": "Bundled LibreOffice through documents render_docx.py",
+    "candidatePages": 4,
+    "size": [
+      1414,
+      2000
+    ],
+    "adjacentPages": [
+      {
+        "page": 1,
+        "pixelIdentical": true
+      },
+      {
+        "page": 3,
+        "pixelIdentical": true
+      },
+      {
+        "page": 4,
+        "pixelIdentical": true
+      }
+    ],
+    "primaryCandidateVisuallyReviewed": true,
+    "additionalCases": [
+      {
+        "case": "short",
+        "dossierPages": 4,
+        "letterPages": 1,
+        "missingLetterParagraphs": [],
+        "cvPagesPixelIdentical": [
+          true,
+          true
+        ]
+      },
+      {
+        "case": "long",
+        "dossierPages": 6,
+        "letterPages": 3,
+        "missingLetterParagraphs": [],
+        "cvPagesPixelIdentical": [
+          true,
+          true
+        ],
+        "lastLetterPageContainsLastBodyAndClosing": true
+      },
+      {
+        "case": "attachments",
+        "dossierPages": 4,
+        "letterPages": 1,
+        "missingLetterParagraphs": [],
+        "cvPagesPixelIdentical": [
+          true,
+          true
+        ]
+      },
+      {
+        "case": "recipient",
+        "dossierPages": 4,
+        "letterPages": 1,
+        "missingLetterParagraphs": [],
+        "cvPagesPixelIdentical": [
+          true,
+          true
+        ]
+      }
+    ]
+  },
+  "letterAnchors": {
+    "method": "First matching PDF text-line top for canonical fields; includes font-box differences; not baseline or pixel equality",
+    "fields": [
+      {
+        "fieldId": "letter.recipient.company",
+        "topPt": {
+          "app": 149.1078,
+          "wordReturn": 147.6632,
+          "beforeWriter": 147.7483,
+          "candidateWriter": 150.7508
+        },
+        "beforeAbsErrorPt": 1.3595,
+        "candidateAbsErrorPt": 1.643
+      },
+      {
+        "fieldId": "letter.recipient.name",
+        "topPt": {
+          "app": 163.586,
+          "wordReturn": 163.6232,
+          "beforeWriter": 163.6483,
+          "candidateWriter": 165.2508
+        },
+        "beforeAbsErrorPt": 0.0623,
+        "candidateAbsErrorPt": 1.6648
+      },
+      {
+        "fieldId": "letter.recipient.address",
+        "topPt": {
+          "app": 178.0642,
+          "wordReturn": 179.4632,
+          "beforeWriter": 179.5483,
+          "candidateWriter": 179.7508
+        },
+        "beforeAbsErrorPt": 1.4841,
+        "candidateAbsErrorPt": 1.6866
+      },
+      {
+        "fieldId": "letter.recipient.place",
+        "topPt": {
+          "app": 192.5423,
+          "wordReturn": 195.4232,
+          "beforeWriter": 195.4482,
+          "candidateWriter": 194.2508
+        },
+        "beforeAbsErrorPt": 2.9059,
+        "candidateAbsErrorPt": 1.7085
+      },
+      {
+        "fieldId": "letter.date",
+        "topPt": {
+          "app": 228.5607,
+          "wordReturn": 223.9832,
+          "beforeWriter": 224.0983,
+          "candidateWriter": 229.9533
+        },
+        "beforeAbsErrorPt": 4.4624,
+        "candidateAbsErrorPt": 1.3926
+      },
+      {
+        "fieldId": "letter.subject",
+        "topPt": {
+          "app": 260.8285,
+          "wordReturn": 252.6932,
+          "beforeWriter": 252.7483,
+          "candidateWriter": 261.9908
+        },
+        "beforeAbsErrorPt": 8.0802,
+        "candidateAbsErrorPt": 1.1623
+      },
+      {
+        "fieldId": "letter.salutation",
+        "topPt": {
+          "app": 299.5604,
+          "wordReturn": 281.3732,
+          "beforeWriter": 281.3983,
+          "candidateWriter": 301.8983
+        },
+        "beforeAbsErrorPt": 18.1621,
+        "candidateAbsErrorPt": 2.3379
+      },
+      {
+        "fieldId": "letter.body.paragraph:0",
+        "topPt": {
+          "app": 329.2547,
+          "wordReturn": 304.2932,
+          "beforeWriter": 304.3983,
+          "candidateWriter": 332.3483
+        },
+        "beforeAbsErrorPt": 24.8564,
+        "candidateAbsErrorPt": 3.0936
+      },
+      {
+        "fieldId": "letter.body.paragraph:2",
+        "topPt": {
+          "app": 394.2894,
+          "wordReturn": 379.2932,
+          "beforeWriter": 379.3983,
+          "candidateWriter": 397.5483
+        },
+        "beforeAbsErrorPt": 14.8911,
+        "candidateAbsErrorPt": 3.2589
+      },
+      {
+        "fieldId": "letter.body.paragraph:4",
+        "topPt": {
+          "app": 443.0654,
+          "wordReturn": 439.7932,
+          "beforeWriter": 439.8983,
+          "candidateWriter": 446.4483
+        },
+        "beforeAbsErrorPt": 3.1671,
+        "candidateAbsErrorPt": 3.3829
+      },
+      {
+        "fieldId": "letter.closing",
+        "topPt": {
+          "app": 486.9099,
+          "wordReturn": 480.1132,
+          "beforeWriter": 480.2483,
+          "candidateWriter": 489.6483
+        },
+        "beforeAbsErrorPt": 6.6616,
+        "candidateAbsErrorPt": 2.7384
+      },
+      {
+        "fieldId": "letter.signature",
+        "topPt": {
+          "app": 505.2654,
+          "wordReturn": 498.8332,
+          "beforeWriter": 498.9983,
+          "candidateWriter": 508.0483
+        },
+        "beforeAbsErrorPt": 6.2671,
+        "candidateAbsErrorPt": 2.7829
+      },
+      {
+        "fieldId": "letter.attachments-heading",
+        "topPt": {
+          "app": 546.4761,
+          "wordReturn": 525.9532,
+          "beforeWriter": 527.6057,
+          "candidateWriter": 548.6508
+        },
+        "beforeAbsErrorPt": 18.8704,
+        "candidateAbsErrorPt": 2.1747
+      },
+      {
+        "fieldId": "letter.attachment:0",
+        "topPt": {
+          "app": 565.1446,
+          "wordReturn": 540.4731,
+          "beforeWriter": 542.0057,
+          "candidateWriter": 567.4008
+        },
+        "beforeAbsErrorPt": 23.1389,
+        "candidateAbsErrorPt": 2.2562
+      },
+      {
+        "fieldId": "letter.attachment:1",
+        "topPt": {
+          "app": 579.6227,
+          "wordReturn": 557.1531,
+          "beforeWriter": 558.6558,
+          "candidateWriter": 581.9008
+        },
+        "beforeAbsErrorPt": 20.9669,
+        "candidateAbsErrorPt": 2.2781
+      }
+    ],
+    "meanAbsErrorPt": {
+      "before": 10.355733333333333,
+      "candidate": 2.237426666666667
+    },
+    "maxAbsErrorPt": {
+      "before": 24.8564,
+      "candidate": 3.3829
+    }
+  },
+  "referenceWrap": {
+    "sourceCssSizePt": 10.476,
+    "serializedSizePt": 10.5,
+    "nativeReferenceColumnPt": 161,
+    "helveticaAdvanceEstimatePt": {
+      "cssSize": 160.69136323571206,
+      "nativeSize": 161.0594992339611
+    },
+    "estimateLimit": "Estimate is not a measured Word shaping threshold; quantisation is not established as the sole cause",
+    "decimalPointSizeProbe": "Renderer still reports 10.5 pt; two lines remain",
+    "widthPlusTwoTwipsProbe": "Two lines remain; no compensating offset accepted",
+    "status": "OPEN_NO_PRODUCT_CHANGE"
+  },
+  "inputHashes": {
+    "app": "031159442ef39dc2f7191d409b1e507cc45fccf6b591f39d474976d70fe5345b",
+    "wordReturn": "bdc4362da43740a93ee1fd377d0db060e18ba57e62ea4291007407b6815abc6e",
+    "beforeWriter": "646e2c44aa0ec749e29c7a1455a78e3c0f8e46127df19b61a25eeeb8c0bd37a7",
+    "candidateWriter": "b27061c0ec701c44c922a6a2e0f2503ab619891f4e171486a9b13bb27db2d4a6"
+  },
+  "limits": [
+    "No Word UI or save/reopen performed",
+    "No fresh browser/PDF export; frozen paint and published style replay; byte-exact source gate",
+    "Only simple Modern/Sans plain letters with default spacing and required roles",
+    "Photo ownership prototype remains separate",
+    "No general Sidebar or production release"
+  ]
+}

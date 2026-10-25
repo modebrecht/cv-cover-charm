@@ -1,0 +1,115 @@
+{
+  "date": "2026-10-24",
+  "sourceProductCheckpoint": "9e7579c08527310d8b21bba2807924fb0c8de463",
+  "integrationHeadBeforeReport": "ab183104ff9e1b3ac515d80640d98286482464aa",
+  "inputs": {
+    "sourceDocxSha256": "5e469d60181f8405fffcb43a57f92377fc6b0daa414d71ac22cd33ed3a6a25e0",
+    "returnedDocxSha256": "9a076520ada6e528def700594b8a010dcb5713b6b69687d53999312931491a33",
+    "appPdfSha256": "031159442ef39dc2f7191d409b1e507cc45fccf6b591f39d474976d70fe5345b",
+    "wordPdfSha256": "bdc4362da43740a93ee1fd377d0db060e18ba57e62ea4291007407b6815abc6e",
+    "returnedAppPdfMatchesOriginalPacket": true
+  },
+  "case": {
+    "sidebar": "left",
+    "photoMode": "automatic",
+    "photoShape": "roundRect",
+    "dossierPages": {
+      "app": 4,
+      "word": 4
+    },
+    "cvDossierPages": [
+      3,
+      4
+    ],
+    "userVisualAcceptanceReported": true,
+    "allEightPdfPageImagesVisuallyReviewed": true
+  },
+  "semanticControls": {
+    "distinctCanonicalTags": 134,
+    "sourceOccurrences": 145,
+    "matchedSavedOccurrences": 145,
+    "unchangedFieldTokens": 144,
+    "unchangedControlNesting": 145,
+    "unchangedCanonicalStoryRoles": 145,
+    "changedTokenFields": [
+      "cover.profession"
+    ],
+    "duplicateOrInvalidNumericSdtIds": false,
+    "persistedParagraphIdentity": "NOT_ASSESSABLE_SOURCE_IDS_ABSENT"
+  },
+  "photo": {
+    "originalImageBytesUnchanged": true,
+    "originalImagePixelsUnchanged": true,
+    "widthPx": 1920,
+    "heightPx": 2880,
+    "embeddedImageSha256": "f8ba8f4b000d9aa4f18a5f476a630615232905810aec92c69d4e128cbfdec69c",
+    "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6",
+    "canonicalOwner": "cv.person.photo",
+    "typedPictureControlRetained": true,
+    "drawing": "wp:inline",
+    "container": "nested CV table cell",
+    "sourceCrop": {
+      "l": 0,
+      "t": 8333,
+      "r": 0,
+      "b": 8333
+    },
+    "savedCrop": {
+      "t": 8333,
+      "b": 8333
+    },
+    "numericCropUnchanged": true,
+    "lexicalCropMarkupUnchanged": false,
+    "extentEmu": {
+      "cx": 1008000,
+      "cy": 1260000
+    },
+    "extentMm": [
+      28,
+      35
+    ],
+    "extentAndRoundRectGeometryUnchanged": true,
+    "documentProtectionPresent": false,
+    "ownerLockPresent": false,
+    "noMoveLockPresent": false,
+    "freeDraggingAndWrapUi": "UNAVAILABLE_USER_REPORTED",
+    "cropResetUi": "NOT_EXECUTED_BY_AGENT"
+  },
+  "pdfComparison": {
+    "cover": "close visual match; returned DOCX profession wording differs from both PDFs",
+    "letter": "same text tokens; visible line-break and vertical-spacing differences",
+    "cvPage3": "same content visually; slight baseline/spacing differences; full-height rail and long heading rule retained",
+    "cvPage4": "same sections/content; reference role wraps to two lines in Word",
+    "cvTextExtraction": {
+      "missingNonWhitespaceCharactersPerPage": [
+        {},
+        {}
+      ],
+      "additionalWordCharactersPerPage": [
+        {
+          "·": 2
+        },
+        {
+          "·": 2
+        }
+      ],
+      "interpretation": "Word exposes two header separator dots per page omitted by the App text layer; inventory does not prove reading order."
+    }
+  },
+  "verdict": {
+    "singleReturnedWordCaseOriginalImageAndNumericCrop": "PASS",
+    "matchedCanonicalOwnership": "PASS_FOR_THIS_RETURN",
+    "visualCase": "ACCEPTED_BY_USER_WITH_RECORDED_DIFFERENCES",
+    "freePhotoPositionEditing": "OPEN_PRODUCT_LIMITATION",
+    "twoUneditedWordSaveSnapshots": "NOT_SUPPLIED",
+    "globalSidebarAcceptance": "NO_GO_UNCHANGED"
+  },
+  "limits": [
+    "One returned DOCX is not two independently retained Save1/Save2 snapshots.",
+    "The DOCX profession title differs from the source and the returned PDF; reason and exact save/export order are not inferred.",
+    "Original pixels and numeric crops surviving establish editing reserve, not successful interactive crop reset.",
+    "No native object lifetime or paragraph identity is inferred from persisted semantic matching.",
+    "This left automatic-photo case does not accept mirrored/right or free WPS photo variants.",
+    "No raw returned DOCX, PDF, author metadata or image is committed."
+  ]
+}

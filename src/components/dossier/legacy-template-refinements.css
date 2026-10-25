@@ -10,12 +10,14 @@
  * geometric card that belongs to the red/blue/yellow cover family. Keep the
  * vertical treatment deliberately tight so the normal demo CV remains a true
  * one-page document when Compact is the template default. */
-html[data-dossier-template="colorful"] [data-dossier-document="cv"] [data-cv-header] {
+div[data-cv-template="colorful"][data-dossier-document="cv"] [data-cv-header] {
   position: relative;
   margin-bottom: 2mm !important;
   padding: 2mm 6mm 2mm 7mm;
   border-left: 2.2mm solid var(--cover-secondary);
-  background: linear-gradient(
+  isolation: isolate;
+  --cv-header-background-content: "";
+  --cv-header-background: linear-gradient(
     100deg,
     color-mix(in srgb, var(--cover-primary) 10%, white),
     color-mix(in srgb, var(--cover-tertiary) 7%, white) 72%,
@@ -23,19 +25,19 @@ html[data-dossier-template="colorful"] [data-dossier-document="cv"] [data-cv-hea
   );
 }
 
-html[data-dossier-template="colorful"] [data-dossier-document="cv"] [data-cv-doc-title],
-html[data-dossier-template="colorful"] [data-dossier-document="cv"] [data-cv-name],
-html[data-dossier-template="colorful"] [data-dossier-document="cv"] [data-cv-subtitle] {
+div[data-cv-template="colorful"][data-dossier-document="cv"] [data-cv-doc-title],
+div[data-cv-template="colorful"][data-dossier-document="cv"] [data-cv-name],
+div[data-cv-template="colorful"][data-dossier-document="cv"] [data-cv-subtitle] {
   font-family: "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif !important;
 }
 
-html[data-dossier-template="colorful"] [data-dossier-document="cv"] [data-cv-doc-title] {
+div[data-cv-template="colorful"][data-dossier-document="cv"] [data-cv-doc-title] {
   color: var(--cover-primary) !important;
   font-weight: 800 !important;
   letter-spacing: 0.14em !important;
 }
 
-html[data-dossier-template="colorful"] [data-dossier-document="cv"] [data-cv-name] {
+div[data-cv-template="colorful"][data-dossier-document="cv"] [data-cv-name] {
   color: var(--cover-ink) !important;
   font-weight: 820 !important;
   letter-spacing: -0.03em !important;
@@ -44,7 +46,7 @@ html[data-dossier-template="colorful"] [data-dossier-document="cv"] [data-cv-nam
 /* Colorful's saturated contact masthead intentionally keeps light typography.
  * Automatic contrast can choose near-black on the bright red surface, which is
  * mathematically valid but visually breaks the template's cover identity. */
-html[data-dossier-template="colorful"]
+div[data-cv-template="colorful"]
   [data-dossier-chrome="cv"]
   :is([data-dossier-integrated-contact], [data-dossier-continuation-contact-header]) {
   color: #fff !important;
@@ -53,27 +55,27 @@ html[data-dossier-template="colorful"]
 /* 11 Kolumne — Sidebar owns the content structure. Keep the heading hierarchy
  * crisp and sans, but do not add an extra horizontal rule: the strong vertical
  * rail is already the template signature. */
-html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-cv-header] {
+div[data-cv-template="terracotta"][data-dossier-document="cv"] [data-cv-header] {
   margin-bottom: 5.5mm !important;
   padding-bottom: 0;
   border-bottom: 0 !important;
 }
 
-html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-cv-doc-title],
-html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-cv-name],
-html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-cv-subtitle],
-html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-cv-section-title] {
+div[data-cv-template="terracotta"][data-dossier-document="cv"] [data-cv-doc-title],
+div[data-cv-template="terracotta"][data-dossier-document="cv"] [data-cv-name],
+div[data-cv-template="terracotta"][data-dossier-document="cv"] [data-cv-subtitle],
+div[data-cv-template="terracotta"][data-dossier-document="cv"] [data-cv-section-title] {
   font-family: "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif !important;
 }
 
-html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-cv-section-title] {
+div[data-cv-template="terracotta"][data-dossier-document="cv"] [data-cv-section-title] {
   color: var(--cover-primary) !important;
   font-weight: 780 !important;
   letter-spacing: 0.035em !important;
   text-transform: none !important;
 }
 
-html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+div[data-cv-template="terracotta"][data-dossier-document="cv"] [data-cv-accent="section"] {
   background: var(--cover-primary) !important;
   opacity: 0.72 !important;
 }
@@ -81,16 +83,14 @@ html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-cv-a
 /* In der dunklen Kolumne muss die automatisch berechnete Kontrastfarbe der
  * Sidebar gewinnen. Die allgemeine Terracotta-Regel darüber gilt nur für die
  * hellen CV-Flächen; eine ausdrücklich gewählte Rubrikfarbe bleibt vorrangig. */
-html[data-dossier-template="terracotta"]
-  [data-dossier-document="cv"]
+div[data-cv-template="terracotta"][data-dossier-document="cv"]
   [data-cv-sidebar]
   [data-cv-section-title]:not([data-cv-user-section-color="true"]) {
   color: var(--cv-sidebar-section-color, #fff) !important;
   -webkit-text-fill-color: var(--cv-sidebar-section-color, #fff) !important;
 }
 
-html[data-dossier-template="terracotta"]
-  [data-dossier-document="cv"]
+div[data-cv-template="terracotta"][data-dossier-document="cv"]
   [data-cv-sidebar]
   [data-cv-accent="section"]:not([data-cv-user-section-color="true"]) {
   background: var(--cv-sidebar-section-color, #fff) !important;
@@ -100,10 +100,10 @@ html[data-dossier-template="terracotta"]
  * layout so pagination still reserves their space, but make their surfaces and
  * borders invisible. That removes the accidental horizontal scratches without
  * turning their geometry into a 0×0 box. */
-html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-dossier-compact-header],
-html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-dossier-footer="compact"],
-[data-letter-page][data-letter-template="terracotta"] [data-dossier-compact-header],
-[data-letter-page][data-letter-template="terracotta"] [data-dossier-footer="compact"] {
+div[data-cv-template="terracotta"][data-dossier-document="cv"] [data-dossier-compact-header],
+div[data-cv-template="terracotta"][data-dossier-document="cv"] [data-dossier-footer="compact"],
+[data-letter-canvas][data-letter-template="terracotta"] [data-dossier-compact-header],
+[data-letter-canvas][data-letter-template="terracotta"] [data-dossier-footer="compact"] {
   background: transparent !important;
   border-color: transparent !important;
   box-shadow: none !important;
@@ -114,11 +114,11 @@ html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-doss
  * letter rail. It must not become a second full-width colour band. Letter
  * export does not depend on the global html template marker, so these rules
  * scope to the page itself. */
-[data-letter-page][data-letter-template="terracotta"] [data-dossier-contact-header-background] {
+[data-letter-canvas][data-letter-template="terracotta"] [data-dossier-contact-header-background] {
   display: none !important;
 }
 
-[data-letter-page][data-letter-template="terracotta"] [data-dossier-integrated-contact] {
+[data-letter-canvas][data-letter-template="terracotta"] [data-dossier-integrated-contact] {
   left: 28mm !important;
   right: 23mm !important;
   width: auto !important;
@@ -127,7 +127,7 @@ html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-doss
   color: var(--cover-ink) !important;
 }
 
-[data-letter-page][data-letter-template="terracotta"] [data-dossier-continuation-contact-header] {
+[data-letter-canvas][data-letter-template="terracotta"] [data-dossier-continuation-contact-header] {
   left: 28mm !important;
   right: 23mm !important;
   width: auto !important;
@@ -137,13 +137,13 @@ html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-doss
   color: var(--cover-ink) !important;
 }
 
-[data-letter-page][data-letter-template="terracotta"] [data-dossier-continuation-contact] {
+[data-letter-canvas][data-letter-template="terracotta"] [data-dossier-continuation-contact] {
   text-align: left !important;
 }
 
 /* The little hairline inside the letter rail added no information and looked
  * like another stray rule when the page was exported. The solid rail is enough. */
-[data-letter-page][data-letter-template="terracotta"]
+[data-letter-canvas][data-letter-template="terracotta"]
   [data-letter-background-variant="quiet-column"]
   [data-letter-motif="rail-rule"] {
   display: none !important;
@@ -153,13 +153,11 @@ html[data-dossier-template="terracotta"] [data-dossier-document="cv"] [data-doss
  * the rail. A second integrated contact band would duplicate the same data and
  * recreate the unwanted top stripe, so the CV keeps the rail as its sole
  * header surface. */
-html[data-dossier-template="terracotta"]
+div[data-cv-template="terracotta"]
   [data-dossier-chrome="cv"]
   [data-dossier-contact-header-background],
-html[data-dossier-template="terracotta"]
-  [data-dossier-chrome="cv"]
-  [data-dossier-integrated-contact],
-html[data-dossier-template="terracotta"]
+div[data-cv-template="terracotta"] [data-dossier-chrome="cv"] [data-dossier-integrated-contact],
+div[data-cv-template="terracotta"]
   [data-dossier-chrome="cv"]
   [data-dossier-continuation-contact-header] {
   display: none !important;
@@ -169,12 +167,12 @@ html[data-dossier-template="terracotta"]
  * contrast selection can choose dark ink from the cyan end of the gradient,
  * which reads muddy over the full band. Keep the header typography in the
  * template's clean sans family and use white text across the complete surface. */
-html[data-dossier-template="aurora"] [data-dossier-chrome="cv"] [data-dossier-integrated-contact],
-html[data-dossier-template="aurora"]
+div[data-cv-template="aurora"] [data-dossier-chrome="cv"] [data-dossier-integrated-contact],
+div[data-cv-template="aurora"]
   [data-dossier-chrome="cv"]
   [data-dossier-continuation-contact-header],
-[data-letter-page][data-letter-template="aurora"] [data-dossier-integrated-contact],
-[data-letter-page][data-letter-template="aurora"] [data-dossier-continuation-contact-header] {
+[data-letter-canvas][data-letter-template="aurora"] [data-dossier-integrated-contact],
+[data-letter-canvas][data-letter-template="aurora"] [data-dossier-continuation-contact-header] {
   color: #fff !important;
   font-family: "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif !important;
 }
@@ -188,19 +186,19 @@ html[data-dossier-template="aurora"]
  * the interior pages look like two unrelated templates stacked together. Keep
  * the shared header geometry for pagination, but let the Edge signature own the
  * surface and place contact text directly on the paper. */
-html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-dossier-compact-header],
-html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-dossier-contact-header-background],
-html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-dossier-footer="compact"],
-[data-letter-page][data-letter-template="edge"] [data-dossier-compact-header],
-[data-letter-page][data-letter-template="edge"] [data-dossier-contact-header-background],
-[data-letter-page][data-letter-template="edge"] [data-dossier-footer="compact"] {
+div[data-cv-template="edge"][data-dossier-document="cv"] [data-dossier-compact-header],
+div[data-cv-template="edge"][data-dossier-document="cv"] [data-dossier-contact-header-background],
+div[data-cv-template="edge"][data-dossier-document="cv"] [data-dossier-footer="compact"],
+[data-letter-canvas][data-letter-template="edge"] [data-dossier-compact-header],
+[data-letter-canvas][data-letter-template="edge"] [data-dossier-contact-header-background],
+[data-letter-canvas][data-letter-template="edge"] [data-dossier-footer="compact"] {
   background: transparent !important;
   border-color: transparent !important;
   box-shadow: none !important;
 }
 
-html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-dossier-integrated-contact],
-[data-letter-page][data-letter-template="edge"] [data-dossier-integrated-contact] {
+div[data-cv-template="edge"][data-dossier-document="cv"] [data-dossier-integrated-contact],
+[data-letter-canvas][data-letter-template="edge"] [data-dossier-integrated-contact] {
   left: 32mm !important;
   right: 23mm !important;
   width: auto !important;
@@ -210,10 +208,8 @@ html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-dossier-in
   font-family: "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif !important;
 }
 
-html[data-dossier-template="edge"]
-  [data-dossier-document="cv"]
-  [data-dossier-continuation-contact-header],
-[data-letter-page][data-letter-template="edge"] [data-dossier-continuation-contact-header] {
+div[data-cv-template="edge"][data-dossier-document="cv"] [data-dossier-continuation-contact-header],
+[data-letter-canvas][data-letter-template="edge"] [data-dossier-continuation-contact-header] {
   left: 32mm !important;
   right: 23mm !important;
   width: auto !important;
@@ -225,27 +221,27 @@ html[data-dossier-template="edge"]
   font-family: "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif !important;
 }
 
-html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-dossier-continuation-contact],
-[data-letter-page][data-letter-template="edge"] [data-dossier-continuation-contact] {
+div[data-cv-template="edge"][data-dossier-document="cv"] [data-dossier-continuation-contact],
+[data-letter-canvas][data-letter-template="edge"] [data-dossier-continuation-contact] {
   text-align: left !important;
 }
 
 /* Edge cover is already sans/geometric. Keep the interior hierarchy in the
  * same family instead of falling back to the serif-heavy generic CV look. */
-html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-doc-title],
-html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-name],
-html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-subtitle],
-html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-section-title] {
+div[data-cv-template="edge"][data-dossier-document="cv"] [data-cv-doc-title],
+div[data-cv-template="edge"][data-dossier-document="cv"] [data-cv-name],
+div[data-cv-template="edge"][data-dossier-document="cv"] [data-cv-subtitle],
+div[data-cv-template="edge"][data-dossier-document="cv"] [data-cv-section-title] {
   font-family: "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif !important;
 }
 
-html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-doc-title],
-html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-section-title] {
+div[data-cv-template="edge"][data-dossier-document="cv"] [data-cv-doc-title],
+div[data-cv-template="edge"][data-dossier-document="cv"] [data-cv-section-title] {
   color: var(--cover-primary) !important;
   font-weight: 800 !important;
 }
 
-html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-name] {
+div[data-cv-template="edge"][data-dossier-document="cv"] [data-cv-name] {
   color: var(--cover-ink) !important;
   font-weight: 820 !important;
   letter-spacing: -0.025em !important;
@@ -276,25 +272,25 @@ html[data-dossier-template="edge"] [data-dossier-document="cv"] [data-cv-name] {
   display: none !important;
 }
 
-html[data-dossier-template="glow"] [data-dossier-document="cv"] [data-dossier-compact-header],
-html[data-dossier-template="glow"] [data-dossier-document="cv"] [data-dossier-contact-header-background],
-html[data-dossier-template="glow"] [data-dossier-document="cv"] [data-dossier-continuation-contact-header],
-[data-letter-page][data-letter-template="glow"] [data-dossier-compact-header],
-[data-letter-page][data-letter-template="glow"] [data-dossier-contact-header-background],
-[data-letter-page][data-letter-template="glow"] [data-dossier-continuation-contact-header] {
+div[data-cv-template="glow"][data-dossier-document="cv"] [data-dossier-compact-header],
+div[data-cv-template="glow"][data-dossier-document="cv"] [data-dossier-contact-header-background],
+div[data-cv-template="glow"][data-dossier-document="cv"] [data-dossier-continuation-contact-header],
+[data-letter-canvas][data-letter-template="glow"] [data-dossier-compact-header],
+[data-letter-canvas][data-letter-template="glow"] [data-dossier-contact-header-background],
+[data-letter-canvas][data-letter-template="glow"] [data-dossier-continuation-contact-header] {
   border-bottom: 0 !important;
   box-shadow: none !important;
 }
 
-html[data-dossier-template="glow"] [data-dossier-document="cv"] [data-dossier-footer="compact"],
-[data-letter-page][data-letter-template="glow"] [data-dossier-footer="compact"] {
+div[data-cv-template="glow"][data-dossier-document="cv"] [data-dossier-footer="compact"],
+[data-letter-canvas][data-letter-template="glow"] [data-dossier-footer="compact"] {
   background: transparent !important;
   border-color: transparent !important;
   box-shadow: none !important;
   opacity: 0 !important;
 }
 
-html[data-dossier-template="glow"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="glow"][data-dossier-document="cv"] [data-cv-surface] {
   border: 0 !important;
   box-shadow: none !important;
 }

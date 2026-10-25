@@ -1,0 +1,114 @@
+{
+  "scope": "full real app DOCX → LibreOffice Writer 26.2.6 PDF page1",
+  "sourceRevision": "29116c7f715f487381330e6654e7027a5e4c6a3f",
+  "visualMetric": "100 × (1 - RGB mean absolute difference / 255) at matched 686 × 970 pixels; NOT Word fidelity acceptance",
+  "microsoftWordAccepted": 0,
+  "total": 10,
+  "passed": 10,
+  "cases": [
+    {
+      "case": "N01",
+      "pages": 4,
+      "visualSimilarityPct": 99.06,
+      "photo": false,
+      "initialsCenterDeltaMm": [
+        0.04,
+        0.087
+      ],
+      "pass": true
+    },
+    {
+      "case": "N02",
+      "pages": 4,
+      "visualSimilarityPct": 99.09,
+      "photo": false,
+      "initialsCenterDeltaMm": [
+        0.04,
+        0.087
+      ],
+      "pass": true
+    },
+    {
+      "case": "N03",
+      "pages": 4,
+      "visualSimilarityPct": 99.04,
+      "photo": true,
+      "initialsCenterDeltaMm": null,
+      "pass": true
+    },
+    {
+      "case": "V01",
+      "pages": 4,
+      "visualSimilarityPct": 99.26,
+      "photo": false,
+      "initialsCenterDeltaMm": [
+        0.03,
+        0.04
+      ],
+      "pass": true
+    },
+    {
+      "case": "V02",
+      "pages": 4,
+      "visualSimilarityPct": 99.09,
+      "photo": false,
+      "initialsCenterDeltaMm": [
+        0.043,
+        0.088
+      ],
+      "pass": true
+    },
+    {
+      "case": "V03",
+      "pages": 4,
+      "visualSimilarityPct": 99.23,
+      "photo": true,
+      "initialsCenterDeltaMm": null,
+      "pass": true
+    },
+    {
+      "case": "V04",
+      "pages": 4,
+      "visualSimilarityPct": 98.93,
+      "photo": false,
+      "initialsCenterDeltaMm": [
+        0.03,
+        0.04
+      ],
+      "pass": true
+    },
+    {
+      "case": "W01",
+      "pages": 4,
+      "visualSimilarityPct": 99.12,
+      "photo": false,
+      "initialsCenterDeltaMm": [
+        0.044,
+        0.051
+      ],
+      "pass": true
+    },
+    {
+      "case": "W02",
+      "pages": 4,
+      "visualSimilarityPct": 98.91,
+      "photo": false,
+      "initialsCenterDeltaMm": [
+        0.044,
+        0.051
+      ],
+      "pass": true
+    },
+    {
+      "case": "W03",
+      "pages": 4,
+      "visualSimilarityPct": 99,
+      "photo": false,
+      "initialsCenterDeltaMm": [
+        0.044,
+        0.051
+      ],
+      "pass": true
+    }
+  ]
+}

@@ -8,10 +8,7 @@ import {
 import { TEMPLATES, type TemplateId } from "../../src/components/cover/types";
 import { DossierHeaderFooterChrome } from "../../src/components/dossier/DossierHeaderFooterChrome";
 import { freshLetterSpec } from "../../src/components/letter/fresh-letter-system";
-import {
-  defaultLetterColors,
-  type LetterTemplateId,
-} from "../../src/components/letter/types";
+import { defaultLetterColors, type LetterTemplateId } from "../../src/components/letter/types";
 import {
   DEFAULT_DOSSIER_CHROME_OPTIONS,
   type DossierChromeOptions,
@@ -113,9 +110,7 @@ describe("M12 Fresh dossier consistency", () => {
     for (const id of FRESH_TEMPLATE_IDS) {
       for (const scope of ["cv", "letter"] as const) {
         const compact = chromeMarkup(scope, id, options("compact", "compact"));
-        expect(compact, `${id}/${scope}/compact-footer`).toContain(
-          'data-dossier-footer="compact"',
-        );
+        expect(compact, `${id}/${scope}/compact-footer`).toContain('data-dossier-footer="compact"');
 
         const none = chromeMarkup(scope, id, options("compact", "none"));
         expect(none, `${id}/${scope}/no-footer`).not.toContain("data-dossier-footer=");

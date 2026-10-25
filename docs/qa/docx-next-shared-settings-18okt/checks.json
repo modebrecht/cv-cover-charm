@@ -1,0 +1,29 @@
+{
+  "unit": {
+    "passed": 1230,
+    "failed": 0,
+    "assertions": 23487,
+    "files": 255
+  },
+  "docx": {
+    "passed": 417,
+    "failed": 0,
+    "assertions": 6402,
+    "files": 65,
+    "overlapsUnit": true
+  },
+  "typecheck": "PASS",
+  "build": "PASS Vite and Nitro",
+  "lint": {
+    "errors": 0,
+    "existingWarnings": 21
+  },
+  "actualUiDocxExports": 3,
+  "actualAppRejections": 8,
+  "browserSavedDefaultResetCases": 10,
+  "firstPageWebPixelComparisons": 10,
+  "hydrationFaultInjectionScopes": 2,
+  "codeCommit": "5a3a6c94812413fab2b076409d6077b85089d2aa",
+  "baselineCodeTree": "15d47d6dc9f58b06e731f46d7978619384000ba6",
+  "wordAcceptance": "UNVERIFIED"
+}

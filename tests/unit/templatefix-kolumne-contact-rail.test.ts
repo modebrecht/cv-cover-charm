@@ -64,11 +64,9 @@ describe("Kolumne contact rail cleanup", () => {
     expect(cvCss).toContain("flex: 1 0 4mm !important;");
 
     // Template defaults remain intact until the user explicitly asks for the rule.
+    expect(cvCss).toContain('[data-cv-section="sidebar"]\n  [data-cv-accent="section"],');
     expect(cvCss).toContain(
-      '[data-cv-section="sidebar"]\n  [data-cv-accent="section"],',
-    );
-    expect(cvCss).toContain(
-      'html[data-dossier-template="glow"][data-dossier-template="glow"][data-dossier-template="glow"]\n  [data-dossier-document="cv"]\n  [data-cv-accent="section"]',
+      'div[data-cv-template="glow"][data-cv-template="glow"][data-cv-template="glow"][data-dossier-document="cv"]\n  [data-cv-accent="section"]',
     );
   });
 });

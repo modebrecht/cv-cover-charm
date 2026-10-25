@@ -12,12 +12,11 @@
 /* Primary masthead: solid 10 mm strip for the families whose first signature
  * node already carries a background colour. Gallery is deliberately excluded:
  * its identity is a right-hand portrait tower, not another full-width strip. */
-html:is(
-    [data-dossier-template="prism"],
-    [data-dossier-template="ribbon"],
-    [data-dossier-template="cove"]
-  )
-  [data-dossier-document="cv"]
+div:is(
+    [data-cv-template="prism"],
+    [data-cv-template="ribbon"],
+    [data-cv-template="cove"]
+  )[data-dossier-document="cv"]
   [data-cv-background="motif"]
   > [data-dossier-sheet-background]
   > div:nth-child(1) {
@@ -36,8 +35,7 @@ html:is(
 
 /* Orbit's first node is a border-only ring. Reuse its existing inline
  * borderColor as a solid midnight strip instead of inventing a new colour. */
-html[data-dossier-template="orbit"]
-  [data-dossier-document="cv"]
+div[data-cv-template="orbit"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > [data-dossier-sheet-background="orbit"]
   > div:nth-child(1) {
@@ -55,8 +53,7 @@ html[data-dossier-template="orbit"]
 }
 
 /* Real direct sibling #2 = the secondary family signal. */
-html[data-dossier-template="prism"]
-  [data-dossier-document="cv"]
+div[data-cv-template="prism"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > [data-dossier-sheet-background="prism"]
   > div:nth-child(2) {
@@ -71,8 +68,7 @@ html[data-dossier-template="prism"]
   opacity: 1 !important;
 }
 
-html[data-dossier-template="orbit"]
-  [data-dossier-document="cv"]
+div[data-cv-template="orbit"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > [data-dossier-sheet-background="orbit"]
   > div:nth-child(2) {
@@ -88,8 +84,7 @@ html[data-dossier-template="orbit"]
   opacity: 0.52 !important;
 }
 
-html[data-dossier-template="ribbon"]
-  [data-dossier-document="cv"]
+div[data-cv-template="ribbon"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > [data-dossier-sheet-background="ribbon"]
   > div:nth-child(2) {
@@ -103,8 +98,7 @@ html[data-dossier-template="ribbon"]
   opacity: 1 !important;
 }
 
-html[data-dossier-template="cove"]
-  [data-dossier-document="cv"]
+div[data-cv-template="cove"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > [data-dossier-sheet-background="cove"]
   > div:nth-child(2) {
@@ -119,13 +113,12 @@ html[data-dossier-template="cove"]
 }
 
 /* The third signature node is the retired third-colour accent. */
-html:is(
-    [data-dossier-template="prism"],
-    [data-dossier-template="orbit"],
-    [data-dossier-template="ribbon"],
-    [data-dossier-template="cove"]
-  )
-  [data-dossier-document="cv"]
+div:is(
+    [data-cv-template="prism"],
+    [data-cv-template="orbit"],
+    [data-cv-template="ribbon"],
+    [data-cv-template="cove"]
+  )[data-dossier-document="cv"]
   [data-cv-background="motif"]
   > [data-dossier-sheet-background]
   > div:nth-child(3) {
@@ -252,7 +245,7 @@ html:is(
     [data-dossier-contact-header-background],
     [data-dossier-continuation-contact-header]
   ),
-[data-letter-page][data-letter-template="gallery"][data-letter-template="gallery"]
+[data-letter-canvas][data-letter-template="gallery"][data-letter-template="gallery"]
   [data-dossier-template-chrome="gallery"][data-dossier-header-custom-surface="false"]
   :is(
     [data-dossier-compact-header],
@@ -299,7 +292,7 @@ html:is(
 [data-dossier-document="cv"][data-cv-template="gallery"][data-cv-template="gallery"]
   [data-dossier-template-chrome="gallery"][data-dossier-footer-custom-surface="false"]
   [data-dossier-footer],
-[data-letter-page][data-letter-template="gallery"][data-letter-template="gallery"]
+[data-letter-canvas][data-letter-template="gallery"][data-letter-template="gallery"]
   [data-dossier-template-chrome="gallery"][data-dossier-footer-custom-surface="false"]
   [data-dossier-footer] {
   background: transparent !important;
@@ -311,7 +304,7 @@ html:is(
 /* Letter uses FreshLetterBackground, not DossierSheetBackground. Target its
  * named motifs directly so later legacy integrity rules cannot recreate the
  * old tiny top-left block + detached Sand card hybrid. */
-[data-letter-page][data-letter-template="gallery"][data-letter-template="gallery"]
+[data-letter-canvas][data-letter-template="gallery"][data-letter-template="gallery"]
   [data-letter-fresh-template="gallery"]
   [data-letter-motif="rail"] {
   display: block !important;
@@ -327,7 +320,7 @@ html:is(
   opacity: 1 !important;
 }
 
-[data-letter-page][data-letter-template="gallery"][data-letter-template="gallery"]
+[data-letter-canvas][data-letter-template="gallery"][data-letter-template="gallery"]
   [data-letter-fresh-template="gallery"]
   [data-letter-motif="portrait-block"] {
   display: block !important;
@@ -343,16 +336,16 @@ html:is(
   opacity: 0.68 !important;
 }
 
-[data-letter-page][data-letter-template="gallery"][data-letter-template="gallery"]
+[data-letter-canvas][data-letter-template="gallery"][data-letter-template="gallery"]
   [data-letter-fresh-template="gallery"]
   [data-letter-motif="signal"] {
   display: none !important;
 }
 
-[data-letter-page][data-letter-template="gallery"][data-letter-template="gallery"]
+[data-letter-canvas][data-letter-template="gallery"][data-letter-template="gallery"]
   [data-dossier-template-chrome="gallery"]
   [data-dossier-integrated-contact],
-[data-letter-page][data-letter-template="gallery"][data-letter-template="gallery"]
+[data-letter-canvas][data-letter-template="gallery"][data-letter-template="gallery"]
   [data-dossier-template-chrome="gallery"]
   [data-dossier-continuation-contact-header] {
   padding-right: 20mm !important;

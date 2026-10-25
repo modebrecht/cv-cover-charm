@@ -1,0 +1,216 @@
+[
+  {
+    "id": "01-Modern-Eine-CV-Seite",
+    "template": "modern",
+    "mode": "one",
+    "purpose": "Eine CV-Seite, kompakte Sprachen/Listen, Referenz, August 2028",
+    "file": "01-Modern-Eine-CV-Seite.docx",
+    "webCvPages": 1,
+    "captures": [
+      "Web-CV-01.png",
+      "Web-Letter-01.png",
+      "Web-Cover-01.png"
+    ],
+    "restoredThroughApp": true,
+    "reloadPreservedState": true,
+    "uiDownloadByteIdentical": true,
+    "exportPreservedState": true,
+    "primaryPdfDownload": true,
+    "issues": [],
+    "sha256": "c5e5f0e2c8700fc4c122393d340bdbaafb7ed5fd2ec69df8f07079f6419cbba8",
+    "fontProfile": "brief-sans-v1; browser=Liberation Sans; Word=Arial; target-font-identity=unverified",
+    "wordAcceptance": "UNVERIFIED"
+  },
+  {
+    "id": "02-Modern-Zwei-CV-Seiten",
+    "template": "modern",
+    "mode": "two",
+    "purpose": "Zwei CV-Seiten, Folgeseitenrand, Rubriken an Seitenanfängen",
+    "file": "02-Modern-Zwei-CV-Seiten.docx",
+    "webCvPages": 2,
+    "captures": [
+      "Web-CV-01.png",
+      "Web-CV-02.png",
+      "Web-Letter-01.png",
+      "Web-Cover-01.png"
+    ],
+    "restoredThroughApp": true,
+    "reloadPreservedState": true,
+    "uiDownloadByteIdentical": true,
+    "exportPreservedState": true,
+    "primaryPdfDownload": true,
+    "issues": [],
+    "sha256": "7d439e9dce456121ffcbfe291ba802fbd75203dec5147a79111376d09e106d68",
+    "fontProfile": "brief-sans-v1; browser=Liberation Sans; Word=Arial; target-font-identity=unverified",
+    "wordAcceptance": "UNVERIFIED"
+  },
+  {
+    "id": "03-Modern-Kontakt-waagrecht",
+    "template": "modern",
+    "purpose": "Kontakt-Header waagrecht, eigene deckende Kopf-/Fussfarben",
+    "file": "03-Modern-Kontakt-waagrecht.docx",
+    "webCvPages": 1,
+    "captures": [
+      "Web-CV-01.png",
+      "Web-Letter-01.png",
+      "Web-Cover-01.png"
+    ],
+    "restoredThroughApp": true,
+    "reloadPreservedState": true,
+    "uiDownloadByteIdentical": true,
+    "exportPreservedState": true,
+    "primaryPdfDownload": true,
+    "issues": [],
+    "sha256": "5b0fdbe3594cb026fcc203440f0ca6b3c105c1143b43bb2e8776ac126fb36073",
+    "fontProfile": "brief-sans-v1; browser=Liberation Sans; Word=Arial; target-font-identity=unverified",
+    "wordAcceptance": "UNVERIFIED"
+  },
+  {
+    "id": "04-Modern-Kontakt-senkrecht",
+    "template": "modern",
+    "purpose": "Kontakt-Header senkrecht, verschiedene Letter-/CV-Farben",
+    "file": "04-Modern-Kontakt-senkrecht.docx",
+    "webCvPages": 1,
+    "captures": [
+      "Web-CV-01.png",
+      "Web-Letter-01.png",
+      "Web-Cover-01.png"
+    ],
+    "restoredThroughApp": true,
+    "reloadPreservedState": true,
+    "uiDownloadByteIdentical": true,
+    "exportPreservedState": true,
+    "primaryPdfDownload": true,
+    "issues": [],
+    "sha256": "729a48cb3f22f7c5fe99ce82511f4470738b5b3045cb744fc61217fb7a7e6068",
+    "fontProfile": "brief-sans-v1; browser=Liberation Sans; Word=Arial; target-font-identity=unverified",
+    "wordAcceptance": "UNVERIFIED"
+  },
+  {
+    "id": "05-Modern-Eigene-Werte-Referenzen",
+    "template": "modern",
+    "purpose": "Eigene Ränder, 18-px-Rubriken, Einzug, E-Mail-/Zusatz-Referenzen",
+    "file": "05-Modern-Eigene-Werte-Referenzen.docx",
+    "webCvPages": 2,
+    "captures": [
+      "Web-CV-01.png",
+      "Web-CV-02.png",
+      "Web-Letter-01.png",
+      "Web-Cover-01.png"
+    ],
+    "restoredThroughApp": true,
+    "reloadPreservedState": true,
+    "uiDownloadByteIdentical": true,
+    "exportPreservedState": true,
+    "primaryPdfDownload": true,
+    "issues": [],
+    "sha256": "0b8552df1cecf39acae5af78e1047dd20dc356a1813793ed7aa6aa257a8dbbe1",
+    "fontProfile": "brief-sans-v1; browser=Liberation Sans; Word=Arial; target-font-identity=unverified",
+    "wordAcceptance": "UNVERIFIED"
+  },
+  {
+    "id": "06-Modern-Foto-Pille-rechts",
+    "template": "modern",
+    "purpose": "Rundes Foto mit Crop-Testkarte, rechtsbündige bearbeitbare Datum-Pille",
+    "file": "06-Modern-Foto-Pille-rechts.docx",
+    "webCvPages": 1,
+    "captures": [
+      "Web-CV-01.png",
+      "Web-Letter-01.png",
+      "Web-Cover-01.png"
+    ],
+    "restoredThroughApp": true,
+    "reloadPreservedState": true,
+    "uiDownloadByteIdentical": true,
+    "exportPreservedState": true,
+    "primaryPdfDownload": true,
+    "issues": [],
+    "sha256": "2cf054b30b42454cd4306ba28adbba88a81ce69a8ee61e0eda8789816f40d6ab",
+    "fontProfile": "brief-sans-v1; browser=Liberation Sans; Word=Arial; target-font-identity=unverified",
+    "wordAcceptance": "UNVERIFIED"
+  },
+  {
+    "id": "07-Modern-Lang-115-Prozent",
+    "template": "modern",
+    "purpose": "Langer Name/Beruf, Cover 115 Prozent, lange Beschreibung",
+    "file": "07-Modern-Lang-115-Prozent.docx",
+    "webCvPages": 1,
+    "captures": [
+      "Web-CV-01.png",
+      "Web-Letter-01.png",
+      "Web-Cover-01.png"
+    ],
+    "restoredThroughApp": true,
+    "reloadPreservedState": true,
+    "uiDownloadByteIdentical": true,
+    "exportPreservedState": true,
+    "primaryPdfDownload": true,
+    "issues": [],
+    "sha256": "7ba137fb86bb5c4f1e58254fa955134f12fbe9411d24e31414c80c689bdf7a1e",
+    "fontProfile": "brief-sans-v1; browser=Liberation Sans; Word=Arial; target-font-identity=unverified",
+    "wordAcceptance": "UNVERIFIED"
+  },
+  {
+    "id": "08-Brief-Standard",
+    "template": "brief",
+    "purpose": "Zweite Coverfamilie, native Texte, Letter und CV mit Sans",
+    "file": "08-Brief-Standard.docx",
+    "webCvPages": 1,
+    "captures": [
+      "Web-CV-01.png",
+      "Web-Letter-01.png",
+      "Web-Cover-01.png"
+    ],
+    "restoredThroughApp": true,
+    "reloadPreservedState": true,
+    "uiDownloadByteIdentical": true,
+    "exportPreservedState": true,
+    "primaryPdfDownload": true,
+    "issues": [],
+    "sha256": "18e7d4c1454b56cd1e2851911953477246e434a4bb1d5d883b5078efa12afa02",
+    "fontProfile": "brief-sans-v1; browser=Liberation Sans; Word=Arial; target-font-identity=unverified",
+    "wordAcceptance": "UNVERIFIED"
+  },
+  {
+    "id": "09-Brief-Lang-115-Prozent",
+    "template": "brief",
+    "purpose": "Langer Name/Beruf und Cover 115 Prozent im Brief-Design",
+    "file": "09-Brief-Lang-115-Prozent.docx",
+    "webCvPages": 1,
+    "captures": [
+      "Web-CV-01.png",
+      "Web-Letter-01.png",
+      "Web-Cover-01.png"
+    ],
+    "restoredThroughApp": true,
+    "reloadPreservedState": true,
+    "uiDownloadByteIdentical": true,
+    "exportPreservedState": true,
+    "primaryPdfDownload": true,
+    "issues": [],
+    "sha256": "2008024c101d7d5064fe1aead27ba549072663e386a0942e3f9a23d56bd24789",
+    "fontProfile": "brief-sans-v1; browser=Liberation Sans; Word=Arial; target-font-identity=unverified",
+    "wordAcceptance": "UNVERIFIED"
+  },
+  {
+    "id": "10-Brief-Foto-Hochformat",
+    "template": "brief",
+    "purpose": "Hochformat-Foto, Zoom und Bildposition, Originalbild erhalten",
+    "file": "10-Brief-Foto-Hochformat.docx",
+    "webCvPages": 1,
+    "captures": [
+      "Web-CV-01.png",
+      "Web-Letter-01.png",
+      "Web-Cover-01.png"
+    ],
+    "restoredThroughApp": true,
+    "reloadPreservedState": true,
+    "uiDownloadByteIdentical": true,
+    "exportPreservedState": true,
+    "primaryPdfDownload": true,
+    "issues": [],
+    "sha256": "994178fad0ffe8b9d54ae35e7caf34e6c90a780214eae75e238762e26dd52851",
+    "fontProfile": "brief-sans-v1; browser=Liberation Sans; Word=Arial; target-font-identity=unverified",
+    "wordAcceptance": "UNVERIFIED"
+  }
+]

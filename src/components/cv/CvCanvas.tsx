@@ -16,12 +16,8 @@ import {
   type DossierChromeContact,
   type DossierChromeOptions,
 } from "@/lib/dossier-chrome";
-import {
-  getDossierPageMargins,
-  getDossierPageMarginsSnapshot,
-  subscribeDossierPageMargins,
-} from "@/lib/dossier-page-margins";
-import { applyDossierTheme } from "@/lib/dossier-theme";
+import { getDossierPageMargins, type DossierPageMargins } from "@/lib/dossier-page-margins";
+import { applyDossierTheme, dossierThemeCssVariables } from "@/lib/dossier-theme";
 import { resolveTemplateChromeOptions } from "@/lib/template-chrome";
 import {
   resolveDossierChromeDocumentContent,
@@ -29,18 +25,17 @@ import {
 } from "@/lib/dossier-chrome-content";
 import { CvPageFitMenuPortal } from "./CvPageFitMenuPortal";
 import { CvTextAlignmentPortal } from "./CvTextAlignmentPortal";
-import { getCvTextAlignment, subscribeCvTextAlignment } from "./text-alignment";
+import { cvPresentationCssVariables, useCvPresentation, type CvPresentation } from "./presentation";
 import { cvContentBox, cvFrameFor } from "./archetype";
-import {
-  CV_LAYOUT_EVENT,
-  getCvInfoPosition,
-  getCvLayout,
-  subscribeCvLayout,
-} from "./layout";
+import { CV_LAYOUT_EVENT } from "./layout";
 import { CvCanvas as BaseCvCanvas } from "./CvCanvasBase";
 import { resolveCvRubricOptions } from "./citrus-rubric";
 import {
   buildCvPageFitPlan,
+  measureCvPageFitSectionHeights,
+  measureCvPageFitCapacityPx,
+  chooseCvSmartPageFitMode,
+  cvPageFitKeepsManualPosition,
   consumeCvPageFitMode,
   getCvPageFitMode,
   getCvPageFitRevision,
@@ -57,6 +52,10 @@ import {
   type CvDesign,
   type CvLayoutSectionKey,
 } from "./types";
+import "@/components/dossier/document-paint.css";
+import "@/components/dossier-theme.css";
+import "./layout-variants.css";
+import "./layout-options.css";
 import "@/components/dossier/edel-stationery.css";
 import "@/components/dossier/human-polish.css";
 import "@/components/dossier/legacy-template-refinements.css";
@@ -72,7 +71,11 @@ import "./document-title-user-override.css";
 export type { CvLayoutWarning } from "./CvCanvasBase";
 
 type BaseProps = ComponentProps<typeof BaseCvCanvas>;
-type Props = Omit<BaseProps, "chromeOptions" | "chromeContact" | "chromeDocumentContent"> & {
+type Props = Omit<
+  BaseProps,
+  "chromeOptions" | "chromeContact" | "chromeDocumentContent" | "presentation"
+> & {
+  presentation?: Partial<CvPresentation>;
   chromeOptions?: DossierChromeOptions;
   chromeContact?: DossierChromeContact;
   /** Hidden multi-document renderers must not seize the live html template scope. */
@@ -165,34 +168,35 @@ const setStyleValue = (
  * adjustable rails: a stale initial 71 mm value must never prevent a 22% sidebar
  * from shrinking back to its real ~54 mm main origin.
  */
-export function pinCvSidebarMainGeometry(scope: HTMLElement) {
-  const customMargins = getDossierPageMargins("cv");
-
+export function pinCvSidebarMainGeometry(
+  scope: HTMLElement,
+  customMargins: DossierPageMargins | null = getDossierPageMargins("cv"),
+) {
+  // The instance owns these inputs. Reading a previously pinned main node
+  // feeds its old inline output back into the next hydration/template pass,
+  // masking updated inherited geometry on the opposite side of the rail.
+  const instanceGeometry = window.getComputedStyle(scope);
   for (const main of scope.querySelectorAll<HTMLElement>(SIDEBAR_MAIN_SELECTOR)) {
-    const computed = window.getComputedStyle(main);
     const cvRoot = main.closest<HTMLElement>('[data-dossier-document="cv"]');
     const mirrored = cvRoot?.dataset.cvInfoPosition === "mirrored";
-    const customLeftMm = customMargins
-      ? mirrored
-        ? customMargins.right
-        : customMargins.left
-      : 0;
-    const customRightMm = customMargins
-      ? mirrored
-        ? customMargins.left
-        : customMargins.right
-      : 0;
+    const customLeftMm = customMargins ? (mirrored ? customMargins.right : customMargins.left) : 0;
+    const customRightMm = customMargins ? (mirrored ? customMargins.left : customMargins.right) : 0;
 
     let leftMm = Math.max(
-      cssMm(computed.getPropertyValue("--cv-modern-physical-left")) ?? 0,
+      cssMm(instanceGeometry.getPropertyValue("--cv-modern-physical-left")) ?? 0,
       customLeftMm,
     );
     let rightMm = Math.max(
-      cssMm(computed.getPropertyValue("--cv-modern-physical-right")) ?? 0,
+      cssMm(instanceGeometry.getPropertyValue("--cv-modern-physical-right")) ?? 0,
       customRightMm,
     );
 
-    const page = main.parentElement;
+    const measurePage = main.parentElement;
+    // Measurement has no painted sidebar. Resolve its rail from the instance's
+    // first visible/export page so both boxes receive the same actual geometry.
+    const page = measurePage?.hasAttribute("data-cv-measure-page")
+      ? (cvRoot?.querySelector<HTMLElement>('[data-cv-page="0"]') ?? measurePage)
+      : measurePage;
     const sidebar = page
       ? (Array.from(page.children).find(
           (child) => child instanceof HTMLElement && child.hasAttribute("data-cv-sidebar"),
@@ -245,24 +249,15 @@ export function CvCanvas({
   chromeOptions = DEFAULT_DOSSIER_CHROME_OPTIONS,
   chromeContact,
   manageGlobalTemplateScope = true,
+  presentation: presentationOverride,
   ...props
 }: Props) {
-  const bodyAlignment = useSyncExternalStore(
-    subscribeCvTextAlignment,
-    getCvTextAlignment,
-    () => "left",
-  );
+  const presentation = useCvPresentation(props.design.template, presentationOverride);
+  const { bodyAlignment, infoPosition } = presentation;
+  const pageFitLayout = presentation.layoutChoice === "modern" ? "modern" : "classic";
   const pageFitMode = useSyncExternalStore(subscribeCvPageFit, getCvPageFitMode, () => null);
   const pageFitRevision = useSyncExternalStore(subscribeCvPageFit, getCvPageFitRevision, () => 0);
-  const pageFitLayout = useSyncExternalStore(subscribeCvLayout, getCvLayout, () => "classic");
-  const infoPosition = useSyncExternalStore(
-    subscribeCvLayout,
-    getCvInfoPosition,
-    () => "standard",
-  );
-  // Page margins are stored outside the legacy CV JSON. Subscribing here keeps
-  // preview, pagination and hidden PDF canvases on one geometry path.
-  useSyncExternalStore(subscribeDossierPageMargins, getDossierPageMarginsSnapshot, () => "{}");
+  const geometryScopeRef = useRef<HTMLDivElement>(null);
   const localContact = useMemo(() => contactFromCv(props.data), [props.data]);
   const resolvedContact = useMemo(
     () => resolveCvChromeContact(localContact, chromeContact),
@@ -271,7 +266,7 @@ export function CvCanvas({
   const pageFitPlan = useMemo(
     () =>
       pageFitMode && !props.exportMode
-        ? buildCvPageFitPlan(props.data, pageFitMode, {
+        ? buildCvPageFitPlan(props.data, pageFitMode === "auto" ? "two" : pageFitMode, {
             allowHalfWidth: pageFitLayout === "classic",
           })
         : null,
@@ -279,7 +274,9 @@ export function CvCanvas({
   );
   const baseDesign = useMemo(() => cvDesignWithFullSectionRules(props.design), [props.design]);
   const design = useMemo<CvDesign>(() => {
-    if (!pageFitPlan) return baseDesign;
+    // Intelligent fitting measures the user's actual typography. It must not
+    // silently scale down already-fitting text during its temporary action.
+    if (!pageFitPlan || pageFitMode === "auto") return baseDesign;
     // Page-fit actions are deterministic and idempotent: clicking the same
     // action again targets the same density instead of multiplying a prior fit.
     return {
@@ -288,7 +285,7 @@ export function CvCanvas({
       headingScale: clampCvScale(CV_TYPE_DEFAULTS.headingScale * pageFitPlan.headingScaleFactor),
       bodyScale: clampCvScale(CV_TYPE_DEFAULTS.bodyScale * pageFitPlan.bodyScaleFactor),
     };
-  }, [baseDesign, pageFitPlan]);
+  }, [baseDesign, pageFitMode, pageFitPlan]);
   const rubric = useMemo(() => resolveCvRubricOptions(design), [design]);
   const chromeDocumentContent = useMemo(
     () =>
@@ -329,7 +326,7 @@ export function CvCanvas({
   // rows stale until some unrelated field edit changed the data. Give the base
   // renderer a fresh top-level data identity whenever the effective design changes
   // so every typography/color/spacing toggle is reflected immediately.
-  const paginationData = useMemo(() => ({ ...data }), [data, design]);
+  const paginationData = useMemo(() => ({ ...data }), [data, design, presentation]);
 
   // The pupil-facing page-fit actions reuse the existing section-layout callback.
   // One-page mode first packs safe short rubrics into two independent Masonry
@@ -342,18 +339,48 @@ export function CvCanvas({
       if (!pageFitPlan) appliedPageFit.current = null;
       return;
     }
-    const requestKey = `${pageFitRevision}:${pageFitPlan.assignmentSignature}`;
+    const heights = measureCvPageFitSectionHeights(geometryScopeRef.current);
+    const chosenMode =
+      pageFitMode === "auto"
+        ? chooseCvSmartPageFitMode(
+            props.data,
+            heights,
+            measureCvPageFitCapacityPx(geometryScopeRef.current),
+            geometryScopeRef.current?.querySelectorAll("[data-cv-page]").length === 1,
+          )
+        : pageFitPlan.mode;
+    const measuredPlan =
+      chosenMode === "two"
+        ? buildCvPageFitPlan(props.data, "two", {
+            allowHalfWidth: pageFitLayout === "classic",
+            measuredSectionHeightsPx: heights ?? undefined,
+          })
+        : buildCvPageFitPlan(props.data, "one", {
+            // Short CVs have enough space without shrinking or forcing
+            // small sections into half-width masonry. Existing manually
+            // compacted layouts stay compact on a repeated auto action.
+            allowHalfWidth:
+              pageFitMode === "auto" &&
+              !Object.values(props.data.sectionLayouts ?? {}).some(
+                (layout) => layout?.packing === "masonry",
+              )
+                ? false
+                : pageFitLayout === "classic",
+          });
+    const requestKey = `${pageFitRevision}:${measuredPlan.assignmentSignature}`;
     if (appliedPageFit.current === requestKey) return;
     appliedPageFit.current = requestKey;
 
-    for (const key of Object.keys(pageFitPlan.pageBySection) as CvLayoutSectionKey[]) {
-      const page = pageFitPlan.pageBySection[key];
+    for (const key of Object.keys(measuredPlan.pageBySection) as CvLayoutSectionKey[]) {
+      // Absolute user-positioned sections must never be reset by a preset.
+      if (cvPageFitKeepsManualPosition(props.data, key)) continue;
+      const page = measuredPlan.pageBySection[key];
       if (!page) continue;
       props.onSectionLayout(key, {
         page,
-        width: pageFitPlan.widthBySection[key] ?? "full",
+        width: measuredPlan.widthBySection[key] ?? "full",
         positioning: "flow",
-        packing: pageFitPlan.packingBySection[key] ?? "rows",
+        packing: measuredPlan.packingBySection[key] ?? "rows",
         x: null,
         y: null,
         widthMm: null,
@@ -361,15 +388,20 @@ export function CvCanvas({
       });
     }
 
-    props.onPageFitDesign?.({
-      titleScale: clampCvScale(CV_TYPE_DEFAULTS.titleScale * pageFitPlan.titleScaleFactor),
-      headingScale: clampCvScale(CV_TYPE_DEFAULTS.headingScale * pageFitPlan.headingScaleFactor),
-      bodyScale: clampCvScale(CV_TYPE_DEFAULTS.bodyScale * pageFitPlan.bodyScaleFactor),
-    });
-    consumeCvPageFitMode(pageFitPlan.mode);
+    if (pageFitMode !== "auto") {
+      props.onPageFitDesign?.({
+        titleScale: clampCvScale(CV_TYPE_DEFAULTS.titleScale * measuredPlan.titleScaleFactor),
+        headingScale: clampCvScale(CV_TYPE_DEFAULTS.headingScale * measuredPlan.headingScaleFactor),
+        bodyScale: clampCvScale(CV_TYPE_DEFAULTS.bodyScale * measuredPlan.bodyScaleFactor),
+      });
+    }
+    consumeCvPageFitMode(pageFitMode!);
   }, [
     pageFitPlan,
+    pageFitMode,
+    pageFitLayout,
     pageFitRevision,
+    props.data,
     props.exportMode,
     props.onPageFitDesign,
     props.onSectionLayout,
@@ -394,7 +426,7 @@ export function CvCanvas({
 
   // The visible CV editor still owns the legacy html[data-dossier-template]
   // route scope. Hidden mixed-template PDF renderers opt out; their local
-  // marker is mirrored into html only inside html2canvas' throw-away clone.
+  // local contract is sufficient for measurement and rasterization.
   useLayoutEffect(() => {
     if (!manageGlobalTemplateScope) return;
     const root = document.documentElement;
@@ -410,8 +442,22 @@ export function CvCanvas({
   }, [design.template, manageGlobalTemplateScope]);
 
   const frame = cvFrameFor(design.template);
-  const classicBox = cvContentBox(frame, 0, "classic", design.sidebarPct, canvasChromeOptions);
-  const modernBox = cvContentBox(frame, 0, "modern", design.sidebarPct, canvasChromeOptions);
+  const classicBox = cvContentBox(
+    frame,
+    0,
+    "classic",
+    design.sidebarPct,
+    canvasChromeOptions,
+    presentation,
+  );
+  const modernBox = cvContentBox(
+    frame,
+    0,
+    "modern",
+    design.sidebarPct,
+    canvasChromeOptions,
+    presentation,
+  );
   const modernPhysicalBox =
     infoPosition === "mirrored"
       ? { left: modernBox.right, right: modernBox.left }
@@ -429,6 +475,8 @@ export function CvCanvas({
       ? nameStyle.color.trim()
       : undefined;
   const geometryStyle = {
+    ...dossierThemeCssVariables(design.template, design.font),
+    ...cvPresentationCssVariables(presentation),
     display: "contents",
     "--cv-classic-main-left": `${classicBox.left}mm`,
     "--cv-classic-main-right": `${classicBox.right}mm`,
@@ -458,13 +506,12 @@ export function CvCanvas({
     "--dossier-motif-opacity": String(Math.max(0, Math.min(1, design.bgOpacity))),
   } as CSSProperties;
 
-  const geometryScopeRef = useRef<HTMLDivElement>(null);
   useLayoutEffect(() => {
     const scope = geometryScopeRef.current;
     if (!scope) return;
 
     let animationFrame = 0;
-    const pin = () => pinCvSidebarMainGeometry(scope);
+    const pin = () => pinCvSidebarMainGeometry(scope, presentation.pageMargins);
     const schedulePin = () => {
       window.cancelAnimationFrame(animationFrame);
       animationFrame = window.requestAnimationFrame(pin);
@@ -492,6 +539,7 @@ export function CvCanvas({
     infoPosition,
     pageFitLayout,
     props.exportMode,
+    presentation.pageMargins,
   ]);
 
   return (
@@ -499,6 +547,7 @@ export function CvCanvas({
       ref={geometryScopeRef}
       style={geometryStyle}
       data-dossier-template={design.template}
+      data-cv-template={design.template}
       data-cv-page-fit-mode={pageFitMode ?? undefined}
       data-cv-body-align={bodyAlignment}
       data-cv-heading-rule={design.headingRule}
@@ -526,6 +575,7 @@ export function CvCanvas({
         {...props}
         data={paginationData}
         design={design}
+        presentation={presentation}
         chromeOptions={canvasChromeOptions}
         chromeContact={resolvedContact}
         chromeDocumentContent={chromeDocumentContent}

@@ -1,0 +1,40 @@
+[
+  {
+    "scope": "cover",
+    "earlyTimerInjection": true,
+    "lostAuthoredState": true,
+    "records": [
+      {
+        "template": "brief",
+        "entries": 0,
+        "firstName": "",
+        "valid": false
+      },
+      {
+        "template": "neon",
+        "entries": 0,
+        "firstName": "Lea",
+        "valid": true
+      }
+    ]
+  },
+  {
+    "scope": "cv",
+    "earlyTimerInjection": true,
+    "lostAuthoredState": true,
+    "records": [
+      {
+        "template": "brief",
+        "entries": 0,
+        "firstName": "",
+        "valid": false
+      },
+      {
+        "template": "neon",
+        "entries": 5,
+        "firstName": "Lea",
+        "valid": true
+      }
+    ]
+  }
+]

@@ -1,0 +1,109 @@
+{
+  "status": "PARTIAL",
+  "renderer": "LibreOffice; Microsoft Word remains unverified",
+  "results": [
+    {
+      "mode": "one",
+      "webCvPages": 1,
+      "primaryPdfCvPages": 1,
+      "nativeCvPages": 1,
+      "reload": true,
+      "actualUiDocxByteIdentical": true,
+      "allCvFieldsPresentInBothPdfs": true,
+      "coverLetterPixelIdentical": true,
+      "pillChecks": [
+        {
+          "field": "cv.section.custom:familie.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.schule.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.erfahrung.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.sprachen.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.staerken.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.hobbys.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.referenzen.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        }
+      ]
+    },
+    {
+      "mode": "two",
+      "webCvPages": 2,
+      "primaryPdfCvPages": 2,
+      "nativeCvPages": 2,
+      "reload": true,
+      "actualUiDocxByteIdentical": true,
+      "allCvFieldsPresentInBothPdfs": true,
+      "coverLetterPixelIdentical": true,
+      "pillChecks": [
+        {
+          "field": "cv.section.custom:familie.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.schule.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.erfahrung.heading",
+          "page": 4,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.sprachen.heading",
+          "page": 4,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.hobbys.heading",
+          "page": 4,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.staerken.heading",
+          "page": 4,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.referenzen.heading",
+          "page": 4,
+          "inkInsideSurface": true
+        }
+      ]
+    },
+    {
+      "mode": "two-to-one-and-repeat-one",
+      "sameDocxAsOne": true
+    },
+    {
+      "mode": "unchanged-default",
+      "sameDocxAs09": true
+    }
+  ],
+  "sha256": "2e42c2af27317b3d247b30f27fc170c1805a3fdc5dddec78f767334f01b66922"
+}

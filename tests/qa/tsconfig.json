@@ -1,0 +1,5 @@
+{
+  "extends": "../../tsconfig.json",
+  "include": ["./*.ts", "../e2e/support/dossier-gallery-shared.ts"],
+  "compilerOptions": { "types": ["node", "vite/client"] }
+}

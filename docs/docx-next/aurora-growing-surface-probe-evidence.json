@@ -1,0 +1,994 @@
+{
+  "runtime": {
+    "ProductName": "LibreOffice",
+    "ProductVersion": "25.8",
+    "ProductExtension": ".7.3",
+    "BuildId": "580(Build:3)"
+  },
+  "initialHeightMm": 20,
+  "accepted": false,
+  "cases": [
+    {
+      "fixture": "drawingml-2-fixed-control",
+      "lines": 2,
+      "sourcePackage": {
+        "packageAndSemanticFlowPolicy": "blocked: existing package policy excludes text boxes",
+        "lostFieldIds": [],
+        "matchingFallbackRepresentations": 0,
+        "gradientFills": 1,
+        "shapeHeightsMm": [20.0]
+      },
+      "savedPackage": {
+        "packageAndSemanticFlowPolicy": "blocked: existing package policy excludes text boxes",
+        "lostFieldIds": [],
+        "matchingFallbackRepresentations": 1,
+        "gradientFills": 1,
+        "shapeHeightsMm": [20.0025]
+      },
+      "source": {
+        "pages": 1,
+        "missingVisibleFields": ["hero.title.2"],
+        "whiteTextOnWhite": [],
+        "lastHeroBottomMm": 36.32156904008653,
+        "followingText": [
+          {
+            "page": 1,
+            "topMm": 40.14462649027506
+          }
+        ],
+        "followingTextOverlapsHeroOnPages": [],
+        "heroFontSizePt": [28.0]
+      },
+      "saved": {
+        "pages": 1,
+        "missingVisibleFields": ["hero.title.2"],
+        "whiteTextOnWhite": [],
+        "lastHeroBottomMm": 36.32156904008653,
+        "followingText": [
+          {
+            "page": 1,
+            "topMm": 40.14462649027506
+          }
+        ],
+        "followingTextOverlapsHeroOnPages": [],
+        "heroFontSizePt": [28.0]
+      }
+    },
+    {
+      "fixture": "drawingml-2-auto",
+      "lines": 2,
+      "sourcePackage": {
+        "packageAndSemanticFlowPolicy": "blocked: existing package policy excludes text boxes",
+        "lostFieldIds": [],
+        "matchingFallbackRepresentations": 0,
+        "gradientFills": 1,
+        "shapeHeightsMm": [20.0]
+      },
+      "savedPackage": {
+        "packageAndSemanticFlowPolicy": "blocked: existing package policy excludes text boxes",
+        "lostFieldIds": [],
+        "matchingFallbackRepresentations": 1,
+        "gradientFills": 1,
+        "shapeHeightsMm": [35.91277777777778]
+      },
+      "source": {
+        "pages": 1,
+        "missingVisibleFields": [],
+        "whiteTextOnWhite": [],
+        "lastHeroBottomMm": 50.15046492682563,
+        "followingText": [
+          {
+            "page": 1,
+            "topMm": 56.05489565531412
+          }
+        ],
+        "followingTextOverlapsHeroOnPages": [],
+        "heroFontSizePt": [28.0]
+      },
+      "saved": {
+        "pages": 1,
+        "missingVisibleFields": [],
+        "whiteTextOnWhite": [],
+        "lastHeroBottomMm": 50.15046492682563,
+        "followingText": [
+          {
+            "page": 1,
+            "topMm": 56.05489565531412
+          }
+        ],
+        "followingTextOverlapsHeroOnPages": [],
+        "heroFontSizePt": [28.0]
+      }
+    },
+    {
+      "fixture": "drawingml-10-auto",
+      "lines": 10,
+      "sourcePackage": {
+        "packageAndSemanticFlowPolicy": "blocked: existing package policy excludes text boxes",
+        "lostFieldIds": [],
+        "matchingFallbackRepresentations": 0,
+        "gradientFills": 1,
+        "shapeHeightsMm": [20.0]
+      },
+      "savedPackage": {
+        "packageAndSemanticFlowPolicy": "blocked: existing package policy excludes text boxes",
+        "lostFieldIds": [],
+        "matchingFallbackRepresentations": 1,
+        "gradientFills": 1,
+        "shapeHeightsMm": [151.6238888888889]
+      },
+      "source": {
+        "pages": 1,
+        "missingVisibleFields": [],
+        "whiteTextOnWhite": [],
+        "lastHeroBottomMm": 160.2171154446072,
+        "followingText": [
+          {
+            "page": 1,
+            "topMm": 171.7660121493869
+          }
+        ],
+        "followingTextOverlapsHeroOnPages": [],
+        "heroFontSizePt": [28.0]
+      },
+      "saved": {
+        "pages": 1,
+        "missingVisibleFields": [],
+        "whiteTextOnWhite": [],
+        "lastHeroBottomMm": 160.2171154446072,
+        "followingText": [
+          {
+            "page": 1,
+            "topMm": 171.7660121493869
+          }
+        ],
+        "followingTextOverlapsHeroOnPages": [],
+        "heroFontSizePt": [28.0]
+      }
+    },
+    {
+      "fixture": "drawingml-36-auto",
+      "lines": 36,
+      "sourcePackage": {
+        "packageAndSemanticFlowPolicy": "blocked: existing package policy excludes text boxes",
+        "lostFieldIds": [],
+        "matchingFallbackRepresentations": 0,
+        "gradientFills": 1,
+        "shapeHeightsMm": [20.0]
+      },
+      "savedPackage": {
+        "packageAndSemanticFlowPolicy": "blocked: existing package policy excludes text boxes",
+        "lostFieldIds": [],
+        "matchingFallbackRepresentations": 1,
+        "gradientFills": 1,
+        "shapeHeightsMm": [472.36944444444447]
+      },
+      "source": {
+        "pages": 2,
+        "missingVisibleFields": [
+          "hero.title.23",
+          "hero.title.24",
+          "hero.title.25",
+          "hero.title.26",
+          "hero.title.27",
+          "hero.title.28",
+          "hero.title.29",
+          "hero.title.30",
+          "hero.title.31",
+          "hero.title.32",
+          "hero.title.33",
+          "hero.title.34",
+          "hero.title.35",
+          "hero.title.36"
+        ],
+        "whiteTextOnWhite": [
+          {
+            "fieldId": "hero.title.1",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.2",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.3",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.4",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.5",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.6",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.7",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.8",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.9",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.10",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.11",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.12",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.13",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.14",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.15",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.16",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.17",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.18",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.19",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.20",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.21",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.22",
+            "page": 1,
+            "background": [255, 255, 255]
+          }
+        ],
+        "lastHeroBottomMm": 289.45726725260414,
+        "followingText": [
+          {
+            "page": 2,
+            "topMm": 20.124487601386175
+          }
+        ],
+        "followingTextOverlapsHeroOnPages": [],
+        "heroFontSizePt": [28.0]
+      },
+      "saved": {
+        "pages": 2,
+        "missingVisibleFields": [
+          "hero.title.23",
+          "hero.title.24",
+          "hero.title.25",
+          "hero.title.26",
+          "hero.title.27",
+          "hero.title.28",
+          "hero.title.29",
+          "hero.title.30",
+          "hero.title.31",
+          "hero.title.32",
+          "hero.title.33",
+          "hero.title.34",
+          "hero.title.35",
+          "hero.title.36"
+        ],
+        "whiteTextOnWhite": [
+          {
+            "fieldId": "hero.title.1",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.2",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.3",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.4",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.5",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.6",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.7",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.8",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.9",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.10",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.11",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.12",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.13",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.14",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.15",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.16",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.17",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.18",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.19",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.20",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.21",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.22",
+            "page": 1,
+            "background": [255, 255, 255]
+          }
+        ],
+        "lastHeroBottomMm": 289.45726725260414,
+        "followingText": [
+          {
+            "page": 2,
+            "topMm": 20.124487601386175
+          }
+        ],
+        "followingTextOverlapsHeroOnPages": [],
+        "heroFontSizePt": [28.0]
+      }
+    },
+    {
+      "fixture": "vml-2-fixed-control",
+      "lines": 2,
+      "sourcePackage": {
+        "packageAndSemanticFlowPolicy": "blocked: existing package policy excludes text boxes",
+        "lostFieldIds": [],
+        "matchingFallbackRepresentations": 0,
+        "gradientFills": 1,
+        "shapeHeightsMm": []
+      },
+      "savedPackage": {
+        "packageAndSemanticFlowPolicy": "blocked: existing package policy excludes text boxes",
+        "lostFieldIds": [],
+        "matchingFallbackRepresentations": 1,
+        "gradientFills": 1,
+        "shapeHeightsMm": [20.0025]
+      },
+      "source": {
+        "pages": 1,
+        "missingVisibleFields": [],
+        "whiteTextOnWhite": [
+          {
+            "fieldId": "hero.title.2",
+            "page": 1,
+            "background": [255, 255, 255]
+          }
+        ],
+        "lastHeroBottomMm": 45.899475479125975,
+        "followingText": [
+          {
+            "page": 1,
+            "topMm": 40.14462649027506
+          }
+        ],
+        "followingTextOverlapsHeroOnPages": [1],
+        "heroFontSizePt": [28.0]
+      },
+      "saved": {
+        "pages": 1,
+        "missingVisibleFields": ["hero.title.2"],
+        "whiteTextOnWhite": [],
+        "lastHeroBottomMm": 36.32156904008653,
+        "followingText": [
+          {
+            "page": 1,
+            "topMm": 40.14462649027506
+          }
+        ],
+        "followingTextOverlapsHeroOnPages": [],
+        "heroFontSizePt": [28.0]
+      }
+    },
+    {
+      "fixture": "vml-2-auto",
+      "lines": 2,
+      "sourcePackage": {
+        "packageAndSemanticFlowPolicy": "blocked: existing package policy excludes text boxes",
+        "lostFieldIds": [],
+        "matchingFallbackRepresentations": 0,
+        "gradientFills": 1,
+        "shapeHeightsMm": []
+      },
+      "savedPackage": {
+        "packageAndSemanticFlowPolicy": "blocked: existing package policy excludes text boxes",
+        "lostFieldIds": [],
+        "matchingFallbackRepresentations": 1,
+        "gradientFills": 1,
+        "shapeHeightsMm": [20.0025]
+      },
+      "source": {
+        "pages": 1,
+        "missingVisibleFields": [],
+        "whiteTextOnWhite": [
+          {
+            "fieldId": "hero.title.2",
+            "page": 1,
+            "background": [255, 255, 255]
+          }
+        ],
+        "lastHeroBottomMm": 45.899475479125975,
+        "followingText": [
+          {
+            "page": 1,
+            "topMm": 40.14462649027506
+          }
+        ],
+        "followingTextOverlapsHeroOnPages": [1],
+        "heroFontSizePt": [28.0]
+      },
+      "saved": {
+        "pages": 1,
+        "missingVisibleFields": ["hero.title.2"],
+        "whiteTextOnWhite": [],
+        "lastHeroBottomMm": 36.32156904008653,
+        "followingText": [
+          {
+            "page": 1,
+            "topMm": 40.14462649027506
+          }
+        ],
+        "followingTextOverlapsHeroOnPages": [],
+        "heroFontSizePt": [28.0]
+      }
+    },
+    {
+      "fixture": "vml-10-auto",
+      "lines": 10,
+      "sourcePackage": {
+        "packageAndSemanticFlowPolicy": "blocked: existing package policy excludes text boxes",
+        "lostFieldIds": [],
+        "matchingFallbackRepresentations": 0,
+        "gradientFills": 1,
+        "shapeHeightsMm": []
+      },
+      "savedPackage": {
+        "packageAndSemanticFlowPolicy": "blocked: existing package policy excludes text boxes",
+        "lostFieldIds": [],
+        "matchingFallbackRepresentations": 1,
+        "gradientFills": 1,
+        "shapeHeightsMm": [20.0025]
+      },
+      "source": {
+        "pages": 1,
+        "missingVisibleFields": [],
+        "whiteTextOnWhite": [
+          {
+            "fieldId": "hero.title.2",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.3",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.4",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.5",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.6",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.7",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.8",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.9",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.10",
+            "page": 1,
+            "background": [255, 255, 255]
+          }
+        ],
+        "lastHeroBottomMm": 150.3217030843099,
+        "followingText": [
+          {
+            "page": 1,
+            "topMm": 40.14462649027506
+          }
+        ],
+        "followingTextOverlapsHeroOnPages": [1],
+        "heroFontSizePt": [28.0]
+      },
+      "saved": {
+        "pages": 1,
+        "missingVisibleFields": [
+          "hero.title.2",
+          "hero.title.3",
+          "hero.title.4",
+          "hero.title.5",
+          "hero.title.6",
+          "hero.title.7",
+          "hero.title.8",
+          "hero.title.9",
+          "hero.title.10"
+        ],
+        "whiteTextOnWhite": [],
+        "lastHeroBottomMm": 36.32156904008653,
+        "followingText": [
+          {
+            "page": 1,
+            "topMm": 40.14462649027506
+          }
+        ],
+        "followingTextOverlapsHeroOnPages": [],
+        "heroFontSizePt": [28.0]
+      }
+    },
+    {
+      "fixture": "vml-36-auto",
+      "lines": 36,
+      "sourcePackage": {
+        "packageAndSemanticFlowPolicy": "blocked: existing package policy excludes text boxes",
+        "lostFieldIds": [],
+        "matchingFallbackRepresentations": 0,
+        "gradientFills": 1,
+        "shapeHeightsMm": []
+      },
+      "savedPackage": {
+        "packageAndSemanticFlowPolicy": "blocked: existing package policy excludes text boxes",
+        "lostFieldIds": [],
+        "matchingFallbackRepresentations": 1,
+        "gradientFills": 1,
+        "shapeHeightsMm": [20.0025]
+      },
+      "source": {
+        "pages": 1,
+        "missingVisibleFields": [
+          "hero.title.22",
+          "hero.title.23",
+          "hero.title.24",
+          "hero.title.25",
+          "hero.title.26",
+          "hero.title.27",
+          "hero.title.28",
+          "hero.title.29",
+          "hero.title.30",
+          "hero.title.31",
+          "hero.title.32",
+          "hero.title.33",
+          "hero.title.34",
+          "hero.title.35",
+          "hero.title.36"
+        ],
+        "whiteTextOnWhite": [
+          {
+            "fieldId": "hero.title.2",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.3",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.4",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.5",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.6",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.7",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.8",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.9",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.10",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.11",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.12",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.13",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.14",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.15",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.16",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.17",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.18",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.19",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.20",
+            "page": 1,
+            "background": [255, 255, 255]
+          },
+          {
+            "fieldId": "hero.title.21",
+            "page": 1,
+            "background": [255, 255, 255]
+          }
+        ],
+        "lastHeroBottomMm": 293.9022586398654,
+        "followingText": [
+          {
+            "page": 1,
+            "topMm": 40.14462649027506
+          }
+        ],
+        "followingTextOverlapsHeroOnPages": [1],
+        "heroFontSizePt": [28.0]
+      },
+      "saved": {
+        "pages": 1,
+        "missingVisibleFields": [
+          "hero.title.2",
+          "hero.title.3",
+          "hero.title.4",
+          "hero.title.5",
+          "hero.title.6",
+          "hero.title.7",
+          "hero.title.8",
+          "hero.title.9",
+          "hero.title.10",
+          "hero.title.11",
+          "hero.title.12",
+          "hero.title.13",
+          "hero.title.14",
+          "hero.title.15",
+          "hero.title.16",
+          "hero.title.17",
+          "hero.title.18",
+          "hero.title.19",
+          "hero.title.20",
+          "hero.title.21",
+          "hero.title.22",
+          "hero.title.23",
+          "hero.title.24",
+          "hero.title.25",
+          "hero.title.26",
+          "hero.title.27",
+          "hero.title.28",
+          "hero.title.29",
+          "hero.title.30",
+          "hero.title.31",
+          "hero.title.32",
+          "hero.title.33",
+          "hero.title.34",
+          "hero.title.35",
+          "hero.title.36"
+        ],
+        "whiteTextOnWhite": [],
+        "lastHeroBottomMm": 36.32156904008653,
+        "followingText": [
+          {
+            "page": 1,
+            "topMm": 40.14462649027506
+          }
+        ],
+        "followingTextOverlapsHeroOnPages": [],
+        "heroFontSizePt": [28.0]
+      }
+    },
+    {
+      "fixture": "table-solid-2-auto",
+      "lines": 2,
+      "sourcePackage": {
+        "packageAndSemanticFlowPolicy": "pass",
+        "lostFieldIds": [],
+        "matchingFallbackRepresentations": 0,
+        "gradientFills": 1,
+        "shapeHeightsMm": [20.0]
+      },
+      "savedPackage": {
+        "packageAndSemanticFlowPolicy": "pass",
+        "lostFieldIds": [],
+        "matchingFallbackRepresentations": 1,
+        "gradientFills": 1,
+        "shapeHeightsMm": [20.0025]
+      },
+      "source": {
+        "pages": 1,
+        "missingVisibleFields": [],
+        "whiteTextOnWhite": [],
+        "lastHeroBottomMm": 68.42434950934515,
+        "followingText": [
+          {
+            "page": 1,
+            "topMm": 79.0030857933892
+          }
+        ],
+        "followingTextOverlapsHeroOnPages": [],
+        "heroFontSizePt": [28.0]
+      },
+      "saved": {
+        "pages": 1,
+        "missingVisibleFields": [],
+        "whiteTextOnWhite": [],
+        "lastHeroBottomMm": 68.42434950934515,
+        "followingText": [
+          {
+            "page": 1,
+            "topMm": 79.0030857933892
+          }
+        ],
+        "followingTextOverlapsHeroOnPages": [],
+        "heroFontSizePt": [28.0]
+      }
+    },
+    {
+      "fixture": "table-solid-10-auto",
+      "lines": 10,
+      "sourcePackage": {
+        "packageAndSemanticFlowPolicy": "pass",
+        "lostFieldIds": [],
+        "matchingFallbackRepresentations": 0,
+        "gradientFills": 1,
+        "shapeHeightsMm": [20.0]
+      },
+      "savedPackage": {
+        "packageAndSemanticFlowPolicy": "pass",
+        "lostFieldIds": [],
+        "matchingFallbackRepresentations": 1,
+        "gradientFills": 1,
+        "shapeHeightsMm": [20.0025]
+      },
+      "source": {
+        "pages": 1,
+        "missingVisibleFields": [],
+        "whiteTextOnWhite": [],
+        "lastHeroBottomMm": 172.84656634860568,
+        "followingText": [
+          {
+            "page": 1,
+            "topMm": 183.42530263264973
+          }
+        ],
+        "followingTextOverlapsHeroOnPages": [],
+        "heroFontSizePt": [28.0]
+      },
+      "saved": {
+        "pages": 1,
+        "missingVisibleFields": [],
+        "whiteTextOnWhite": [],
+        "lastHeroBottomMm": 172.84656634860568,
+        "followingText": [
+          {
+            "page": 1,
+            "topMm": 183.42530263264973
+          }
+        ],
+        "followingTextOverlapsHeroOnPages": [],
+        "heroFontSizePt": [28.0]
+      }
+    },
+    {
+      "fixture": "table-solid-36-auto",
+      "lines": 36,
+      "sourcePackage": {
+        "packageAndSemanticFlowPolicy": "pass",
+        "lostFieldIds": [],
+        "matchingFallbackRepresentations": 0,
+        "gradientFills": 1,
+        "shapeHeightsMm": [20.0]
+      },
+      "savedPackage": {
+        "packageAndSemanticFlowPolicy": "pass",
+        "lostFieldIds": [],
+        "matchingFallbackRepresentations": 1,
+        "gradientFills": 1,
+        "shapeHeightsMm": [20.0025]
+      },
+      "source": {
+        "pages": 3,
+        "missingVisibleFields": [],
+        "whiteTextOnWhite": [],
+        "lastHeroBottomMm": 270.30143822564014,
+        "followingText": [
+          {
+            "page": 3,
+            "topMm": 32.87739134894477
+          }
+        ],
+        "followingTextOverlapsHeroOnPages": [],
+        "heroFontSizePt": [28.0]
+      },
+      "saved": {
+        "pages": 3,
+        "missingVisibleFields": [],
+        "whiteTextOnWhite": [],
+        "lastHeroBottomMm": 270.30143822564014,
+        "followingText": [
+          {
+            "page": 3,
+            "topMm": 32.87739134894477
+          }
+        ],
+        "followingTextOverlapsHeroOnPages": [],
+        "heroFontSizePt": [28.0]
+      }
+    }
+  ],
+  "failedAutoFitCases": ["drawingml-36-auto", "vml-2-auto", "vml-10-auto", "vml-36-auto"],
+  "visualAdaptation": "table-solid is a fixed gradient banner plus a SOLID growing native cell; requires explicit design approval",
+  "result": "blocked"
+}

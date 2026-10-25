@@ -1,0 +1,69 @@
+{
+  "classification": "PARTIAL; scoped Web defaults PASS; new footer Word acceptance UNVERIFIED",
+  "unit": {
+    "pass": 1222,
+    "fail": 0,
+    "assertions": 23369,
+    "files": 254
+  },
+  "docx": {
+    "pass": 409,
+    "fail": 0,
+    "assertions": 6286,
+    "files": 64,
+    "overlapsUnit": true
+  },
+  "typecheck": "PASS",
+  "lint": {
+    "errors": 0,
+    "existingWarnings": 21
+  },
+  "build": "PASS complete Vite/Nitro build",
+  "formatting": "PASS",
+  "actualAppPositiveCases": 2,
+  "actualAppRejectionCases": 3,
+  "freshDefaultSourceEqualsReviewedExplicitSettings": true,
+  "allFourRenderedPagesInspected": true,
+  "renderedPageCount": 4,
+  "newCandidateWordVisualEditingSaveReopen": "UNVERIFIED",
+  "oldWord05VisualApproval": "user confirmed; PDF confirms 7/7 containment and narrow edge gap",
+  "oldWord05SavedDocx": "not supplied",
+  "scope": "Modern classic defaults; controlled Modern chrome paint coverage; no other template expansion",
+  "logSha256": {
+    "unit": "952cca29330853a1261104891aea105f46a94b4e8cd4a1b88e7d730738819263",
+    "docx": "7435cbad235c8743ee4f86317506934277b3e3b8cf1628abcb8023c00415f795",
+    "typecheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "lint": "ef3d81ab5a98245e51ddbc83f64be6a74f38ff5cb65a23a34ac28d66550443d2",
+    "build": "c6c04f1ac59ce0d74b4d5fc71c50a90891e1b5f5c8d1523cf70b33d5ea4eed5b"
+  },
+  "publication": {
+    "branch": "investigate/docx-next-design-fidelity-16okt",
+    "parent": "719e6da6c1c6117ea111129d5af65b56ed47ae87",
+    "dev": "8901a830a792d75e9e792345c5180827218b4e1e",
+    "main": "44d7eb950b4fe972d6e890a72b6d3256ce365bc9",
+    "render": "4319c20fb85d3971ac355ae8898cdfef86ee7a8c",
+    "deploymentRequested": false,
+    "ordinaryExportEngineDefaultChanged": false,
+    "liveBranchDeploymentsBefore": 0,
+    "liveBranchWorkflowRunsBefore": 0,
+    "exactBranchAndWildcardVercelDisabled": true,
+    "workflowExclusions": [
+      ".github/workflows/docx-next-model-gate.yml",
+      ".github/workflows/docx-next-nearest-engine.yml",
+      ".github/workflows/docx-next-stable-sidebar.yml",
+      ".github/workflows/dossier-docx-gallery.yml",
+      ".github/workflows/dossier-pdf-gallery.yml",
+      ".github/workflows/dossier-regression.yml",
+      ".github/workflows/dossier-visual-parity.yml",
+      ".github/workflows/dossier-web-gallery.yml",
+      ".github/workflows/letter-flow-boundaries.yml",
+      ".github/workflows/letter-pdf-textlayer.yml",
+      ".github/workflows/native-neon-text.yml",
+      ".github/workflows/pagination-integration.yml",
+      ".github/workflows/pdf-preflight.yml",
+      ".github/workflows/ribbon-cover-overflow.yml",
+      ".github/workflows/template-contact-integrity.yml",
+      ".github/workflows/template-font-audit.yml"
+    ]
+  }
+}

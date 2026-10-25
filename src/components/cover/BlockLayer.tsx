@@ -1,5 +1,6 @@
+import { coverTextRole, coverTextPresentation } from "./presentation";
 import { useRef, useState } from "react";
-import type { Block, BlockStyle, CoverData, Line } from "./types";
+import type { Block, BlockStyle, CoverData, Line, TemplateId } from "./types";
 import { FONT_STACKS } from "./types";
 import { resolveColor } from "./layouts";
 import { ShapeElement } from "./ShapeElement";
@@ -7,6 +8,7 @@ import { resolveLayout } from "./resolve";
 import { clampBlockDragPosition } from "./drag-bounds";
 import { hasUserStyle } from "./user-style-precedence";
 import { FRAME, PAGE } from "@/default-config";
+import { dossierElementFieldId } from "@/lib/dossier-semantic-fields";
 
 const MM = 96 / 25.4; // px pro mm bei 96dpi
 const { WIDTH: PAGE_W } = PAGE;
@@ -46,20 +48,7 @@ const RESIZE_DIRECTION_LABEL: Record<ResizeDirection, string> = {
 
 export type Point = { x: number; y: number };
 
-type DossierTextRole = "name" | "subtitle" | "heading" | "body" | "muted";
 type LayeredStyle = BlockStyle & { layer?: "back" | "front" };
-
-/** Gemeinsame semantische Hierarchie für Titelblatt und Lebenslauf. */
-function dossierRole(block: Block): DossierTextRole | undefined {
-  if (block.kind !== "text") return undefined;
-  if (block.id === "name") return "name";
-  if (block.id === "beruf") return "subtitle";
-  if (["eyebrow", "kicker", "kontaktTitel", "anTitel", "beilagenTitel"].includes(block.id))
-    return "heading";
-  if (["ortDatum", "lehrbeginn"].includes(block.id)) return "muted";
-  if (["kontakt", "empfaenger", "beilagen"].includes(block.id)) return "body";
-  return undefined;
-}
 
 function initials(data: CoverData) {
   return [data.vorname, data.nachname]
@@ -172,6 +161,8 @@ type Props = {
   onMove: (id: string, patch: Partial<BlockStyle>) => void;
   /** Gemeinsame berechnete Dossier-Schrift für semantische Titelblattrollen. */
   dossierFont?: string;
+  textPresentationTemplate?: TemplateId;
+  semanticScope?: "cv";
   /** Globale Schriftskalierung (1 = Vorlagen-Standard). */
   fontScale?: number;
   editable?: boolean;
@@ -200,6 +191,8 @@ export function BlockLayer({
   onSelect,
   onMove,
   dossierFont,
+  textPresentationTemplate,
+  semanticScope,
   fontScale = 1,
   editable = true,
   drawing = false,
@@ -487,7 +480,7 @@ export function BlockLayer({
         const { size, y } = layout[b.id];
         const hasBadge = b.kind === "text" && !!st.bg;
         const textBorder = st.borderWidth ?? 0;
-        const role = dossierRole(b);
+        const role = coverTextRole(b, textPresentationTemplate);
         const customLayer = b.id.startsWith("custom-")
           ? ((st as LayeredStyle).layer ?? "front")
           : "content";
@@ -539,6 +532,12 @@ export function BlockLayer({
             className="absolute"
             style={{
               left: `${st.x}mm`,
+              ...(textPresentationTemplate === "modern" && hasBadge
+                ? {
+                    ["--cover-badge-radius" as string]:
+                      st.bgRadius >= 999 ? "9999px" : `${st.bgRadius}mm`,
+                  }
+                : {}),
               top: `${y}mm`,
               width: bleedRight ? `calc(${st.w}mm + ${EDGE_BLEED_PX}px)` : `${st.w}mm`,
               ["--dossier-font" as string]:
@@ -634,8 +633,17 @@ export function BlockLayer({
               )
             ) : (
               <div
+                data-dossier-field-id={
+                  semanticScope ? dossierElementFieldId(semanticScope, b.id) : undefined
+                }
                 style={{
-                  ...textStyle(st, size, colors),
+                  ...textStyle(
+                    textPresentationTemplate
+                      ? coverTextPresentation(b, textPresentationTemplate, colors).style
+                      : st,
+                    size,
+                    colors,
+                  ),
                   boxSizing: "border-box",
                   minHeight:
                     Math.max(st.h ?? 0, b.src ? st.w * (st.ratio ?? 0.6) : 0) > 0

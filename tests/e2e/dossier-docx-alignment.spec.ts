@@ -147,9 +147,7 @@ test.describe("real DOCX body alignment parity", () => {
     const xml = new TextDecoder().decode(documentXmlEntry!.bytes);
 
     expect(paragraphContaining(xml, "LETTER-LEFT-DOCX")).toContain('<w:jc w:val="left"/>');
-    expect(paragraphContaining(xml, "LETTER-JUSTIFY-DOCX")).toContain(
-      '<w:jc w:val="both"/>',
-    );
+    expect(paragraphContaining(xml, "LETTER-JUSTIFY-DOCX")).toContain('<w:jc w:val="both"/>');
     expect(paragraphContaining(xml, "CV-JUSTIFY-DOCX")).toContain('<w:jc w:val="both"/>');
   });
 });

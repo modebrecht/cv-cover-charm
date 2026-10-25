@@ -128,7 +128,8 @@ function polishDocumentXml(
   );
 
   if (!cover.data.foto) {
-    const coverInitials = `${cover.data.vorname.trim().charAt(0)}${cover.data.nachname.trim().charAt(0)}`.toUpperCase();
+    const coverInitials =
+      `${cover.data.vorname.trim().charAt(0)}${cover.data.nachname.trim().charAt(0)}`.toUpperCase();
     xml = replaceParagraphAfter(xml, coverInitials, 45);
   }
   if (cover.data.lehrbeginn?.trim()) {

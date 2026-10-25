@@ -1,0 +1,242 @@
+[
+  [
+    {
+      "tag": "DIV",
+      "attributes": [
+        [
+          "data-dossier-field-id",
+          "cv.section.custom:familie.heading"
+        ],
+        [
+          "data-cv-section-title",
+          "true"
+        ],
+        [
+          "data-cv-user-section-size",
+          "true"
+        ],
+        [
+          "data-tsd-source",
+          "/src/components/cv/CvCanvasBase.tsx:553:11"
+        ]
+      ],
+      "text": "FAMILIE",
+      "xMm": 19.98917370976251,
+      "yMm": 73.32022110457272,
+      "widthMm": 20.022234610381705,
+      "heightMm": 5.000137014487355,
+      "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "sizePx": "14px",
+      "lineHeight": "14.98px",
+      "align": "start",
+      "padding": "3.02362px 9.07087px",
+      "radius": "9999px",
+      "background": "color(srgb 0.141176 0.290196 0.380392 / 0.14)",
+      "shadow": "color(srgb 0.141176 0.290196 0.380392 / 0.3) 0px 0px 0px 0.755906px inset"
+    },
+    {
+      "tag": "DIV",
+      "attributes": [
+        [
+          "data-dossier-field-id",
+          "cv.section.schule.heading"
+        ],
+        [
+          "data-cv-section-title",
+          "true"
+        ],
+        [
+          "data-cv-user-section-size",
+          "true"
+        ],
+        [
+          "data-tsd-source",
+          "/src/components/cv/CvCanvasBase.tsx:553:11"
+        ]
+      ],
+      "text": "SCHULBILDUNG",
+      "xMm": 19.98917370976251,
+      "yMm": 89.99424350384584,
+      "widthMm": 35.362286918317174,
+      "heightMm": 5.000137014487355,
+      "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "sizePx": "14px",
+      "lineHeight": "14.98px",
+      "align": "start",
+      "padding": "3.02362px 9.07087px",
+      "radius": "9999px",
+      "background": "color(srgb 0.141176 0.290196 0.380392 / 0.14)",
+      "shadow": "color(srgb 0.141176 0.290196 0.380392 / 0.3) 0px 0px 0px 0.755906px inset"
+    },
+    {
+      "tag": "DIV",
+      "attributes": [
+        [
+          "data-dossier-field-id",
+          "cv.section.erfahrung.heading"
+        ],
+        [
+          "data-cv-section-title",
+          "true"
+        ],
+        [
+          "data-cv-user-section-size",
+          "true"
+        ],
+        [
+          "data-tsd-source",
+          "/src/components/cv/CvCanvasBase.tsx:553:11"
+        ]
+      ],
+      "text": "PRAKTIKA & SCHNUPPERTAGE",
+      "xMm": 19.98917370976251,
+      "yMm": 122.20587526301748,
+      "widthMm": 64.37282539743565,
+      "heightMm": 5.000146358529317,
+      "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "sizePx": "14px",
+      "lineHeight": "14.98px",
+      "align": "start",
+      "padding": "3.02362px 9.07087px",
+      "radius": "9999px",
+      "background": "color(srgb 0.141176 0.290196 0.380392 / 0.14)",
+      "shadow": "color(srgb 0.141176 0.290196 0.380392 / 0.3) 0px 0px 0px 0.755906px inset"
+    },
+    {
+      "tag": "DIV",
+      "attributes": [
+        [
+          "data-dossier-field-id",
+          "cv.section.sprachen.heading"
+        ],
+        [
+          "data-cv-section-title",
+          "true"
+        ],
+        [
+          "data-cv-user-section-size",
+          "true"
+        ],
+        [
+          "data-tsd-source",
+          "/src/components/cv/CvCanvasBase.tsx:553:11"
+        ]
+      ],
+      "text": "SPRACHEN",
+      "xMm": 19.98917370976251,
+      "yMm": 159.72344649796634,
+      "widthMm": 25.94006106508269,
+      "heightMm": 5.000146358529317,
+      "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "sizePx": "14px",
+      "lineHeight": "14.98px",
+      "align": "start",
+      "padding": "3.02362px 9.07087px",
+      "radius": "9999px",
+      "background": "color(srgb 0.141176 0.290196 0.380392 / 0.14)",
+      "shadow": "color(srgb 0.141176 0.290196 0.380392 / 0.3) 0px 0px 0px 0.755906px inset"
+    },
+    {
+      "tag": "DIV",
+      "attributes": [
+        [
+          "data-dossier-field-id",
+          "cv.section.hobbys.heading"
+        ],
+        [
+          "data-cv-section-title",
+          "true"
+        ],
+        [
+          "data-cv-user-section-size",
+          "true"
+        ],
+        [
+          "data-tsd-source",
+          "/src/components/cv/CvCanvasBase.tsx:553:11"
+        ]
+      ],
+      "text": "HOBBYS & INTERESSEN",
+      "xMm": 19.98917370976251,
+      "yMm": 181.17447018967462,
+      "widthMm": 51.074269685960154,
+      "heightMm": 5.000127670445393,
+      "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "sizePx": "14px",
+      "lineHeight": "14.98px",
+      "align": "start",
+      "padding": "3.02362px 9.07087px",
+      "radius": "9999px",
+      "background": "color(srgb 0.141176 0.290196 0.380392 / 0.14)",
+      "shadow": "color(srgb 0.141176 0.290196 0.380392 / 0.3) 0px 0px 0px 0.755906px inset"
+    },
+    {
+      "tag": "DIV",
+      "attributes": [
+        [
+          "data-dossier-field-id",
+          "cv.section.staerken.heading"
+        ],
+        [
+          "data-cv-section-title",
+          "true"
+        ],
+        [
+          "data-cv-user-section-size",
+          "true"
+        ],
+        [
+          "data-tsd-source",
+          "/src/components/cv/CvCanvasBase.tsx:553:11"
+        ]
+      ],
+      "text": "STÄRKEN",
+      "xMm": 19.98917370976251,
+      "yMm": 203.20813227388047,
+      "widthMm": 22.981138493215347,
+      "heightMm": 5.000146358529317,
+      "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "sizePx": "14px",
+      "lineHeight": "14.98px",
+      "align": "start",
+      "padding": "3.02362px 9.07087px",
+      "radius": "9999px",
+      "background": "color(srgb 0.141176 0.290196 0.380392 / 0.14)",
+      "shadow": "color(srgb 0.141176 0.290196 0.380392 / 0.3) 0px 0px 0px 0.755906px inset"
+    },
+    {
+      "tag": "DIV",
+      "attributes": [
+        [
+          "data-dossier-field-id",
+          "cv.section.referenzen.heading"
+        ],
+        [
+          "data-cv-section-title",
+          "true"
+        ],
+        [
+          "data-cv-user-section-size",
+          "true"
+        ],
+        [
+          "data-tsd-source",
+          "/src/components/cv/CvCanvasBase.tsx:553:11"
+        ]
+      ],
+      "text": "REFERENZEN",
+      "xMm": 19.98917370976251,
+      "yMm": 225.24181304617025,
+      "widthMm": 30.560251842738722,
+      "heightMm": 5.000127670445393,
+      "font": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "sizePx": "14px",
+      "lineHeight": "14.98px",
+      "align": "start",
+      "padding": "3.02362px 9.07087px",
+      "radius": "9999px",
+      "background": "color(srgb 0.141176 0.290196 0.380392 / 0.14)",
+      "shadow": "color(srgb 0.141176 0.290196 0.380392 / 0.3) 0px 0px 0px 0.755906px inset"
+    }
+  ]
+]

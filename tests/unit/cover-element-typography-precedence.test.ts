@@ -64,9 +64,7 @@ describe("cover element typography precedence", () => {
 
   test("late layout defaults no longer overwrite deliberate user typography", () => {
     expect(layouts).toContain('lineHeight: hasUserStyle(block, "lineHeight")');
-    expect(layouts).toContain(
-      "weight: titleOverride.weight ?? Math.max(600, titleBase.weight)",
-    );
+    expect(layouts).toContain("weight: titleOverride.weight ?? Math.max(600, titleBase.weight)");
     expect(layouts).toContain("withUserStyleKeys(block, overrides[block.id])");
   });
 
@@ -77,13 +75,13 @@ describe("cover element typography precedence", () => {
 
   test("CV typography contract remains hardened", () => {
     expect(dossierCss).toContain(
-      '[data-cv-section-title] {\n  font-weight: var(--dossier-heading-weight) !important;\n  text-transform: var(--dossier-heading-transform) !important;\n}',
+      "[data-cv-section-title] {\n  font-weight: var(--dossier-heading-weight) !important;\n  text-transform: var(--dossier-heading-transform) !important;\n}",
     );
     expect(dossierCss).toContain(
-      '[data-cv-name] {\n  font-weight: var(--dossier-name-weight) !important;\n}',
+      "[data-cv-name] {\n  font-weight: var(--dossier-name-weight) !important;\n}",
     );
     expect(dossierCss).toContain(
-      '[data-cv-subtitle] {\n  font-weight: var(--dossier-subtitle-weight) !important;\n}',
+      "[data-cv-subtitle] {\n  font-weight: var(--dossier-subtitle-weight) !important;\n}",
     );
   });
 });

@@ -1,0 +1,41 @@
+{
+  "baseCommit": "ccbc6e8d35d3adc4bc01bb8bfd5bacf77b03404f",
+  "automated": {
+    "docxSuite": {
+      "passed": 434,
+      "failed": 0,
+      "files": 69,
+      "expectations": 6988,
+      "durationSeconds": 9.24
+    },
+    "targetedTests": {
+      "passed": 19,
+      "failed": 0,
+      "files": 4
+    },
+    "typecheck": "PASS",
+    "changedFilesLint": "PASS",
+    "changedFilesFormat": "PASS",
+    "viteBuild": "PASS",
+    "fullUnitSuite": "Not rerun; prior checkpoint had 1246 passing tests"
+  },
+  "downloads": {
+    "docx": 10,
+    "normalAppPdfs": 10,
+    "byteIdenticalAppGeneration": 10,
+    "reloadAndExportStatePreserved": 10
+  },
+  "visual": {
+    "nativePages": 39,
+    "changedPagesInspected": 7,
+    "unchangedPageRasters": 32,
+    "wordAcceptanceForRevision2": "PENDING"
+  },
+  "scope": {
+    "productionExportSwitch": false,
+    "merge": false,
+    "deployment": false,
+    "ciDispatch": false,
+    "sidebarOrAgentAChange": false
+  }
+}

@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-25",
+  "repository": "modebrecht/cv-cover-charm",
+  "branch": "fix/docx-next-shared-integration-22okt",
+  "sourceCommit": "7b4d7a444551d05eca9f8e1db71a17fe8c3a3153",
+  "verifiedInputCount": 977,
+  "unexpectedSourceChanges": [],
+  "changeProof": [
+    {
+      "path": "scripts/qa-cv-document-scale-22okt.ts",
+      "bytes": 6270,
+      "gitBlobSha": "34d4af2173b7a98ae8f0eae03a40d412a65baf7b",
+      "proof": "Transpiled JavaScript identical after canonical formatting (including redundant parentheses)"
+    },
+    {
+      "path": "scripts/qa-sidebar-page-surface-22okt.ts",
+      "bytes": 4415,
+      "gitBlobSha": "e75e42d6a961c36978a5b90e296cb80dde55bdc1",
+      "proof": "Transpiled JavaScript identical after canonical formatting (including redundant parentheses)"
+    },
+    {
+      "path": "package.json",
+      "bytes": 7347,
+      "gitBlobSha": "8942296f74b3415ada62d99699f661dc7cce5352",
+      "proof": "Parsed JSON deep equality"
+    },
+    {
+      "path": "src/components/dossier/DossierExportDialog.tsx",
+      "bytes": 25210,
+      "gitBlobSha": "e9b0369a96eeeba53ba1587c53fede4d49daa76f",
+      "proof": "Transpiled JavaScript identical after canonical formatting (including redundant parentheses)"
+    }
+  ],
+  "publicAssets": [
+    {
+      "path": "public/favicon.ico",
+      "bytes": 20373,
+      "outputBytesEqual": true
+    },
+    {
+      "path": "public/fonts/Cabin-Bold.ttf",
+      "bytes": 102512,
+      "outputBytesEqual": true
+    },
+    {
+      "path": "public/fonts/Cabin-BoldItalic.ttf",
+      "bytes": 93332,
+      "outputBytesEqual": true
+    },
+    {
+      "path": "public/fonts/Cabin-Italic.ttf",
+      "bytes": 93372,
+      "outputBytesEqual": true
+    },
+    {
+      "path": "public/fonts/Cabin-OFL.txt",
+      "bytes": 4477,
+      "outputBytesEqual": true
+    },
+    {
+      "path": "public/fonts/Cabin-Regular.ttf",
+      "bytes": 103092,
+      "outputBytesEqual": true
+    }
+  ],
+  "buildLogWarnings": [
+    " WARN  inlineDynamicImports option is ignored because the codeSplitting option is specified."
+  ],
+  "globalFormatFileCount": 169,
+  "logs": [
+    {
+      "file": "production-build-25okt.log",
+      "bytes": 32022,
+      "sha256": "ceec440127912d020871743f3ff19622c82b8bbad81975609fec064faa20b38c"
+    },
+    {
+      "file": "production-build-final-25okt.log",
+      "bytes": 31426,
+      "sha256": "b4e61c3037cc7a111acc594c3fe07fc7a9715949ebe89c272b5cd7af1d9b64bf"
+    },
+    {
+      "file": "production-typecheck-final-25okt.log",
+      "bytes": 15,
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    },
+    {
+      "file": "repository-lint-25okt.log",
+      "bytes": 6973,
+      "sha256": "bd5e1d23fe08db73ce3d8f387e4f8559613e8623bf373c15a480b10d59ece676"
+    },
+    {
+      "file": "repository-lint-final-25okt.log",
+      "bytes": 6362,
+      "sha256": "0b8af8dcf716cacd4be27abb7d1ba6afeda887f1c4f00901b14ddfa1e80770ce"
+    },
+    {
+      "file": "release-format-25okt.log",
+      "bytes": 910,
+      "sha256": "56b7e92d512ce059ab3bd4c30c2a0bf2fd24f9774496638ee7167d89dbfee056"
+    },
+    {
+      "file": "release-format-final-25okt.log",
+      "bytes": 746,
+      "sha256": "2574595e30952c6d22e8c36e49469300e1151b49f3a70cc0dea29b85f77b1929"
+    },
+    {
+      "file": "global-format-final-25okt.log",
+      "bytes": 8345,
+      "sha256": "230946d9a0d681d4b793a59b9b7d424cafe5d18258da08782f4773453d528a4e"
+    },
+    {
+      "file": "scope-format-final-25okt.log",
+      "bytes": 66,
+      "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+    }
+  ],
+  "results": {
+    "productionBuild": {
+      "status": "PASS",
+      "command": "bun run build",
+      "exitCode": 0,
+      "phase": "after the four source corrections",
+      "target": "unchanged configured Nitro cloudflare-module",
+      "deployment": false
+    },
+    "typecheck": {
+      "status": "PASS",
+      "command": "bun run typecheck",
+      "exitCode": 0
+    },
+    "fullLint": {
+      "before": {
+        "errors": 4,
+        "warnings": 21,
+        "exitCode": 1
+      },
+      "after": {
+        "errors": 0,
+        "warnings": 21,
+        "exitCode": 0
+      },
+      "command": "bun run lint"
+    },
+    "releaseFormat": {
+      "before": {
+        "status": "FAIL",
+        "files": [
+          "package.json",
+          "src/components/dossier/DossierExportDialog.tsx"
+        ]
+      },
+      "after": {
+        "status": "PASS",
+        "exitCode": 0
+      },
+      "command": "bun run format:check:release"
+    },
+    "scopedFormat": {
+      "status": "PASS",
+      "fileCount": 4,
+      "exitCode": 0
+    },
+    "globalFormat": {
+      "status": "FAIL",
+      "fileCount": 169,
+      "exitCode": 1,
+      "command": "bun run format:check"
+    },
+    "unitSuite": {
+      "status": "PRIOR_PASS_NOT_RERUN",
+      "commit": "7b4d7a444551d05eca9f8e1db71a17fe8c3a3153",
+      "pass": 1412,
+      "fail": 0,
+      "reason": "Only erased QA-script annotations and runtime-equivalent formatting changed; see existing-check-fixes report."
+    },
+    "wordPhotoEditing": "UNVERIFIED",
+    "wordRecipientMinimum": "UNVERIFIED",
+    "referenceRoleWrap": "OPEN"
+  },
+  "inputScope": "All src, public and repository JavaScript/TypeScript plus actual build/lint configs; byte lengths and actual Git blob hashes checked against pinned remote tree, allowing exactly the four reviewed changes.",
+  "runtimeEquivalenceMethod": "TypeScript transpilation with comments removed, then Prettier Babel normalization of emitted JavaScript, including redundant parentheses. package.json parsed objects deep-equal.",
+  "exclusions": [
+    "No new unit/browser/Office regression matrix",
+    "No DOCX or PDF regeneration",
+    "No Word Save/Reopen or UI acceptance",
+    "No production switch",
+    "No CI dispatch",
+    "No merge or deployment",
+    "No dependency or lockfile changes",
+    "No generated outputs or private files published"
+  ]
+}

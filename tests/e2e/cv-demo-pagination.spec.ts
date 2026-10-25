@@ -129,7 +129,7 @@ test.describe("M9 demo CV pagination", () => {
 
     const download = page.getByRole("button", { name: "Download", exact: true });
     await expect(download).toHaveAttribute("data-editor-ready", "true", { timeout: 15_000 });
-    await download.click();
+    await page.getByRole("button", { name: "Menü", exact: true }).click();
     await page.getByRole("button", { name: "Beispieldaten übernehmen", exact: true }).click();
     await page.getByRole("button", { name: "Ja", exact: true }).click();
 

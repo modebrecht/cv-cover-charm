@@ -1,0 +1,1028 @@
+{
+  "fixtureCount": 15,
+  "sourcePages": 105,
+  "savedPages": 105,
+  "taggedFields": 1695,
+  "matchingTaggedFields": 1695,
+  "fieldIdentityFailures": 0,
+  "tableIdentityFailures": 15,
+  "browserNormalizedInputs": 6,
+  "reportSha256": {
+    "manifest.json": "3c8acdfe59cab460dfb49d863a5e842f667764e32f244463ae9c6f98b9e9816e",
+    "render-report.json": "1de1e33b18e52c0eff18bfa1f862e34b39bc5846d834b1b3e810b3a607555c44",
+    "native-identity-report.json": "3bc8ea06dc723b55799f648fa2801772765fc02b79ad5b81e6992ddcae9d6e7b",
+    "json-restoration-report.json": "057566eb4396f08ef96562de05291f4c169e79696ed1d99c3ba5cdfde7971d66"
+  },
+  "editor": {
+    "renameReload": "pass",
+    "portableSaveLoad": "pass",
+    "independentNativeSnapshot": "pass",
+    "combinedProductionPdf": "pass",
+    "productionPdfPages": 3,
+    "filesSha256": {
+      "terracotta-editor.png": "ca5fd61d9affa3941efd3691a575f02156fce6e3229b0c2d7bf28fd977a337f2",
+      "terracotta-production-dossier.pdf": "7da88f9410a58fc1a4f71f43e801bc040bf336b8ac31b8efb7632da63c0ac909",
+      "terracotta-editor.docx": "e9d719158bbad989f76f50946d7577c1a9c8748d5d360f70ac4b690ca40310e2",
+      "terracotta-browser-cover.png": "2af7df70d3c590478aadcc5899d690af6b08bef165395eda5f600367b8af549a",
+      "terracotta-browser-cv.png": "192df5d7211de8901edf3a267a67979bd826d069822b68dd2c591ea9e27cb85d",
+      "terracotta-editor-evidence.json": "59f987bc7e905f6dcfbd9b856b5a5b2c8c2a87974866a0694b3d18727c7de4b7",
+      "terracotta-project.json": "0d950b428db07d15d34d2c931ea2b8cf625140c0ccb88ddd3fc3903e11ee5e6a"
+    }
+  },
+  "fixtures": [
+    {
+      "fixture": "terracotta-normal",
+      "sourcePages": 4,
+      "savedPages": 4,
+      "render": {
+        "fixture": "terracotta-normal",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 4,
+        "media": 5,
+        "bytes": 125041,
+        "durationMs": 172,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "terracotta-normal",
+        "sourceDocxSha256": "7219fbf2f498d1e920d790e22b43b9749b0efc2e6d51fa8e2636bfab97d90a92",
+        "savedDocxSha256": "975bbb3b332edd9d29b5ecb0df7e4a0b9001543d0037ba9f98319e1dc4b11fcb",
+        "sourceTaggedFields": 70,
+        "savedMatchingTaggedFields": 70,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:0.cell:0.surface",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "terracotta-normal",
+        "docxSha256": "7219fbf2f498d1e920d790e22b43b9749b0efc2e6d51fa8e2636bfab97d90a92",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "terracotta-normal.docx": "7219fbf2f498d1e920d790e22b43b9749b0efc2e6d51fa8e2636bfab97d90a92",
+        "terracotta-normal-qa/terracotta-normal.pdf": "d32a6ba3f78cab37e77c47cdaf46bb37efbe16147cf1a98d14a674e3fb0d12b0",
+        "terracotta-normal-qa/roundtrip/terracotta-normal.docx": "975bbb3b332edd9d29b5ecb0df7e4a0b9001543d0037ba9f98319e1dc4b11fcb",
+        "terracotta-normal-qa/roundtrip-pdf/terracotta-normal.pdf": "224eeb45b3add3c712b7ec6cab0df86f8ea323beb17d66a9bcc4eef86ccf3dda"
+      },
+      "renderedScreenshotsSha256": {
+        "terracotta-normal-qa/page-2.png": "ff68713f5d618845f0f5556a5e9e6a080d444e798b2782843335fb70827e0dfb",
+        "terracotta-normal-qa/page-1.png": "3fa602a792392b2a8f9761b11432e1c58cb7543072990f14e57359d5205865ea",
+        "terracotta-normal-qa/page-4.png": "09955d6e42544c6061d9f25253d7b185d9a6e515e1d85759deab64764e9e8e65",
+        "terracotta-normal-qa/page-3.png": "fec599e28f5f8e59cf9453325e7b2661a5879fc021ed175e137e3b743ebe2b22"
+      }
+    },
+    {
+      "fixture": "terracotta-contact-long",
+      "sourcePages": 5,
+      "savedPages": 5,
+      "render": {
+        "fixture": "terracotta-contact-long",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 5,
+        "media": 5,
+        "bytes": 143403,
+        "durationMs": 16,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "terracotta-contact-long",
+        "sourceDocxSha256": "e3ccf4d86527609ca0674a63d74f3056d1bba34735b8202886a8a3df8b2ca04a",
+        "savedDocxSha256": "644537f3fdc9bf1af6ad0988f5c12ad3a0d1ccc591f3c2d5200905a55e84d23c",
+        "sourceTaggedFields": 70,
+        "savedMatchingTaggedFields": 70,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:0.cell:0.surface",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "terracotta-contact-long",
+        "docxSha256": "e3ccf4d86527609ca0674a63d74f3056d1bba34735b8202886a8a3df8b2ca04a",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "terracotta-contact-long.docx": "e3ccf4d86527609ca0674a63d74f3056d1bba34735b8202886a8a3df8b2ca04a",
+        "terracotta-contact-long-qa/terracotta-contact-long.pdf": "9c04379b0746d6024840464625f534a0cf56ff11089dbc5eaefa0cb40d501129",
+        "terracotta-contact-long-qa/roundtrip/terracotta-contact-long.docx": "644537f3fdc9bf1af6ad0988f5c12ad3a0d1ccc591f3c2d5200905a55e84d23c",
+        "terracotta-contact-long-qa/roundtrip-pdf/terracotta-contact-long.pdf": "406674ce6ba2727d0af69ffad66c99858f544f4d6795cf2b80f186b1df872bad"
+      },
+      "renderedScreenshotsSha256": {
+        "terracotta-contact-long-qa/page-2.png": "ad3ca8abed673d3ca22af1118fa8fb0dd0d95065728d650094a0bd06865f6c29",
+        "terracotta-contact-long-qa/page-1.png": "693c9257ffd2c03c554ad6260dc06a45cf19f014cdb638be047cf6b78bc9b5bf",
+        "terracotta-contact-long-qa/page-5.png": "09955d6e42544c6061d9f25253d7b185d9a6e515e1d85759deab64764e9e8e65",
+        "terracotta-contact-long-qa/page-4.png": "fec599e28f5f8e59cf9453325e7b2661a5879fc021ed175e137e3b743ebe2b22",
+        "terracotta-contact-long-qa/page-3.png": "ff68713f5d618845f0f5556a5e9e6a080d444e798b2782843335fb70827e0dfb"
+      }
+    },
+    {
+      "fixture": "terracotta-cover-long",
+      "sourcePages": 5,
+      "savedPages": 5,
+      "render": {
+        "fixture": "terracotta-cover-long",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 5,
+        "media": 5,
+        "bytes": 144850,
+        "durationMs": 21,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "terracotta-cover-long",
+        "sourceDocxSha256": "edcbd4c48d708dff801556129547fbffbedd1a83a1bcaf6837370246351af097",
+        "savedDocxSha256": "5424fdd5b8f37202b8734a09d14b5c66c7fd2a2c90a92d6a9af2052f39b01fa8",
+        "sourceTaggedFields": 71,
+        "savedMatchingTaggedFields": 71,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:0.cell:0.surface",
+          "cover.continuation-text.flow-box",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "terracotta-cover-long",
+        "docxSha256": "edcbd4c48d708dff801556129547fbffbedd1a83a1bcaf6837370246351af097",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "terracotta-cover-long.docx": "edcbd4c48d708dff801556129547fbffbedd1a83a1bcaf6837370246351af097",
+        "terracotta-cover-long-qa/terracotta-cover-long.pdf": "79b450529ce808abe2c44a14283671bc3deef6093403445e82eb67164c7287b8",
+        "terracotta-cover-long-qa/roundtrip/terracotta-cover-long.docx": "5424fdd5b8f37202b8734a09d14b5c66c7fd2a2c90a92d6a9af2052f39b01fa8",
+        "terracotta-cover-long-qa/roundtrip-pdf/terracotta-cover-long.pdf": "d9bacc32d987b79d3be15dbc475d944efb981f247f16c763936a03b09bda86a7"
+      },
+      "renderedScreenshotsSha256": {
+        "terracotta-cover-long-qa/page-2.png": "76f120a8001dbffba5bdf7e1b8a388c9c4e386a3e0d795bccece11004d5ab589",
+        "terracotta-cover-long-qa/page-1.png": "70ad3d05fd69944dae2df16e12b2ab2b8f7439801a65b37c52f908e3e10f7585",
+        "terracotta-cover-long-qa/page-5.png": "09955d6e42544c6061d9f25253d7b185d9a6e515e1d85759deab64764e9e8e65",
+        "terracotta-cover-long-qa/page-4.png": "fec599e28f5f8e59cf9453325e7b2661a5879fc021ed175e137e3b743ebe2b22",
+        "terracotta-cover-long-qa/page-3.png": "ff68713f5d618845f0f5556a5e9e6a080d444e798b2782843335fb70827e0dfb"
+      }
+    },
+    {
+      "fixture": "terracotta-long-letter",
+      "sourcePages": 14,
+      "savedPages": 14,
+      "render": {
+        "fixture": "terracotta-long-letter",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 14,
+        "media": 5,
+        "bytes": 201780,
+        "durationMs": 47,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "terracotta-long-letter",
+        "sourceDocxSha256": "c54383fca2c7fe3353425fdb46ec709eb94e3af1e35a3c1bbe5b917c920e56ff",
+        "savedDocxSha256": "9c9ea9ac9a654fe73173ceae6d99c11da391beb988d17d8c53c21e8ab746e9b6",
+        "sourceTaggedFields": 204,
+        "savedMatchingTaggedFields": 204,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:0.cell:0.surface",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "terracotta-long-letter",
+        "docxSha256": "c54383fca2c7fe3353425fdb46ec709eb94e3af1e35a3c1bbe5b917c920e56ff",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "terracotta-long-letter.docx": "c54383fca2c7fe3353425fdb46ec709eb94e3af1e35a3c1bbe5b917c920e56ff",
+        "terracotta-long-letter-qa/terracotta-long-letter.pdf": "f4c26abd4277b2fbfcab4c9da746561106122ff8ac8bd2de3df83f00249fd69e",
+        "terracotta-long-letter-qa/roundtrip/terracotta-long-letter.docx": "9c9ea9ac9a654fe73173ceae6d99c11da391beb988d17d8c53c21e8ab746e9b6",
+        "terracotta-long-letter-qa/roundtrip-pdf/terracotta-long-letter.pdf": "26600b28fd89214c394f1fbecce8973ca759ef300d43237eae836a74d78f839e"
+      },
+      "renderedScreenshotsSha256": {
+        "terracotta-long-letter-qa/page-2.png": "5753473a52c7633bae37c283a4ddb1a8f4ffb5e27530fc9e7c100a0f60592f1f",
+        "terracotta-long-letter-qa/page-12.png": "1cd7d771da7f97f0338c9128b9cdfa706e3161610e45f761a5520c2f65ee8829",
+        "terracotta-long-letter-qa/page-9.png": "5f74b4980279caf085ef1c1dad0c1b33cc8796d502ab9625a3eab423d350c39c",
+        "terracotta-long-letter-qa/page-1.png": "3fa602a792392b2a8f9761b11432e1c58cb7543072990f14e57359d5205865ea",
+        "terracotta-long-letter-qa/page-14.png": "09955d6e42544c6061d9f25253d7b185d9a6e515e1d85759deab64764e9e8e65",
+        "terracotta-long-letter-qa/page-10.png": "7f890f82abbed4dbac5dc326e3d23a0b29c16298fceeeb6a6cfbed4c4e9d4c75",
+        "terracotta-long-letter-qa/page-5.png": "9930a9be603926e4e5c78e5c05d475f706e45afec2120ec3bd13adb4f5883441",
+        "terracotta-long-letter-qa/page-11.png": "6ce85b2e6273384b7a3a899af87a8e33b7281c832b3fdb4836ab5c5ea10f4a19",
+        "terracotta-long-letter-qa/page-13.png": "fec599e28f5f8e59cf9453325e7b2661a5879fc021ed175e137e3b743ebe2b22",
+        "terracotta-long-letter-qa/page-4.png": "6067ab68af4af689a620ccd58b11ed249d4062f000339bb251a19d6068df9b2c",
+        "terracotta-long-letter-qa/page-3.png": "08e60adc817e4afcff16b0f9c2e5ef438da36349868f63c45e3a7ffbda7f5623",
+        "terracotta-long-letter-qa/page-6.png": "0fdaeb7cde0b512fc4bf249d616f701d78221e07567050e63c34c0cf5758d900",
+        "terracotta-long-letter-qa/page-8.png": "938f4cc1a0415abdfebf244b770d8edeb724afb53c4a9f11832735b4000929e2",
+        "terracotta-long-letter-qa/page-7.png": "c3df95d44d686964603bb1a743ce4f115d28c08bde1b8ee831920ba26656256a"
+      }
+    },
+    {
+      "fixture": "terracotta-long-cv",
+      "sourcePages": 15,
+      "savedPages": 15,
+      "render": {
+        "fixture": "terracotta-long-cv",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 15,
+        "media": 5,
+        "bytes": 282146,
+        "durationMs": 46,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "terracotta-long-cv",
+        "sourceDocxSha256": "a6c8099b5c472fdff9f58f1325766766dbe28f434201b0273edb5f4d7f0d2709",
+        "savedDocxSha256": "1aaaa55fbf8fda249d2c36309a32bf0751c7ac50be853efb8fe3b866d1bf5a5c",
+        "sourceTaggedFields": 323,
+        "savedMatchingTaggedFields": 323,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:0.cell:0.surface",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "terracotta-long-cv",
+        "docxSha256": "a6c8099b5c472fdff9f58f1325766766dbe28f434201b0273edb5f4d7f0d2709",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "terracotta-long-cv.docx": "a6c8099b5c472fdff9f58f1325766766dbe28f434201b0273edb5f4d7f0d2709",
+        "terracotta-long-cv-qa/terracotta-long-cv.pdf": "699391f1587d21ca0f15338bbfc2764b290edb081df8bb29e2874eea50f98c66",
+        "terracotta-long-cv-qa/roundtrip/terracotta-long-cv.docx": "1aaaa55fbf8fda249d2c36309a32bf0751c7ac50be853efb8fe3b866d1bf5a5c",
+        "terracotta-long-cv-qa/roundtrip-pdf/terracotta-long-cv.pdf": "f67095a5578c096387886959d6fd0c0bda2b0afbd6dc39c9c4c81ae6221dc387"
+      },
+      "renderedScreenshotsSha256": {
+        "terracotta-long-cv-qa/page-2.png": "ff68713f5d618845f0f5556a5e9e6a080d444e798b2782843335fb70827e0dfb",
+        "terracotta-long-cv-qa/page-15.png": "cea530c984a1be915108d7e4d44166c326641700a74949cd8490418ec379fbc3",
+        "terracotta-long-cv-qa/page-12.png": "be92ed9a2967dd7a02b85a6aa8c1cb6cfc6012d518fc5448ac429ad2bdd3fda6",
+        "terracotta-long-cv-qa/page-9.png": "2301c238bb9c64df35294fa5bca44cc13f1d657fe35d9809d99b36efaf9e1345",
+        "terracotta-long-cv-qa/page-1.png": "3fa602a792392b2a8f9761b11432e1c58cb7543072990f14e57359d5205865ea",
+        "terracotta-long-cv-qa/page-14.png": "1ccb2e065bd2764f5fc30549d5c87bcb31b32a657f7fb65646f64a268d5185f7",
+        "terracotta-long-cv-qa/page-10.png": "b13424a2f8c1d602d072b137ff3aab34753a65ebebd1e35df39313cc0609c73a",
+        "terracotta-long-cv-qa/page-5.png": "317a29a7b327e5baf8be3a59ec5b23de01a3559524c99c772ae54102cc0ea7ce",
+        "terracotta-long-cv-qa/page-11.png": "ab9407dcae73de9d8eec1c71580312fc64717e0294f0b5927d1ac10f869797dd",
+        "terracotta-long-cv-qa/page-13.png": "f51d0cf5a56f64dcb36a878976c14ec44c7c9f3356ca4ba0be70299b27182203",
+        "terracotta-long-cv-qa/page-4.png": "d8cadcb268fb4abc0e198b78e12ca4b7624f17573461d9a10c9c2462729db810",
+        "terracotta-long-cv-qa/page-3.png": "671fb9930027cdf744f0825ecbef8e1ad2421406420b4d9735cf01e120f33ffd",
+        "terracotta-long-cv-qa/page-6.png": "866305cc002ba878300e7fc2e1e9ad7d9c2c940ff2851ced036f2af055afe198",
+        "terracotta-long-cv-qa/page-8.png": "d6e9446dfb9e7fee0d29d71472f10224dbb1f03ec8cfbab4b9f09f398dd494b0",
+        "terracotta-long-cv-qa/page-7.png": "38db0dd7f319f50b65978210042ec40c9af50daadf83dd26eb8a4b239b15ae10"
+      }
+    },
+    {
+      "fixture": "terracotta-long-values",
+      "sourcePages": 4,
+      "savedPages": 4,
+      "render": {
+        "fixture": "terracotta-long-values",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 4,
+        "media": 5,
+        "bytes": 126827,
+        "durationMs": 22,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "terracotta-long-values",
+        "sourceDocxSha256": "312f40e147e575fddedb9a088c26e18df777b6551e74167c4844ac493354caef",
+        "savedDocxSha256": "abb5bed0f58e99683140b5e960e3c418998f62cd45533503ca9920be0b5e845b",
+        "sourceTaggedFields": 71,
+        "savedMatchingTaggedFields": 71,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:0.cell:0.surface",
+          "cv.person.contact",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "terracotta-long-values",
+        "docxSha256": "312f40e147e575fddedb9a088c26e18df777b6551e74167c4844ac493354caef",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "terracotta-long-values.docx": "312f40e147e575fddedb9a088c26e18df777b6551e74167c4844ac493354caef",
+        "terracotta-long-values-qa/terracotta-long-values.pdf": "b8c23fa7b747fff944f723ac5207e6dbd0a306611356019b6f6737482e91a1db",
+        "terracotta-long-values-qa/roundtrip/terracotta-long-values.docx": "abb5bed0f58e99683140b5e960e3c418998f62cd45533503ca9920be0b5e845b",
+        "terracotta-long-values-qa/roundtrip-pdf/terracotta-long-values.pdf": "0e58193d4610e9e74028445cb5d803f9b95a9f8015bd77a8c0b3dcaa7e759377"
+      },
+      "renderedScreenshotsSha256": {
+        "terracotta-long-values-qa/page-2.png": "06bd074fb882ed9f548213a9a954391799e5ca1e13c228c15ce04862ef5a7634",
+        "terracotta-long-values-qa/page-1.png": "3fa602a792392b2a8f9761b11432e1c58cb7543072990f14e57359d5205865ea",
+        "terracotta-long-values-qa/page-4.png": "5ab8f1e16f70f3849d2535f3a2186d2ed04461e65f34a363421627cba5a2a03f",
+        "terracotta-long-values-qa/page-3.png": "3de229837efd5fe224de610261163eaed7217e1dfc444c2bfd4239bd03232ab6"
+      }
+    },
+    {
+      "fixture": "terracotta-images",
+      "sourcePages": 4,
+      "savedPages": 4,
+      "render": {
+        "fixture": "terracotta-images",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 4,
+        "media": 6,
+        "bytes": 129797,
+        "durationMs": 25,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "terracotta-images",
+        "sourceDocxSha256": "c394837d46e208f9634a621b035d16d90d1d943ba0ef4fb36b5cf16bf348e66d",
+        "savedDocxSha256": "45671d305fa21e73aecef45fbea4d36d9bb8edaaba4c533afbc79205adfb04ce",
+        "sourceTaggedFields": 71,
+        "savedMatchingTaggedFields": 71,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:0.cell:0.surface",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "terracotta-images",
+        "docxSha256": "c394837d46e208f9634a621b035d16d90d1d943ba0ef4fb36b5cf16bf348e66d",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "terracotta-images.docx": "c394837d46e208f9634a621b035d16d90d1d943ba0ef4fb36b5cf16bf348e66d",
+        "terracotta-images-qa/terracotta-images.pdf": "1359f3509be1cb20d7cc3f6f5bc2edcb654e4d4645c26087c0eaf6cd0bd88253",
+        "terracotta-images-qa/roundtrip/terracotta-images.docx": "45671d305fa21e73aecef45fbea4d36d9bb8edaaba4c533afbc79205adfb04ce",
+        "terracotta-images-qa/roundtrip-pdf/terracotta-images.pdf": "57d2a944b4a99e5db595e5b74c8c8f13bbd2a5f23b9223db7f353a918ca5bd8a"
+      },
+      "renderedScreenshotsSha256": {
+        "terracotta-images-qa/page-2.png": "e9808e71ed1797c82080a26fe7ac125c0af45e83d90892ebd925e363a959220f",
+        "terracotta-images-qa/page-1.png": "04b2ca92496e767349c78a330e39c98a17b18566109bb0cf72fa5c75cc9e2788",
+        "terracotta-images-qa/page-4.png": "09955d6e42544c6061d9f25253d7b185d9a6e515e1d85759deab64764e9e8e65",
+        "terracotta-images-qa/page-3.png": "b14063b088e5e0833253d9329f2797383d15d58e3a01671579a58a3288a715ba"
+      }
+    },
+    {
+      "fixture": "terracotta-custom",
+      "sourcePages": 4,
+      "savedPages": 4,
+      "render": {
+        "fixture": "terracotta-custom",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 4,
+        "media": 5,
+        "bytes": 132129,
+        "durationMs": 26,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "terracotta-custom",
+        "sourceDocxSha256": "a946a44d648f87cc06592880dffe1977db7633ca2b119b93bb999a92a4302725",
+        "savedDocxSha256": "e14c85ca6e12128646f801331a821f241d989c994370baa1192e90dae20c45f3",
+        "sourceTaggedFields": 73,
+        "savedMatchingTaggedFields": 73,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:0.cell:0.surface",
+          "cover.custom-a.flow-box",
+          "cover.custom-b.flow-box",
+          "cv.element:custom-a.flow-box",
+          "cv.element:custom-b.flow-box",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1",
+          "letter.body.paragraph:2"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "terracotta-custom",
+        "docxSha256": "a946a44d648f87cc06592880dffe1977db7633ca2b119b93bb999a92a4302725",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "terracotta-custom.docx": "a946a44d648f87cc06592880dffe1977db7633ca2b119b93bb999a92a4302725",
+        "terracotta-custom-qa/terracotta-custom.pdf": "3ee10a90ff644b4edffef6bba52191816f9e0b7f2e7ab5d247a08b0a875bd295",
+        "terracotta-custom-qa/roundtrip/terracotta-custom.docx": "e14c85ca6e12128646f801331a821f241d989c994370baa1192e90dae20c45f3",
+        "terracotta-custom-qa/roundtrip-pdf/terracotta-custom.pdf": "273c232031fcd98a037abd457baa76154e634da1f50ac716a751c540f623a64f"
+      },
+      "renderedScreenshotsSha256": {
+        "terracotta-custom-qa/page-2.png": "79a2ed160de9bcafe5d5c2c7b9773fd6f9cc083ad878418f6704c999a5cf3a7f",
+        "terracotta-custom-qa/page-1.png": "d695c35cb716684539b7c91d26860b5109646a2d211d60c64822f27af0944f46",
+        "terracotta-custom-qa/page-4.png": "92a8eeb8a1d5d557516a230b503ff23805f099842dfbc7e42ca8415519603c9c",
+        "terracotta-custom-qa/page-3.png": "2f746697b802065e288b07f79871de1005080b742d2710a4752127e2ed79360d"
+      }
+    },
+    {
+      "fixture": "terracotta-compact",
+      "sourcePages": 4,
+      "savedPages": 4,
+      "render": {
+        "fixture": "terracotta-compact",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 4,
+        "media": 5,
+        "bytes": 121385,
+        "durationMs": 17,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "terracotta-compact",
+        "sourceDocxSha256": "98e8e3ecf57046b8cc7894ba2af846ac0911987d9fa058d4f8441dc96425d025",
+        "savedDocxSha256": "c17a6a9380814c9e995e2782ab1d4425962bfdb59ace3601524bc509f3e4bbfe",
+        "sourceTaggedFields": 79,
+        "savedMatchingTaggedFields": 79,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:0.cell:0.surface",
+          "cv.person.contact",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "terracotta-compact",
+        "docxSha256": "98e8e3ecf57046b8cc7894ba2af846ac0911987d9fa058d4f8441dc96425d025",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "terracotta-compact.docx": "98e8e3ecf57046b8cc7894ba2af846ac0911987d9fa058d4f8441dc96425d025",
+        "terracotta-compact-qa/terracotta-compact.pdf": "0b6993e62c5500e431c8ef1407ff0ef259e927a3e6233e39a02506743aa9c3fa",
+        "terracotta-compact-qa/roundtrip/terracotta-compact.docx": "c17a6a9380814c9e995e2782ab1d4425962bfdb59ace3601524bc509f3e4bbfe",
+        "terracotta-compact-qa/roundtrip-pdf/terracotta-compact.pdf": "a2452d19741f80ffaae7b90b542f8051522d15576b8791340dca97516eeb56b6"
+      },
+      "renderedScreenshotsSha256": {
+        "terracotta-compact-qa/page-2.png": "ea3416ebad866509b451eb7e450960f155c409d066a47dd0916c05504471bbbf",
+        "terracotta-compact-qa/page-1.png": "3fa602a792392b2a8f9761b11432e1c58cb7543072990f14e57359d5205865ea",
+        "terracotta-compact-qa/page-4.png": "0db164aafe3d000d702894a2cefba3b40f710e0f26290da9a4c4143fadca7d0f",
+        "terracotta-compact-qa/page-3.png": "a9781a1bfb1751593d27a672a375086339e1da06e560f8f42807227469b5714d"
+      }
+    },
+    {
+      "fixture": "terracotta-none",
+      "sourcePages": 4,
+      "savedPages": 4,
+      "render": {
+        "fixture": "terracotta-none",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 4,
+        "media": 5,
+        "bytes": 120297,
+        "durationMs": 24,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "terracotta-none",
+        "sourceDocxSha256": "28efe58a9329e3982b15b026044fb3b0964ca32369f778a77b0b710f3fd0c11a",
+        "savedDocxSha256": "f18fb0cd657ad8929a9920ef492c627717eae64f1a23e4d191c34abd3ff5a02f",
+        "sourceTaggedFields": 79,
+        "savedMatchingTaggedFields": 79,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:0.cell:0.surface",
+          "cv.person.contact",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "terracotta-none",
+        "docxSha256": "28efe58a9329e3982b15b026044fb3b0964ca32369f778a77b0b710f3fd0c11a",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "terracotta-none.docx": "28efe58a9329e3982b15b026044fb3b0964ca32369f778a77b0b710f3fd0c11a",
+        "terracotta-none-qa/terracotta-none.pdf": "b1d2c12f8be6a92da258aa0b5e9dcb9af1eecb693cbf379214ae7e41192adc6a",
+        "terracotta-none-qa/roundtrip/terracotta-none.docx": "f18fb0cd657ad8929a9920ef492c627717eae64f1a23e4d191c34abd3ff5a02f",
+        "terracotta-none-qa/roundtrip-pdf/terracotta-none.pdf": "0847dce1d8c00a185d3d1b4f80c788e8d159ce46d5235581a7f0ea96278303b4"
+      },
+      "renderedScreenshotsSha256": {
+        "terracotta-none-qa/page-2.png": "ea3416ebad866509b451eb7e450960f155c409d066a47dd0916c05504471bbbf",
+        "terracotta-none-qa/page-1.png": "3fa602a792392b2a8f9761b11432e1c58cb7543072990f14e57359d5205865ea",
+        "terracotta-none-qa/page-4.png": "0db164aafe3d000d702894a2cefba3b40f710e0f26290da9a4c4143fadca7d0f",
+        "terracotta-none-qa/page-3.png": "a9781a1bfb1751593d27a672a375086339e1da06e560f8f42807227469b5714d"
+      }
+    },
+    {
+      "fixture": "terracotta-continuation",
+      "sourcePages": 12,
+      "savedPages": 12,
+      "render": {
+        "fixture": "terracotta-continuation",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 12,
+        "media": 5,
+        "bytes": 146700,
+        "durationMs": 20,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "terracotta-continuation",
+        "sourceDocxSha256": "a08199a8328ea424f0446ed9fb6ca943b40527e6147008e27777f13431fe3d43",
+        "savedDocxSha256": "bdc9a5828d4eff4d9417d1ca776336db096235c453fc43c68b16e62d5331c0f6",
+        "sourceTaggedFields": 73,
+        "savedMatchingTaggedFields": 73,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:0.cell:0.surface",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "terracotta-continuation",
+        "docxSha256": "a08199a8328ea424f0446ed9fb6ca943b40527e6147008e27777f13431fe3d43",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "terracotta-continuation.docx": "a08199a8328ea424f0446ed9fb6ca943b40527e6147008e27777f13431fe3d43",
+        "terracotta-continuation-qa/terracotta-continuation.pdf": "47633e1883fd99fbd8987f2870c603fbc45739981c4c82d1014f513b98cf5ebb",
+        "terracotta-continuation-qa/roundtrip/terracotta-continuation.docx": "bdc9a5828d4eff4d9417d1ca776336db096235c453fc43c68b16e62d5331c0f6",
+        "terracotta-continuation-qa/roundtrip-pdf/terracotta-continuation.pdf": "f1f402fe03fd968f56b132ca48565e31d8f817d26dad975700142127bed16317"
+      },
+      "renderedScreenshotsSha256": {
+        "terracotta-continuation-qa/page-2.png": "7628ff2c34a083d76cbb027dcadea8330f01630fbf31aec30d93353e0da19812",
+        "terracotta-continuation-qa/page-12.png": "0ddc14550775e4cbccf514b140879161176ddd0114cab3cd215953349a7094a3",
+        "terracotta-continuation-qa/page-9.png": "47d6c2eaa9d7bcd13e4d85092d6acaa328dffbcd661ed7dd3f0e65e4dda4a59d",
+        "terracotta-continuation-qa/page-1.png": "3fa602a792392b2a8f9761b11432e1c58cb7543072990f14e57359d5205865ea",
+        "terracotta-continuation-qa/page-10.png": "9b6d0cce2db79801aac2fc73e36961858fd9e860518ec4a6348c60a96a88f418",
+        "terracotta-continuation-qa/page-5.png": "47d6c2eaa9d7bcd13e4d85092d6acaa328dffbcd661ed7dd3f0e65e4dda4a59d",
+        "terracotta-continuation-qa/page-11.png": "a9f6cd7a8ebecdd3cab3f449a9045fd0a1349f99ffb65cd4800be2d65d4c3351",
+        "terracotta-continuation-qa/page-4.png": "bbc6ba89cc27cecb8d8c729974a7fdb906eaecbaf3ecab7d69c457aedae45f1f",
+        "terracotta-continuation-qa/page-3.png": "47d6c2eaa9d7bcd13e4d85092d6acaa328dffbcd661ed7dd3f0e65e4dda4a59d",
+        "terracotta-continuation-qa/page-6.png": "bbc6ba89cc27cecb8d8c729974a7fdb906eaecbaf3ecab7d69c457aedae45f1f",
+        "terracotta-continuation-qa/page-8.png": "bbc6ba89cc27cecb8d8c729974a7fdb906eaecbaf3ecab7d69c457aedae45f1f",
+        "terracotta-continuation-qa/page-7.png": "47d6c2eaa9d7bcd13e4d85092d6acaa328dffbcd661ed7dd3f0e65e4dda4a59d"
+      }
+    },
+    {
+      "fixture": "terracotta-timeline",
+      "sourcePages": 19,
+      "savedPages": 19,
+      "render": {
+        "fixture": "terracotta-timeline",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 19,
+        "media": 5,
+        "bytes": 376358,
+        "durationMs": 71,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "terracotta-timeline",
+        "sourceDocxSha256": "dba6b719dbc610ebcf0232af90e2b12d869f6c81adf5a1f8c12e4d6b40dd15f2",
+        "savedDocxSha256": "44fc4b4f871196c79a24c4364c47f147cf3f8910280e47411cc48171e46cabfa",
+        "sourceTaggedFields": 334,
+        "savedMatchingTaggedFields": 334,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:0.cell:0.surface",
+          "cv.entry.custom:variant-alpha:variant-entry-alpha.dateRail",
+          "cv.entry.custom:variant-beta:variant-entry-beta.dateRail",
+          "cv.entry.erfahrung:demo-p1.dateRail",
+          "cv.entry.erfahrung:demo-p2.dateRail",
+          "cv.entry.schule:school-0.dateRail",
+          "cv.entry.schule:school-1.dateRail",
+          "cv.entry.schule:school-10.dateRail",
+          "cv.entry.schule:school-11.dateRail",
+          "cv.entry.schule:school-12.dateRail",
+          "cv.entry.schule:school-13.dateRail",
+          "cv.entry.schule:school-14.dateRail",
+          "cv.entry.schule:school-15.dateRail",
+          "cv.entry.schule:school-16.dateRail",
+          "cv.entry.schule:school-17.dateRail",
+          "cv.entry.schule:school-18.dateRail",
+          "cv.entry.schule:school-19.dateRail",
+          "cv.entry.schule:school-2.dateRail",
+          "cv.entry.schule:school-20.dateRail",
+          "cv.entry.schule:school-21.dateRail",
+          "cv.entry.schule:school-22.dateRail",
+          "cv.entry.schule:school-23.dateRail",
+          "cv.entry.schule:school-24.dateRail",
+          "cv.entry.schule:school-25.dateRail",
+          "cv.entry.schule:school-26.dateRail",
+          "cv.entry.schule:school-27.dateRail",
+          "cv.entry.schule:school-28.dateRail",
+          "cv.entry.schule:school-29.dateRail",
+          "cv.entry.schule:school-3.dateRail",
+          "cv.entry.schule:school-30.dateRail",
+          "cv.entry.schule:school-31.dateRail",
+          "cv.entry.schule:school-32.dateRail",
+          "cv.entry.schule:school-33.dateRail",
+          "cv.entry.schule:school-34.dateRail",
+          "cv.entry.schule:school-35.dateRail",
+          "cv.entry.schule:school-36.dateRail",
+          "cv.entry.schule:school-37.dateRail",
+          "cv.entry.schule:school-38.dateRail",
+          "cv.entry.schule:school-39.dateRail",
+          "cv.entry.schule:school-4.dateRail",
+          "cv.entry.schule:school-40.dateRail",
+          "cv.entry.schule:school-41.dateRail",
+          "cv.entry.schule:school-42.dateRail",
+          "cv.entry.schule:school-43.dateRail",
+          "cv.entry.schule:school-44.dateRail",
+          "cv.entry.schule:school-45.dateRail",
+          "cv.entry.schule:school-46.dateRail",
+          "cv.entry.schule:school-47.dateRail",
+          "cv.entry.schule:school-48.dateRail",
+          "cv.entry.schule:school-49.dateRail",
+          "cv.entry.schule:school-5.dateRail",
+          "cv.entry.schule:school-50.dateRail",
+          "cv.entry.schule:school-51.dateRail",
+          "cv.entry.schule:school-52.dateRail",
+          "cv.entry.schule:school-53.dateRail",
+          "cv.entry.schule:school-54.dateRail",
+          "cv.entry.schule:school-55.dateRail",
+          "cv.entry.schule:school-56.dateRail",
+          "cv.entry.schule:school-57.dateRail",
+          "cv.entry.schule:school-58.dateRail",
+          "cv.entry.schule:school-59.dateRail",
+          "cv.entry.schule:school-6.dateRail",
+          "cv.entry.schule:school-60.dateRail",
+          "cv.entry.schule:school-61.dateRail",
+          "cv.entry.schule:school-62.dateRail",
+          "cv.entry.schule:school-63.dateRail",
+          "cv.entry.schule:school-64.dateRail",
+          "cv.entry.schule:school-7.dateRail",
+          "cv.entry.schule:school-8.dateRail",
+          "cv.entry.schule:school-9.dateRail",
+          "cv.entry.schule:variant-overflow.dateRail",
+          "cv.person.details",
+          "cv.section.custom:variant-alpha.half-row",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "terracotta-timeline",
+        "docxSha256": "dba6b719dbc610ebcf0232af90e2b12d869f6c81adf5a1f8c12e4d6b40dd15f2",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "terracotta-timeline.docx": "dba6b719dbc610ebcf0232af90e2b12d869f6c81adf5a1f8c12e4d6b40dd15f2",
+        "terracotta-timeline-qa/terracotta-timeline.pdf": "2bebd9affc12ab188e8e1d57b1387f9c70f0f230d3e6e0930db8afcd6e568fc3",
+        "terracotta-timeline-qa/roundtrip/terracotta-timeline.docx": "44fc4b4f871196c79a24c4364c47f147cf3f8910280e47411cc48171e46cabfa",
+        "terracotta-timeline-qa/roundtrip-pdf/terracotta-timeline.pdf": "33b5fa1df8c8aaed5f1f41537327d344a2d54e0a44e489c41e2929e17f0f9494"
+      },
+      "renderedScreenshotsSha256": {
+        "terracotta-timeline-qa/page-2.png": "ff68713f5d618845f0f5556a5e9e6a080d444e798b2782843335fb70827e0dfb",
+        "terracotta-timeline-qa/page-15.png": "86d977be56496a53f2696955fe31ea09fe7ebf0cd01055c4463740033e433f7d",
+        "terracotta-timeline-qa/page-17.png": "86d977be56496a53f2696955fe31ea09fe7ebf0cd01055c4463740033e433f7d",
+        "terracotta-timeline-qa/page-12.png": "c7b3b2a42567dc3aa51f2e1e56ff903a1295ecbb4ce9e4453c71eec10dea89df",
+        "terracotta-timeline-qa/page-9.png": "0c4e2b48d51ffbe010b521ee49ba542e688bd78f2914d68f5b26b8c0c650e2ab",
+        "terracotta-timeline-qa/page-1.png": "3fa602a792392b2a8f9761b11432e1c58cb7543072990f14e57359d5205865ea",
+        "terracotta-timeline-qa/page-14.png": "86d977be56496a53f2696955fe31ea09fe7ebf0cd01055c4463740033e433f7d",
+        "terracotta-timeline-qa/page-10.png": "eb72784535f80ab64d8dc8768a4462f375acb151b0250f2f71008ed657b071d3",
+        "terracotta-timeline-qa/page-16.png": "86d977be56496a53f2696955fe31ea09fe7ebf0cd01055c4463740033e433f7d",
+        "terracotta-timeline-qa/page-5.png": "c66c582861060180bb0860a0bb1a43b3515c46259b4b8554b9001d0a2558dba7",
+        "terracotta-timeline-qa/page-11.png": "ac9740d8b97109ba46646b5d95a41534e75bc75d1acae89a97c1d8f08435e874",
+        "terracotta-timeline-qa/page-18.png": "31d775259184430c418dae69734dfb22ff9bd6b19b168e13f1b768d34991ae60",
+        "terracotta-timeline-qa/page-13.png": "aec6049ad3e6b1696c15d7abe50c136c6c0fb7a39d33a27706d73102a51e02d9",
+        "terracotta-timeline-qa/page-4.png": "0baece01846edba291bdf5e95408829134876393cb48ddb2840081cd96bfb383",
+        "terracotta-timeline-qa/page-3.png": "9d1776a0cef1c6d5f81e12cd6c2ce72b5e7660c89bb22730430e1b96d53ee58c",
+        "terracotta-timeline-qa/page-6.png": "747e0233d0d3c6bcf323ef3d95f2990eb22a07e16099a811c2a38e38ddd6ac36",
+        "terracotta-timeline-qa/page-19.png": "6652f0d716e9175199ac110eda524e5148ba3c0d85132d73e5ac254805cf13d0",
+        "terracotta-timeline-qa/page-8.png": "add6cc19164b1be4b22c18ffa2dca9233bb7bbd5b7c1d53d9ad2a938a751ba80",
+        "terracotta-timeline-qa/page-7.png": "56f496f369c01ce3cdb65d0197be5f1dccb5648745d1bcadd3462a7a2adf3684"
+      }
+    },
+    {
+      "fixture": "terracotta-magazin",
+      "sourcePages": 3,
+      "savedPages": 3,
+      "render": {
+        "fixture": "terracotta-magazin",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 3,
+        "media": 5,
+        "bytes": 107856,
+        "durationMs": 15,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "terracotta-magazin",
+        "sourceDocxSha256": "201359135bd986e7e1aca128dd586a4d1a0fe4fd42196b08a366519a6b346a8c",
+        "savedDocxSha256": "a6136b81ac0557c840570dd1d33ed963b2174da00886024ab274e16e870bd3b0",
+        "sourceTaggedFields": 37,
+        "savedMatchingTaggedFields": 37,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:0.cell:0.surface",
+          "cv.entry.custom:variant-alpha:variant-entry-alpha.dateRail",
+          "cv.entry.custom:variant-beta:variant-entry-beta.dateRail",
+          "cv.entry.schule:variant-school.dateRail",
+          "cv.section.custom:variant-alpha.half-row"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "terracotta-magazin",
+        "docxSha256": "201359135bd986e7e1aca128dd586a4d1a0fe4fd42196b08a366519a6b346a8c",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "terracotta-magazin.docx": "201359135bd986e7e1aca128dd586a4d1a0fe4fd42196b08a366519a6b346a8c",
+        "terracotta-magazin-qa/terracotta-magazin.pdf": "d739b2a4fab57b3aad4810e869319064a253c801980e78c2194126db39b624b6",
+        "terracotta-magazin-qa/roundtrip/terracotta-magazin.docx": "a6136b81ac0557c840570dd1d33ed963b2174da00886024ab274e16e870bd3b0",
+        "terracotta-magazin-qa/roundtrip-pdf/terracotta-magazin.pdf": "567035fed382c86dd80cbfc131cd9c75740d5caed1b236862da0ba286395eb6b"
+      },
+      "renderedScreenshotsSha256": {
+        "terracotta-magazin-qa/page-2.png": "108c379c6d56ab2a08f1604fc2740f76b7c4ad7b8a1446776cad96a776b9ebd1",
+        "terracotta-magazin-qa/page-1.png": "3fa602a792392b2a8f9761b11432e1c58cb7543072990f14e57359d5205865ea",
+        "terracotta-magazin-qa/page-3.png": "4ed8fc354e5664c934d8fdd7a0508c75d963059f4376e3093078f4c6b4fadd4d"
+      }
+    },
+    {
+      "fixture": "terracotta-no-motifs",
+      "sourcePages": 4,
+      "savedPages": 4,
+      "render": {
+        "fixture": "terracotta-no-motifs",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 4,
+        "media": 5,
+        "bytes": 122487,
+        "durationMs": 28,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "terracotta-no-motifs",
+        "sourceDocxSha256": "56624875c4c91c50fe79468b447c844aa386edca6fcc299568f8337459733687",
+        "savedDocxSha256": "dd6eb78c59a6ec8907286d27a1d6b2ac92a404ef8e2dc6cf5a90ebccfce17194",
+        "sourceTaggedFields": 70,
+        "savedMatchingTaggedFields": 70,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:0.cell:0.surface",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "terracotta-no-motifs",
+        "docxSha256": "56624875c4c91c50fe79468b447c844aa386edca6fcc299568f8337459733687",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "terracotta-no-motifs.docx": "56624875c4c91c50fe79468b447c844aa386edca6fcc299568f8337459733687",
+        "terracotta-no-motifs-qa/terracotta-no-motifs.pdf": "fdea103a5a844f491693dcdd425cc051beb31e4ae8dcba79381a3fd4d24ffe2a",
+        "terracotta-no-motifs-qa/roundtrip/terracotta-no-motifs.docx": "dd6eb78c59a6ec8907286d27a1d6b2ac92a404ef8e2dc6cf5a90ebccfce17194",
+        "terracotta-no-motifs-qa/roundtrip-pdf/terracotta-no-motifs.pdf": "bad296de557aa33188baa951bebf184442227ffa8648bebe765454e04bc4337f"
+      },
+      "renderedScreenshotsSha256": {
+        "terracotta-no-motifs-qa/page-2.png": "ff68713f5d618845f0f5556a5e9e6a080d444e798b2782843335fb70827e0dfb",
+        "terracotta-no-motifs-qa/page-1.png": "3fa602a792392b2a8f9761b11432e1c58cb7543072990f14e57359d5205865ea",
+        "terracotta-no-motifs-qa/page-4.png": "2fd8f8f38b2cb98cc3778ee894ce048bfeb9fe0023f2d5706b05f819808a9a1b",
+        "terracotta-no-motifs-qa/page-3.png": "686539d86b5510959aef2c265aa7667f3780ab505af56566526ec9201e6ade24"
+      }
+    },
+    {
+      "fixture": "terracotta-custom-colors",
+      "sourcePages": 4,
+      "savedPages": 4,
+      "render": {
+        "fixture": "terracotta-custom-colors",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 4,
+        "media": 5,
+        "bytes": 125045,
+        "durationMs": 140,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "terracotta-custom-colors",
+        "sourceDocxSha256": "f1adacde6ed40624d73df70afb8b8f6bb6088b7e01927391ae39442c6062fab0",
+        "savedDocxSha256": "00bb9b1dc4a1f62c35893654b7da96b9a742519c9242e894dd42f339e95067bf",
+        "sourceTaggedFields": 70,
+        "savedMatchingTaggedFields": 70,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:0.cell:0.surface",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "terracotta-custom-colors",
+        "docxSha256": "f1adacde6ed40624d73df70afb8b8f6bb6088b7e01927391ae39442c6062fab0",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "terracotta-custom-colors.docx": "f1adacde6ed40624d73df70afb8b8f6bb6088b7e01927391ae39442c6062fab0",
+        "terracotta-custom-colors-qa/terracotta-custom-colors.pdf": "fbab9047499ac38234023a91b2dbd779e2ba9f4a5fb6f5fe68fc8c90814c2759",
+        "terracotta-custom-colors-qa/roundtrip/terracotta-custom-colors.docx": "00bb9b1dc4a1f62c35893654b7da96b9a742519c9242e894dd42f339e95067bf",
+        "terracotta-custom-colors-qa/roundtrip-pdf/terracotta-custom-colors.pdf": "384a6c28f66379e96326cc1d10a454ca089a6716145155c2808315ce93905dca"
+      },
+      "renderedScreenshotsSha256": {
+        "terracotta-custom-colors-qa/page-2.png": "a78fca15026441292f065a4440fcbb408c05b374a13e91f58fc349d3af9dc460",
+        "terracotta-custom-colors-qa/page-1.png": "931eccff8082d5b9117414bc76e8bba23065454d3cfb9e8e5d6862366114f89e",
+        "terracotta-custom-colors-qa/page-4.png": "f13444a8196512285fe4850ef7d8bd85c2998f85fc07fce18f3f2c907318f9b3",
+        "terracotta-custom-colors-qa/page-3.png": "12d960adbd901ad2326e4209952eee478bc2e9afb2e2c6ce68d4434a7c1679c4"
+      }
+    }
+  ],
+  "actualLongContactColumn": {
+    "source": {
+      "contactLines": 60,
+      "pages": [1, 2],
+      "visibleColumnColor": "pass"
+    },
+    "saved": {
+      "contactLines": 60,
+      "pages": [1, 2],
+      "visibleColumnColor": "pass"
+    }
+  }
+}

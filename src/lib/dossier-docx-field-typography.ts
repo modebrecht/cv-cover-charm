@@ -91,11 +91,7 @@ function paragraphs(source: string): Paragraph[] {
     }));
 }
 
-function patchParagraphRuns(
-  paragraph: string,
-  target: string,
-  style: DossierFieldTypographyStyle,
-) {
+function patchParagraphRuns(paragraph: string, target: string, style: DossierFieldTypographyStyle) {
   return paragraph.replace(/<w:r(?:\s[^>]*)?>[\s\S]*?<\/w:r>/g, (run) => {
     const text = visibleText(run);
     if (!text) return run;
@@ -178,9 +174,7 @@ function stablePatchEntry(source: string, entry: DossierFieldTypographyEntry) {
 
 function hasStableIdentity(entry: DossierFieldTypographyEntry) {
   return (
-    !!entry.fieldId ||
-    !!entry.contextValues?.length ||
-    typeof entry.docxOccurrence === "number"
+    !!entry.fieldId || !!entry.contextValues?.length || typeof entry.docxOccurrence === "number"
   );
 }
 

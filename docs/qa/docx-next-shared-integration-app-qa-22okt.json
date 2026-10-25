@@ -1,0 +1,650 @@
+{
+  "date": "2026-10-22",
+  "codeCommit": "90216cb21ffeaf3b555ebde48b5e65c7bc64f602",
+  "checkedBranchHead": "59ec45f740c45b1277d33b5b719f1cc9af1313c0",
+  "status": "BOUNDED_APP_EXPORT_QA_PASS_WORD_PENDING",
+  "sourceVerification": {
+    "files": 432,
+    "mismatchesAfterQa": [],
+    "originalCabinFontFilesVerified": 4
+  },
+  "environment": {
+    "application": "Temporary Vite SPA with unchanged application source; original SSR build separately verified remotely",
+    "node": "v24.19.0",
+    "chromium": "Google Chrome for Testing 156.0.8078.47",
+    "nativeRenderer": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+    "browserFont": "Liberation Sans; Word Arial identity unverified",
+    "qaDependencies": "Existing runtime; real jsPDF 4.2.1 UMD, source-vendored query/html2canvas libraries; not a clean original-lockfile install"
+  },
+  "realUiDownloads": {
+    "count": 5,
+    "uniqueDossiers": 3,
+    "primaryPdfDownloads": 3,
+    "scale": [
+      {
+        "id": "baseline",
+        "width": 1440,
+        "dpr": 1,
+        "preview": 1,
+        "view": {
+          "cvPages": 1,
+          "flowScale": 0.9,
+          "dpr": 1,
+          "viewport": 1440
+        },
+        "docxSha256": "af9520a6ec1a8907050deba482e3ec722bdd8801fcd711a1159b83d653f47f9e",
+        "docxIdenticalToBaseline": true,
+        "modelAndMetricsIdentical": true,
+        "savedInputsUnchanged": true,
+        "guardedUiDownloadMatches": true
+      },
+      {
+        "id": "dpr2",
+        "width": 1440,
+        "dpr": 2,
+        "preview": 1,
+        "view": {
+          "cvPages": 1,
+          "flowScale": 0.9,
+          "dpr": 2,
+          "viewport": 1440
+        },
+        "docxSha256": "af9520a6ec1a8907050deba482e3ec722bdd8801fcd711a1159b83d653f47f9e",
+        "docxIdenticalToBaseline": true,
+        "modelAndMetricsIdentical": true,
+        "savedInputsUnchanged": true,
+        "guardedUiDownloadMatches": true
+      },
+      {
+        "id": "narrow-preview",
+        "width": 980,
+        "dpr": 1,
+        "preview": 0.7,
+        "view": {
+          "cvPages": 1,
+          "flowScale": 0.9,
+          "dpr": 1,
+          "viewport": 980
+        },
+        "docxSha256": "af9520a6ec1a8907050deba482e3ec722bdd8801fcd711a1159b83d653f47f9e",
+        "docxIdenticalToBaseline": true,
+        "modelAndMetricsIdentical": true,
+        "savedInputsUnchanged": true,
+        "guardedUiDownloadMatches": true
+      }
+    ],
+    "pagination": [
+      {
+        "id": "02-Modern-Zwei-CV-Seiten",
+        "template": "modern",
+        "mode": "two",
+        "purpose": "Zwei CV-Seiten, Folgeseitenrand, Rubriken an Seitenanfängen",
+        "file": "02-Modern-Zwei-CV-Seiten.docx",
+        "webCvPages": 1,
+        "captures": [
+          "Web-CV-01.png",
+          "Web-Letter-01.png",
+          "Web-Cover-01.png"
+        ],
+        "restoredThroughApp": true,
+        "reloadPreservedState": true,
+        "uiDownloadByteIdentical": true,
+        "exportPreservedState": true,
+        "primaryPdfDownload": true,
+        "issues": [],
+        "sha256": "46c2427e5b3d4b19fb2ded5a5a5eb0aa87b7b887d37eaa3df5c533a5409b8637",
+        "fontProfile": "brief-sans-v1; browser=Liberation Sans; Word=Arial; target-font-identity=unverified",
+        "wordAcceptance": "UNVERIFIED"
+      },
+      {
+        "id": "12-Brief-Zwei-CV-Seiten",
+        "template": "brief",
+        "mode": "two",
+        "purpose": "Brief mit echter Zweiseitenaktion, Rubriken und unveränderten Benutzerwerten",
+        "file": "12-Brief-Zwei-CV-Seiten.docx",
+        "webCvPages": 1,
+        "captures": [
+          "Web-CV-01.png",
+          "Web-Letter-01.png",
+          "Web-Cover-01.png"
+        ],
+        "restoredThroughApp": true,
+        "reloadPreservedState": true,
+        "uiDownloadByteIdentical": true,
+        "exportPreservedState": true,
+        "primaryPdfDownload": true,
+        "issues": [],
+        "sha256": "e68fd62a2b9d56dc72fe36dcbf6af0492699e978705044c1b4cfc22f79cd0ada",
+        "fontProfile": "brief-sans-v1; browser=Liberation Sans; Word=Arial; target-font-identity=unverified",
+        "wordAcceptance": "UNVERIFIED"
+      }
+    ],
+    "renderedPagination": [
+      {
+        "case": "02-Modern-Zwei-CV-Seiten",
+        "nativeDossierPages": 3,
+        "webDossierPages": 3,
+        "nativeCvPages": 1,
+        "referencesOnCvPage": 1
+      },
+      {
+        "case": "12-Brief-Zwei-CV-Seiten",
+        "nativeDossierPages": 3,
+        "webDossierPages": 3,
+        "nativeCvPages": 1,
+        "referencesOnCvPage": 1
+      }
+    ],
+    "activeControls": [
+      {
+        "file": "scale/baseline.docx",
+        "sha256": "af9520a6ec1a8907050deba482e3ec722bdd8801fcd711a1159b83d653f47f9e",
+        "activeControlCount": 88,
+        "uniqueActiveIds": true
+      },
+      {
+        "file": "pagination/02-Modern-Zwei-CV-Seiten.docx",
+        "sha256": "46c2427e5b3d4b19fb2ded5a5a5eb0aa87b7b887d37eaa3df5c533a5409b8637",
+        "activeControlCount": 85,
+        "uniqueActiveIds": true
+      },
+      {
+        "file": "pagination/12-Brief-Zwei-CV-Seiten.docx",
+        "sha256": "e68fd62a2b9d56dc72fe36dcbf6af0492699e978705044c1b4cfc22f79cd0ada",
+        "activeControlCount": 85,
+        "uniqueActiveIds": true
+      }
+    ]
+  },
+  "scaleNativeRender": {
+    "dossierPages": 3,
+    "webPdfPages": 3,
+    "cvPages": 1,
+    "bothReferencesOnCvPage": 1,
+    "manualNativePageReview": [
+      1,
+      2,
+      3
+    ]
+  },
+  "sidebarDiagnostics": {
+    "appUiAcceptance": false,
+    "scope": "Two historical photo cases plus long right-hand fixture with hobbies reduced to 8; synthetic full PNG; no customer-file equivalence claimed",
+    "sourcePackages": [
+      {
+        "case": "04-Foto-Portrait.docx",
+        "activeControlCount": 80,
+        "uniqueActiveIds": true,
+        "pictures": {
+          "cv.person.photo": {
+            "representation": "DrawingML",
+            "width": 120,
+            "height": 180,
+            "embeddedFileSha256": "265bf0882c3cacca519668160cf117ee82c33a662f7d4a582516bdb0a864fd02",
+            "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+            "crop": {
+              "l": "11818",
+              "t": "31313",
+              "r": "27576",
+              "b": "18182"
+            }
+          }
+        },
+        "completeOriginalPhotoInSource": true
+      },
+      {
+        "case": "05-Freies-Foto-rechts.docx",
+        "activeControlCount": 80,
+        "uniqueActiveIds": true,
+        "pictures": {
+          "cv.person.photo": {
+            "representation": "DrawingML",
+            "width": 120,
+            "height": 180,
+            "embeddedFileSha256": "265bf0882c3cacca519668160cf117ee82c33a662f7d4a582516bdb0a864fd02",
+            "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+            "crop": {
+              "l": "8400",
+              "t": "24400",
+              "r": "11600",
+              "b": "22267"
+            }
+          }
+        },
+        "completeOriginalPhotoInSource": true
+      },
+      {
+        "case": "06-Langer-CV-rechts.docx",
+        "activeControlCount": 337,
+        "uniqueActiveIds": true,
+        "pictures": {},
+        "completeOriginalPhotoInSource": true
+      }
+    ],
+    "renderedCases": [
+      {
+        "case": "04-Foto-Portrait-render",
+        "totalPages": 3,
+        "cvPages": 1,
+        "missingCvFieldsInRender": [],
+        "textCheck": "Full page and independent column reading order across page boundaries",
+        "outerSidebarPaintAtTopMiddleBottom": [
+          {
+            "page": 3,
+            "pixels": [
+              [
+                251,
+                251,
+                252
+              ],
+              [
+                251,
+                251,
+                252
+              ],
+              [
+                251,
+                251,
+                252
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "case": "05-Freies-Foto-rechts-render",
+        "totalPages": 3,
+        "cvPages": 1,
+        "missingCvFieldsInRender": [],
+        "textCheck": "Full page and independent column reading order across page boundaries",
+        "outerSidebarPaintAtTopMiddleBottom": [
+          {
+            "page": 3,
+            "pixels": [
+              [
+                251,
+                251,
+                252
+              ],
+              [
+                251,
+                251,
+                252
+              ],
+              [
+                251,
+                251,
+                252
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "case": "06-Langer-CV-rechts-render",
+        "totalPages": 11,
+        "cvPages": 9,
+        "missingCvFieldsInRender": [],
+        "textCheck": "Full page and independent column reading order across page boundaries",
+        "outerSidebarPaintAtTopMiddleBottom": [
+          {
+            "page": 3,
+            "pixels": [
+              [
+                251,
+                251,
+                252
+              ],
+              [
+                251,
+                251,
+                252
+              ],
+              [
+                251,
+                251,
+                252
+              ]
+            ]
+          },
+          {
+            "page": 4,
+            "pixels": [
+              [
+                251,
+                251,
+                252
+              ],
+              [
+                251,
+                251,
+                252
+              ],
+              [
+                251,
+                251,
+                252
+              ]
+            ]
+          },
+          {
+            "page": 5,
+            "pixels": [
+              [
+                251,
+                251,
+                252
+              ],
+              [
+                251,
+                251,
+                252
+              ],
+              [
+                251,
+                251,
+                252
+              ]
+            ]
+          },
+          {
+            "page": 6,
+            "pixels": [
+              [
+                251,
+                251,
+                252
+              ],
+              [
+                251,
+                251,
+                252
+              ],
+              [
+                251,
+                251,
+                252
+              ]
+            ]
+          },
+          {
+            "page": 7,
+            "pixels": [
+              [
+                251,
+                251,
+                252
+              ],
+              [
+                251,
+                251,
+                252
+              ],
+              [
+                251,
+                251,
+                252
+              ]
+            ]
+          },
+          {
+            "page": 8,
+            "pixels": [
+              [
+                251,
+                251,
+                252
+              ],
+              [
+                251,
+                251,
+                252
+              ],
+              [
+                251,
+                251,
+                252
+              ]
+            ]
+          },
+          {
+            "page": 9,
+            "pixels": [
+              [
+                251,
+                251,
+                252
+              ],
+              [
+                251,
+                251,
+                252
+              ],
+              [
+                251,
+                251,
+                252
+              ]
+            ]
+          },
+          {
+            "page": 10,
+            "pixels": [
+              [
+                251,
+                251,
+                252
+              ],
+              [
+                251,
+                251,
+                252
+              ],
+              [
+                251,
+                251,
+                252
+              ]
+            ]
+          },
+          {
+            "page": 11,
+            "pixels": [
+              [
+                251,
+                251,
+                252
+              ],
+              [
+                251,
+                251,
+                252
+              ],
+              [
+                251,
+                251,
+                252
+              ]
+            ]
+          }
+        ]
+      }
+    ],
+    "cvPagesWithFullHeightPaint": 11,
+    "manualPhotoCvPageReview": true,
+    "longCaseReview": "Whole-dossier overview plus automated full-height samples and complete field text checks; not all-39 visual acceptance",
+    "sourcePicturePixels": "Exact original 120x180 PNG retained in both source packages",
+    "saveReopen": "NOT_RUN",
+    "wordEditability": "UNVERIFIED"
+  },
+  "limitations": [
+    "No Microsoft Word runtime",
+    "No Word save/reopen acceptance for these bytes",
+    "No browser menu zoom test; DPR and editor preview variants only",
+    "Native Sidebar is still excluded by the existing classic-only guarded app exporter",
+    "No full repository unit suite or 22-case regression rerun",
+    "Not a complete visual fidelity signoff; pre-existing heading and pill differences remain"
+  ],
+  "files": [
+    {
+      "path": "pagination/02-Modern-Zwei-CV-Seiten/Web-PDF.pdf",
+      "bytes": 1280362,
+      "sha256": "04a0d58c725721d1cfa7c0e9c9d7319d7e9cc272be5a1969f9c0c36a7fda8ec2"
+    },
+    {
+      "path": "pagination/02-Modern-Zwei-CV-Seiten/fitted-project.json",
+      "bytes": 9093,
+      "sha256": "a25d6b7132ff86c7a91d395c2a0aac0a96504ab849a1eb130bb2f8d633831ab6"
+    },
+    {
+      "path": "pagination/02-Modern-Zwei-CV-Seiten/project.json",
+      "bytes": 7059,
+      "sha256": "e3a5ac3f8c3c6e15d8fff22c98fba039fefa4447c1cc07611f75e2863a49c736"
+    },
+    {
+      "path": "pagination/02-Modern-Zwei-CV-Seiten/proof.json",
+      "bytes": 230545,
+      "sha256": "a8bf15f21a17696e5cdaaeb0250f1024926856637da086bdc1bfe79db3604ce1"
+    },
+    {
+      "path": "pagination/02-Modern-Zwei-CV-Seiten-native-render/02-Modern-Zwei-CV-Seiten.pdf",
+      "bytes": 297112,
+      "sha256": "8fc64d0a71ee61bedaea27733ba1cc9a1a17f08debf9c40518970819a92bbd97"
+    },
+    {
+      "path": "pagination/02-Modern-Zwei-CV-Seiten.docx",
+      "bytes": 354317,
+      "sha256": "46c2427e5b3d4b19fb2ded5a5a5eb0aa87b7b887d37eaa3df5c533a5409b8637"
+    },
+    {
+      "path": "pagination/12-Brief-Zwei-CV-Seiten/Web-PDF.pdf",
+      "bytes": 1258595,
+      "sha256": "fdfabaee7aca20311117ba9fdd338c75e002423089e84a81dcdae7e651992ea1"
+    },
+    {
+      "path": "pagination/12-Brief-Zwei-CV-Seiten/fitted-project.json",
+      "bytes": 9229,
+      "sha256": "bc9f9acfb30a6e70c679e70578dbba5aa7d3e64941612824570acb7d358f52e7"
+    },
+    {
+      "path": "pagination/12-Brief-Zwei-CV-Seiten/project.json",
+      "bytes": 7195,
+      "sha256": "01f565be78800f8bae41f6245dc717d7981b75f0ceeff5bd207a6ca80e9e5025"
+    },
+    {
+      "path": "pagination/12-Brief-Zwei-CV-Seiten/proof.json",
+      "bytes": 172671,
+      "sha256": "396dafbd65ee648ccc8afaa6d82d57a4f06a81aeb9c80b2c2016ac10b5dc7c18"
+    },
+    {
+      "path": "pagination/12-Brief-Zwei-CV-Seiten-native-render/12-Brief-Zwei-CV-Seiten.pdf",
+      "bytes": 152812,
+      "sha256": "578874794e9284031a9afc6712e0f63e35adb78c856b8314d68fc554be51122c"
+    },
+    {
+      "path": "pagination/12-Brief-Zwei-CV-Seiten.docx",
+      "bytes": 86312,
+      "sha256": "e68fd62a2b9d56dc72fe36dcbf6af0492699e978705044c1b4cfc22f79cd0ada"
+    },
+    {
+      "path": "pagination/render-verification.json",
+      "bytes": 313,
+      "sha256": "e9f9a2070de6704b7fb4e1cd72c16d63e515db6d4be61ea1effc7b7bda289f39"
+    },
+    {
+      "path": "pagination/results.json",
+      "bytes": 1510,
+      "sha256": "3d0859d1ebd61aa8d6703364ca659b8403f354a6450a07f06a283e6de391e19d"
+    },
+    {
+      "path": "scale/Web-PDF.pdf",
+      "bytes": 1325186,
+      "sha256": "ee7612cec16678eccb471a5a5d72ad9394fa390152fc06bbf87851f9f3c20e64"
+    },
+    {
+      "path": "scale/baseline-proof.json",
+      "bytes": 212144,
+      "sha256": "c27a2dd8048ad40d50e477c3eda151db51414622d2e4680bc68ebb92b9b4ea7f"
+    },
+    {
+      "path": "scale/baseline.docx",
+      "bytes": 361056,
+      "sha256": "af9520a6ec1a8907050deba482e3ec722bdd8801fcd711a1159b83d653f47f9e"
+    },
+    {
+      "path": "scale/dpr2-proof.json",
+      "bytes": 212144,
+      "sha256": "c27a2dd8048ad40d50e477c3eda151db51414622d2e4680bc68ebb92b9b4ea7f"
+    },
+    {
+      "path": "scale/dpr2.docx",
+      "bytes": 361056,
+      "sha256": "af9520a6ec1a8907050deba482e3ec722bdd8801fcd711a1159b83d653f47f9e"
+    },
+    {
+      "path": "scale/narrow-preview-proof.json",
+      "bytes": 212144,
+      "sha256": "c27a2dd8048ad40d50e477c3eda151db51414622d2e4680bc68ebb92b9b4ea7f"
+    },
+    {
+      "path": "scale/narrow-preview.docx",
+      "bytes": 361056,
+      "sha256": "af9520a6ec1a8907050deba482e3ec722bdd8801fcd711a1159b83d653f47f9e"
+    },
+    {
+      "path": "scale/native-render/baseline.pdf",
+      "bytes": 301611,
+      "sha256": "3358c176612b6b088ec0d614f14d22e48dd0bf37629d473fcd3361d5f3d97264"
+    },
+    {
+      "path": "scale/results.json",
+      "bytes": 1632,
+      "sha256": "530040f50d66919e20e9663457f241efcc1b2b3c2e0381d081b5724845cb8b04"
+    },
+    {
+      "path": "sidebar/04-Foto-Portrait-render/04-Foto-Portrait.pdf",
+      "bytes": 153244,
+      "sha256": "44d50bc24970a2434462d20ec449fab62e34627d61cf2d3ab295b2f1771d35e2"
+    },
+    {
+      "path": "sidebar/04-Foto-Portrait.docx",
+      "bytes": 80610,
+      "sha256": "af210ca5f0eb04275b6050e9d04479b6bac0013fa4bc8aaa5b1c00440ddbb148"
+    },
+    {
+      "path": "sidebar/05-Freies-Foto-rechts-render/05-Freies-Foto-rechts.pdf",
+      "bytes": 154678,
+      "sha256": "fabfb1c3d8bfce1e22d430d772155d6edb2199012ce6c0c9f3b1f65a967a212a"
+    },
+    {
+      "path": "sidebar/05-Freies-Foto-rechts.docx",
+      "bytes": 80243,
+      "sha256": "d8370a003f5ec0c90601fcf49a98fb4c20e04d7cd9414188832cbe8059a3e31e"
+    },
+    {
+      "path": "sidebar/06-Langer-CV-rechts-render/06-Langer-CV-rechts.pdf",
+      "bytes": 204403,
+      "sha256": "39c61f11ec3e25d3ce5b7fe0a9e424a517448d9319141c78754b34b800949be9"
+    },
+    {
+      "path": "sidebar/06-Langer-CV-rechts.docx",
+      "bytes": 236489,
+      "sha256": "1176f3be4c5ef2471ac820f2bfd23d3391b4d46db1fa566a297b8d5dc3183399"
+    },
+    {
+      "path": "sidebar/packet-manifest.json",
+      "bytes": 955,
+      "sha256": "6eeb52f6f97b079ac67443c3c21f87296e2668afefb451acdfc4520d9a50bf44"
+    },
+    {
+      "path": "sidebar/render-verification.json",
+      "bytes": 3986,
+      "sha256": "0b5a84c9ad328a0b1009073f9817f126686daec60d2c21c4b9f4c97cf939d4d7"
+    },
+    {
+      "path": "sidebar/source-inventory.json",
+      "bytes": 1578,
+      "sha256": "d0e2dd3e7163c26b5ecee3819fb1164ea15e91d3c316eaa44938a0af61131d51"
+    }
+  ]
+}

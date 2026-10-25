@@ -1,0 +1,1582 @@
+{
+  "files": 225,
+  "tests": 1057,
+  "complete": true,
+  "results": [
+    {
+      "file": "tests/unit/app-theme.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 7,
+      "seconds": 0.06
+    },
+    {
+      "file": "tests/unit/attachment-list-values.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.05
+    },
+    {
+      "file": "tests/unit/citrus-rubric.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.06
+    },
+    {
+      "file": "tests/unit/compact-header-cleanup.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 6,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/compact-header-quick-wins.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/cover-attachments-color.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/cover-attachments-layout.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.12
+    },
+    {
+      "file": "tests/unit/cover-decoration-drag-bounds.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.02
+    },
+    {
+      "file": "tests/unit/cover-decorations.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.16
+    },
+    {
+      "file": "tests/unit/cover-element-typography-precedence.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/cover-footer-consistency.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.08
+    },
+    {
+      "file": "tests/unit/cover-header-layout.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.06
+    },
+    {
+      "file": "tests/unit/cv-bottom-margin-reference-guard.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.05
+    },
+    {
+      "file": "tests/unit/cv-contact-tabulator.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.07
+    },
+    {
+      "file": "tests/unit/cv-content-geometry-ownership.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.05
+    },
+    {
+      "file": "tests/unit/cv-continuation-header.test.tsx",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.37
+    },
+    {
+      "file": "tests/unit/cv-continuation-spacing.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.05
+    },
+    {
+      "file": "tests/unit/cv-custom-section-presets.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 9,
+      "seconds": 0.02
+    },
+    {
+      "file": "tests/unit/cv-dev-recovery.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 6,
+      "seconds": 0.28
+    },
+    {
+      "file": "tests/unit/cv-document-title-style.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/cv-editor-copy.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 1,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/cv-editor-rubric-tone.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.06
+    },
+    {
+      "file": "tests/unit/cv-family-alignment.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.03
+    },
+    {
+      "file": "tests/unit/cv-family-layout.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/cv-layout.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 7,
+      "seconds": 0.03
+    },
+    {
+      "file": "tests/unit/cv-page-fit-one-shot.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/cv-page-fit.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 8,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/cv-pagination-design-invalidation.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 1,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/cv-paper-color.test.tsx",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.34
+    },
+    {
+      "file": "tests/unit/cv-pdf-selection-geometry.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.17
+    },
+    {
+      "file": "tests/unit/cv-photo-frame.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/cv-reference-columns.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.05
+    },
+    {
+      "file": "tests/unit/cv-refresh-template-scope.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 1,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/cv-reset-positions.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 1,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/cv-rubric-color-control.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 1,
+      "seconds": 0.03
+    },
+    {
+      "file": "tests/unit/cv-rubric-offset-clipping.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 1,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/cv-section-layout-controls.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/cv-section-rule.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.16
+    },
+    {
+      "file": "tests/unit/cv-section-title-style.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.05
+    },
+    {
+      "file": "tests/unit/cv-sidebar-width.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 1,
+      "seconds": 0.03
+    },
+    {
+      "file": "tests/unit/cv-top-area-package1.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/cv-top-area-package15.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.03
+    },
+    {
+      "file": "tests/unit/demo-place-consistency.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/devtools-reset-hotfix.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.06
+    },
+    {
+      "file": "tests/unit/diagonal-template.test.tsx",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.12
+    },
+    {
+      "file": "tests/unit/docx-next-artwork.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 6,
+      "seconds": 0.21
+    },
+    {
+      "file": "tests/unit/docx-next-blockig.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.21
+    },
+    {
+      "file": "tests/unit/docx-next-body-attachment.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.83
+    },
+    {
+      "file": "tests/unit/docx-next-cell-ending.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.57
+    },
+    {
+      "file": "tests/unit/docx-next-chrome.test.tsx",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.44
+    },
+    {
+      "file": "tests/unit/docx-next-citrus-template.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.18
+    },
+    {
+      "file": "tests/unit/docx-next-colorful.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.21
+    },
+    {
+      "file": "tests/unit/docx-next-composite-paint.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 6,
+      "seconds": 0.17
+    },
+    {
+      "file": "tests/unit/docx-next-container-identity.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.25
+    },
+    {
+      "file": "tests/unit/docx-next-cove.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.21
+    },
+    {
+      "file": "tests/unit/docx-next-cover-typography.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 6,
+      "seconds": 0.21
+    },
+    {
+      "file": "tests/unit/docx-next-cv-variants.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 8,
+      "seconds": 0.51
+    },
+    {
+      "file": "tests/unit/docx-next-diagonal.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 6,
+      "seconds": 0.21
+    },
+    {
+      "file": "tests/unit/docx-next-edel-dark.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.13
+    },
+    {
+      "file": "tests/unit/docx-next-edel.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.33
+    },
+    {
+      "file": "tests/unit/docx-next-editorial-templates.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 7,
+      "seconds": 0.71
+    },
+    {
+      "file": "tests/unit/docx-next-elements.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 8,
+      "seconds": 0.24
+    },
+    {
+      "file": "tests/unit/docx-next-final-graphics.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 6,
+      "seconds": 0.23
+    },
+    {
+      "file": "tests/unit/docx-next-floating-anchor.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 1.45
+    },
+    {
+      "file": "tests/unit/docx-next-floating-continuation.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 1.25
+    },
+    {
+      "file": "tests/unit/docx-next-floating.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 1.27
+    },
+    {
+      "file": "tests/unit/docx-next-fonts.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 12,
+      "seconds": 0.34
+    },
+    {
+      "file": "tests/unit/docx-next-forest-flow.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.28
+    },
+    {
+      "file": "tests/unit/docx-next-frame.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.57
+    },
+    {
+      "file": "tests/unit/docx-next-glow.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.28
+    },
+    {
+      "file": "tests/unit/docx-next-heading-badges.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.22
+    },
+    {
+      "file": "tests/unit/docx-next-heading-prefix.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.18
+    },
+    {
+      "file": "tests/unit/docx-next-horizon.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.3
+    },
+    {
+      "file": "tests/unit/docx-next-human.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.26
+    },
+    {
+      "file": "tests/unit/docx-next-image-zone.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 6,
+      "seconds": 0.47
+    },
+    {
+      "file": "tests/unit/docx-next-klassisch.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.33
+    },
+    {
+      "file": "tests/unit/docx-next-kolumne.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.42
+    },
+    {
+      "file": "tests/unit/docx-next-layout-settings.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 10,
+      "seconds": 0.32
+    },
+    {
+      "file": "tests/unit/docx-next-ledger.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.43
+    },
+    {
+      "file": "tests/unit/docx-next-model.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 23,
+      "seconds": 0.17
+    },
+    {
+      "file": "tests/unit/docx-next-modern.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.36
+    },
+    {
+      "file": "tests/unit/docx-next-mono-luxe.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.42
+    },
+    {
+      "file": "tests/unit/docx-next-orbit.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.42
+    },
+    {
+      "file": "tests/unit/docx-next-parallel-flow.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 10,
+      "seconds": 0.48
+    },
+    {
+      "file": "tests/unit/docx-next-parallel-pagination.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 1,
+      "seconds": 0.58
+    },
+    {
+      "file": "tests/unit/docx-next-pastell.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.39
+    },
+    {
+      "file": "tests/unit/docx-next-picture.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.17
+    },
+    {
+      "file": "tests/unit/docx-next-populated-row.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 1.43
+    },
+    {
+      "file": "tests/unit/docx-next-prism.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 10,
+      "seconds": 0.56
+    },
+    {
+      "file": "tests/unit/docx-next-renderer.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 15,
+      "seconds": 0.52
+    },
+    {
+      "file": "tests/unit/docx-next-ribbon.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 6,
+      "seconds": 0.35
+    },
+    {
+      "file": "tests/unit/docx-next-sections.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.35
+    },
+    {
+      "file": "tests/unit/docx-next-selective-row.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.91
+    },
+    {
+      "file": "tests/unit/docx-next-serioes.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.45
+    },
+    {
+      "file": "tests/unit/docx-next-sidebar.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 10,
+      "seconds": 1.73
+    },
+    {
+      "file": "tests/unit/docx-next-sonne.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.47
+    },
+    {
+      "file": "tests/unit/docx-next-source.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 7,
+      "seconds": 0.21
+    },
+    {
+      "file": "tests/unit/docx-next-studio-family.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 9,
+      "seconds": 0.66
+    },
+    {
+      "file": "tests/unit/docx-next-studio3.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.58
+    },
+    {
+      "file": "tests/unit/docx-next-sunrise.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.5
+    },
+    {
+      "file": "tests/unit/docx-next-template-primitives.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 14,
+      "seconds": 0.56
+    },
+    {
+      "file": "tests/unit/docx-next-verlauf2.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 7,
+      "seconds": 0.58
+    },
+    {
+      "file": "tests/unit/docx-next-verlauf3.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.41
+    },
+    {
+      "file": "tests/unit/docx-next-violet-pulse.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.37
+    },
+    {
+      "file": "tests/unit/docx-next-warm2.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.31
+    },
+    {
+      "file": "tests/unit/docx-next-warm3.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.32
+    },
+    {
+      "file": "tests/unit/docx-next-welle.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.29
+    },
+    {
+      "file": "tests/unit/dossier-canonical-default.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 7,
+      "seconds": 0.2
+    },
+    {
+      "file": "tests/unit/dossier-chrome-customization.test.tsx",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 12,
+      "seconds": 0.26
+    },
+    {
+      "file": "tests/unit/dossier-chrome-document-content.test.tsx",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.19
+    },
+    {
+      "file": "tests/unit/dossier-chrome-geometry.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.03
+    },
+    {
+      "file": "tests/unit/dossier-chrome-policy.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 6,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/dossier-chrome-positioning.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 6,
+      "seconds": 0.05
+    },
+    {
+      "file": "tests/unit/dossier-chrome-renderer-boundary.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/dossier-chrome-sync.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 9,
+      "seconds": 0.03
+    },
+    {
+      "file": "tests/unit/dossier-contact.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.06
+    },
+    {
+      "file": "tests/unit/dossier-content-geometry-ownership.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/dossier-document-colors.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.02
+    },
+    {
+      "file": "tests/unit/dossier-docx-alignment-output.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/dossier-docx-cv-section-order.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.05
+    },
+    {
+      "file": "tests/unit/dossier-docx-document-colors.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.11
+    },
+    {
+      "file": "tests/unit/dossier-docx-export.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 13,
+      "seconds": 1.49
+    },
+    {
+      "file": "tests/unit/dossier-docx-final-visual-fixes.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.32
+    },
+    {
+      "file": "tests/unit/dossier-docx-fresh-recipes.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.19
+    },
+    {
+      "file": "tests/unit/dossier-docx-kolumne-structure.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 1,
+      "seconds": 0.35
+    },
+    {
+      "file": "tests/unit/dossier-docx-lazy-loader.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.14
+    },
+    {
+      "file": "tests/unit/dossier-docx-legacy-recipes.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 40,
+      "seconds": 1.49
+    },
+    {
+      "file": "tests/unit/dossier-docx-legacy-sender.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 1,
+      "seconds": 0.27
+    },
+    {
+      "file": "tests/unit/dossier-docx-letter-images.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.1
+    },
+    {
+      "file": "tests/unit/dossier-docx-neon-surface.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.07
+    },
+    {
+      "file": "tests/unit/dossier-docx-portability.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/dossier-docx-sonne-contrast.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.45
+    },
+    {
+      "file": "tests/unit/dossier-docx-studio2-parity.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.32
+    },
+    {
+      "file": "tests/unit/dossier-docx-studio3-pagination-guard.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.08
+    },
+    {
+      "file": "tests/unit/dossier-docx-v2-cover-justify.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 1,
+      "seconds": 0.11
+    },
+    {
+      "file": "tests/unit/dossier-docx-v2-cover-qa.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.08
+    },
+    {
+      "file": "tests/unit/dossier-docx-v2-cover-scene.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 9,
+      "seconds": 0.13
+    },
+    {
+      "file": "tests/unit/dossier-docx-v2-flow-normalization.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.03
+    },
+    {
+      "file": "tests/unit/dossier-docx-v2-flow.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 11,
+      "seconds": 0.14
+    },
+    {
+      "file": "tests/unit/dossier-docx-warm.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.14
+    },
+    {
+      "file": "tests/unit/dossier-docx.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.22
+    },
+    {
+      "file": "tests/unit/dossier-field-typography.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/dossier-font-sync.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/dossier-form-ui-sync.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 6,
+      "seconds": 0.06
+    },
+    {
+      "file": "tests/unit/dossier-header-gap.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 7,
+      "seconds": 0.05
+    },
+    {
+      "file": "tests/unit/dossier-hyphenation.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.12
+    },
+    {
+      "file": "tests/unit/dossier-motif-parity.test.tsx",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 8,
+      "seconds": 0.16
+    },
+    {
+      "file": "tests/unit/dossier-package2.test.tsx",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 7,
+      "seconds": 0.22
+    },
+    {
+      "file": "tests/unit/dossier-page-geometry-foundation.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 6,
+      "seconds": 0.08
+    },
+    {
+      "file": "tests/unit/dossier-page-margins.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 20,
+      "seconds": 0.1
+    },
+    {
+      "file": "tests/unit/dossier-portable-state.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.06
+    },
+    {
+      "file": "tests/unit/dossier-project-field-typography.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.05
+    },
+    {
+      "file": "tests/unit/dossier-project-file.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.14
+    },
+    {
+      "file": "tests/unit/dossier-semantic-fields.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 7,
+      "seconds": 0.1
+    },
+    {
+      "file": "tests/unit/dossier-semantic-parity.test.tsx",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.26
+    },
+    {
+      "file": "tests/unit/dossier-sheet-background.test.tsx",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.18
+    },
+    {
+      "file": "tests/unit/dossier-text-alignment.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 7,
+      "seconds": 0.06
+    },
+    {
+      "file": "tests/unit/dossier.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 15,
+      "seconds": 0.12
+    },
+    {
+      "file": "tests/unit/download-file-names.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.11
+    },
+    {
+      "file": "tests/unit/edel-dark.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/element-ratio-lock.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.06
+    },
+    {
+      "file": "tests/unit/final-pdf-polish.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 7,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/forest-flow-cover-editability.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/forest-flow-rail-seam.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 1,
+      "seconds": 0.06
+    },
+    {
+      "file": "tests/unit/fresh-cover-background.test.tsx",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.12
+    },
+    {
+      "file": "tests/unit/fresh-cover-content.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.08
+    },
+    {
+      "file": "tests/unit/fresh-letter-system.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.02
+    },
+    {
+      "file": "tests/unit/fresh-modern-sidebar-geometry.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/header-production-polish.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/html2canvas-export.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/legacy-pdf-review-refinements.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.11
+    },
+    {
+      "file": "tests/unit/letter-adversarial-content.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.11
+    },
+    {
+      "file": "tests/unit/letter-backwards-compat.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.06
+    },
+    {
+      "file": "tests/unit/letter-body-font-size.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.07
+    },
+    {
+      "file": "tests/unit/letter-bottom-page-margin.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.09
+    },
+    {
+      "file": "tests/unit/letter-brief-default.test.tsx",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.23
+    },
+    {
+      "file": "tests/unit/letter-color-selection-bookmark.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 1,
+      "seconds": 0.07
+    },
+    {
+      "file": "tests/unit/letter-compact-header.test.tsx",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 10,
+      "seconds": 0.81
+    },
+    {
+      "file": "tests/unit/letter-context-font-families.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.05
+    },
+    {
+      "file": "tests/unit/letter-context-font-sizes.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.08
+    },
+    {
+      "file": "tests/unit/letter-font-control.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.29
+    },
+    {
+      "file": "tests/unit/letter-font-size-range.test.tsx",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.12
+    },
+    {
+      "file": "tests/unit/letter-font-transition.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.07
+    },
+    {
+      "file": "tests/unit/letter-fragment-free-header.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.08
+    },
+    {
+      "file": "tests/unit/letter-image-geometry.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 7,
+      "seconds": 0.03
+    },
+    {
+      "file": "tests/unit/letter-layout-system.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 10,
+      "seconds": 0.06
+    },
+    {
+      "file": "tests/unit/letter-paper-color.test.tsx",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.32
+    },
+    {
+      "file": "tests/unit/letter-preflight-export-geometry.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 1,
+      "seconds": 0.14
+    },
+    {
+      "file": "tests/unit/letter-preflight-geometry.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.03
+    },
+    {
+      "file": "tests/unit/letter-preflight.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.19
+    },
+    {
+      "file": "tests/unit/letter-selection-toolbar.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 1,
+      "seconds": 0.08
+    },
+    {
+      "file": "tests/unit/letter-signature-spacing.test.tsx",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.28
+    },
+    {
+      "file": "tests/unit/m12-dossier-consistency.test.tsx",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.41
+    },
+    {
+      "file": "tests/unit/m13-visual-fixes.test.tsx",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.12
+    },
+    {
+      "file": "tests/unit/m14-regression-hardening.test.tsx",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.13
+    },
+    {
+      "file": "tests/unit/mobile-editor-content-safety.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.06
+    },
+    {
+      "file": "tests/unit/pdf-text-rendering-ownership.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.05
+    },
+    {
+      "file": "tests/unit/photo-controls-consistency.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.07
+    },
+    {
+      "file": "tests/unit/photo-pdf-rasterization.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.1
+    },
+    {
+      "file": "tests/unit/prism-neon-header-identity.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.07
+    },
+    {
+      "file": "tests/unit/red-dossier-coherence.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.05
+    },
+    {
+      "file": "tests/unit/resizable-editor-panel.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.05
+    },
+    {
+      "file": "tests/unit/ribbon-cover-redesign.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/role-typography-controls.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 6,
+      "seconds": 0.08
+    },
+    {
+      "file": "tests/unit/shared-editor-controls-consistency.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.07
+    },
+    {
+      "file": "tests/unit/studio-cover-hierarchy.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.05
+    },
+    {
+      "file": "tests/unit/template-chrome-warm.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.02
+    },
+    {
+      "file": "tests/unit/template-chrome.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 9,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/template-typography.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.12
+    },
+    {
+      "file": "tests/unit/templatefix-19-22-cover.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.06
+    },
+    {
+      "file": "tests/unit/templatefix-29-31.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.09
+    },
+    {
+      "file": "tests/unit/templatefix-32-36-cv-masthead.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.08
+    },
+    {
+      "file": "tests/unit/templatefix-32-36.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.05
+    },
+    {
+      "file": "tests/unit/templatefix-cover-letter-cleanup.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.05
+    },
+    {
+      "file": "tests/unit/templatefix-edge-consistency.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 6,
+      "seconds": 0.05
+    },
+    {
+      "file": "tests/unit/templatefix-kolumne-contact-rail.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 4,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/templatefix-neon-cleanup.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.05
+    },
+    {
+      "file": "tests/unit/templatefix-pastell-consistency.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 2,
+      "seconds": 0.06
+    },
+    {
+      "file": "tests/unit/templatefix-prism-cleanup.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.03
+    },
+    {
+      "file": "tests/unit/templatefix-sonne-studio-cleanup.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/templatefix-studio2-studio3-interiors.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.08
+    },
+    {
+      "file": "tests/unit/templatefix-sunrise-forest-flow.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 6,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/templatefix-violet-pulse-cleanup.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.04
+    },
+    {
+      "file": "tests/unit/templatefix-warm-letter-header.test.ts",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 5,
+      "seconds": 0.05
+    },
+    {
+      "file": "tests/unit/warm-contact-header.test.tsx",
+      "exitCode": 0,
+      "completeSummary": true,
+      "tests": 3,
+      "seconds": 0.19
+    }
+  ]
+}

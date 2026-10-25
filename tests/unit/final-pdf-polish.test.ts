@@ -20,14 +20,14 @@ describe("final 39-PDF visual polish", () => {
 
   test("keeps Horizon contact rows on a full-height colour surface", () => {
     expect(css).toContain(
-      '[data-letter-page][data-letter-template="horizon"][data-letter-header-mode="contact"]',
+      '[data-letter-canvas][data-letter-template="horizon"][data-letter-header-mode="contact"]',
     );
     expect(css).toContain('[data-dossier-sheet-background="horizon"]');
     expect(css).toContain("height: 22mm !important;");
   });
 
   test("moves only Gallery place text away from the portrait-tower clipping edge", () => {
-    expect(css).toContain('html[data-dossier-template="gallery"]');
+    expect(css).toContain('div[data-dossier-document="cover"][data-dossier-template="gallery"]');
     expect(css).toContain('[data-block-id="ortDatum"]');
     expect(css).toContain("position: relative !important;");
     expect(css).toContain("left: 4mm !important;");
@@ -35,13 +35,13 @@ describe("final 39-PDF visual polish", () => {
   });
 
   test("keeps Forest Flow place/date marker inside the grove with breathing room", () => {
-    expect(css).toContain('html[data-dossier-template="forestFlow"]');
+    expect(css).toContain('div[data-dossier-document="cover"][data-dossier-template="forestFlow"]');
     expect(css).toContain("font-size: 9.2pt !important;");
     expect(css).toContain("letter-spacing: 0.22em !important;");
   });
 
   test("restores Ribbon hero height for its complete identity stack", () => {
-    expect(css).toContain('html[data-dossier-template="ribbon"]');
+    expect(css).toContain('div[data-dossier-document="cover"][data-dossier-template="ribbon"]');
     expect(css).toContain("top: 28mm !important;");
     expect(css).toContain("height: 58mm !important;");
     expect(css).toContain("border-radius: 0 29mm 29mm 0 !important;");
@@ -49,14 +49,12 @@ describe("final 39-PDF visual polish", () => {
 
   test("uses live dossier ink for 34-38 CV headings without defeating user colour", () => {
     for (const template of ["prism", "gallery", "orbit", "ribbon", "cove"]) {
-      expect(css).toContain(`[data-dossier-template="${template}"]`);
+      expect(css).toContain(`[data-cv-template="${template}"]`);
     }
     expect(css).toContain('[data-dossier-document="cv"]');
     expect(css).toContain(':not([data-cv-user-section-color="true"])');
     expect(css).toContain("color: var(--cover-ink, #1f2937) !important;");
-    expect(css).toContain(
-      "-webkit-text-fill-color: var(--cover-ink, #1f2937) !important;",
-    );
+    expect(css).toContain("-webkit-text-fill-color: var(--cover-ink, #1f2937) !important;");
     expect(css).not.toContain("#0000FF");
   });
 

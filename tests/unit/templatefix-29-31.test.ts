@@ -8,7 +8,9 @@ describe("templateFIX 29-31", () => {
   it("keeps Warm 2 to coral/apricot geometry while rule suppression stays global", () => {
     expect(css).toContain('data-dossier-template="warm2"');
     expect(css).toContain('data-letter-fresh-template="warm2"');
-    expect(css).not.toContain('[data-letter-fresh-template="warm2"] [data-letter-motif="top-rule"]');
+    expect(css).not.toContain(
+      '[data-letter-fresh-template="warm2"] [data-letter-motif="top-rule"]',
+    );
     expect(chromePolicy).toContain('[data-letter-motif="top-rule"]');
   });
 
@@ -16,7 +18,7 @@ describe("templateFIX 29-31", () => {
     expect(css).toContain('data-dossier-template="warm3"');
     expect(css).toContain('data-letter-fresh-template="warm3"');
     expect(css).toContain('data-letter-motif="right-field"');
-    expect(css).not.toContain('Never add a second chrome hairline');
+    expect(css).not.toContain("Never add a second chrome hairline");
   });
 
   it("turns Ledger into a full-width readable CV in classic layout", () => {

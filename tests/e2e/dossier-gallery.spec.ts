@@ -1,3 +1,4 @@
+import { recordGallerySource } from "./support/gallery-source";
 import { expect, test, type Page } from "@playwright/test";
 import { copyFile, mkdir, readFile, stat, writeFile } from "node:fs/promises";
 import { join } from "node:path";
@@ -106,4 +107,5 @@ test("all 39 live dossier templates produce review PDFs", async ({ page }) => {
     `${manifestEntries.join("\n")}\n`,
     "utf8",
   );
+  await recordGallerySource(GALLERY_DIR);
 });

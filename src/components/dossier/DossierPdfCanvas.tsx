@@ -1,4 +1,4 @@
-import { forwardRef } from "react";
+import { forwardRef, useCallback, useMemo, useState } from "react";
 import "@/components/cover/fresh-templates";
 import { CoverCanvas } from "@/components/cover/CoverCanvas";
 import { CvCanvas } from "@/components/cv/CvCanvas";
@@ -40,17 +40,54 @@ export const DossierPdfCanvas = forwardRef<
   },
   ref,
 ) {
-  const storedLetter =
-    letter === undefined
-      ? letterPdfDocumentFromSaved(readStoredDossierPart(LETTER_STORAGE_KEY))
-      : letter;
-  const resolvedChrome = resolveDossierChromeSnapshot(
-    { cover, letter: storedLetter, cv },
-    chromeState,
+  // Re-read saved content as before, but preserve its identity while readiness
+  // callbacks update this canvas so they do not restart Letter measurement.
+  const savedLetter =
+    letter === undefined ? JSON.stringify(readStoredDossierPart(LETTER_STORAGE_KEY)) : undefined;
+  const storedLetter = useMemo(
+    () =>
+      letter === undefined
+        ? letterPdfDocumentFromSaved(savedLetter ? JSON.parse(savedLetter) : undefined)
+        : letter,
+    [letter, savedLetter],
+  );
+  const resolvedChrome = useMemo(
+    () => resolveDossierChromeSnapshot({ cover, letter: storedLetter, cv }, chromeState),
+    [cover, storedLetter, cv, chromeState],
+  );
+  // Expose existing CV callbacks as a readiness contract for native print.
+  // This does not calculate pagination or change the renderer's page assignment.
+  const [cvStatus, setCvStatus] = useState({ source: cv, pageCount: 0, ready: false });
+  const receiveCvPages = useCallback(
+    (pageCount: number) => {
+      setCvStatus((current) =>
+        current.source === cv && current.pageCount === pageCount
+          ? current
+          : { source: cv, pageCount, ready: current.source === cv && current.ready },
+      );
+      onCvPageCount?.(pageCount);
+    },
+    [cv, onCvPageCount],
+  );
+  const receiveCvWarnings = useCallback(
+    (warnings: CvLayoutWarning[]) => {
+      setCvStatus((current) =>
+        current.source === cv && current.ready
+          ? current
+          : { source: cv, pageCount: current.source === cv ? current.pageCount : 0, ready: true },
+      );
+      onCvLayoutWarnings?.(warnings);
+    },
+    [cv, onCvLayoutWarnings],
   );
 
   return (
-    <div ref={ref}>
+    <div
+      ref={ref}
+      data-dossier-pdf-canvas
+      data-dossier-cv-ready={cvStatus.source === cv && cvStatus.ready ? "true" : "false"}
+      data-dossier-cv-page-count={cvStatus.source === cv ? cvStatus.pageCount : 0}
+    >
       {cover ? (
         <CoverCanvas
           template={cover.template}
@@ -66,10 +103,7 @@ export const DossierPdfCanvas = forwardRef<
         />
       ) : null}
       {storedLetter ? (
-        <div
-          data-dossier-document="letter"
-          data-dossier-template={storedLetter.design.template}
-        >
+        <div data-dossier-document="letter" data-dossier-template={storedLetter.design.template}>
           <LetterDocument
             data={storedLetter.data}
             design={storedLetter.design}
@@ -90,8 +124,8 @@ export const DossierPdfCanvas = forwardRef<
           elementStyles={cv.elementStyles}
           exportMode
           manageGlobalTemplateScope={false}
-          onLayoutWarnings={onCvLayoutWarnings}
-          onPageCount={onCvPageCount}
+          onLayoutWarnings={receiveCvWarnings}
+          onPageCount={receiveCvPages}
         />
       ) : null}
     </div>

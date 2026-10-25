@@ -48,12 +48,12 @@ describe("contextual letter typography", () => {
   test("places font family and size controls in the matching form accordions", () => {
     expect(route).toContain('data-letter-context-font-sizes="brief"');
     expect(route).not.toContain('<Section title="Schrift"');
-    expect(route).not.toContain('open={open.typo}');
-    expect(route).toContain('font={design.dateFont}');
-    expect(route).toContain('font={design.bodyFont}');
-    expect(route).toContain('font={design.senderTypography?.font}');
-    expect(route).toContain('font={design.recipientTypography?.font}');
-    expect(route).toContain('font={design.attachmentsFont}');
+    expect(route).not.toContain("open={open.typo}");
+    expect(route).toContain("font={design.dateFont}");
+    expect(route).toContain("font={design.bodyFont}");
+    expect(route).toContain("font={design.senderTypography?.font}");
+    expect(route).toContain("font={design.recipientTypography?.font}");
+    expect(route).toContain("font={design.attachmentsFont}");
     for (const label of [
       "Ort & Datum",
       "Titel / Betreff",
@@ -67,8 +67,12 @@ describe("contextual letter typography", () => {
     ]) {
       expect(route).toContain(`label="${label}"`);
     }
-    expect(route).toContain('patchDossierChrome("letter", { headerFontSizePt: fontSizePt ?? null })');
-    expect(route).toContain('patchDossierChrome("letter", { footerFontSizePt: fontSizePt ?? null })');
+    expect(route).toContain(
+      'patchDossierChrome("letter", { headerFontSizePt: fontSizePt ?? null })',
+    );
+    expect(route).toContain(
+      'patchDossierChrome("letter", { footerFontSizePt: fontSizePt ?? null })',
+    );
   });
 
   test("removes duplicate font family and size controls from Layout", () => {

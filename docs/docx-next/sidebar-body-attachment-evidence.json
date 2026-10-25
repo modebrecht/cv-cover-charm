@@ -1,0 +1,1656 @@
+{
+  "startingRemoteDevSha": "73423cdaf05bf5eb17486617e95583130dc46aa9",
+  "registry": {
+    "configuredCandidates": 29,
+    "wordAccepted": 0,
+    "totalTemplates": 39
+  },
+  "retainedProductionChange": "none; earlier opt-in metadata prefix unchanged",
+  "guard": "picture before later spanning track remains unsupported",
+  "diagnostics": {
+    "libreOfficeVersion": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+    "libreOfficeInterface": "soffice CLI",
+    "cases": [
+      {
+        "fixture": "grid-220",
+        "diagnostic": {
+          "name": "grid-220",
+          "mode": "grid",
+          "leadMm": 220
+        },
+        "docxSha256": "1bd80767ed4d87e8ed0d45d166873ad080e05abfd6ff408980308f814f0b7d0b",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [1, 1, 1, 1, 2],
+          "openingAttachment": "known-negative",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [1, 1, 1, 1, 2],
+          "openingAttachment": "known-negative",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        }
+      },
+      {
+        "fixture": "unmerged-220",
+        "diagnostic": {
+          "name": "unmerged-220",
+          "mode": "unmerged",
+          "leadMm": 220
+        },
+        "docxSha256": "9ce179405b72043c0457312e529b592f5dc2887f42253557d7871dab9af2e1da",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [1, 1, 1, 1, 2],
+          "openingAttachment": "known-negative",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [1, 1, 1, 1, 2],
+          "openingAttachment": "known-negative",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        }
+      },
+      {
+        "fixture": "single-column-220",
+        "diagnostic": {
+          "name": "single-column-220",
+          "mode": "single-column",
+          "leadMm": 220
+        },
+        "docxSha256": "9e905b7e88f5a7f8672bd36a1b1bc5e503123d09fa568928572e6f50577969b3",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [2, 2, 2, 2, 2],
+          "openingAttachment": "pass",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [2, 2, 2, 2, 2],
+          "openingAttachment": "pass",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        }
+      },
+      {
+        "fixture": "body-220",
+        "diagnostic": {
+          "name": "body-220",
+          "mode": "body",
+          "leadMm": 220
+        },
+        "docxSha256": "15538dece8fb62cf1eb493e65d22ff3a2d0b3fd44a4e7b74b08fef8247f5a6ce",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [2, 2, 2, 2, 2],
+          "openingAttachment": "pass",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [2, 2, 2, 2, 2],
+          "openingAttachment": "pass",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        }
+      },
+      {
+        "fixture": "grid-224",
+        "diagnostic": {
+          "name": "grid-224",
+          "mode": "grid",
+          "leadMm": 224
+        },
+        "docxSha256": "34ad477f870b048167f7514895573a67e4b656556b3f8e47bc2f7717ff29b167",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [1, 1, 1, 2, 2],
+          "openingAttachment": "known-negative",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [1, 1, 1, 2, 2],
+          "openingAttachment": "known-negative",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        }
+      },
+      {
+        "fixture": "unmerged-224",
+        "diagnostic": {
+          "name": "unmerged-224",
+          "mode": "unmerged",
+          "leadMm": 224
+        },
+        "docxSha256": "ae738a255d2fc6c985da2a46e9464a00634b5cfb182c051ec63182c99fd8b1bc",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [1, 1, 1, 2, 2],
+          "openingAttachment": "known-negative",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [1, 1, 1, 2, 2],
+          "openingAttachment": "known-negative",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        }
+      },
+      {
+        "fixture": "single-column-224",
+        "diagnostic": {
+          "name": "single-column-224",
+          "mode": "single-column",
+          "leadMm": 224
+        },
+        "docxSha256": "99368c1c70b0c39cd99de32e13c1d8443e323c29f05427970de4479159fd0a97",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [2, 2, 2, 2, 2],
+          "openingAttachment": "pass",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [2, 2, 2, 2, 2],
+          "openingAttachment": "pass",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        }
+      },
+      {
+        "fixture": "body-224",
+        "diagnostic": {
+          "name": "body-224",
+          "mode": "body",
+          "leadMm": 224
+        },
+        "docxSha256": "ba2fe6f0ce3acf2b2b39db39168bef758e0d5f5e6c34ace4a81452c2487cb12e",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [2, 2, 2, 2, 2],
+          "openingAttachment": "pass",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [2, 2, 2, 2, 2],
+          "openingAttachment": "pass",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        }
+      },
+      {
+        "fixture": "grid-226",
+        "diagnostic": {
+          "name": "grid-226",
+          "mode": "grid",
+          "leadMm": 226
+        },
+        "docxSha256": "34b4b933f20ffd78aa93876b67c94f222337264337691665e1b3c98daee83336",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [1, 1, 1, 2, 2],
+          "openingAttachment": "known-negative",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [1, 1, 1, 2, 2],
+          "openingAttachment": "known-negative",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        }
+      },
+      {
+        "fixture": "unmerged-226",
+        "diagnostic": {
+          "name": "unmerged-226",
+          "mode": "unmerged",
+          "leadMm": 226
+        },
+        "docxSha256": "68a1f5be26f2596479fc0cd4437be7d096124272330570c2b2a1dc167a3398e5",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [1, 1, 1, 2, 2],
+          "openingAttachment": "known-negative",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [1, 1, 1, 2, 2],
+          "openingAttachment": "known-negative",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        }
+      },
+      {
+        "fixture": "single-column-226",
+        "diagnostic": {
+          "name": "single-column-226",
+          "mode": "single-column",
+          "leadMm": 226
+        },
+        "docxSha256": "ba70ff20e7e463368449b4f78b12b4f1c4048c495be41e73350e5b76b4ca9315",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [2, 2, 2, 2, 2],
+          "openingAttachment": "pass",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [2, 2, 2, 2, 2],
+          "openingAttachment": "pass",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        }
+      },
+      {
+        "fixture": "body-226",
+        "diagnostic": {
+          "name": "body-226",
+          "mode": "body",
+          "leadMm": 226
+        },
+        "docxSha256": "6ccca38cdf5bc985d3d01df6923bb3a3478f0d5aafefb10a130a039af0846b4f",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [2, 2, 2, 2, 2],
+          "openingAttachment": "pass",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [2, 2, 2, 2, 2],
+          "openingAttachment": "pass",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        }
+      },
+      {
+        "fixture": "grid-228",
+        "diagnostic": {
+          "name": "grid-228",
+          "mode": "grid",
+          "leadMm": 228
+        },
+        "docxSha256": "8a54993d0086088d406af1154ffa168c83a4e4f621e69384c9714e8b45f07849",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [1, 1, 2, 2, 2],
+          "openingAttachment": "known-negative",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [1, 1, 2, 2, 2],
+          "openingAttachment": "known-negative",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        }
+      },
+      {
+        "fixture": "unmerged-228",
+        "diagnostic": {
+          "name": "unmerged-228",
+          "mode": "unmerged",
+          "leadMm": 228
+        },
+        "docxSha256": "a06363e69ee75813e090faf9d9b2809eec6b3baed4b5780dcc26b1005a9a928d",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [1, 1, 2, 2, 2],
+          "openingAttachment": "known-negative",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [1, 1, 2, 2, 2],
+          "openingAttachment": "known-negative",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        }
+      },
+      {
+        "fixture": "single-column-228",
+        "diagnostic": {
+          "name": "single-column-228",
+          "mode": "single-column",
+          "leadMm": 228
+        },
+        "docxSha256": "f8d6f7a9579596ba3ec41db7acce730ea67b4c246394b5430927fdb6b1f0d308",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [2, 2, 2, 2, 2],
+          "openingAttachment": "pass",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [2, 2, 2, 2, 2],
+          "openingAttachment": "pass",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        }
+      },
+      {
+        "fixture": "body-228",
+        "diagnostic": {
+          "name": "body-228",
+          "mode": "body",
+          "leadMm": 228
+        },
+        "docxSha256": "7c5b25ba529d2cb97aa0679ff0db3bd7299519aedaea5cc331e4b231e356d8a2",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [2, 2, 2, 2, 2],
+          "openingAttachment": "pass",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [2, 2, 2, 2, 2],
+          "openingAttachment": "pass",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        }
+      },
+      {
+        "fixture": "grid-230",
+        "diagnostic": {
+          "name": "grid-230",
+          "mode": "grid",
+          "leadMm": 230
+        },
+        "docxSha256": "4b8a83a301556e2e4d7710c370c19a2e8dc6fa9fc1860144a5668ee1875169a9",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [1, 1, 2, 2, 2],
+          "openingAttachment": "known-negative",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [1, 1, 2, 2, 2],
+          "openingAttachment": "known-negative",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        }
+      },
+      {
+        "fixture": "unmerged-230",
+        "diagnostic": {
+          "name": "unmerged-230",
+          "mode": "unmerged",
+          "leadMm": 230
+        },
+        "docxSha256": "6695b1a05b6adc4b22584b83e8417e81499603d9f00c1d7518f6fe9d521075ce",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [1, 1, 2, 2, 2],
+          "openingAttachment": "known-negative",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [1, 1, 2, 2, 2],
+          "openingAttachment": "known-negative",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        }
+      },
+      {
+        "fixture": "single-column-230",
+        "diagnostic": {
+          "name": "single-column-230",
+          "mode": "single-column",
+          "leadMm": 230
+        },
+        "docxSha256": "9b002381889d950e75a34c68631d32106e5a83b264032d9fc3bb1edbdf4dbf07",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [2, 2, 2, 2, 2],
+          "openingAttachment": "pass",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [2, 2, 2, 2, 2],
+          "openingAttachment": "pass",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        }
+      },
+      {
+        "fixture": "body-230",
+        "diagnostic": {
+          "name": "body-230",
+          "mode": "body",
+          "leadMm": 230
+        },
+        "docxSha256": "fb5f56322f93d7ddc3704362ca6791e291824ff1d892f59bddcd70c040c7733f",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [2, 2, 2, 2, 2],
+          "openingAttachment": "pass",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [2, 2, 2, 2, 2],
+          "openingAttachment": "pass",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        }
+      },
+      {
+        "fixture": "grid-234",
+        "diagnostic": {
+          "name": "grid-234",
+          "mode": "grid",
+          "leadMm": 234
+        },
+        "docxSha256": "8209986234d7abd5ec4ab7f086730d7a1e5ce6b2f0c82b8a591ee0d3fa4657c1",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [2, 2, 2, 2, 2],
+          "openingAttachment": "pass",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [2, 2, 2, 2, 2],
+          "openingAttachment": "pass",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        }
+      },
+      {
+        "fixture": "unmerged-234",
+        "diagnostic": {
+          "name": "unmerged-234",
+          "mode": "unmerged",
+          "leadMm": 234
+        },
+        "docxSha256": "ad7676cd860858477481e2bd68ac1a302dc3f726859f444a14bd1a4841d95941",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [2, 2, 2, 2, 2],
+          "openingAttachment": "pass",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [2, 2, 2, 2, 2],
+          "openingAttachment": "pass",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        }
+      },
+      {
+        "fixture": "single-column-234",
+        "diagnostic": {
+          "name": "single-column-234",
+          "mode": "single-column",
+          "leadMm": 234
+        },
+        "docxSha256": "9e20d317ad36c152428dee93fb6cf3f3e0d256727d1a20c859f8b3beb787b3bf",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [2, 2, 2, 2, 2],
+          "openingAttachment": "pass",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [2, 2, 2, 2, 2],
+          "openingAttachment": "pass",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        }
+      },
+      {
+        "fixture": "body-234",
+        "diagnostic": {
+          "name": "body-234",
+          "mode": "body",
+          "leadMm": 234
+        },
+        "docxSha256": "6747a5595715e504eb22d4ca6227e46a2bde7a4ba58dbd681d4a77791eaefa36",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [2, 2, 2, 2, 2],
+          "openingAttachment": "pass",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "openingCvPages": [2, 2, 2, 2, 2],
+          "openingAttachment": "pass",
+          "metadataMetrics": [
+            {
+              "fieldId": "cv.section.custom:long-paragraph.heading",
+              "leftPt": 213.25,
+              "widthPt": 94.54803466796875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+              "leftPt": 213.25,
+              "widthPt": 52.457977294921875
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+              "leftPt": 213.25,
+              "widthPt": 131.11355590820312
+            },
+            {
+              "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+              "leftPt": 213.25,
+              "widthPt": 29.126998901367188
+            }
+          ]
+        }
+      }
+    ],
+    "architectureAcceptance": "multi-cell context remains blocked; matched single-column and native-body controls pass",
+    "productionChange": "none; default Sidebar and picture-before-later-span guard unchanged",
+    "microsoftWord": "pending"
+  },
+  "matchedOpeningAttachment": {
+    "attachedControls": 14,
+    "counterexamples": 10,
+    "actualMetadataXAndGlyphWidthsEqualAcrossModesAndSaveReopen": true
+  },
+  "supportedSidebar": {
+    "fixtures": 31,
+    "pages": 253,
+    "packageRenderSaveReopen": "pass",
+    "sourcePackagesByteIdenticalToStartingCheckout": true
+  },
+  "priorPrefixDiagnostics": {
+    "fixtures": 19,
+    "pages": 115,
+    "packageRenderSaveReopen": "pass with two original expected counterexamples",
+    "sourcePackagesByteIdenticalToStartingCheckout": true
+  },
+  "modelJsonPackageRoundtrips": 24,
+  "sidebarModelJsonRoundtrips": 31,
+  "portableProjectPhotoRestorations": 2,
+  "pythonFlowTests": 7,
+  "limits": {
+    "stableLibreOffice": "unavailable; pinned comparison pending",
+    "microsoftWord": "pending",
+    "supportedFixtureImages": "explicit Pillow adapter; browser decoder not repeated locally",
+    "localAppTypecheckLint": "offline cache not frozen lock; release acceptance from publication CI",
+    "publicationCI": "commit-specific Bun/locked checks/browser/PDF results reported separately"
+  },
+  "nextTask": "generic independently flowing native main/side containers; start from single-column main attachment; require both orientations, long-both-tracks, photos and headers before application activation"
+}

@@ -5,7 +5,7 @@
 
 /* 02 Editorial: reduce competing display treatments. The profession is the
  * single deliberate italic accent; headings and metadata stay quiet/roman. */
-html[data-dossier-template="klassisch"] [data-dossier-document="cover"] {
+div[data-dossier-document="cover"][data-dossier-template="klassisch"] {
   --dossier-name-weight: 700;
   --dossier-name-tracking: -0.01em;
   --dossier-name-line-height: 1.03;
@@ -41,8 +41,6 @@ html[data-dossier-template="klassisch"] [data-dossier-document="cover"] {
 
 /* Neon already has enough visual energy from its gradient fields. The legacy
  * separator immediately above Kontakt reads like a random rule, so remove it. */
-html[data-dossier-template="neon"]
-  [data-dossier-document="cover"]
-  [data-block-id="trenner"] {
+div[data-dossier-document="cover"][data-dossier-template="neon"] [data-block-id="trenner"] {
   display: none !important;
 }

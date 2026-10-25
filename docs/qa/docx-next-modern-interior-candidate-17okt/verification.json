@@ -1,0 +1,44 @@
+{
+  "classification": "PARTIAL; bounded integration and supplementary checks pass; actual Word acceptance UNVERIFIED",
+  "unit": {
+    "pass": 1210,
+    "fail": 0,
+    "assertions": 23198,
+    "files": 251
+  },
+  "docx": {
+    "pass": 397,
+    "fail": 0,
+    "assertions": 6117,
+    "files": 61,
+    "overlapsUnit": true
+  },
+  "typecheck": "PASS",
+  "formatChangedCode": "PASS",
+  "lint": {
+    "errors": 0,
+    "preExistingWarnings": 21
+  },
+  "build": "PASS complete Nitro build",
+  "positiveInteriorCases": 5,
+  "nativeA4Pages": 20,
+  "newHumanDocxCandidates": 3,
+  "capsuleContainmentChecks": 14,
+  "rejectionCases": 11,
+  "regression": {
+    "candidateDocxByteIdentical": 8,
+    "ordinaryNextDocxByteIdentical": 8,
+    "webPngByteIdentical": 18
+  },
+  "sameFontSansControlLetterModelAndRender": "PASS",
+  "coverPixelsIdenticalToReviewed": 5,
+  "WordVisualEditingSaveReopen": "UNVERIFIED",
+  "otherTemplatesExpanded": false,
+  "publicationPreflight": {
+    "exactBranchDeploymentDisabled": true,
+    "wildcardDeploymentDisabled": true,
+    "workflowFiltersExcludeBranch": 16,
+    "liveBranchDeployments": 0,
+    "liveBranchWorkflowRuns": 0
+  }
+}

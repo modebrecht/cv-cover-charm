@@ -8,8 +8,7 @@ import type {
   LetterPdfDocument,
 } from "../../src/lib/dossier-pdf-document";
 
-const sectionBreak =
-  '<w:p><w:pPr><w:sectPr><w:pgSz w:w="1" w:h="1"/></w:sectPr></w:pPr></w:p>';
+const sectionBreak = '<w:p><w:pPr><w:sectPr><w:pgSz w:w="1" w:h="1"/></w:sectPr></w:pPr></w:p>';
 const demoSchoolTime = DEMO_CV.schule[0]?.zeit ?? "";
 
 function paragraph(text: string, color = "111111") {
@@ -113,9 +112,7 @@ describe("DOCX document color parity", () => {
     const letterEnd = patched.indexOf(sectionBreak, letterStart);
     const letterXml = patched.slice(letterStart, letterEnd);
     expect(letterXml).toContain('<w:color w:val="182230"/>');
-    expect(letterXml).toContain(
-      '<w:color w:val="777777"/></w:rPr><w:t>Hubersdorf, 15.11.2026',
-    );
+    expect(letterXml).toContain('<w:color w:val="777777"/></w:rPr><w:t>Hubersdorf, 15.11.2026');
 
     const cvXml = patched.slice(letterEnd + sectionBreak.length);
     expect(cvXml).toContain('<w:color w:val="172033"/></w:rPr><w:t>Lea Müller');

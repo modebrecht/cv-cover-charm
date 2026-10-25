@@ -54,8 +54,9 @@ async function installAdversarialMeasurementGeometry(page: Page) {
       style.textContent = `
         /* Keep the hidden paginator stressed without changing visible A4 geometry. */
         [data-letter-pagination-measurements] [data-letter-text-layer] {
-          height: 20px !important;
-          min-height: 20px !important;
+          height: 0 !important;
+          min-height: 0 !important;
+          max-height: 0 !important;
           bottom: auto !important;
         }
       `;
@@ -66,7 +67,7 @@ async function installAdversarialMeasurementGeometry(page: Page) {
     const observer = new MutationObserver(() => {
       if (install()) observer.disconnect();
     });
-    observer.observe(document.documentElement, { childList: true, subtree: true });
+    observer.observe(document, { childList: true, subtree: true });
   });
 }
 
@@ -111,25 +112,47 @@ test.describe("letter physical PDF preflight", () => {
     expect(legacyScrollMetricWouldBlock).toBe(true);
 
     await page.getByRole("button", { name: "Download", exact: true }).click();
-    const pdfButton = page.getByRole("button", { name: /Nur Motivationsschreiben als PDF/i });
-    await expect(pdfButton).toBeEnabled();
+    const pdfButton = page.getByRole("menuitem", { name: "PDF", exact: true });
+    // The deliberately broken hidden probe is now an explicit advisory. The
+    // inflated aggregate scroll metric itself remains irrelevant to safety.
+    await expect(pdfButton).toBeDisabled();
+    const overrideButton = page.getByRole("button", {
+      name: "PDF trotzdem herunterladen",
+      exact: true,
+    });
+    await expect(overrideButton).toBeEnabled();
     const downloadPromise = page.waitForEvent("download", { timeout: 90_000 });
-    await pdfButton.click();
+    await overrideButton.click();
     const download = await downloadPromise;
     expect(download.suggestedFilename()).toMatch(/\.pdf$/i);
   });
 
-  test("physical geometry authority rejects actual visible content outside A4", async ({ page }) => {
+  test("physical geometry authority rejects actual visible content outside A4", async ({
+    page,
+  }) => {
     const root = await seed(page);
-    const recipient = root.locator('[data-letter-section="recipient"]').first();
+    const recipient = root
+      .locator('[data-letter-document-pages] [data-letter-page] [data-letter-section="recipient"]')
+      .first();
     await expect(recipient).toBeVisible();
 
-    await recipient.evaluate((element) => {
-      (element as HTMLElement).style.transform = "translateY(900px)";
+    // Keep the fault present if React commits another physical-page render.
+    await page.addStyleTag({
+      content:
+        'main [data-letter-document-pages] [data-letter-page] [data-letter-section="recipient"]{transform:translateY(1200px)!important}',
     });
+    const geometry = await recipient.evaluate((element) => {
+      const range = document.createRange();
+      range.selectNodeContents(element);
+      return {
+        glyphBottom: range.getBoundingClientRect().bottom,
+        pageBottom: element.closest("[data-letter-page]")!.getBoundingClientRect().bottom,
+      };
+    });
+    expect(geometry.glyphBottom).toBeGreaterThan(geometry.pageBottom + 1.5);
 
     const physicalOverflow = await root
-      .locator("[data-letter-page]")
+      .locator("[data-letter-document-pages] [data-letter-page]")
       .first()
       .evaluate(async (pageNode) => {
         const { letterPageOverflows } = await import("/src/components/letter/preflight.ts");

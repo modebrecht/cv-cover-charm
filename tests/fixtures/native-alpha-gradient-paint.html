@@ -1,0 +1,45 @@
+<!doctype html>
+<meta charset="utf-8" />
+<title>Native alpha-gradient paint diagnosis</title>
+<style>
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  * {
+    print-color-adjust: exact;
+  }
+  body {
+    margin: 0;
+    background: #fffdf9;
+    font: 16px sans-serif;
+  }
+  .field {
+    height: 160px;
+    margin: 25px;
+  }
+  .light {
+    background: linear-gradient(100deg, #fdeded, #fefbee 72%, transparent 100%);
+  }
+  .dark {
+    background-color: #11233f;
+    background-image: linear-gradient(
+      120deg,
+      rgb(255 255 255 / 0.02),
+      rgb(255 255 255 / 0.16),
+      transparent
+    );
+  }
+  .paint-layer {
+    filter: opacity(1);
+  }
+  p {
+    margin: 25px;
+  }
+</style>
+<p>Direct vector background: light / dark</p>
+<div class="field light"></div>
+<div class="field dark"></div>
+<p>Same colors and geometry in a separate identity-filter paint layer</p>
+<div class="field light paint-layer"></div>
+<div class="field dark paint-layer"></div>

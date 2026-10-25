@@ -134,7 +134,6 @@ function read(): CvPhotoPlacement {
 
 export function getCvPhotoPlacement(): CvPhotoPlacement {
   if (!cached) cached = read();
-  apply(cached);
   return cached;
 }
 

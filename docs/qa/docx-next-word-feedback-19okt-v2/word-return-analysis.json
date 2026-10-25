@@ -1,0 +1,164 @@
+{
+  "evidence": "User-supplied Word-saved DOCX and Microsoft Word PDFs; closing/reopening not independently observable",
+  "results": [
+    {
+      "file": "06-Modern-Foto-Pille-rechts.docx",
+      "sha256": "7c0ca126bb373b8a33c329c2f0ec9557a4fccc1e0033d4f7aae40de5fbf67b9c",
+      "pdfSha256": "17ce3ccf255c5403eddcd2c73daaf38beefc3b638fdbf085947a89513078eef6",
+      "producer": "Microsoft® Word for Microsoft 365",
+      "pdfPages": 4,
+      "originalControls": 85,
+      "returnedControls": 85,
+      "originalMediaPreserved": true,
+      "editedFields": [
+        {
+          "field": "cover.eyebrow",
+          "before": [
+            "Bewerbung"
+          ],
+          "after": [
+            "Bewerbun"
+          ]
+        }
+      ],
+      "originalPhoto": {
+        "cover.photo": {
+          "xMm": 129.0,
+          "yMm": 47.0,
+          "crop": {
+            "l": "6923",
+            "t": "26667",
+            "r": "16154",
+            "b": "22051"
+          }
+        }
+      },
+      "returnedPhoto": {
+        "cover.photo": {
+          "xMm": 129.5223611111111,
+          "yMm": 46.63722222222222,
+          "crop": {
+            "l": "6923",
+            "t": "26667",
+            "r": "16154",
+            "b": "22051"
+          }
+        }
+      }
+    },
+    {
+      "file": "07-Modern-Lang-115-Prozent.docx",
+      "sha256": "eaacae4f2f2519bbc41b8bcdf8109e6a5ffa5fc4f0706243c4ac6da181acb81e",
+      "pdfSha256": "3d07e430a212b94ebb64c0708d322fd60da781156aec61fbffc292c3c52fd65a",
+      "producer": "Microsoft® Word for Microsoft 365",
+      "pdfPages": 4,
+      "originalControls": 86,
+      "returnedControls": 86,
+      "originalMediaPreserved": true,
+      "editedFields": [
+        {
+          "field": "cover.eyebrow",
+          "before": [
+            "Bewerbung"
+          ],
+          "after": [
+            "BewerbungGGG"
+          ]
+        }
+      ],
+      "originalPhoto": {},
+      "returnedPhoto": {}
+    },
+    {
+      "file": "08-Brief-Standard.docx",
+      "sha256": "c6bbb1c8399c0b8c124a4053013ced0dbdac01c0fa97eaf1ded5fc2d5ff53913",
+      "pdfSha256": "6d0a121a48bbb8a0145ab28f51437d4e3d88e7fa8a24971617027adf94cf2b80",
+      "producer": "Microsoft® Word for Microsoft 365",
+      "pdfPages": 4,
+      "originalControls": 87,
+      "returnedControls": 87,
+      "originalMediaPreserved": true,
+      "editedFields": [
+        {
+          "field": "cover.eyebrow",
+          "before": [
+            "Bewerbung"
+          ],
+          "after": [
+            "BewerbungGGG"
+          ]
+        }
+      ],
+      "originalPhoto": {},
+      "returnedPhoto": {}
+    },
+    {
+      "file": "09-Brief-Lang-115-Prozent.docx",
+      "sha256": "7f6c30071526905faff941f04e4420a2a08b1338935bf433cb71838425eda7d6",
+      "pdfSha256": "3339cbe6c289f40dec53ce246722b9bb66666044bb5739685a556f056ccef801",
+      "producer": "Microsoft® Word for Microsoft 365",
+      "pdfPages": 4,
+      "originalControls": 87,
+      "returnedControls": 87,
+      "originalMediaPreserved": true,
+      "editedFields": [
+        {
+          "field": "cover.eyebrow",
+          "before": [
+            "Bewerbung"
+          ],
+          "after": [
+            "BewerbungGGG"
+          ]
+        }
+      ],
+      "originalPhoto": {},
+      "returnedPhoto": {}
+    },
+    {
+      "file": "10-Brief-Foto-Hochformat.docx",
+      "sha256": "11936c700d477f10a69b083a01f2d7a7b98f57fa524984ee2e2f5e00042240e7",
+      "pdfSha256": "96b364bec04bc9cb701e2d973bed05ddaee87d456a64175c3b6ce698ca694935",
+      "producer": "Microsoft® Word for Microsoft 365",
+      "pdfPages": 4,
+      "originalControls": 86,
+      "returnedControls": 86,
+      "originalMediaPreserved": true,
+      "editedFields": [
+        {
+          "field": "cover.eyebrow",
+          "before": [
+            "Bewerbung"
+          ],
+          "after": [
+            "BewerbungGGG"
+          ]
+        }
+      ],
+      "originalPhoto": {
+        "cover.photo": {
+          "xMm": 125.0,
+          "yMm": 45.0,
+          "crop": {
+            "l": "6923",
+            "t": "15000",
+            "r": "16154",
+            "b": "8077"
+          }
+        }
+      },
+      "returnedPhoto": {
+        "cover.photo": {
+          "xMm": 125.0,
+          "yMm": 45.0,
+          "crop": {
+            "l": "6923",
+            "t": "15000",
+            "r": "16154",
+            "b": "8077"
+          }
+        }
+      }
+    }
+  ]
+}

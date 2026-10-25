@@ -1,0 +1,71 @@
+{
+  "unit": {
+    "pass": 1205,
+    "fail": 0,
+    "assertions": 23106,
+    "files": 250
+  },
+  "docx": {
+    "pass": 392,
+    "fail": 0,
+    "assertions": 6025,
+    "files": 60,
+    "overlapsUnit": true
+  },
+  "typecheck": "PASS",
+  "formatChangedCode": "PASS",
+  "lint": {
+    "errors": 0,
+    "existingWarnings": 21
+  },
+  "build": "PASS complete Nitro build",
+  "appDownloadsReviewedExport": {
+    "pass": 3,
+    "byteIdenticalToParent": 3,
+    "webPngsByteIdenticalToParent": 9
+  },
+  "appRejectionChecks": [
+    {
+      "scenario": "mixed-layout-trials",
+      "messages": [
+        "Error: Design DOCX Next: Die Pillen-Gruppierung ist gesperrt: Microsoft Word zeigt den Text unvollständig. Bitte den Modern-Testexport ohne Gruppierung verwenden.",
+        "Error: Brief DOCX Next: Die Pillen-Gruppierung ist gesperrt: Microsoft Word zeigt den Text unvollständig. Bitte den Modern-Testexport ohne Gruppierung verwenden."
+      ],
+      "disabledButton": true,
+      "downloads": 0,
+      "savedDocumentsUnchanged": true,
+      "result": "PASS Word-rejected trial blocked"
+    },
+    {
+      "scenario": "rejected-native-badge",
+      "messages": [
+        "Error: Design DOCX Next: Die Pillen-Gruppierung ist gesperrt: Microsoft Word zeigt den Text unvollständig. Bitte den Modern-Testexport ohne Gruppierung verwenden.",
+        "Error: Brief DOCX Next: Die Pillen-Gruppierung ist gesperrt: Microsoft Word zeigt den Text unvollständig. Bitte den Modern-Testexport ohne Gruppierung verwenden."
+      ],
+      "disabledButton": true,
+      "downloads": 0,
+      "savedDocumentsUnchanged": true,
+      "result": "PASS Word-rejected trial blocked"
+    },
+    {
+      "scenario": "opt-in-off",
+      "message": "Error: Design DOCX Next: Testexport ist nicht aktiviert.",
+      "result": "PASS hidden and rejected"
+    }
+  ],
+  "wordVisualTrial": "FAIL user-reported screenshot; exact file identity unverified",
+  "wordEditingDraggingSaveReopen": "UNVERIFIED",
+  "newFixedDocxDelivered": 0,
+  "publicationPreflight": {
+    "exactBranchDeploymentDisabled": true,
+    "wildcardDeploymentDisabled": true,
+    "workflowBranchFiltersExcludeOwnBranch": 16,
+    "liveBranchDeployments": 0,
+    "liveBranchWorkflowRuns": 0,
+    "protectedRefs": {
+      "dev": "8901a830a792d75e9e792345c5180827218b4e1e",
+      "main": "44d7eb950b4fe972d6e890a72b6d3256ce365bc9",
+      "render": "4319c20fb85d3971ac355ae8898cdfef86ee7a8c"
+    }
+  }
+}

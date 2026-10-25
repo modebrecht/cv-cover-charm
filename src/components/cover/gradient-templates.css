@@ -14,13 +14,19 @@
  */
 
 /* Shared: soften the secondary nodes into a continuous two-color field. */
-html[data-dossier-template="horizon"]
+:is(div[data-dossier-document="cover"][data-dossier-template="horizon"] > div:first-child)
+  > div:first-child,
+div[data-cv-template="horizon"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child,
-html[data-dossier-template="sunrise"]
+:is(div[data-dossier-document="cover"][data-dossier-template="sunrise"] > div:first-child)
+  > div:first-child,
+div[data-cv-template="sunrise"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child,
-html[data-dossier-template="violetPulse"]
+:is(div[data-dossier-document="cover"][data-dossier-template="violetPulse"] > div:first-child)
+  > div:first-child,
+div[data-cv-template="violetPulse"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child {
   overflow: hidden;
@@ -30,7 +36,9 @@ html[data-dossier-template="violetPulse"]
 /* -------------------------------------------------------------------------- */
 /* HORIZON — navy -> blue, calm horizontal movement                           */
 /* -------------------------------------------------------------------------- */
-html[data-dossier-template="horizon"]
+:is(div[data-dossier-document="cover"][data-dossier-template="horizon"] > div:first-child)
+  > div:first-child,
+div[data-cv-template="horizon"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child {
   left: 0 !important;
@@ -39,10 +47,18 @@ html[data-dossier-template="horizon"]
   width: 100% !important;
   height: 108mm !important;
   border-radius: 0 0 72mm 0 !important;
-  background-image: linear-gradient(120deg, rgb(255 255 255 / 0.02), rgb(255 255 255 / 0.16), transparent) !important;
+  background-image: linear-gradient(
+    120deg,
+    rgb(255 255 255 / 0.02),
+    rgb(255 255 255 / 0.16),
+    transparent
+  ) !important;
 }
 
-html[data-dossier-template="horizon"]
+:is(div[data-dossier-document="cover"][data-dossier-template="horizon"] > div:first-child)
+  > div:first-child
+  > div:first-child,
+div[data-cv-template="horizon"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:first-child {
@@ -56,7 +72,10 @@ html[data-dossier-template="horizon"]
   filter: blur(9mm);
 }
 
-html[data-dossier-template="horizon"]
+:is(div[data-dossier-document="cover"][data-dossier-template="horizon"] > div:first-child)
+  > div:first-child
+  > div:nth-child(2),
+div[data-cv-template="horizon"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:nth-child(2) {
@@ -71,27 +90,26 @@ html[data-dossier-template="horizon"]
   filter: blur(8mm);
 }
 
-html[data-dossier-template="horizon"] [data-dossier-document="cover"] [data-block-id="foto"] {
+div[data-dossier-document="cover"][data-dossier-template="horizon"] [data-block-id="foto"] {
   transform: translate(48mm, -18mm) scale(0.82);
   transform-origin: top left;
 }
 
-html[data-dossier-template="horizon"] [data-dossier-document="cover"] [data-block-id="name"] {
+div[data-dossier-document="cover"][data-dossier-template="horizon"] [data-block-id="name"] {
   transform: translate(0, -10mm);
 }
 
-html[data-dossier-template="horizon"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="horizon"]
   :is([data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
   transform: translate(0, -8mm);
 }
 
-html[data-dossier-template="horizon"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="horizon"][data-dossier-document="cv"] [data-cv-surface] {
   border-radius: 0 0 7mm 7mm !important;
   box-shadow: 0 3mm 12mm rgb(17 35 63 / 0.06);
 }
 
-html[data-dossier-template="horizon"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+div[data-cv-template="horizon"][data-dossier-document="cv"] [data-cv-accent="section"] {
   opacity: 0.82 !important;
   border-radius: 999px !important;
 }
@@ -99,7 +117,9 @@ html[data-dossier-template="horizon"] [data-dossier-document="cv"] [data-cv-acce
 /* -------------------------------------------------------------------------- */
 /* SUNRISE — coral -> peach, broad soft warm field                            */
 /* -------------------------------------------------------------------------- */
-html[data-dossier-template="sunrise"]
+:is(div[data-dossier-document="cover"][data-dossier-template="sunrise"] > div:first-child)
+  > div:first-child,
+div[data-cv-template="sunrise"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child {
   left: -12mm !important;
@@ -108,10 +128,17 @@ html[data-dossier-template="sunrise"]
   width: calc(100% + 24mm) !important;
   height: 101mm !important;
   border-radius: 0 0 54% 38% !important;
-  background-image: linear-gradient(115deg, rgb(255 255 255 / 0.03), rgb(255 255 255 / 0.24)) !important;
+  background-image: linear-gradient(
+    115deg,
+    rgb(255 255 255 / 0.03),
+    rgb(255 255 255 / 0.24)
+  ) !important;
 }
 
-html[data-dossier-template="sunrise"]
+:is(div[data-dossier-document="cover"][data-dossier-template="sunrise"] > div:first-child)
+  > div:first-child
+  > div:first-child,
+div[data-cv-template="sunrise"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:first-child {
@@ -125,7 +152,10 @@ html[data-dossier-template="sunrise"]
   filter: blur(11mm);
 }
 
-html[data-dossier-template="sunrise"]
+:is(div[data-dossier-document="cover"][data-dossier-template="sunrise"] > div:first-child)
+  > div:first-child
+  > div:nth-child(2),
+div[data-cv-template="sunrise"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:nth-child(2) {
@@ -143,15 +173,13 @@ html[data-dossier-template="sunrise"]
 /* On the title page the second peach node becomes a broad lower field. This
  * integrates the contact/recipient zone and balances the strong top hero while
  * keeping the CV version deliberately calmer. Overscan prevents edge seams. */
-html[data-dossier-template="sunrise"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="sunrise"]
   > div:first-child
   > div:first-child {
   overflow: visible !important;
 }
 
-html[data-dossier-template="sunrise"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="sunrise"]
   > div:first-child
   > div:first-child
   > div:nth-child(2) {
@@ -174,27 +202,26 @@ html[data-dossier-template="sunrise"]
   ) !important;
 }
 
-html[data-dossier-template="sunrise"] [data-dossier-document="cover"] [data-block-id="foto"] {
+div[data-dossier-document="cover"][data-dossier-template="sunrise"] [data-block-id="foto"] {
   transform: translate(52mm, -20mm) scale(0.8);
   transform-origin: top left;
 }
 
-html[data-dossier-template="sunrise"] [data-dossier-document="cover"] [data-block-id="name"] {
+div[data-dossier-document="cover"][data-dossier-template="sunrise"] [data-block-id="name"] {
   transform: translate(0, -13mm);
 }
 
-html[data-dossier-template="sunrise"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="sunrise"]
   :is([data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
   transform: translate(0, -10mm);
 }
 
-html[data-dossier-template="sunrise"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="sunrise"][data-dossier-document="cv"] [data-cv-surface] {
   border-radius: 8mm !important;
   box-shadow: 0 4mm 16mm rgb(110 63 42 / 0.055);
 }
 
-html[data-dossier-template="sunrise"] [data-dossier-document="cv"] [data-cv-accent] {
+div[data-cv-template="sunrise"][data-dossier-document="cv"] [data-cv-accent] {
   border-radius: 999px !important;
 }
 
@@ -205,7 +232,9 @@ html[data-dossier-template="sunrise"] [data-dossier-document="cv"] [data-cv-acce
 /* -------------------------------------------------------------------------- */
 /* VIOLET PULSE — indigo -> violet energy, diagonal rather than noisy         */
 /* -------------------------------------------------------------------------- */
-html[data-dossier-template="violetPulse"]
+:is(div[data-dossier-document="cover"][data-dossier-template="violetPulse"] > div:first-child)
+  > div:first-child,
+div[data-cv-template="violetPulse"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child {
   left: -20mm !important;
@@ -216,10 +245,18 @@ html[data-dossier-template="violetPulse"]
   border-radius: 0 0 64% 16% !important;
   transform: rotate(-3deg);
   transform-origin: center top;
-  background-image: linear-gradient(135deg, rgb(255 255 255 / 0.02), rgb(255 255 255 / 0.18), transparent) !important;
+  background-image: linear-gradient(
+    135deg,
+    rgb(255 255 255 / 0.02),
+    rgb(255 255 255 / 0.18),
+    transparent
+  ) !important;
 }
 
-html[data-dossier-template="violetPulse"]
+:is(div[data-dossier-document="cover"][data-dossier-template="violetPulse"] > div:first-child)
+  > div:first-child
+  > div:first-child,
+div[data-cv-template="violetPulse"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:first-child {
@@ -233,7 +270,10 @@ html[data-dossier-template="violetPulse"]
   filter: blur(10mm);
 }
 
-html[data-dossier-template="violetPulse"]
+:is(div[data-dossier-document="cover"][data-dossier-template="violetPulse"] > div:first-child)
+  > div:first-child
+  > div:nth-child(2),
+div[data-cv-template="violetPulse"]
   :is([data-dossier-document="cover"] > div:first-child, [data-cv-background="motif"] > div)
   > div:first-child
   > div:nth-child(2) {
@@ -248,26 +288,25 @@ html[data-dossier-template="violetPulse"]
   filter: blur(10mm);
 }
 
-html[data-dossier-template="violetPulse"] [data-dossier-document="cover"] [data-block-id="foto"] {
+div[data-dossier-document="cover"][data-dossier-template="violetPulse"] [data-block-id="foto"] {
   transform: translate(50mm, -20mm) scale(0.8);
   transform-origin: top left;
 }
 
-html[data-dossier-template="violetPulse"] [data-dossier-document="cover"] [data-block-id="name"] {
+div[data-dossier-document="cover"][data-dossier-template="violetPulse"] [data-block-id="name"] {
   transform: translate(0, -12mm);
 }
 
-html[data-dossier-template="violetPulse"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="violetPulse"]
   :is([data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
   transform: translate(0, -9mm);
 }
 
-html[data-dossier-template="violetPulse"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="violetPulse"][data-dossier-document="cv"] [data-cv-surface] {
   border-radius: 7mm !important;
   box-shadow: 0 4mm 18mm rgb(67 56 202 / 0.06);
 }
 
-html[data-dossier-template="violetPulse"] [data-dossier-document="cv"] [data-cv-accent] {
+div[data-cv-template="violetPulse"][data-dossier-document="cv"] [data-cv-accent] {
   border-radius: 999px !important;
 }

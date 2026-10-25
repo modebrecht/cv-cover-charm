@@ -1,0 +1,329 @@
+{
+  "wordAcceptance": "UNVERIFIED",
+  "exactGeometryGate": "NOT_RUN",
+  "cases": [
+    {
+      "case": "03-Sidebar-rechts-Folgeseite",
+      "unchanged": {
+        "snapshot": true,
+        "metrics": true,
+        "coverModel": true,
+        "letterModel": true,
+        "WebScreenshots": true,
+        "coverAndLetterRenders": true
+      },
+      "activeFields": 128,
+      "canonicalTextAndRunStylesPreserved": true,
+      "allTextVisible": true,
+      "picturesAndCropsUnchanged": {},
+      "pictureBboxMm": [],
+      "mainAndReferenceTracksUnchanged": true,
+      "dateContentStartUnchanged": true,
+      "nativeCvPages": 2,
+      "appCvPages": 2,
+      "baselineDocxSha256": "97fe6c68633dae8d21bf388d32a55d8493e302b3989c851ceee3936946864fa9",
+      "candidateDocxSha256": "24cf4d6550fe0fa84bcd0833feb51e91e627a317faf98bf8084f930617554e82",
+      "shortEntry12CvPage": 1,
+      "headingAndFirstEntrySamePage": true
+    },
+    {
+      "case": "05-Sidebar-links-Foto-frei",
+      "unchanged": {
+        "snapshot": true,
+        "metrics": true,
+        "coverModel": true,
+        "letterModel": true,
+        "WebScreenshots": true,
+        "coverAndLetterRenders": true
+      },
+      "activeFields": 88,
+      "canonicalTextAndRunStylesPreserved": true,
+      "allTextVisible": true,
+      "picturesAndCropsUnchanged": {
+        "cv.person.photo": {
+          "representation": "DrawingML",
+          "width": 120,
+          "height": 180,
+          "embeddedFileSha256": "b55b592a4b251518601207931566e1fe63b77ed8294163ea519a7fe33dc4ab0f",
+          "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90",
+          "crop": {
+            "l": "11818",
+            "t": "31313",
+            "r": "27576",
+            "b": "18182"
+          }
+        }
+      },
+      "pictureBboxMm": [
+        [
+          24.99431,
+          209.9736,
+          59.00208,
+          252.46568
+        ]
+      ],
+      "mainAndReferenceTracksUnchanged": true,
+      "dateContentStartUnchanged": true,
+      "nativeCvPages": 1,
+      "appCvPages": 1,
+      "baselineDocxSha256": "5e5afac051c4b7c0cb347bc1c5763645f033f147e4f332aa62bb1f41a1de28b7",
+      "candidateDocxSha256": "36873db9f32371a4b1575855e3acbc7b2512663cde5f8da5c3d2d6d66035cf66"
+    },
+    {
+      "case": "06-Sidebar-rechts-Foto-frei",
+      "unchanged": {
+        "snapshot": true,
+        "metrics": true,
+        "coverModel": true,
+        "letterModel": true,
+        "WebScreenshots": true,
+        "coverAndLetterRenders": true
+      },
+      "activeFields": 88,
+      "canonicalTextAndRunStylesPreserved": true,
+      "allTextVisible": true,
+      "picturesAndCropsUnchanged": {
+        "cv.person.photo": {
+          "representation": "DrawingML",
+          "width": 1920,
+          "height": 2880,
+          "embeddedFileSha256": "f8ba8f4b000d9aa4f18a5f476a630615232905810aec92c69d4e128cbfdec69c",
+          "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6",
+          "crop": {
+            "l": "8400",
+            "t": "24400",
+            "r": "11600",
+            "b": "22267"
+          }
+        }
+      },
+      "pictureBboxMm": [
+        [
+          151.00652,
+          209.99123,
+          185.01431,
+          243.99902
+        ]
+      ],
+      "mainAndReferenceTracksUnchanged": true,
+      "dateContentStartUnchanged": true,
+      "nativeCvPages": 1,
+      "appCvPages": 1,
+      "baselineDocxSha256": "9634fd7418cba16fa257832b2169ae2f0e7289bf99203e8cb89992f46f3a405b",
+      "candidateDocxSha256": "c741e7e597ef80e2823a31905bcba0ae4bc33f0553cb7e05ca99753249cad933"
+    },
+    {
+      "case": "07-Sidebar-rechts-Eigene-Typografie",
+      "unchanged": {
+        "snapshot": true,
+        "metrics": true,
+        "coverModel": true,
+        "letterModel": true,
+        "WebScreenshots": true,
+        "coverAndLetterRenders": true
+      },
+      "activeFields": 91,
+      "canonicalTextAndRunStylesPreserved": true,
+      "allTextVisible": true,
+      "picturesAndCropsUnchanged": {
+        "cv.person.photo": {
+          "representation": "DrawingML",
+          "width": 1920,
+          "height": 2880,
+          "embeddedFileSha256": "f8ba8f4b000d9aa4f18a5f476a630615232905810aec92c69d4e128cbfdec69c",
+          "rgbaSha256": "5f8b2539d3fcbdef0442ee8283c29d0bd2579d03055edf84179f97ffc3b330a6",
+          "crop": {
+            "l": "8400",
+            "t": "24400",
+            "r": "11600",
+            "b": "22267"
+          }
+        }
+      },
+      "pictureBboxMm": [
+        [
+          151.00652,
+          209.99123,
+          185.01431,
+          243.99902
+        ]
+      ],
+      "mainAndReferenceTracksUnchanged": true,
+      "dateContentStartUnchanged": true,
+      "nativeCvPages": 1,
+      "appCvPages": 1,
+      "baselineDocxSha256": "f3f8997b83867e94b246dc10229eda3394a59462b35b551751c89c4f5eb053d9",
+      "candidateDocxSha256": "5ddf90259415185fc84ee0802b6abd7ef7f4fe642b90741decc2ceacbebaa87b",
+      "dateOnOneLine": true
+    }
+  ],
+  "viewScaleComparison": {
+    "snapshot": true,
+    "metrics": true,
+    "sidebarMetrics": true,
+    "model": true,
+    "docxByteEqual": true
+  },
+  "baselineComparison": {
+    "method": "Fresh physical preview baselines; display rounding is not exact Word geometry acceptance",
+    "fields": [
+      {
+        "field": "cv.documentTitle",
+        "webPreviewBaselineMm": 28.485712265585835,
+        "beforeMm": 33.743461439344614,
+        "afterMm": 28.68110894097222,
+        "beforeDeltaMm": 5.2577491737587785,
+        "afterDeltaMm": 0.19539667538638383
+      },
+      {
+        "field": "cv.person.name",
+        "webPreviewBaselineMm": 42.05289055319393,
+        "beforeMm": 47.784012688530815,
+        "afterMm": 42.56290588378906,
+        "beforeDeltaMm": 5.731122135336882,
+        "afterDeltaMm": 0.5100153305951238
+      },
+      {
+        "field": "cv.section.custom:familie.heading",
+        "webPreviewBaselineMm": 51.235431528346425,
+        "beforeMm": 58.06749352349175,
+        "afterMm": 52.38777991400824,
+        "beforeDeltaMm": 6.832061995145324,
+        "afterDeltaMm": 1.152348385661817
+      },
+      {
+        "field": "cv.section.schule.heading",
+        "webPreviewBaselineMm": 76.85728552507207,
+        "beforeMm": 84.0495854695638,
+        "afterMm": 78.05236324734157,
+        "beforeDeltaMm": 7.192299944491722,
+        "afterDeltaMm": 1.1950777222695024
+      },
+      {
+        "field": "cv.section.erfahrung.heading",
+        "webPreviewBaselineMm": 108.77302281996784,
+        "beforeMm": 118.02208116319444,
+        "afterMm": 110.6666515774197,
+        "beforeDeltaMm": 9.249058343226608,
+        "afterDeltaMm": 1.8936287574518644
+      },
+      {
+        "field": "cv.section.referenzen.heading",
+        "webPreviewBaselineMm": 145.99495954054564,
+        "beforeMm": 157.30387810601127,
+        "afterMm": 148.59027345445418,
+        "beforeDeltaMm": 11.308918565465632,
+        "afterDeltaMm": 2.595313913908541
+      }
+    ]
+  },
+  "longEntry": {
+    "nativeCvPages": 4,
+    "sourceLines": 91,
+    "allLinesVisible": true,
+    "completeSingleDescriptionControl": true,
+    "nativeRowKeepTogether": false,
+    "docxSha256": "e7e9b87bf66cb8d764ae460b1af2e6dcfac880b05acc18c4a7b5b4e53eeb050e"
+  },
+  "date": "2026-10-23",
+  "branch": "fix/docx-next-shared-integration-22okt",
+  "parentCommit": "6bf49a9cba17d3ebb1012964b7ee204d1abb4176",
+  "runtime": {
+    "browser": "Chrome for Testing 156.0.8078.47",
+    "native": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+    "font": "Liberation Sans 2.1.5 / Arial substitution; Word metrics unverified",
+    "app": "Real React 19 / Vite 8 CSR QA launcher, frozen repository bun.lock installed; production SSR browser acceptance not asserted"
+  },
+  "unitTests": {
+    "files": 13,
+    "passed": 118,
+    "failed": 0,
+    "expectCalls": 1787,
+    "scope": "Sidebar, typography, parallel flow, images, model/renderer, rubric/reading rows, native ownership guards"
+  },
+  "focusedStrictTypes": "PASS",
+  "all39FidelityGate": "NOT_RUN",
+  "saveReopen": "NOT_RUN",
+  "visualQa": {
+    "comparisonCvPagesOpened": 5,
+    "stressCvPagesOpened": 4,
+    "privatePhotoCvPagesOpened": 2,
+    "commonCoverAndLetterPagesOpened": 2
+  },
+  "nativeBoundaryCost": {
+    "paragraphHeightMm": 0.35277777777777775,
+    "ordinaryDatedEntryBoundaries": 2,
+    "boundedSectionLeadBoundaries": 4,
+    "minimumLeadFlowGapMm": 1.411111111111111,
+    "authoredDemoEntryGapMm": 0.7199995,
+    "residualNotAnExactGeometryPass": true
+  },
+  "productGuard": "Sidebar regular export remains rejected; explicit internal shared-body-stories only",
+  "privatePhotoChecks": [
+    {
+      "case": "05-Sidebar-links-Foto-frei",
+      "docxSha256": "bf4816648aadce9b71851da8fe9f52d2788cedc2fb94e84a13c794f0b8fbeb05",
+      "activeFields": 88,
+      "browserDecodedPixels": {
+        "width": 1200,
+        "height": 994,
+        "rgbaSha256": "04d0145a94e088534a2df1e146360d5f7061e5f3b9d303d7e383cf1f29cd910a"
+      },
+      "embeddedPicture": {
+        "representation": "DrawingML",
+        "width": 1200,
+        "height": 994,
+        "embeddedFileSha256": "78c0813fbd4f21815580a2ba2b756d99c3bea4bfa252135b6adb336f9dac4b5a",
+        "rgbaSha256": "04d0145a94e088534a2df1e146360d5f7061e5f3b9d303d7e383cf1f29cd910a",
+        "crop": {
+          "l": "16867",
+          "t": "0",
+          "r": "16867",
+          "b": "0"
+        }
+      },
+      "nativeCvPages": 1,
+      "appCvPages": 1,
+      "coverAndLetterPixelEqualToDemo": true,
+      "wordEditingAndSaveReopen": "UNVERIFIED"
+    },
+    {
+      "case": "06-Sidebar-rechts-Foto-frei",
+      "docxSha256": "e95d560341aa39a1b6284c9d5d8709568ea037fabbd78f0d533c71047e685b10",
+      "activeFields": 88,
+      "browserDecodedPixels": {
+        "width": 1200,
+        "height": 994,
+        "rgbaSha256": "04d0145a94e088534a2df1e146360d5f7061e5f3b9d303d7e383cf1f29cd910a"
+      },
+      "embeddedPicture": {
+        "representation": "DrawingML",
+        "width": 1200,
+        "height": 994,
+        "embeddedFileSha256": "78c0813fbd4f21815580a2ba2b756d99c3bea4bfa252135b6adb336f9dac4b5a",
+        "rgbaSha256": "04d0145a94e088534a2df1e146360d5f7061e5f3b9d303d7e383cf1f29cd910a",
+        "crop": {
+          "l": "8583",
+          "t": "0",
+          "r": "8583",
+          "b": "0"
+        }
+      },
+      "nativeCvPages": 1,
+      "appCvPages": 1,
+      "coverAndLetterPixelEqualToDemo": true,
+      "wordEditingAndSaveReopen": "UNVERIFIED"
+    }
+  ],
+  "productCodeBlobs": {
+    "src/lib/docx-next/cv-sidebar-shared.ts": "8f7d3b709f99c8079c80f9b858c0f7bb33f2b1dd",
+    "src/lib/docx-next/cv-sidebar-typography.ts": "0e28289dee3474ef70d01ea90f7b89a62089c6f2",
+    "src/lib/docx-next-sidebar-metrics.browser.tsx": "92702bffb92f256c88f883fc3cdafd086c3072c9",
+    "src/lib/docx-next/cv-sidebar-text-metrics.ts": "bb9458c3cb1170455f189966a0b24b2f1346d9f3",
+    "src/lib/docx-next/native-text.ts": "ca06ad44bb42e203b766850984a05e188d2d7778",
+    "src/lib/docx-next/model.ts": "255598b5fb3e666097e00b17f71c22a79fcea409",
+    "src/lib/docx-next/validation.ts": "da81d8de063483259045a4470cd27c22e91cc2af",
+    "src/lib/docx-next/layouts.ts": "e4ac0e1420759c9e713e8dd10b0fcb55a07e011b",
+    "src/lib/docx-next/flow-boundaries.ts": "cbfe87dce97c7f2a2a323a0326aef5a1f17dd856"
+  }
+}

@@ -229,101 +229,20 @@ export function CoverBackground({
   // All remaining legacy templates are composed from the plain page surface
   // plus editable primitives from template-decorations.ts. There is deliberately
   // no second background copy of those primitives here. The color variables are
-  // exposed for CV-only archetype adaptations (for example Blockig's narrow rail)
-  // without duplicating those editor primitives on the title page.
+  // retained for the Cover artwork. CV artwork belongs to DossierSheetBackground;
+  // mounting a Cover must never inject styles into a neighbouring document.
   return (
-    <>
-      {template === "freundlich" || template === "colorful" ? (
-        <style>{`
-          html[data-dossier-template="freundlich"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-background="motif"] > div::before {
-            content: "";
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
-            height: 52mm;
-            background: var(--cover-primary);
-            pointer-events: none;
-          }
-          html[data-dossier-template="freundlich"] [data-dossier-document="cv"] [data-cv-page]:not([data-cv-page="0"]) [data-cv-background="motif"] > div::before {
-            content: "";
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
-            height: 14mm;
-            background: var(--cover-primary);
-            pointer-events: none;
-          }
-          html[data-dossier-template="colorful"] [data-dossier-document="cv"] [data-cv-page="0"] [data-cv-background="motif"] > div::before {
-            content: "";
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
-            height: 40mm;
-            background: var(--cover-primary);
-            pointer-events: none;
-          }
-          html[data-dossier-template="colorful"] [data-dossier-document="cv"] [data-cv-page]:not([data-cv-page="0"]) [data-cv-background="motif"] > div::before {
-            content: "";
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
-            height: 14mm;
-            background: var(--cover-primary);
-            pointer-events: none;
-          }
-          html[data-dossier-template="colorful"] [data-dossier-document="cv"] [data-cv-background="motif"] > div::after {
-            content: "";
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            height: 8mm;
-            background: var(--cover-secondary);
-            pointer-events: none;
-          }
-        `}</style>
-      ) : null}
-      {template === "blockig" ? (
-        <style>{`
-          html[data-dossier-template="blockig"] [data-dossier-document="cv"] [data-cv-background="motif"] > div::before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 19mm;
-            background: var(--cover-primary);
-            pointer-events: none;
-          }
-          html[data-dossier-template="blockig"] [data-dossier-document="cv"] [data-cv-background="motif"] > div::after {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 46mm;
-            width: 19mm;
-            height: 72mm;
-            background: var(--cover-accent);
-            opacity: 0.9;
-            pointer-events: none;
-          }
-        `}</style>
-      ) : null}
-      <div
-        data-cover-template={template}
-        className="absolute inset-0 overflow-hidden"
-        style={
-          {
-            backgroundColor: colors.bg,
-            "--cover-primary": colors.primary ?? colors.accent ?? colors.ink ?? colors.bg,
-            "--cover-secondary": colors.secondary ?? colors.accent ?? colors.primary ?? colors.bg,
-            "--cover-accent": colors.accent ?? colors.secondary ?? colors.primary ?? colors.bg,
-          } as CSSProperties
-        }
-      />
-    </>
+    <div
+      data-cover-template={template}
+      className="absolute inset-0 overflow-hidden"
+      style={
+        {
+          backgroundColor: colors.bg,
+          "--cover-primary": colors.primary ?? colors.accent ?? colors.ink ?? colors.bg,
+          "--cover-secondary": colors.secondary ?? colors.accent ?? colors.primary ?? colors.bg,
+          "--cover-accent": colors.accent ?? colors.secondary ?? colors.primary ?? colors.bg,
+        } as CSSProperties
+      }
+    />
   );
 }

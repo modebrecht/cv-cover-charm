@@ -1,7 +1,15 @@
 import { expect, test, type Page } from "@playwright/test";
 
 const BASE_URL = "http://127.0.0.1:4173";
-const SIDEBAR_TEMPLATES = ["terracotta", "warm2", "warm3", "prism", "gallery", "orbit", "cove"] as const;
+const SIDEBAR_TEMPLATES = [
+  "terracotta",
+  "warm2",
+  "warm3",
+  "prism",
+  "gallery",
+  "orbit",
+  "cove",
+] as const;
 type InfoPosition = "standard" | "mirrored";
 
 async function waitEditorReady(page: Page) {
@@ -17,6 +25,16 @@ async function loadDemo(page: Page) {
   await page.getByRole("button", { name: "Beispieldaten übernehmen", exact: true }).click();
   await page.getByRole("button", { name: "Ja", exact: true }).click();
   await expect(download).toHaveAttribute("aria-expanded", "false");
+  // Closing the menu precedes the editor's debounced autosave. Navigation in
+  // applyTemplate must wait for the fixture to reach storage, especially in CI.
+  await expect
+    .poll(() =>
+      page.evaluate(() => {
+        const saved = JSON.parse(localStorage.getItem("lebenslauf:v1") ?? "null");
+        return saved?.data?.schule?.length ?? 0;
+      }),
+    )
+    .toBeGreaterThan(0);
 }
 
 async function applyTemplate(
@@ -38,7 +56,10 @@ async function applyTemplate(
       localStorage.setItem("lebenslauf:v1", JSON.stringify(saved));
       localStorage.setItem("lebenslauf:layout:v1", "modern");
       localStorage.setItem("lebenslauf:info-position:v1", position);
-      localStorage.setItem("lebenslauf:layout-mirror:v1", position === "mirrored" ? "true" : "false");
+      localStorage.setItem(
+        "lebenslauf:layout-mirror:v1",
+        position === "mirrored" ? "true" : "false",
+      );
     },
     { templateId: template, pct: sidebarPct, position: infoPosition },
   );
@@ -167,10 +188,7 @@ async function sidebarGeometry(
   }, infoPosition);
 }
 
-function expectSidebarClear(
-  geometry: Awaited<ReturnType<typeof sidebarGeometry>>,
-  label: string,
-) {
+function expectSidebarClear(geometry: Awaited<ReturnType<typeof sidebarGeometry>>, label: string) {
   expect(geometry, `${label}: sidebar and main column must render`).not.toBeNull();
   expect(geometry?.rendererLeft, `${label}: renderer left variable`).toBeTruthy();
   expect(geometry?.rendererRight, `${label}: renderer right variable`).toBeTruthy();
@@ -252,7 +270,9 @@ test.describe("CV sidebar content clearance", () => {
     expect(after?.mainRight).toBeCloseTo(before?.mainRight ?? 0, 1);
   });
 
-  test("current Tim-Gauss page margins preserve the full reviewed sidebar gutter", async ({ page }) => {
+  test("current Tim-Gauss page margins preserve the full reviewed sidebar gutter", async ({
+    page,
+  }) => {
     for (const template of ["terracotta", "warm2"] as const) {
       await applyTemplate(page, template, 0.22, "standard");
       await applyCurrentTimGaussMargins(page);

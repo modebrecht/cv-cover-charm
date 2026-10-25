@@ -1,0 +1,81 @@
+{
+  "date": "2026-10-23",
+  "baseCommit": "4a66ef8fc3bde82978e8444c4cccaabb1ad63fd5",
+  "productSourceChanged": false,
+  "parentReproduction": {
+    "commit": "6bf49a9cba17d3ebb1012964b7ee204d1abb4176",
+    "productFilesGitBlobVerified": 426,
+    "passed": 16,
+    "failed": 2,
+    "files": 2,
+    "assertions": 165
+  },
+  "initialExpandedDocxSuite": {
+    "tests": 523,
+    "passed": 521,
+    "failed": 2,
+    "files": 74,
+    "assertions": 9031
+  },
+  "finalExpandedDocxSuite": {
+    "tests": 523,
+    "passed": 523,
+    "failed": 0,
+    "files": 74,
+    "assertions": 9071
+  },
+  "packageReaderAdversarialTests": {
+    "passed": 15,
+    "failed": 0,
+    "officeEngineRuns": 0
+  },
+  "formatting": "PASS: package.json and both changed TS tests; repository printWidth 100",
+  "testExpectationRepairs": [
+    {
+      "file": "tests/unit/docx-next-layout-settings.test.ts",
+      "old": "Odd reference row expected only two cells; omitted the authored gutter",
+      "new": "Three cells: left reference, empty 6 mm gutter, empty right track; equal tracks, zero extra left inset, exact source order, half-width remains stacked"
+    },
+    {
+      "file": "tests/unit/docx-next-design-fidelity.test.ts",
+      "old": "Painted compact CV required the old text-footer bottom reserve",
+      "new": "Fixture reserves 5 mm = 1 mm physical space plus 4 mm painted band; saved 8 mm band reserves 9 mm; other page dimensions and Letter unchanged"
+    }
+  ],
+  "packetSourceInspection": [
+    {
+      "file": "01-Sidebar-links.docx",
+      "docxSha256": "bf4816648aadce9b71851da8fe9f52d2788cedc2fb94e84a13c794f0b8fbeb05",
+      "canonicalFields": 88,
+      "duplicateIds": [],
+      "typedPictureControls": 1,
+      "canonicallyOwnedPhotos": 1,
+      "controlsWithW14ParaIds": 0
+    },
+    {
+      "file": "02-Sidebar-rechts.docx",
+      "docxSha256": "e95d560341aa39a1b6284c9d5d8709568ea037fabbd78f0d533c71047e685b10",
+      "canonicalFields": 88,
+      "duplicateIds": [],
+      "typedPictureControls": 1,
+      "canonicallyOwnedPhotos": 1,
+      "controlsWithW14ParaIds": 0
+    },
+    {
+      "file": "03-Langer-CV.docx",
+      "docxSha256": "24cf4d6550fe0fa84bcd0833feb51e91e627a317faf98bf8084f930617554e82",
+      "canonicalFields": 128,
+      "duplicateIds": [],
+      "typedPictureControls": 0,
+      "canonicallyOwnedPhotos": 0,
+      "controlsWithW14ParaIds": 0
+    }
+  ],
+  "originalPacketSha256": "e43f08b6bfa39f611a47b16a58f15ad0626e47746f17466d7b7ed73434268af1",
+  "wordAcceptance": "UNVERIFIED",
+  "exactGeometryGate": "NOT_RUN",
+  "all39VisualFidelityGate": "NOT_RUN",
+  "engineExperiments": "NONE",
+  "newUserTestDocuments": "NONE",
+  "productionSwitch": "NONE"
+}

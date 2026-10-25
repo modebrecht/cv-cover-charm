@@ -133,9 +133,17 @@ function colorChannels(value: string, fallback: string) {
 }
 
 function weightedColor(parts: Array<[string, number]>) {
-  const channels = parts.map(([color, weight]) => [colorChannels(color, "#000000"), weight] as const);
+  const channels = parts.map(
+    ([color, weight]) => [colorChannels(color, "#000000"), weight] as const,
+  );
   const rgb = [0, 1, 2].map((channel) =>
-    Math.max(0, Math.min(255, Math.round(channels.reduce((sum, [values, weight]) => sum + values[channel] * weight, 0)))),
+    Math.max(
+      0,
+      Math.min(
+        255,
+        Math.round(channels.reduce((sum, [values, weight]) => sum + values[channel] * weight, 0)),
+      ),
+    ),
   );
   return `#${rgb.map((value) => value.toString(16).padStart(2, "0")).join("")}`;
 }
@@ -267,17 +275,10 @@ function studio2Cover(source: string, cover: CoverPdfDocument) {
         ])
       : "",
     attachments.length
-      ? textBoxRun(
-          "studio2-docx-cover-attachments",
-          148,
-          246,
-          42,
-          34,
-          [
-            { text: "BEILAGEN", size: 8.5, color: ink, bold: true, align: "right", tracking: 25 },
-            ...attachments.map((text) => ({ text, size: 8.8, color: ink, align: "right" as const })),
-          ],
-        )
+      ? textBoxRun("studio2-docx-cover-attachments", 148, 246, 42, 34, [
+          { text: "BEILAGEN", size: 8.5, color: ink, bold: true, align: "right", tracking: 25 },
+          ...attachments.map((text) => ({ text, size: 8.8, color: ink, align: "right" as const })),
+        ])
       : "",
   ].join("");
 
@@ -301,9 +302,13 @@ function studio2Letter(source: string, cover: CoverPdfDocument) {
       segment = removeFirstParagraphContaining(segment, text);
     }
     segment = setSectionMargins(segment, { top: 35.5, right: 24, bottom: 20, left: 25 });
-    const lines = [fullName, cover.data.adresse, cover.data.plzOrt, cover.data.telefon, cover.data.email].filter(
-      Boolean,
-    ) as string[];
+    const lines = [
+      fullName,
+      cover.data.adresse,
+      cover.data.plzOrt,
+      cover.data.telefon,
+      cover.data.email,
+    ].filter(Boolean) as string[];
     const contact = textBoxRun(
       "studio2-docx-letter-contact",
       24,
@@ -321,11 +326,7 @@ function studio2Letter(source: string, cover: CoverPdfDocument) {
   });
 }
 
-function studio2Cv(
-  source: string,
-  cover: CoverPdfDocument,
-  cv: DossierDocxDocuments["cv"],
-) {
+function studio2Cv(source: string, cover: CoverPdfDocument, cv: DossierDocxDocuments["cv"]) {
   const primary = cv.design.colors?.primary ?? cover.colors?.primary ?? "#202a3b";
   const secondary = cv.design.colors?.secondary ?? cover.colors?.secondary ?? "#f2c84b";
   const accent = cv.design.colors?.accent ?? cover.colors?.accent ?? "#e78a2f";
@@ -357,9 +358,13 @@ function studio2Cv(
     }
     segment = setSectionMargins(segment, { top: 8, right: 20, bottom: 18, left: 69 });
     segment = polishCvSectionDecorations(segment, cv, secondary, ruleColor);
-    const lines = [fullName, cover.data.adresse, cover.data.plzOrt, cover.data.telefon, cover.data.email].filter(
-      Boolean,
-    ) as string[];
+    const lines = [
+      fullName,
+      cover.data.adresse,
+      cover.data.plzOrt,
+      cover.data.telefon,
+      cover.data.email,
+    ].filter(Boolean) as string[];
     const contact = textBoxRun(
       "studio2-docx-cv-contact",
       24,

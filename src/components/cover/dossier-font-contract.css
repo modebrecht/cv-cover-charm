@@ -16,7 +16,7 @@
   font-family: var(--dossier-font) !important;
 }
 
-[data-letter-page]:not([data-letter-template="brief"]) [data-letter-text-layer],
-[data-letter-page]:not([data-letter-template="brief"]) [data-letter-text-layer] * {
+[data-letter-canvas]:not([data-letter-template="brief"]) [data-letter-text-layer],
+[data-letter-canvas]:not([data-letter-template="brief"]) [data-letter-text-layer] * {
   font-family: inherit !important;
 }

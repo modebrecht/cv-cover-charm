@@ -1,0 +1,85 @@
+{
+  "date": "2026-10-24",
+  "branchBase": "04fd7f58fddba7f95589081f7661e5740dfc006f",
+  "productBase": "9e7579c08527310d8b21bba2807924fb0c8de463",
+  "sourceDocxSha256": "5e469d60181f8405fffcb43a57f92377fc6b0daa414d71ac22cd33ed3a6a25e0",
+  "sourcePacketSha256": "4171ce50d3ae8eb72871ceefce23e6f365f80637a1514b7b354108f4374a4581",
+  "downloadSource": "https://www.libreoffice.org/download/download-libreoffice/",
+  "runtimes": [
+    {
+      "archiveVersion": "26.8.1",
+      "reportedVersion": "LibreOffice 26.8.1.1 bf6ef2662401c7d6dce671ab4deb26ee0af3a7c1",
+      "archiveSha256": "30903df3b9f61360d9660cd707de48cd2831469114492a5008ed58a0ac77d044",
+      "packageBinaryChecks": {
+        "libmergedlo.so": {
+          "sha256": "eb4cc0fbfcf0e3628e098ec4918427afcdee83c9b88b2eda74b5f8584e45d7ce",
+          "matchesDownloadedPackage": true
+        },
+        "soffice.bin": {
+          "sha256": "9ceb3439812e6196b181d362903d835ebfc0bff09bcc85617f6d5f0cb54bc947",
+          "matchesDownloadedPackage": true
+        }
+      }
+    },
+    {
+      "archiveVersion": "26.2.6",
+      "reportedVersion": "LibreOffice 26.2.6.3 8221e31b3ac356a1623c672912a3d2b492f7e3d1",
+      "archiveSha256": "fd0e8f8f2408dd2e5b90286e60f3f97cf566ba441cd48cfc5bcc68067303e0bc",
+      "packageBinaryChecks": {
+        "libmergedlo.so": {
+          "sha256": "67d589be3fb2621b0e45cdd3f9f5d49d49911a8d80eabda9bbfdbf429c578314",
+          "matchesDownloadedPackage": true
+        },
+        "soffice.bin": {
+          "sha256": "608d92dbe5c25ac2f2418a29f232421b42ba2bb8e53301d0748e0a16e4d23ea4",
+          "matchesDownloadedPackage": true
+        }
+      }
+    }
+  ],
+  "cliHealthcheck": {
+    "input": "Synthetic runtime health check (plain UTF-8 text)",
+    "versionsTested": [
+      "26.8.1.1",
+      "26.2.6.3"
+    ],
+    "exitCodes": [
+      1,
+      1
+    ],
+    "pdfOutputs": [
+      0,
+      0
+    ],
+    "stdoutEmpty": true,
+    "stderrEmpty": true,
+    "freshProfiles": true,
+    "conclusion": "RUNTIME_UNAVAILABLE_NOT_DOCUMENT_FIDELITY_FAILURE"
+  },
+  "publicKitAttempt": {
+    "version": "26.8.1.1",
+    "adapterRepositoryBlob": "2fb8a1411bc7edfce13cf4f288b113981cdb82cc",
+    "adapterModified": false,
+    "headerRepository": "LibreOffice/core",
+    "headerRef": "libreoffice-26.8.1.1",
+    "headers": {
+      "LibreOfficeKit.h": "ade0ae67fd0b28e0d8106369e4d270cb02641fa3",
+      "LibreOfficeKitTypes.h": "167b4f65ca8d070d825b7654e7a740edd3560fcf"
+    },
+    "versionProbeExit": 0,
+    "textHealthcheckExit": -11,
+    "partialPdfCreated": true,
+    "conclusion": "UNSUCCESSFUL_HEALTHCHECK_NOT_ACCEPTED"
+  },
+  "readerTests": {
+    "executed": 51,
+    "passed": 51
+  },
+  "stableSidebarRoundtripsCompleted": 0,
+  "stableWriterFidelity": "UNVERIFIED",
+  "wordAcceptance": "UNVERIFIED",
+  "productCodeChanged": false,
+  "engineBinariesModified": false,
+  "ciDispatched": false,
+  "decision": "Stop runtime debugging; obtain evidence from the prepared exact Word source before a product change"
+}

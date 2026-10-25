@@ -23,14 +23,11 @@
  * editor coordinates continue to work because we remove only the template
  * transform; we do not hard-code left/top positions here.
  */
-html:root[data-dossier-template="edge"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="edge"][data-dossier-document="cover"]
   :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"]),
-html:root[data-dossier-template="glow"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="glow"][data-dossier-document="cover"]
   :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"]),
-html:root[data-dossier-template="monoLuxe"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="monoLuxe"][data-dossier-document="cover"]
   :is([data-block-id="name"], [data-block-id="beruf"], [data-block-id="lehrbeginn"]) {
   transform: none !important;
 }
@@ -39,8 +36,7 @@ html:root[data-dossier-template="monoLuxe"]
  * invisible. Turn the top into one saturated, bounded gradient masthead. The
  * page remains mostly white; the secondary capsule is now only a quiet depth
  * layer and the accent line starts below the masthead. */
-html:root[data-dossier-template="glow"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="glow"][data-dossier-document="cover"]
   [data-fresh-cover-background="glow"]
   > [data-fresh-cover-field="primary"] {
   left: 0 !important;
@@ -53,8 +49,7 @@ html:root[data-dossier-template="glow"]
   background: linear-gradient(100deg, var(--cover-primary), var(--cover-secondary)) !important;
 }
 
-html:root[data-dossier-template="glow"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="glow"][data-dossier-document="cover"]
   [data-fresh-cover-background="glow"]
   [data-fresh-cover-field="secondary"] {
   left: auto !important;
@@ -68,8 +63,7 @@ html:root[data-dossier-template="glow"]
   background: var(--cover-secondary) !important;
 }
 
-html:root[data-dossier-template="glow"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="glow"][data-dossier-document="cover"]
   [data-fresh-cover-background="glow"]
   [data-fresh-cover-field="accent"] {
   left: 20mm !important;
@@ -87,16 +81,14 @@ html:root[data-dossier-template="glow"]
  * cover deliberately uses light paper there, so keep the label in the template
  * primary and the actual contact data in the editable ink role. Palette roles
  * live on CoverCanvas, therefore custom user colours remain authoritative. */
-html:root[data-dossier-template="glow"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="glow"][data-dossier-document="cover"]
   [data-block-id="kontaktTitel"]
   > div {
   color: var(--cover-primary) !important;
   opacity: 1 !important;
 }
 
-html:root[data-dossier-template="glow"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="glow"][data-dossier-document="cover"]
   [data-block-id="kontakt"]
   > div {
   color: var(--cover-ink) !important;
@@ -105,15 +97,13 @@ html:root[data-dossier-template="glow"]
 
 /* The same Glow signature must remain visible on stationery, but never become
  * a second large decorative field. */
-html:root[data-dossier-template="glow"]
-  [data-dossier-document="cv"]
+div[data-cv-template][data-cv-template="glow"][data-dossier-document="cv"]
   [data-dossier-sheet-background="glow"]
   > div:nth-child(1) {
   opacity: 0.2 !important;
 }
 
-html:root[data-dossier-template="glow"]
-  [data-dossier-document="cv"]
+div[data-cv-template][data-cv-template="glow"][data-dossier-document="cv"]
   [data-dossier-sheet-background="glow"]
   > div:nth-child(2) {
   opacity: 0.22 !important;
@@ -133,9 +123,7 @@ html:root[data-dossier-template="glow"]
 
 /* GALLERY: keep the date in the portrait tower but below the photo rather than
  * allowing the circular portrait to cover the date. */
-html[data-dossier-template="gallery"]
-  [data-dossier-document="cover"]
-  [data-block-id="ortDatum"] {
+div[data-dossier-document="cover"][data-dossier-template="gallery"] [data-block-id="ortDatum"] {
   width: 58mm !important;
   transform: translate(18mm, 82mm);
 }
@@ -143,21 +131,15 @@ html[data-dossier-template="gallery"]
 /* ORBIT: the top-right orbit has enough room for a deliberate three-step stack:
  * document label, date, portrait. The previous baseline put label/date on top
  * of each other and the portrait immediately beneath them. */
-html[data-dossier-template="orbit"]
-  [data-dossier-document="cover"]
-  [data-block-id="eyebrow"] {
+div[data-dossier-document="cover"][data-dossier-template="orbit"] [data-block-id="eyebrow"] {
   transform: translate(102mm, -2mm);
 }
 
-html[data-dossier-template="orbit"]
-  [data-dossier-document="cover"]
-  [data-block-id="ortDatum"] {
+div[data-dossier-document="cover"][data-dossier-template="orbit"] [data-block-id="ortDatum"] {
   transform: translate(-2mm, 9mm);
 }
 
-html[data-dossier-template="orbit"]
-  [data-dossier-document="cover"]
-  [data-block-id="foto"] {
+div[data-dossier-document="cover"][data-dossier-template="orbit"] [data-block-id="foto"] {
   transform: translate(57mm, -42mm) scale(0.82);
   transform-origin: top left;
 }

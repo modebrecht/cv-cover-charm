@@ -1,0 +1,23 @@
+{
+  ".gitattributes": "9221779f4bf7d13cca3d52bb03a7cc6a645cc999c51a38c3ddfd4b6e55290035",
+  "changed-files.json": "93f347ea8095e1c5097acecd7bd6fed39a79f33bc6c520c8c5d67773ad6012cf",
+  "compact-chrome-a4-comparison.pdf": "14f2f78afa7e9bd6caf06045a03126f33f4380241de091d5953fde69d3bc7c79",
+  "long-app-evidence.json": "39ca0426cfbaf8a08bf9b9988c59dce640a3e2c0f8ad836da2d668813652d798",
+  "modern-compact-long.docx": "2cb3606fde68b15f8568dc8093dd9917c7a731970faa4fc3493b74186beb1a9c",
+  "modern-compact-normal.docx": "876c4ef559b00d35104225d7defee57638afa7cdaa916320cc4857c8d7ac8334",
+  "modern-compact-scaled.docx": "f6b7ce73d0a793acf928fb9cc5311af6cb4bfd44825e00bda64f01c8c4b9679d",
+  "normal-app-evidence.json": "b7194a0400b6d45c8d32a58839fe0a65b05998a2bef44c1c144d173da1ffd763",
+  "normal-metrics.json": "95a548243048bbaa751f92d0e508b98b02c9ef78b54997eb49281de3c26b7096",
+  "normal-model.json": "bcac25d5b0eba08c9356b04cb4fb7eb1dfdd4b1e307af4e61713dedf71724598",
+  "normal-project.json": "d0ec17c90691ed2ac4ecd63da56931996f1494a7de89d20bfff6d0196bcc8258",
+  "normal-snapshot.json": "8cccc109fd4f721a4672290e5d8d9239e6dd97377716a259649cc4da70d513e7",
+  "publication-safety.json": "a82ffd06def93a976942760fadd977a94533f9559c0a9fe73f6eab2b94e30b88",
+  "rejections.json": "1deec0edfbfc10b171ac66b3fbf2c97895318af6128d3cff5c5c476519e3fafc",
+  "scaled-app-evidence.json": "a96ab832438f3cb38eb17df2ef10043637c1b20845238a596ebfec1c7816fdc9",
+  "test-results.json": "67e907cc701ffbe11f6620ac7d1c7c5a196307add48e51ebde785e5a14906067",
+  "validation.json": "0dd3fdad4b9b4ae0e248a8f7d4d2591c18c041edda6b34e208c0761a85ac2429",
+  "web-cv-chrome.json": "26c30246ea3943fdcf07d2748946f439349842bf40b406a5f6df53860f0f91a0",
+  "web-cv.png": "2e8559b17997c6a5aa1b6c2537308464ca5bbbd97b6190bc865cb40802a183ba",
+  "web-letter-chrome.json": "d06e39b8bcb6bbc60655c66ff20faec62f77e83072a7e7be8d7a0cd16212a91e",
+  "web-letter.png": "56415aea93f4293006c75f9ca2dbc67cd33f7dc2c25aac91c549871397df8dbc"
+}

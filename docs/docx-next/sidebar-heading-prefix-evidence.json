@@ -1,0 +1,437 @@
+{
+  "startingRemoteDevSha": "19094554f7c35d26b9a497a4aefd0483c8dd1feb",
+  "registry": {
+    "configuredCandidates": 29,
+    "wordAccepted": 0,
+    "totalTemplates": 39
+  },
+  "retainedComposition": "opt-in sectionHeadingPrefix using existing native Entry/Section blocks; diagnostic callers only",
+  "defaultApplicationChange": "none; picture-before-later-span guard unchanged",
+  "diagnostics": {
+    "libreOfficeVersion": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+    "libreOfficeInterface": "soffice CLI",
+    "cases": [
+      {
+        "fixture": "prefix-minimum-plain-empty-row",
+        "docxSha256": "0367992065b3417e61c05360016df61a261384b4d77e1b88182d45eff8e15efb",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8
+        },
+        "saveReopen": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8
+        }
+      },
+      {
+        "fixture": "prefix-minimum-plain-empty-nested",
+        "docxSha256": "877aa2208130ff1c8e8c3718f8f16acf8ece389b76dfe326ceb64fcfb6eb8ab1",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8
+        },
+        "saveReopen": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8
+        }
+      },
+      {
+        "fixture": "prefix-minimum-plain-rail-row",
+        "docxSha256": "ea4b42eb5d3664854a6aae85ab8dd8f735ce5af7c540ebe014b6f34231fbf45c",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8,
+          "continuousRailPaint": "pass"
+        },
+        "saveReopen": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8,
+          "continuousRailPaint": "pass"
+        }
+      },
+      {
+        "fixture": "prefix-minimum-plain-rail-nested",
+        "docxSha256": "fdd2ccfb909b6e5ad02f58bb96a67ced85f543e73a75c918caf3ae2d3ef858be",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8,
+          "continuousRailPaint": "pass"
+        },
+        "saveReopen": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8,
+          "continuousRailPaint": "pass"
+        }
+      },
+      {
+        "fixture": "prefix-minimum-photo-empty-row",
+        "docxSha256": "044d9e28f0f193e3533727483f69fbe8b4fdf565d22b295bfed1b74cf502bcf8",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8,
+          "pictureOpeningPage": "pass"
+        },
+        "saveReopen": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8,
+          "pictureOpeningPage": "pass"
+        }
+      },
+      {
+        "fixture": "prefix-minimum-photo-empty-nested",
+        "docxSha256": "c1b19cffca397a0602558c9e3631f631ca499f8029888c9e84d1bae859f35e6d",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8,
+          "pictureOpeningPage": "pass"
+        },
+        "saveReopen": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8,
+          "pictureOpeningPage": "pass"
+        }
+      },
+      {
+        "fixture": "prefix-minimum-photo-rail-row",
+        "docxSha256": "74c80c6b5d8a94e364f6fa03e8c5ab40c47cd654fd889ef5b98124f37619e070",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8,
+          "pictureOpeningPage": "pass",
+          "continuousRailPaint": "pass"
+        },
+        "saveReopen": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8,
+          "pictureOpeningPage": "pass",
+          "continuousRailPaint": "pass"
+        }
+      },
+      {
+        "fixture": "prefix-minimum-photo-rail-nested",
+        "docxSha256": "dcf982c4f47ccb14e0816183f9b88306eb4c9d0d81bd471dd0f0c1178434f408",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8,
+          "pictureOpeningPage": "pass",
+          "continuousRailPaint": "pass"
+        },
+        "saveReopen": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8,
+          "pictureOpeningPage": "pass",
+          "continuousRailPaint": "pass"
+        }
+      },
+      {
+        "fixture": "prefix-overflow-control",
+        "docxSha256": "2fea8e1cb5284a09ab4dd7282e06464d7168412eb9ab2ce20b217008684f0e90",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 4,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8,
+          "pictureOpeningPage": "pass",
+          "continuousRailPaint": "pass"
+        },
+        "saveReopen": {
+          "pages": 4,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8,
+          "pictureOpeningPage": "pass",
+          "continuousRailPaint": "pass"
+        }
+      },
+      {
+        "fixture": "prefix-oversized-control",
+        "docxSha256": "95ee7a74cb40c548fccfbb061d73faa61c4f06d926ba5b197548893073b48573",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 0,
+          "headingAttachment": "pass",
+          "descriptionAttachment": "pass",
+          "prefixPage": 4,
+          "descriptionOpeningPage": 4
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 0,
+          "headingAttachment": "pass",
+          "descriptionAttachment": "pass",
+          "prefixPage": 4,
+          "descriptionOpeningPage": 4
+        }
+      },
+      {
+        "fixture": "prefix-overflow-heading-off",
+        "docxSha256": "86788eb7c7505254518d94927e4e43ee6e3780a6982643e257aa89fe84e3f7d4",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 4,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8,
+          "pictureOpeningPage": "pass",
+          "continuousRailPaint": "pass"
+        },
+        "saveReopen": {
+          "pages": 4,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 8,
+          "pictureOpeningPage": "pass",
+          "continuousRailPaint": "pass"
+        }
+      },
+      {
+        "fixture": "prefix-oversized-heading-off",
+        "docxSha256": "95ee7a74cb40c548fccfbb061d73faa61c4f06d926ba5b197548893073b48573",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 0,
+          "headingAttachment": "pass",
+          "descriptionAttachment": "pass",
+          "prefixPage": 4,
+          "descriptionOpeningPage": 4
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 0,
+          "headingAttachment": "pass",
+          "descriptionAttachment": "pass",
+          "prefixPage": 4,
+          "descriptionOpeningPage": 4
+        }
+      },
+      {
+        "fixture": "prefix-boundary-220",
+        "docxSha256": "65b0af8de45a93a5124ed93a070a78c1fdd3456379caeb5eb19ffd2909716fcd",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 0,
+          "headingAttachment": "pass",
+          "descriptionAttachment": "known-negative",
+          "prefixPage": 3,
+          "descriptionOpeningPage": 4
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 0,
+          "headingAttachment": "pass",
+          "descriptionAttachment": "known-negative",
+          "prefixPage": 3,
+          "descriptionOpeningPage": 4
+        }
+      },
+      {
+        "fixture": "prefix-boundary-224",
+        "docxSha256": "ffe950d14ee4a5a0ffd25092c63d6d9c73230ec966ef0a87f9dfc935f4f2a53f",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 0,
+          "headingAttachment": "pass",
+          "descriptionAttachment": "known-negative",
+          "prefixPage": 3,
+          "descriptionOpeningPage": 4
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 0,
+          "headingAttachment": "pass",
+          "descriptionAttachment": "known-negative",
+          "prefixPage": 3,
+          "descriptionOpeningPage": 4
+        }
+      },
+      {
+        "fixture": "prefix-boundary-226",
+        "docxSha256": "6a151d045c34d21381fbd195c9a54726836ecc9d0f4367f86fbc349527698c3d",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 0,
+          "headingAttachment": "pass",
+          "descriptionAttachment": "pass",
+          "prefixPage": 4,
+          "descriptionOpeningPage": 4
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 0,
+          "headingAttachment": "pass",
+          "descriptionAttachment": "pass",
+          "prefixPage": 4,
+          "descriptionOpeningPage": 4
+        }
+      },
+      {
+        "fixture": "prefix-boundary-228",
+        "docxSha256": "e84075da1ce238b7e5c6372035149d5bc663db12d90e2e9bad68583bb7b87004",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 0,
+          "headingAttachment": "pass",
+          "descriptionAttachment": "pass",
+          "prefixPage": 4,
+          "descriptionOpeningPage": 4
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 0,
+          "headingAttachment": "pass",
+          "descriptionAttachment": "pass",
+          "prefixPage": 4,
+          "descriptionOpeningPage": 4
+        }
+      },
+      {
+        "fixture": "prefix-boundary-230",
+        "docxSha256": "95ee7a74cb40c548fccfbb061d73faa61c4f06d926ba5b197548893073b48573",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 0,
+          "headingAttachment": "pass",
+          "descriptionAttachment": "pass",
+          "prefixPage": 4,
+          "descriptionOpeningPage": 4
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 0,
+          "headingAttachment": "pass",
+          "descriptionAttachment": "pass",
+          "prefixPage": 4,
+          "descriptionOpeningPage": 4
+        }
+      },
+      {
+        "fixture": "prefix-boundary-234",
+        "docxSha256": "69e77b26fb29311cb9083f6388a59e40587e1a6f9e0234fc2d2f086c96513768",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 0,
+          "headingAttachment": "pass",
+          "descriptionAttachment": "pass",
+          "prefixPage": 4,
+          "descriptionOpeningPage": 4
+        },
+        "saveReopen": {
+          "pages": 10,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 0,
+          "headingAttachment": "pass",
+          "descriptionAttachment": "pass",
+          "prefixPage": 4,
+          "descriptionOpeningPage": 4
+        }
+      },
+      {
+        "fixture": "prefix-inset",
+        "docxSha256": "efdffcc7c12ef31356ea455a148c85fc0c2e3a583d44011af6d409baa782482a",
+        "package": "pass",
+        "saveReopenPackage": "pass",
+        "render": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 2,
+          "bodyInsetMm": 7
+        },
+        "saveReopen": {
+          "pages": 3,
+          "semanticTextPreserved": true,
+          "firstPageFieldsPresent": 2,
+          "bodyInsetMm": 7
+        }
+      }
+    ],
+    "architectureAcceptance": "metadata prefix verified on development engine; description attachment blocked at two boundaries",
+    "productionChange": "default composition unchanged; picture-before-later-span guard unchanged",
+    "microsoftWord": "pending"
+  },
+  "supportedSidebar": {
+    "fixtures": 31,
+    "pages": 253,
+    "packageRenderSaveReopen": "pass",
+    "sourcePackagesByteIdenticalToStartingCheckout": true
+  },
+  "unmodifiedControls": {
+    "fixtures": 12,
+    "pages": 52,
+    "packageRenderSaveReopen": "pass with original expected counterexamples",
+    "sourcePackagesByteIdenticalToStartingCheckout": true
+  },
+  "modelJsonPackageRoundtrips": 19,
+  "sidebarModelJsonRoundtrips": 31,
+  "portableProjectPhotoRestorations": 2,
+  "pythonFlowTests": 7,
+  "limits": {
+    "stableLibreOffice": "unavailable; pinned recheck pending",
+    "microsoftWord": "pending",
+    "supportedFixtureImages": "explicit Pillow adapter; browser decoder not repeated locally",
+    "localAppTypecheckLint": "offline cache not frozen lock; release acceptance from publication CI",
+    "publicationCI": "commit-specific Bun/locked checks/browser/PDF results reported separately"
+  },
+  "nextTask": "generic binding from heading/metadata prefix to flowing description opening; require attachment at 220 and 224 mm boundaries before activation"
+}

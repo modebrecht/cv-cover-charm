@@ -1,0 +1,589 @@
+{
+  "baseCommit": "faacd28a09d0651eb1b4166fa1253a993fb37928",
+  "branch": "fix/docx-next-shared-integration-22okt",
+  "isolation": [
+    {
+      "case": "right-contact-long",
+      "state": "TIMEOUT",
+      "seconds": 60.0,
+      "exitCode": null,
+      "pdfExists": false,
+      "docxSha256": "e9fab35e4c4eb628af8c096a2ef3a78e7e1ea54659c01affffcc760f45b4a58a"
+    },
+    {
+      "case": "right-contact-reduced",
+      "state": "COMPLETED",
+      "seconds": 4.78,
+      "exitCode": 0,
+      "pdfExists": true,
+      "docxSha256": "d0eb9e9dd4f26b680da4b2166b76126f598826c47508b0e57e0e9b37519d92ef"
+    },
+    {
+      "case": "no-cv-header-text",
+      "state": "COMPLETED",
+      "seconds": 4.33,
+      "exitCode": 0,
+      "pdfExists": true,
+      "docxSha256": "920aebc8515b8dc11e935c31bd3ca70fff00361bfe3d426c206b16c39878d572",
+      "diagnosticChanges": {
+        "word/cv-header.xml": 3,
+        "word/cv-header-first.xml": 3
+      }
+    },
+    {
+      "case": "splittable-nested-rows",
+      "state": "TIMEOUT",
+      "seconds": 35.0,
+      "exitCode": null,
+      "pdfExists": false,
+      "docxSha256": "66ed19e1e3459a61fa0712970e6f2fbd62ca5c63d1df00b48f067d8e8a33449a",
+      "diagnosticChanges": {
+        "word/document.xml": 16
+      }
+    },
+    {
+      "case": "no-cv-running-text",
+      "state": "COMPLETED",
+      "seconds": 4.13,
+      "exitCode": 0,
+      "pdfExists": true,
+      "docxSha256": "be9f4fa91849f8512a2d48cb5a29b10804119cfbb76f9436b4af73f687d34347",
+      "diagnosticChanges": {
+        "word/cv-header.xml": 3
+      }
+    },
+    {
+      "case": "cv-header-no-wrap",
+      "state": "COMPLETED",
+      "seconds": 4.08,
+      "exitCode": 0,
+      "pdfExists": true,
+      "docxSha256": "32370c6a94fbbbc826efe17451a2a29f49473e8fd00b18a2fe43461012bf9158",
+      "diagnosticChanges": {
+        "word/cv-header.xml": 3,
+        "word/cv-header-first.xml": 3
+      }
+    },
+    {
+      "case": "cv-running-no-wrap",
+      "state": "COMPLETED",
+      "seconds": 4.43,
+      "exitCode": 0,
+      "pdfExists": true,
+      "docxSha256": "814c1e842ad91911a93d955ab39ac15c1fad9e6a320a243ca934c1ef1885296c",
+      "diagnosticChanges": {
+        "word/cv-header.xml": 3
+      }
+    }
+  ],
+  "fixedCases": [
+    {
+      "case": "left-compact",
+      "docxSha256": "046502a25d84152dc122d1bc8693b37a522c7fc08e03eaba47bb2e3751fb586b",
+      "writer": {
+        "case": "left-compact",
+        "state": "COMPLETED",
+        "seconds": 1.77,
+        "exitCode": 0,
+        "pdfExists": true
+      },
+      "dossierPages": 3,
+      "allControlTextVisible": true,
+      "perPageHeaderChecks": [],
+      "photoPixelsAndCrop": [
+        {
+          "owners": [
+            "cv.person.photo"
+          ],
+          "representation": "DrawingML",
+          "pixels": {
+            "width": 120,
+            "height": 180,
+            "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+          },
+          "embeddedFileSha256": "b55b592a4b251518601207931566e1fe63b77ed8294163ea519a7fe33dc4ab0f",
+          "cropMarkup": {
+            "l": "0",
+            "t": "8333",
+            "r": "0",
+            "b": "8333"
+          }
+        }
+      ],
+      "productGuardPreserved": true,
+      "sourceUnchanged": true,
+      "repeatedCanonicalTagsAcrossStories": [],
+      "byteIdenticalToPriorCompact": true
+    },
+    {
+      "case": "left-contact-inline",
+      "docxSha256": "dda3989d678a1e23a132575963bbc880373d48e672151efdf741509fd181570c",
+      "writer": {
+        "case": "left-contact-inline",
+        "state": "COMPLETED",
+        "seconds": 1.82,
+        "exitCode": 0,
+        "pdfExists": true
+      },
+      "dossierPages": 3,
+      "allControlTextVisible": true,
+      "perPageHeaderChecks": [
+        {
+          "cvPage": 1,
+          "heightMm": 25.99944661458333,
+          "allExpectedFieldsInHeaderBand": true,
+          "expectedHeaderPaintVisible": true,
+          "sourceRgb": [
+            17,
+            24,
+            39
+          ],
+          "observedRgb": [
+            17,
+            24,
+            40
+          ]
+        }
+      ],
+      "photoPixelsAndCrop": [
+        {
+          "owners": [
+            "cv.person.photo"
+          ],
+          "representation": "DrawingML",
+          "pixels": {
+            "width": 120,
+            "height": 180,
+            "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+          },
+          "embeddedFileSha256": "b55b592a4b251518601207931566e1fe63b77ed8294163ea519a7fe33dc4ab0f",
+          "cropMarkup": {
+            "l": "0",
+            "t": "8333",
+            "r": "0",
+            "b": "8333"
+          }
+        }
+      ],
+      "productGuardPreserved": true,
+      "sourceUnchanged": true,
+      "repeatedCanonicalTagsAcrossStories": [
+        "cv.person.address",
+        "cv.person.email",
+        "cv.person.name",
+        "cv.person.phone",
+        "cv.person.place",
+        "letter.sender.address",
+        "letter.sender.email",
+        "letter.sender.name",
+        "letter.sender.phone",
+        "letter.sender.place"
+      ]
+    },
+    {
+      "case": "left-contact-stacked",
+      "docxSha256": "3e2d1629fe9c1297d7469884ac004edb711e23b4cfaaeed788be51566e4ffd28",
+      "writer": {
+        "case": "left-contact-stacked",
+        "state": "COMPLETED",
+        "seconds": 1.82,
+        "exitCode": 0,
+        "pdfExists": true
+      },
+      "dossierPages": 3,
+      "allControlTextVisible": true,
+      "perPageHeaderChecks": [
+        {
+          "cvPage": 1,
+          "heightMm": 31.998046875,
+          "allExpectedFieldsInHeaderBand": true,
+          "expectedHeaderPaintVisible": true,
+          "sourceRgb": [
+            17,
+            24,
+            39
+          ],
+          "observedRgb": [
+            17,
+            24,
+            40
+          ]
+        }
+      ],
+      "photoPixelsAndCrop": [
+        {
+          "owners": [
+            "cv.person.photo"
+          ],
+          "representation": "DrawingML",
+          "pixels": {
+            "width": 120,
+            "height": 180,
+            "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+          },
+          "embeddedFileSha256": "b55b592a4b251518601207931566e1fe63b77ed8294163ea519a7fe33dc4ab0f",
+          "cropMarkup": {
+            "l": "0",
+            "t": "8333",
+            "r": "0",
+            "b": "8333"
+          }
+        }
+      ],
+      "productGuardPreserved": true,
+      "sourceUnchanged": true,
+      "repeatedCanonicalTagsAcrossStories": [
+        "cv.person.address",
+        "cv.person.email",
+        "cv.person.name",
+        "cv.person.phone",
+        "cv.person.place",
+        "letter.sender.address",
+        "letter.sender.email",
+        "letter.sender.name",
+        "letter.sender.phone",
+        "letter.sender.place"
+      ]
+    },
+    {
+      "case": "right-compact",
+      "docxSha256": "79be19f278b5e2ce4f138eafcada752b3b8436e34a0c5fd8a95ceba13ae3f37f",
+      "writer": {
+        "case": "right-compact",
+        "state": "COMPLETED",
+        "seconds": 1.83,
+        "exitCode": 0,
+        "pdfExists": true
+      },
+      "dossierPages": 3,
+      "allControlTextVisible": true,
+      "perPageHeaderChecks": [],
+      "photoPixelsAndCrop": [
+        {
+          "owners": [
+            "cv.person.photo"
+          ],
+          "representation": "DrawingML",
+          "pixels": {
+            "width": 120,
+            "height": 180,
+            "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+          },
+          "embeddedFileSha256": "b55b592a4b251518601207931566e1fe63b77ed8294163ea519a7fe33dc4ab0f",
+          "cropMarkup": {
+            "l": "0",
+            "t": "8333",
+            "r": "0",
+            "b": "8333"
+          }
+        }
+      ],
+      "productGuardPreserved": true,
+      "sourceUnchanged": true,
+      "repeatedCanonicalTagsAcrossStories": [],
+      "byteIdenticalToPriorCompact": true
+    },
+    {
+      "case": "right-contact-inline",
+      "docxSha256": "0e511d9986d2f9959e55cf22f0a01277208c4e6bd6abb0770477e0f704f7cd27",
+      "writer": {
+        "case": "right-contact-inline",
+        "state": "COMPLETED",
+        "seconds": 1.82,
+        "exitCode": 0,
+        "pdfExists": true
+      },
+      "dossierPages": 3,
+      "allControlTextVisible": true,
+      "perPageHeaderChecks": [
+        {
+          "cvPage": 1,
+          "heightMm": 25.99944661458333,
+          "allExpectedFieldsInHeaderBand": true,
+          "expectedHeaderPaintVisible": true,
+          "sourceRgb": [
+            17,
+            24,
+            39
+          ],
+          "observedRgb": [
+            17,
+            24,
+            40
+          ]
+        }
+      ],
+      "photoPixelsAndCrop": [
+        {
+          "owners": [
+            "cv.person.photo"
+          ],
+          "representation": "DrawingML",
+          "pixels": {
+            "width": 120,
+            "height": 180,
+            "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+          },
+          "embeddedFileSha256": "b55b592a4b251518601207931566e1fe63b77ed8294163ea519a7fe33dc4ab0f",
+          "cropMarkup": {
+            "l": "0",
+            "t": "8333",
+            "r": "0",
+            "b": "8333"
+          }
+        }
+      ],
+      "productGuardPreserved": true,
+      "sourceUnchanged": true,
+      "repeatedCanonicalTagsAcrossStories": [
+        "cv.person.address",
+        "cv.person.email",
+        "cv.person.name",
+        "cv.person.phone",
+        "cv.person.place",
+        "letter.sender.address",
+        "letter.sender.email",
+        "letter.sender.name",
+        "letter.sender.phone",
+        "letter.sender.place"
+      ]
+    },
+    {
+      "case": "right-contact-stacked",
+      "docxSha256": "86352f371752c083b9b1720a332e6c164966f3d1a6036378edb5bfb7458490de",
+      "writer": {
+        "case": "right-contact-stacked",
+        "state": "COMPLETED",
+        "seconds": 1.87,
+        "exitCode": 0,
+        "pdfExists": true
+      },
+      "dossierPages": 3,
+      "allControlTextVisible": true,
+      "perPageHeaderChecks": [
+        {
+          "cvPage": 1,
+          "heightMm": 31.998046875,
+          "allExpectedFieldsInHeaderBand": true,
+          "expectedHeaderPaintVisible": true,
+          "sourceRgb": [
+            17,
+            24,
+            39
+          ],
+          "observedRgb": [
+            17,
+            24,
+            40
+          ]
+        }
+      ],
+      "photoPixelsAndCrop": [
+        {
+          "owners": [
+            "cv.person.photo"
+          ],
+          "representation": "DrawingML",
+          "pixels": {
+            "width": 120,
+            "height": 180,
+            "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+          },
+          "embeddedFileSha256": "b55b592a4b251518601207931566e1fe63b77ed8294163ea519a7fe33dc4ab0f",
+          "cropMarkup": {
+            "l": "0",
+            "t": "8333",
+            "r": "0",
+            "b": "8333"
+          }
+        }
+      ],
+      "productGuardPreserved": true,
+      "sourceUnchanged": true,
+      "repeatedCanonicalTagsAcrossStories": [
+        "cv.person.address",
+        "cv.person.email",
+        "cv.person.name",
+        "cv.person.phone",
+        "cv.person.place",
+        "letter.sender.address",
+        "letter.sender.email",
+        "letter.sender.name",
+        "letter.sender.phone",
+        "letter.sender.place"
+      ]
+    },
+    {
+      "case": "right-contact-long",
+      "docxSha256": "53d08cff0ecd37c261a70e82f8409fec6f58fd7f61964738504a73ff558875d3",
+      "writer": {
+        "case": "right-contact-long",
+        "state": "COMPLETED",
+        "seconds": 4.13,
+        "exitCode": 0,
+        "pdfExists": true
+      },
+      "dossierPages": 4,
+      "allControlTextVisible": true,
+      "perPageHeaderChecks": [
+        {
+          "cvPage": 1,
+          "heightMm": 31.998046875,
+          "allExpectedFieldsInHeaderBand": true,
+          "expectedHeaderPaintVisible": true,
+          "sourceRgb": [
+            17,
+            24,
+            39
+          ],
+          "observedRgb": [
+            17,
+            24,
+            40
+          ]
+        },
+        {
+          "cvPage": 2,
+          "heightMm": 31.998046875,
+          "allExpectedFieldsInHeaderBand": true,
+          "expectedHeaderPaintVisible": true,
+          "sourceRgb": [
+            17,
+            24,
+            39
+          ],
+          "observedRgb": [
+            17,
+            24,
+            40
+          ]
+        }
+      ],
+      "photoPixelsAndCrop": [
+        {
+          "owners": [
+            "cv.person.photo"
+          ],
+          "representation": "DrawingML",
+          "pixels": {
+            "width": 120,
+            "height": 180,
+            "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+          },
+          "embeddedFileSha256": "b55b592a4b251518601207931566e1fe63b77ed8294163ea519a7fe33dc4ab0f",
+          "cropMarkup": {
+            "l": "0",
+            "t": "8333",
+            "r": "0",
+            "b": "8333"
+          }
+        }
+      ],
+      "productGuardPreserved": true,
+      "sourceUnchanged": true,
+      "repeatedCanonicalTagsAcrossStories": [
+        "cv.person.address",
+        "cv.person.email",
+        "cv.person.name",
+        "cv.person.phone",
+        "cv.person.place",
+        "letter.sender.address",
+        "letter.sender.email",
+        "letter.sender.name",
+        "letter.sender.phone",
+        "letter.sender.place"
+      ],
+      "onlyHeaderWrapAttributesChanged": true,
+      "bodyXmlAndImageBytesIdentical": true
+    },
+    {
+      "case": "right-contact-reduced",
+      "docxSha256": "235faffaa93cc226cd4008efdd2963a8459f938d046ca82615d626ce16e469dc",
+      "writer": {
+        "case": "right-contact-reduced",
+        "state": "COMPLETED",
+        "seconds": 4.33,
+        "exitCode": 0,
+        "pdfExists": true
+      },
+      "dossierPages": 4,
+      "allControlTextVisible": true,
+      "perPageHeaderChecks": [
+        {
+          "cvPage": 1,
+          "heightMm": 31.998046875,
+          "allExpectedFieldsInHeaderBand": true,
+          "expectedHeaderPaintVisible": true,
+          "sourceRgb": [
+            17,
+            24,
+            39
+          ],
+          "observedRgb": [
+            17,
+            24,
+            40
+          ]
+        },
+        {
+          "cvPage": 2,
+          "heightMm": 17.99993489583333,
+          "allExpectedFieldsInHeaderBand": true,
+          "expectedHeaderPaintVisible": true,
+          "sourceRgb": [
+            17,
+            24,
+            39
+          ],
+          "observedRgb": [
+            17,
+            24,
+            40
+          ]
+        }
+      ],
+      "photoPixelsAndCrop": [
+        {
+          "owners": [
+            "cv.person.photo"
+          ],
+          "representation": "DrawingML",
+          "pixels": {
+            "width": 120,
+            "height": 180,
+            "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+          },
+          "embeddedFileSha256": "b55b592a4b251518601207931566e1fe63b77ed8294163ea519a7fe33dc4ab0f",
+          "cropMarkup": {
+            "l": "0",
+            "t": "8333",
+            "r": "0",
+            "b": "8333"
+          }
+        }
+      ],
+      "productGuardPreserved": true,
+      "sourceUnchanged": true,
+      "repeatedCanonicalTagsAcrossStories": [
+        "cv.person.email",
+        "cv.person.name",
+        "cv.person.phone",
+        "letter.sender.email",
+        "letter.sender.name",
+        "letter.sender.phone"
+      ],
+      "onlyHeaderWrapAttributesChanged": true,
+      "bodyXmlAndImageBytesIdentical": true
+    }
+  ],
+  "unitTests": {
+    "passed": 528,
+    "failed": 0,
+    "files": 75,
+    "expectations": 9234
+  },
+  "focusedStrictTypeScript": "PASS",
+  "wordSaveReopen": "UNVERIFIED",
+  "productSidebarGuard": "CLOSED",
+  "exactGeometryGate": "NOT_RUN"
+}

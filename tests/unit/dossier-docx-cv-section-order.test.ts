@@ -2,8 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { customSectionKey, DEMO_CV } from "../../src/components/cv/types";
 import { applyCvSectionOrderToDocumentXml } from "../../src/lib/dossier-docx-cv-section-order";
 
-const sectionBreak =
-  '<w:p><w:pPr><w:sectPr><w:pgSz w:w="1" w:h="1"/></w:sectPr></w:pPr></w:p>';
+const sectionBreak = '<w:p><w:pPr><w:sectPr><w:pgSz w:w="1" w:h="1"/></w:sectPr></w:pPr></w:p>';
 
 function heading(label: string) {
   return `<w:tbl><w:tr><w:tc><w:p><w:r><w:t>${label.toLocaleUpperCase("de-CH")}</w:t></w:r></w:p></w:tc></w:tr></w:tbl>`;
@@ -18,7 +17,7 @@ function sourceWithFamilyLast() {
     "<w:document><w:body>",
     sectionBreak,
     sectionBreak,
-    '<w:p><w:r><w:t>PERSON</w:t></w:r></w:p>',
+    "<w:p><w:r><w:t>PERSON</w:t></w:r></w:p>",
     block("Schulbildung", "SCHOOL"),
     block("Praktika & Schnuppertage", "WORK"),
     block("Sprachen", "LANG"),
@@ -67,7 +66,7 @@ describe("DOCX CV section order", () => {
       "<w:document><w:body>",
       sectionBreak,
       sectionBreak,
-      '<w:tbl><w:tr><w:tc>',
+      "<w:tbl><w:tr><w:tc>",
       block("Stärken", "STRENGTH"),
       "</w:tc><w:tc>",
       block("Schulbildung", "SCHOOL"),

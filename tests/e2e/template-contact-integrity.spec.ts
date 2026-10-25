@@ -4,8 +4,7 @@ import { expect, test, type Page } from "@playwright/test";
 const BASE_URL = "http://127.0.0.1:4173";
 const EXPECTED_TEMPLATE_COUNT = 39;
 const CONTACT_SEED =
-  process.env.E2E_CONTACT_SEED?.trim() ||
-  `${Date.now()}-${randomBytes(5).toString("hex")}`;
+  process.env.E2E_CONTACT_SEED?.trim() || `${Date.now()}-${randomBytes(5).toString("hex")}`;
 
 type RunContact = {
   firstName: string;
@@ -20,8 +19,8 @@ type RunContact = {
 function contactForSeed(seed: string): RunContact {
   const digest = createHash("sha256").update(seed).digest();
   const token = digest.subarray(0, 6).toString("hex");
-  const postcode = 1000 + digest.readUInt16BE(6) % 8000;
-  const streetNumber = 1 + digest[8]! % 199;
+  const postcode = 1000 + (digest.readUInt16BE(6) % 8000);
+  const streetNumber = 1 + (digest[8]! % 199);
   const phoneTail = Array.from(digest.subarray(9, 13), (value) =>
     String(value % 100).padStart(2, "0"),
   ).join(" ");
@@ -241,9 +240,10 @@ async function expectCurrentContact(page: Page, contact: RunContact, templateNam
     expect(text, `${templateName}: missing visible ${value}`).toContain(value);
   }
 
-  expect(text, `${templateName}: stale title-page identity leaked into the visible CV`).not.toContain(
-    "Alt Titelblatt",
-  );
+  expect(
+    text,
+    `${templateName}: stale title-page identity leaked into the visible CV`,
+  ).not.toContain("Alt Titelblatt");
   expect(text).not.toContain("stale@example.test");
 }
 

@@ -309,7 +309,10 @@ async function expectInvisibleNativeTextLayer(path: string, pageNumber: number) 
     expect(renderingMode, `page ${pageNumber}: native letter text must stay invisible`).toBe(3);
   }
 
-  expect(nativeTextRuns, `page ${pageNumber}: searchable native letter text must exist`).toBeGreaterThan(0);
+  expect(
+    nativeTextRuns,
+    `page ${pageNumber}: searchable native letter text must exist`,
+  ).toBeGreaterThan(0);
 }
 
 test.describe("Motivation-letter PDF rich-text wrap regression", () => {
@@ -319,7 +322,7 @@ test.describe("Motivation-letter PDF rich-text wrap regression", () => {
     await seedLetter(page);
     const download = page.getByRole("button", { name: "Download", exact: true });
     await download.click();
-    const pdfButton = page.getByRole("button", { name: /Nur Motivationsschreiben als PDF/i });
+    const pdfButton = page.getByRole("menuitem", { name: "PDF", exact: true });
     await expect(pdfButton).toBeVisible();
     await forceDeterministicWrappedWords(page);
 
@@ -340,9 +343,9 @@ test.describe("Motivation-letter PDF rich-text wrap regression", () => {
     await expect(downloadToggle).toHaveAttribute("data-editor-ready", "true", { timeout: 15_000 });
     await downloadToggle.click();
 
-    const menu = page.locator("[data-editor-action-menu]");
+    const menu = page.locator("[data-editor-download-menu]");
     await expect(menu).toBeVisible();
-    const fullPdfButton = menu.getByRole("button", { name: /Ganzes Dossier als PDF/i });
+    const fullPdfButton = menu.getByRole("menuitem", { name: "Dossier PDF", exact: true });
     await expect(fullPdfButton).toBeEnabled({ timeout: 15_000 });
     await fullPdfButton.click();
 

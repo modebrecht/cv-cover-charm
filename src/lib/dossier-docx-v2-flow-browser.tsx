@@ -101,17 +101,28 @@ function visible(element: HTMLElement) {
 function rgbToHex(value: string, fallback = "#111111") {
   const direct = value.match(/^#([0-9a-f]{6})$/i)?.[1];
   if (direct) return `#${direct.toLowerCase()}`;
-  const channels = value.match(/[\d.]+/g)?.slice(0, 3).map(Number);
+  const channels = value
+    .match(/[\d.]+/g)
+    ?.slice(0, 3)
+    .map(Number);
   if (!channels || channels.length < 3 || channels.some((channel) => !Number.isFinite(channel))) {
     return fallback;
   }
   return `#${channels
-    .map((channel) => Math.max(0, Math.min(255, Math.round(channel))).toString(16).padStart(2, "0"))
+    .map((channel) =>
+      Math.max(0, Math.min(255, Math.round(channel)))
+        .toString(16)
+        .padStart(2, "0"),
+    )
     .join("")}`;
 }
 
 function wordFontFromCss(value: string) {
-  const first = value.split(",")[0]?.trim().replace(/^['"]|['"]$/g, "") || "Arial";
+  const first =
+    value
+      .split(",")[0]
+      ?.trim()
+      .replace(/^['"]|['"]$/g, "") || "Arial";
   if (/serif/i.test(first) && !/sans/i.test(first)) return "Georgia";
   if (/mono|courier/i.test(first)) return "Courier New";
   if (/times/i.test(first)) return "Times New Roman";
@@ -160,7 +171,11 @@ function paragraph(element: HTMLElement, id: string): DossierDocxV2FlowParagraph
   };
 }
 
-function measuredRect(element: HTMLElement, page: HTMLElement, pageIndex: number): DossierDocxV2MeasuredRect {
+function measuredRect(
+  element: HTMLElement,
+  page: HTMLElement,
+  pageIndex: number,
+): DossierDocxV2MeasuredRect {
   const pageRect = page.getBoundingClientRect();
   const rect = element.getBoundingClientRect();
   const mmX = PAGE_MM.width / pageRect.width;
@@ -202,12 +217,22 @@ function measuredLetterText(page: HTMLElement): DossierDocxV2MeasuredText[] {
     const text = (root.innerText || root.textContent || "").replace(/\s+/g, " ").trim();
     if (!text) continue;
     const style = getComputedStyle(root);
-    result.push({ semantic, text, style: textStyle(root), align: wordAlign(style.textAlign), lineHeight: lineHeight(root) });
+    result.push({
+      semantic,
+      text,
+      style: textStyle(root),
+      align: wordAlign(style.textAlign),
+      lineHeight: lineHeight(root),
+    });
   }
   return result;
 }
 
-function blocksFromCvContainer(container: HTMLElement, pageIndex: number, prefix: string): DossierDocxV2FlowBlock[] {
+function blocksFromCvContainer(
+  container: HTMLElement,
+  pageIndex: number,
+  prefix: string,
+): DossierDocxV2FlowBlock[] {
   const output: DossierDocxV2FlowBlock[] = [];
   let seq = 0;
   for (const child of Array.from(container.children)) {
@@ -357,7 +382,10 @@ async function waitForCv(root: HTMLElement, reported: () => number) {
   return false;
 }
 
-async function artworkForPage(page: HTMLElement, pageIndex: number): Promise<DossierDocxV2CvPageArtwork | null> {
+async function artworkForPage(
+  page: HTMLElement,
+  pageIndex: number,
+): Promise<DossierDocxV2CvPageArtwork | null> {
   try {
     const html2canvas = (await import("html2canvas-pro")).default;
     const canvas = await html2canvas(page, {
@@ -377,21 +405,44 @@ async function artworkForPage(page: HTMLElement, pageIndex: number): Promise<Dos
           "[data-cv-elements]",
           "[data-dossier-chrome]",
         ]) {
-          for (const node of clone.querySelectorAll<HTMLElement>(selector)) node.style.visibility = "hidden";
+          for (const node of clone.querySelectorAll<HTMLElement>(selector))
+            node.style.visibility = "hidden";
         }
       },
     });
-    return { pageIndex, dataUrl: canvas.toDataURL("image/png"), x: 0, y: 0, width: 210, height: 297 };
+    return {
+      pageIndex,
+      dataUrl: canvas.toDataURL("image/png"),
+      x: 0,
+      y: 0,
+      width: 210,
+      height: 297,
+    };
   } catch {
     return null;
   }
 }
 
-function captureLetter(root: HTMLElement, issueMessage: string | null): DossierDocxV2MeasuredLetter {
+function captureLetter(
+  root: HTMLElement,
+  issueMessage: string | null,
+): DossierDocxV2MeasuredLetter {
   const pages = Array.from(root.querySelectorAll<HTMLElement>("[data-letter-page]"));
   const issues: DossierDocxV2FlowIssue[] = [];
-  if (issueMessage) issues.push({ severity: "blocker", code: "letter-browser-pagination-error", scope: "letter", message: issueMessage });
-  if (!pages.length) issues.push({ severity: "blocker", code: "letter-browser-pages-missing", scope: "letter", message: "DOCX V2 konnte keine echte LetterDocument-Seite vermessen." });
+  if (issueMessage)
+    issues.push({
+      severity: "blocker",
+      code: "letter-browser-pagination-error",
+      scope: "letter",
+      message: issueMessage,
+    });
+  if (!pages.length)
+    issues.push({
+      severity: "blocker",
+      code: "letter-browser-pages-missing",
+      scope: "letter",
+      message: "DOCX V2 konnte keine echte LetterDocument-Seite vermessen.",
+    });
   return {
     measuredInBrowser: true,
     pageCount: pages.length,
@@ -399,7 +450,9 @@ function captureLetter(root: HTMLElement, issueMessage: string | null): DossierD
       const layer = page.querySelector<HTMLElement>("[data-letter-text-layer]");
       return {
         pageIndex,
-        finalPage: page.closest<HTMLElement>("[data-letter-document-page]")?.dataset.letterDocumentFinalPage === "true",
+        finalPage:
+          page.closest<HTMLElement>("[data-letter-document-page]")?.dataset
+            .letterDocumentFinalPage === "true",
         contentBox: layer && visible(layer) ? measuredRect(layer, page, pageIndex) : null,
         bodyBlocks: bodyBlocks(page, pageIndex),
         text: measuredLetterText(page),
@@ -416,9 +469,28 @@ async function captureCv(
 ): Promise<DossierDocxV2MeasuredCv> {
   const pages = Array.from(root.querySelectorAll<HTMLElement>("[data-cv-page]"));
   const issues: DossierDocxV2FlowIssue[] = [];
-  if (!stable) issues.push({ severity: "blocker", code: "cv-browser-pagination-unstable", scope: "cv", message: "CV-Seitenumbruch wurde im DOCX-V2-Messlauf nicht rechtzeitig stabil." });
-  if (!pages.length) issues.push({ severity: "blocker", code: "cv-browser-pages-missing", scope: "cv", message: "DOCX V2 konnte keine echte CvCanvas-Seite vermessen." });
-  for (const warning of layoutWarnings) issues.push({ severity: "blocker", code: "cv-browser-layout-warning", scope: "cv", id: warning.id, message: warning.message });
+  if (!stable)
+    issues.push({
+      severity: "blocker",
+      code: "cv-browser-pagination-unstable",
+      scope: "cv",
+      message: "CV-Seitenumbruch wurde im DOCX-V2-Messlauf nicht rechtzeitig stabil.",
+    });
+  if (!pages.length)
+    issues.push({
+      severity: "blocker",
+      code: "cv-browser-pages-missing",
+      scope: "cv",
+      message: "DOCX V2 konnte keine echte CvCanvas-Seite vermessen.",
+    });
+  for (const warning of layoutWarnings)
+    issues.push({
+      severity: "blocker",
+      code: "cv-browser-layout-warning",
+      scope: "cv",
+      id: warning.id,
+      message: warning.message,
+    });
 
   let photo: DossierDocxV2MeasuredCvPhoto | null = null;
   for (const [pageIndex, page] of pages.entries()) {
@@ -430,17 +502,31 @@ async function captureCv(
     const pageRect = page.getBoundingClientRect();
     const mmX = PAGE_MM.width / pageRect.width;
     const style = getComputedStyle(node);
-    photo = { ...rect, borderWidth: Math.max(0, numeric(style.borderLeftWidth) * mmX), borderColor: rgbToHex(style.borderLeftColor) };
+    photo = {
+      ...rect,
+      borderWidth: Math.max(0, numeric(style.borderLeftWidth) * mmX),
+      borderColor: rgbToHex(style.borderLeftColor),
+    };
     break;
   }
 
-  const layout = root.dataset.cvLayout === "modern" ? "modern" : root.dataset.cvLayout === "classic" ? "classic" : null;
+  const layout =
+    root.dataset.cvLayout === "modern"
+      ? "modern"
+      : root.dataset.cvLayout === "classic"
+        ? "classic"
+        : null;
   const measuredPages = pages.map((page, pageIndex) => {
     const main = page.querySelector<HTMLElement>("[data-cv-main]");
     const mainRows = main
       ? Array.from(main.children)
           .filter((child): child is HTMLElement => child instanceof HTMLElement && visible(child))
-          .map((child) => (child.innerText || child.textContent || "").replace(/\u00a0/g, " ").replace(/\s+/g, " ").trim())
+          .map((child) =>
+            (child.innerText || child.textContent || "")
+              .replace(/\u00a0/g, " ")
+              .replace(/\s+/g, " ")
+              .trim(),
+          )
           .filter(Boolean)
       : [];
     const overlays: DossierDocxV2CvOverlay[] = [];
@@ -455,11 +541,29 @@ async function captureCv(
     return { pageIndex, mainRows, overlays };
   });
 
-  const captured = await Promise.all(pages.map((page, pageIndex) => artworkForPage(page, pageIndex)));
+  const captured = await Promise.all(
+    pages.map((page, pageIndex) => artworkForPage(page, pageIndex)),
+  );
   const artwork = captured.filter((item): item is DossierDocxV2CvPageArtwork => item !== null);
-  if (artwork.length !== pages.length) issues.push({ severity: "blocker", code: "cv-browser-artwork-missing", scope: "cv", message: "Der strukturelle CV-Hintergrund konnte nicht für jede Browser-Seite als Word-Artwork erfasst werden." });
+  if (artwork.length !== pages.length)
+    issues.push({
+      severity: "blocker",
+      code: "cv-browser-artwork-missing",
+      scope: "cv",
+      message:
+        "Der strukturelle CV-Hintergrund konnte nicht für jede Browser-Seite als Word-Artwork erfasst werden.",
+    });
 
-  return { measuredInBrowser: true, pageCount: pages.length, layout, pages: measuredPages, artwork, photo, layoutWarnings, issues };
+  return {
+    measuredInBrowser: true,
+    pageCount: pages.length,
+    layout,
+    pages: measuredPages,
+    artwork,
+    photo,
+    layoutWarnings,
+    issues,
+  };
 }
 
 export async function resolveDossierDocxV2MeasuredFlow(
@@ -468,16 +572,43 @@ export async function resolveDossierDocxV2MeasuredFlow(
   chrome: ChromeSnapshot,
 ): Promise<DossierDocxV2MeasuredFlow> {
   if (typeof document === "undefined" || typeof window === "undefined") {
-    const unavailable = (scope: "letter" | "cv"): DossierDocxV2FlowIssue => ({ severity: "blocker", code: `${scope}-browser-measurement-unavailable`, scope, message: "DOCX V2 Flow benötigt die echte Browser-Geometrie." });
+    const unavailable = (scope: "letter" | "cv"): DossierDocxV2FlowIssue => ({
+      severity: "blocker",
+      code: `${scope}-browser-measurement-unavailable`,
+      scope,
+      message: "DOCX V2 Flow benötigt die echte Browser-Geometrie.",
+    });
     return {
-      letter: { measuredInBrowser: false, pageCount: 0, pages: [], issues: [unavailable("letter")] },
-      cv: { measuredInBrowser: false, pageCount: 0, layout: null, pages: [], artwork: [], photo: null, layoutWarnings: [], issues: [unavailable("cv")] },
+      letter: {
+        measuredInBrowser: false,
+        pageCount: 0,
+        pages: [],
+        issues: [unavailable("letter")],
+      },
+      cv: {
+        measuredInBrowser: false,
+        pageCount: 0,
+        layout: null,
+        pages: [],
+        artwork: [],
+        photo: null,
+        layoutWarnings: [],
+        issues: [unavailable("cv")],
+      },
     };
   }
 
   const host = document.createElement("div");
   host.dataset.docxV2FlowMeasurement = "true";
-  Object.assign(host.style, { position: "fixed", left: "-50000px", top: "0", width: `${PAGE.WIDTH}px`, pointerEvents: "none", zIndex: "-2147483647", opacity: "1" });
+  Object.assign(host.style, {
+    position: "fixed",
+    left: "-50000px",
+    top: "0",
+    width: `${PAGE.WIDTH}px`,
+    pointerEvents: "none",
+    zIndex: "-2147483647",
+    opacity: "1",
+  });
   document.body.appendChild(host);
   const root = createRoot(host);
   let cvWarnings: CvLayoutWarning[] = [];
@@ -488,7 +619,13 @@ export async function resolveDossierDocxV2MeasuredFlow(
       root.render(
         <>
           <div data-docx-v2-letter-measurement>
-            <LetterDocument data={letter.data} design={letter.design} exportMode chromeOptions={chrome.letter.options} chromeContact={chrome.letter.contact} />
+            <LetterDocument
+              data={letter.data}
+              design={letter.design}
+              exportMode
+              chromeOptions={chrome.letter.options}
+              chromeContact={chrome.letter.contact}
+            />
           </div>
           <div data-docx-v2-cv-measurement>
             <CvCanvas
@@ -499,8 +636,12 @@ export async function resolveDossierDocxV2MeasuredFlow(
               exportMode
               chromeOptions={chrome.cv.options}
               chromeContact={chrome.cv.contact}
-              onLayoutWarnings={(warnings) => { cvWarnings = warnings; }}
-              onPageCount={(count) => { reportedCvPageCount = count; }}
+              onLayoutWarnings={(warnings) => {
+                cvWarnings = warnings;
+              }}
+              onPageCount={(count) => {
+                reportedCvPageCount = count;
+              }}
             />
           </div>
         </>,
@@ -512,11 +653,20 @@ export async function resolveDossierDocxV2MeasuredFlow(
     await nextFrame();
     const letterRoot = host.querySelector<HTMLElement>("[data-letter-document-root]");
     const cvRoot = host.querySelector<HTMLElement>("[data-dossier-document='cv']");
-    if (!letterRoot || !cvRoot) throw new Error("DOCX V2 Flow: versteckte Browser-Messansicht konnte nicht aufgebaut werden.");
-    const [letterIssue, cvStable] = await Promise.all([waitForLetter(letterRoot), waitForCv(cvRoot, () => reportedCvPageCount)]);
+    if (!letterRoot || !cvRoot)
+      throw new Error(
+        "DOCX V2 Flow: versteckte Browser-Messansicht konnte nicht aufgebaut werden.",
+      );
+    const [letterIssue, cvStable] = await Promise.all([
+      waitForLetter(letterRoot),
+      waitForCv(cvRoot, () => reportedCvPageCount),
+    ]);
     await settleImages(host);
     await nextFrame();
-    return { letter: captureLetter(letterRoot, letterIssue), cv: await captureCv(cvRoot, cvStable, cvWarnings) };
+    return {
+      letter: captureLetter(letterRoot, letterIssue),
+      cv: await captureCv(cvRoot, cvStable, cvWarnings),
+    };
   } finally {
     root.unmount();
     host.remove();

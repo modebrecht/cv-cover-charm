@@ -15,8 +15,7 @@ export function EditorMenuLabel({
   children: React.ReactNode;
 }) {
   const pathname = useLocation({ select: (location) => location.pathname });
-  const label =
-    children === "Alles zurücksetzen" ? (RESET_LABELS[pathname] ?? children) : children;
+  const label = children === "Alles zurücksetzen" ? (RESET_LABELS[pathname] ?? children) : children;
 
   return (
     <span data-editor-menu-label className="flex min-w-0 items-center gap-2">

@@ -49,13 +49,14 @@ async function expectOnlyInvisibleNativeText(path: string, pageNumber: number) {
     }
     if (!textOperators.has(operator)) continue;
     nativeTextRuns += 1;
-    expect(
-      renderingMode,
-      `page ${pageNumber}: every native PDF text run must be invisible`,
-    ).toBe(3);
+    expect(renderingMode, `page ${pageNumber}: every native PDF text run must be invisible`).toBe(
+      3,
+    );
   }
 
-  expect(nativeTextRuns, `page ${pageNumber}: searchable native text must exist`).toBeGreaterThan(0);
+  expect(nativeTextRuns, `page ${pageNumber}: searchable native text must exist`).toBeGreaterThan(
+    0,
+  );
 }
 
 function expectCabinEmbedded(source: string) {
@@ -240,7 +241,7 @@ async function seedCv(page: import("@playwright/test").Page, options: { long?: b
 async function downloadStandaloneCv(page: import("@playwright/test").Page) {
   await page.getByRole("button", { name: "Download" }).click();
   const downloadPromise = page.waitForEvent("download", { timeout: 90_000 });
-  await page.getByRole("button", { name: /Nur Lebenslauf als PDF/i }).click();
+  await page.getByRole("menuitem", { name: "PDF", exact: true }).click();
   return downloadPromise;
 }
 
@@ -445,13 +446,13 @@ test.describe("CV PDF real text layer", () => {
     );
     await page.reload({ waitUntil: "domcontentloaded" });
 
-    const downloadToggle = page.locator('button[data-editor-ready]');
+    const downloadToggle = page.locator("button[data-editor-ready]");
     await expect(downloadToggle).toHaveAttribute("data-editor-ready", "true", { timeout: 10_000 });
     await downloadToggle.click();
 
-    const menu = page.locator("[data-editor-action-menu]");
+    const menu = page.locator("[data-editor-download-menu]");
     await expect(menu).toBeVisible();
-    const fullPdfButton = menu.getByRole("button", { name: /Ganzes Dossier als PDF/i });
+    const fullPdfButton = menu.getByRole("menuitem", { name: "Dossier PDF", exact: true });
     await expect(fullPdfButton).toBeEnabled({ timeout: 10_000 });
     await fullPdfButton.click();
 

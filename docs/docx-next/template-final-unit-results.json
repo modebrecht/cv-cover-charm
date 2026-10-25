@@ -1,0 +1,1777 @@
+{
+  "files": 221,
+  "passed": 1039,
+  "failed": 0,
+  "assertions": 18606,
+  "incomplete": [],
+  "results": [
+    {
+      "file": "tests/unit/app-theme.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 7,
+      "failed": 0,
+      "assertions": 29
+    },
+    {
+      "file": "tests/unit/attachment-list-values.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 6
+    },
+    {
+      "file": "tests/unit/citrus-rubric.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 7
+    },
+    {
+      "file": "tests/unit/compact-header-cleanup.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 6,
+      "failed": 0,
+      "assertions": 34
+    },
+    {
+      "file": "tests/unit/compact-header-quick-wins.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 33
+    },
+    {
+      "file": "tests/unit/cover-attachments-color.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 7
+    },
+    {
+      "file": "tests/unit/cover-attachments-layout.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 656
+    },
+    {
+      "file": "tests/unit/cover-decoration-drag-bounds.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 4
+    },
+    {
+      "file": "tests/unit/cover-decorations.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 164
+    },
+    {
+      "file": "tests/unit/cover-element-typography-precedence.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 40
+    },
+    {
+      "file": "tests/unit/cover-footer-consistency.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 339
+    },
+    {
+      "file": "tests/unit/cover-header-layout.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 127
+    },
+    {
+      "file": "tests/unit/cv-bottom-margin-reference-guard.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 15
+    },
+    {
+      "file": "tests/unit/cv-contact-tabulator.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 10
+    },
+    {
+      "file": "tests/unit/cv-content-geometry-ownership.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 25
+    },
+    {
+      "file": "tests/unit/cv-continuation-header.test.tsx",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 44
+    },
+    {
+      "file": "tests/unit/cv-continuation-spacing.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 21
+    },
+    {
+      "file": "tests/unit/cv-custom-section-presets.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 9,
+      "failed": 0,
+      "assertions": 22
+    },
+    {
+      "file": "tests/unit/cv-dev-recovery.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 6,
+      "failed": 0,
+      "assertions": 62
+    },
+    {
+      "file": "tests/unit/cv-document-title-style.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 16
+    },
+    {
+      "file": "tests/unit/cv-editor-copy.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 1,
+      "failed": 0,
+      "assertions": 4
+    },
+    {
+      "file": "tests/unit/cv-editor-rubric-tone.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 11
+    },
+    {
+      "file": "tests/unit/cv-family-alignment.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 16
+    },
+    {
+      "file": "tests/unit/cv-family-layout.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 19
+    },
+    {
+      "file": "tests/unit/cv-layout.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 7,
+      "failed": 0,
+      "assertions": 18
+    },
+    {
+      "file": "tests/unit/cv-page-fit-one-shot.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 12
+    },
+    {
+      "file": "tests/unit/cv-page-fit.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 8,
+      "failed": 0,
+      "assertions": 63
+    },
+    {
+      "file": "tests/unit/cv-pagination-design-invalidation.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 1,
+      "failed": 0,
+      "assertions": 2
+    },
+    {
+      "file": "tests/unit/cv-paper-color.test.tsx",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 92
+    },
+    {
+      "file": "tests/unit/cv-pdf-selection-geometry.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 4
+    },
+    {
+      "file": "tests/unit/cv-photo-frame.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 13
+    },
+    {
+      "file": "tests/unit/cv-reference-columns.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 9
+    },
+    {
+      "file": "tests/unit/cv-refresh-template-scope.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 1,
+      "failed": 0,
+      "assertions": 6
+    },
+    {
+      "file": "tests/unit/cv-reset-positions.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 1,
+      "failed": 0,
+      "assertions": 10
+    },
+    {
+      "file": "tests/unit/cv-rubric-color-control.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 1,
+      "failed": 0,
+      "assertions": 5
+    },
+    {
+      "file": "tests/unit/cv-rubric-offset-clipping.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 1,
+      "failed": 0,
+      "assertions": 9
+    },
+    {
+      "file": "tests/unit/cv-section-layout-controls.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 18
+    },
+    {
+      "file": "tests/unit/cv-section-rule.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 4
+    },
+    {
+      "file": "tests/unit/cv-section-title-style.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 25
+    },
+    {
+      "file": "tests/unit/cv-sidebar-width.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 1,
+      "failed": 0,
+      "assertions": 3
+    },
+    {
+      "file": "tests/unit/cv-top-area-package1.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 14
+    },
+    {
+      "file": "tests/unit/cv-top-area-package15.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 19
+    },
+    {
+      "file": "tests/unit/demo-place-consistency.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 15
+    },
+    {
+      "file": "tests/unit/devtools-reset-hotfix.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 10
+    },
+    {
+      "file": "tests/unit/diagonal-template.test.tsx",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 29
+    },
+    {
+      "file": "tests/unit/docx-next-artwork.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 6,
+      "failed": 0,
+      "assertions": 64
+    },
+    {
+      "file": "tests/unit/docx-next-blockig.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 59
+    },
+    {
+      "file": "tests/unit/docx-next-body-attachment.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 210
+    },
+    {
+      "file": "tests/unit/docx-next-cell-ending.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 226
+    },
+    {
+      "file": "tests/unit/docx-next-chrome.test.tsx",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 93
+    },
+    {
+      "file": "tests/unit/docx-next-citrus-template.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 132
+    },
+    {
+      "file": "tests/unit/docx-next-colorful.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 35
+    },
+    {
+      "file": "tests/unit/docx-next-container-identity.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 11
+    },
+    {
+      "file": "tests/unit/docx-next-cove.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 60
+    },
+    {
+      "file": "tests/unit/docx-next-cover-typography.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 6,
+      "failed": 0,
+      "assertions": 34
+    },
+    {
+      "file": "tests/unit/docx-next-cv-variants.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 8,
+      "failed": 0,
+      "assertions": 107
+    },
+    {
+      "file": "tests/unit/docx-next-diagonal.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 6,
+      "failed": 0,
+      "assertions": 78
+    },
+    {
+      "file": "tests/unit/docx-next-edel-dark.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 46
+    },
+    {
+      "file": "tests/unit/docx-next-edel.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 78
+    },
+    {
+      "file": "tests/unit/docx-next-editorial-templates.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 7,
+      "failed": 0,
+      "assertions": 290
+    },
+    {
+      "file": "tests/unit/docx-next-elements.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 8,
+      "failed": 0,
+      "assertions": 56
+    },
+    {
+      "file": "tests/unit/docx-next-floating.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 166
+    },
+    {
+      "file": "tests/unit/docx-next-fonts.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 12,
+      "failed": 0,
+      "assertions": 45
+    },
+    {
+      "file": "tests/unit/docx-next-forest-flow.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 72
+    },
+    {
+      "file": "tests/unit/docx-next-frame.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 796
+    },
+    {
+      "file": "tests/unit/docx-next-glow.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 55
+    },
+    {
+      "file": "tests/unit/docx-next-heading-badges.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 36
+    },
+    {
+      "file": "tests/unit/docx-next-heading-prefix.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 26
+    },
+    {
+      "file": "tests/unit/docx-next-horizon.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 60
+    },
+    {
+      "file": "tests/unit/docx-next-human.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 74
+    },
+    {
+      "file": "tests/unit/docx-next-image-zone.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 6,
+      "failed": 0,
+      "assertions": 92
+    },
+    {
+      "file": "tests/unit/docx-next-klassisch.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 85
+    },
+    {
+      "file": "tests/unit/docx-next-kolumne.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 55
+    },
+    {
+      "file": "tests/unit/docx-next-layout-settings.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 10,
+      "failed": 0,
+      "assertions": 76
+    },
+    {
+      "file": "tests/unit/docx-next-ledger.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 48
+    },
+    {
+      "file": "tests/unit/docx-next-model.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 23,
+      "failed": 0,
+      "assertions": 150
+    },
+    {
+      "file": "tests/unit/docx-next-modern.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 39
+    },
+    {
+      "file": "tests/unit/docx-next-mono-luxe.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 51
+    },
+    {
+      "file": "tests/unit/docx-next-orbit.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 84
+    },
+    {
+      "file": "tests/unit/docx-next-parallel-flow.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 10,
+      "failed": 0,
+      "assertions": 55
+    },
+    {
+      "file": "tests/unit/docx-next-parallel-pagination.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 1,
+      "failed": 0,
+      "assertions": 64
+    },
+    {
+      "file": "tests/unit/docx-next-pastell.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 49
+    },
+    {
+      "file": "tests/unit/docx-next-picture.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 9
+    },
+    {
+      "file": "tests/unit/docx-next-populated-row.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 175
+    },
+    {
+      "file": "tests/unit/docx-next-prism.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 10,
+      "failed": 0,
+      "assertions": 110
+    },
+    {
+      "file": "tests/unit/docx-next-renderer.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 15,
+      "failed": 0,
+      "assertions": 118
+    },
+    {
+      "file": "tests/unit/docx-next-ribbon.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 6,
+      "failed": 0,
+      "assertions": 54
+    },
+    {
+      "file": "tests/unit/docx-next-sections.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 21
+    },
+    {
+      "file": "tests/unit/docx-next-selective-row.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 391
+    },
+    {
+      "file": "tests/unit/docx-next-serioes.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 51
+    },
+    {
+      "file": "tests/unit/docx-next-sidebar.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 10,
+      "failed": 0,
+      "assertions": 279
+    },
+    {
+      "file": "tests/unit/docx-next-sonne.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 39
+    },
+    {
+      "file": "tests/unit/docx-next-source.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 7,
+      "failed": 0,
+      "assertions": 26
+    },
+    {
+      "file": "tests/unit/docx-next-studio-family.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 9,
+      "failed": 0,
+      "assertions": 83
+    },
+    {
+      "file": "tests/unit/docx-next-studio3.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 46
+    },
+    {
+      "file": "tests/unit/docx-next-sunrise.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 51
+    },
+    {
+      "file": "tests/unit/docx-next-template-primitives.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 14,
+      "failed": 0,
+      "assertions": 121
+    },
+    {
+      "file": "tests/unit/docx-next-verlauf2.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 7,
+      "failed": 0,
+      "assertions": 59
+    },
+    {
+      "file": "tests/unit/docx-next-verlauf3.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 53
+    },
+    {
+      "file": "tests/unit/docx-next-violet-pulse.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 64
+    },
+    {
+      "file": "tests/unit/docx-next-warm2.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 64
+    },
+    {
+      "file": "tests/unit/docx-next-warm3.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 64
+    },
+    {
+      "file": "tests/unit/docx-next-welle.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 55
+    },
+    {
+      "file": "tests/unit/dossier-canonical-default.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 7,
+      "failed": 0,
+      "assertions": 41
+    },
+    {
+      "file": "tests/unit/dossier-chrome-customization.test.tsx",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 12,
+      "failed": 0,
+      "assertions": 91
+    },
+    {
+      "file": "tests/unit/dossier-chrome-document-content.test.tsx",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 8
+    },
+    {
+      "file": "tests/unit/dossier-chrome-geometry.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 15
+    },
+    {
+      "file": "tests/unit/dossier-chrome-policy.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 6,
+      "failed": 0,
+      "assertions": 27
+    },
+    {
+      "file": "tests/unit/dossier-chrome-positioning.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 6,
+      "failed": 0,
+      "assertions": 25
+    },
+    {
+      "file": "tests/unit/dossier-chrome-renderer-boundary.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 24
+    },
+    {
+      "file": "tests/unit/dossier-chrome-sync.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 9,
+      "failed": 0,
+      "assertions": 49
+    },
+    {
+      "file": "tests/unit/dossier-contact.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 3
+    },
+    {
+      "file": "tests/unit/dossier-content-geometry-ownership.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 14
+    },
+    {
+      "file": "tests/unit/dossier-document-colors.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 7
+    },
+    {
+      "file": "tests/unit/dossier-docx-alignment-output.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 10
+    },
+    {
+      "file": "tests/unit/dossier-docx-cv-section-order.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 6
+    },
+    {
+      "file": "tests/unit/dossier-docx-document-colors.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 14
+    },
+    {
+      "file": "tests/unit/dossier-docx-export.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 13,
+      "failed": 0,
+      "assertions": 278
+    },
+    {
+      "file": "tests/unit/dossier-docx-final-visual-fixes.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 15
+    },
+    {
+      "file": "tests/unit/dossier-docx-fresh-recipes.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 103
+    },
+    {
+      "file": "tests/unit/dossier-docx-kolumne-structure.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 1,
+      "failed": 0,
+      "assertions": 49
+    },
+    {
+      "file": "tests/unit/dossier-docx-lazy-loader.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 11
+    },
+    {
+      "file": "tests/unit/dossier-docx-legacy-recipes.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 40,
+      "failed": 0,
+      "assertions": 234
+    },
+    {
+      "file": "tests/unit/dossier-docx-legacy-sender.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 1,
+      "failed": 0,
+      "assertions": 2
+    },
+    {
+      "file": "tests/unit/dossier-docx-letter-images.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 17
+    },
+    {
+      "file": "tests/unit/dossier-docx-neon-surface.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 18
+    },
+    {
+      "file": "tests/unit/dossier-docx-portability.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 16
+    },
+    {
+      "file": "tests/unit/dossier-docx-sonne-contrast.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 25
+    },
+    {
+      "file": "tests/unit/dossier-docx-studio2-parity.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 27
+    },
+    {
+      "file": "tests/unit/dossier-docx-studio3-pagination-guard.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 5
+    },
+    {
+      "file": "tests/unit/dossier-docx-v2-cover-justify.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 1,
+      "failed": 0,
+      "assertions": 3
+    },
+    {
+      "file": "tests/unit/dossier-docx-v2-cover-qa.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 90
+    },
+    {
+      "file": "tests/unit/dossier-docx-v2-cover-scene.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 9,
+      "failed": 0,
+      "assertions": 603
+    },
+    {
+      "file": "tests/unit/dossier-docx-v2-flow-normalization.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 6
+    },
+    {
+      "file": "tests/unit/dossier-docx-v2-flow.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 11,
+      "failed": 0,
+      "assertions": 43
+    },
+    {
+      "file": "tests/unit/dossier-docx-warm.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 24
+    },
+    {
+      "file": "tests/unit/dossier-docx.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 27
+    },
+    {
+      "file": "tests/unit/dossier-field-typography.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 11
+    },
+    {
+      "file": "tests/unit/dossier-font-sync.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 21
+    },
+    {
+      "file": "tests/unit/dossier-form-ui-sync.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 6,
+      "failed": 0,
+      "assertions": 29
+    },
+    {
+      "file": "tests/unit/dossier-header-gap.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 7,
+      "failed": 0,
+      "assertions": 36
+    },
+    {
+      "file": "tests/unit/dossier-hyphenation.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 26
+    },
+    {
+      "file": "tests/unit/dossier-motif-parity.test.tsx",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 8,
+      "failed": 0,
+      "assertions": 43
+    },
+    {
+      "file": "tests/unit/dossier-package2.test.tsx",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 7,
+      "failed": 0,
+      "assertions": 30
+    },
+    {
+      "file": "tests/unit/dossier-page-geometry-foundation.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 6,
+      "failed": 0,
+      "assertions": 13
+    },
+    {
+      "file": "tests/unit/dossier-page-margins.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 20,
+      "failed": 0,
+      "assertions": 117
+    },
+    {
+      "file": "tests/unit/dossier-portable-state.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 13
+    },
+    {
+      "file": "tests/unit/dossier-project-field-typography.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 3
+    },
+    {
+      "file": "tests/unit/dossier-project-file.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 16
+    },
+    {
+      "file": "tests/unit/dossier-semantic-fields.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 7,
+      "failed": 0,
+      "assertions": 21
+    },
+    {
+      "file": "tests/unit/dossier-semantic-parity.test.tsx",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 177
+    },
+    {
+      "file": "tests/unit/dossier-sheet-background.test.tsx",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 222
+    },
+    {
+      "file": "tests/unit/dossier-text-alignment.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 7,
+      "failed": 0,
+      "assertions": 60
+    },
+    {
+      "file": "tests/unit/dossier.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 15,
+      "failed": 0,
+      "assertions": 128
+    },
+    {
+      "file": "tests/unit/download-file-names.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 16
+    },
+    {
+      "file": "tests/unit/edel-dark.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 13
+    },
+    {
+      "file": "tests/unit/element-ratio-lock.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 17
+    },
+    {
+      "file": "tests/unit/final-pdf-polish.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 7,
+      "failed": 0,
+      "assertions": 41
+    },
+    {
+      "file": "tests/unit/forest-flow-cover-editability.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 57
+    },
+    {
+      "file": "tests/unit/forest-flow-rail-seam.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 1,
+      "failed": 0,
+      "assertions": 7
+    },
+    {
+      "file": "tests/unit/fresh-cover-background.test.tsx",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 180
+    },
+    {
+      "file": "tests/unit/fresh-cover-content.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 108
+    },
+    {
+      "file": "tests/unit/fresh-letter-system.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 441
+    },
+    {
+      "file": "tests/unit/fresh-modern-sidebar-geometry.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 14
+    },
+    {
+      "file": "tests/unit/header-production-polish.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 17
+    },
+    {
+      "file": "tests/unit/html2canvas-export.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 13
+    },
+    {
+      "file": "tests/unit/legacy-pdf-review-refinements.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 24
+    },
+    {
+      "file": "tests/unit/letter-adversarial-content.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 18
+    },
+    {
+      "file": "tests/unit/letter-backwards-compat.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 18
+    },
+    {
+      "file": "tests/unit/letter-body-font-size.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 18
+    },
+    {
+      "file": "tests/unit/letter-bottom-page-margin.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 4
+    },
+    {
+      "file": "tests/unit/letter-brief-default.test.tsx",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 11
+    },
+    {
+      "file": "tests/unit/letter-color-selection-bookmark.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 1,
+      "failed": 0,
+      "assertions": 4
+    },
+    {
+      "file": "tests/unit/letter-compact-header.test.tsx",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 10,
+      "failed": 0,
+      "assertions": 1098
+    },
+    {
+      "file": "tests/unit/letter-context-font-families.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 9
+    },
+    {
+      "file": "tests/unit/letter-context-font-sizes.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 48
+    },
+    {
+      "file": "tests/unit/letter-font-control.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 14
+    },
+    {
+      "file": "tests/unit/letter-font-size-range.test.tsx",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 14
+    },
+    {
+      "file": "tests/unit/letter-font-transition.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 5
+    },
+    {
+      "file": "tests/unit/letter-fragment-free-header.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 249
+    },
+    {
+      "file": "tests/unit/letter-image-geometry.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 7,
+      "failed": 0,
+      "assertions": 16
+    },
+    {
+      "file": "tests/unit/letter-layout-system.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 10,
+      "failed": 0,
+      "assertions": 3092
+    },
+    {
+      "file": "tests/unit/letter-paper-color.test.tsx",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 131
+    },
+    {
+      "file": "tests/unit/letter-preflight-export-geometry.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 1,
+      "failed": 0,
+      "assertions": 1
+    },
+    {
+      "file": "tests/unit/letter-preflight-geometry.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 4
+    },
+    {
+      "file": "tests/unit/letter-preflight.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 13
+    },
+    {
+      "file": "tests/unit/letter-selection-toolbar.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 1,
+      "failed": 0,
+      "assertions": 13
+    },
+    {
+      "file": "tests/unit/letter-signature-spacing.test.tsx",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 11
+    },
+    {
+      "file": "tests/unit/m12-dossier-consistency.test.tsx",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 1220
+    },
+    {
+      "file": "tests/unit/m13-visual-fixes.test.tsx",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 17
+    },
+    {
+      "file": "tests/unit/m14-regression-hardening.test.tsx",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 259
+    },
+    {
+      "file": "tests/unit/mobile-editor-content-safety.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 11
+    },
+    {
+      "file": "tests/unit/pdf-text-rendering-ownership.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 10
+    },
+    {
+      "file": "tests/unit/photo-controls-consistency.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 10
+    },
+    {
+      "file": "tests/unit/photo-pdf-rasterization.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 15
+    },
+    {
+      "file": "tests/unit/prism-neon-header-identity.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 20
+    },
+    {
+      "file": "tests/unit/red-dossier-coherence.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 14
+    },
+    {
+      "file": "tests/unit/resizable-editor-panel.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 21
+    },
+    {
+      "file": "tests/unit/ribbon-cover-redesign.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 31
+    },
+    {
+      "file": "tests/unit/role-typography-controls.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 6,
+      "failed": 0,
+      "assertions": 36
+    },
+    {
+      "file": "tests/unit/shared-editor-controls-consistency.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 56
+    },
+    {
+      "file": "tests/unit/studio-cover-hierarchy.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 8
+    },
+    {
+      "file": "tests/unit/template-chrome-warm.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 9
+    },
+    {
+      "file": "tests/unit/template-chrome.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 9,
+      "failed": 0,
+      "assertions": 141
+    },
+    {
+      "file": "tests/unit/template-typography.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 24
+    },
+    {
+      "file": "tests/unit/templatefix-19-22-cover.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 11
+    },
+    {
+      "file": "tests/unit/templatefix-29-31.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 13
+    },
+    {
+      "file": "tests/unit/templatefix-32-36-cv-masthead.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 17
+    },
+    {
+      "file": "tests/unit/templatefix-32-36.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 20
+    },
+    {
+      "file": "tests/unit/templatefix-cover-letter-cleanup.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 10
+    },
+    {
+      "file": "tests/unit/templatefix-edge-consistency.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 6,
+      "failed": 0,
+      "assertions": 43
+    },
+    {
+      "file": "tests/unit/templatefix-kolumne-contact-rail.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 4,
+      "failed": 0,
+      "assertions": 19
+    },
+    {
+      "file": "tests/unit/templatefix-neon-cleanup.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 9
+    },
+    {
+      "file": "tests/unit/templatefix-pastell-consistency.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 2,
+      "failed": 0,
+      "assertions": 14
+    },
+    {
+      "file": "tests/unit/templatefix-prism-cleanup.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 13
+    },
+    {
+      "file": "tests/unit/templatefix-sonne-studio-cleanup.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 13
+    },
+    {
+      "file": "tests/unit/templatefix-studio2-studio3-interiors.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 20
+    },
+    {
+      "file": "tests/unit/templatefix-sunrise-forest-flow.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 6,
+      "failed": 0,
+      "assertions": 33
+    },
+    {
+      "file": "tests/unit/templatefix-violet-pulse-cleanup.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 14
+    },
+    {
+      "file": "tests/unit/templatefix-warm-letter-header.test.ts",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 5,
+      "failed": 0,
+      "assertions": 16
+    },
+    {
+      "file": "tests/unit/warm-contact-header.test.tsx",
+      "exitCode": 0,
+      "complete": true,
+      "passed": 3,
+      "failed": 0,
+      "assertions": 23
+    }
+  ]
+}

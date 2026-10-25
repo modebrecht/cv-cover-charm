@@ -1,0 +1,426 @@
+{
+  "date": "2026-10-25",
+  "branch": "fix/docx-next-shared-integration-22okt",
+  "baseHead": "2f8801799bfc706b54a739303555c8d55a8d1082",
+  "scope": "BOUNDED_MODERN_SANS_LETTER_RECIPIENT_MINIMUM",
+  "controlSha256": "5e469d60181f8405fffcb43a57f92377fc6b0daa414d71ac22cd33ed3a6a25e0",
+  "controlReproducedByteExactly": true,
+  "normalCandidateSha256": "b663a5efa1eb2b86494955983f869af5f3d744c40b85b23620e8c201099d7e2b",
+  "sourceRecipientMinimumMm": 24,
+  "nativeBoundaryHeightPt": 1,
+  "nativeMinimumMm": 24.352777777777778,
+  "sourceDateGapMm": 4,
+  "nativeDateBeforeMm": 3.2944444444444443,
+  "normalDateShiftFromPriorCandidatePt": 0.04998779296875,
+  "wideBeforeDateYPt": 244.45327758789062,
+  "wideAfterDateYPt": 234.45327758789062,
+  "targetedTests": 19,
+  "targetedTestResult": "PASS_NODE_NATIVE_TYPESCRIPT_WITH_TEST_EXPORT_MAPPING",
+  "dossierCases": 8,
+  "renderedPages": 37,
+  "reviewedChangedLetterPages": 13,
+  "cases": [
+    {
+      "case": "normal",
+      "sourceOccurrences": 145,
+      "tokensAndRolesPreserved": 145,
+      "structuralNestingChanges": [
+        "letter.recipient.company",
+        "letter.recipient.name",
+        "letter.recipient.address",
+        "letter.recipient.place"
+      ],
+      "photoTyped": true,
+      "photoOriginalPixels": true,
+      "photoNumericCrop": true,
+      "sourceSha256": "5e469d60181f8405fffcb43a57f92377fc6b0daa414d71ac22cd33ed3a6a25e0",
+      "candidateSha256": "b663a5efa1eb2b86494955983f869af5f3d744c40b85b23620e8c201099d7e2b",
+      "dossierPages": 4,
+      "letterPages": 1,
+      "recipientWGlyphsExpected": 0,
+      "recipientWGlyphsObserved": 0,
+      "dateAnchor": {
+        "page": 2,
+        "yPt": 230.00326538085938
+      },
+      "adjacentPages": [
+        {
+          "candidatePage": 1,
+          "controlPage": 1,
+          "pixelIdentical": true
+        },
+        {
+          "candidatePage": 3,
+          "controlPage": 3,
+          "pixelIdentical": true
+        },
+        {
+          "candidatePage": 4,
+          "controlPage": 4,
+          "pixelIdentical": true
+        }
+      ],
+      "nativeMinimumRowTwips": 1381,
+      "nativeHeightRule": "atLeast",
+      "rowCanSplit": true,
+      "reproducedByteExactly": true,
+      "changedPackageParts": [
+        "word/document.xml"
+      ]
+    },
+    {
+      "case": "wide",
+      "sourceOccurrences": 145,
+      "tokensAndRolesPreserved": 145,
+      "structuralNestingChanges": [
+        "letter.recipient.company",
+        "letter.recipient.name",
+        "letter.recipient.address",
+        "letter.recipient.place"
+      ],
+      "photoTyped": true,
+      "photoOriginalPixels": true,
+      "photoNumericCrop": true,
+      "sourceSha256": "e4453abb9cc48d013d60128c016da3e0345cc12b43f5069b4536c6cef2e6d5f3",
+      "candidateSha256": "b157868f87d21ff065f2af798add7375542b306f1ca2cb11940607b636b841bc",
+      "dossierPages": 4,
+      "letterPages": 1,
+      "recipientWGlyphsExpected": 60,
+      "recipientWGlyphsObserved": 60,
+      "dateAnchor": {
+        "page": 2,
+        "yPt": 234.45327758789062
+      },
+      "adjacentPages": [
+        {
+          "candidatePage": 1,
+          "controlPage": 1,
+          "pixelIdentical": true
+        },
+        {
+          "candidatePage": 3,
+          "controlPage": 3,
+          "pixelIdentical": true
+        },
+        {
+          "candidatePage": 4,
+          "controlPage": 4,
+          "pixelIdentical": true
+        }
+      ],
+      "nativeMinimumRowTwips": 1381,
+      "nativeHeightRule": "atLeast",
+      "rowCanSplit": true,
+      "reproducedByteExactly": true,
+      "changedPackageParts": [
+        "word/document.xml"
+      ]
+    },
+    {
+      "case": "recipient-long",
+      "sourceOccurrences": 145,
+      "tokensAndRolesPreserved": 145,
+      "structuralNestingChanges": [
+        "letter.recipient.company",
+        "letter.recipient.name",
+        "letter.recipient.address",
+        "letter.recipient.place"
+      ],
+      "photoTyped": true,
+      "photoOriginalPixels": true,
+      "photoNumericCrop": true,
+      "sourceSha256": "3d93050ee4b72a2798b2cb8b70788eb0ab664280b3a66458e4cc7491574749cf",
+      "candidateSha256": "daa6ef4aadca1f09136f3a38d2995dd2260193ba9b3e575cda1bfad4c7802076",
+      "dossierPages": 4,
+      "letterPages": 1,
+      "recipientWGlyphsExpected": 480,
+      "recipientWGlyphsObserved": 480,
+      "dateAnchor": {
+        "page": 2,
+        "yPt": 379.4532775878906
+      },
+      "adjacentPages": [
+        {
+          "candidatePage": 1,
+          "controlPage": 1,
+          "pixelIdentical": true
+        },
+        {
+          "candidatePage": 3,
+          "controlPage": 3,
+          "pixelIdentical": true
+        },
+        {
+          "candidatePage": 4,
+          "controlPage": 4,
+          "pixelIdentical": true
+        }
+      ],
+      "nativeMinimumRowTwips": 1381,
+      "nativeHeightRule": "atLeast",
+      "rowCanSplit": true,
+      "reproducedByteExactly": true,
+      "changedPackageParts": [
+        "word/document.xml"
+      ]
+    },
+    {
+      "case": "recipient-huge",
+      "sourceOccurrences": 145,
+      "tokensAndRolesPreserved": 145,
+      "structuralNestingChanges": [
+        "letter.recipient.company",
+        "letter.recipient.name",
+        "letter.recipient.address",
+        "letter.recipient.place"
+      ],
+      "photoTyped": true,
+      "photoOriginalPixels": true,
+      "photoNumericCrop": true,
+      "sourceSha256": "4076b7263aa2857baae98374566c0f9e509823497a2bcd98b25a98a4fb1ed8d1",
+      "candidateSha256": "f7568150337f61b02fad9c9d76e02912a00d43e5b3f1f78284414e830804ad31",
+      "dossierPages": 7,
+      "letterPages": 4,
+      "recipientWGlyphsExpected": 4200,
+      "recipientWGlyphsObserved": 4200,
+      "dateAnchor": {
+        "page": 4,
+        "yPt": 437.4532775878906
+      },
+      "adjacentPages": [
+        {
+          "candidatePage": 1,
+          "controlPage": 1,
+          "pixelIdentical": true
+        },
+        {
+          "candidatePage": 6,
+          "controlPage": 3,
+          "pixelIdentical": true
+        },
+        {
+          "candidatePage": 7,
+          "controlPage": 4,
+          "pixelIdentical": true
+        }
+      ],
+      "nativeMinimumRowTwips": 1381,
+      "nativeHeightRule": "atLeast",
+      "rowCanSplit": true,
+      "reproducedByteExactly": true,
+      "changedPackageParts": [
+        "word/document.xml"
+      ]
+    },
+    {
+      "case": "one-row",
+      "sourceOccurrences": 142,
+      "tokensAndRolesPreserved": 142,
+      "structuralNestingChanges": [
+        "letter.recipient.company"
+      ],
+      "photoTyped": true,
+      "photoOriginalPixels": true,
+      "photoNumericCrop": true,
+      "sourceSha256": "3e71a9b203e73dfa142761dbecbeb6b757d19bf82ce55f22898fdbc687416736",
+      "candidateSha256": "9450a010ad6f2854e5dcb4ac43ea291b14c031b3f288b80d7cf6a2e12fc3b514",
+      "dossierPages": 4,
+      "letterPages": 1,
+      "recipientWGlyphsExpected": 0,
+      "recipientWGlyphsObserved": 0,
+      "dateAnchor": {
+        "page": 2,
+        "yPt": 230.00326538085938
+      },
+      "adjacentPages": [
+        {
+          "candidatePage": 1,
+          "controlPage": 1,
+          "pixelIdentical": true
+        },
+        {
+          "candidatePage": 3,
+          "controlPage": 3,
+          "pixelIdentical": true
+        },
+        {
+          "candidatePage": 4,
+          "controlPage": 4,
+          "pixelIdentical": true
+        }
+      ],
+      "nativeMinimumRowTwips": 1381,
+      "nativeHeightRule": "atLeast",
+      "rowCanSplit": true,
+      "reproducedByteExactly": true,
+      "changedPackageParts": [
+        "word/document.xml"
+      ]
+    },
+    {
+      "case": "right-aligned",
+      "sourceOccurrences": 145,
+      "tokensAndRolesPreserved": 145,
+      "structuralNestingChanges": [
+        "letter.recipient.company",
+        "letter.recipient.name",
+        "letter.recipient.address",
+        "letter.recipient.place"
+      ],
+      "photoTyped": true,
+      "photoOriginalPixels": true,
+      "photoNumericCrop": true,
+      "sourceSha256": "c85be9f46f48a82c272d16ca4839afa0c602f31468610fde468091ee0bdcead1",
+      "candidateSha256": "b54a083d3c090393b03d2950d3479e75ecdad08c6ff8c4ad3a0466dc4900b081",
+      "dossierPages": 4,
+      "letterPages": 1,
+      "recipientWGlyphsExpected": 0,
+      "recipientWGlyphsObserved": 0,
+      "dateAnchor": {
+        "page": 2,
+        "yPt": 230.00326538085938
+      },
+      "adjacentPages": [
+        {
+          "candidatePage": 1,
+          "controlPage": 1,
+          "pixelIdentical": true
+        },
+        {
+          "candidatePage": 3,
+          "controlPage": 3,
+          "pixelIdentical": true
+        },
+        {
+          "candidatePage": 4,
+          "controlPage": 4,
+          "pixelIdentical": true
+        }
+      ],
+      "nativeMinimumRowTwips": 1381,
+      "nativeHeightRule": "atLeast",
+      "rowCanSplit": true,
+      "reproducedByteExactly": true,
+      "changedPackageParts": [
+        "word/document.xml"
+      ]
+    },
+    {
+      "case": "body-long",
+      "sourceOccurrences": 163,
+      "tokensAndRolesPreserved": 163,
+      "structuralNestingChanges": [
+        "letter.recipient.company",
+        "letter.recipient.name",
+        "letter.recipient.address",
+        "letter.recipient.place"
+      ],
+      "photoTyped": true,
+      "photoOriginalPixels": true,
+      "photoNumericCrop": true,
+      "sourceSha256": "5d75707a773b254b61b6b551ebafab36feccd46521cfefb7597d8b45130edec0",
+      "candidateSha256": "e3d0d837a13dcfbd532b6f0046ebb706c39518a1e14502c7e837f6f910767c9b",
+      "dossierPages": 6,
+      "letterPages": 3,
+      "recipientWGlyphsExpected": 0,
+      "recipientWGlyphsObserved": 0,
+      "dateAnchor": {
+        "page": 2,
+        "yPt": 230.00326538085938
+      },
+      "adjacentPages": [
+        {
+          "candidatePage": 1,
+          "controlPage": 1,
+          "pixelIdentical": true
+        },
+        {
+          "candidatePage": 5,
+          "controlPage": 3,
+          "pixelIdentical": true
+        },
+        {
+          "candidatePage": 6,
+          "controlPage": 4,
+          "pixelIdentical": true
+        }
+      ],
+      "nativeMinimumRowTwips": 1381,
+      "nativeHeightRule": "atLeast",
+      "rowCanSplit": true,
+      "reproducedByteExactly": true,
+      "changedPackageParts": [
+        "word/document.xml"
+      ]
+    },
+    {
+      "case": "attachments",
+      "sourceOccurrences": 151,
+      "tokensAndRolesPreserved": 151,
+      "structuralNestingChanges": [
+        "letter.recipient.company",
+        "letter.recipient.name",
+        "letter.recipient.address",
+        "letter.recipient.place"
+      ],
+      "photoTyped": true,
+      "photoOriginalPixels": true,
+      "photoNumericCrop": true,
+      "sourceSha256": "f2f60f11688db83c2fa0e530ac4972dd6170f0bf07935e9f3bec69f330596dd8",
+      "candidateSha256": "cfef8d1df3d5810093f729dd0d54c421c256819aecadc106169cdf6813618b6a",
+      "dossierPages": 4,
+      "letterPages": 1,
+      "recipientWGlyphsExpected": 0,
+      "recipientWGlyphsObserved": 0,
+      "dateAnchor": {
+        "page": 2,
+        "yPt": 230.00326538085938
+      },
+      "adjacentPages": [
+        {
+          "candidatePage": 1,
+          "controlPage": 1,
+          "pixelIdentical": true
+        },
+        {
+          "candidatePage": 3,
+          "controlPage": 3,
+          "pixelIdentical": true
+        },
+        {
+          "candidatePage": 4,
+          "controlPage": 4,
+          "pixelIdentical": true
+        }
+      ],
+      "nativeMinimumRowTwips": 1381,
+      "nativeHeightRule": "atLeast",
+      "rowCanSplit": true,
+      "reproducedByteExactly": true,
+      "changedPackageParts": [
+        "word/document.xml"
+      ]
+    }
+  ],
+  "existingReviewPacketSha256Unchanged": "430f88185d3091270d8cc7f40bade4fa295abc000cbdb22a6575b7c6e510f509",
+  "existingReviewPacketReplaced": false,
+  "newFeatureInExistingPacket": false,
+  "photoOwnershipCodeChanged": false,
+  "productionExportChanged": false,
+  "standardBunSuiteRun": false,
+  "fullTypecheckRun": false,
+  "prettierRun": false,
+  "wordAcceptance": "UNVERIFIED",
+  "freshBrowserCapture": false,
+  "fullSchemaValidation": false,
+  "mergePerformed": false,
+  "deploymentPerformed": false,
+  "ciDispatched": false,
+  "legacyWideGuard": {
+    "estimatedWidthMm": 153.3525,
+    "availableWidthMm": 163,
+    "fontPtBeforeComposition": 10.5,
+    "characterCount": 69,
+    "acceptedDespiteObservedWrapping": true
+  }
+}

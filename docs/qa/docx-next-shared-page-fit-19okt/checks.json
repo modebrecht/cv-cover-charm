@@ -1,0 +1,14 @@
+{
+  "unitPass": 1244,
+  "unitFail": 0,
+  "docxTestsInFullUnitRun": 431,
+  "typecheck": "PASS",
+  "changedFileLint": "PASS",
+  "build": "PASS",
+  "reactReview": "Shared pure assignment only; no new hooks, effects, or listeners. QA controls retain native button semantics and existing error/download handling.",
+  "branch": "fix/docx-next-shared-fidelity-18okt",
+  "base": "447e95bc631513fc6cea4dfd48a3a4100f14cfea",
+  "wordRenderingAndSaveReopen": "UNVERIFIED",
+  "deploymentEnabled": false,
+  "productionSwitch": false
+}

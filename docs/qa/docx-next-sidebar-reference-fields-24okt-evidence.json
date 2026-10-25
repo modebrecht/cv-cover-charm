@@ -1,0 +1,996 @@
+{
+  "date": "2026-10-24",
+  "branchBase": "b33fb94d55fe6e6c01e3075b1262dbd7b9164de0",
+  "productBase": "9e7579c08527310d8b21bba2807924fb0c8de463",
+  "sourceFix": "CvCanvasBase: use referenceHasContent for section/card visibility and all explicit contact fields for contact-row visibility",
+  "affectedSource": "src/components/cv/CvCanvasBase.tsx",
+  "before": {
+    "passed": 6,
+    "failed": 6,
+    "failedVariants": [
+      "left email-only",
+      "left extra-only",
+      "left named separate email/extra",
+      "right email-only",
+      "right extra-only",
+      "right named separate email/extra"
+    ],
+    "sourceBlob": "7ce3ba125007b1413746e9e1bba9d55ecda88008",
+    "logSha256": "825e26edbd0392513c2904ecc1e8257e39718d2e797f43a9993f3859c024f2b6"
+  },
+  "after": {
+    "passed": 30,
+    "failed": 0,
+    "files": 4,
+    "expectations": 340,
+    "logSha256": "470ce12f992cda7a23462153f114d1738f657dbc105b6f84427f286387717aa3",
+    "runtime": "Bun 1.3.13 (bf2e2cec)",
+    "react": "19.2.5",
+    "reactDom": "19.2.5",
+    "typeScript": "5.9.3",
+    "typecheck": "PASS: strict real CvCanvasBase dependency closure with repository paths and vite/client types",
+    "prettier": "PASS: repository config, both changed TSX files"
+  },
+  "tests": [
+    "cv-sidebar-reference-fields.test.tsx",
+    "dossier-semantic-fields.test.ts",
+    "docx-next-picture-ownership.test.ts",
+    "docx-next-table-grid.test.ts"
+  ],
+  "checks": [
+    "Actual React renderToStaticMarkup of CvCanvasBase; no mocked renderer or helper-only proof",
+    "HTML selectors restrict assertions to rendered CV page/Sidebar/main owners, excluding hidden measurement nodes",
+    "Both physical Sidebar orientations",
+    "Email-only, extra-only, named separate contact fields and legacy composite",
+    "Hidden and whitespace-only references remain absent",
+    "Explicit main placement remains in main",
+    "Input data and presentation remain unchanged",
+    "Existing native reference pair and half-width edge serialization",
+    "Existing typed picture ownership, original source bytes and production guards"
+  ],
+  "limits": [
+    "SSR verifies authored page markup and canonical field presence, not browser CSS layout or pagination",
+    "No Microsoft Word Save/Reopen performed",
+    "No new source DOCX generated or substituted for the existing decision packet",
+    "No full production build or complete unit suite claimed"
+  ],
+  "geometryAndPhotoCodeChanged": false,
+  "privatePhotosUsed": false,
+  "engineExperimentsRepeated": false,
+  "normalSidebarGuard": "CLOSED",
+  "wordAcceptance": "UNVERIFIED",
+  "sidebarRelease": "NO-GO",
+  "newUserTestPacket": false,
+  "mergedOrDeployed": false,
+  "branchReview": {
+    "inventoriedRemoteHeads": 167,
+    "selectedFixBranchesCompared": 27,
+    "directAncestors": 16,
+    "divergent": 11,
+    "additionalReferenceBranch": {
+      "name": "tmp-reference-columns-auto",
+      "head": "c033fb037cd35d8cee5453a7e42ae407b10f0e93",
+      "status": "diverged",
+      "mergeBase": "d4b1998eab7802b1dec87378a5c891ac5ef9c83c"
+    },
+    "divergentProductPathPairs": 56,
+    "byteIdenticalPairs": 15,
+    "missingProductPaths": 0,
+    "limits": "Presence or ancestry is not runtime acceptance or proof every later-modified file is equivalent. No branch merged.",
+    "comparisons": [
+      {
+        "name": "cv-continuation-contact-header",
+        "sourceHead": "cf4daedab572eabfe7e99fbf479ec6f8bbc50127",
+        "status": "ahead",
+        "ahead": 2188,
+        "behind": 0,
+        "mergeBase": "cf4daedab572eabfe7e99fbf479ec6f8bbc50127",
+        "sourceHeadIsAncestor": true,
+        "error": false
+      },
+      {
+        "name": "fix/cv-flow-fragmentation-12okt",
+        "sourceHead": "c07f81b5dca5aa1f2479def3925b4101a06aa06c",
+        "status": "diverged",
+        "ahead": 217,
+        "behind": 3,
+        "mergeBase": "e3a7bc18868e94813377db4261f7e3c180e0e6fa",
+        "sourceHeadIsAncestor": false,
+        "error": false
+      },
+      {
+        "name": "fix/docx-next-brief-integration-16okt",
+        "sourceHead": "dcb38f05fd33387d98a3e8ba4c44c4eb22929194",
+        "status": "diverged",
+        "ahead": 137,
+        "behind": 1,
+        "mergeBase": "8901a830a792d75e9e792345c5180827218b4e1e",
+        "sourceHeadIsAncestor": false,
+        "error": false
+      },
+      {
+        "name": "fix/docx-next-cover-bottom-zones-15okt",
+        "sourceHead": "04d4b15bda7e1f143f801884b826b7eee09dcf4c",
+        "status": "diverged",
+        "ahead": 137,
+        "behind": 3,
+        "mergeBase": "8901a830a792d75e9e792345c5180827218b4e1e",
+        "sourceHeadIsAncestor": false,
+        "error": false
+      },
+      {
+        "name": "fix/docx-next-cv-document-scale-22okt",
+        "sourceHead": "727124a7071aa6184b2e0976c6801a59ff5f14d0",
+        "status": "diverged",
+        "ahead": 43,
+        "behind": 9,
+        "mergeBase": "99e053068bbe28f39fda3861591be997b1bb0b09",
+        "sourceHeadIsAncestor": false,
+        "error": false
+      },
+      {
+        "name": "fix/docx-next-cv-page-surface-22okt",
+        "sourceHead": "f256e1817bad54767f58cfba6c958d21a2151441",
+        "status": "diverged",
+        "ahead": 79,
+        "behind": 5,
+        "mergeBase": "bc26a9472cf802828b5cd7e92d885954d82cec3c",
+        "sourceHeadIsAncestor": false,
+        "error": false
+      },
+      {
+        "name": "fix/docx-next-declarative-primitives-15okt",
+        "sourceHead": "c1913a9271e6dc26f63a63d1febb65f3960abb10",
+        "status": "diverged",
+        "ahead": 137,
+        "behind": 2,
+        "mergeBase": "8901a830a792d75e9e792345c5180827218b4e1e",
+        "sourceHeadIsAncestor": false,
+        "error": false
+      },
+      {
+        "name": "fix/docx-next-model-gate-15okt",
+        "sourceHead": "5fac3c354ab265ef4ede7f70c2b48437ff4aff28",
+        "status": "ahead",
+        "ahead": 145,
+        "behind": 0,
+        "mergeBase": "5fac3c354ab265ef4ede7f70c2b48437ff4aff28",
+        "sourceHeadIsAncestor": true,
+        "error": false
+      },
+      {
+        "name": "fix/docx-next-pdf-print-boundary-15okt",
+        "sourceHead": "792ee410e2eace11452a9502877df70c4f0fe884",
+        "status": "ahead",
+        "ahead": 138,
+        "behind": 0,
+        "mergeBase": "792ee410e2eace11452a9502877df70c4f0fe884",
+        "sourceHeadIsAncestor": true,
+        "error": false
+      },
+      {
+        "name": "fix/docx-next-shared-fidelity-18okt",
+        "sourceHead": "7be40063856d1376acb60e917fe85599a6033dad",
+        "status": "ahead",
+        "ahead": 19,
+        "behind": 0,
+        "mergeBase": "7be40063856d1376acb60e917fe85599a6033dad",
+        "sourceHeadIsAncestor": true,
+        "error": false
+      },
+      {
+        "name": "fix/docx-next-sidebar-gate-13okt",
+        "sourceHead": "d957153f3556b4d3ef7ecbc3d79d619099489141",
+        "status": "diverged",
+        "ahead": 174,
+        "behind": 12,
+        "mergeBase": "1f4696ee520724466457dacbecc19fffe34ff1ff",
+        "sourceHeadIsAncestor": false,
+        "error": false
+      },
+      {
+        "name": "fix/docx-next-sidebar-geometry-gate-15okt",
+        "sourceHead": "b473e568c41e10e6cd9f687dd8d55b4c585d373d",
+        "status": "diverged",
+        "ahead": 137,
+        "behind": 2,
+        "mergeBase": "8901a830a792d75e9e792345c5180827218b4e1e",
+        "sourceHeadIsAncestor": false,
+        "error": false
+      },
+      {
+        "name": "fix/docx-next-sidebar-photo-ownership-21okt",
+        "sourceHead": "375075f7539de3ab588f0b9a0381ec920fde134c",
+        "status": "diverged",
+        "ahead": 137,
+        "behind": 3,
+        "mergeBase": "8901a830a792d75e9e792345c5180827218b4e1e",
+        "sourceHeadIsAncestor": false,
+        "error": false
+      },
+      {
+        "name": "fix/docx-next-sidebar-word-layout-21okt",
+        "sourceHead": "f73c776e2eca6b9b0d858ee2ab997230259797ac",
+        "status": "diverged",
+        "ahead": 79,
+        "behind": 4,
+        "mergeBase": "bc26a9472cf802828b5cd7e92d885954d82cec3c",
+        "sourceHeadIsAncestor": false,
+        "error": false
+      },
+      {
+        "name": "fix/docx-next-word-pagination-21okt",
+        "sourceHead": "e1f11779db1da78c08651b22b552cf6f54006e5d",
+        "status": "diverged",
+        "ahead": 43,
+        "behind": 8,
+        "mergeBase": "99e053068bbe28f39fda3861591be997b1bb0b09",
+        "sourceHeadIsAncestor": false,
+        "error": false
+      },
+      {
+        "name": "fix/ribbon-cover-overflow-14okt",
+        "sourceHead": "91507bff16410d8ce5004b914442905614740a81",
+        "status": "ahead",
+        "ahead": 152,
+        "behind": 0,
+        "mergeBase": "91507bff16410d8ce5004b914442905614740a81",
+        "sourceHeadIsAncestor": true,
+        "error": false
+      },
+      {
+        "name": "fix-cover-attachments-bottom-right",
+        "sourceHead": "4daec2651062833aa53f4af671e7be7d30c478fb",
+        "status": "ahead",
+        "ahead": 2103,
+        "behind": 0,
+        "mergeBase": "4daec2651062833aa53f4af671e7be7d30c478fb",
+        "sourceHeadIsAncestor": true,
+        "error": false
+      },
+      {
+        "name": "fix-cv-section-rule-css-contract",
+        "sourceHead": "ace0644346c9ef30e95031c329cfb565f82ce733",
+        "status": "ahead",
+        "ahead": 2089,
+        "behind": 0,
+        "mergeBase": "ace0644346c9ef30e95031c329cfb565f82ce733",
+        "sourceHeadIsAncestor": true,
+        "error": false
+      },
+      {
+        "name": "fix-cv-section-rule-formatting",
+        "sourceHead": "f336dd137aea86adab4004d196eef23dcf0bb815",
+        "status": "ahead",
+        "ahead": 2097,
+        "behind": 0,
+        "mergeBase": "f336dd137aea86adab4004d196eef23dcf0bb815",
+        "sourceHeadIsAncestor": true,
+        "error": false
+      },
+      {
+        "name": "fix-cv-section-rules-full-width",
+        "sourceHead": "30c4102bf4544898f6d87ea3b9b16bfb876dd28c",
+        "status": "ahead",
+        "ahead": 2099,
+        "behind": 0,
+        "mergeBase": "30c4102bf4544898f6d87ea3b9b16bfb876dd28c",
+        "sourceHeadIsAncestor": true,
+        "error": false
+      },
+      {
+        "name": "fix-dossier-chrome-consistency",
+        "sourceHead": "dce8633d67cbf65b261593bdf5f7ef735940b032",
+        "status": "ahead",
+        "ahead": 2183,
+        "behind": 0,
+        "mergeBase": "dce8633d67cbf65b261593bdf5f7ef735940b032",
+        "sourceHeadIsAncestor": true,
+        "error": false
+      },
+      {
+        "name": "fix-dossier-chrome-regression-expectation",
+        "sourceHead": "adee8be2fb60eabf90ad6c018deee7f5482fa8fb",
+        "status": "ahead",
+        "ahead": 2180,
+        "behind": 0,
+        "mergeBase": "adee8be2fb60eabf90ad6c018deee7f5482fa8fb",
+        "sourceHeadIsAncestor": true,
+        "error": false
+      },
+      {
+        "name": "fix-dossier-formatting",
+        "sourceHead": "43ea67138772f21f0c68dcb417ed91fbc77f2dc1",
+        "status": "ahead",
+        "ahead": 2178,
+        "behind": 0,
+        "mergeBase": "43ea67138772f21f0c68dcb417ed91fbc77f2dc1",
+        "sourceHeadIsAncestor": true,
+        "error": false
+      },
+      {
+        "name": "fix-fresh-cover-backgrounds-21-38",
+        "sourceHead": "7d22b11f866d2ac8e42641cd48229f9cca51e832",
+        "status": "ahead",
+        "ahead": 2172,
+        "behind": 0,
+        "mergeBase": "7d22b11f866d2ac8e42641cd48229f9cca51e832",
+        "sourceHeadIsAncestor": true,
+        "error": false
+      },
+      {
+        "name": "fix-fresh-cover-letter-global-regressions",
+        "sourceHead": "17568f2daed23a1b8bda07dd0b09928b7a7c93be",
+        "status": "ahead",
+        "ahead": 2167,
+        "behind": 0,
+        "mergeBase": "17568f2daed23a1b8bda07dd0b09928b7a7c93be",
+        "sourceHeadIsAncestor": true,
+        "error": false
+      },
+      {
+        "name": "fix-fresh-cover-structural-test",
+        "sourceHead": "16472ff62385d4bf5d3179dacb815ae57b6e1a54",
+        "status": "ahead",
+        "ahead": 2170,
+        "behind": 0,
+        "mergeBase": "16472ff62385d4bf5d3179dacb815ae57b6e1a54",
+        "sourceHeadIsAncestor": true,
+        "error": false
+      },
+      {
+        "name": "fix-rubric-negative-offset-clipping",
+        "sourceHead": "c2d7e9b434e7f1b782fd77f1a73f09486d6c6d6f",
+        "status": "ahead",
+        "ahead": 628,
+        "behind": 0,
+        "mergeBase": "c2d7e9b434e7f1b782fd77f1a73f09486d6c6d6f",
+        "sourceHeadIsAncestor": true,
+        "error": false
+      }
+    ],
+    "productPaths": [
+      {
+        "name": "fix/cv-flow-fragmentation-12okt",
+        "files": [
+          {
+            "path": "src/components/cv/CvCanvasBase.tsx",
+            "sourceBlob": "aaaf2ac992d964f7232cbc73dcbed714acdb9baf",
+            "currentBlob": "7ce3ba125007b1413746e9e1bba9d55ecda88008",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/components/cv/flow-pagination.ts",
+            "sourceBlob": "687974cb6192fc9b269e24142568e06c39eb9ff4",
+            "currentBlob": "687974cb6192fc9b269e24142568e06c39eb9ff4",
+            "state": "BYTE_IDENTICAL"
+          }
+        ]
+      },
+      {
+        "name": "fix/docx-next-brief-integration-16okt",
+        "files": [
+          {
+            "path": "src/components/cover/BlockLayer.tsx",
+            "sourceBlob": "a247a8ddd5212e8823ea7685a98979d455c727e3",
+            "currentBlob": "67a095fd87bf07aeaa05985fdff1d5c10a2c88c0",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/components/cover/CoverCanvas.tsx",
+            "sourceBlob": "3ba4471dfd29cec9a709f91555e11b99768570a1",
+            "currentBlob": "3ba4471dfd29cec9a709f91555e11b99768570a1",
+            "state": "BYTE_IDENTICAL"
+          },
+          {
+            "path": "src/components/cover/anchors.ts",
+            "sourceBlob": "9cc83f12a2c19ffc2a4731204771fc1b0741a037",
+            "currentBlob": "9cc83f12a2c19ffc2a4731204771fc1b0741a037",
+            "state": "BYTE_IDENTICAL"
+          },
+          {
+            "path": "src/components/cover/presentation.ts",
+            "sourceBlob": "cbd387447df626bdd38472b09dad3f3948541433",
+            "currentBlob": "5b5de4b720962649dd6ab467344f8312c0eae0ac",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/components/cover/resolve.ts",
+            "sourceBlob": "da80284e45594e0460a09fa485872b001a5f2036",
+            "currentBlob": "91871ee39a1a2145841f495db531700c3405a016",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/components/cover/text-metrics.ts",
+            "sourceBlob": "afa20a518c805e231baa3f5796a288115c8fc52a",
+            "currentBlob": "3589fa113b1e0d96a47efcb0f0c790054b21aade",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/components/cover/types.ts",
+            "sourceBlob": "bb3c690f92de292c9539356f6916648dffc6977c",
+            "currentBlob": "bc7a26ea49cbabb0a629dabdde2f8cc3e0c605dd",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/components/dossier/DossierExportDialog.tsx",
+            "sourceBlob": "8640e04503fe742b04002cd5855b477a5006ced4",
+            "currentBlob": "b2099f408e034ed5918dd41030587955c54a76f4",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/lib/brief-docx-next-export.ts",
+            "sourceBlob": "78a8b6298ad4342a6e896cd2f10cd66f9a6a8823",
+            "currentBlob": "cb09eab42bc89631490f954ee9ba8a4a887517e3",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/lib/docx-next/brief-fonts.browser.ts",
+            "sourceBlob": "8b777626be0472f466f2d9e7cd979e98dc7d47e3",
+            "currentBlob": "ad782973af29fbafdb503c2dbad847dead75827d",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/lib/docx-next/brief-visibility.ts",
+            "sourceBlob": "400fae65d1bde78ee5d69a1d6b17d66f465fa3ed",
+            "currentBlob": "400fae65d1bde78ee5d69a1d6b17d66f465fa3ed",
+            "state": "BYTE_IDENTICAL"
+          },
+          {
+            "path": "src/lib/docx-next/build-model.ts",
+            "sourceBlob": "497f97ed6fde5855bab704e5122e727d66a37217",
+            "currentBlob": "d8361ea828bb5f3683061faf2e8496b753d3a80c",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/lib/docx-next/cover-authored.ts",
+            "sourceBlob": "2ae90cf57e5340ea1040296648094701094dcdda",
+            "currentBlob": "1e2166b0890f79392984f48d05b93d209b32c706",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/lib/docx-next/layouts.ts",
+            "sourceBlob": "1d3ae8cf18b2d530ab322a4063b10883e84218f2",
+            "currentBlob": "814ca005addc803a00121a63f93d6050ed18552a",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/lib/docx-next/model.ts",
+            "sourceBlob": "f7fed234b36b54b52d6a49a3cf6a964d107c7f5f",
+            "currentBlob": "a5fc91ff3289d456af7a9b322d9f5a14025b401d",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/lib/docx-next/native-text.ts",
+            "sourceBlob": "2102354ee16ca9e7bbfd00d080531ffb64f8f399",
+            "currentBlob": "3595f46ef353d04722d3c06f7a2e31ae96cd1987",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/lib/docx-next/validation.ts",
+            "sourceBlob": "12322fd75a439b2b755571a234cf26aeaefca392",
+            "currentBlob": "265835d4c74d007222a39c2cbf4304fc1a1ba520",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/routes/index.tsx",
+            "sourceBlob": "ecd9f2cc85a89d3602f2c50bcc46074a391ca137",
+            "currentBlob": "87db03abc1ab60cbac5de2205eb02673fc10ba3b",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          }
+        ]
+      },
+      {
+        "name": "fix/docx-next-cv-document-scale-22okt",
+        "files": [
+          {
+            "path": "src/lib/docx-next-cv-zoom.browser.ts",
+            "sourceBlob": "0824e3eec9c50b27bd454f9457f3bb51662cefb1",
+            "currentBlob": "0538ef1e34d5c70a81b64e64af7cd06c6622abab",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/lib/docx-next-interior-metrics.browser.tsx",
+            "sourceBlob": "bff7f346d0da7929c98d282145f296b4b7884da6",
+            "currentBlob": "3b92229e23c0415878f0a21f457fb05418aecaca",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/lib/docx-next/build-model.ts",
+            "sourceBlob": "c5bf9313bf4b8488b46267eb8bf594ffc68d856f",
+            "currentBlob": "d8361ea828bb5f3683061faf2e8496b753d3a80c",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/lib/docx-next/compact-chrome.ts",
+            "sourceBlob": "6d52cedf6a32b31ee0cde895db93efaae3d14c6d",
+            "currentBlob": "6d52cedf6a32b31ee0cde895db93efaae3d14c6d",
+            "state": "BYTE_IDENTICAL"
+          },
+          {
+            "path": "src/lib/docx-next/cv-flow-scale.ts",
+            "sourceBlob": "de2211d834d1677c41f13b807ac108aedd9e1968",
+            "currentBlob": "de2211d834d1677c41f13b807ac108aedd9e1968",
+            "state": "BYTE_IDENTICAL"
+          },
+          {
+            "path": "src/lib/docx-next/cv-painted-footer.ts",
+            "sourceBlob": "771131c88d1b7efb66b275c11de4cd4d1bbe98e7",
+            "currentBlob": "771131c88d1b7efb66b275c11de4cd4d1bbe98e7",
+            "state": "BYTE_IDENTICAL"
+          },
+          {
+            "path": "src/lib/docx-next/interior-composition.ts",
+            "sourceBlob": "94e529ec76da988d54034666d7fd593f22c158e6",
+            "currentBlob": "805032e477dc81ee04fceddc6b8dcfbc252acb8a",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/lib/docx-next/interior-metrics.ts",
+            "sourceBlob": "b0ae46cbebd44c2f4c7c33e66741e0c3787569d8",
+            "currentBlob": "b0ae46cbebd44c2f4c7c33e66741e0c3787569d8",
+            "state": "BYTE_IDENTICAL"
+          }
+        ]
+      },
+      {
+        "name": "fix/docx-next-cv-page-surface-22okt",
+        "files": [
+          {
+            "path": "src/lib/docx-next/build-model.ts",
+            "sourceBlob": "49f7cfde491e154424c09d2fdf6238690eb7d79a",
+            "currentBlob": "d8361ea828bb5f3683061faf2e8496b753d3a80c",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/lib/docx-next/cv-sidebar-body.ts",
+            "sourceBlob": "80f823421dc4e0fa908546aed6764ac72687f2a9",
+            "currentBlob": "80f823421dc4e0fa908546aed6764ac72687f2a9",
+            "state": "BYTE_IDENTICAL"
+          },
+          {
+            "path": "src/lib/docx-next/cv-sidebar-composition.ts",
+            "sourceBlob": "ef329bea6242ab2811e6f05fdaf5693de1ca0c84",
+            "currentBlob": "ef329bea6242ab2811e6f05fdaf5693de1ca0c84",
+            "state": "BYTE_IDENTICAL"
+          },
+          {
+            "path": "src/lib/docx-next/image-zone.ts",
+            "sourceBlob": "dcc1debb19b7732192f8633d98480604c510262b",
+            "currentBlob": "dcc1debb19b7732192f8633d98480604c510262b",
+            "state": "BYTE_IDENTICAL"
+          },
+          {
+            "path": "src/lib/docx-next/layouts.ts",
+            "sourceBlob": "af0a13fccd3388fa97761e6e888db95a4087a115",
+            "currentBlob": "814ca005addc803a00121a63f93d6050ed18552a",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/lib/docx-next/model.ts",
+            "sourceBlob": "e1879603b8eed715738fa3d6e9267b26f818776e",
+            "currentBlob": "a5fc91ff3289d456af7a9b322d9f5a14025b401d",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/lib/docx-next/native-picture-frame.ts",
+            "sourceBlob": "8901422b53b382c3aeb9095735bfeb2d2c97d2cf",
+            "currentBlob": "af9b645ab89869595d7bef51edc77f61f36aeb46",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/lib/docx-next/native-text.ts",
+            "sourceBlob": "79e8984d820fe8d789c047e371c1d2d133633d38",
+            "currentBlob": "3595f46ef353d04722d3c06f7a2e31ae96cd1987",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/lib/docx-next/renderer.ts",
+            "sourceBlob": "6e0604c56342448a85a71431134b39d010bd5190",
+            "currentBlob": "7be619adabb1f3db0dd5950899d732529695e2ae",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/lib/docx-next/validation.ts",
+            "sourceBlob": "40916cb0b45d6516550d08b9d2194539def1053e",
+            "currentBlob": "265835d4c74d007222a39c2cbf4304fc1a1ba520",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          }
+        ]
+      },
+      {
+        "name": "fix/docx-next-sidebar-photo-ownership-21okt",
+        "files": [
+          {
+            "path": "src/lib/docx-next/build-model.ts",
+            "sourceBlob": "c000319700425c6eb30cc4f8bfa69594485219df",
+            "currentBlob": "d8361ea828bb5f3683061faf2e8496b753d3a80c",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/lib/docx-next/layouts.ts",
+            "sourceBlob": "b4db9b680129867cb61ba22f5dbb465044c318b8",
+            "currentBlob": "814ca005addc803a00121a63f93d6050ed18552a",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/lib/docx-next/native-text.ts",
+            "sourceBlob": "765276f61e083538cbf9bf24e8385128a8a7055e",
+            "currentBlob": "3595f46ef353d04722d3c06f7a2e31ae96cd1987",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/lib/docx-next/renderer.ts",
+            "sourceBlob": "acd1b4d52b89c5bec612a2509d4621caf425b84d",
+            "currentBlob": "7be619adabb1f3db0dd5950899d732529695e2ae",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          }
+        ]
+      },
+      {
+        "name": "fix/docx-next-sidebar-word-layout-21okt",
+        "files": [
+          {
+            "path": "src/lib/docx-next/build-model.ts",
+            "sourceBlob": "49f7cfde491e154424c09d2fdf6238690eb7d79a",
+            "currentBlob": "d8361ea828bb5f3683061faf2e8496b753d3a80c",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/lib/docx-next/cv-sidebar-body.ts",
+            "sourceBlob": "80f823421dc4e0fa908546aed6764ac72687f2a9",
+            "currentBlob": "80f823421dc4e0fa908546aed6764ac72687f2a9",
+            "state": "BYTE_IDENTICAL"
+          },
+          {
+            "path": "src/lib/docx-next/cv-sidebar-composition.ts",
+            "sourceBlob": "5297b863a58f82ddbb055530e7f443d05f5186bc",
+            "currentBlob": "ef329bea6242ab2811e6f05fdaf5693de1ca0c84",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/lib/docx-next/image-zone.ts",
+            "sourceBlob": "dcc1debb19b7732192f8633d98480604c510262b",
+            "currentBlob": "dcc1debb19b7732192f8633d98480604c510262b",
+            "state": "BYTE_IDENTICAL"
+          },
+          {
+            "path": "src/lib/docx-next/layouts.ts",
+            "sourceBlob": "af0a13fccd3388fa97761e6e888db95a4087a115",
+            "currentBlob": "814ca005addc803a00121a63f93d6050ed18552a",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/lib/docx-next/model.ts",
+            "sourceBlob": "e1879603b8eed715738fa3d6e9267b26f818776e",
+            "currentBlob": "a5fc91ff3289d456af7a9b322d9f5a14025b401d",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/lib/docx-next/native-picture-frame.ts",
+            "sourceBlob": "8901422b53b382c3aeb9095735bfeb2d2c97d2cf",
+            "currentBlob": "af9b645ab89869595d7bef51edc77f61f36aeb46",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/lib/docx-next/native-text.ts",
+            "sourceBlob": "79e8984d820fe8d789c047e371c1d2d133633d38",
+            "currentBlob": "3595f46ef353d04722d3c06f7a2e31ae96cd1987",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/lib/docx-next/renderer.ts",
+            "sourceBlob": "6e0604c56342448a85a71431134b39d010bd5190",
+            "currentBlob": "7be619adabb1f3db0dd5950899d732529695e2ae",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/lib/docx-next/validation.ts",
+            "sourceBlob": "40916cb0b45d6516550d08b9d2194539def1053e",
+            "currentBlob": "265835d4c74d007222a39c2cbf4304fc1a1ba520",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          }
+        ]
+      },
+      {
+        "name": "fix/docx-next-word-pagination-21okt",
+        "files": [
+          {
+            "path": "src/lib/docx-next/build-model.ts",
+            "sourceBlob": "dcdaa28adfe1fa3dd2c3cb3e2b26231ccedc9f4e",
+            "currentBlob": "d8361ea828bb5f3683061faf2e8496b753d3a80c",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          },
+          {
+            "path": "src/lib/docx-next/compact-chrome.ts",
+            "sourceBlob": "6d52cedf6a32b31ee0cde895db93efaae3d14c6d",
+            "currentBlob": "6d52cedf6a32b31ee0cde895db93efaae3d14c6d",
+            "state": "BYTE_IDENTICAL"
+          },
+          {
+            "path": "src/lib/docx-next/cv-painted-footer.ts",
+            "sourceBlob": "771131c88d1b7efb66b275c11de4cd4d1bbe98e7",
+            "currentBlob": "771131c88d1b7efb66b275c11de4cd4d1bbe98e7",
+            "state": "BYTE_IDENTICAL"
+          },
+          {
+            "path": "src/lib/docx-next/interior-composition.ts",
+            "sourceBlob": "94e529ec76da988d54034666d7fd593f22c158e6",
+            "currentBlob": "805032e477dc81ee04fceddc6b8dcfbc252acb8a",
+            "state": "CHANGED_LATER_OR_NOT_EQUIVALENT"
+          }
+        ]
+      }
+    ]
+  },
+  "normalizedEmittedJavaScriptMatchesExactlyThreeCorrections": true,
+  "browserAndNormalPdf": {
+    "branchBase": "024515de9febd6ace85a29f2e3252f7a667a7ff6",
+    "runtime": {
+      "browser": "156.0.8078.47",
+      "fontSubstitution": "Arial -> Liberation Sans; repository Cabin fonts byte-verified",
+      "chromeArchiveSha256": "0d5acc62c3e213f8c87d3c298d66ffcf9a236d12ea4b9f85318bf85dbc279daa"
+    },
+    "projectSource": "Current Modern defaults and public DEMO data; no historical project fixture or photos",
+    "renderPath": "DossierPdfCanvas and downloadCombinedDossierPdf, through fresh saved-project conversion and real production preflight",
+    "cases": [
+      {
+        "id": "left-sidebar",
+        "cvPages": 1,
+        "letterPages": 1,
+        "fieldCount": 8,
+        "allFieldsVisibleAndInsideOwner": true,
+        "alignmentMm": {
+          "referenceToHeadingMm": 0,
+          "referenceToOwnerContentMm": -0.00048268261964646517
+        },
+        "inputUnchanged": true,
+        "pdfPreflight": "pass",
+        "javascriptErrors": [],
+        "pdfSha256": "33a9d12d677ea32a089689be90ea90018e5c89b20995a6f19f7bfb65f4d26f87",
+        "pdfBytes": 1249617,
+        "pdfFieldChecks": [
+          {
+            "key": "email-only.email",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1177
+          },
+          {
+            "key": "extra-only.extra",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1043
+          },
+          {
+            "key": "separate.name",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1203
+          },
+          {
+            "key": "separate.email",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1176
+          },
+          {
+            "key": "separate.extra",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1031
+          },
+          {
+            "key": "legacy.contact",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 700
+          },
+          {
+            "key": "legacy.email",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1339
+          },
+          {
+            "key": "legacy.extra",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 767
+          }
+        ],
+        "cvRenderSha256": "c91075cc846f54c9c5c87b9180d27cd01e76cc11cba0033c1fcc89d8d6b2289b"
+      },
+      {
+        "id": "left-half-main",
+        "cvPages": 1,
+        "letterPages": 1,
+        "fieldCount": 8,
+        "allFieldsVisibleAndInsideOwner": true,
+        "alignmentMm": {
+          "referenceToHeadingMm": 0,
+          "referenceToOwnerContentMm": 0
+        },
+        "inputUnchanged": true,
+        "pdfPreflight": "pass",
+        "javascriptErrors": [],
+        "pdfSha256": "896e06917bcd08df6aebb319d428a24f6a30ba33bafea78da0e374c52f999623",
+        "pdfBytes": 1250229,
+        "pdfFieldChecks": [
+          {
+            "key": "email-only.email",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1209
+          },
+          {
+            "key": "extra-only.extra",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1043
+          },
+          {
+            "key": "separate.name",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1345
+          },
+          {
+            "key": "separate.email",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1147
+          },
+          {
+            "key": "separate.extra",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1079
+          },
+          {
+            "key": "legacy.contact",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 700
+          },
+          {
+            "key": "legacy.email",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1293
+          },
+          {
+            "key": "legacy.extra",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 749
+          }
+        ],
+        "cvRenderSha256": "a2bbedfd36e13b3d42c02c9123ba4dcf34a2465b91a2b304938b7e7804e99fcc"
+      },
+      {
+        "id": "right-sidebar",
+        "cvPages": 1,
+        "letterPages": 1,
+        "fieldCount": 8,
+        "allFieldsVisibleAndInsideOwner": true,
+        "alignmentMm": {
+          "referenceToHeadingMm": 0,
+          "referenceToOwnerContentMm": -0.0004826826196614993
+        },
+        "inputUnchanged": true,
+        "pdfPreflight": "pass",
+        "javascriptErrors": [],
+        "pdfSha256": "12f64f411de5b9f288c2c07d66013562c46dc8a20d773d16966e45c2a677588f",
+        "pdfBytes": 1247456,
+        "pdfFieldChecks": [
+          {
+            "key": "email-only.email",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1212
+          },
+          {
+            "key": "extra-only.extra",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1092
+          },
+          {
+            "key": "separate.name",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1231
+          },
+          {
+            "key": "separate.email",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1144
+          },
+          {
+            "key": "separate.extra",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1046
+          },
+          {
+            "key": "legacy.contact",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 750
+          },
+          {
+            "key": "legacy.email",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1294
+          },
+          {
+            "key": "legacy.extra",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 782
+          }
+        ],
+        "cvRenderSha256": "c6421c3c3e89c2f4071d996a6f7dd4d0e04bae671c693f6e499caddc957d1306"
+      },
+      {
+        "id": "right-half-main",
+        "cvPages": 1,
+        "letterPages": 1,
+        "fieldCount": 8,
+        "allFieldsVisibleAndInsideOwner": true,
+        "alignmentMm": {
+          "referenceToHeadingMm": 0,
+          "referenceToOwnerContentMm": 0
+        },
+        "inputUnchanged": true,
+        "pdfPreflight": "pass",
+        "javascriptErrors": [],
+        "pdfSha256": "a4fd2e4f5d6a31d34d091a764c3f02c7bd9665cb27539f2f70ef8fd21764ae20",
+        "pdfBytes": 1249473,
+        "pdfFieldChecks": [
+          {
+            "key": "email-only.email",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1206
+          },
+          {
+            "key": "extra-only.extra",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1044
+          },
+          {
+            "key": "separate.name",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1353
+          },
+          {
+            "key": "separate.email",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1151
+          },
+          {
+            "key": "separate.extra",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1071
+          },
+          {
+            "key": "legacy.contact",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 700
+          },
+          {
+            "key": "legacy.email",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 1297
+          },
+          {
+            "key": "legacy.extra",
+            "searchableOccurrences": 1,
+            "darkPixelsInBrowserFieldBox": 747
+          }
+        ],
+        "cvRenderSha256": "4f0f8ca4a659089e1047c12e769653ef19a752fcf94a990b279301e51398c48f"
+      }
+    ],
+    "totalCvPages": 4,
+    "totalDossierPages": 12,
+    "totalReferenceFields": 32,
+    "visualReview": {
+      "browserCvPagesOpened": 4,
+      "pdfCvPagesOpened": 4,
+      "cvDossierPage": 3,
+      "verdict": "No missing, clipped or overlapping tested reference fields; half-width text keeps the heading/main left edge"
+    },
+    "frontendStrictTypecheck": "PASS",
+    "scriptSyntaxAndFormatting": "PASS",
+    "productCodeChanged": false,
+    "wordAcceptance": "UNVERIFIED",
+    "normalSidebarGuard": "CLOSED",
+    "limits": [
+      "Dedicated CSR DossierPdfCanvas harness, not complete editor navigation or production SSR build",
+      "One short CV per case; no long-CV pagination approval",
+      "No photos in these reference cases; picture/crop/SDT roundtrip gates remain open",
+      "Visible-ink checks alone are not glyph recognition; actual PDF CV pages were also opened",
+      "Four final cases are authoritative; setup runs are not additional coverage"
+    ]
+  }
+}

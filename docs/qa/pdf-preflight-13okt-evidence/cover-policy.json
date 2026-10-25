@@ -1,0 +1,555 @@
+{
+  "beforePolicyCommit": "79180bacb8a6934cdad8c366732c3ff3644f5082",
+  "beforePolicyBlob": "739cc67dd147613f6bdeef6793360679ec6b5bd2",
+  "afterPolicyBlob": "141e2c8fe5f87a9344c04215939d24382bc0c1d8",
+  "cases": [
+    {
+      "condition": "text-outside",
+      "template": "brief",
+      "physicalPage": 0,
+      "fixtureSha256": "c5fdb95a3b80cd1ace2482d41a2f2a0ef1a68d139a7b13ce7b6dec861198309d",
+      "fixture": {
+        "storage": {
+          "titelblatt:v3": "{\"version\":7,\"template\":\"brief\",\"data\":{\"meta\":{\"title\":\"\",\"author\":\"\",\"subject\":\"\",\"keywords\":\"\"},\"kicker\":\"\",\"eyebrow\":\"\",\"beruf\":\"Informatiker/in EFZ\",\"lehrbeginn\":\"August 2027\",\"vorname\":\"Lea\",\"nachname\":\"Müller\",\"adresse\":\"Dorfstrasse 12\",\"plzOrt\":\"4535 Hubersdorf\",\"telefon\":\"079 123 45 67\",\"email\":\"lea.mueller@example.ch\",\"geburtsdatum\":\"14.03.2010\",\"lehrbetrieb\":\"Beispiel AG\",\"ansprechperson\":\"Herr Thomas Weber\",\"betriebAdresse\":\"Industriestrasse 8, 4535 Hubersdorf\",\"ort\":\"Hubersdorf\",\"datum\":\"15.11.2026\",\"labelKontakt\":\"\",\"labelEmpfaenger\":\"\",\"foto\":\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAiIGhlaWdodD0iODAiPjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iODAiIGZpbGw9IiMyNTYzZWIiLz48L3N2Zz4=\"},\"colors\":{},\"layout\":{},\"customs\":[],\"fontScale\":1.2}",
+          "anschreiben:v1": "{\"version\":1,\"data\":{\"absenderName\":\"Lea Müller\",\"absenderAdresse\":\"Dorfstrasse 12\",\"absenderPlzOrt\":\"4535 Hubersdorf\",\"absenderTelefon\":\"079 123 45 67\",\"absenderEmail\":\"lea.mueller@example.ch\",\"empfaengerFirma\":\"Beispiel AG\",\"empfaengerName\":\"Herr Thomas Weber\",\"empfaengerAdresse\":\"Industriestrasse 8\",\"empfaengerPlzOrt\":\"4535 Hubersdorf\",\"ort\":\"Hubersdorf\",\"datum\":\"15.11.2026\",\"betreff\":\"Bewerbung um eine Lehrstelle als Informatiker/in EFZ\",\"anrede\":\"QASALUTATION001 Guten Tag Herr Weber\",\"text\":\"QAPARA001 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND001\\n\\nQAPARA002 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND002\",\"richTextHtml\":\"\",\"gruss\":\"QACLOSING001 Freundliche Grüsse\",\"unterschrift\":\"QASIGNATURE001 Lea Müller\",\"images\":[],\"showBeilagen\":true,\"beilagen\":[\"QAATTACHMENT001 Lebenslauf\",\"QAATTACHMENT002 Arbeitszeugnis\"]},\"design\":{\"template\":\"brief\",\"colors\":{\"bg\":\"#ffffff\",\"ink\":\"#111111\",\"primary\":\"#111111\",\"secondary\":\"#111111\",\"accent\":\"#111111\",\"cvInk\":\"#111111\",\"cvMuted\":\"#4b5563\",\"cvHeading\":\"#111111\"},\"bgOpacity\":0.25,\"paperColor\":null,\"textColor\":null,\"font\":\"freundlich\",\"fontOverride\":null,\"senderAlign\":\"left\",\"recipientAlign\":\"left\",\"dateAlign\":\"left\",\"ruleAfterSender\":false,\"ruleAfterRecipient\":false,\"ruleAfterSubject\":false,\"headerMode\":\"compact\",\"headerShowName\":true,\"headerShowAddress\":true,\"headerShowPhone\":true,\"headerShowEmail\":true,\"headerDifferentFirstPage\":false,\"headerHeightMm\":null,\"headerTextLayout\":\"stacked\",\"headerInlineSeparator\":\"icons\",\"headerBackgroundColor\":null,\"headerGradientColor\":null,\"footerMode\":\"compact\",\"footerHeightMm\":null,\"footerTextLayout\":\"inline\",\"footerBackgroundColor\":null,\"footerGradientColor\":null,\"chromeBorderEnabled\":false,\"chromeBorderColor\":null,\"chromeBorderWidthMm\":0.6,\"chromeTextFont\":null}}",
+          "lebenslauf:v1": "{\"version\":6,\"data\":{\"titel\":\"Lebenslauf\",\"person\":{\"vorname\":\"Lea\",\"nachname\":\"Müller\",\"adresse\":\"Dorfstrasse 12\",\"plzOrt\":\"4535 Hubersdorf\",\"telefon\":\"079 123 45 67\",\"email\":\"lea.mueller@example.ch\",\"geburtsdatum\":\"14.03.2010\",\"nationalitaet\":\"\",\"untertitel\":\"\",\"foto\":null},\"schule\":[{\"id\":\"qa-school-0\",\"zeit\":\"2025 – 2026\",\"titel\":\"QASCHOOL001 Weiterbildung Informatik\",\"ort\":\"Bildungszentrum Solothurn\",\"beschreibung\":\"QAEDU001 Projektarbeit, Mathematik und selbstständiges Lernen. QAEDUEND001\"}],\"erfahrung\":[{\"id\":\"qa-work-0\",\"zeit\":\"2026\",\"titel\":\"QAWORK001 Informatik und Support\",\"ort\":\"Beispiel AG, Hubersdorf\",\"beschreibung\":\"QADESC001 Im Team entwickelte ich kleine Automatisierungen, unterstützte den Support und dokumentierte die Ergebnisse. Ich prüfte die Anforderungen mit den Fachpersonen, organisierte Rückmeldungen und präsentierte nachvollziehbare Lösungen. QAEND001\"}],\"sprachen\":[{\"id\":\"demo-l1\",\"name\":\"Deutsch\",\"niveau\":\"Muttersprache\"},{\"id\":\"demo-l2\",\"name\":\"Englisch\",\"niveau\":\"Gute Schulkenntnisse (B1)\"},{\"id\":\"demo-l3\",\"name\":\"Französisch\",\"niveau\":\"Grundkenntnisse (A2)\"}],\"hobbys\":[\"Volleyball im Verein\",\"Programmieren kleiner Spiele\",\"Fotografieren\"],\"staerken\":[\"Zuverlässig und pünktlich\",\"Arbeitet gern im Team\",\"Lernt schnell Neues\"],\"referenzen\":[{\"id\":\"demo-r1\",\"name\":\"QAREF001 Thomas Weber\",\"funktion\":\"Klassenlehrer, Schulhaus Zentrum\",\"kontakt\":\"079 555 12 34\",\"email\":\"\",\"zusatz\":\"\"}],\"customSections\":[{\"id\":\"qa-projects\",\"title\":\"Projekte\",\"entries\":[{\"id\":\"qa-project\",\"zeit\":\"2026\",\"titel\":\"QAPROJECT001 Lernplattform\",\"ort\":\"Solothurn\",\"beschreibung\":\"QAPROJECTEND001 Entwicklung und Evaluation im Team.\"}]}],\"sectionOrder\":[\"person\",\"schule\",\"erfahrung\",\"sprachen\",\"hobbys\",\"staerken\",\"referenzen\",\"custom:qa-projects\"],\"labels\":{},\"hidden\":{},\"sectionLayouts\":{}},\"design\":{\"template\":\"brief\",\"colors\":{\"primary\":\"#183046\",\"accent\":\"#d99a42\",\"ink\":\"#15212c\",\"bg\":\"#ffffff\"},\"bgOpacity\":0.25,\"useElements\":false,\"sidebarPct\":22},\"elements\":[],\"elementStyles\":{}}",
+          "lebenslauf:layout:v1": "classic",
+          "lebenslauf:info-position:v1": "standard",
+          "lebenslauf:photo:v2": "{\"shape\":\"circle\",\"zoom\":1.2,\"x\":35,\"y\":65,\"borderWidth\":0.3}",
+          "lebenslauf:photo-place:v1": "{\"mode\":\"frei\",\"xMm\":150,\"yMm\":24,\"widthMm\":28,\"frameColor\":null}",
+          "lebenslauf:placement:v1": "{\"kontakt\":\"side\",\"schule\":\"main\",\"erfahrung\":\"main\",\"sprachen\":\"side\",\"hobbys\":\"side\",\"staerken\":\"side\",\"referenzen\":\"main\"}",
+          "lebenslauf:layout-mirror:v1": "false"
+        },
+        "markers": {
+          "cv": [
+            "QASCHOOL001",
+            "QAEDU001",
+            "QAEDUEND001",
+            "QAWORK001",
+            "QADESC001",
+            "QAEND001",
+            "QAPROJECT001",
+            "QAPROJECTEND001",
+            "QAREF001"
+          ],
+          "letter": [
+            "QAPARA001",
+            "QAPARAEND001",
+            "QAPARA002",
+            "QAPARAEND002",
+            "QASALUTATION001",
+            "QACLOSING001",
+            "QASIGNATURE001",
+            "QAATTACHMENT001",
+            "QAATTACHMENT002"
+          ]
+        },
+        "sequences": {
+          "cv": [
+            [
+              "QASCHOOL001"
+            ],
+            [
+              "QAWORK001"
+            ]
+          ],
+          "letter": [
+            [
+              "QAPARA001",
+              "QAPARA002"
+            ]
+          ]
+        },
+        "segments": {
+          "cv": [
+            "QASCHOOL001 Weiterbildung Informatik",
+            "QAEDU001 Projektarbeit, Mathematik und selbstständiges Lernen. QAEDUEND001",
+            "QAWORK001 Informatik und Support",
+            "QADESC001 Im Team entwickelte ich kleine Automatisierungen, unterstützte den Support und dokumentierte die Ergebnisse. Ich prüfte die Anforderungen mit den Fachpersonen, organisierte Rückmeldungen und präsentierte nachvollziehbare Lösungen. QAEND001",
+            "QAPROJECT001 Lernplattform",
+            "QAPROJECTEND001 Entwicklung und Evaluation im Team."
+          ],
+          "letter": [
+            "QAPARA001 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND001",
+            "QAPARA002 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND002"
+          ]
+        }
+      },
+      "before": {
+        "geometry": {
+          "pagePx": {
+            "width": 794,
+            "height": 1123
+          },
+          "elementPx": {
+            "left": 75.578125,
+            "top": 1838.75,
+            "width": 566.921875,
+            "height": 27.1875
+          },
+          "elementMm": {
+            "left": 19.9891766372796,
+            "top": 486.29452359750667,
+            "width": 149.94155384130983,
+            "height": 7.190282724844168
+          },
+          "imageReady": []
+        },
+        "result": {
+          "status": "advisory",
+          "issues": [
+            {
+              "code": "measurement-advisory",
+              "severity": "advisory",
+              "message": "Briefseite 1: Die Umbruchmessung war uneindeutig. Der vollständige Drucksatz passt sichtbar; bitte die Vorschau prüfen.",
+              "documentKind": "letter",
+              "pageIndex": 0,
+              "overridePermitted": true
+            }
+          ]
+        },
+        "provenance": {
+          "sourceSha": "79180bacb8a6934cdad8c366732c3ff3644f5082",
+          "runtimeBlobs": {
+            "src/lib/dossier-pdf.ts": "e0557de243a58c70d6017d81c6fe39656a4b6932",
+            "src/lib/pdf-preflight.ts": "739cc67dd147613f6bdeef6793360679ec6b5bd2",
+            "src/components/letter/preflight.ts": "89a3cedbf896a7ff7caf31d86d007bbe9895a0ae",
+            "src/components/letter/LetterDocument.tsx": "9f64bf31d0d41bc7da5d603a6d4349efb8ec7266",
+            "src/components/letter/letter-pagination.ts": "a2e7573121c6f89545c0512ba25a33ea7f778c46",
+            "src/components/letter/letter-pagination.css": "0e5af5645830b43f9a2fcdf4d18a28a6ea03ddc7",
+            "src/components/cv/CvCanvasBase.tsx": "0e2760cc3a922aae30591496fb52c68f7dbbc21b",
+            "src/components/cv/flow-pagination.ts": "687974cb6192fc9b269e24142568e06c39eb9ff4"
+          }
+        }
+      },
+      "after": {
+        "geometry": {
+          "pagePx": {
+            "width": 794,
+            "height": 1123
+          },
+          "elementPx": {
+            "left": 75.578125,
+            "top": 1838.75,
+            "width": 566.921875,
+            "height": 27.1875
+          },
+          "elementMm": {
+            "left": 19.9891766372796,
+            "top": 486.29452359750667,
+            "width": 149.94155384130983,
+            "height": 7.190282724844168
+          },
+          "imageReady": []
+        },
+        "result": {
+          "status": "blocked",
+          "issues": [
+            {
+              "code": "physical-overflow",
+              "severity": "blocked",
+              "message": "Titelblatt Seite 1: Text wird abgeschnitten oder überlappt.",
+              "documentKind": "cover",
+              "pageIndex": 0,
+              "element": "text",
+              "overridePermitted": false
+            },
+            {
+              "code": "measurement-advisory",
+              "severity": "advisory",
+              "message": "Briefseite 1: Die Umbruchmessung war uneindeutig. Der vollständige Drucksatz passt sichtbar; bitte die Vorschau prüfen.",
+              "documentKind": "letter",
+              "pageIndex": 0,
+              "overridePermitted": true
+            }
+          ]
+        },
+        "provenance": {
+          "sourceSha": "79180bacb8a6934cdad8c366732c3ff3644f5082",
+          "runtimeBlobs": {
+            "src/lib/dossier-pdf.ts": "e0557de243a58c70d6017d81c6fe39656a4b6932",
+            "src/lib/pdf-preflight.ts": "141e2c8fe5f87a9344c04215939d24382bc0c1d8",
+            "src/components/letter/preflight.ts": "5270ed078e81f4e373cae11b704561e38ffe5fef",
+            "src/components/letter/LetterDocument.tsx": "9f64bf31d0d41bc7da5d603a6d4349efb8ec7266",
+            "src/components/letter/letter-pagination.ts": "a2e7573121c6f89545c0512ba25a33ea7f778c46",
+            "src/components/letter/letter-pagination.css": "0e5af5645830b43f9a2fcdf4d18a28a6ea03ddc7",
+            "src/components/cv/CvCanvasBase.tsx": "0e2760cc3a922aae30591496fb52c68f7dbbc21b",
+            "src/components/cv/flow-pagination.ts": "687974cb6192fc9b269e24142568e06c39eb9ff4"
+          }
+        }
+      }
+    },
+    {
+      "condition": "image-outside",
+      "template": "brief",
+      "physicalPage": 0,
+      "fixtureSha256": "c5fdb95a3b80cd1ace2482d41a2f2a0ef1a68d139a7b13ce7b6dec861198309d",
+      "fixture": {
+        "storage": {
+          "titelblatt:v3": "{\"version\":7,\"template\":\"brief\",\"data\":{\"meta\":{\"title\":\"\",\"author\":\"\",\"subject\":\"\",\"keywords\":\"\"},\"kicker\":\"\",\"eyebrow\":\"\",\"beruf\":\"Informatiker/in EFZ\",\"lehrbeginn\":\"August 2027\",\"vorname\":\"Lea\",\"nachname\":\"Müller\",\"adresse\":\"Dorfstrasse 12\",\"plzOrt\":\"4535 Hubersdorf\",\"telefon\":\"079 123 45 67\",\"email\":\"lea.mueller@example.ch\",\"geburtsdatum\":\"14.03.2010\",\"lehrbetrieb\":\"Beispiel AG\",\"ansprechperson\":\"Herr Thomas Weber\",\"betriebAdresse\":\"Industriestrasse 8, 4535 Hubersdorf\",\"ort\":\"Hubersdorf\",\"datum\":\"15.11.2026\",\"labelKontakt\":\"\",\"labelEmpfaenger\":\"\",\"foto\":\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAiIGhlaWdodD0iODAiPjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iODAiIGZpbGw9IiMyNTYzZWIiLz48L3N2Zz4=\"},\"colors\":{},\"layout\":{},\"customs\":[],\"fontScale\":1.2}",
+          "anschreiben:v1": "{\"version\":1,\"data\":{\"absenderName\":\"Lea Müller\",\"absenderAdresse\":\"Dorfstrasse 12\",\"absenderPlzOrt\":\"4535 Hubersdorf\",\"absenderTelefon\":\"079 123 45 67\",\"absenderEmail\":\"lea.mueller@example.ch\",\"empfaengerFirma\":\"Beispiel AG\",\"empfaengerName\":\"Herr Thomas Weber\",\"empfaengerAdresse\":\"Industriestrasse 8\",\"empfaengerPlzOrt\":\"4535 Hubersdorf\",\"ort\":\"Hubersdorf\",\"datum\":\"15.11.2026\",\"betreff\":\"Bewerbung um eine Lehrstelle als Informatiker/in EFZ\",\"anrede\":\"QASALUTATION001 Guten Tag Herr Weber\",\"text\":\"QAPARA001 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND001\\n\\nQAPARA002 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND002\",\"richTextHtml\":\"\",\"gruss\":\"QACLOSING001 Freundliche Grüsse\",\"unterschrift\":\"QASIGNATURE001 Lea Müller\",\"images\":[],\"showBeilagen\":true,\"beilagen\":[\"QAATTACHMENT001 Lebenslauf\",\"QAATTACHMENT002 Arbeitszeugnis\"]},\"design\":{\"template\":\"brief\",\"colors\":{\"bg\":\"#ffffff\",\"ink\":\"#111111\",\"primary\":\"#111111\",\"secondary\":\"#111111\",\"accent\":\"#111111\",\"cvInk\":\"#111111\",\"cvMuted\":\"#4b5563\",\"cvHeading\":\"#111111\"},\"bgOpacity\":0.25,\"paperColor\":null,\"textColor\":null,\"font\":\"freundlich\",\"fontOverride\":null,\"senderAlign\":\"left\",\"recipientAlign\":\"left\",\"dateAlign\":\"left\",\"ruleAfterSender\":false,\"ruleAfterRecipient\":false,\"ruleAfterSubject\":false,\"headerMode\":\"compact\",\"headerShowName\":true,\"headerShowAddress\":true,\"headerShowPhone\":true,\"headerShowEmail\":true,\"headerDifferentFirstPage\":false,\"headerHeightMm\":null,\"headerTextLayout\":\"stacked\",\"headerInlineSeparator\":\"icons\",\"headerBackgroundColor\":null,\"headerGradientColor\":null,\"footerMode\":\"compact\",\"footerHeightMm\":null,\"footerTextLayout\":\"inline\",\"footerBackgroundColor\":null,\"footerGradientColor\":null,\"chromeBorderEnabled\":false,\"chromeBorderColor\":null,\"chromeBorderWidthMm\":0.6,\"chromeTextFont\":null}}",
+          "lebenslauf:v1": "{\"version\":6,\"data\":{\"titel\":\"Lebenslauf\",\"person\":{\"vorname\":\"Lea\",\"nachname\":\"Müller\",\"adresse\":\"Dorfstrasse 12\",\"plzOrt\":\"4535 Hubersdorf\",\"telefon\":\"079 123 45 67\",\"email\":\"lea.mueller@example.ch\",\"geburtsdatum\":\"14.03.2010\",\"nationalitaet\":\"\",\"untertitel\":\"\",\"foto\":null},\"schule\":[{\"id\":\"qa-school-0\",\"zeit\":\"2025 – 2026\",\"titel\":\"QASCHOOL001 Weiterbildung Informatik\",\"ort\":\"Bildungszentrum Solothurn\",\"beschreibung\":\"QAEDU001 Projektarbeit, Mathematik und selbstständiges Lernen. QAEDUEND001\"}],\"erfahrung\":[{\"id\":\"qa-work-0\",\"zeit\":\"2026\",\"titel\":\"QAWORK001 Informatik und Support\",\"ort\":\"Beispiel AG, Hubersdorf\",\"beschreibung\":\"QADESC001 Im Team entwickelte ich kleine Automatisierungen, unterstützte den Support und dokumentierte die Ergebnisse. Ich prüfte die Anforderungen mit den Fachpersonen, organisierte Rückmeldungen und präsentierte nachvollziehbare Lösungen. QAEND001\"}],\"sprachen\":[{\"id\":\"demo-l1\",\"name\":\"Deutsch\",\"niveau\":\"Muttersprache\"},{\"id\":\"demo-l2\",\"name\":\"Englisch\",\"niveau\":\"Gute Schulkenntnisse (B1)\"},{\"id\":\"demo-l3\",\"name\":\"Französisch\",\"niveau\":\"Grundkenntnisse (A2)\"}],\"hobbys\":[\"Volleyball im Verein\",\"Programmieren kleiner Spiele\",\"Fotografieren\"],\"staerken\":[\"Zuverlässig und pünktlich\",\"Arbeitet gern im Team\",\"Lernt schnell Neues\"],\"referenzen\":[{\"id\":\"demo-r1\",\"name\":\"QAREF001 Thomas Weber\",\"funktion\":\"Klassenlehrer, Schulhaus Zentrum\",\"kontakt\":\"079 555 12 34\",\"email\":\"\",\"zusatz\":\"\"}],\"customSections\":[{\"id\":\"qa-projects\",\"title\":\"Projekte\",\"entries\":[{\"id\":\"qa-project\",\"zeit\":\"2026\",\"titel\":\"QAPROJECT001 Lernplattform\",\"ort\":\"Solothurn\",\"beschreibung\":\"QAPROJECTEND001 Entwicklung und Evaluation im Team.\"}]}],\"sectionOrder\":[\"person\",\"schule\",\"erfahrung\",\"sprachen\",\"hobbys\",\"staerken\",\"referenzen\",\"custom:qa-projects\"],\"labels\":{},\"hidden\":{},\"sectionLayouts\":{}},\"design\":{\"template\":\"brief\",\"colors\":{\"primary\":\"#183046\",\"accent\":\"#d99a42\",\"ink\":\"#15212c\",\"bg\":\"#ffffff\"},\"bgOpacity\":0.25,\"useElements\":false,\"sidebarPct\":22},\"elements\":[],\"elementStyles\":{}}",
+          "lebenslauf:layout:v1": "classic",
+          "lebenslauf:info-position:v1": "standard",
+          "lebenslauf:photo:v2": "{\"shape\":\"circle\",\"zoom\":1.2,\"x\":35,\"y\":65,\"borderWidth\":0.3}",
+          "lebenslauf:photo-place:v1": "{\"mode\":\"frei\",\"xMm\":150,\"yMm\":24,\"widthMm\":28,\"frameColor\":null}",
+          "lebenslauf:placement:v1": "{\"kontakt\":\"side\",\"schule\":\"main\",\"erfahrung\":\"main\",\"sprachen\":\"side\",\"hobbys\":\"side\",\"staerken\":\"side\",\"referenzen\":\"main\"}",
+          "lebenslauf:layout-mirror:v1": "false"
+        },
+        "markers": {
+          "cv": [
+            "QASCHOOL001",
+            "QAEDU001",
+            "QAEDUEND001",
+            "QAWORK001",
+            "QADESC001",
+            "QAEND001",
+            "QAPROJECT001",
+            "QAPROJECTEND001",
+            "QAREF001"
+          ],
+          "letter": [
+            "QAPARA001",
+            "QAPARAEND001",
+            "QAPARA002",
+            "QAPARAEND002",
+            "QASALUTATION001",
+            "QACLOSING001",
+            "QASIGNATURE001",
+            "QAATTACHMENT001",
+            "QAATTACHMENT002"
+          ]
+        },
+        "sequences": {
+          "cv": [
+            [
+              "QASCHOOL001"
+            ],
+            [
+              "QAWORK001"
+            ]
+          ],
+          "letter": [
+            [
+              "QAPARA001",
+              "QAPARA002"
+            ]
+          ]
+        },
+        "segments": {
+          "cv": [
+            "QASCHOOL001 Weiterbildung Informatik",
+            "QAEDU001 Projektarbeit, Mathematik und selbstständiges Lernen. QAEDUEND001",
+            "QAWORK001 Informatik und Support",
+            "QADESC001 Im Team entwickelte ich kleine Automatisierungen, unterstützte den Support und dokumentierte die Ergebnisse. Ich prüfte die Anforderungen mit den Fachpersonen, organisierte Rückmeldungen und präsentierte nachvollziehbare Lösungen. QAEND001",
+            "QAPROJECT001 Lernplattform",
+            "QAPROJECTEND001 Entwicklung und Evaluation im Team."
+          ],
+          "letter": [
+            "QAPARA001 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND001",
+            "QAPARA002 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND002"
+          ]
+        }
+      },
+      "before": {
+        "geometry": {
+          "pagePx": {
+            "width": 794,
+            "height": 1123
+          },
+          "elementPx": {
+            "left": 487.546875,
+            "top": 1354.953125,
+            "width": 196.53125,
+            "height": 196.53125
+          },
+          "elementMm": {
+            "left": 128.94816593198993,
+            "top": 358.3446822128228,
+            "width": 51.97929785894207,
+            "height": 51.976652938557436
+          },
+          "imageReady": [
+            {
+              "complete": true,
+              "naturalWidth": 120
+            }
+          ]
+        },
+        "result": {
+          "status": "advisory",
+          "issues": [
+            {
+              "code": "measurement-advisory",
+              "severity": "advisory",
+              "message": "Briefseite 1: Die Umbruchmessung war uneindeutig. Der vollständige Drucksatz passt sichtbar; bitte die Vorschau prüfen.",
+              "documentKind": "letter",
+              "pageIndex": 0,
+              "overridePermitted": true
+            }
+          ]
+        },
+        "provenance": {
+          "sourceSha": "79180bacb8a6934cdad8c366732c3ff3644f5082",
+          "runtimeBlobs": {
+            "src/lib/dossier-pdf.ts": "e0557de243a58c70d6017d81c6fe39656a4b6932",
+            "src/lib/pdf-preflight.ts": "739cc67dd147613f6bdeef6793360679ec6b5bd2",
+            "src/components/letter/preflight.ts": "89a3cedbf896a7ff7caf31d86d007bbe9895a0ae",
+            "src/components/letter/LetterDocument.tsx": "9f64bf31d0d41bc7da5d603a6d4349efb8ec7266",
+            "src/components/letter/letter-pagination.ts": "a2e7573121c6f89545c0512ba25a33ea7f778c46",
+            "src/components/letter/letter-pagination.css": "0e5af5645830b43f9a2fcdf4d18a28a6ea03ddc7",
+            "src/components/cv/CvCanvasBase.tsx": "0e2760cc3a922aae30591496fb52c68f7dbbc21b",
+            "src/components/cv/flow-pagination.ts": "687974cb6192fc9b269e24142568e06c39eb9ff4"
+          }
+        }
+      },
+      "after": {
+        "geometry": {
+          "pagePx": {
+            "width": 794,
+            "height": 1123
+          },
+          "elementPx": {
+            "left": 487.546875,
+            "top": 1354.953125,
+            "width": 196.53125,
+            "height": 196.53125
+          },
+          "elementMm": {
+            "left": 128.94816593198993,
+            "top": 358.3446822128228,
+            "width": 51.97929785894207,
+            "height": 51.976652938557436
+          },
+          "imageReady": [
+            {
+              "complete": true,
+              "naturalWidth": 120
+            }
+          ]
+        },
+        "result": {
+          "status": "blocked",
+          "issues": [
+            {
+              "code": "physical-overflow",
+              "severity": "blocked",
+              "message": "Titelblatt Seite 1: Ein freies Element oder Foto liegt ausserhalb der Seite.",
+              "documentKind": "cover",
+              "pageIndex": 0,
+              "element": "free-element/image",
+              "overridePermitted": false
+            },
+            {
+              "code": "measurement-advisory",
+              "severity": "advisory",
+              "message": "Briefseite 1: Die Umbruchmessung war uneindeutig. Der vollständige Drucksatz passt sichtbar; bitte die Vorschau prüfen.",
+              "documentKind": "letter",
+              "pageIndex": 0,
+              "overridePermitted": true
+            }
+          ]
+        },
+        "provenance": {
+          "sourceSha": "79180bacb8a6934cdad8c366732c3ff3644f5082",
+          "runtimeBlobs": {
+            "src/lib/dossier-pdf.ts": "e0557de243a58c70d6017d81c6fe39656a4b6932",
+            "src/lib/pdf-preflight.ts": "141e2c8fe5f87a9344c04215939d24382bc0c1d8",
+            "src/components/letter/preflight.ts": "5270ed078e81f4e373cae11b704561e38ffe5fef",
+            "src/components/letter/LetterDocument.tsx": "9f64bf31d0d41bc7da5d603a6d4349efb8ec7266",
+            "src/components/letter/letter-pagination.ts": "a2e7573121c6f89545c0512ba25a33ea7f778c46",
+            "src/components/letter/letter-pagination.css": "0e5af5645830b43f9a2fcdf4d18a28a6ea03ddc7",
+            "src/components/cv/CvCanvasBase.tsx": "0e2760cc3a922aae30591496fb52c68f7dbbc21b",
+            "src/components/cv/flow-pagination.ts": "687974cb6192fc9b269e24142568e06c39eb9ff4"
+          }
+        }
+      }
+    },
+    {
+      "condition": "image-overlap",
+      "template": "brief",
+      "physicalPage": 0,
+      "fixtureSha256": "c5fdb95a3b80cd1ace2482d41a2f2a0ef1a68d139a7b13ce7b6dec861198309d",
+      "fixture": {
+        "storage": {
+          "titelblatt:v3": "{\"version\":7,\"template\":\"brief\",\"data\":{\"meta\":{\"title\":\"\",\"author\":\"\",\"subject\":\"\",\"keywords\":\"\"},\"kicker\":\"\",\"eyebrow\":\"\",\"beruf\":\"Informatiker/in EFZ\",\"lehrbeginn\":\"August 2027\",\"vorname\":\"Lea\",\"nachname\":\"Müller\",\"adresse\":\"Dorfstrasse 12\",\"plzOrt\":\"4535 Hubersdorf\",\"telefon\":\"079 123 45 67\",\"email\":\"lea.mueller@example.ch\",\"geburtsdatum\":\"14.03.2010\",\"lehrbetrieb\":\"Beispiel AG\",\"ansprechperson\":\"Herr Thomas Weber\",\"betriebAdresse\":\"Industriestrasse 8, 4535 Hubersdorf\",\"ort\":\"Hubersdorf\",\"datum\":\"15.11.2026\",\"labelKontakt\":\"\",\"labelEmpfaenger\":\"\",\"foto\":\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAiIGhlaWdodD0iODAiPjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iODAiIGZpbGw9IiMyNTYzZWIiLz48L3N2Zz4=\"},\"colors\":{},\"layout\":{},\"customs\":[],\"fontScale\":1.2}",
+          "anschreiben:v1": "{\"version\":1,\"data\":{\"absenderName\":\"Lea Müller\",\"absenderAdresse\":\"Dorfstrasse 12\",\"absenderPlzOrt\":\"4535 Hubersdorf\",\"absenderTelefon\":\"079 123 45 67\",\"absenderEmail\":\"lea.mueller@example.ch\",\"empfaengerFirma\":\"Beispiel AG\",\"empfaengerName\":\"Herr Thomas Weber\",\"empfaengerAdresse\":\"Industriestrasse 8\",\"empfaengerPlzOrt\":\"4535 Hubersdorf\",\"ort\":\"Hubersdorf\",\"datum\":\"15.11.2026\",\"betreff\":\"Bewerbung um eine Lehrstelle als Informatiker/in EFZ\",\"anrede\":\"QASALUTATION001 Guten Tag Herr Weber\",\"text\":\"QAPARA001 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND001\\n\\nQAPARA002 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND002\",\"richTextHtml\":\"\",\"gruss\":\"QACLOSING001 Freundliche Grüsse\",\"unterschrift\":\"QASIGNATURE001 Lea Müller\",\"images\":[],\"showBeilagen\":true,\"beilagen\":[\"QAATTACHMENT001 Lebenslauf\",\"QAATTACHMENT002 Arbeitszeugnis\"]},\"design\":{\"template\":\"brief\",\"colors\":{\"bg\":\"#ffffff\",\"ink\":\"#111111\",\"primary\":\"#111111\",\"secondary\":\"#111111\",\"accent\":\"#111111\",\"cvInk\":\"#111111\",\"cvMuted\":\"#4b5563\",\"cvHeading\":\"#111111\"},\"bgOpacity\":0.25,\"paperColor\":null,\"textColor\":null,\"font\":\"freundlich\",\"fontOverride\":null,\"senderAlign\":\"left\",\"recipientAlign\":\"left\",\"dateAlign\":\"left\",\"ruleAfterSender\":false,\"ruleAfterRecipient\":false,\"ruleAfterSubject\":false,\"headerMode\":\"compact\",\"headerShowName\":true,\"headerShowAddress\":true,\"headerShowPhone\":true,\"headerShowEmail\":true,\"headerDifferentFirstPage\":false,\"headerHeightMm\":null,\"headerTextLayout\":\"stacked\",\"headerInlineSeparator\":\"icons\",\"headerBackgroundColor\":null,\"headerGradientColor\":null,\"footerMode\":\"compact\",\"footerHeightMm\":null,\"footerTextLayout\":\"inline\",\"footerBackgroundColor\":null,\"footerGradientColor\":null,\"chromeBorderEnabled\":false,\"chromeBorderColor\":null,\"chromeBorderWidthMm\":0.6,\"chromeTextFont\":null}}",
+          "lebenslauf:v1": "{\"version\":6,\"data\":{\"titel\":\"Lebenslauf\",\"person\":{\"vorname\":\"Lea\",\"nachname\":\"Müller\",\"adresse\":\"Dorfstrasse 12\",\"plzOrt\":\"4535 Hubersdorf\",\"telefon\":\"079 123 45 67\",\"email\":\"lea.mueller@example.ch\",\"geburtsdatum\":\"14.03.2010\",\"nationalitaet\":\"\",\"untertitel\":\"\",\"foto\":null},\"schule\":[{\"id\":\"qa-school-0\",\"zeit\":\"2025 – 2026\",\"titel\":\"QASCHOOL001 Weiterbildung Informatik\",\"ort\":\"Bildungszentrum Solothurn\",\"beschreibung\":\"QAEDU001 Projektarbeit, Mathematik und selbstständiges Lernen. QAEDUEND001\"}],\"erfahrung\":[{\"id\":\"qa-work-0\",\"zeit\":\"2026\",\"titel\":\"QAWORK001 Informatik und Support\",\"ort\":\"Beispiel AG, Hubersdorf\",\"beschreibung\":\"QADESC001 Im Team entwickelte ich kleine Automatisierungen, unterstützte den Support und dokumentierte die Ergebnisse. Ich prüfte die Anforderungen mit den Fachpersonen, organisierte Rückmeldungen und präsentierte nachvollziehbare Lösungen. QAEND001\"}],\"sprachen\":[{\"id\":\"demo-l1\",\"name\":\"Deutsch\",\"niveau\":\"Muttersprache\"},{\"id\":\"demo-l2\",\"name\":\"Englisch\",\"niveau\":\"Gute Schulkenntnisse (B1)\"},{\"id\":\"demo-l3\",\"name\":\"Französisch\",\"niveau\":\"Grundkenntnisse (A2)\"}],\"hobbys\":[\"Volleyball im Verein\",\"Programmieren kleiner Spiele\",\"Fotografieren\"],\"staerken\":[\"Zuverlässig und pünktlich\",\"Arbeitet gern im Team\",\"Lernt schnell Neues\"],\"referenzen\":[{\"id\":\"demo-r1\",\"name\":\"QAREF001 Thomas Weber\",\"funktion\":\"Klassenlehrer, Schulhaus Zentrum\",\"kontakt\":\"079 555 12 34\",\"email\":\"\",\"zusatz\":\"\"}],\"customSections\":[{\"id\":\"qa-projects\",\"title\":\"Projekte\",\"entries\":[{\"id\":\"qa-project\",\"zeit\":\"2026\",\"titel\":\"QAPROJECT001 Lernplattform\",\"ort\":\"Solothurn\",\"beschreibung\":\"QAPROJECTEND001 Entwicklung und Evaluation im Team.\"}]}],\"sectionOrder\":[\"person\",\"schule\",\"erfahrung\",\"sprachen\",\"hobbys\",\"staerken\",\"referenzen\",\"custom:qa-projects\"],\"labels\":{},\"hidden\":{},\"sectionLayouts\":{}},\"design\":{\"template\":\"brief\",\"colors\":{\"primary\":\"#183046\",\"accent\":\"#d99a42\",\"ink\":\"#15212c\",\"bg\":\"#ffffff\"},\"bgOpacity\":0.25,\"useElements\":false,\"sidebarPct\":22},\"elements\":[],\"elementStyles\":{}}",
+          "lebenslauf:layout:v1": "classic",
+          "lebenslauf:info-position:v1": "standard",
+          "lebenslauf:photo:v2": "{\"shape\":\"circle\",\"zoom\":1.2,\"x\":35,\"y\":65,\"borderWidth\":0.3}",
+          "lebenslauf:photo-place:v1": "{\"mode\":\"frei\",\"xMm\":150,\"yMm\":24,\"widthMm\":28,\"frameColor\":null}",
+          "lebenslauf:placement:v1": "{\"kontakt\":\"side\",\"schule\":\"main\",\"erfahrung\":\"main\",\"sprachen\":\"side\",\"hobbys\":\"side\",\"staerken\":\"side\",\"referenzen\":\"main\"}",
+          "lebenslauf:layout-mirror:v1": "false"
+        },
+        "markers": {
+          "cv": [
+            "QASCHOOL001",
+            "QAEDU001",
+            "QAEDUEND001",
+            "QAWORK001",
+            "QADESC001",
+            "QAEND001",
+            "QAPROJECT001",
+            "QAPROJECTEND001",
+            "QAREF001"
+          ],
+          "letter": [
+            "QAPARA001",
+            "QAPARAEND001",
+            "QAPARA002",
+            "QAPARAEND002",
+            "QASALUTATION001",
+            "QACLOSING001",
+            "QASIGNATURE001",
+            "QAATTACHMENT001",
+            "QAATTACHMENT002"
+          ]
+        },
+        "sequences": {
+          "cv": [
+            [
+              "QASCHOOL001"
+            ],
+            [
+              "QAWORK001"
+            ]
+          ],
+          "letter": [
+            [
+              "QAPARA001",
+              "QAPARA002"
+            ]
+          ]
+        },
+        "segments": {
+          "cv": [
+            "QASCHOOL001 Weiterbildung Informatik",
+            "QAEDU001 Projektarbeit, Mathematik und selbstständiges Lernen. QAEDUEND001",
+            "QAWORK001 Informatik und Support",
+            "QADESC001 Im Team entwickelte ich kleine Automatisierungen, unterstützte den Support und dokumentierte die Ergebnisse. Ich prüfte die Anforderungen mit den Fachpersonen, organisierte Rückmeldungen und präsentierte nachvollziehbare Lösungen. QAEND001",
+            "QAPROJECT001 Lernplattform",
+            "QAPROJECTEND001 Entwicklung und Evaluation im Team."
+          ],
+          "letter": [
+            "QAPARA001 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND001",
+            "QAPARA002 In einem gemeinsamen Informatikprojekt plante ich die Arbeitsschritte, besprach Anforderungen und entwickelte eine verständliche Lösung. Dabei lernte ich, Rückmeldungen sorgfältig zu prüfen, Fehler systematisch zu suchen und meine Ergebnisse nachvollziehbar zu dokumentieren. Diese Erfahrung möchte ich in Ihr Team einbringen. QAPARAEND002"
+          ]
+        }
+      },
+      "before": {
+        "geometry": {
+          "pagePx": {
+            "width": 794,
+            "height": 1123
+          },
+          "elementPx": {
+            "left": 75.578125,
+            "top": 638.75,
+            "width": 196.53125,
+            "height": 196.53125
+          },
+          "elementMm": {
+            "left": 19.9891766372796,
+            "top": 168.93032056990205,
+            "width": 51.97929785894207,
+            "height": 51.976652938557436
+          },
+          "imageReady": [
+            {
+              "complete": true,
+              "naturalWidth": 120
+            }
+          ]
+        },
+        "result": {
+          "status": "advisory",
+          "issues": [
+            {
+              "code": "measurement-advisory",
+              "severity": "advisory",
+              "message": "Briefseite 1: Die Umbruchmessung war uneindeutig. Der vollständige Drucksatz passt sichtbar; bitte die Vorschau prüfen.",
+              "documentKind": "letter",
+              "pageIndex": 0,
+              "overridePermitted": true
+            }
+          ]
+        },
+        "provenance": {
+          "sourceSha": "79180bacb8a6934cdad8c366732c3ff3644f5082",
+          "runtimeBlobs": {
+            "src/lib/dossier-pdf.ts": "e0557de243a58c70d6017d81c6fe39656a4b6932",
+            "src/lib/pdf-preflight.ts": "739cc67dd147613f6bdeef6793360679ec6b5bd2",
+            "src/components/letter/preflight.ts": "89a3cedbf896a7ff7caf31d86d007bbe9895a0ae",
+            "src/components/letter/LetterDocument.tsx": "9f64bf31d0d41bc7da5d603a6d4349efb8ec7266",
+            "src/components/letter/letter-pagination.ts": "a2e7573121c6f89545c0512ba25a33ea7f778c46",
+            "src/components/letter/letter-pagination.css": "0e5af5645830b43f9a2fcdf4d18a28a6ea03ddc7",
+            "src/components/cv/CvCanvasBase.tsx": "0e2760cc3a922aae30591496fb52c68f7dbbc21b",
+            "src/components/cv/flow-pagination.ts": "687974cb6192fc9b269e24142568e06c39eb9ff4"
+          }
+        }
+      },
+      "after": {
+        "geometry": {
+          "pagePx": {
+            "width": 794,
+            "height": 1123
+          },
+          "elementPx": {
+            "left": 75.578125,
+            "top": 638.75,
+            "width": 196.53125,
+            "height": 196.53125
+          },
+          "elementMm": {
+            "left": 19.9891766372796,
+            "top": 168.93032056990205,
+            "width": 51.97929785894207,
+            "height": 51.976652938557436
+          },
+          "imageReady": [
+            {
+              "complete": true,
+              "naturalWidth": 120
+            }
+          ]
+        },
+        "result": {
+          "status": "blocked",
+          "issues": [
+            {
+              "code": "physical-overflow",
+              "severity": "blocked",
+              "message": "Titelblatt Seite 1: Text wird abgeschnitten oder überlappt.",
+              "documentKind": "cover",
+              "pageIndex": 0,
+              "element": "text",
+              "overridePermitted": false
+            },
+            {
+              "code": "measurement-advisory",
+              "severity": "advisory",
+              "message": "Briefseite 1: Die Umbruchmessung war uneindeutig. Der vollständige Drucksatz passt sichtbar; bitte die Vorschau prüfen.",
+              "documentKind": "letter",
+              "pageIndex": 0,
+              "overridePermitted": true
+            }
+          ]
+        },
+        "provenance": {
+          "sourceSha": "79180bacb8a6934cdad8c366732c3ff3644f5082",
+          "runtimeBlobs": {
+            "src/lib/dossier-pdf.ts": "e0557de243a58c70d6017d81c6fe39656a4b6932",
+            "src/lib/pdf-preflight.ts": "141e2c8fe5f87a9344c04215939d24382bc0c1d8",
+            "src/components/letter/preflight.ts": "5270ed078e81f4e373cae11b704561e38ffe5fef",
+            "src/components/letter/LetterDocument.tsx": "9f64bf31d0d41bc7da5d603a6d4349efb8ec7266",
+            "src/components/letter/letter-pagination.ts": "a2e7573121c6f89545c0512ba25a33ea7f778c46",
+            "src/components/letter/letter-pagination.css": "0e5af5645830b43f9a2fcdf4d18a28a6ea03ddc7",
+            "src/components/cv/CvCanvasBase.tsx": "0e2760cc3a922aae30591496fb52c68f7dbbc21b",
+            "src/components/cv/flow-pagination.ts": "687974cb6192fc9b269e24142568e06c39eb9ff4"
+          }
+        }
+      }
+    }
+  ]
+}

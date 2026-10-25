@@ -1,0 +1,74 @@
+name: Letter PDF text layer
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [fix/letter-pdf-textlayer-12okt]
+    paths:
+      - "src/lib/dossier-pdf.ts"
+      - "tests/qa/**"
+      - "tests/unit/pagination-qa-assertions.test.ts"
+      - "tests/e2e/support/cv-parity-fixture.ts"
+      - "tests/e2e/shared-editor-controls-consistency.spec.ts"
+      - "scripts/pagination_qa_*.mjs"
+      - ".github/workflows/letter-pdf-textlayer.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: letter-pdf-textlayer-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  regressions:
+    if: github.ref == 'refs/heads/fix/letter-pdf-textlayer-12okt'
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install locked dependencies and pinned browser runner
+        run: |
+          bun install --frozen-lockfile
+          npm install --no-save --no-package-lock @playwright/test@1.55.0
+          bun install --frozen-lockfile
+      - name: Typecheck, unit regressions, lint, formatting and production build
+        run: |
+          bun run typecheck
+          npx tsc --noEmit -p tests/qa/tsconfig.json
+          bun test tests/unit
+          bun run lint
+          bun run format:check:release
+          npx prettier --check src/lib/dossier-pdf.ts tests/qa/*.ts tests/qa/tsconfig.json tests/unit/pagination-qa-assertions.test.ts tests/e2e/support/cv-parity-fixture.ts tests/e2e/shared-editor-controls-consistency.spec.ts scripts/pagination_qa_*.mjs .github/workflows/letter-pdf-textlayer.yml
+          bun run build
+      - name: Install Chromium
+        run: bash scripts/qa-browser-setup.sh
+      - name: Existing product, PDF rich-text, shared editor and sync regressions
+        run: npx playwright test --config tests/qa/playwright.letter-product.config.ts
+      - name: Letter matrix, boundaries and focused regressions (39 templates)
+        env:
+          PAGINATION_QA_DIR: artifacts/letter-textlayer
+        run: npx playwright test --config tests/qa/playwright.letter-textlayer.config.ts
+      - name: Combined dossier regression
+        run: npx playwright test --config tests/qa/playwright.combined.config.ts
+      - name: Logical field presence and evidence summary
+        env:
+          PAGINATION_QA_DIR: artifacts/letter-textlayer
+        run: |
+          bun scripts/pagination_qa_fields.mjs
+          node scripts/pagination_qa_summary.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: letter-pdf-textlayer-${{ github.sha }}
+          path: |
+            artifacts/letter-textlayer
+            artifacts/pagination-2page-combined
+            test-results/letter-textlayer
+            test-results/letter-textlayer-product
+            test-results/pagination-combined
+          retention-days: 14

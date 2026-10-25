@@ -152,9 +152,9 @@ async function seedCv(
 }
 
 async function motifOpacities(root: Locator) {
-  return root.locator("[data-dossier-sheet-motif]").evaluateAll((nodes) =>
-    nodes.map((node) => Number.parseFloat(getComputedStyle(node).opacity)),
-  );
+  return root
+    .locator("[data-dossier-sheet-motif]")
+    .evaluateAll((nodes) => nodes.map((node) => Number.parseFloat(getComputedStyle(node).opacity)));
 }
 
 async function storedMotifOpacity(page: Page) {
@@ -215,9 +215,7 @@ test.describe("template cleanup", () => {
     await expect(page.locator("html")).toHaveAttribute("data-dossier-template", "blockig");
 
     const geometry = await page
-      .locator(
-        '[data-dossier-document="cv"][data-cv-template="blockig"][data-export-mode="false"]',
-      )
+      .locator('[data-dossier-document="cv"][data-cv-template="blockig"][data-export-mode="false"]')
       .first()
       .evaluate((documentRoot) => {
         const pageElement = documentRoot.querySelector<HTMLElement>("[data-cv-page]");
@@ -281,9 +279,10 @@ test.describe("template cleanup", () => {
         opacities.every((opacity) => opacity === 0),
         `${template} compact motifs should be presentation-suppressed`,
       ).toBe(true);
-      expect(await storedMotifOpacity(page), `${template} stored slider value must stay untouched`).toBe(
-        0.25,
-      );
+      expect(
+        await storedMotifOpacity(page),
+        `${template} stored slider value must stay untouched`,
+      ).toBe(0.25);
       await expect(root.locator("[data-cv-page]")).toHaveCount(1);
 
       const exported = exportCv(page, template);
@@ -305,9 +304,7 @@ test.describe("template cleanup", () => {
       "data-dossier-effective-header-mode",
       "contact",
     );
-    await expect
-      .poll(async () => (await motifOpacities(root))[0])
-      .toBeCloseTo(0.25, 2);
+    await expect.poll(async () => (await motifOpacities(root))[0]).toBeCloseTo(0.25, 2);
     expect((await motifOpacities(root)).every((opacity) => Math.abs(opacity - 0.25) < 0.01)).toBe(
       true,
     );
@@ -319,7 +316,9 @@ test.describe("template cleanup", () => {
     ).toBe(true);
   });
 
-  test("Glow, Colorful and Aurora remove only their isolated compact fragments", async ({ page }) => {
+  test("Glow, Colorful and Aurora remove only their isolated compact fragments", async ({
+    page,
+  }) => {
     const glow = await seedCv(page, "glow");
     const glowParts = await glow
       .locator('[data-dossier-sheet-background="glow"]')
@@ -351,12 +350,14 @@ test.describe("template cleanup", () => {
     const auroraCompact = aurora.locator("[data-dossier-compact-header]").first();
     const auroraStyle = await pseudoStyle(auroraCompact, "::before");
     expect(auroraStyle.display).toBe("none");
-    expect(await auroraCompact.evaluate((node) => getComputedStyle(node).backgroundImage)).toContain(
-      "linear-gradient",
-    );
+    expect(
+      await auroraCompact.evaluate((node) => getComputedStyle(node).backgroundImage),
+    ).toContain("linear-gradient");
   });
 
-  test("Cove removes only the compact secondary blob and keeps contact decoration", async ({ page }) => {
+  test("Cove removes only the compact secondary blob and keeps contact decoration", async ({
+    page,
+  }) => {
     const root = await seedCv(page, "cove");
     const compact = root.locator("[data-dossier-compact-header]").first();
     await expect(compact).toBeVisible();

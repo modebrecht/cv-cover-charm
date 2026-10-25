@@ -1,0 +1,131 @@
+{
+  "date": "2026-10-22",
+  "status": "RECONSTRUCTED_AND_REVERIFIED_COMMIT_CHECKPOINT",
+  "branch": "fix/docx-next-cv-document-scale-22okt",
+  "parent": "e1f11779db1da78c08651b22b552cf6f54006e5d",
+  "priorLocalCandidateRecoveredByteForByte": false,
+  "scope": "Reconstructed implementation of the missing document-owned CSS scale input; current fresh checks only",
+  "rootCause": "Computed CSS font/length values omit the existing document zoom, while normal Web/PDF layout includes it",
+  "newSourceFiles": [
+    {
+      "path": "src/lib/docx-next/cv-flow-scale.ts",
+      "sha256": "f9a00c9525b0c89a9456718971c52c2940285089707c628564158844e6af7030"
+    },
+    {
+      "path": "src/lib/docx-next-cv-zoom.browser.ts",
+      "sha256": "5068625b31c67b055c628b59990541bf9d36396950986ec3cbab4fdeddf3add8"
+    },
+    {
+      "path": "src/lib/docx-next/interior-metrics.ts",
+      "sha256": "13630ab27e96689978815ef0fcbf115345bb342003ae653c0bea3f191d49351b"
+    },
+    {
+      "path": "src/lib/docx-next/build-model.ts",
+      "sha256": "1dd79f9aa59f8a877919e887311ae8e7d600dc961cce142ed24b1695b293717f"
+    },
+    {
+      "path": "src/lib/docx-next-interior-metrics.browser.tsx",
+      "sha256": "d7b3b84e84eb7bdb40609a927ed83c15d8e149fe79aa10bc924040c1e5447eb3"
+    },
+    {
+      "path": "tests/unit/docx-next-cv-flow-scale.test.ts",
+      "sha256": "1525e933a12d045238bd94e5ad5fde6fa821d7bd186dca6edfa54fdd3e6cee82"
+    }
+  ],
+  "unitTests": {
+    "pass": 97,
+    "fail": 0,
+    "newTests": 4,
+    "files": 12,
+    "expectations": 961
+  },
+  "strictFocusedTypescript": "PASS",
+  "app": {
+    "sourceProject": "/workspace/scratch/0fa6acbb40a7/word-pagination-footer-regression-21okt/05-Modern-Eigene-Werte-Referenzen/project.json",
+    "scope": "Real restored project, temporary QA SPA; DPR/preview only, browser menu zoom unverified",
+    "results": [
+      {
+        "id": "baseline",
+        "width": 1440,
+        "dpr": 1,
+        "preview": 1,
+        "view": {
+          "cvPages": 1,
+          "flowScale": 0.9,
+          "dpr": 1,
+          "viewport": 1440
+        },
+        "docxSha256": "82cdc8b191d868551ee13230ece39aa343ca7ec25e384f63b90afb2334e754ae",
+        "docxIdenticalToBaseline": true,
+        "modelAndMetricsIdentical": true,
+        "savedInputsUnchanged": true,
+        "guardedUiDownloadMatches": true
+      },
+      {
+        "id": "dpr2",
+        "width": 1440,
+        "dpr": 2,
+        "preview": 1,
+        "view": {
+          "cvPages": 1,
+          "flowScale": 0.9,
+          "dpr": 2,
+          "viewport": 1440
+        },
+        "docxSha256": "82cdc8b191d868551ee13230ece39aa343ca7ec25e384f63b90afb2334e754ae",
+        "docxIdenticalToBaseline": true,
+        "modelAndMetricsIdentical": true,
+        "savedInputsUnchanged": true,
+        "guardedUiDownloadMatches": true
+      },
+      {
+        "id": "narrow-preview",
+        "width": 980,
+        "dpr": 1,
+        "preview": 0.7,
+        "view": {
+          "cvPages": 1,
+          "flowScale": 0.9,
+          "dpr": 1,
+          "viewport": 980
+        },
+        "docxSha256": "82cdc8b191d868551ee13230ece39aa343ca7ec25e384f63b90afb2334e754ae",
+        "docxIdenticalToBaseline": true,
+        "modelAndMetricsIdentical": true,
+        "savedInputsUnchanged": true,
+        "guardedUiDownloadMatches": true
+      }
+    ]
+  },
+  "verification": {
+    "sameSnapshot": true,
+    "sameCoverModel": true,
+    "sameLetterModel": true,
+    "allModelFieldIdsAndTextsUnchanged": true,
+    "fieldCount": 80,
+    "nativePages": 3,
+    "webPdfPages": 3,
+    "nativeCvPages": 1,
+    "cvReferenceFields": {
+      "cv.section.referenzen.heading": "Referenzen",
+      "cv.entry.referenzen:demo-r1.name": "Herr Thomas Weber",
+      "cv.entry.referenzen:demo-r1.role": "Klassenlehrer, Schulhaus Zentrum",
+      "cv.entry.referenzen:demo-r1.contact": "079 555 12 34",
+      "cv.entry.referenzen:batch-email.name": "Frau Anna Keller",
+      "cv.entry.referenzen:batch-email.role": "Berufsberatung",
+      "cv.entry.referenzen:batch-email.email": "referenz@example.ch"
+    },
+    "nativeTextMissing": [],
+    "wordAcceptance": "UNVERIFIED",
+    "nativeTextCheck": "Expected run casing, with extraction spacing normalized only for tracked runs",
+    "nativeControlTags": 84,
+    "duplicateNativeControlTags": []
+  },
+  "renderedPagesInspected": 3,
+  "patchSha256": "c7c60d462cd3b91155765b13d417ce73d3bc39415c8e44d37378cf7ffc2dc47c",
+  "priorTenCaseMatrix": "NOT_RERUN_OR_TRANSFERRED",
+  "currentWordAcceptance": "UNVERIFIED",
+  "browserMenuZoom": "UNVERIFIED; DPR and preview tests are not browser menu zoom",
+  "productionSwitch": false,
+  "merged": false
+}

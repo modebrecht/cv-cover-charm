@@ -5,10 +5,7 @@ import type {
 } from "@/lib/dossier-pdf-document";
 import { createWarmDossierDocxBlob } from "@/lib/dossier-docx-warm";
 import { transformStoredDocxDocumentXml } from "@/lib/dossier-docx-package";
-import {
-  dossierDocxTemplatePlan,
-  type DossierDocxGeometryFamily,
-} from "@/lib/dossier-docx-family";
+import { dossierDocxTemplatePlan, type DossierDocxGeometryFamily } from "@/lib/dossier-docx-family";
 
 const MM_TO_TWIPS = 1440 / 25.4;
 const twips = (mm: number) => Math.round(mm * MM_TO_TWIPS);
@@ -21,7 +18,10 @@ function hex(value: string | undefined, fallback: string) {
 function rgbLuminance(color: string) {
   const value = color.replace("#", "");
   const channels = [0, 2, 4].map((offset) => parseInt(value.slice(offset, offset + 2), 16) / 255);
-  return channels.reduce((sum, channel, index) => sum + channel * [0.2126, 0.7152, 0.0722][index], 0);
+  return channels.reduce(
+    (sum, channel, index) => sum + channel * [0.2126, 0.7152, 0.0722][index],
+    0,
+  );
 }
 
 function normalizedColors(colors: Record<string, string> | undefined) {
@@ -312,11 +312,7 @@ function familyTransform(
   return xml;
 }
 
-function sameTemplate(
-  cover: CoverPdfDocument,
-  letter: LetterPdfDocument,
-  cv: CvPdfDocument,
-) {
+function sameTemplate(cover: CoverPdfDocument, letter: LetterPdfDocument, cv: CvPdfDocument) {
   const template = String(cover.template);
   return template === String(letter.design.template) && template === String(cv.design.template)
     ? template
@@ -341,7 +337,9 @@ export async function createGenericFamilyDossierDocxBlob(
   const template = sameTemplate(cover, letter, cv);
   const plan = template ? dossierDocxTemplatePlan(template) : null;
   if (!template || !plan) {
-    throw new Error("DOCX-Familienrenderer benötigt dieselbe unterstützte Vorlage in allen drei Dossierteilen.");
+    throw new Error(
+      "DOCX-Familienrenderer benötigt dieselbe unterstützte Vorlage in allen drei Dossierteilen.",
+    );
   }
 
   const compatible = warmCompatibleDocuments(cover, letter, cv);

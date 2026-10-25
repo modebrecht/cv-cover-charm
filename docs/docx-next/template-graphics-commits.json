@@ -1,0 +1,74 @@
+[
+  {
+    "localSha": "c064b9473b5e693b901fc7c2bd7a5e7cbdc25dd0",
+    "remoteSha": "098597a33a6c5619ef0fadf9a9840cb617fe87cc",
+    "message": "feat(docx-next): configure Edel Dark with shared native composition",
+    "tree": "722736f540c8020b3c93a88f9f215420813d8c17"
+  },
+  {
+    "localSha": "69edbcea2a616c4ea4b2b948dd1023512eebc531",
+    "remoteSha": "4e5812ae8c696412476bf78324d027486ccc64a3",
+    "message": "feat(docx-next): configure Studio family with existing native primitives",
+    "tree": "b8b31cde2a9f26c63d81bd45e423e98695b70cff"
+  },
+  {
+    "localSha": "b1760b984e50384559b5845408af4a2c90df9d9d",
+    "remoteSha": "723cee9c125af1a9b5b3f5b4d8412e7262f9736e",
+    "message": "feat(docx-next): configure Edge and Gallery editorial templates",
+    "tree": "3cbf6354a3a84b823340c31dfc86f7835444ae92"
+  },
+  {
+    "localSha": "9522b9baaccdf6a690ead84012aa61198d87518a",
+    "remoteSha": "398a06767d6364673f32c464f7ccb0afb35f0bc3",
+    "message": "test(docx-next): assess Kolumne with existing native contact surfaces",
+    "tree": "ed92a1a36d37e97ea18780371781831be120b778"
+  },
+  {
+    "localSha": "68d88102853782e2b55148e3473f619e7f73aa6a",
+    "remoteSha": "e0b6fce53296072e81b0f10e4ec71cb12a4638bb",
+    "message": "feat(docx-next): allow declarative editable heading badge defaults",
+    "tree": "23aa3d968418b3872cfecb2cbf7dd8817410a028"
+  },
+  {
+    "localSha": "2d80a7f3bd59fd37b66ce6d46b247710874dfcc9",
+    "remoteSha": "d6d7f84a4ed1079bec1d6ff4b9cea86efdb029b8",
+    "message": "feat(docx-next): configure Kolumne with an editable native contact column",
+    "tree": "b08094c810f5903d27915b1dc739e64c66dcc1b1"
+  },
+  {
+    "localSha": "25b5361a6b8524b54f9ef402cabd9c0fa38bb09b",
+    "remoteSha": "7ce4979ddc11db6016cdb1899b0443c872683219",
+    "message": "feat(docx-next): configure Citrus with existing gradient contours and native rubrics",
+    "tree": "ab74b6a8e9eb3f6d2301570260b941d6341fedbe"
+  },
+  {
+    "localSha": "554b0f25417b2b07d26f9cb5b6a97ed43b86d279",
+    "remoteSha": "a9b39685d4818f65993dd00c824e87603d17075c",
+    "message": "docs(docx-next): record final template inventory and stable migration evidence",
+    "tree": "e032e79254ca97721d1ba52afbf780d5fccffa59"
+  },
+  {
+    "localSha": "9a3b1c016f8922b081a483e1127d5241b0f29fa2",
+    "remoteSha": "d263d8db0371b5d5092f1710d6c0278a95179a1e",
+    "message": "docs(docx-next): hand off the three remaining generic template requirements",
+    "tree": "1f3b6d79ef8bcf05c6a56caf8ec6d269b710f028"
+  },
+  {
+    "localSha": "8669aa07ec1cb2debb04dfcfb3addf3791efa66d",
+    "remoteSha": "00d2f76aa77335493a596583eda700c9ff1cb7ee",
+    "message": "feat(docx-next): compose opt-in nonsemantic page paint into one asset",
+    "tree": "b12b8ebc4c27785a8236e6f4d9a1b32aef16918e"
+  },
+  {
+    "localSha": "6564e46fc988733134b1dded3b9dd47c993da275",
+    "remoteSha": "bfe807e22db3b6b9e99e1768b42218884041b17d",
+    "message": "feat(docx-next): configure Neon and Verlauf with composed page paint",
+    "tree": "8bde0b9dbf648ff8ab60deead79ce6e4d17fce08"
+  },
+  {
+    "localSha": "ea2d921ee54ca4c929eb68767d718a72133e5b60",
+    "remoteSha": "d8a340da9f445d93b9e29a43bed212589c07ff8f",
+    "message": "test(docx-next): retain Aurora fixed-hero contrast counterexample",
+    "tree": "82ab79a07faf39bd72883f13b15dc4899f24818f"
+  }
+]

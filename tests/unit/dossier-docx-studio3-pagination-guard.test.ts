@@ -10,9 +10,7 @@ describe("Studio 3 DOCX CV pagination polish", () => {
   test("compacts the masthead intro instead of consuming a fourth dossier page", () => {
     expect(source).toContain("xml = replaceParagraphBefore(xml, cvTitle, 0);");
     expect(source).toContain("if (cvPersonal) xml = replaceParagraphBefore(xml, cvPersonal, 0);");
-    expect(source).toContain(
-      "xml = replaceSpacerAfter(xml, 'id=\"studio3-cv-primary\"', 29, 20);",
-    );
+    expect(source).toContain("xml = replaceSpacerAfter(xml, 'id=\"studio3-cv-primary\"', 29, 20);");
   });
 
   test("keeps the pagination correction isolated to the Studio 3 polish layer", () => {

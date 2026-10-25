@@ -1,0 +1,19 @@
+{
+  "package": "libreoffice-writer-dbgsym",
+  "version": "4:25.8.7-0ubuntu0.25.10.1~bpo24.04.1",
+  "architecture": "amd64",
+  "publicationUrl": "https://launchpad.net/ubuntu/+archive/primary/+files/libreoffice-writer-dbgsym_25.8.7-0ubuntu0.25.10.1~bpo24.04.1_amd64.ddeb",
+  "fileUrl": "https://launchpadlibrarian.net/864715249/libreoffice-writer-dbgsym_25.8.7-0ubuntu0.25.10.1~bpo24.04.1_amd64.ddeb",
+  "size": 373517628,
+  "sha256": "406c5220686e6ba7a1006956d37d11b8362855a4360e8627f0744701de92eaca",
+  "libraries": {
+    "libswlo.so": {
+      "buildId": "9fbc1534d4b2fd9fbd5a10b76cffa00cf645510c",
+      "memberSize": 262724544
+    },
+    "libsw_writerfilterlo.so": {
+      "buildId": "5fa50010e8d243ae825a6cfc13715222e5b6bbe8",
+      "memberSize": 25189312
+    }
+  }
+}

@@ -203,9 +203,7 @@ async function seedCover(page: Page, template: (typeof TEMPLATES)[number]): Prom
   );
   await page.goto(`${BASE_URL}/titelblatt`, { waitUntil: "domcontentloaded" });
   const sheet = page
-    .locator(
-      `[data-dossier-document="cover"][data-cover-template="${template.id}"]`,
-    )
+    .locator(`[data-dossier-document="cover"][data-cover-template="${template.id}"]`)
     .first();
   await sheet.waitFor({ state: "visible" });
   return sheet;

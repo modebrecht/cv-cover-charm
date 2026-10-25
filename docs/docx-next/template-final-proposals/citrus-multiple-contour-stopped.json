@@ -1,0 +1,202 @@
+{
+  "id": "citrus",
+  "archetype": "graphic",
+  "typography": {
+    "font": "Arial",
+    "bodyPt": 10.5,
+    "namePt": 24,
+    "headingPt": 12,
+    "heroPt": 28
+  },
+  "colors": {
+    "ink": "3F1D2B",
+    "accent": "FB7185",
+    "paper": "FFFDF9"
+  },
+  "margins": {
+    "top": 27,
+    "right": 28,
+    "bottom": 26,
+    "left": 28
+  },
+  "interiorPaletteSource": "dossier",
+  "pagePaintOrder": "layer",
+  "artwork": [],
+  "cover": {
+    "margins": {
+      "top": 20,
+      "right": 14,
+      "bottom": 20,
+      "left": 14
+    },
+    "fontSource": "dossier",
+    "order": [
+      "eyebrow",
+      "ortDatum",
+      "foto",
+      "kicker",
+      "beruf",
+      "name",
+      "lehrbeginn",
+      "beilagenTitel",
+      "beilagen",
+      "kontaktTitel",
+      "kontakt",
+      "anTitel",
+      "empfaenger"
+    ],
+    "align": "center",
+    "photoAlign": "center",
+    "photoWidthMm": 56,
+    "heroSpaceMm": 0,
+    "heroInRows": true,
+    "decorationPlacement": "first-header",
+    "rows": [
+      {
+        "fields": ["eyebrow", "ortDatum"],
+        "widths": [1, 1]
+      },
+      {
+        "fields": [["foto", "kicker", "beruf", "name", "lehrbeginn", "beilagenTitel", "beilagen"]],
+        "widths": [1],
+        "cellFillSlots": ["bg"],
+        "beforeMm": 22
+      },
+      {
+        "fields": [
+          ["kontaktTitel", "kontakt"],
+          ["anTitel", "empfaenger"]
+        ],
+        "widths": [1, 1],
+        "cellFillSlots": ["bg", "bg"],
+        "beforeMm": 12
+      }
+    ],
+    "motifs": [
+      {
+        "shape": "path",
+        "xFraction": 0.0,
+        "widthFraction": 1.0,
+        "topMm": 0,
+        "heightMm": 297,
+        "fillSlot": "primary",
+        "gradientStops": [
+          {
+            "slot": "primary",
+            "offsetPct": 0
+          },
+          {
+            "slot": "secondary",
+            "offsetPct": 100
+          }
+        ],
+        "angleDeg": 155,
+        "paintLayer": 1,
+        "repeat": "first",
+        "path": "M0 0 L100 0 L100 100 L0 100 Z M11.428571 16.835017 C8.798644 16.835017 6.6666667 18.342476 6.6666667 20.20202 L6.6666667 91.919192 C6.6666667 93.778737 8.798644 95.286195 11.428571 95.286195 L88.571429 95.286195 C91.201356 95.286195 93.333333 93.778737 93.333333 91.919192 L93.333333 20.20202 C93.333333 18.342476 91.201356 16.835017 88.571429 16.835017 Z"
+      }
+    ]
+  },
+  "letter": {
+    "paragraphSpaceMm": 3,
+    "lineHeight": 1.2,
+    "recipientGapMm": 12,
+    "fontSource": "dossier",
+    "keepTailTogether": true
+  },
+  "chrome": {
+    "headerDistanceMm": 12,
+    "footerDistanceMm": 12,
+    "ignoreEmptyHeader": true,
+    "lineMetricFactor": 1.4,
+    "defaultContact": {
+      "heightMm": 32,
+      "gapMm": 4
+    },
+    "band": {
+      "surfaceSource": "descriptor",
+      "surface": "motifs",
+      "fillSlot": "bg",
+      "accentSlot": "primary",
+      "compactFirstMm": 14,
+      "compactContinuationMm": 14
+    }
+  },
+  "cv": {
+    "sectionSpaceMm": 3.6,
+    "headingRule": false,
+    "sidebarFraction": 0.3,
+    "headingBadge": true
+  },
+  "pageMotifs": {
+    "letter": [
+      {
+        "shape": "path",
+        "xFraction": 0.0,
+        "widthFraction": 1.0,
+        "topMm": 0,
+        "heightMm": 297,
+        "fillSlot": "primary",
+        "gradientStops": [
+          {
+            "slot": "primary",
+            "offsetPct": 0
+          },
+          {
+            "slot": "secondary",
+            "offsetPct": 100
+          }
+        ],
+        "angleDeg": 155,
+        "paintLayer": 1,
+        "path": "M0 0 L100 0 L100 100 L0 100 Z M9.5238095 4.040404 C7.4198676 4.040404 5.7142857 5.246371 5.7142857 6.7340067 L5.7142857 93.265993 C5.7142857 94.753629 7.4198676 95.959596 9.5238095 95.959596 L90.47619 95.959596 C92.580132 95.959596 94.285714 94.753629 94.285714 93.265993 L94.285714 6.7340067 C94.285714 5.246371 92.580132 4.040404 90.47619 4.040404 Z"
+      }
+    ],
+    "cv": [
+      {
+        "shape": "path",
+        "xFraction": 0.0,
+        "widthFraction": 1.0,
+        "topMm": 0,
+        "heightMm": 297,
+        "fillSlot": "primary",
+        "gradientStops": [
+          {
+            "slot": "primary",
+            "offsetPct": 0
+          },
+          {
+            "slot": "secondary",
+            "offsetPct": 100
+          }
+        ],
+        "angleDeg": 155,
+        "paintLayer": 1,
+        "path": "M0 0 L100 0 L100 15.48821549 L7.619047619 15.48821549 C3.411163811 15.48821549 0 17.75708956 0 20.87542088 Z",
+        "repeat": "first"
+      },
+      {
+        "shape": "path",
+        "xFraction": 0.0,
+        "widthFraction": 1.0,
+        "topMm": 0,
+        "heightMm": 297,
+        "fillSlot": "primary",
+        "gradientStops": [
+          {
+            "slot": "primary",
+            "offsetPct": 0
+          },
+          {
+            "slot": "secondary",
+            "offsetPct": 100
+          }
+        ],
+        "angleDeg": 155,
+        "paintLayer": 1,
+        "path": "M0 0 L100 0 L100 100 L0 100 Z M9.5238095 4.040404 C7.4198676 4.040404 5.7142857 5.246371 5.7142857 6.7340067 L5.7142857 93.265993 C5.7142857 94.753629 7.4198676 95.959596 9.5238095 95.959596 L90.47619 95.959596 C92.580132 95.959596 94.285714 94.753629 94.285714 93.265993 L94.285714 6.7340067 C94.285714 5.246371 92.580132 4.040404 90.47619 4.040404 Z",
+        "repeat": "continuation"
+      }
+    ]
+  }
+}

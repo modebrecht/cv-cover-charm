@@ -1,0 +1,314 @@
+{
+  "date": "2026-10-25",
+  "pr": 185,
+  "prUrl": "https://github.com/modebrecht/cv-cover-charm/pull/185",
+  "merged": true,
+  "mergeCommit": "781c22a4fb658fe5f29faf39efde24b96a62477c",
+  "mergedTree": "aab23f195dd3354b4dc8343ab0610815fdc8919a",
+  "treeExactToReviewedIntegration": true,
+  "activeBranch": "dev",
+  "historicalBranches": [
+    {
+      "name": "audit/docx-next-sidebar-root-cause-21okt",
+      "sha": "c5882dd1ea2449b45477a7842488355a5ee40903",
+      "tree": "9ee94a3ead81ebca27a6d1b90b8f908c624affb3"
+    },
+    {
+      "name": "fix/docx-next-sidebar-photo-ownership-21okt",
+      "sha": "375075f7539de3ab588f0b9a0381ec920fde134c",
+      "tree": "a388586c7b538b00b9ebd87294dddbbd2de4fdf6"
+    },
+    {
+      "name": "fix/docx-next-sidebar-word-layout-21okt",
+      "sha": "f73c776e2eca6b9b0d858ee2ab997230259797ac",
+      "tree": "6bccbe91656835c2350c20e786e19ddc54422e29"
+    },
+    {
+      "name": "fix/docx-next-word-pagination-21okt",
+      "sha": "e1f11779db1da78c08651b22b552cf6f54006e5d",
+      "tree": "e869ba8bd64183e23d63702929fba49a27474c96"
+    },
+    {
+      "name": "fix/docx-next-cv-document-scale-22okt",
+      "sha": "727124a7071aa6184b2e0976c6801a59ff5f14d0",
+      "tree": "6ad36480817a8910623e09164d1630dfc8225b1c"
+    },
+    {
+      "name": "fix/docx-next-cv-page-surface-22okt",
+      "sha": "f256e1817bad54767f58cfba6c958d21a2151441",
+      "tree": "d27d27f2e8153ef4575109f32304cdeea6f883c4"
+    },
+    {
+      "name": "fix/docx-next-shared-fidelity-18okt",
+      "sha": "7be40063856d1376acb60e917fe85599a6033dad",
+      "tree": "3afcccd2b52b345926ba3897e76033120fa989d7"
+    },
+    {
+      "name": "fix/docx-next-shared-integration-22okt",
+      "sha": "a54070eab5b4a16d25bc386cd25b3296a824286e",
+      "tree": "aab23f195dd3354b4dc8343ab0610815fdc8919a"
+    }
+  ],
+  "uniquePredecessorCommits": 18,
+  "productCommits": [
+    {
+      "sha": "2813958f3a25eeeb5853dc6412809143f04207bd",
+      "subject": "fix(docx): preserve native inline picture and field ownership",
+      "files": [
+        "src/lib/docx-next/native-text.ts",
+        "src/lib/docx-next/renderer.ts"
+      ]
+    },
+    {
+      "sha": "375075f7539de3ab588f0b9a0381ec920fde134c",
+      "subject": "fix(docx-next): align reference columns with the section edge [skip ci]",
+      "files": [
+        "src/lib/docx-next/build-model.ts",
+        "src/lib/docx-next/layouts.ts"
+      ]
+    },
+    {
+      "sha": "9c6fcece1f212f6315f519d4db20e24d633951e2",
+      "subject": "fix(docx-next): repair Sidebar picture frames, reference alignment and section starts [skip ci]",
+      "files": [
+        "src/lib/docx-next/build-model.ts",
+        "src/lib/docx-next/cv-sidebar-body.ts",
+        "src/lib/docx-next/cv-sidebar-composition.ts",
+        "src/lib/docx-next/image-zone.ts",
+        "src/lib/docx-next/layouts.ts",
+        "src/lib/docx-next/model.ts",
+        "src/lib/docx-next/native-picture-frame.ts",
+        "src/lib/docx-next/native-text.ts",
+        "src/lib/docx-next/renderer.ts",
+        "src/lib/docx-next/validation.ts"
+      ]
+    },
+    {
+      "sha": "c4c0596230d22f07497f1505ef4507e766656d87",
+      "subject": "fix(docx-next): preserve photo outlines and half-width text edges [skip ci]",
+      "files": [
+        "src/lib/docx-next/cv-sidebar-composition.ts",
+        "src/lib/docx-next/image-zone.ts",
+        "src/lib/docx-next/native-picture-frame.ts",
+        "src/lib/docx-next/renderer.ts"
+      ]
+    },
+    {
+      "sha": "1ae6bd9a155d179b146aee4c99fed18a1aa647c2",
+      "subject": "fix(docx-next): match CV rubric spacing to classic reading defaults [skip ci]",
+      "files": [
+        "src/lib/docx-next/build-model.ts"
+      ]
+    },
+    {
+      "sha": "70a10ed14eb01066119f21a5f7e8d01a548326f6",
+      "subject": "fix(docx-next): reserve painted CV footer once using shared page policy [skip ci]",
+      "files": [
+        "src/lib/docx-next/compact-chrome.ts",
+        "src/lib/docx-next/cv-painted-footer.ts",
+        "src/lib/docx-next/interior-composition.ts"
+      ]
+    },
+    {
+      "sha": "1c4afca24e66471b635e404f18fd3b034987a145",
+      "subject": "fix(docx-next): keep frozen sidebar outside painted-footer margin repair [skip ci]",
+      "files": [
+        "src/lib/docx-next/cv-painted-footer.ts"
+      ]
+    },
+    {
+      "sha": "727124a7071aa6184b2e0976c6801a59ff5f14d0",
+      "subject": "fix(docx): restore document-owned CV scale and checkpoint local QA [skip ci]",
+      "files": [
+        "src/lib/docx-next-cv-zoom.browser.ts",
+        "src/lib/docx-next-interior-metrics.browser.tsx",
+        "src/lib/docx-next/build-model.ts",
+        "src/lib/docx-next/cv-flow-scale.ts",
+        "src/lib/docx-next/interior-metrics.ts"
+      ]
+    },
+    {
+      "sha": "f256e1817bad54767f58cfba6c958d21a2151441",
+      "subject": "fix(docx): keep CV sidebar surface at full page height [skip ci]",
+      "files": [
+        "src/lib/docx-next/cv-sidebar-composition.ts"
+      ]
+    }
+  ],
+  "transportReplay": {
+    "initialCommit": "90216cb21ffeaf3b555ebde48b5e65c7bc64f602",
+    "files": [
+      {
+        "path": "scripts/docx-next-sidebar-cv-photo-packet.py",
+        "sha": "796aa3a77c7a96bb80cafee54706d57f2d4dbc92"
+      },
+      {
+        "path": "scripts/docx-next-sidebar-word-layout-packet.ts",
+        "sha": "791b41a9fe75056dcbb0e78c94bb13b4cf28a62a"
+      },
+      {
+        "path": "scripts/docx-next-sidebar-word-layout-qa.py",
+        "sha": "369983c2817cb105cff755bd09585d006ae68447"
+      },
+      {
+        "path": "scripts/docx-next-sidebar-word-layout-test.py",
+        "sha": "5464b9384f3af4c97f66a7e35eac4835760253c9"
+      },
+      {
+        "path": "src/lib/docx-next/build-model.ts",
+        "sha": "6a15d18d16d496ac4e846b86f16a69b2892ff4c3"
+      },
+      {
+        "path": "src/lib/docx-next/compact-chrome.ts",
+        "sha": "6d52cedf6a32b31ee0cde895db93efaae3d14c6d"
+      },
+      {
+        "path": "src/lib/docx-next/cv-flow-scale.ts",
+        "sha": "de2211d834d1677c41f13b807ac108aedd9e1968"
+      },
+      {
+        "path": "src/lib/docx-next/cv-painted-footer.ts",
+        "sha": "771131c88d1b7efb66b275c11de4cd4d1bbe98e7"
+      },
+      {
+        "path": "src/lib/docx-next/cv-sidebar-body.ts",
+        "sha": "80f823421dc4e0fa908546aed6764ac72687f2a9"
+      },
+      {
+        "path": "src/lib/docx-next/cv-sidebar-composition.ts",
+        "sha": "ef329bea6242ab2811e6f05fdaf5693de1ca0c84"
+      },
+      {
+        "path": "src/lib/docx-next/image-zone.ts",
+        "sha": "dcc1debb19b7732192f8633d98480604c510262b"
+      },
+      {
+        "path": "src/lib/docx-next/interior-composition.ts",
+        "sha": "94e529ec76da988d54034666d7fd593f22c158e6"
+      },
+      {
+        "path": "src/lib/docx-next/interior-metrics.ts",
+        "sha": "b0ae46cbebd44c2f4c7c33e66741e0c3787569d8"
+      },
+      {
+        "path": "src/lib/docx-next/layouts.ts",
+        "sha": "af0a13fccd3388fa97761e6e888db95a4087a115"
+      },
+      {
+        "path": "src/lib/docx-next/model.ts",
+        "sha": "eae9a2449183272262f3b8e7fc8ac3e9e93fb35a"
+      },
+      {
+        "path": "src/lib/docx-next/native-picture-frame.ts",
+        "sha": "8901422b53b382c3aeb9095735bfeb2d2c97d2cf"
+      },
+      {
+        "path": "src/lib/docx-next/native-text.ts",
+        "sha": "a283bb55fca886e296c30a8f7e0e492ffce05633"
+      },
+      {
+        "path": "src/lib/docx-next/renderer.ts",
+        "sha": "7b7ca10e299a5d2089c0d7faa228d7079995a610"
+      },
+      {
+        "path": "src/lib/docx-next/validation.ts",
+        "sha": "0e4da4eff00748ed03caeb6dc00f8fbb85af96fa"
+      },
+      {
+        "path": "src/lib/docx-next-cv-zoom.browser.ts",
+        "sha": "0824e3eec9c50b27bd454f9457f3bb51662cefb1"
+      },
+      {
+        "path": "src/lib/docx-next-interior-metrics.browser.tsx",
+        "sha": "bff7f346d0da7929c98d282145f296b4b7884da6"
+      },
+      {
+        "path": "tests/fixtures/docx-next/picture-ownership.ts",
+        "sha": "6ceb6256c54f0a6aebb24967a86652f4d13b56c2"
+      },
+      {
+        "path": "tests/unit/docx-next-cv-flow-scale.test.ts",
+        "sha": "8b48642e28d6cacccdf6041b79bdf604a06c0d34"
+      },
+      {
+        "path": "tests/unit/docx-next-cv-painted-footer.test.ts",
+        "sha": "cebf525c8f96b0b79133f8fa5c0633c935483b1e"
+      },
+      {
+        "path": "tests/unit/docx-next-image-zone.test.ts",
+        "sha": "b8aace87cf1a19ac5723f6e9cd8cbae01944de19"
+      },
+      {
+        "path": "tests/unit/docx-next-picture-ownership.test.ts",
+        "sha": "e1a476e85987b2edd02cb4248ae57e1007035157"
+      },
+      {
+        "path": "tests/unit/docx-next-reading-spacing.test.ts",
+        "sha": "b62cb841724ea1e39678834cf608b793d5bbbe26"
+      },
+      {
+        "path": "tests/unit/docx-next-renderer.test.ts",
+        "sha": "819980289d0dd8705dfa5e8e0b709bae95044ecd"
+      },
+      {
+        "path": "tests/unit/docx-next-sidebar-body.test.ts",
+        "sha": "d2cf96c13b0fa1e638ac4b74cfda87ab1dbf0148"
+      },
+      {
+        "path": "tests/unit/docx-next-sidebar-fidelity-transport.test.ts",
+        "sha": "f1565d9108eb5380a187c32540ad794ec527fc71"
+      },
+      {
+        "path": "tests/unit/docx-next-sidebar-page-surface.test.ts",
+        "sha": "198fb82b01f2afead8c6a7e17fa54b2e82757cd8"
+      },
+      {
+        "path": "tests/unit/docx-next-table-grid.test.ts",
+        "sha": "5b336c272f89d0f11c439c23c9ea621506facc81"
+      }
+    ],
+    "omittedHunk": "One known builder formatting hunk from the scale patch; newer Fidelity guard preserved; result matches initial commit exactly"
+  },
+  "historicalFilesRetainedOnlyOnOldBranches": [
+    "docs/qa/docx-next-cv-footer-reserve-21okt-evidence.json",
+    "docs/qa/docx-next-cv-footer-reserve-21okt.md",
+    "docs/qa/docx-next-cv-pagination-integration-21okt.patch",
+    "docs/qa/docx-next-shared-integration-preflight-22okt-evidence.json",
+    "docs/qa/docx-next-shared-integration-preflight-22okt.md",
+    "docs/qa/docx-next-shared-integration-preflight-22okt.patch",
+    "docs/qa/docx-next-sidebar-integration-21okt-evidence.json",
+    "docs/qa/docx-next-sidebar-integration-21okt.md",
+    "docs/qa/docx-next-sidebar-integration-21okt.patch",
+    "docs/qa/docx-next-sidebar-photo-ownership-21okt-evidence.json",
+    "docs/qa/docx-next-sidebar-photo-ownership-21okt.md",
+    "docs/qa/docx-next-sidebar-reference-alignment-21okt.md",
+    "docs/qa/docx-next-sidebar-root-cause-audit-21okt.md",
+    "docs/qa/docx-next-sidebar-word-layout-21okt-evidence.json",
+    "docs/qa/docx-next-sidebar-word-layout-21okt.md",
+    "docs/qa/docx-next-sidebar-word-photo-21okt-evidence.json",
+    "docs/qa/docx-next-sidebar-word-photo-21okt.md",
+    "docs/qa/docx-next-sidebar-word-return-21okt.md",
+    "docs/qa/docx-next-word-pagination-app-export-21okt-evidence.json",
+    "docs/qa/docx-next-word-pagination-app-export-handoff-21okt.md",
+    "docs/qa/docx-next-word-pagination-takeover-21okt-evidence.json",
+    "docs/qa/docx-next-word-pagination-takeover-21okt.md",
+    "scripts/docx-next-picture-ownership-probe.ts",
+    "scripts/docx-next-picture-ownership-qa.py",
+    "scripts/docx-next-picture-ownership-test.py"
+  ],
+  "gitHubChangedFiles": 1145,
+  "changedFilePaths": 1146,
+  "priorLocalChecks": {
+    "unitPass": 1425,
+    "unitFail": 0,
+    "typecheck": "PASS",
+    "productionBuild": "PASS",
+    "rerunForMerge": false
+  },
+  "freshGitHubActionsRun": false,
+  "wordPhotoUserAccepted": true,
+  "normalExportGateOpened": false,
+  "mainRenderUnchanged": true,
+  "branchesDeleted": false,
+  "historyRewritten": false
+}

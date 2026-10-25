@@ -1,0 +1,4713 @@
+{
+  "scope": "Read-only arithmetic correlation and public observation windows on independently verified artifacts; no engine patch or native internal sampling",
+  "tablesCompared": 104,
+  "arithmeticMatchesObservedGrids": 104,
+  "nearestArithmeticPreservesInputGrids": 104,
+  "liveImportExportIntermediateStagesMeasured": false,
+  "causalAcceptance": "unproven; NewSetTabCols dynamic inputs and internal frame widths not instrumented",
+  "newNativeExports": 0,
+  "rows": [
+    {
+      "fixture": "app-body-both-long",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "4cd10e3b0ab215cdf677703dceb3ba1de7f8415ff392022f8bfa4ac0eba870b9",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-both-long",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-both-long",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "4cd10e3b0ab215cdf677703dceb3ba1de7f8415ff392022f8bfa4ac0eba870b9",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-both-long",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-both-long-right",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "2dbe467a58d84a6039e637b292791962a4bccff35ebaa4f8c3559b46716ad7bc",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        6508,
+        341,
+        2789
+      ],
+      "roundedRelativeSeparators": [
+        6752,
+        7106
+      ],
+      "truncatedMappedEdges": [
+        6507,
+        6848
+      ],
+      "predictedGrid": [
+        6507,
+        341,
+        2790
+      ],
+      "actualSavedGrid": [
+        6507,
+        341,
+        2790
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        6508,
+        341,
+        2789
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-both-long-right",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-both-long-right",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "2dbe467a58d84a6039e637b292791962a4bccff35ebaa4f8c3559b46716ad7bc",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        6507,
+        341,
+        2790
+      ],
+      "roundedRelativeSeparators": [
+        6751,
+        7105
+      ],
+      "truncatedMappedEdges": [
+        6506,
+        6847
+      ],
+      "predictedGrid": [
+        6506,
+        341,
+        2791
+      ],
+      "actualSavedGrid": [
+        6506,
+        341,
+        2791
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        6507,
+        341,
+        2790
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-both-long-right",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-left",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "eaaa9086b103077a21b8bc445730e2179e0b77b0fe825d368f73971c352d2bfe",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-left",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-left",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "eaaa9086b103077a21b8bc445730e2179e0b77b0fe825d368f73971c352d2bfe",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-left",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-right",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "849c55d164297035b28c67babca60687219369740b8371d449f288d86fd5aeba",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        6508,
+        341,
+        2789
+      ],
+      "roundedRelativeSeparators": [
+        6752,
+        7106
+      ],
+      "truncatedMappedEdges": [
+        6507,
+        6848
+      ],
+      "predictedGrid": [
+        6507,
+        341,
+        2790
+      ],
+      "actualSavedGrid": [
+        6507,
+        341,
+        2790
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        6508,
+        341,
+        2789
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-right",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-right",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "849c55d164297035b28c67babca60687219369740b8371d449f288d86fd5aeba",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        6507,
+        341,
+        2790
+      ],
+      "roundedRelativeSeparators": [
+        6751,
+        7105
+      ],
+      "truncatedMappedEdges": [
+        6506,
+        6847
+      ],
+      "predictedGrid": [
+        6506,
+        341,
+        2791
+      ],
+      "actualSavedGrid": [
+        6506,
+        341,
+        2791
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        6507,
+        341,
+        2790
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-right",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-paragraph-long",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "2e64b8159d5388e9d29ac945aad034a4e89ea3dd412182040a65b36136cc40de",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-paragraph-long",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-paragraph-long",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "2e64b8159d5388e9d29ac945aad034a4e89ea3dd412182040a65b36136cc40de",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-paragraph-long",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-side-paragraph-long",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "eb66f248a22a8a068df6aecacb224bb74ae78a50b2dfaf9563a14d42b09a8069",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-side-paragraph-long",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-side-paragraph-long",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "eb66f248a22a8a068df6aecacb224bb74ae78a50b2dfaf9563a14d42b09a8069",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-side-paragraph-long",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-side-entries-long",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "aa409b7c18505d0515fa91b74172714ddfe5e36cc940281fb4a966a9b45e59ac",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-side-entries-long",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-side-entries-long",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "aa409b7c18505d0515fa91b74172714ddfe5e36cc940281fb4a966a9b45e59ac",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-side-entries-long",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-side-entries-smaller-body",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "aa409b7c18505d0515fa91b74172714ddfe5e36cc940281fb4a966a9b45e59ac",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-side-entries-smaller-body",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-side-entries-smaller-body",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "aa409b7c18505d0515fa91b74172714ddfe5e36cc940281fb4a966a9b45e59ac",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-side-entries-smaller-body",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-placements",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "575a513a8373d7ae0f889239b86ad337b322ecda0d9dc13e33934878aa03624f",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-placements",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "02f3117245e944e156f26accb625a05692c0d3bc8b18882f7895494d70fe8a9a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-placements",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "3b274d6fd8072a7a2d5c44e9977b6fe4c9df0e4b3ec3dee85b2aee97d85155b6",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        1953,
+        4555
+      ],
+      "roundedRelativeSeparators": [
+        3001
+      ],
+      "truncatedMappedEdges": [
+        1953
+      ],
+      "predictedGrid": [
+        1953,
+        4555
+      ],
+      "actualSavedGrid": [
+        1953,
+        4555
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        1953,
+        4555
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-placements",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-placements",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "575a513a8373d7ae0f889239b86ad337b322ecda0d9dc13e33934878aa03624f",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-placements",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "02f3117245e944e156f26accb625a05692c0d3bc8b18882f7895494d70fe8a9a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-placements",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "3b274d6fd8072a7a2d5c44e9977b6fe4c9df0e4b3ec3dee85b2aee97d85155b6",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        1953,
+        4555
+      ],
+      "roundedRelativeSeparators": [
+        3001
+      ],
+      "truncatedMappedEdges": [
+        1953
+      ],
+      "predictedGrid": [
+        1953,
+        4555
+      ],
+      "actualSavedGrid": [
+        1953,
+        4555
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        1953,
+        4555
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-placements",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-styled",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "eaaa9086b103077a21b8bc445730e2179e0b77b0fe825d368f73971c352d2bfe",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-styled",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-styled",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "eaaa9086b103077a21b8bc445730e2179e0b77b0fe825d368f73971c352d2bfe",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-styled",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-left",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "147e244dee783bfa9a5e84aaebb4ed6eed0f644b2776b558a5b736b9b9cf2de9",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-left",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-left",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "147e244dee783bfa9a5e84aaebb4ed6eed0f644b2776b558a5b736b9b9cf2de9",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-left",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-right",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "f4aa7dc0b03508912aacfc256ef3dfe8db03636c61f870f140bf0bd6bb9b8613",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        6508,
+        341,
+        2789
+      ],
+      "roundedRelativeSeparators": [
+        6752,
+        7106
+      ],
+      "truncatedMappedEdges": [
+        6507,
+        6848
+      ],
+      "predictedGrid": [
+        6507,
+        341,
+        2790
+      ],
+      "actualSavedGrid": [
+        6507,
+        341,
+        2790
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        6508,
+        341,
+        2789
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-right",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-right",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "f4aa7dc0b03508912aacfc256ef3dfe8db03636c61f870f140bf0bd6bb9b8613",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        6507,
+        341,
+        2790
+      ],
+      "roundedRelativeSeparators": [
+        6751,
+        7105
+      ],
+      "truncatedMappedEdges": [
+        6506,
+        6847
+      ],
+      "predictedGrid": [
+        6506,
+        341,
+        2791
+      ],
+      "actualSavedGrid": [
+        6506,
+        341,
+        2791
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        6507,
+        341,
+        2790
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-right",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-main",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "5602ef32788dead1a34aacf4d9e26db2ea6f641e04765d69f94215d0a8489668",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-main",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-main",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "5602ef32788dead1a34aacf4d9e26db2ea6f641e04765d69f94215d0a8489668",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-main",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-main",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "5602ef32788dead1a34aacf4d9e26db2ea6f641e04765d69f94215d0a8489668",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-main",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "36bb0485cb3992a383c08b9f20b5133f8334a205bae7bc59739d35731107a3a3",
+      "columns": 1,
+      "preferredWidthTwips": 1950,
+      "inputGrid": [
+        1950
+      ],
+      "roundedRelativeSeparators": [],
+      "truncatedMappedEdges": [],
+      "predictedGrid": [
+        1950
+      ],
+      "actualSavedGrid": [
+        1950
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        1950
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-main",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-main",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "5602ef32788dead1a34aacf4d9e26db2ea6f641e04765d69f94215d0a8489668",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-main",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "36bb0485cb3992a383c08b9f20b5133f8334a205bae7bc59739d35731107a3a3",
+      "columns": 1,
+      "preferredWidthTwips": 1950,
+      "inputGrid": [
+        1950
+      ],
+      "roundedRelativeSeparators": [],
+      "truncatedMappedEdges": [],
+      "predictedGrid": [
+        1950
+      ],
+      "actualSavedGrid": [
+        1950
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        1950
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-main",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-side",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "147e244dee783bfa9a5e84aaebb4ed6eed0f644b2776b558a5b736b9b9cf2de9",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-side",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "36bb0485cb3992a383c08b9f20b5133f8334a205bae7bc59739d35731107a3a3",
+      "columns": 1,
+      "preferredWidthTwips": 1950,
+      "inputGrid": [
+        1950
+      ],
+      "roundedRelativeSeparators": [],
+      "truncatedMappedEdges": [],
+      "predictedGrid": [
+        1950
+      ],
+      "actualSavedGrid": [
+        1950
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        1950
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-side",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-side",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "147e244dee783bfa9a5e84aaebb4ed6eed0f644b2776b558a5b736b9b9cf2de9",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-side",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "36bb0485cb3992a383c08b9f20b5133f8334a205bae7bc59739d35731107a3a3",
+      "columns": 1,
+      "preferredWidthTwips": 1950,
+      "inputGrid": [
+        1950
+      ],
+      "roundedRelativeSeparators": [],
+      "truncatedMappedEdges": [],
+      "predictedGrid": [
+        1950
+      ],
+      "actualSavedGrid": [
+        1950
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        1950
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-side",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-mirrored-side",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "f4aa7dc0b03508912aacfc256ef3dfe8db03636c61f870f140bf0bd6bb9b8613",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        6508,
+        341,
+        2789
+      ],
+      "roundedRelativeSeparators": [
+        6752,
+        7106
+      ],
+      "truncatedMappedEdges": [
+        6507,
+        6848
+      ],
+      "predictedGrid": [
+        6507,
+        341,
+        2790
+      ],
+      "actualSavedGrid": [
+        6507,
+        341,
+        2790
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        6508,
+        341,
+        2789
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-mirrored-side",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-mirrored-side",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "36bb0485cb3992a383c08b9f20b5133f8334a205bae7bc59739d35731107a3a3",
+      "columns": 1,
+      "preferredWidthTwips": 1950,
+      "inputGrid": [
+        1950
+      ],
+      "roundedRelativeSeparators": [],
+      "truncatedMappedEdges": [],
+      "predictedGrid": [
+        1950
+      ],
+      "actualSavedGrid": [
+        1950
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        1950
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-mirrored-side",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "f4aa7dc0b03508912aacfc256ef3dfe8db03636c61f870f140bf0bd6bb9b8613",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        6507,
+        341,
+        2790
+      ],
+      "roundedRelativeSeparators": [
+        6751,
+        7105
+      ],
+      "truncatedMappedEdges": [
+        6506,
+        6847
+      ],
+      "predictedGrid": [
+        6506,
+        341,
+        2791
+      ],
+      "actualSavedGrid": [
+        6506,
+        341,
+        2791
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        6507,
+        341,
+        2790
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-mirrored-side",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-mirrored-side",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "36bb0485cb3992a383c08b9f20b5133f8334a205bae7bc59739d35731107a3a3",
+      "columns": 1,
+      "preferredWidthTwips": 1950,
+      "inputGrid": [
+        1950
+      ],
+      "roundedRelativeSeparators": [],
+      "truncatedMappedEdges": [],
+      "predictedGrid": [
+        1950
+      ],
+      "actualSavedGrid": [
+        1950
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        1950
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-low",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "3b465c0c70a1f39ac68240fc2469d7bf5ef9f380e00fdba6668cb8ee3e101908",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-low",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "36bb0485cb3992a383c08b9f20b5133f8334a205bae7bc59739d35731107a3a3",
+      "columns": 1,
+      "preferredWidthTwips": 1950,
+      "inputGrid": [
+        1950
+      ],
+      "roundedRelativeSeparators": [],
+      "truncatedMappedEdges": [],
+      "predictedGrid": [
+        1950
+      ],
+      "actualSavedGrid": [
+        1950
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        1950
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-low",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-low",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "3b465c0c70a1f39ac68240fc2469d7bf5ef9f380e00fdba6668cb8ee3e101908",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-low",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "36bb0485cb3992a383c08b9f20b5133f8334a205bae7bc59739d35731107a3a3",
+      "columns": 1,
+      "preferredWidthTwips": 1950,
+      "inputGrid": [
+        1950
+      ],
+      "roundedRelativeSeparators": [],
+      "truncatedMappedEdges": [],
+      "predictedGrid": [
+        1950
+      ],
+      "actualSavedGrid": [
+        1950
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        1950
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-low",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-portrait",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "5602ef32788dead1a34aacf4d9e26db2ea6f641e04765d69f94215d0a8489668",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-portrait",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "36bb0485cb3992a383c08b9f20b5133f8334a205bae7bc59739d35731107a3a3",
+      "columns": 1,
+      "preferredWidthTwips": 1996,
+      "inputGrid": [
+        1996
+      ],
+      "roundedRelativeSeparators": [],
+      "truncatedMappedEdges": [],
+      "predictedGrid": [
+        1996
+      ],
+      "actualSavedGrid": [
+        1996
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        1996
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-portrait",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-portrait",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "5602ef32788dead1a34aacf4d9e26db2ea6f641e04765d69f94215d0a8489668",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-portrait",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "36bb0485cb3992a383c08b9f20b5133f8334a205bae7bc59739d35731107a3a3",
+      "columns": 1,
+      "preferredWidthTwips": 1996,
+      "inputGrid": [
+        1996
+      ],
+      "roundedRelativeSeparators": [],
+      "truncatedMappedEdges": [],
+      "predictedGrid": [
+        1996
+      ],
+      "actualSavedGrid": [
+        1996
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        1996
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-portrait",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-chrome",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "9808e74a448e2638276ed71e8b2b9cc3cdc769ec74ded7d992472065808a1683",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-chrome",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "36bb0485cb3992a383c08b9f20b5133f8334a205bae7bc59739d35731107a3a3",
+      "columns": 1,
+      "preferredWidthTwips": 1950,
+      "inputGrid": [
+        1950
+      ],
+      "roundedRelativeSeparators": [],
+      "truncatedMappedEdges": [],
+      "predictedGrid": [
+        1950
+      ],
+      "actualSavedGrid": [
+        1950
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        1950
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-chrome",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-chrome",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "9808e74a448e2638276ed71e8b2b9cc3cdc769ec74ded7d992472065808a1683",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-chrome",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "36bb0485cb3992a383c08b9f20b5133f8334a205bae7bc59739d35731107a3a3",
+      "columns": 1,
+      "preferredWidthTwips": 1950,
+      "inputGrid": [
+        1950
+      ],
+      "roundedRelativeSeparators": [],
+      "truncatedMappedEdges": [],
+      "predictedGrid": [
+        1950
+      ],
+      "actualSavedGrid": [
+        1950
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        1950
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-photo-free-chrome",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-contact-long",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "ed2ee6804b4e98aa84bb7857d5477b69391c7b5ab03212e69ed0e57c0ee32d9e",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-contact-long",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-contact-long",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "ed2ee6804b4e98aa84bb7857d5477b69391c7b5ab03212e69ed0e57c0ee32d9e",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-contact-long",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-chrome-continuation",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "ed2ee6804b4e98aa84bb7857d5477b69391c7b5ab03212e69ed0e57c0ee32d9e",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-chrome-continuation",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-chrome-continuation",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "ed2ee6804b4e98aa84bb7857d5477b69391c7b5ab03212e69ed0e57c0ee32d9e",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-chrome-continuation",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-chrome-leading",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "ed2ee6804b4e98aa84bb7857d5477b69391c7b5ab03212e69ed0e57c0ee32d9e",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-chrome-leading",
+      "fromPhase": "source",
+      "toPhase": "saved",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-chrome-leading",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "ed2ee6804b4e98aa84bb7857d5477b69391c7b5ab03212e69ed0e57c0ee32d9e",
+      "columns": 3,
+      "preferredWidthTwips": 9638,
+      "inputGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "roundedRelativeSeparators": [
+        2894,
+        3247
+      ],
+      "truncatedMappedEdges": [
+        2789,
+        3129
+      ],
+      "predictedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "actualSavedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        2789,
+        340,
+        6509
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    },
+    {
+      "fixture": "app-body-chrome-leading",
+      "fromPhase": "saved",
+      "toPhase": "saved2",
+      "canonicalOwnerSha256": "1b6f82644429f146c34c3c4d8b09836c6205eb5c5842216e40c0a4f2e57e7c5a",
+      "columns": 2,
+      "preferredWidthTwips": 6508,
+      "inputGrid": [
+        3254,
+        3254
+      ],
+      "roundedRelativeSeparators": [
+        5000
+      ],
+      "truncatedMappedEdges": [
+        3254
+      ],
+      "predictedGrid": [
+        3254,
+        3254
+      ],
+      "actualSavedGrid": [
+        3254,
+        3254
+      ],
+      "arithmeticMatchesObservedGrid": true,
+      "nearestMappedGrid": [
+        3254,
+        3254
+      ],
+      "nearestArithmeticPreservesInputGrid": true
+    }
+  ],
+  "publicLifetimeObservations": [
+    {
+      "fixture": "app-body-both-long",
+      "phase": "source",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "end",
+        "value": null
+      },
+      "publicObservationsAfterRegistration": 1,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": true
+    },
+    {
+      "fixture": "app-body-both-long",
+      "phase": "saved",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 34
+      },
+      "publicObservationsAfterRegistration": 56,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-both-long",
+      "phase": "saved2",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 34
+      },
+      "publicObservationsAfterRegistration": 56,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-both-long-right",
+      "phase": "source",
+      "canonicalTag": "cv.documentTitle",
+      "firstPublicObservation": {
+        "event": "end",
+        "value": null
+      },
+      "publicObservationsAfterRegistration": 1,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": true
+    },
+    {
+      "fixture": "app-body-both-long-right",
+      "phase": "saved",
+      "canonicalTag": "cv.documentTitle",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 32
+      },
+      "publicObservationsAfterRegistration": 21,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-both-long-right",
+      "phase": "saved2",
+      "canonicalTag": "cv.documentTitle",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 32
+      },
+      "publicObservationsAfterRegistration": 21,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-left",
+      "phase": "source",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "end",
+        "value": null
+      },
+      "publicObservationsAfterRegistration": 1,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": true
+    },
+    {
+      "fixture": "app-body-left",
+      "phase": "saved",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 33
+      },
+      "publicObservationsAfterRegistration": 46,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-left",
+      "phase": "saved2",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 33
+      },
+      "publicObservationsAfterRegistration": 46,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-right",
+      "phase": "source",
+      "canonicalTag": "cv.documentTitle",
+      "firstPublicObservation": {
+        "event": "end",
+        "value": null
+      },
+      "publicObservationsAfterRegistration": 1,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": true
+    },
+    {
+      "fixture": "app-body-right",
+      "phase": "saved",
+      "canonicalTag": "cv.documentTitle",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 32
+      },
+      "publicObservationsAfterRegistration": 47,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-right",
+      "phase": "saved2",
+      "canonicalTag": "cv.documentTitle",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 32
+      },
+      "publicObservationsAfterRegistration": 47,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-paragraph-long",
+      "phase": "source",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "end",
+        "value": null
+      },
+      "publicObservationsAfterRegistration": 1,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": true
+    },
+    {
+      "fixture": "app-body-paragraph-long",
+      "phase": "saved",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "end",
+        "value": null
+      },
+      "publicObservationsAfterRegistration": 1,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": true
+    },
+    {
+      "fixture": "app-body-paragraph-long",
+      "phase": "saved2",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "end",
+        "value": null
+      },
+      "publicObservationsAfterRegistration": 1,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": true
+    },
+    {
+      "fixture": "app-body-side-paragraph-long",
+      "phase": "source",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "end",
+        "value": null
+      },
+      "publicObservationsAfterRegistration": 1,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": true
+    },
+    {
+      "fixture": "app-body-side-paragraph-long",
+      "phase": "saved",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 33
+      },
+      "publicObservationsAfterRegistration": 48,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": false,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-side-paragraph-long",
+      "phase": "saved2",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "end",
+        "value": null
+      },
+      "publicObservationsAfterRegistration": 1,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": true
+    },
+    {
+      "fixture": "app-body-side-entries-long",
+      "phase": "source",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "end",
+        "value": null
+      },
+      "publicObservationsAfterRegistration": 1,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": true
+    },
+    {
+      "fixture": "app-body-side-entries-long",
+      "phase": "saved",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 34
+      },
+      "publicObservationsAfterRegistration": 60,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-side-entries-long",
+      "phase": "saved2",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 34
+      },
+      "publicObservationsAfterRegistration": 60,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-side-entries-smaller-body",
+      "phase": "source",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "end",
+        "value": null
+      },
+      "publicObservationsAfterRegistration": 1,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": true
+    },
+    {
+      "fixture": "app-body-side-entries-smaller-body",
+      "phase": "saved",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 34
+      },
+      "publicObservationsAfterRegistration": 60,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-side-entries-smaller-body",
+      "phase": "saved2",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 34
+      },
+      "publicObservationsAfterRegistration": 60,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-placements",
+      "phase": "source",
+      "canonicalTag": "cv.entry.staerken:0",
+      "firstPublicObservation": {
+        "event": "end",
+        "value": null
+      },
+      "publicObservationsAfterRegistration": 1,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": true
+    },
+    {
+      "fixture": "app-body-placements",
+      "phase": "saved",
+      "canonicalTag": "cv.entry.staerken:0",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 48
+      },
+      "publicObservationsAfterRegistration": 34,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-placements",
+      "phase": "saved2",
+      "canonicalTag": "cv.entry.staerken:0",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 48
+      },
+      "publicObservationsAfterRegistration": 34,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-styled",
+      "phase": "source",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "end",
+        "value": null
+      },
+      "publicObservationsAfterRegistration": 1,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": true
+    },
+    {
+      "fixture": "app-body-styled",
+      "phase": "saved",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 33
+      },
+      "publicObservationsAfterRegistration": 46,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-styled",
+      "phase": "saved2",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 33
+      },
+      "publicObservationsAfterRegistration": 46,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-photo-left",
+      "phase": "source",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "end",
+        "value": null
+      },
+      "publicObservationsAfterRegistration": 1,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": true
+    },
+    {
+      "fixture": "app-body-photo-left",
+      "phase": "saved",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 34
+      },
+      "publicObservationsAfterRegistration": 46,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-photo-left",
+      "phase": "saved2",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 34
+      },
+      "publicObservationsAfterRegistration": 46,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-photo-right",
+      "phase": "source",
+      "canonicalTag": "cv.documentTitle",
+      "firstPublicObservation": {
+        "event": "end",
+        "value": null
+      },
+      "publicObservationsAfterRegistration": 1,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": true
+    },
+    {
+      "fixture": "app-body-photo-right",
+      "phase": "saved",
+      "canonicalTag": "cv.documentTitle",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 32
+      },
+      "publicObservationsAfterRegistration": 48,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-photo-right",
+      "phase": "saved2",
+      "canonicalTag": "cv.documentTitle",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 32
+      },
+      "publicObservationsAfterRegistration": 48,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-photo-main",
+      "phase": "source",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "end",
+        "value": null
+      },
+      "publicObservationsAfterRegistration": 1,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": true
+    },
+    {
+      "fixture": "app-body-photo-main",
+      "phase": "saved",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 33
+      },
+      "publicObservationsAfterRegistration": 47,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-photo-main",
+      "phase": "saved2",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 33
+      },
+      "publicObservationsAfterRegistration": 47,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-photo-free-main",
+      "phase": "source",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "end",
+        "value": null
+      },
+      "publicObservationsAfterRegistration": 1,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": true
+    },
+    {
+      "fixture": "app-body-photo-free-main",
+      "phase": "saved",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 33
+      },
+      "publicObservationsAfterRegistration": 47,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-photo-free-main",
+      "phase": "saved2",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 33
+      },
+      "publicObservationsAfterRegistration": 47,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-photo-free-side",
+      "phase": "source",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "end",
+        "value": null
+      },
+      "publicObservationsAfterRegistration": 1,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": true
+    },
+    {
+      "fixture": "app-body-photo-free-side",
+      "phase": "saved",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 36
+      },
+      "publicObservationsAfterRegistration": 44,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-photo-free-side",
+      "phase": "saved2",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 36
+      },
+      "publicObservationsAfterRegistration": 44,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-photo-free-mirrored-side",
+      "phase": "source",
+      "canonicalTag": "cv.documentTitle",
+      "firstPublicObservation": {
+        "event": "end",
+        "value": null
+      },
+      "publicObservationsAfterRegistration": 1,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": true
+    },
+    {
+      "fixture": "app-body-photo-free-mirrored-side",
+      "phase": "saved",
+      "canonicalTag": "cv.documentTitle",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 32
+      },
+      "publicObservationsAfterRegistration": 48,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-photo-free-mirrored-side",
+      "phase": "saved2",
+      "canonicalTag": "cv.documentTitle",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 32
+      },
+      "publicObservationsAfterRegistration": 48,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-photo-free-low",
+      "phase": "source",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "end",
+        "value": null
+      },
+      "publicObservationsAfterRegistration": 1,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": true
+    },
+    {
+      "fixture": "app-body-photo-free-low",
+      "phase": "saved",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 34
+      },
+      "publicObservationsAfterRegistration": 56,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-photo-free-low",
+      "phase": "saved2",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 34
+      },
+      "publicObservationsAfterRegistration": 56,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-photo-free-portrait",
+      "phase": "source",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "end",
+        "value": null
+      },
+      "publicObservationsAfterRegistration": 1,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": true
+    },
+    {
+      "fixture": "app-body-photo-free-portrait",
+      "phase": "saved",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 33
+      },
+      "publicObservationsAfterRegistration": 47,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-photo-free-portrait",
+      "phase": "saved2",
+      "canonicalTag": "cv.person.address",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 33
+      },
+      "publicObservationsAfterRegistration": 47,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-photo-free-chrome",
+      "phase": "source",
+      "canonicalTag": "cv.person.geburtsdatum",
+      "firstPublicObservation": {
+        "event": "end",
+        "value": null
+      },
+      "publicObservationsAfterRegistration": 1,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": true
+    },
+    {
+      "fixture": "app-body-photo-free-chrome",
+      "phase": "saved",
+      "canonicalTag": "cv.person.geburtsdatum",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 30
+      },
+      "publicObservationsAfterRegistration": 58,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-photo-free-chrome",
+      "phase": "saved2",
+      "canonicalTag": "cv.person.geburtsdatum",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 30
+      },
+      "publicObservationsAfterRegistration": 58,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-contact-long",
+      "phase": "source",
+      "canonicalTag": "cv.person.geburtsdatum",
+      "firstPublicObservation": {
+        "event": "end",
+        "value": null
+      },
+      "publicObservationsAfterRegistration": 1,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": true
+    },
+    {
+      "fixture": "app-body-contact-long",
+      "phase": "saved",
+      "canonicalTag": "cv.person.geburtsdatum",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 30
+      },
+      "publicObservationsAfterRegistration": 58,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-contact-long",
+      "phase": "saved2",
+      "canonicalTag": "cv.person.geburtsdatum",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 30
+      },
+      "publicObservationsAfterRegistration": 58,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-chrome-continuation",
+      "phase": "source",
+      "canonicalTag": "cv.person.geburtsdatum",
+      "firstPublicObservation": {
+        "event": "end",
+        "value": null
+      },
+      "publicObservationsAfterRegistration": 1,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": true
+    },
+    {
+      "fixture": "app-body-chrome-continuation",
+      "phase": "saved",
+      "canonicalTag": "cv.person.geburtsdatum",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 30
+      },
+      "publicObservationsAfterRegistration": 58,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-chrome-continuation",
+      "phase": "saved2",
+      "canonicalTag": "cv.person.geburtsdatum",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 30
+      },
+      "publicObservationsAfterRegistration": 58,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-chrome-leading",
+      "phase": "source",
+      "canonicalTag": "cv.person.geburtsdatum",
+      "firstPublicObservation": {
+        "event": "end",
+        "value": null
+      },
+      "publicObservationsAfterRegistration": 1,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": true
+    },
+    {
+      "fixture": "app-body-chrome-leading",
+      "phase": "saved",
+      "canonicalTag": "cv.person.geburtsdatum",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 30
+      },
+      "publicObservationsAfterRegistration": 58,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    },
+    {
+      "fixture": "app-body-chrome-leading",
+      "phase": "saved2",
+      "canonicalTag": "cv.person.geburtsdatum",
+      "firstPublicObservation": {
+        "event": "value",
+        "value": 30
+      },
+      "publicObservationsAfterRegistration": 58,
+      "disposalEventsWhileLoading": 0,
+      "completePublicEventsReproduceLocally": true,
+      "stableSampledPublicTagTextOwner": false
+    }
+  ],
+  "strongObjectLifetimeAcceptance": "unaccepted; tag/text/owner samples do not compare native object identity",
+  "sourceFirstControlOnlyObservedAtImportEnd": 22,
+  "changedPublicEventInventories": 1,
+  "codeCheckpoint": "99437d1a956ff1a9f0a088ffaa895e89186fda6e",
+  "actualArtifact": 11674676706,
+  "primarySourceCommit": "30742500f2d3eb4366ac312fa33d3dcabdb3eba5",
+  "primary": [
+    {
+      "path": "sw/source/writerfilter/dmapper/DomainMapperTableManager.cxx",
+      "sha256": "d21e8fd4136c1e5b819b8c221a946cab897c2e83351218e8073638aaf0d845cd",
+      "scope": "Rounded cumulative relative separators on a 10000-point grid"
+    },
+    {
+      "path": "sw/source/core/table/swtable.cxx",
+      "sha256": "699f8f4ddbfdc97207c66588afc3c4ac02859f801d69a132433b6c214055fe56",
+      "scope": "GetTabCols and NewSetTabCols use lcl_MulDiv64; division truncates mapped positions"
+    }
+  ],
+  "savedPackageDifferences": {
+    "phases": 44,
+    "changedStylePhases": 44,
+    "nonLatinFallbackFacesOnly": true,
+    "otherStylePropertiesExact": true,
+    "documentBodyAndRelationshipsAndMediaExact": true,
+    "changedDocumentStatisticPhases": 1,
+    "nonnativeScriptAcceptance": "unaccepted; tested current visible characters reproduce exactly",
+    "perPhase": [
+      {
+        "fixture": "app-body-both-long",
+        "phase": "saved",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-both-long",
+        "phase": "saved2",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-both-long-right",
+        "phase": "saved",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-both-long-right",
+        "phase": "saved2",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-left",
+        "phase": "saved",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-left",
+        "phase": "saved2",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-right",
+        "phase": "saved",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-right",
+        "phase": "saved2",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-paragraph-long",
+        "phase": "saved",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-paragraph-long",
+        "phase": "saved2",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-side-paragraph-long",
+        "phase": "saved",
+        "changedEntries": [
+          "docProps/app.xml",
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-side-paragraph-long",
+        "phase": "saved2",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-side-entries-long",
+        "phase": "saved",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-side-entries-long",
+        "phase": "saved2",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-side-entries-smaller-body",
+        "phase": "saved",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-side-entries-smaller-body",
+        "phase": "saved2",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-placements",
+        "phase": "saved",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-placements",
+        "phase": "saved2",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-styled",
+        "phase": "saved",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-styled",
+        "phase": "saved2",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-photo-left",
+        "phase": "saved",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-photo-left",
+        "phase": "saved2",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-photo-right",
+        "phase": "saved",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-photo-right",
+        "phase": "saved2",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-photo-main",
+        "phase": "saved",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-photo-main",
+        "phase": "saved2",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-photo-free-main",
+        "phase": "saved",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-photo-free-main",
+        "phase": "saved2",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-photo-free-side",
+        "phase": "saved",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-photo-free-side",
+        "phase": "saved2",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-photo-free-mirrored-side",
+        "phase": "saved",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-photo-free-mirrored-side",
+        "phase": "saved2",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-photo-free-low",
+        "phase": "saved",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-photo-free-low",
+        "phase": "saved2",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-photo-free-portrait",
+        "phase": "saved",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-photo-free-portrait",
+        "phase": "saved2",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-photo-free-chrome",
+        "phase": "saved",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-photo-free-chrome",
+        "phase": "saved2",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-contact-long",
+        "phase": "saved",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-contact-long",
+        "phase": "saved2",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-chrome-continuation",
+        "phase": "saved",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-chrome-continuation",
+        "phase": "saved2",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-chrome-leading",
+        "phase": "saved",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      },
+      {
+        "fixture": "app-body-chrome-leading",
+        "phase": "saved2",
+        "changedEntries": [
+          "word/styles.xml"
+        ]
+      }
+    ]
+  },
+  "publicProgressDifference": {
+    "exact": 65,
+    "different": 1,
+    "changedCase": "app-body-side-paragraph-long/saved",
+    "localProgressRange": 24,
+    "ciProgressRange": 79,
+    "objectLifetimeAcceptance": "unaccepted"
+  }
+}

@@ -1,0 +1,1011 @@
+{
+  "version": 1,
+  "sourceKey": "{\"cover\":{\"template\":\"modern\",\"data\":{\"meta\":{\"title\":\"\",\"author\":\"\",\"subject\":\"\",\"keywords\":\"\"},\"kicker\":\"Bewerbung um eine Lehrstelle als\",\"eyebrow\":\"\",\"beruf\":\"Informatiker/in EFZ\",\"lehrbeginn\":\"August 2028\",\"vorname\":\"Lea\",\"nachname\":\"Müller\",\"adresse\":\"Dorfstrasse 12\",\"plzOrt\":\"4535 Hubersdorf\",\"telefon\":\"079 123 45 67\",\"email\":\"lea.mueller@example.ch\",\"geburtsdatum\":\"14.03.2010\",\"lehrbetrieb\":\"Beispiel AG\",\"ansprechperson\":\"Herr Thomas Weber\",\"betriebAdresse\":\"Industriestrasse 8, 4535 Hubersdorf\",\"ort\":\"Hubersdorf\",\"datum\":\"15.11.2026\",\"labelKontakt\":\"\",\"labelEmpfaenger\":\"\",\"foto\":null,\"showBetriebOnCover\":false,\"showBeilagenOnCover\":true,\"beilagen\":[\"Motivationsschreiben\",\"Lebenslauf\",\"Zeugnis\"]},\"colors\":{\"primary\":\"#111827\",\"accent\":\"#f43f5e\",\"bg\":\"#fafafa\"},\"blocks\":[{\"id\":\"modernAccentCircle\",\"label\":\"Kreisfläche\",\"kind\":\"shape\",\"shape\":\"circle\",\"lines\":[],\"style\":{\"x\":118,\"y\":36,\"w\":74,\"size\":1,\"color\":\"accent\",\"align\":\"left\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1,\"opacity\":0.1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":0,\"padY\":0,\"bgRadius\":0,\"ratio\":1,\"fill\":\"accent\",\"strokeWidth\":0}},{\"id\":\"eyebrow\",\"label\":\"Kopfzeile\",\"kind\":\"text\",\"lines\":[\"Bewerbung\"],\"style\":{\"x\":20,\"y\":19.5,\"w\":80,\"size\":10.5,\"color\":\"primary\",\"align\":\"left\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":true,\"tracking\":0.35,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999}},{\"id\":\"ortDatum\",\"label\":\"Ort / Datum\",\"kind\":\"text\",\"lines\":[\"Hubersdorf, 15.11.2026\"],\"style\":{\"x\":110,\"y\":19.5,\"w\":80,\"size\":11.5,\"color\":\"primary\",\"align\":\"right\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":0.6,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999}},{\"id\":\"foto\",\"label\":\"Foto\",\"kind\":\"photo\",\"lines\":[],\"style\":{\"x\":129,\"y\":47,\"w\":52,\"size\":13.5,\"color\":\"accent\",\"align\":\"left\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"ratio\":1,\"radius\":999,\"fill\":\"bg\"}},{\"id\":\"kicker\",\"label\":\"Über-Titel\",\"kind\":\"text\",\"lines\":[\"Bewerbung um eine Lehrstelle als\"],\"style\":{\"x\":20,\"y\":128,\"w\":150,\"size\":11.5,\"color\":\"accent\",\"align\":\"left\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":true,\"tracking\":0.25,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999}},{\"id\":\"beruf\",\"label\":\"Titel (Beruf)\",\"kind\":\"text\",\"lines\":[\"Informatiker/in EFZ\"],\"style\":{\"x\":20,\"y\":20,\"w\":155,\"size\":36,\"color\":\"primary\",\"align\":\"left\",\"weight\":700,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":-0.02,\"lineHeight\":1.05,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"follows\":\"kicker\",\"gap\":1,\"maxLines\":3}},{\"id\":\"name\",\"label\":\"Name\",\"kind\":\"text\",\"lines\":[\"Lea Müller\"],\"style\":{\"x\":20,\"y\":20,\"w\":150,\"size\":16.5,\"color\":\"primary\",\"align\":\"left\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0.02,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"follows\":\"beruf\",\"gap\":8,\"maxLines\":2}},{\"id\":\"lehrbeginn\",\"label\":\"Lehrbeginn\",\"kind\":\"text\",\"lines\":[\"Lehrbeginn August 2028\"],\"style\":{\"x\":20,\"y\":20,\"w\":150,\"size\":12,\"color\":\"bg\",\"align\":\"left\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":\"accent\",\"padX\":4,\"padY\":1.6,\"bgRadius\":999,\"follows\":\"name\",\"gap\":3}},{\"id\":\"kontaktTitel\",\"label\":\"Titel Kontakt\",\"kind\":\"text\",\"lines\":[\"Kontakt\"],\"style\":{\"x\":20,\"y\":20,\"w\":80,\"size\":10,\"color\":\"accent\",\"align\":\"left\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":true,\"tracking\":0.3,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"above\":\"kontakt\",\"gap\":1.5}},{\"id\":\"kontakt\",\"label\":\"Kontaktangaben\",\"kind\":\"text\",\"lines\":[\"Dorfstrasse 12\",\"4535 Hubersdorf\",\"079 123 45 67\",\"lea.mueller@example.ch\",\"14.03.2010\"],\"style\":{\"x\":20,\"y\":285,\"w\":80,\"size\":11.5,\"color\":\"primary\",\"align\":\"left\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":0.85,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"anchorBottom\":true}},{\"id\":\"anTitel\",\"label\":\"Titel Empfänger\",\"kind\":\"text\",\"lines\":[],\"style\":{\"x\":110,\"y\":20,\"w\":80,\"size\":10,\"color\":\"accent\",\"align\":\"right\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":true,\"tracking\":0.3,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"above\":\"kontakt\",\"gap\":1.5}},{\"id\":\"empfaenger\",\"label\":\"Empfänger\",\"kind\":\"text\",\"lines\":[],\"style\":{\"x\":110,\"y\":20,\"w\":80,\"size\":11.5,\"color\":\"primary\",\"align\":\"right\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":0.85,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"follows\":\"anTitel\",\"gap\":1.5}},{\"id\":\"trenner\",\"label\":\"Trennlinie\",\"kind\":\"shape\",\"shape\":\"line\",\"lines\":[],\"style\":{\"x\":20,\"y\":238,\"w\":170,\"size\":13.5,\"color\":\"primary\",\"align\":\"left\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":0.18,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"strokeWidth\":0.265}},{\"id\":\"beilagenTitel\",\"label\":\"Titel Beilagen\",\"kind\":\"text\",\"lines\":[\"Beilagen:\"],\"style\":{\"x\":110,\"y\":20,\"w\":80,\"size\":10,\"color\":\"accent\",\"align\":\"right\",\"weight\":600,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0.3,\"lineHeight\":1.35,\"opacity\":1,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"above\":\"beilagen\",\"gap\":1.5,\"follows\":null,\"anchorBottom\":false}},{\"id\":\"beilagen\",\"label\":\"Beilagen\",\"kind\":\"text\",\"lines\":[\"Motivationsschreiben\",\"Lebenslauf\",\"Zeugnis\"],\"style\":{\"x\":110,\"y\":276,\"w\":80,\"size\":11.5,\"color\":\"primary\",\"align\":\"right\",\"weight\":400,\"italic\":false,\"underline\":false,\"uppercase\":false,\"tracking\":0,\"lineHeight\":1.35,\"opacity\":0.85,\"font\":\"sans\",\"hidden\":false,\"list\":\"none\",\"bg\":null,\"padX\":4,\"padY\":1.5,\"bgRadius\":999,\"follows\":null,\"gap\":1.5,\"above\":null,\"anchorBottom\":true}}],\"fontScale\":1,\"customFieldIds\":[]},\"letter\":{\"data\":{\"absenderName\":\"Lea Müller\",\"absenderAdresse\":\"Dorfstrasse 12\",\"absenderPlzOrt\":\"4535 Hubersdorf\",\"absenderTelefon\":\"079 123 45 67\",\"absenderEmail\":\"lea.mueller@example.ch\",\"empfaengerFirma\":\"Beispiel AG\",\"empfaengerName\":\"Herr Thomas Weber\",\"empfaengerAdresse\":\"Industriestrasse 8\",\"empfaengerPlzOrt\":\"4535 Hubersdorf\",\"ort\":\"Hubersdorf\",\"datum\":\"15.11.2026\",\"betreff\":\"Bewerbung um eine Lehrstelle als Informatiker/in EFZ\",\"anrede\":\"Guten Tag Herr Weber\",\"text\":\"Die Informatik begeistert mich, weil ich gerne logisch denke, Probleme löse und Neues ausprobiere. Deshalb bewerbe ich mich mit grossem Interesse um die Lehrstelle als Informatikerin EFZ bei der Beispiel AG.\\n\\nIn der Schule arbeite ich besonders gerne an Aufgaben, bei denen ich selbstständig Lösungen entwickeln kann. Ich bin zuverlässig, lerne schnell und arbeite gerne im Team.\\n\\nGerne möchte ich Ihr Unternehmen und den Beruf bei einem persönlichen Gespräch oder einer Schnupperlehre näher kennenlernen. Ich freue mich über Ihre Rückmeldung.\",\"richTextHtml\":\"\",\"gruss\":\"Freundliche Grüsse\",\"unterschrift\":\"Lea Müller\",\"images\":[],\"showBeilagen\":true,\"beilagen\":[\"Lebenslauf\",\"Zeugnis\"]},\"design\":{\"template\":\"modern\",\"colors\":{\"primary\":\"#111827\",\"accent\":\"#244a61\",\"bg\":\"#fafafa\",\"ink\":\"#111111\"},\"bgOpacity\":0.25,\"paperColor\":null,\"textColor\":null,\"font\":\"freundlich\",\"fontOverride\":\"sans\",\"senderAlign\":\"left\",\"recipientAlign\":\"left\",\"dateAlign\":\"left\",\"ruleAfterSender\":false,\"ruleAfterRecipient\":false,\"ruleAfterSubject\":false,\"headerMode\":\"contact\",\"headerShowName\":true,\"headerShowAddress\":true,\"headerShowPhone\":true,\"headerShowEmail\":true,\"headerDifferentFirstPage\":false,\"headerHeightMm\":null,\"headerTextLayout\":\"inline\",\"headerInlineSeparator\":\"icons\",\"headerBackgroundColor\":null,\"headerGradientColor\":null,\"footerMode\":\"compact\",\"footerHeightMm\":null,\"footerTextLayout\":\"inline\",\"footerBackgroundColor\":null,\"footerGradientColor\":null,\"chromeBorderEnabled\":false,\"chromeBorderColor\":null,\"chromeBorderWidthMm\":0.6,\"chromeTextFont\":\"sans\"}},\"cv\":{\"data\":{\"person\":{\"vorname\":\"Lea\",\"nachname\":\"Müller\",\"adresse\":\"Dorfstrasse 12\",\"plzOrt\":\"4535 Hubersdorf\",\"telefon\":\"079 123 45 67\",\"email\":\"lea.mueller@example.ch\",\"geburtsdatum\":\"14.03.2010\",\"geburtsort\":\"\",\"heimatort\":\"\",\"nationalitaet\":\"\",\"untertitel\":\"\",\"foto\":null},\"titel\":\"Lebenslauf\",\"schule\":[{\"id\":\"demo-s1\",\"zeit\":\"2023 – heute\",\"titel\":\"Sekundarschule, Niveau A\",\"ort\":\"Schulhaus Zentrum, Hubersdorf\",\"beschreibung\":\"Schwerpunkt Mathematik und Informatik\"},{\"id\":\"demo-s2\",\"zeit\":\"2017 – 2023\",\"titel\":\"Primarschule\",\"ort\":\"Primarschule Hubersdorf\",\"beschreibung\":\"\"}],\"erfahrung\":[{\"id\":\"demo-p1\",\"zeit\":\"Sept. 2026\",\"titel\":\"Schnupperlehre Informatik\",\"ort\":\"Beispiel AG, Hubersdorf\",\"beschreibung\":\"Support, kleine Automatisierungen mit Python\"},{\"id\":\"demo-p2\",\"zeit\":\"März 2026\",\"titel\":\"Schnupperlehre Mediamatik\",\"ort\":\"Muster GmbH, Hubersdorf\",\"beschreibung\":\"Website-Pflege, Bildbearbeitung\"}],\"sprachen\":[{\"id\":\"demo-l1\",\"name\":\"Deutsch\",\"niveau\":\"Muttersprache\"},{\"id\":\"demo-l2\",\"name\":\"Englisch\",\"niveau\":\"Gute Schulkenntnisse (B1)\"},{\"id\":\"demo-l3\",\"name\":\"Französisch\",\"niveau\":\"Grundkenntnisse (A2)\"}],\"hobbys\":[\"Volleyball im Verein\",\"Programmieren kleiner Spiele\",\"Fotografieren\"],\"staerken\":[\"Zuverlässig und pünktlich\",\"Arbeitet gern im Team\",\"Lernt schnell Neues\"],\"referenzen\":[{\"id\":\"demo-r1\",\"name\":\"Herr Thomas Weber\",\"funktion\":\"Klassenlehrer, Schulhaus Zentrum\",\"kontakt\":\"079 555 12 34\",\"email\":\"\",\"zusatz\":\"\"}],\"referencesSideBySide\":true,\"customSections\":[{\"id\":\"familie\",\"title\":\"Familie\",\"preset\":\"familie\",\"entries\":[{\"id\":\"demo-familie\",\"zeit\":\"\",\"titel\":\"\",\"ort\":\"Sohn von Monika Müller, Detailhandelsfachfrau und Peter Müller, Maurer\",\"beschreibung\":\"Bruder von Aline, 2004, Medizinische Praxisassistentin und Jaro, 2015, Schüler\"}]}],\"sectionOrder\":[\"person\",\"custom:familie\",\"schule\",\"erfahrung\",\"sprachen\",\"hobbys\",\"staerken\",\"referenzen\"],\"labels\":{},\"hidden\":{},\"sectionLayouts\":{}},\"design\":{\"template\":\"modern\",\"colors\":{\"ink\":\"#111111\",\"accent\":\"#244a61\"},\"paperColor\":null,\"bgOpacity\":0.25,\"useElements\":false,\"font\":\"sans\"},\"elements\":[],\"elementStyles\":{}},\"settings\":{\"chrome\":{\"version\":1,\"sync\":true,\"shared\":{\"headerMode\":\"contact\",\"headerShowName\":true,\"headerShowAddress\":true,\"headerShowPhone\":true,\"headerShowEmail\":true,\"headerDifferentFirstPage\":false,\"headerHeightMm\":null,\"headerGapMm\":12,\"headerContentOffsetYMm\":0,\"letterRecipientOffsetYMm\":0,\"headerTextLayout\":\"inline\",\"headerInlineSeparator\":\"icons\",\"headerBackgroundColor\":null,\"headerGradientColor\":null,\"headerTextColor\":null,\"headerFontSizePt\":null,\"footerMode\":\"compact\",\"footerHeightMm\":null,\"footerContentOffsetYMm\":0,\"footerTextLayout\":\"inline\",\"footerBackgroundColor\":null,\"footerGradientColor\":null,\"footerTextColor\":null,\"footerFontSizePt\":null,\"borderEnabled\":false,\"borderColor\":null,\"borderWidthMm\":0.6,\"textFont\":\"sans\"},\"cv\":{\"headerMode\":\"compact\",\"headerShowName\":true,\"headerShowAddress\":true,\"headerShowPhone\":true,\"headerShowEmail\":true,\"headerDifferentFirstPage\":false,\"headerHeightMm\":null,\"headerGapMm\":12,\"headerContentOffsetYMm\":0,\"letterRecipientOffsetYMm\":0,\"headerTextLayout\":\"stacked\",\"headerInlineSeparator\":\"icons\",\"headerBackgroundColor\":null,\"headerGradientColor\":null,\"headerTextColor\":null,\"headerFontSizePt\":null,\"footerMode\":\"compact\",\"footerHeightMm\":null,\"footerContentOffsetYMm\":0,\"footerTextLayout\":\"inline\",\"footerBackgroundColor\":null,\"footerGradientColor\":null,\"footerTextColor\":null,\"footerFontSizePt\":null,\"borderEnabled\":false,\"borderColor\":null,\"borderWidthMm\":0.6,\"textFont\":null},\"letter\":{\"headerMode\":\"compact\",\"headerShowName\":true,\"headerShowAddress\":true,\"headerShowPhone\":true,\"headerShowEmail\":true,\"headerDifferentFirstPage\":false,\"headerHeightMm\":null,\"headerGapMm\":12,\"headerContentOffsetYMm\":0,\"letterRecipientOffsetYMm\":0,\"headerTextLayout\":\"stacked\",\"headerInlineSeparator\":\"icons\",\"headerBackgroundColor\":null,\"headerGradientColor\":null,\"headerTextColor\":null,\"headerFontSizePt\":null,\"footerMode\":\"compact\",\"footerHeightMm\":null,\"footerContentOffsetYMm\":0,\"footerTextLayout\":\"inline\",\"footerBackgroundColor\":null,\"footerGradientColor\":null,\"footerTextColor\":null,\"footerFontSizePt\":null,\"borderEnabled\":false,\"borderColor\":null,\"borderWidthMm\":0.6,\"textFont\":null}},\"margins\":{},\"cvLayout\":\"classic\",\"sidebarSide\":\"left\",\"placements\":{\"kontakt\":\"side\",\"schule\":\"main\",\"erfahrung\":\"main\",\"sprachen\":\"side\",\"hobbys\":\"side\",\"staerken\":\"side\",\"referenzen\":\"main\"},\"cvAlignment\":\"left\",\"cvSectionGapMm\":null,\"cvContinuationTopMarginMm\":10,\"cvPhotoStyle\":{\"shape\":\"portrait\",\"zoom\":1,\"x\":50,\"y\":50,\"borderWidth\":0.3},\"cvPhotoPlacement\":{\"mode\":\"frei\",\"xMm\":150,\"yMm\":20,\"widthMm\":34,\"frameColor\":null},\"fieldStyles\":{},\"unresolvedTypography\":[]}}",
+  "profile": "brief-sans-v1; browser=Liberation Sans; Word=Arial; target-font-identity=unverified",
+  "headers": {
+    "letter": {
+      "first": {
+        "heightMm": 25.99944661458333,
+        "bodyTopMm": 47,
+        "background": "111827",
+        "borderColor": "0100100",
+        "borderMm": 0,
+        "footer": {
+          "heightMm": 3.997688802083333,
+          "background": "244A61",
+          "borderColor": "0100100",
+          "borderMm": 0,
+          "opacity": 0.92
+        },
+        "frames": [
+          {
+            "kind": "paragraph-frame",
+            "id": "letter.header.first.row:0.frame",
+            "xMm": 34.7513671875,
+            "yMm": 11.108365885416667,
+            "widthMm": 157.24511614583335,
+            "paragraphs": [
+              {
+                "kind": "paragraph",
+                "id": "letter.header.first.row:0",
+                "role": "contact",
+                "runs": [
+                  {
+                    "id": "letter.header.first.name.value",
+                    "fieldId": "letter.sender.name",
+                    "text": "Lea Müller",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "FFFFFF",
+                      "bold": true,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.first.row:0.tab:1",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.first.separator:1.value",
+                    "text": "·",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.first.row:0.tab:2",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.first.address.value",
+                    "fieldId": "letter.sender.address",
+                    "text": "Dorfstrasse 12",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.first.row:0.tab:3",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.first.separator:3.value",
+                    "text": "·",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.first.row:0.tab:4",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.first.place.value",
+                    "fieldId": "letter.sender.place",
+                    "text": "4535 Hubersdorf",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.first.row:0.tab:5",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.first.phone.value",
+                    "fieldId": "letter.sender.phone",
+                    "text": "079 123 45 67",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.first.row:0.tab:6",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.first.email.value",
+                    "fieldId": "letter.sender.email",
+                    "text": "lea.mueller@example.ch",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  }
+                ],
+                "align": "left",
+                "beforeMm": 0,
+                "afterMm": 0,
+                "lineHeight": 1.2863131578947367,
+                "minimumLineHeightPt": 12.219974999999998,
+                "keepNext": false,
+                "keepLines": true,
+                "tabStopsMm": [
+                  18.041276041666663,
+                  20.65817057291666,
+                  43.92083333333333,
+                  46.537727864583324,
+                  76.84492187499998,
+                  103.62985026041667
+                ],
+                "fieldControls": true
+              }
+            ]
+          }
+        ],
+        "icons": [
+          {
+            "kind": "image",
+            "id": "letter.header.first.icon:0",
+            "source": "data:image/png;base64,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",
+            "alt": "",
+            "widthMm": 2.9972330729166665,
+            "maxHeightMm": 2.9972330729166665,
+            "placement": "free",
+            "coordinateOrigin": "page",
+            "xMm": 107.70195312499999,
+            "yMm": 11.49697265625,
+            "gapMm": 0
+          },
+          {
+            "kind": "image",
+            "id": "letter.header.first.icon:1",
+            "source": "data:image/png;base64,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",
+            "alt": "",
+            "widthMm": 2.9972330729166665,
+            "maxHeightMm": 2.9972330729166665,
+            "placement": "free",
+            "coordinateOrigin": "page",
+            "xMm": 134.48688151041665,
+            "yMm": 11.49697265625,
+            "gapMm": 0
+          }
+        ]
+      },
+      "continuation": {
+        "heightMm": 25.99944661458333,
+        "bodyTopMm": 47,
+        "background": "111827",
+        "borderColor": "0100100",
+        "borderMm": 0,
+        "footer": {
+          "heightMm": 3.997688802083333,
+          "background": "244A61",
+          "borderColor": "0100100",
+          "borderMm": 0,
+          "opacity": 0.92
+        },
+        "frames": [
+          {
+            "kind": "paragraph-frame",
+            "id": "letter.header.continuation.row:0.frame",
+            "xMm": 34.7513671875,
+            "yMm": 11.108365885416667,
+            "widthMm": 157.24511614583335,
+            "paragraphs": [
+              {
+                "kind": "paragraph",
+                "id": "letter.header.continuation.row:0",
+                "role": "contact",
+                "runs": [
+                  {
+                    "id": "letter.header.continuation.name.value",
+                    "fieldId": "letter.sender.name",
+                    "text": "Lea Müller",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "FFFFFF",
+                      "bold": true,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.continuation.row:0.tab:1",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.continuation.separator:1.value",
+                    "text": "·",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.continuation.row:0.tab:2",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.continuation.address.value",
+                    "fieldId": "letter.sender.address",
+                    "text": "Dorfstrasse 12",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.continuation.row:0.tab:3",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.continuation.separator:3.value",
+                    "text": "·",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "9B9EA4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.continuation.row:0.tab:4",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.continuation.place.value",
+                    "fieldId": "letter.sender.place",
+                    "text": "4535 Hubersdorf",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.continuation.row:0.tab:5",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.continuation.phone.value",
+                    "fieldId": "letter.sender.phone",
+                    "text": "079 123 45 67",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.continuation.row:0.tab:6",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "letter.header.continuation.email.value",
+                    "fieldId": "letter.sender.email",
+                    "text": "lea.mueller@example.ch",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F3F3F4",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  }
+                ],
+                "align": "left",
+                "beforeMm": 0,
+                "afterMm": 0,
+                "lineHeight": 1.2863131578947367,
+                "minimumLineHeightPt": 12.219974999999998,
+                "keepNext": false,
+                "keepLines": true,
+                "tabStopsMm": [
+                  18.041276041666663,
+                  20.65817057291666,
+                  43.92083333333333,
+                  46.537727864583324,
+                  76.84492187499998,
+                  103.62985026041667
+                ],
+                "fieldControls": true
+              }
+            ]
+          }
+        ],
+        "icons": [
+          {
+            "kind": "image",
+            "id": "letter.header.continuation.icon:0",
+            "source": "data:image/png;base64,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",
+            "alt": "",
+            "widthMm": 2.9972330729166665,
+            "maxHeightMm": 2.9972330729166665,
+            "placement": "free",
+            "coordinateOrigin": "page",
+            "xMm": 107.70195312499999,
+            "yMm": 11.49697265625,
+            "gapMm": 0
+          },
+          {
+            "kind": "image",
+            "id": "letter.header.continuation.icon:1",
+            "source": "data:image/png;base64,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",
+            "alt": "",
+            "widthMm": 2.9972330729166665,
+            "maxHeightMm": 2.9972330729166665,
+            "placement": "free",
+            "coordinateOrigin": "page",
+            "xMm": 134.48688151041665,
+            "yMm": 11.49697265625,
+            "gapMm": 0
+          }
+        ]
+      }
+    },
+    "cv": {
+      "first": {
+        "heightMm": 25.99944661458333,
+        "bodyTopMm": 47,
+        "background": "244A61",
+        "borderColor": "0100100",
+        "borderMm": 0,
+        "footer": {
+          "heightMm": 3.997688802083333,
+          "background": "244A61",
+          "borderColor": "0100100",
+          "borderMm": 0,
+          "opacity": 0.92
+        },
+        "frames": [
+          {
+            "kind": "paragraph-frame",
+            "id": "cv.header.first.row:0.frame",
+            "xMm": 34.7513671875,
+            "yMm": 11.108365885416667,
+            "widthMm": 157.24511614583335,
+            "paragraphs": [
+              {
+                "kind": "paragraph",
+                "id": "cv.header.first.row:0",
+                "role": "contact",
+                "runs": [
+                  {
+                    "id": "cv.header.first.name.value",
+                    "fieldId": "cv.person.name",
+                    "text": "Lea Müller",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "FFFFFF",
+                      "bold": true,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.first.row:0.tab:1",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "A3B3BD",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.first.separator:1.value",
+                    "text": "·",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "A3B3BD",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.first.row:0.tab:2",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F4F6F7",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.first.address.value",
+                    "fieldId": "cv.person.address",
+                    "text": "Dorfstrasse 12",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F4F6F7",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.first.row:0.tab:3",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "A3B3BD",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.first.separator:3.value",
+                    "text": "·",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "A3B3BD",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.first.row:0.tab:4",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F4F6F7",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.first.place.value",
+                    "fieldId": "cv.person.place",
+                    "text": "4535 Hubersdorf",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F4F6F7",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.first.row:0.tab:5",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F4F6F7",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.first.phone.value",
+                    "fieldId": "cv.person.phone",
+                    "text": "079 123 45 67",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F4F6F7",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.first.row:0.tab:6",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F4F6F7",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.first.email.value",
+                    "fieldId": "cv.person.email",
+                    "text": "lea.mueller@example.ch",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F4F6F7",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  }
+                ],
+                "align": "left",
+                "beforeMm": 0,
+                "afterMm": 0,
+                "lineHeight": 1.2863131578947367,
+                "minimumLineHeightPt": 12.219974999999998,
+                "keepNext": false,
+                "keepLines": true,
+                "tabStopsMm": [
+                  18.041276041666663,
+                  20.65817057291666,
+                  43.92083333333333,
+                  46.537727864583324,
+                  76.84492187499998,
+                  103.62985026041667
+                ],
+                "fieldControls": true
+              }
+            ]
+          }
+        ],
+        "icons": [
+          {
+            "kind": "image",
+            "id": "cv.header.first.icon:0",
+            "source": "data:image/png;base64,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",
+            "alt": "",
+            "widthMm": 2.9972330729166665,
+            "maxHeightMm": 2.9972330729166665,
+            "placement": "free",
+            "coordinateOrigin": "page",
+            "xMm": 107.70195312499999,
+            "yMm": 11.49697265625,
+            "gapMm": 0
+          },
+          {
+            "kind": "image",
+            "id": "cv.header.first.icon:1",
+            "source": "data:image/png;base64,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",
+            "alt": "",
+            "widthMm": 2.9972330729166665,
+            "maxHeightMm": 2.9972330729166665,
+            "placement": "free",
+            "coordinateOrigin": "page",
+            "xMm": 134.48688151041665,
+            "yMm": 11.49697265625,
+            "gapMm": 0
+          }
+        ]
+      },
+      "continuation": {
+        "heightMm": 25.99944661458333,
+        "bodyTopMm": 26,
+        "background": "244A61",
+        "borderColor": "0100100",
+        "borderMm": 0,
+        "footer": {
+          "heightMm": 3.997688802083333,
+          "background": "244A61",
+          "borderColor": "0100100",
+          "borderMm": 0,
+          "opacity": 0.92
+        },
+        "frames": [
+          {
+            "kind": "paragraph-frame",
+            "id": "cv.header.continuation.row:0.frame",
+            "xMm": 34.7513671875,
+            "yMm": 11.108365885416667,
+            "widthMm": 157.24511614583335,
+            "paragraphs": [
+              {
+                "kind": "paragraph",
+                "id": "cv.header.continuation.row:0",
+                "role": "contact",
+                "runs": [
+                  {
+                    "id": "cv.header.continuation.name.value",
+                    "fieldId": "cv.person.name",
+                    "text": "Lea Müller",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "FFFFFF",
+                      "bold": true,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.continuation.row:0.tab:1",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "A3B3BD",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.continuation.separator:1.value",
+                    "text": "·",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "A3B3BD",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.continuation.row:0.tab:2",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F4F6F7",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.continuation.address.value",
+                    "fieldId": "cv.person.address",
+                    "text": "Dorfstrasse 12",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F4F6F7",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.continuation.row:0.tab:3",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "A3B3BD",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.continuation.separator:3.value",
+                    "text": "·",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "A3B3BD",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.continuation.row:0.tab:4",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F4F6F7",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.continuation.place.value",
+                    "fieldId": "cv.person.place",
+                    "text": "4535 Hubersdorf",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F4F6F7",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.continuation.row:0.tab:5",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F4F6F7",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.continuation.phone.value",
+                    "fieldId": "cv.person.phone",
+                    "text": "079 123 45 67",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F4F6F7",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.continuation.row:0.tab:6",
+                    "text": "\t",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F4F6F7",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  },
+                  {
+                    "id": "cv.header.continuation.email.value",
+                    "fieldId": "cv.person.email",
+                    "text": "lea.mueller@example.ch",
+                    "style": {
+                      "font": "Arial",
+                      "sizePt": 9.5,
+                      "color": "F4F6F7",
+                      "bold": false,
+                      "italic": false,
+                      "underline": false,
+                      "trackingPt": 0.05
+                    }
+                  }
+                ],
+                "align": "left",
+                "beforeMm": 0,
+                "afterMm": 0,
+                "lineHeight": 1.2863131578947367,
+                "minimumLineHeightPt": 12.219974999999998,
+                "keepNext": false,
+                "keepLines": true,
+                "tabStopsMm": [
+                  18.041276041666663,
+                  20.65817057291666,
+                  43.92083333333333,
+                  46.537727864583324,
+                  76.84492187499998,
+                  103.62985026041667
+                ],
+                "fieldControls": true
+              }
+            ]
+          }
+        ],
+        "icons": [
+          {
+            "kind": "image",
+            "id": "cv.header.continuation.icon:0",
+            "source": "data:image/png;base64,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",
+            "alt": "",
+            "widthMm": 2.9972330729166665,
+            "maxHeightMm": 2.9972330729166665,
+            "placement": "free",
+            "coordinateOrigin": "page",
+            "xMm": 107.70195312499999,
+            "yMm": 11.49697265625,
+            "gapMm": 0
+          },
+          {
+            "kind": "image",
+            "id": "cv.header.continuation.icon:1",
+            "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAL7klEQVR4AeydecwkRRnGZzzAM0HBCIpI/EcQFEEQdNGgAWIAdQEJgizgEQ9YhWWN0cTggoi7BoNGQVROQWI2iIgoGF2BBU3kiK4iWUTBIyKoUVQkHsD4e75Mke+Y6q6q7p7umn4377NV013HW8/7fDPzTvfUPGFg/3rNgAmg1+EfDEwAJoCeM9Dz5dszgAmg5wz0fPn2DGAC6DkDPV2+W7Y9AzgmelqaAHoaeLdsE4BjoqelCaCngXfLNgE4JnpamgB6Gni3bBOAY6KnpQmgZ4FfvNxaBTAajbYFu4JlYF/DqE4OxKm43XZxEKs8riQAArwHOBV8HzyII5vBzeDb4BrDoE4OxKm43SyugTj/KOXL4TnZkgTApC8AlzDrD8ApYE9gNl0GxPkHmfIGYnEReB71aIsWABMdxyw/B28GZt1g4FDcuJPYHE0ZZVECYILTGf2zwKybDJxLjD4W41qwABj4PAb+ADDrNgOriNXnQl0MEgADnsyAbwVmeTCwgpi9P8TVUgEw0IEMFPW0Qnuz9hk4jdi9zrnhKwsFwABb0vFLYAjM8mJAsT1/HEOv52rkPcmJt4OtQIzp84Af0UE5q2EwqIsDcfoPeI2xrWmsrI1isoUIYHLPpUcv4tDuw+FwR3AQOMQwrJMDcboDHO8BLgOhliYAnjpexAwvBiH2ToK9Ctwb0tjapDMAx/eAlYwgUJTaLsRSwpnYsOgZ4I0Teyw9eAYOfX3pYTvSJANwrmeBTwbOcbCvXZEAdvN1mnd8E46cNe+xVafIANyvY7o7QJm9zNegSADb+DrNO66LHfMeWrUFBnSRqGxa7xXEqgLYVDaznW+cgZ8UzTA+5/1jLhLA08adi4o/FZ20c1Nh4P6AWZ7pa1MkAF8fOz5DDFQVwNNniItcl1IpBkUCCBn4UnLM5bkyl7vfY+6VDpYtxftyXiSAZ5SNyvlng4txZD1IuiOF/maRDIhrsJ5uF4NngTLzxrJIAEXnFk+oK4a34NR7Fp+wx/UyMOb4FkYV5xRB5o2l9wTD/g/EmFS2Dgc3gJfEdLS25QyIU7CBlvrwR1xTDbZHfC2LBPCQr1PJ8VdwfiPO6m7hLaibVWAAHrcApzLERiBuKcptUYt/Lnr8+MMiAfz78VbxlSfRRXcL62VhH+pmCQwQeHGnp3txKU4TRpnr8p+5/yf8VySACc2jD+1Ij+tYyDkg9r4CuvbTxBX4PKu/DohDimasaQE4r99G5VYWdTilWQEDcHQYp28Fx4DGbVoC0EKew38XsMArwXbUzeYxIE7AlRy6EIgriuZtmgJwq3k9ldtY7AlgSL33Bg/vhQT91YsbqtOzqgL4faKr+pTxTPreyOJ3puylae3geha/FsSmdnSZs9QYzHWuKoDjGUV56X8pU0w3KtwECWtAb1JGrRXoVvubIG13kGLiXNzrxt2U/nN9qgrg0eFwqNuSljGansIook3pjb54opRx3+jemXUg8C61W4XrWjtFtInrZWPuF3zIEztSVQHMzYcjd4MDeKB8NfbWZbrNmdKdayDoC2DmUkatCVRN7cTtanEN7p5jreJ/tQjA+YBTege7F4+/BVLtKDrqTeIRlDNhBF7pr/5qq6R234WMPeH4AsrarFYByCscfACsoK4AhtytQtMlpluYvgxxV4Ptl5zN5AC+bweU2iloqamdOFwBp0eC2u/Aql0ALjY4+z3q2sRAix9RT7HX0knvDVZCZDYpo3wF78P320BqaifO9GUb/dVXeUbFBb81JgBNiQgeAqup7w/uAimmmxnOoKNSxl0pO20EXmntjTipN8dKd6lG26/psT/c6cs2qRflGKLcGhWAm56F3E5dmYJyf++FCdoUmVJGieB0SH5KUcM2zuGTrtqtYW6ldvKVarQptdNnAvuMOYseILbDVAQgp1jQI+BT1JUG6Q0R1Wh7Ij20SYVeFjqTMhJ8+aKrdkpnq6Z2a+Ep9l4MaEmzqQnAucfi7gVKGUXW393xyFLfdVPK+EXI121pkd3rac7cW4FzGE1fkFEaSzXalNqdIk5AcmoXPeu4w9QFMJ53wGJ1P5tucLjKHUsoj6SPUsap715C4N+iuYGudFIkmUvtlD4nDVC1U2sCkOOI4C9AHydXSRn1DHAeAZlKysg82wOlduezBqWrFNH2R3ocw9obSe0YO9haFYDzEiJcyqjdSB5zxyNLpYy65+AkAlT7uhhzCE7Apx+DKqmd/tr3Ys162WCodq12olKXAyFKGT9Ef5GbmjI+lf6nAV1gqi1lJPAutVMWUzW10+t9o6kd6w+2zgjAeYwQfkpdKePHKVNTxl3oq5TxEwRPnyPwMN7om2VqF7PSzglAziMCpYyfpq6UUXvjUI02pYwn0ksvC/tRRhnBryu125v1TDW1i1loJwXgFgBxShkP4rH2vNPmU1Sj7fn0uIqAascsvWHkod9op9TuXFroNTo1tVN6q0/xDtAaGKuz1mkBONYg8VLquq7wDcpUU9p2OwH2pm2cUxt9fh+95+48p/S5/SvxWZ/jzzvcTLXqqFkIQIuEUKWMuvtFKeMfdCwB+h6dblG/nGC/Abj9/A+kLpFVSe101e5o/NSVuwcSfGulSzYCcOxAsFJG3XOgvYtTU0a9rHyNMfU0L+iLlqGbYtFtgemqna546qrddxacyeBBdgIQp4jgYfBh6koZf0HZlild1VU73aXTmdQuhowsBeAWiAiUMr6Gx8r9q3yVjSGiTFftdLlX9+XpSmdU5y41zloAIhIRPAbOpr43SE0Z6RpsupKp1G4d81a6ITN4xgYbZi8Axw3B+C3Qa7ty/7+54zWWSu1OZo7Op3Yxa54ZAbhFE6CvUtdVxiso67KrGUipna5gUp0dmzkBKDSI4K/gXdT1WzpV3iT+kjGOYqxjQadSO/yqxWZSAI4ZgnY90HWFN3FMu2tQBNkNtDqMvvqrv5b6zNpMC8BFjUBuBLo3X28UP8PxbwJlEPp4WXfkqK6neZ17NW2XA/0kHs1m23ohABdCgnoXWAOOA/sB/bbBDpSq62le5+507ftQ9koAfQho7BpNALGMzVh7E8CMBTR2OSaAWMZmrL0JILOA1u2uCaBuRjMbzwSQWcDqdtcEUDejmY1nAsgsYHW7awKom9HMxjMBZBawut01AdTNaGbjmQAyCVhTbpoAmmI2k3FNAJkEqik3TQBNMZvJuCaATALVlJsmgKaYzWRcE0AmgWrKTRNAU8xmMq4JoOOBatq9IgH8K2Dy1B2wA4a2JoEMPDegnfeby0UC+HPAwC8NaGNNmmVgt4DhvdvMVxXAsaPR6MkBDliTBhiA+y0Z1rvlDeeceb/WViSAn7neBaU2UdJGDQVN7FSDDHyEsV8IymyTr0GRAEK/E7caJep373xz2PEGGIBz/SCFNtwOGd27dY1XAMPh8FeM/BsQYmtxaANYDpI3ZgyZqM9txC04FOi3BrVDSQgdm4nl73wNvQIYd9CvXI2rpYW+k6/vz9+Hg9cCbeduGI3q4kA/JH0fUdD2czG/NajNtOg22coEoN2v9Ewwubf/6Ks4pZ02DYNBEgcT+NOuqRyOsntofQnwWqEAeOrQFmjvoPfUfsGCuczqYUAxO34cQ++IhQJQLwZQNqBdvPXQkA8DJ41jV+hxqQDUm4H0unOZ6oYsGLiQmF0e4mmQADQQA66k1A4aFGYdZuBsYqWf8A1yMVgAGo2B9bNo+tWuaW7KqKkN5Qw8TJMTiZE2zaQaZlEC0JBM8BXKncBZQPvrUJi1yID2OdLP8e1MbLRFXpQr0QLQ6Ez0INCveUoI7+aYduB6lNJsOgxoh1Jtmq2t8HYiFmcCbWQZPXuSANwsTKpNm9dTHg625rgEobz3YOqHGAbRHBRwJk7FrQK+DXwfAa4AlV6OKwkAZxcYztwP7gA/BDcbhnVyIE7FrX6XYAHvVR7UKoAqjljfdhgwAbTDe2dmNQF0JhTtOGICaIf3zsxqAuhMKNpxxATQDu+dmdUE0JFQtOWGCaAt5jsyrwmgI4Foyw0TQFvMd2ReE0BHAtGWGyaAtpjvyLwmgI4Eoi03TABtMd+ReU0ALQei7en/DwAA//8bHgRpAAAABklEQVQDALcDT1u/2XiiAAAAAElFTkSuQmCC",
+            "alt": "",
+            "widthMm": 2.9972330729166665,
+            "maxHeightMm": 2.9972330729166665,
+            "placement": "free",
+            "coordinateOrigin": "page",
+            "xMm": 134.48688151041665,
+            "yMm": 11.49697265625,
+            "gapMm": 0
+          }
+        ]
+      }
+    }
+  }
+}

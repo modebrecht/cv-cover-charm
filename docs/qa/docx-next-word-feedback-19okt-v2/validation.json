@@ -1,0 +1,676 @@
+{
+  "status": "PARTIAL pending Microsoft Word",
+  "renderer": "Unmodified runtime LibreOfficeDev 26.8 supplemental rendering",
+  "results": [
+    {
+      "id": "01-Modern-Eine-CV-Seite",
+      "webCvPages": 1,
+      "webPdfPages": 3,
+      "supplementalNativePages": 3,
+      "supplementalNativeCvPages": 1,
+      "semanticFieldsChecked": 82,
+      "allNativeFieldsPresent": true,
+      "letterCvWebPdfFieldsPresentExceptRecordedNativeLabels": true,
+      "knownNativeOnlyLabels": [],
+      "webPdfNonExtractableCoverFields": [
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.photo.initials",
+          "text": "LM"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.lehrbeginn",
+          "text": "Lehrbeginn August 2028"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.kontaktTitel",
+          "text": "Kontakt"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.beilagen",
+          "text": "Motivationsschreiben"
+        }
+      ],
+      "nativeContentControls": 82,
+      "originalPngSourcesPreserved": 0,
+      "pillChecks": [
+        {
+          "field": "cv.section.custom:familie.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.schule.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.erfahrung.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.sprachen.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.staerken.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.hobbys.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.referenzen.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        }
+      ],
+      "wordAcceptance": "UNVERIFIED"
+    },
+    {
+      "id": "02-Modern-Zwei-CV-Seiten",
+      "webCvPages": 2,
+      "webPdfPages": 4,
+      "supplementalNativePages": 4,
+      "supplementalNativeCvPages": 2,
+      "semanticFieldsChecked": 82,
+      "allNativeFieldsPresent": true,
+      "letterCvWebPdfFieldsPresentExceptRecordedNativeLabels": true,
+      "knownNativeOnlyLabels": [],
+      "webPdfNonExtractableCoverFields": [
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.photo.initials",
+          "text": "LM"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.lehrbeginn",
+          "text": "Lehrbeginn August 2028"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.kontaktTitel",
+          "text": "Kontakt"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.beilagen",
+          "text": "Motivationsschreiben"
+        }
+      ],
+      "nativeContentControls": 82,
+      "originalPngSourcesPreserved": 0,
+      "pillChecks": [
+        {
+          "field": "cv.section.custom:familie.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.schule.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.erfahrung.heading",
+          "page": 4,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.sprachen.heading",
+          "page": 4,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.hobbys.heading",
+          "page": 4,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.staerken.heading",
+          "page": 4,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.referenzen.heading",
+          "page": 4,
+          "inkInsideSurface": true
+        }
+      ],
+      "wordAcceptance": "UNVERIFIED"
+    },
+    {
+      "id": "03-Modern-Kontakt-waagrecht",
+      "webCvPages": 1,
+      "webPdfPages": 3,
+      "supplementalNativePages": 4,
+      "supplementalNativeCvPages": 2,
+      "semanticFieldsChecked": 73,
+      "allNativeFieldsPresent": true,
+      "letterCvWebPdfFieldsPresentExceptRecordedNativeLabels": true,
+      "knownNativeOnlyLabels": [],
+      "webPdfNonExtractableCoverFields": [
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.photo.initials",
+          "text": "LM"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.lehrbeginn",
+          "text": "Lehrbeginn August 2028"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.kontaktTitel",
+          "text": "Kontakt"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.beilagen",
+          "text": "Motivationsschreiben"
+        }
+      ],
+      "nativeContentControls": 73,
+      "originalPngSourcesPreserved": 0,
+      "pillChecks": [
+        {
+          "field": "cv.section.custom:familie.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.schule.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.erfahrung.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.sprachen.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.hobbys.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.staerken.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.referenzen.heading",
+          "page": 4,
+          "inkInsideSurface": true
+        }
+      ],
+      "wordAcceptance": "UNVERIFIED"
+    },
+    {
+      "id": "04-Modern-Kontakt-senkrecht",
+      "webCvPages": 1,
+      "webPdfPages": 3,
+      "supplementalNativePages": 4,
+      "supplementalNativeCvPages": 2,
+      "semanticFieldsChecked": 73,
+      "allNativeFieldsPresent": true,
+      "letterCvWebPdfFieldsPresentExceptRecordedNativeLabels": true,
+      "knownNativeOnlyLabels": [],
+      "webPdfNonExtractableCoverFields": [
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.photo.initials",
+          "text": "LM"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.lehrbeginn",
+          "text": "Lehrbeginn August 2028"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.kontaktTitel",
+          "text": "Kontakt"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.beilagen",
+          "text": "Motivationsschreiben"
+        }
+      ],
+      "nativeContentControls": 73,
+      "originalPngSourcesPreserved": 0,
+      "pillChecks": [
+        {
+          "field": "cv.section.custom:familie.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.schule.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.erfahrung.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.sprachen.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.hobbys.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.staerken.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.referenzen.heading",
+          "page": 4,
+          "inkInsideSurface": true
+        }
+      ],
+      "wordAcceptance": "UNVERIFIED"
+    },
+    {
+      "id": "05-Modern-Eigene-Werte-Referenzen",
+      "webCvPages": 1,
+      "webPdfPages": 3,
+      "supplementalNativePages": 4,
+      "supplementalNativeCvPages": 2,
+      "semanticFieldsChecked": 85,
+      "allNativeFieldsPresent": true,
+      "letterCvWebPdfFieldsPresentExceptRecordedNativeLabels": true,
+      "knownNativeOnlyLabels": [],
+      "webPdfNonExtractableCoverFields": [
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.photo.initials",
+          "text": "LM"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.lehrbeginn",
+          "text": "Lehrbeginn August 2028"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.kontaktTitel",
+          "text": "Kontakt"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.beilagen",
+          "text": "Motivationsschreiben"
+        }
+      ],
+      "nativeContentControls": 84,
+      "originalPngSourcesPreserved": 0,
+      "pillChecks": [
+        {
+          "field": "cv.section.custom:familie.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.schule.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.erfahrung.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.sprachen.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.hobbys.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.staerken.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.referenzen.heading",
+          "page": 4,
+          "inkInsideSurface": true
+        }
+      ],
+      "wordAcceptance": "UNVERIFIED"
+    },
+    {
+      "id": "06-Modern-Foto-Standard",
+      "webCvPages": 1,
+      "webPdfPages": 3,
+      "supplementalNativePages": 4,
+      "supplementalNativeCvPages": 2,
+      "semanticFieldsChecked": 81,
+      "allNativeFieldsPresent": true,
+      "letterCvWebPdfFieldsPresentExceptRecordedNativeLabels": true,
+      "knownNativeOnlyLabels": [],
+      "webPdfNonExtractableCoverFields": [
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.lehrbeginn",
+          "text": "Lehrbeginn August 2028"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.kontaktTitel",
+          "text": "Kontakt"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.beilagen",
+          "text": "Motivationsschreiben"
+        }
+      ],
+      "nativeContentControls": 81,
+      "originalPngSourcesPreserved": 1,
+      "pillChecks": [
+        {
+          "field": "cv.section.custom:familie.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.schule.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.erfahrung.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.sprachen.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.hobbys.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.staerken.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.referenzen.heading",
+          "page": 4,
+          "inkInsideSurface": true
+        }
+      ],
+      "wordAcceptance": "UNVERIFIED"
+    },
+    {
+      "id": "07-Modern-Lang-115-Prozent",
+      "webCvPages": 1,
+      "webPdfPages": 3,
+      "supplementalNativePages": 4,
+      "supplementalNativeCvPages": 2,
+      "semanticFieldsChecked": 82,
+      "allNativeFieldsPresent": true,
+      "letterCvWebPdfFieldsPresentExceptRecordedNativeLabels": true,
+      "knownNativeOnlyLabels": [],
+      "webPdfNonExtractableCoverFields": [
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.photo.initials",
+          "text": "LM"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.profession",
+          "text": "Fachmann/-frau Betreuung EFZ"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.fullName",
+          "text": "Lea Sophie Müller-Meier"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.lehrbeginn",
+          "text": "Lehrbeginn August 2028"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.kontaktTitel",
+          "text": "Kontakt"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.kontakt",
+          "text": "Längere Beispielstrasse 123"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.kontakt",
+          "text": "\n8000 Zürich"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.beilagen",
+          "text": "Motivationsschreiben"
+        }
+      ],
+      "nativeContentControls": 82,
+      "originalPngSourcesPreserved": 0,
+      "pillChecks": [
+        {
+          "field": "cv.section.custom:familie.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.schule.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.erfahrung.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.sprachen.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.hobbys.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.staerken.heading",
+          "page": 3,
+          "inkInsideSurface": true
+        },
+        {
+          "field": "cv.section.referenzen.heading",
+          "page": 4,
+          "inkInsideSurface": true
+        }
+      ],
+      "wordAcceptance": "UNVERIFIED"
+    },
+    {
+      "id": "08-Brief-Standard",
+      "webCvPages": 1,
+      "webPdfPages": 3,
+      "supplementalNativePages": 4,
+      "supplementalNativeCvPages": 2,
+      "semanticFieldsChecked": 83,
+      "allNativeFieldsPresent": true,
+      "letterCvWebPdfFieldsPresentExceptRecordedNativeLabels": true,
+      "knownNativeOnlyLabels": [
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cv.section.person.heading",
+          "text": "Kontakt"
+        }
+      ],
+      "webPdfNonExtractableCoverFields": [
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.photo.initials",
+          "text": "LM"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.lehrbeginn",
+          "text": "Lehrbeginn August 2028"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.kontaktTitel",
+          "text": "Kontakt"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.beilagen",
+          "text": "Motivationsschreiben"
+        }
+      ],
+      "nativeContentControls": 83,
+      "originalPngSourcesPreserved": 0,
+      "pillChecks": [],
+      "wordAcceptance": "UNVERIFIED"
+    },
+    {
+      "id": "09-Brief-Lang-115-Prozent",
+      "webCvPages": 1,
+      "webPdfPages": 3,
+      "supplementalNativePages": 4,
+      "supplementalNativeCvPages": 2,
+      "semanticFieldsChecked": 83,
+      "allNativeFieldsPresent": true,
+      "letterCvWebPdfFieldsPresentExceptRecordedNativeLabels": true,
+      "knownNativeOnlyLabels": [
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cv.section.person.heading",
+          "text": "Kontakt"
+        }
+      ],
+      "webPdfNonExtractableCoverFields": [
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.photo.initials",
+          "text": "LM"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.profession",
+          "text": "Fachmann/-frau Betreuung EFZ"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.fullName",
+          "text": "Lea Sophie Müller-Meier"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.lehrbeginn",
+          "text": "Lehrbeginn August 2028"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.kontaktTitel",
+          "text": "Kontakt"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.kontakt",
+          "text": "Längere Beispielstrasse 123"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.kontakt",
+          "text": "\n8000 Zürich"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.beilagen",
+          "text": "Motivationsschreiben"
+        }
+      ],
+      "nativeContentControls": 83,
+      "originalPngSourcesPreserved": 0,
+      "pillChecks": [],
+      "wordAcceptance": "UNVERIFIED"
+    },
+    {
+      "id": "10-Brief-Foto-Hochformat",
+      "webCvPages": 1,
+      "webPdfPages": 3,
+      "supplementalNativePages": 4,
+      "supplementalNativeCvPages": 2,
+      "semanticFieldsChecked": 82,
+      "allNativeFieldsPresent": true,
+      "letterCvWebPdfFieldsPresentExceptRecordedNativeLabels": true,
+      "knownNativeOnlyLabels": [
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cv.section.person.heading",
+          "text": "Kontakt"
+        }
+      ],
+      "webPdfNonExtractableCoverFields": [
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.lehrbeginn",
+          "text": "Lehrbeginn August 2028"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.kontaktTitel",
+          "text": "Kontakt"
+        },
+        {
+          "source": "same-source-Web-PDF",
+          "field": "cover.beilagen",
+          "text": "Motivationsschreiben"
+        }
+      ],
+      "nativeContentControls": 82,
+      "originalPngSourcesPreserved": 1,
+      "pillChecks": [],
+      "wordAcceptance": "UNVERIFIED"
+    }
+  ]
+}

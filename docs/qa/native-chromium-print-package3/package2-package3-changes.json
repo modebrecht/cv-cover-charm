@@ -1,0 +1,938 @@
+[
+  {
+    "template": "Brief",
+    "document": "cover",
+    "current_rgb_change": -0.0012555476153969236,
+    "current_layout_change": -0.0015884995299632054,
+    "native_rgb_change": 0.0005526164135921663,
+    "native_layout_change": 0.000387093241506431
+  },
+  {
+    "template": "Brief",
+    "document": "letter",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Brief",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Editorial",
+    "document": "cover",
+    "current_rgb_change": -0.0002769965418751852,
+    "current_layout_change": -0.000734775260453846,
+    "native_rgb_change": 0.06517217016863952,
+    "native_layout_change": 0.06516591691149198
+  },
+  {
+    "template": "Editorial",
+    "document": "letter",
+    "current_rgb_change": 4.5429969508514745e-07,
+    "current_layout_change": 8.955393371312681e-08,
+    "native_rgb_change": 3.569309940942844e-07,
+    "native_layout_change": -1.6086471332776853e-07
+  },
+  {
+    "template": "Editorial",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Modern",
+    "document": "cover",
+    "current_rgb_change": -0.0019669425086511483,
+    "current_layout_change": -0.0025891772425692405,
+    "native_rgb_change": 0.0037122244941816263,
+    "native_layout_change": 0.003995389973921903
+  },
+  {
+    "template": "Modern",
+    "document": "letter",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Modern",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Warm",
+    "document": "cover",
+    "current_rgb_change": -0.0006195623722334842,
+    "current_layout_change": 0.0003609721135112709,
+    "native_rgb_change": 5.821583952680953e-05,
+    "native_layout_change": -0.0002457679301335336
+  },
+  {
+    "template": "Warm",
+    "document": "letter",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Warm",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Edel",
+    "document": "cover",
+    "current_rgb_change": 0.0013707349414544545,
+    "current_layout_change": 0.0007351643717404821,
+    "native_rgb_change": -0.00021833478764943237,
+    "native_layout_change": -0.0007859220399543121
+  },
+  {
+    "template": "Edel",
+    "document": "letter",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Edel",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Colorful",
+    "document": "cover",
+    "current_rgb_change": -0.0001663883808820099,
+    "current_layout_change": -0.0003048305057373746,
+    "native_rgb_change": -0.00020269565907660159,
+    "native_layout_change": 0.00026386781998211095
+  },
+  {
+    "template": "Colorful",
+    "document": "letter",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Colorful",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Blockig",
+    "document": "cover",
+    "current_rgb_change": -0.0021659668754494543,
+    "current_layout_change": -0.0024887310949754937,
+    "native_rgb_change": -0.0005625336625425525,
+    "native_layout_change": -0.0004816583374090966
+  },
+  {
+    "template": "Blockig",
+    "document": "letter",
+    "current_rgb_change": -1.5549608551879146e-06,
+    "current_layout_change": -3.4031799422962195e-07,
+    "native_rgb_change": -1.3809465992942194e-06,
+    "native_layout_change": -2.0417765111968578e-07
+  },
+  {
+    "template": "Blockig",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Seri\u00f6s",
+    "document": "cover",
+    "current_rgb_change": -0.0004722158787168196,
+    "current_layout_change": -0.0009222516946001402,
+    "native_rgb_change": -0.0005548701772206677,
+    "native_layout_change": -0.0009701170396055891
+  },
+  {
+    "template": "Seri\u00f6s",
+    "document": "letter",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Seri\u00f6s",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Human",
+    "document": "cover",
+    "current_rgb_change": -0.0008831645643034847,
+    "current_layout_change": -0.0012633545802993584,
+    "native_rgb_change": -0.0009368637316259365,
+    "native_layout_change": -0.0011728916568959358
+  },
+  {
+    "template": "Human",
+    "document": "letter",
+    "current_rgb_change": 0.001043849934258212,
+    "current_layout_change": 0.0007213520269431228,
+    "native_rgb_change": -8.732004723399633e-06,
+    "native_layout_change": -3.3835812459637182e-06
+  },
+  {
+    "template": "Human",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Horizont",
+    "document": "cover",
+    "current_rgb_change": 0.0012341542143423645,
+    "current_layout_change": 0.0010777597309682418,
+    "native_rgb_change": 0.0015590401259669706,
+    "native_layout_change": 0.0013431938166610369
+  },
+  {
+    "template": "Horizont",
+    "document": "letter",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Horizont",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Kolumne",
+    "document": "cover",
+    "current_rgb_change": 0.0019232834693970746,
+    "current_layout_change": 0.001667164761260831,
+    "native_rgb_change": 0.0006472649296097588,
+    "native_layout_change": 0.0005179829483784593
+  },
+  {
+    "template": "Kolumne",
+    "document": "letter",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Kolumne",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Rahmen",
+    "document": "cover",
+    "current_rgb_change": -0.0007606957406796067,
+    "current_layout_change": -0.0010075189429701314,
+    "native_rgb_change": -0.00044250035542847677,
+    "native_layout_change": -0.0005997417258475357
+  },
+  {
+    "template": "Rahmen",
+    "document": "letter",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Rahmen",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Sonne",
+    "document": "cover",
+    "current_rgb_change": 0.00044303261692069107,
+    "current_layout_change": 9.98429754326402e-05,
+    "native_rgb_change": -0.00029188054285678167,
+    "native_layout_change": -0.0005957023737357403
+  },
+  {
+    "template": "Sonne",
+    "document": "letter",
+    "current_rgb_change": 0.030174903211366733,
+    "current_layout_change": 0.02822689417595603,
+    "native_rgb_change": 0.03094533285780532,
+    "native_layout_change": 0.028808365246256185
+  },
+  {
+    "template": "Sonne",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Studio",
+    "document": "cover",
+    "current_rgb_change": -0.0005868650573819245,
+    "current_layout_change": -0.0006106524682106818,
+    "native_rgb_change": 0.0007141815307977195,
+    "native_layout_change": 0.00021462944313244137
+  },
+  {
+    "template": "Studio",
+    "document": "letter",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Studio",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Neon",
+    "document": "cover",
+    "current_rgb_change": -0.0003638765443627623,
+    "current_layout_change": -0.000278803185617571,
+    "native_rgb_change": 0.005325854875111169,
+    "native_layout_change": 0.003476650309867879
+  },
+  {
+    "template": "Neon",
+    "document": "letter",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Neon",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Aurora",
+    "document": "cover",
+    "current_rgb_change": -0.00011895170521591947,
+    "current_layout_change": -0.00047746993687902695,
+    "native_rgb_change": 0.000632057123832741,
+    "native_layout_change": 0.000963934777955533
+  },
+  {
+    "template": "Aurora",
+    "document": "letter",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Aurora",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Verlauf",
+    "document": "cover",
+    "current_rgb_change": -0.00013725110689932762,
+    "current_layout_change": 8.29467255847316e-05,
+    "native_rgb_change": 0.001839145126969921,
+    "native_layout_change": 0.0017937370388818596
+  },
+  {
+    "template": "Verlauf",
+    "document": "letter",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Verlauf",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Citrus",
+    "document": "cover",
+    "current_rgb_change": 0.0013154462706082004,
+    "current_layout_change": 0.0009570656390739396,
+    "native_rgb_change": -0.00037086495519189633,
+    "native_layout_change": 0.00025631385493540826
+  },
+  {
+    "template": "Citrus",
+    "document": "letter",
+    "current_rgb_change": -5.480050890849242e-07,
+    "current_layout_change": 0.0,
+    "native_rgb_change": -5.124472054474083e-07,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Citrus",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Edge",
+    "document": "cover",
+    "current_rgb_change": 0.00046233405186435483,
+    "current_layout_change": 0.000330942570401227,
+    "native_rgb_change": 0.31841186697074897,
+    "native_layout_change": 0.30492368616434684
+  },
+  {
+    "template": "Edge",
+    "document": "letter",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Edge",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Glow",
+    "document": "cover",
+    "current_rgb_change": 0.0014713833786316188,
+    "current_layout_change": 0.0015396072076646616,
+    "native_rgb_change": 0.25746527640328565,
+    "native_layout_change": 0.295729365629247
+  },
+  {
+    "template": "Glow",
+    "document": "letter",
+    "current_rgb_change": -1.9751046917537707e-05,
+    "current_layout_change": -2.7198940533157412e-05,
+    "native_rgb_change": 0.21807437953627773,
+    "native_layout_change": 0.22131444760078955
+  },
+  {
+    "template": "Glow",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.28498253860013056,
+    "native_layout_change": 0.2964737805723594
+  },
+  {
+    "template": "Mono Luxe",
+    "document": "cover",
+    "current_rgb_change": 0.0010543201634078958,
+    "current_layout_change": 0.0007627004524819458,
+    "native_rgb_change": 0.4069605888036869,
+    "native_layout_change": 0.3670011876634127
+  },
+  {
+    "template": "Mono Luxe",
+    "document": "letter",
+    "current_rgb_change": -0.00034406069404013806,
+    "current_layout_change": -0.00034608657925916386,
+    "native_rgb_change": -6.342190874808473e-06,
+    "native_layout_change": -1.6369709001762267e-05
+  },
+  {
+    "template": "Mono Luxe",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Horizon",
+    "document": "cover",
+    "current_rgb_change": 0.0008858336500026098,
+    "current_layout_change": 0.0009355674923214874,
+    "native_rgb_change": 0.24147748343986186,
+    "native_layout_change": 0.22552605545992577
+  },
+  {
+    "template": "Horizon",
+    "document": "letter",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Horizon",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Sunrise",
+    "document": "cover",
+    "current_rgb_change": 0.001254063439142139,
+    "current_layout_change": 0.0016237315860123669,
+    "native_rgb_change": 0.13235654258883967,
+    "native_layout_change": 0.11741205580820024
+  },
+  {
+    "template": "Sunrise",
+    "document": "letter",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Sunrise",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Forest Flow",
+    "document": "cover",
+    "current_rgb_change": -0.0005064373578402837,
+    "current_layout_change": -0.0005591171993883925,
+    "native_rgb_change": 0.24603536914240542,
+    "native_layout_change": 0.22979358618183
+  },
+  {
+    "template": "Forest Flow",
+    "document": "letter",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Forest Flow",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Violet Pulse",
+    "document": "cover",
+    "current_rgb_change": 0.0011166196473852974,
+    "current_layout_change": 0.0010910878556689152,
+    "native_rgb_change": 0.230891878878557,
+    "native_layout_change": 0.25128089771471096
+  },
+  {
+    "template": "Violet Pulse",
+    "document": "letter",
+    "current_rgb_change": 0.0012522456489778566,
+    "current_layout_change": 0.0015519061832141023,
+    "native_rgb_change": 0.2396206791876504,
+    "native_layout_change": 0.24936066042377758
+  },
+  {
+    "template": "Violet Pulse",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.3786181259457454,
+    "native_layout_change": 0.3974725112212304
+  },
+  {
+    "template": "Studio 2",
+    "document": "cover",
+    "current_rgb_change": 0.0013250135481267522,
+    "current_layout_change": 0.0014063661473374678,
+    "native_rgb_change": 0.36004954385693233,
+    "native_layout_change": 0.28581900104782365
+  },
+  {
+    "template": "Studio 2",
+    "document": "letter",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Studio 2",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Studio 3",
+    "document": "cover",
+    "current_rgb_change": 0.0012785452729394686,
+    "current_layout_change": 0.0009485177290307067,
+    "native_rgb_change": 0.35164668086689765,
+    "native_layout_change": 0.27872081390977244
+  },
+  {
+    "template": "Studio 3",
+    "document": "letter",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Studio 3",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Warm 2",
+    "document": "cover",
+    "current_rgb_change": 0.0015505597916775082,
+    "current_layout_change": 0.00133603782448255,
+    "native_rgb_change": 0.27592404894078015,
+    "native_layout_change": 0.19011725107194732
+  },
+  {
+    "template": "Warm 2",
+    "document": "letter",
+    "current_rgb_change": 0.027548647832965956,
+    "current_layout_change": 0.028230128594177284,
+    "native_rgb_change": 2.9858242319491524e-05,
+    "native_layout_change": 1.9872049965452554e-05
+  },
+  {
+    "template": "Warm 2",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Warm 3",
+    "document": "cover",
+    "current_rgb_change": 0.0012758017803833344,
+    "current_layout_change": 0.001031625189242047,
+    "native_rgb_change": 0.3076897141762336,
+    "native_layout_change": 0.24170948434940898
+  },
+  {
+    "template": "Warm 3",
+    "document": "letter",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Warm 3",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Verlauf 2",
+    "document": "cover",
+    "current_rgb_change": 0.0013508276326325008,
+    "current_layout_change": 0.0011422731922454687,
+    "native_rgb_change": 0.23130738445195986,
+    "native_layout_change": 0.21518027136419937
+  },
+  {
+    "template": "Verlauf 2",
+    "document": "letter",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Verlauf 2",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Verlauf 3",
+    "document": "cover",
+    "current_rgb_change": 0.001624959541446258,
+    "current_layout_change": 0.0015194322044651543,
+    "native_rgb_change": 0.19088829071826896,
+    "native_layout_change": 0.19997601234092488
+  },
+  {
+    "template": "Verlauf 3",
+    "document": "letter",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Verlauf 3",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Ledger",
+    "document": "cover",
+    "current_rgb_change": 0.002226050437735494,
+    "current_layout_change": 0.0014550231615024778,
+    "native_rgb_change": 0.37532025140682956,
+    "native_layout_change": 0.32711972095680253
+  },
+  {
+    "template": "Ledger",
+    "document": "letter",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Ledger",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Prism",
+    "document": "cover",
+    "current_rgb_change": 0.0011992036058120492,
+    "current_layout_change": 0.0008042285198444077,
+    "native_rgb_change": 0.30828899860675063,
+    "native_layout_change": 0.30964906683303073
+  },
+  {
+    "template": "Prism",
+    "document": "letter",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Prism",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Gallery",
+    "document": "cover",
+    "current_rgb_change": 0.011580285921045985,
+    "current_layout_change": 0.011265294157287165,
+    "native_rgb_change": 0.3311809822891888,
+    "native_layout_change": 0.3288914034378593
+  },
+  {
+    "template": "Gallery",
+    "document": "letter",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Gallery",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Orbit",
+    "document": "cover",
+    "current_rgb_change": 0.0014633407384883057,
+    "current_layout_change": 0.0010461639420591418,
+    "native_rgb_change": 0.2860365963071976,
+    "native_layout_change": 0.3086870055352082
+  },
+  {
+    "template": "Orbit",
+    "document": "letter",
+    "current_rgb_change": 1.1876489857121086e-06,
+    "current_layout_change": 3.694613089910703e-07,
+    "native_rgb_change": 1.075142083362124e-06,
+    "native_layout_change": 3.4264193615740623e-07
+  },
+  {
+    "template": "Orbit",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Ribbon",
+    "document": "cover",
+    "current_rgb_change": 0.004236805112091124,
+    "current_layout_change": 0.004794718455302993,
+    "native_rgb_change": 0.40480686126962095,
+    "native_layout_change": 0.3404263188355713
+  },
+  {
+    "template": "Ribbon",
+    "document": "letter",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Ribbon",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Cove",
+    "document": "cover",
+    "current_rgb_change": 0.0010517121310665845,
+    "current_layout_change": 0.0008524665603887316,
+    "native_rgb_change": 0.3451199023512317,
+    "native_layout_change": 0.3455736380888007
+  },
+  {
+    "template": "Cove",
+    "document": "letter",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Cove",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Diagonal",
+    "document": "cover",
+    "current_rgb_change": 0.0005738707443734281,
+    "current_layout_change": 0.0003079533584826599,
+    "native_rgb_change": 0.24853137688971505,
+    "native_layout_change": 0.2410208854272674
+  },
+  {
+    "template": "Diagonal",
+    "document": "letter",
+    "current_rgb_change": -2.3536178170857625e-06,
+    "current_layout_change": -1.9727722341267295e-06,
+    "native_rgb_change": -3.9230208603191485e-05,
+    "native_layout_change": -9.737096445805449e-07
+  },
+  {
+    "template": "Diagonal",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Edel Dark",
+    "document": "cover",
+    "current_rgb_change": 0.0014267874431426186,
+    "current_layout_change": 0.0008092919318686276,
+    "native_rgb_change": -1.8342484624733757e-05,
+    "native_layout_change": -0.0006228876485279145
+  },
+  {
+    "template": "Edel Dark",
+    "document": "letter",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  },
+  {
+    "template": "Edel Dark",
+    "document": "cv",
+    "current_rgb_change": 0.0,
+    "current_layout_change": 0.0,
+    "native_rgb_change": 0.0,
+    "native_layout_change": 0.0
+  }
+]

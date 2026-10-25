@@ -52,9 +52,10 @@ function readMarginTwips(tag: string, name: keyof DossierPageMargins) {
 function expectMarginsAtLeast(section: string, requested: DossierPageMargins) {
   const tag = pageMarginTag(section);
   for (const [name, value] of Object.entries(requested) as [keyof DossierPageMargins, number][]) {
-    expect(readMarginTwips(tag, name), `${name} should preserve or safely enlarge user intent`).toBeGreaterThanOrEqual(
-      twips(value),
-    );
+    expect(
+      readMarginTwips(tag, name),
+      `${name} should preserve or safely enlarge user intent`,
+    ).toBeGreaterThanOrEqual(twips(value));
   }
 }
 
@@ -71,9 +72,10 @@ function assertCustomMarginSections(
   const letterIndex = customSections.length - 2;
   const cvIndex = customSections.length - 1;
   for (let index = 0; index < letterIndex; index += 1) {
-    expect(pageMarginTag(customSections[index]), `cover section ${index} margins must stay unchanged`).toBe(
-      pageMarginTag(baselineSections[index]),
-    );
+    expect(
+      pageMarginTag(customSections[index]),
+      `cover section ${index} margins must stay unchanged`,
+    ).toBe(pageMarginTag(baselineSections[index]));
   }
 
   if (state.letter) expectMarginsAtLeast(customSections[letterIndex], state.letter);
@@ -99,10 +101,10 @@ async function readCompleteDocx(path: string) {
 }
 
 async function setPageMargins(page: Page, state: DossierPageMarginsState) {
-  await page.evaluate(
-    ({ key, value }) => localStorage.setItem(key, JSON.stringify(value)),
-    { key: DOSSIER_PAGE_MARGINS_STORAGE_KEY, value: state },
-  );
+  await page.evaluate(({ key, value }) => localStorage.setItem(key, JSON.stringify(value)), {
+    key: DOSSIER_PAGE_MARGINS_STORAGE_KEY,
+    value: state,
+  });
   await page.reload({ waitUntil: "domcontentloaded" });
   await page.waitForLoadState("networkidle");
 }
@@ -167,5 +169,8 @@ test("real browser DOCX gallery exports all 39 active dossier templates", async 
   }
 
   const part = String(batchIndex ?? 0).padStart(2, "0");
-  await writeFile(join(GALLERY_DIR, `MANIFEST.part-${part}.txt`), `${manifestEntries.join("\n")}\n`);
+  await writeFile(
+    join(GALLERY_DIR, `MANIFEST.part-${part}.txt`),
+    `${manifestEntries.join("\n")}\n`,
+  );
 });

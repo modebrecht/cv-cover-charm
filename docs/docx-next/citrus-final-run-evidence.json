@@ -1,0 +1,1199 @@
+{
+  "fixtureCount": 17,
+  "sourcePages": 114,
+  "savedPages": 114,
+  "taggedFields": 1869,
+  "matchingTaggedFields": 1869,
+  "fieldIdentityFailures": 0,
+  "tableIdentityFailures": 17,
+  "browserNormalizedInputs": 6,
+  "reportSha256": {
+    "manifest.json": "a2ed1a862455845109ab1260ff4a3637f1ca4e1d25252ca1d51fadf4434f2df4",
+    "render-report.json": "103cf880a25d7e24c6ef4e7d50b717dbb650af69d324db0ce2f0e548ddc618fa",
+    "native-identity-report.json": "81e66622f55a316f18b445b1964332286e31941f408063b46d00eb74f1903e6e",
+    "json-restoration-report.json": "a3809d1f86f97ea80fd77ba8e48adc8375359e24da3eff8560d1e4fefc2613bf"
+  },
+  "editor": {
+    "renameReload": "pass",
+    "portableSaveLoad": "pass",
+    "independentNativeSnapshot": "pass",
+    "combinedProductionPdf": "pass",
+    "productionPdfPages": 3,
+    "filesSha256": {
+      "citrus-editor-evidence.json": "6872255bd0256372ed1870c74c10f2f826a60a39dd8c01488b4f2629161df265",
+      "citrus-project.json": "d872091b26de00859d9cc0ccb20330619362426fe4988c56a412301f1d3a0c22",
+      "citrus-production-dossier.pdf": "dffecac5dca71bdc446cd068180d8828b0d46f9c2e77bd5396ce81f77f79f50e",
+      "citrus-browser-cv.png": "25bf601a540f4214b55f11e7384d24bf89b5bd5aa0235a29c37395c35a62f1dd",
+      "citrus-browser-cover.png": "ffdaebf835d1a567fdc649883289682647c90a98ee871d608f9cf74a795ca065",
+      "citrus-editor.docx": "0dc00b0d97c421d24878456e9d36f812b15c48922292aa44d5eeba2d1daa6644",
+      "citrus-editor.png": "881cd2fac36c08943961f88f37e97d5be212f318b06c98fce5c29f1292643ba2"
+    }
+  },
+  "fixtures": [
+    {
+      "fixture": "citrus-normal",
+      "sourcePages": 4,
+      "savedPages": 4,
+      "render": {
+        "fixture": "citrus-normal",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 4,
+        "media": 4,
+        "bytes": 1156908,
+        "durationMs": 4283,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "citrus-normal",
+        "sourceDocxSha256": "b759892c743d5b3b10f902ea705e9767bf74f83fce22b2bffab3850724e97ba0",
+        "savedDocxSha256": "5e07c8264e45a1d7f450140e3baaca12cc2d8b2df5267e2475707dbca8ef1719",
+        "sourceTaggedFields": 72,
+        "savedMatchingTaggedFields": 72,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.composition.row:2.cell:0.surface",
+          "cover.lehrbeginn.flow-box",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "citrus-normal",
+        "docxSha256": "b759892c743d5b3b10f902ea705e9767bf74f83fce22b2bffab3850724e97ba0",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "citrus-normal.docx": "b759892c743d5b3b10f902ea705e9767bf74f83fce22b2bffab3850724e97ba0",
+        "citrus-normal-qa/citrus-normal.pdf": "936e11c7131d0478902288e738ea919531390b6d7beec6de807cbe768d53e097",
+        "citrus-normal-qa/roundtrip/citrus-normal.docx": "5e07c8264e45a1d7f450140e3baaca12cc2d8b2df5267e2475707dbca8ef1719",
+        "citrus-normal-qa/roundtrip-pdf/citrus-normal.pdf": "d3ded73603da7b91141edb2570a322c51e4da6082dc67c8b8fb86af5ab7e804e"
+      },
+      "renderedScreenshotsSha256": {
+        "citrus-normal-qa/page-2.png": "b3d9f440cac7c0c59f7a2972e2d2187215defed124d7f8164b6915212fef9f56",
+        "citrus-normal-qa/page-1.png": "66ab520d5865909631efb288f1966bf7ef293fd677df033594f51f33f8cfdeda",
+        "citrus-normal-qa/page-4.png": "95d9d4502db0d805371b7385f969893941d2e3c5a2bf6320b5e890359f88eb14",
+        "citrus-normal-qa/page-3.png": "3ce134ac97916ade50f2ab87d194609792dff4897e991c41b90fb400cb3314ad"
+      }
+    },
+    {
+      "fixture": "citrus-long-letter",
+      "sourcePages": 14,
+      "savedPages": 14,
+      "render": {
+        "fixture": "citrus-long-letter",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 14,
+        "media": 4,
+        "bytes": 1233647,
+        "durationMs": 98,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "citrus-long-letter",
+        "sourceDocxSha256": "eaf2e872b13a1ae9d9385faea0aec781c20acb2a22d3165bd919bb329655b0bc",
+        "savedDocxSha256": "df56a55ade6b61b296a9b6ed04e9d862d6dc70aa083463688128c8b7e3ae9589",
+        "sourceTaggedFields": 206,
+        "savedMatchingTaggedFields": 206,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.composition.row:2.cell:0.surface",
+          "cover.lehrbeginn.flow-box",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "citrus-long-letter",
+        "docxSha256": "eaf2e872b13a1ae9d9385faea0aec781c20acb2a22d3165bd919bb329655b0bc",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "citrus-long-letter.docx": "eaf2e872b13a1ae9d9385faea0aec781c20acb2a22d3165bd919bb329655b0bc",
+        "citrus-long-letter-qa/citrus-long-letter.pdf": "80ebd7c8bea454a55435ab203139eaa5a7aa60e7bc70d8c7ae65e38363c8847b",
+        "citrus-long-letter-qa/roundtrip/citrus-long-letter.docx": "df56a55ade6b61b296a9b6ed04e9d862d6dc70aa083463688128c8b7e3ae9589",
+        "citrus-long-letter-qa/roundtrip-pdf/citrus-long-letter.pdf": "548565a2779dd07526e2f82f10d9d2fe2f54ea078da50c91fe470daf9a45ecaf"
+      },
+      "renderedScreenshotsSha256": {
+        "citrus-long-letter-qa/page-2.png": "4117c42d4b0f45d4eef2c6db4461a0aebe384a54df16bd38d1b22582f65cf3f4",
+        "citrus-long-letter-qa/page-12.png": "39394323b50e3196329e1bb94a86510bf0657568c1368d072ba4b29b9209658a",
+        "citrus-long-letter-qa/page-9.png": "15ee6c1eceffededfc596a2f6fdd039642b1baa909b8d515715e2b30b90b29fc",
+        "citrus-long-letter-qa/page-1.png": "66ab520d5865909631efb288f1966bf7ef293fd677df033594f51f33f8cfdeda",
+        "citrus-long-letter-qa/page-14.png": "95d9d4502db0d805371b7385f969893941d2e3c5a2bf6320b5e890359f88eb14",
+        "citrus-long-letter-qa/page-10.png": "2662d0620a2777d55dc834cc1e1d9526a41375f761deb7aa0604d31395807ac7",
+        "citrus-long-letter-qa/page-5.png": "7ed37f461945ffb3d29a92bc215cbf3a07bd6638f3456bce24cfc6dea11ee224",
+        "citrus-long-letter-qa/page-11.png": "2a81384f935b363aee3e62c33883dcfaf92582f4abe3b3600fb3da5b5070b4ad",
+        "citrus-long-letter-qa/page-13.png": "3ce134ac97916ade50f2ab87d194609792dff4897e991c41b90fb400cb3314ad",
+        "citrus-long-letter-qa/page-4.png": "54e53b73b4dbd8d2afaf4f904afb1f5306000b574815b0c9f5eede020bacaa43",
+        "citrus-long-letter-qa/page-3.png": "fe30d324c05cbe5971fbc3f7f0ac683a19b32d3878cb6f0158ade766f282222d",
+        "citrus-long-letter-qa/page-6.png": "889c4dec1a39b0610051326b49f91ce72d845f2c4043bd1dde8c1e4c42a392bb",
+        "citrus-long-letter-qa/page-8.png": "3dd7e3307081a72dfc2b4072d7364f50e522f6678f177b26f0f5efb007d4315e",
+        "citrus-long-letter-qa/page-7.png": "b75df7ee519d9695cebfbf6daae55e3e11f2e8acdf239b49f7f18e4693baa83f"
+      }
+    },
+    {
+      "fixture": "citrus-long-cv",
+      "sourcePages": 15,
+      "savedPages": 15,
+      "render": {
+        "fixture": "citrus-long-cv",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 15,
+        "media": 4,
+        "bytes": 1314013,
+        "durationMs": 115,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "citrus-long-cv",
+        "sourceDocxSha256": "9069f72487f19808ca45bd11e2c588c6065441aa03dfb029f0d784c0af64d398",
+        "savedDocxSha256": "9cf588da146e23ebea3df2f6a24de488bd12c30af96b0774b22af9b5c76a3ccb",
+        "sourceTaggedFields": 325,
+        "savedMatchingTaggedFields": 325,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.composition.row:2.cell:0.surface",
+          "cover.lehrbeginn.flow-box",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "citrus-long-cv",
+        "docxSha256": "9069f72487f19808ca45bd11e2c588c6065441aa03dfb029f0d784c0af64d398",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "citrus-long-cv.docx": "9069f72487f19808ca45bd11e2c588c6065441aa03dfb029f0d784c0af64d398",
+        "citrus-long-cv-qa/citrus-long-cv.pdf": "8630f402c63a991807776fae5585fc4a6007e0480693f4f0f2a4ebf9bcb40f79",
+        "citrus-long-cv-qa/roundtrip/citrus-long-cv.docx": "9cf588da146e23ebea3df2f6a24de488bd12c30af96b0774b22af9b5c76a3ccb",
+        "citrus-long-cv-qa/roundtrip-pdf/citrus-long-cv.pdf": "748001135a706d82fe0b7f7b56904658d6de371b424277d5b57198e478d4187d"
+      },
+      "renderedScreenshotsSha256": {
+        "citrus-long-cv-qa/page-2.png": "b3d9f440cac7c0c59f7a2972e2d2187215defed124d7f8164b6915212fef9f56",
+        "citrus-long-cv-qa/page-15.png": "250769273c6dad3588d85019b015b9615ffa51cc1315c2c1f5e21c32cf3fab12",
+        "citrus-long-cv-qa/page-12.png": "31f94bb56093c07e865be719da25b3c0df4a50a7cf388cf7e49a48c487605344",
+        "citrus-long-cv-qa/page-9.png": "a206d3925306279beb0ff90822a92e77d2daab29a6e289911f7cb6c5d5b9735a",
+        "citrus-long-cv-qa/page-1.png": "66ab520d5865909631efb288f1966bf7ef293fd677df033594f51f33f8cfdeda",
+        "citrus-long-cv-qa/page-14.png": "2b5ba177af7541527ccd0e8b329ed78f4be6fa1987d85e7a22544e7b38193f49",
+        "citrus-long-cv-qa/page-10.png": "c968b8919f01480a9dc7b6aab867a3963ad05de0ecdbff792d52b8d5bbe5e4b7",
+        "citrus-long-cv-qa/page-5.png": "dda289205842fafa504663ee7153309e9ea9f149894372befe07a22e78a31859",
+        "citrus-long-cv-qa/page-11.png": "88971eb5491af5a45d7add46a5bceb4642d10e67b3377db2aae342995e016ded",
+        "citrus-long-cv-qa/page-13.png": "27082e454637dd55b758af441eb289609cee969458ef37188eed3889b79f347f",
+        "citrus-long-cv-qa/page-4.png": "cc8b2d534536613a7501e63eb5e93cc492a82ad4e04b58bd8b84def1850cc813",
+        "citrus-long-cv-qa/page-3.png": "18313dc0542a03cca3657784dc0e653aeacab71183a24b7cb079b31b43f90212",
+        "citrus-long-cv-qa/page-6.png": "cd08fe9a17f35ae3171c93ef21872aac345b419deb9373d2fad6e6472efe55e1",
+        "citrus-long-cv-qa/page-8.png": "1158f96577db6965f12f7ff4ef80c747149047115497817e5348f5b8fb0bf483",
+        "citrus-long-cv-qa/page-7.png": "ce5d32b0a1d5a4d6dbd01448b9d1ed3fe786dd286240dfcca7e56f48844ebb0d"
+      }
+    },
+    {
+      "fixture": "citrus-long-values",
+      "sourcePages": 4,
+      "savedPages": 4,
+      "render": {
+        "fixture": "citrus-long-values",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 4,
+        "media": 4,
+        "bytes": 1158694,
+        "durationMs": 77,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "citrus-long-values",
+        "sourceDocxSha256": "6d3a8888cd2fad413a3f0ab5d93772271754e800fa41a77dfe1175e6606be773",
+        "savedDocxSha256": "4d19a161954e8a4e5fcffceecaae201f94d9bdbd73343f6c1e74a961bc9a9f25",
+        "sourceTaggedFields": 73,
+        "savedMatchingTaggedFields": 73,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.composition.row:2.cell:0.surface",
+          "cover.lehrbeginn.flow-box",
+          "cv.person.contact",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "citrus-long-values",
+        "docxSha256": "6d3a8888cd2fad413a3f0ab5d93772271754e800fa41a77dfe1175e6606be773",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "citrus-long-values.docx": "6d3a8888cd2fad413a3f0ab5d93772271754e800fa41a77dfe1175e6606be773",
+        "citrus-long-values-qa/citrus-long-values.pdf": "fe8a7bf76af7a4116abede2231869c396e8889d2b2ef16575aa48eee6181e165",
+        "citrus-long-values-qa/roundtrip/citrus-long-values.docx": "4d19a161954e8a4e5fcffceecaae201f94d9bdbd73343f6c1e74a961bc9a9f25",
+        "citrus-long-values-qa/roundtrip-pdf/citrus-long-values.pdf": "2b0370e4019e0ae41546d8ef42072e75cd13c5d310b17b95cb315a8cd4959411"
+      },
+      "renderedScreenshotsSha256": {
+        "citrus-long-values-qa/page-2.png": "10c87edda47c7e19510b7d14d75a972a14a48e9c3d8b69d5827a91fe81a480b3",
+        "citrus-long-values-qa/page-1.png": "66ab520d5865909631efb288f1966bf7ef293fd677df033594f51f33f8cfdeda",
+        "citrus-long-values-qa/page-4.png": "76f2c3426578aaf5ff63387b20c8f202472ddf446e88f1bb5413b3e5c15b5932",
+        "citrus-long-values-qa/page-3.png": "5cd982cbbae6ff5a18c60481e7880e7039b73521af807f70d92a4bd295d801c2"
+      }
+    },
+    {
+      "fixture": "citrus-images",
+      "sourcePages": 4,
+      "savedPages": 4,
+      "render": {
+        "fixture": "citrus-images",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 4,
+        "media": 5,
+        "bytes": 1161664,
+        "durationMs": 79,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "citrus-images",
+        "sourceDocxSha256": "eab2f657bb7f43107bf8e3b0676ebde4d7e17e6564f27fa2e9f991e649c4a751",
+        "savedDocxSha256": "1f482a2ab47787f03148423a075344be2c1ae4858b7dc22a4656b5fa7acfc321",
+        "sourceTaggedFields": 73,
+        "savedMatchingTaggedFields": 73,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.composition.row:2.cell:0.surface",
+          "cover.lehrbeginn.flow-box",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "citrus-images",
+        "docxSha256": "eab2f657bb7f43107bf8e3b0676ebde4d7e17e6564f27fa2e9f991e649c4a751",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "citrus-images.docx": "eab2f657bb7f43107bf8e3b0676ebde4d7e17e6564f27fa2e9f991e649c4a751",
+        "citrus-images-qa/citrus-images.pdf": "251f163bd7639b9561e8f6fb312bd66a95a9aa82e790a442ae7be621f1bd4be9",
+        "citrus-images-qa/roundtrip/citrus-images.docx": "1f482a2ab47787f03148423a075344be2c1ae4858b7dc22a4656b5fa7acfc321",
+        "citrus-images-qa/roundtrip-pdf/citrus-images.pdf": "5170c0c5e1b1fa7f09aba9abde7d7ee6ddd4b1289c87955ea42c634d395ac171"
+      },
+      "renderedScreenshotsSha256": {
+        "citrus-images-qa/page-2.png": "24dd408ae4b9531fd43be4dc31d32175d22a54373e9376c2aecfb3eece2faacc",
+        "citrus-images-qa/page-1.png": "29632dbdac1938cd67c8ca244f00cce7f024d5d59feb29c2b0788cf20da0d113",
+        "citrus-images-qa/page-4.png": "95d9d4502db0d805371b7385f969893941d2e3c5a2bf6320b5e890359f88eb14",
+        "citrus-images-qa/page-3.png": "a8b359561fd1c715630056a9515fe40bb2c1ddc393ed01911df71125513770bb"
+      }
+    },
+    {
+      "fixture": "citrus-custom",
+      "sourcePages": 4,
+      "savedPages": 4,
+      "render": {
+        "fixture": "citrus-custom",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 4,
+        "media": 4,
+        "bytes": 1163997,
+        "durationMs": 75,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "citrus-custom",
+        "sourceDocxSha256": "8a5e6a9439307223305703b3ee9a9d4d98ac1728a96ad4920303c11bd63cfeac",
+        "savedDocxSha256": "0c3116d0c2c499af1c8014a3e83a51c6342c1292ecfe87e5ad353aa603360518",
+        "sourceTaggedFields": 75,
+        "savedMatchingTaggedFields": 75,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.composition.row:2.cell:0.surface",
+          "cover.custom-a.flow-box",
+          "cover.custom-b.flow-box",
+          "cover.lehrbeginn.flow-box",
+          "cv.element:custom-a.flow-box",
+          "cv.element:custom-b.flow-box",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1",
+          "letter.body.paragraph:2"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "citrus-custom",
+        "docxSha256": "8a5e6a9439307223305703b3ee9a9d4d98ac1728a96ad4920303c11bd63cfeac",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "citrus-custom.docx": "8a5e6a9439307223305703b3ee9a9d4d98ac1728a96ad4920303c11bd63cfeac",
+        "citrus-custom-qa/citrus-custom.pdf": "f007e8d820b3afbfe6f414e18ac1a8b1ede5f2bf8c4daf3a8c6ff8ffca2cbf3f",
+        "citrus-custom-qa/roundtrip/citrus-custom.docx": "0c3116d0c2c499af1c8014a3e83a51c6342c1292ecfe87e5ad353aa603360518",
+        "citrus-custom-qa/roundtrip-pdf/citrus-custom.pdf": "f692f99a9b4271ed03f8b9a31d79c2919cd525ad253a4494543f75175823d125"
+      },
+      "renderedScreenshotsSha256": {
+        "citrus-custom-qa/page-2.png": "4c87524e6cdb049edd46c1a86be056bd20a8ec2386437e87eeceefa30f246166",
+        "citrus-custom-qa/page-1.png": "6822b99e115566c22745710cc684926d7f265c68f2385784e4fa8f13cd2d7adf",
+        "citrus-custom-qa/page-4.png": "76f2c3426578aaf5ff63387b20c8f202472ddf446e88f1bb5413b3e5c15b5932",
+        "citrus-custom-qa/page-3.png": "480481a18abeda9740959c666da637a89474466549860eae2ff3ea53d37a6464"
+      }
+    },
+    {
+      "fixture": "citrus-compact",
+      "sourcePages": 4,
+      "savedPages": 4,
+      "render": {
+        "fixture": "citrus-compact",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 4,
+        "media": 4,
+        "bytes": 1153252,
+        "durationMs": 70,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "citrus-compact",
+        "sourceDocxSha256": "6969d9b774d872144189005643892bdb64ae912c749e562d9e1387191b3752eb",
+        "savedDocxSha256": "1e4686575f8d1a3232489b8991cf356319ca53631df072220341000b132bece2",
+        "sourceTaggedFields": 81,
+        "savedMatchingTaggedFields": 81,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.composition.row:2.cell:0.surface",
+          "cover.lehrbeginn.flow-box",
+          "cv.person.contact",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "citrus-compact",
+        "docxSha256": "6969d9b774d872144189005643892bdb64ae912c749e562d9e1387191b3752eb",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "citrus-compact.docx": "6969d9b774d872144189005643892bdb64ae912c749e562d9e1387191b3752eb",
+        "citrus-compact-qa/citrus-compact.pdf": "8afe68e7cb0d33a022b003ce828f834982e6012c42bfc1541b6b4ca841bc3342",
+        "citrus-compact-qa/roundtrip/citrus-compact.docx": "1e4686575f8d1a3232489b8991cf356319ca53631df072220341000b132bece2",
+        "citrus-compact-qa/roundtrip-pdf/citrus-compact.pdf": "28e34eb38a1f16ec55a5d7bb565cdc8d7ed26274e5fab98fae4b719ab6de0a93"
+      },
+      "renderedScreenshotsSha256": {
+        "citrus-compact-qa/page-2.png": "a27492f7fdd7b019d86baf0d24bcc7787c5f4c2c3786e97c8e83f29db05ea1ac",
+        "citrus-compact-qa/page-1.png": "66ab520d5865909631efb288f1966bf7ef293fd677df033594f51f33f8cfdeda",
+        "citrus-compact-qa/page-4.png": "278305a77e53f9dfe59d84531d22ec500b02782195990f3458b01d8e28aef8ef",
+        "citrus-compact-qa/page-3.png": "9b66c95a05046af57826ae82c599fdc973edf6c03ba2071fda7bf70aa9a91843"
+      }
+    },
+    {
+      "fixture": "citrus-none",
+      "sourcePages": 4,
+      "savedPages": 4,
+      "render": {
+        "fixture": "citrus-none",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 4,
+        "media": 4,
+        "bytes": 1152164,
+        "durationMs": 73,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "citrus-none",
+        "sourceDocxSha256": "80c68a5972cf117a90b208591d6417b31c86e0a9fb53329813b58fffbc0430f7",
+        "savedDocxSha256": "e4aef8d8e5a4c6c85a557f14b6c1e11b1b00d40283ae04ae228cfb4e54d12d0a",
+        "sourceTaggedFields": 81,
+        "savedMatchingTaggedFields": 81,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.composition.row:2.cell:0.surface",
+          "cover.lehrbeginn.flow-box",
+          "cv.person.contact",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "citrus-none",
+        "docxSha256": "80c68a5972cf117a90b208591d6417b31c86e0a9fb53329813b58fffbc0430f7",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "citrus-none.docx": "80c68a5972cf117a90b208591d6417b31c86e0a9fb53329813b58fffbc0430f7",
+        "citrus-none-qa/citrus-none.pdf": "505df2509ec600b0921883ebbed6a90d65c53ea289e584854133f9fc6378746f",
+        "citrus-none-qa/roundtrip/citrus-none.docx": "e4aef8d8e5a4c6c85a557f14b6c1e11b1b00d40283ae04ae228cfb4e54d12d0a",
+        "citrus-none-qa/roundtrip-pdf/citrus-none.pdf": "53fd93b4bf31782231af8abc378a7f3440adc06ab0fdb0cfc5387a8a6761aa4a"
+      },
+      "renderedScreenshotsSha256": {
+        "citrus-none-qa/page-2.png": "a27492f7fdd7b019d86baf0d24bcc7787c5f4c2c3786e97c8e83f29db05ea1ac",
+        "citrus-none-qa/page-1.png": "66ab520d5865909631efb288f1966bf7ef293fd677df033594f51f33f8cfdeda",
+        "citrus-none-qa/page-4.png": "278305a77e53f9dfe59d84531d22ec500b02782195990f3458b01d8e28aef8ef",
+        "citrus-none-qa/page-3.png": "9b66c95a05046af57826ae82c599fdc973edf6c03ba2071fda7bf70aa9a91843"
+      }
+    },
+    {
+      "fixture": "citrus-continuation",
+      "sourcePages": 12,
+      "savedPages": 12,
+      "render": {
+        "fixture": "citrus-continuation",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 12,
+        "media": 4,
+        "bytes": 1178567,
+        "durationMs": 75,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "citrus-continuation",
+        "sourceDocxSha256": "bdf015490aae7f4dd6f711950ba8311dafdf45e3b4c020def122844ddaa72889",
+        "savedDocxSha256": "82f0712949deba13af217de267589ecbe2af0873fcb8e4956b3e71b915b01a89",
+        "sourceTaggedFields": 75,
+        "savedMatchingTaggedFields": 75,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.composition.row:2.cell:0.surface",
+          "cover.lehrbeginn.flow-box",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "citrus-continuation",
+        "docxSha256": "bdf015490aae7f4dd6f711950ba8311dafdf45e3b4c020def122844ddaa72889",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "citrus-continuation.docx": "bdf015490aae7f4dd6f711950ba8311dafdf45e3b4c020def122844ddaa72889",
+        "citrus-continuation-qa/citrus-continuation.pdf": "b574c3a0407cfa5eca673f253910cfcc7bad702a171d129d066369872178390b",
+        "citrus-continuation-qa/roundtrip/citrus-continuation.docx": "82f0712949deba13af217de267589ecbe2af0873fcb8e4956b3e71b915b01a89",
+        "citrus-continuation-qa/roundtrip-pdf/citrus-continuation.pdf": "b02371e8ede553345962ebbedc8cfea825dbcddf60ffed8c30375398a7b4dab9"
+      },
+      "renderedScreenshotsSha256": {
+        "citrus-continuation-qa/page-2.png": "9cc74d3e311e1da5b07887f5cf10b933400384293bce10c8a106352097d9f1b3",
+        "citrus-continuation-qa/page-12.png": "1541d508b93730e3d0a2bae9cf09ac2190412e87bd396a4e2c5ae1495e83cca4",
+        "citrus-continuation-qa/page-9.png": "c808022e9f06ca21372d194165a0ae5f0d18fd9ed35de9c220f47d98644b3386",
+        "citrus-continuation-qa/page-1.png": "66ab520d5865909631efb288f1966bf7ef293fd677df033594f51f33f8cfdeda",
+        "citrus-continuation-qa/page-10.png": "077a7d9e418ba5ba8dced1da28ed128692e9b53018b44902ad7935ea0db1408b",
+        "citrus-continuation-qa/page-5.png": "c808022e9f06ca21372d194165a0ae5f0d18fd9ed35de9c220f47d98644b3386",
+        "citrus-continuation-qa/page-11.png": "82bf12f8b806875f73348b3b6afd8427a8aee182917f47533baa0cb1510837d2",
+        "citrus-continuation-qa/page-4.png": "d387bdcbfb0a90bec95a93dc8d1d61cc82f5a9bc1b486e7f5023279ee2d8d415",
+        "citrus-continuation-qa/page-3.png": "85bf9d61726fc7eec87577fb59be843fecdfd7b6c057871efd89efba9b1cf08c",
+        "citrus-continuation-qa/page-6.png": "97bfcb3a4314e8a3d9e9f39bf8670a8f271cacf5a445abe2bc8a9fd39896096a",
+        "citrus-continuation-qa/page-8.png": "d387bdcbfb0a90bec95a93dc8d1d61cc82f5a9bc1b486e7f5023279ee2d8d415",
+        "citrus-continuation-qa/page-7.png": "85bf9d61726fc7eec87577fb59be843fecdfd7b6c057871efd89efba9b1cf08c"
+      }
+    },
+    {
+      "fixture": "citrus-timeline",
+      "sourcePages": 19,
+      "savedPages": 19,
+      "render": {
+        "fixture": "citrus-timeline",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 19,
+        "media": 4,
+        "bytes": 1408278,
+        "durationMs": 143,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "citrus-timeline",
+        "sourceDocxSha256": "7de85f474bcd005e264e742d0c950db8eb2d3047e2de1b4abedcb39d474672b5",
+        "savedDocxSha256": "996aaf5f906fe5a9bd006a16b392fc8a06f35aa32f7bfbf236f43350a5d38373",
+        "sourceTaggedFields": 336,
+        "savedMatchingTaggedFields": 336,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.composition.row:2.cell:0.surface",
+          "cover.lehrbeginn.flow-box",
+          "cv.entry.custom:variant-alpha:variant-entry-alpha.dateRail",
+          "cv.entry.custom:variant-beta:variant-entry-beta.dateRail",
+          "cv.entry.erfahrung:demo-p1.dateRail",
+          "cv.entry.erfahrung:demo-p2.dateRail",
+          "cv.entry.schule:school-0.dateRail",
+          "cv.entry.schule:school-1.dateRail",
+          "cv.entry.schule:school-10.dateRail",
+          "cv.entry.schule:school-11.dateRail",
+          "cv.entry.schule:school-12.dateRail",
+          "cv.entry.schule:school-13.dateRail",
+          "cv.entry.schule:school-14.dateRail",
+          "cv.entry.schule:school-15.dateRail",
+          "cv.entry.schule:school-16.dateRail",
+          "cv.entry.schule:school-17.dateRail",
+          "cv.entry.schule:school-18.dateRail",
+          "cv.entry.schule:school-19.dateRail",
+          "cv.entry.schule:school-2.dateRail",
+          "cv.entry.schule:school-20.dateRail",
+          "cv.entry.schule:school-21.dateRail",
+          "cv.entry.schule:school-22.dateRail",
+          "cv.entry.schule:school-23.dateRail",
+          "cv.entry.schule:school-24.dateRail",
+          "cv.entry.schule:school-25.dateRail",
+          "cv.entry.schule:school-26.dateRail",
+          "cv.entry.schule:school-27.dateRail",
+          "cv.entry.schule:school-28.dateRail",
+          "cv.entry.schule:school-29.dateRail",
+          "cv.entry.schule:school-3.dateRail",
+          "cv.entry.schule:school-30.dateRail",
+          "cv.entry.schule:school-31.dateRail",
+          "cv.entry.schule:school-32.dateRail",
+          "cv.entry.schule:school-33.dateRail",
+          "cv.entry.schule:school-34.dateRail",
+          "cv.entry.schule:school-35.dateRail",
+          "cv.entry.schule:school-36.dateRail",
+          "cv.entry.schule:school-37.dateRail",
+          "cv.entry.schule:school-38.dateRail",
+          "cv.entry.schule:school-39.dateRail",
+          "cv.entry.schule:school-4.dateRail",
+          "cv.entry.schule:school-40.dateRail",
+          "cv.entry.schule:school-41.dateRail",
+          "cv.entry.schule:school-42.dateRail",
+          "cv.entry.schule:school-43.dateRail",
+          "cv.entry.schule:school-44.dateRail",
+          "cv.entry.schule:school-45.dateRail",
+          "cv.entry.schule:school-46.dateRail",
+          "cv.entry.schule:school-47.dateRail",
+          "cv.entry.schule:school-48.dateRail",
+          "cv.entry.schule:school-49.dateRail",
+          "cv.entry.schule:school-5.dateRail",
+          "cv.entry.schule:school-50.dateRail",
+          "cv.entry.schule:school-51.dateRail",
+          "cv.entry.schule:school-52.dateRail",
+          "cv.entry.schule:school-53.dateRail",
+          "cv.entry.schule:school-54.dateRail",
+          "cv.entry.schule:school-55.dateRail",
+          "cv.entry.schule:school-56.dateRail",
+          "cv.entry.schule:school-57.dateRail",
+          "cv.entry.schule:school-58.dateRail",
+          "cv.entry.schule:school-59.dateRail",
+          "cv.entry.schule:school-6.dateRail",
+          "cv.entry.schule:school-60.dateRail",
+          "cv.entry.schule:school-61.dateRail",
+          "cv.entry.schule:school-62.dateRail",
+          "cv.entry.schule:school-63.dateRail",
+          "cv.entry.schule:school-64.dateRail",
+          "cv.entry.schule:school-7.dateRail",
+          "cv.entry.schule:school-8.dateRail",
+          "cv.entry.schule:school-9.dateRail",
+          "cv.entry.schule:variant-overflow.dateRail",
+          "cv.person.details",
+          "cv.section.custom:variant-alpha.half-row",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "citrus-timeline",
+        "docxSha256": "7de85f474bcd005e264e742d0c950db8eb2d3047e2de1b4abedcb39d474672b5",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "citrus-timeline.docx": "7de85f474bcd005e264e742d0c950db8eb2d3047e2de1b4abedcb39d474672b5",
+        "citrus-timeline-qa/citrus-timeline.pdf": "7909484325ba3634ee7d7078498397e4ea9271e2cea66691bd79e75a0fe45603",
+        "citrus-timeline-qa/roundtrip/citrus-timeline.docx": "996aaf5f906fe5a9bd006a16b392fc8a06f35aa32f7bfbf236f43350a5d38373",
+        "citrus-timeline-qa/roundtrip-pdf/citrus-timeline.pdf": "ff87659e6664368f9149e2ffaa5d69f5cd4816611b998e2b2db40f0371256885"
+      },
+      "renderedScreenshotsSha256": {
+        "citrus-timeline-qa/page-2.png": "b3d9f440cac7c0c59f7a2972e2d2187215defed124d7f8164b6915212fef9f56",
+        "citrus-timeline-qa/page-15.png": "5d45c79551e241e968877b78aba8c47c18dd43d55e0670cdc83aea8768dfe077",
+        "citrus-timeline-qa/page-17.png": "5d45c79551e241e968877b78aba8c47c18dd43d55e0670cdc83aea8768dfe077",
+        "citrus-timeline-qa/page-12.png": "3f3eedac64aa2a65ee290d22ec33e1ac2883075889c304a9f9983c32191b6d7a",
+        "citrus-timeline-qa/page-9.png": "aae4529e7c9bdd1ad8bf6323baed72c060eb1697f2efac4803320fa2bbd9953d",
+        "citrus-timeline-qa/page-1.png": "66ab520d5865909631efb288f1966bf7ef293fd677df033594f51f33f8cfdeda",
+        "citrus-timeline-qa/page-14.png": "5d45c79551e241e968877b78aba8c47c18dd43d55e0670cdc83aea8768dfe077",
+        "citrus-timeline-qa/page-10.png": "a0d492265c6ab743560927382189287cd6e65f7cdf90a9270affa08f644812c0",
+        "citrus-timeline-qa/page-16.png": "5d45c79551e241e968877b78aba8c47c18dd43d55e0670cdc83aea8768dfe077",
+        "citrus-timeline-qa/page-5.png": "97b21c8dfb2188e9950024a13634eba7f1daa2fb7e772a39d7fbe17d4d78f400",
+        "citrus-timeline-qa/page-11.png": "f88f819f2f5ec3c13b0d62a9f7b3beec4d0fc00d804020b54ea872fe0524f93c",
+        "citrus-timeline-qa/page-18.png": "a6af8cecd2fcb0b5c478b70807b87066d3e371ccf8ad7fd440aaea21de16f79b",
+        "citrus-timeline-qa/page-13.png": "dd4c48bf148f6c7657f754cb9a97c880fd463927fd9580a47eb3b560b2df09bc",
+        "citrus-timeline-qa/page-4.png": "110c8ffe2481b276906040b0310a91cce331edc5e8e824dd0fc66390d6d961b1",
+        "citrus-timeline-qa/page-3.png": "d9422db5b61bea697eb371eec4ac0ee7f53f0a68c499719714c847bd70fe5bba",
+        "citrus-timeline-qa/page-6.png": "8dba2c249a2fae166cfd645d97a05eb13af59b60fa35c45ab5fc25e8eaac080f",
+        "citrus-timeline-qa/page-19.png": "aa11d1f3760b51f86b8d72a87791a72f568699ed8cbe30f519ec6e0763798e14",
+        "citrus-timeline-qa/page-8.png": "9e05f4d49e839d453801f9474f316694594ef41016048ef6152f0de0997f99e7",
+        "citrus-timeline-qa/page-7.png": "25a9fc7f8c02db9889d50c07294f4081da25e8c5ad04c8710207df36b93c8f4a"
+      }
+    },
+    {
+      "fixture": "citrus-magazin",
+      "sourcePages": 3,
+      "savedPages": 3,
+      "render": {
+        "fixture": "citrus-magazin",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 3,
+        "media": 4,
+        "bytes": 1139458,
+        "durationMs": 63,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "citrus-magazin",
+        "sourceDocxSha256": "bb493a41e7ddbd877e28b0f5b5399d6a5c0bacc400e430a408b8cc8cee6e80c7",
+        "savedDocxSha256": "44c48bb39d17e1e5b1b06c1259b1304f3da709f4880e32b168e606877914c303",
+        "sourceTaggedFields": 39,
+        "savedMatchingTaggedFields": 39,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.composition.row:2.cell:0.surface",
+          "cover.lehrbeginn.flow-box",
+          "cv.entry.custom:variant-alpha:variant-entry-alpha.dateRail",
+          "cv.entry.custom:variant-beta:variant-entry-beta.dateRail",
+          "cv.entry.schule:variant-school.dateRail",
+          "cv.section.custom:variant-alpha.half-row"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "citrus-magazin",
+        "docxSha256": "bb493a41e7ddbd877e28b0f5b5399d6a5c0bacc400e430a408b8cc8cee6e80c7",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "citrus-magazin.docx": "bb493a41e7ddbd877e28b0f5b5399d6a5c0bacc400e430a408b8cc8cee6e80c7",
+        "citrus-magazin-qa/citrus-magazin.pdf": "ef4c08da919cdb5851366fce1b134134494683cb8249c3cffbafe89616925de9",
+        "citrus-magazin-qa/roundtrip/citrus-magazin.docx": "44c48bb39d17e1e5b1b06c1259b1304f3da709f4880e32b168e606877914c303",
+        "citrus-magazin-qa/roundtrip-pdf/citrus-magazin.pdf": "edc5cc3c912316bb0acd011bdde6beb20c160b4a81af3c9f9ecef318a3ad5191"
+      },
+      "renderedScreenshotsSha256": {
+        "citrus-magazin-qa/page-2.png": "bc535cf81652563bdb5ee7754e9355297118d28991666512865e0abf694994f0",
+        "citrus-magazin-qa/page-1.png": "66ab520d5865909631efb288f1966bf7ef293fd677df033594f51f33f8cfdeda",
+        "citrus-magazin-qa/page-3.png": "1fa1dfd6205a7b932a43cd3317a3388572d6e1c9c8141c98d30f0cfc0f2bd18e"
+      }
+    },
+    {
+      "fixture": "citrus-no-motifs",
+      "sourcePages": 4,
+      "savedPages": 4,
+      "render": {
+        "fixture": "citrus-no-motifs",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 4,
+        "media": 3,
+        "bytes": 907493,
+        "durationMs": 56,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "citrus-no-motifs",
+        "sourceDocxSha256": "07549f3de564916e11d12de3875b3b036cd2050c13a4d1e5e706365927e5ff8b",
+        "savedDocxSha256": "2e12495df4a4825c20cc3e5579869f9ccac33efc4a7d2029915a53167a55418a",
+        "sourceTaggedFields": 72,
+        "savedMatchingTaggedFields": 72,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.composition.row:2.cell:0.surface",
+          "cover.lehrbeginn.flow-box",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "citrus-no-motifs",
+        "docxSha256": "07549f3de564916e11d12de3875b3b036cd2050c13a4d1e5e706365927e5ff8b",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "citrus-no-motifs.docx": "07549f3de564916e11d12de3875b3b036cd2050c13a4d1e5e706365927e5ff8b",
+        "citrus-no-motifs-qa/citrus-no-motifs.pdf": "74946c6ee96ae24e2db9058d76b0c9e43a65bcdf97d9ac36db3f85de9dea88d2",
+        "citrus-no-motifs-qa/roundtrip/citrus-no-motifs.docx": "2e12495df4a4825c20cc3e5579869f9ccac33efc4a7d2029915a53167a55418a",
+        "citrus-no-motifs-qa/roundtrip-pdf/citrus-no-motifs.pdf": "b52077acf482157f4bb1002fbecbb30d3756176f72fbbe8adcab6bdf0a7fffd3"
+      },
+      "renderedScreenshotsSha256": {
+        "citrus-no-motifs-qa/page-2.png": "b3d9f440cac7c0c59f7a2972e2d2187215defed124d7f8164b6915212fef9f56",
+        "citrus-no-motifs-qa/page-1.png": "66ab520d5865909631efb288f1966bf7ef293fd677df033594f51f33f8cfdeda",
+        "citrus-no-motifs-qa/page-4.png": "c996526981c2ed729d5249e2eab2001c9f24fa2448084acf0b467a0534abeeeb",
+        "citrus-no-motifs-qa/page-3.png": "835f9bbef50c0b74e0ce05a7db777afb610b85c2051cb9678df205f2e91d8f69"
+      }
+    },
+    {
+      "fixture": "citrus-custom-colors",
+      "sourcePages": 4,
+      "savedPages": 4,
+      "render": {
+        "fixture": "citrus-custom-colors",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 4,
+        "media": 4,
+        "bytes": 1432168,
+        "durationMs": 4605,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "citrus-custom-colors",
+        "sourceDocxSha256": "28f70d3b37acf9ca871d760b2ed73b8bf269c864cd26ad507e957ce9cc915aca",
+        "savedDocxSha256": "271cc0e3e60086aebdf3eae0c3acbcb59a3518c97b8e9066fe22efa48aa8b72d",
+        "sourceTaggedFields": 72,
+        "savedMatchingTaggedFields": 72,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.composition.row:2.cell:0.surface",
+          "cover.lehrbeginn.flow-box",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "citrus-custom-colors",
+        "docxSha256": "28f70d3b37acf9ca871d760b2ed73b8bf269c864cd26ad507e957ce9cc915aca",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "citrus-custom-colors.docx": "28f70d3b37acf9ca871d760b2ed73b8bf269c864cd26ad507e957ce9cc915aca",
+        "citrus-custom-colors-qa/citrus-custom-colors.pdf": "55d7ec83ea67480a88ed1bef8209b2e416305fbcfe31d332579734d9d0333592",
+        "citrus-custom-colors-qa/roundtrip/citrus-custom-colors.docx": "271cc0e3e60086aebdf3eae0c3acbcb59a3518c97b8e9066fe22efa48aa8b72d",
+        "citrus-custom-colors-qa/roundtrip-pdf/citrus-custom-colors.pdf": "38f2657f4dbcdb1d89667762573326b9480c2473ad8838618dda838e14019377"
+      },
+      "renderedScreenshotsSha256": {
+        "citrus-custom-colors-qa/page-2.png": "1d871029b91ed23df0a5221aeaa3016af6e7c31d7c7b9831e9672d6383c5b557",
+        "citrus-custom-colors-qa/page-1.png": "1deb262ca6c160d7ba57b64f8d40b3bea42b2e3292547c62da67816f92f671c1",
+        "citrus-custom-colors-qa/page-4.png": "aef80f22275d9440cc079fbbebc3714a53ea5b2c751bf4e067980c6e3cfbd6ac",
+        "citrus-custom-colors-qa/page-3.png": "b3be52475bba0ce429bfca8b1253101521df73797fbc9f7db8ac34d7d94d2b85"
+      }
+    },
+    {
+      "fixture": "citrus-cover-long",
+      "sourcePages": 5,
+      "savedPages": 5,
+      "render": {
+        "fixture": "citrus-cover-long",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 5,
+        "media": 4,
+        "bytes": 1176717,
+        "durationMs": 70,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "citrus-cover-long",
+        "sourceDocxSha256": "ca99404c2877bb54213c2d7f92767c78b23504b177db762912506ba0d2c312a4",
+        "savedDocxSha256": "005eeb28efdcab95cc54ceca19a202a095e7ac44736d1e450d237703e154d1fa",
+        "sourceTaggedFields": 73,
+        "savedMatchingTaggedFields": 73,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.composition.row:2.cell:0.surface",
+          "cover.continuation-text.flow-box",
+          "cover.lehrbeginn.flow-box",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "citrus-cover-long",
+        "docxSha256": "ca99404c2877bb54213c2d7f92767c78b23504b177db762912506ba0d2c312a4",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "citrus-cover-long.docx": "ca99404c2877bb54213c2d7f92767c78b23504b177db762912506ba0d2c312a4",
+        "citrus-cover-long-qa/citrus-cover-long.pdf": "68105b0476c132708763ee2458eb970b97b16f54f6f4a9327daf91bca520d8e7",
+        "citrus-cover-long-qa/roundtrip/citrus-cover-long.docx": "005eeb28efdcab95cc54ceca19a202a095e7ac44736d1e450d237703e154d1fa",
+        "citrus-cover-long-qa/roundtrip-pdf/citrus-cover-long.pdf": "3ee44a9f64471ac36cc09a112cafcae716253e29052cdeaffd2888034a0288c4"
+      },
+      "renderedScreenshotsSha256": {
+        "citrus-cover-long-qa/page-2.png": "c98eb9d2eafcecd164f07d25bae5bbc8d64a73a60616f59f01a27ebcb8f8a3a0",
+        "citrus-cover-long-qa/page-1.png": "e32364db0c74b625247848ec9b97463df06e1248b71dd430f0cf16cb686d512e",
+        "citrus-cover-long-qa/page-5.png": "95d9d4502db0d805371b7385f969893941d2e3c5a2bf6320b5e890359f88eb14",
+        "citrus-cover-long-qa/page-4.png": "3ce134ac97916ade50f2ab87d194609792dff4897e991c41b90fb400cb3314ad",
+        "citrus-cover-long-qa/page-3.png": "b3d9f440cac7c0c59f7a2972e2d2187215defed124d7f8164b6915212fef9f56"
+      }
+    },
+    {
+      "fixture": "citrus-contact-long",
+      "sourcePages": 6,
+      "savedPages": 6,
+      "render": {
+        "fixture": "citrus-contact-long",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 6,
+        "media": 4,
+        "bytes": 1175270,
+        "durationMs": 79,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "citrus-contact-long",
+        "sourceDocxSha256": "adc37ec869081ea16ecce4ad3c95b0eddf86483689fd2012ef26974628f3f25c",
+        "savedDocxSha256": "3907699c16093081ddb6f996064e5c73c7ce1b2f15a16dab0e1fd432788b33db",
+        "sourceTaggedFields": 72,
+        "savedMatchingTaggedFields": 72,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.composition.row:2.cell:0.surface",
+          "cover.lehrbeginn.flow-box",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "citrus-contact-long",
+        "docxSha256": "adc37ec869081ea16ecce4ad3c95b0eddf86483689fd2012ef26974628f3f25c",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "citrus-contact-long.docx": "adc37ec869081ea16ecce4ad3c95b0eddf86483689fd2012ef26974628f3f25c",
+        "citrus-contact-long-qa/citrus-contact-long.pdf": "61bb892b4130fc2deec726c82e329a1d9be8f9d7387655ad0f8b35695903e16e",
+        "citrus-contact-long-qa/roundtrip/citrus-contact-long.docx": "3907699c16093081ddb6f996064e5c73c7ce1b2f15a16dab0e1fd432788b33db",
+        "citrus-contact-long-qa/roundtrip-pdf/citrus-contact-long.pdf": "05ec224ebb005f1e96b407ec2d5d6767829d652f227cde40310a57992f62a727"
+      },
+      "renderedScreenshotsSha256": {
+        "citrus-contact-long-qa/page-2.png": "2089b4005a5b171afb9800b55e774018b77033bf0554504517673d81b356d5c5",
+        "citrus-contact-long-qa/page-1.png": "4db512f3ce8ac82ef9d11db5172f28066777de9b7aa39f4d88877aca333c7c12",
+        "citrus-contact-long-qa/page-5.png": "3ce134ac97916ade50f2ab87d194609792dff4897e991c41b90fb400cb3314ad",
+        "citrus-contact-long-qa/page-4.png": "b3d9f440cac7c0c59f7a2972e2d2187215defed124d7f8164b6915212fef9f56",
+        "citrus-contact-long-qa/page-3.png": "2ffd32217257eb61f55f667a6eb3293d181c67a27045286205d3a22d5d5a4702",
+        "citrus-contact-long-qa/page-6.png": "95d9d4502db0d805371b7385f969893941d2e3c5a2bf6320b5e890359f88eb14"
+      }
+    },
+    {
+      "fixture": "citrus-badges-off",
+      "sourcePages": 4,
+      "savedPages": 4,
+      "render": {
+        "fixture": "citrus-badges-off",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 4,
+        "media": 4,
+        "bytes": 1156484,
+        "durationMs": 69,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "citrus-badges-off",
+        "sourceDocxSha256": "e18a9ea8c5330014ca09b02df391fc0f7f4e384b451220c214b1353083bb09ff",
+        "savedDocxSha256": "0dcca58bea3ea35664c2f3447b3b71c7b2d836c79d5533d0b0bf8f91181f2237",
+        "sourceTaggedFields": 72,
+        "savedMatchingTaggedFields": 72,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.composition.row:2.cell:0.surface",
+          "cover.lehrbeginn.flow-box",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "citrus-badges-off",
+        "docxSha256": "e18a9ea8c5330014ca09b02df391fc0f7f4e384b451220c214b1353083bb09ff",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "citrus-badges-off.docx": "e18a9ea8c5330014ca09b02df391fc0f7f4e384b451220c214b1353083bb09ff",
+        "citrus-badges-off-qa/citrus-badges-off.pdf": "1602fbcd59d6b7081f183e1fe54a891a825bdc0dafb9047324784e2b452bc266",
+        "citrus-badges-off-qa/roundtrip/citrus-badges-off.docx": "0dcca58bea3ea35664c2f3447b3b71c7b2d836c79d5533d0b0bf8f91181f2237",
+        "citrus-badges-off-qa/roundtrip-pdf/citrus-badges-off.pdf": "0dccdb0b7b44f30f8eea89ab0202582a27616b0be5db5e26f692803700fb2528"
+      },
+      "renderedScreenshotsSha256": {
+        "citrus-badges-off-qa/page-2.png": "b3d9f440cac7c0c59f7a2972e2d2187215defed124d7f8164b6915212fef9f56",
+        "citrus-badges-off-qa/page-1.png": "66ab520d5865909631efb288f1966bf7ef293fd677df033594f51f33f8cfdeda",
+        "citrus-badges-off-qa/page-4.png": "0ae4e8fa4def04308b96e8634d15e680cb8ce51f3eabb850fbd4b36bd2b57c7f",
+        "citrus-badges-off-qa/page-3.png": "b6b0366e069f264e1fd53a63f51c0d7e9a854f9c64030e07bb5e9eb7f6562677"
+      }
+    },
+    {
+      "fixture": "citrus-legacy-badges-off",
+      "sourcePages": 4,
+      "savedPages": 4,
+      "render": {
+        "fixture": "citrus-legacy-badges-off",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 4,
+        "media": 4,
+        "bytes": 1156484,
+        "durationMs": 59,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      "identity": {
+        "fixture": "citrus-legacy-badges-off",
+        "sourceDocxSha256": "e18a9ea8c5330014ca09b02df391fc0f7f4e384b451220c214b1353083bb09ff",
+        "savedDocxSha256": "911789d8469c74db1812f23368cae02f0da31f913d1b8f7b5fb64901cf9b3346",
+        "sourceTaggedFields": 72,
+        "savedMatchingTaggedFields": 72,
+        "completeNativeText": "pass",
+        "missingCompleteNativeText": [],
+        "fieldIdentity": "pass",
+        "missingOrChangedTaggedFields": [],
+        "tableIdentity": "fail",
+        "missingTableIds": [
+          "cover.composition.row:0",
+          "cover.composition.row:1",
+          "cover.composition.row:1.cell:0.surface",
+          "cover.composition.row:2",
+          "cover.composition.row:2.cell:0.surface",
+          "cover.lehrbeginn.flow-box",
+          "cv.person.details",
+          "cv.section.referenzen.pair:cv.entry.referenzen:demo-r1"
+        ],
+        "saveReopenIdentity": "fail"
+      },
+      "json": {
+        "fixture": "citrus-legacy-badges-off",
+        "docxSha256": "e18a9ea8c5330014ca09b02df391fc0f7f4e384b451220c214b1353083bb09ff",
+        "input": "pass",
+        "model": "pass",
+        "immutable": "pass"
+      },
+      "filesSha256": {
+        "citrus-legacy-badges-off.docx": "e18a9ea8c5330014ca09b02df391fc0f7f4e384b451220c214b1353083bb09ff",
+        "citrus-legacy-badges-off-qa/citrus-legacy-badges-off.pdf": "58a778d2688937bcba1c35a0477eb275f2925675d3ccb29ff443fd34cf1f1361",
+        "citrus-legacy-badges-off-qa/roundtrip/citrus-legacy-badges-off.docx": "911789d8469c74db1812f23368cae02f0da31f913d1b8f7b5fb64901cf9b3346",
+        "citrus-legacy-badges-off-qa/roundtrip-pdf/citrus-legacy-badges-off.pdf": "58e1c1ccdd460c591054533d2f139b684f52add2843d46df0db4269741efd46d"
+      },
+      "renderedScreenshotsSha256": {
+        "citrus-legacy-badges-off-qa/page-2.png": "b3d9f440cac7c0c59f7a2972e2d2187215defed124d7f8164b6915212fef9f56",
+        "citrus-legacy-badges-off-qa/page-1.png": "66ab520d5865909631efb288f1966bf7ef293fd677df033594f51f33f8cfdeda",
+        "citrus-legacy-badges-off-qa/page-4.png": "0ae4e8fa4def04308b96e8634d15e680cb8ce51f3eabb850fbd4b36bd2b57c7f",
+        "citrus-legacy-badges-off-qa/page-3.png": "b6b0366e069f264e1fd53a63f51c0d7e9a854f9c64030e07bb5e9eb7f6562677"
+      }
+    }
+  ]
+}

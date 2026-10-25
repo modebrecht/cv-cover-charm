@@ -10,14 +10,12 @@
 /* COVER — editable triangles live in template-decorations.ts                 */
 /* -------------------------------------------------------------------------- */
 
-html[data-dossier-template="diagonal"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="diagonal"]
   [data-fresh-cover-field="primary"] {
   display: none !important;
 }
 
-html[data-dossier-template="diagonal"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="diagonal"]
   :is(
     [data-block-id="foto"],
     [data-block-id="name"],
@@ -27,8 +25,7 @@ html[data-dossier-template="diagonal"]
   transform: none !important;
 }
 
-html[data-dossier-template="diagonal"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="diagonal"]
   [data-block-id="beruf"]
   > div
   > div:first-child {
@@ -73,9 +70,9 @@ html[data-dossier-template="diagonal"]
   clip-path: polygon(100% 0, 100% 100%, 0 100%);
 }
 
-[data-letter-page][data-letter-template="diagonal"]
+[data-letter-canvas][data-letter-template="diagonal"]
   [data-dossier-sheet-background="diagonal"]::before,
-[data-letter-page][data-letter-template="diagonal"]
+[data-letter-canvas][data-letter-template="diagonal"]
   [data-dossier-sheet-background="diagonal"]::after {
   width: 22mm;
   height: 15mm;
@@ -86,11 +83,10 @@ html[data-dossier-template="diagonal"]
 /* SHARED CHROME                                                              */
 /* -------------------------------------------------------------------------- */
 
-html[data-dossier-template="diagonal"]
-  [data-dossier-document="cv"]
+div[data-cv-template="diagonal"][data-dossier-document="cv"]
   [data-dossier-chrome="cv"][data-dossier-template-chrome="diagonal"][data-dossier-effective-header-mode="compact"][data-dossier-header-custom-surface="false"]
   [data-dossier-compact-header],
-[data-letter-page][data-letter-template="diagonal"]
+[data-letter-canvas][data-letter-template="diagonal"]
   [data-dossier-template-chrome="diagonal"][data-dossier-effective-header-mode="compact"][data-dossier-header-custom-surface="false"]
   [data-dossier-compact-header] {
   background: transparent !important;
@@ -100,18 +96,16 @@ html[data-dossier-template="diagonal"]
   overflow: hidden !important;
 }
 
-html[data-dossier-template="diagonal"]
-  [data-dossier-document="cv"]
+div[data-cv-template="diagonal"][data-dossier-document="cv"]
   [data-dossier-template-chrome="diagonal"][data-dossier-effective-header-mode="compact"][data-dossier-header-custom-surface="false"]
   [data-dossier-compact-header]::before,
-html[data-dossier-template="diagonal"]
-  [data-dossier-document="cv"]
+div[data-cv-template="diagonal"][data-dossier-document="cv"]
   [data-dossier-template-chrome="diagonal"][data-dossier-effective-header-mode="compact"][data-dossier-header-custom-surface="false"]
   [data-dossier-compact-header]::after,
-[data-letter-page][data-letter-template="diagonal"]
+[data-letter-canvas][data-letter-template="diagonal"]
   [data-dossier-template-chrome="diagonal"][data-dossier-effective-header-mode="compact"][data-dossier-header-custom-surface="false"]
   [data-dossier-compact-header]::before,
-[data-letter-page][data-letter-template="diagonal"]
+[data-letter-canvas][data-letter-template="diagonal"]
   [data-dossier-template-chrome="diagonal"][data-dossier-effective-header-mode="compact"][data-dossier-header-custom-surface="false"]
   [data-dossier-compact-header]::after {
   content: "";
@@ -123,33 +117,30 @@ html[data-dossier-template="diagonal"]
   background: var(--chrome-primary);
 }
 
-html[data-dossier-template="diagonal"]
-  [data-dossier-document="cv"]
+div[data-cv-template="diagonal"][data-dossier-document="cv"]
   [data-dossier-template-chrome="diagonal"][data-dossier-effective-header-mode="compact"][data-dossier-header-custom-surface="false"]
   [data-dossier-compact-header]::before,
-[data-letter-page][data-letter-template="diagonal"]
+[data-letter-canvas][data-letter-template="diagonal"]
   [data-dossier-template-chrome="diagonal"][data-dossier-effective-header-mode="compact"][data-dossier-header-custom-surface="false"]
   [data-dossier-compact-header]::before {
   left: 0;
   clip-path: polygon(0 0, 100% 0, 0 100%);
 }
 
-html[data-dossier-template="diagonal"]
-  [data-dossier-document="cv"]
+div[data-cv-template="diagonal"][data-dossier-document="cv"]
   [data-dossier-template-chrome="diagonal"][data-dossier-effective-header-mode="compact"][data-dossier-header-custom-surface="false"]
   [data-dossier-compact-header]::after,
-[data-letter-page][data-letter-template="diagonal"]
+[data-letter-canvas][data-letter-template="diagonal"]
   [data-dossier-template-chrome="diagonal"][data-dossier-effective-header-mode="compact"][data-dossier-header-custom-surface="false"]
   [data-dossier-compact-header]::after {
   right: 0;
   clip-path: polygon(100% 0, 100% 100%, 0 100%);
 }
 
-html[data-dossier-template="diagonal"]
-  [data-dossier-document="cv"]
+div[data-cv-template="diagonal"][data-dossier-document="cv"]
   [data-dossier-template-chrome="diagonal"][data-dossier-header-custom-surface="false"]
   [data-dossier-contact-header-background],
-[data-letter-page][data-letter-template="diagonal"]
+[data-letter-canvas][data-letter-template="diagonal"]
   [data-dossier-template-chrome="diagonal"][data-dossier-header-custom-surface="false"]
   [data-dossier-contact-header-background] {
   background: transparent !important;
@@ -157,10 +148,8 @@ html[data-dossier-template="diagonal"]
   box-shadow: none !important;
 }
 
-html[data-dossier-template="diagonal"]
-  [data-dossier-document="cv"]
-  [data-dossier-integrated-contact],
-[data-letter-page][data-letter-template="diagonal"] [data-dossier-integrated-contact] {
+div[data-cv-template="diagonal"][data-dossier-document="cv"] [data-dossier-integrated-contact],
+[data-letter-canvas][data-letter-template="diagonal"] [data-dossier-integrated-contact] {
   left: 34mm !important;
   right: 24mm !important;
   width: auto !important;
@@ -169,10 +158,9 @@ html[data-dossier-template="diagonal"]
   color: var(--chrome-ink, #172033) !important;
 }
 
-html[data-dossier-template="diagonal"]
-  [data-dossier-document="cv"]
+div[data-cv-template="diagonal"][data-dossier-document="cv"]
   [data-dossier-continuation-contact-header],
-[data-letter-page][data-letter-template="diagonal"] [data-dossier-continuation-contact-header] {
+[data-letter-canvas][data-letter-template="diagonal"] [data-dossier-continuation-contact-header] {
   left: 34mm !important;
   right: 24mm !important;
   width: auto !important;
@@ -183,11 +171,10 @@ html[data-dossier-template="diagonal"]
   color: var(--chrome-ink, #172033) !important;
 }
 
-html[data-dossier-template="diagonal"]
-  [data-dossier-document="cv"]
+div[data-cv-template="diagonal"][data-dossier-document="cv"]
   [data-dossier-template-chrome="diagonal"][data-dossier-footer-custom-surface="false"]
   [data-dossier-footer],
-[data-letter-page][data-letter-template="diagonal"]
+[data-letter-canvas][data-letter-template="diagonal"]
   [data-dossier-template-chrome="diagonal"][data-dossier-footer-custom-surface="false"]
   [data-dossier-footer] {
   background: transparent !important;
@@ -195,15 +182,14 @@ html[data-dossier-template="diagonal"]
   box-shadow: none !important;
 }
 
-html[data-dossier-template="diagonal"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="diagonal"][data-dossier-document="cv"] [data-cv-surface] {
   border: 0 !important;
   border-radius: 0 !important;
   box-shadow: none !important;
   background: transparent !important;
 }
 
-html[data-dossier-template="diagonal"][data-dossier-template="diagonal"]
-  [data-dossier-document="cv"]
+div[data-cv-template="diagonal"][data-cv-template="diagonal"][data-dossier-document="cv"]
   :is([data-cv-accent="section"], [data-cv-accent="header"]) {
   display: none !important;
 }

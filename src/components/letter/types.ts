@@ -4,6 +4,11 @@ import { FRESH_TEMPLATE_REGISTRY } from "@/components/cover/fresh-template-regis
 import { normalizeActiveTemplateId } from "@/components/cover/fresh-templates";
 import { LETTER_STORAGE_KEY } from "@/lib/dossier-project";
 import { CANONICAL_DOSSIER_PRESENTATION } from "@/lib/dossier-default-presentation";
+import { DEFAULT_LETTER_BEILAGEN } from "./attachments";
+import {
+  DOSSIER_LETTER_BODY_PT,
+  normalizeDossierContinuationTopMm,
+} from "@/lib/dossier-reading-settings";
 import {
   normalizeDossierChromeDocumentContentSettings,
   type DossierChromeDocumentContentSettings,
@@ -38,7 +43,7 @@ export const LETTER_ROLE_FONT_SIZE_MIN = LETTER_FONT_SIZE_MIN;
 export const LETTER_ROLE_FONT_SIZE_MAX = LETTER_FONT_SIZE_MAX;
 export const LETTER_BODY_FONT_SIZE_MIN = LETTER_FONT_SIZE_MIN;
 export const LETTER_BODY_FONT_SIZE_MAX = LETTER_FONT_SIZE_MAX;
-export const DEFAULT_LETTER_BODY_FONT_SIZE_PT = 10.5;
+export const DEFAULT_LETTER_BODY_FONT_SIZE_PT = DOSSIER_LETTER_BODY_PT;
 
 /** Frei platzierbares Bild im Anschreiben mit proportionaler Skalierung und automatischem Textfluss. */
 export type LetterFlowImage = {
@@ -55,6 +60,8 @@ export type LetterFlowImage = {
 };
 
 export type LetterData = {
+  /** Stable identities travel with the existing attachment strings through JSON saves. */
+  attachmentIds?: string[];
   absenderName: string;
   absenderAdresse: string;
   absenderPlzOrt: string;
@@ -85,6 +92,9 @@ export type LetterData = {
 };
 
 export type LetterDesign = {
+  /** Page-2+ content start: number = authored; null = shared default after Reset;
+   * missing = preserve legacy page margins, then use the shared default. */
+  continuationTopMarginMm?: number | null;
   template: LetterTemplateId;
   colors: Record<string, string>;
   /** Sichtbarkeit dekorativer Hintergrund-Motive von 0 (aus) bis 1 (Vorlagen-Baseline). */
@@ -173,7 +183,7 @@ export type SavedLetter = {
 
 export { LETTER_STORAGE_KEY };
 
-export const DEFAULT_LETTER_BEILAGEN = ["Lebenslauf", "Zeugnis"] as const;
+export { DEFAULT_LETTER_BEILAGEN, letterAttachmentValues } from "./attachments";
 export const DEFAULT_LETTER_CLOSING_GAP_MM = 4;
 export const DEFAULT_LETTER_SIGNATURE_GAP_MM = 1;
 export const MAX_LETTER_SIGNATURE_SPACING_MM = 50;
@@ -214,11 +224,6 @@ export function withLetterFontSelection(
   if (selection === "template") return { ...design, fontOverride: null };
   if (design.template === "brief") return { ...design, font: selection, fontOverride: null };
   return { ...design, font: selection, fontOverride: selection };
-}
-
-/** Fehlendes Feld migrieren, ein bewusst leeres Feld aber respektieren. */
-export function letterAttachmentValues(data: Pick<LetterData, "beilagen">): string[] {
-  return Array.isArray(data.beilagen) ? [...data.beilagen] : [...DEFAULT_LETTER_BEILAGEN];
 }
 
 export const DEMO_LETTER: LetterData = {
@@ -441,6 +446,10 @@ export function normalizeLetterDesign(value: unknown): LetterDesign {
   return {
     template,
     colors,
+    continuationTopMarginMm:
+      incoming.continuationTopMarginMm === null
+        ? null
+        : normalizeDossierContinuationTopMm(incoming.continuationTopMarginMm),
     bgOpacity: normalizeLetterMotifOpacity(incoming.bgOpacity),
     paperColor: normalizedColor(incoming.paperColor),
     textColor: normalizedColor(incoming.textColor),

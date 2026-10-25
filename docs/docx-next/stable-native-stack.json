@@ -1,0 +1,46 @@
+{
+  "architecture": "AMD64 ELF64 little-endian",
+  "originalWorkerSha256": "a3fdcfd9e34215ab396b42c8599d2f4e00bf1a5fa5804b7e6dd4ab7089691de0",
+  "libraries": {
+    "libgcc3_uno.so": {
+      "scope": "engine",
+      "sha256": "14fb58a300c776cac476cf10249911737a870aef76f9a1dd93c2bfcdf91338ba",
+      "buildId": "1e12de352be6e3cebd144f1d501daa7e63fe1411"
+    },
+    "libinvocadaptlo.so": {
+      "scope": "engine",
+      "sha256": "3c30e604ee9bc882e28c2eba6cc1edbf93e3a30778aa840fa22d174c1bd5b45f",
+      "buildId": "79785a2b56e9d1a9c7ac2493b3ae7b120fa9eacd"
+    },
+    "libinvocationlo.so": {
+      "scope": "engine",
+      "sha256": "1b0708ab202eb6f6ec507d16f1ba3a7edf0c1009793ceb8d791754dd47327d0f",
+      "buildId": "cbb684b9a183ac193b8e8e36a3b28d2f38070716"
+    },
+    "libmergedlo.so": {
+      "scope": "engine",
+      "sha256": "7b931192643c86a733f49c363357324e9bd93c7619561e81c073044515dcde59",
+      "buildId": "83d1467da1edda944cc8860806dfe22b455f2147"
+    },
+    "libpyuno.so": {
+      "scope": "binding",
+      "sha256": "27fa3a583c03492d79383f6a099c49af3f34f11d84b23f5b920a765c330e2562",
+      "buildId": "9b8d897c50b3077bccf26c53f8910dc4e6167918"
+    },
+    "libreflectionlo.so": {
+      "scope": "engine",
+      "sha256": "4bdc24e9aa3b2583bb0d8aee78f8cff5399fd4ca5a966015da022fafd90b9445",
+      "buildId": "997ed85e9761f57ebe7fc16e2bacd73eb7716729"
+    },
+    "libsw_writerfilterlo.so": {
+      "scope": "engine",
+      "sha256": "7715b9913092fc00539f1b21c37c653ff3b47c8ada2267df39c20187e2004b01",
+      "buildId": "5fa50010e8d243ae825a6cfc13715222e5b6bbe8"
+    },
+    "libswlo.so": {
+      "scope": "engine",
+      "sha256": "ecc533cd929a8a044129026b519a87917803e0db7eb1c6bbec84f5511231397b",
+      "buildId": "9fbc1534d4b2fd9fbd5a10b76cffa00cf645510c"
+    }
+  }
+}

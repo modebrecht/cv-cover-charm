@@ -31,7 +31,7 @@ describe("dossier chrome customization", () => {
     expect(DEFAULT_DOSSIER_CHROME_OPTIONS.headerMode).toBe("compact");
     expect(DEFAULT_DOSSIER_CHROME_OPTIONS.headerTextLayout).toBe("stacked");
     expect(DEFAULT_DOSSIER_CHROME_OPTIONS.headerDifferentFirstPage).toBe(false);
-    expect(DEFAULT_DOSSIER_CHROME_OPTIONS.headerInlineSeparator).toBe("icons");
+    expect(DEFAULT_DOSSIER_CHROME_OPTIONS.headerInlineSeparator).toBe("dot");
     expect(DEFAULT_DOSSIER_CHROME_OPTIONS.footerTextLayout).toBe("inline");
     expect(DEFAULT_DOSSIER_CHROME_OPTIONS.headerHeightMm).toBeNull();
     expect(DEFAULT_DOSSIER_CHROME_OPTIONS.footerHeightMm).toBeNull();
@@ -213,7 +213,7 @@ describe("dossier chrome customization", () => {
     };
     const geometry = letterPageGeometry(DEMO_LETTER, design);
 
-    expect(geometry.content.top).toBe(39);
+    expect(geometry.content.top).toBe(50);
     expect(geometry.footer.height).toBe(18);
     expect(geometry.content.bottom).toBe(19);
   });
@@ -305,7 +305,7 @@ describe("dossier chrome customization", () => {
     expect(markup).toContain(`color:${footerInk}`);
   });
 
-  test("inline contact icons inherit the computed header contrast", () => {
+  test("legacy icon selection renders plain contact separators without SVGs", () => {
     const markup = renderToStaticMarkup(
       createElement(DossierHeaderFooterChrome, {
         scope: "cv",
@@ -323,8 +323,10 @@ describe("dossier chrome customization", () => {
       }),
     );
 
-    expect(markup).toContain('data-dossier-header-inline-separator="icons"');
-    expect(markup).toContain("color:currentColor");
+    expect(markup).toContain('data-dossier-header-inline-separator="dot"');
+    expect(markup).not.toContain("<svg");
+    expect(markup).toContain("lea@example.ch");
+    expect(markup).toContain("079 123 45 67");
   });
 
   test("automatic border color avoids matching either default surface", () => {

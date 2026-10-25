@@ -36,10 +36,10 @@ describe("Fresh dossier rebuild", () => {
   test("Kolumne uses the rail instead of accidental horizontal chrome rules", () => {
     expect(letterSheet).toContain('import "@/components/dossier/legacy-template-refinements.css";');
     expect(legacyCss).toContain(
-      '[data-letter-page][data-letter-template="terracotta"] [data-dossier-compact-header]',
+      '[data-letter-canvas][data-letter-template="terracotta"] [data-dossier-compact-header]',
     );
     expect(legacyCss).toContain(
-      '[data-letter-page][data-letter-template="terracotta"] [data-dossier-footer="compact"]',
+      '[data-letter-canvas][data-letter-template="terracotta"] [data-dossier-footer="compact"]',
     );
     expect(legacyCss).toContain("border-bottom: 0 !important;");
     expect(legacyCss).toContain('[data-letter-motif="rail-rule"]');

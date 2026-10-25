@@ -1,0 +1,34 @@
+Recorded tool-output summary from the completed focused run; the full local log was not retrievable after environment_offline.
+
+206 pass
+0 fail
+2851 expect() calls
+Ran 206 tests across 27 files. [1.73s]
+
+Focused strict TypeScript: PASS.
+Original build process: exit code 0 observed; log and generated artifacts not inspected after runtime disconnection.
+
+REMOTE BUILD VERIFICATION (existing deployment, read-only)
+Code commit: 90216cb21ffeaf3b555ebde48b5e65c7bc64f602
+Vercel: dpl_J1oekFwwk8BZZaSY4xN6ym4NAoRp, preview, READY
+Client build: PASS (5.96s); SSR build: PASS (1.81s)
+Output generated and listed; artifact contents not inspected.
+Preview HTTP fetch: UNVERIFIED (connector timeout; separate web access unavailable).
+Combined app exports, rendering and Word acceptance: still pending.
+No deployment or CI dispatch triggered by this verification.
+
+RECOVERED RUNTIME: FRESH INTEGRATED APP QA
+Pinned source code: 90216cb21ffeaf3b555ebde48b5e65c7bc64f602
+Branch head checked before QA: 59ec45f740c45b1277d33b5b719f1cc9af1313c0
+432 source/config/QA files and 4 Cabin TTF blobs verified; no source changes after QA.
+Real guarded app DOCX downloads: 5 PASS, 3 distinct dossiers.
+Normal app PDF downloads: 3 PASS.
+Modern 05: one CV page, both references; DPR/preview variants byte-identical.
+Modern 02 and Brief 12: intelligent action resolves to one CV page; native/Web counts match.
+Source active control counts: 88 / 85 / 85; no duplicate active IDs.
+Internal Sidebar diagnostics: 3 dossiers; exact original PNG retained in both photo packages.
+Sidebar page paint: 11 CV pages checked at top/middle/bottom of outer edge.
+Native renders: 26 pages across 6 unique dossiers; not Microsoft Word.
+Temporary QA SPA and existing dependencies; not a clean production SSR browser test.
+Sidebar app UI and Word save/reopen/editability: UNVERIFIED.
+Earlier unit tests were not rerun; no product code was changed.

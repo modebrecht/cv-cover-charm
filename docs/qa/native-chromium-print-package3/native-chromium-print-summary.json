@@ -1,0 +1,4288 @@
+{
+  "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+  "source_tree": "ff1230fe2d84dd4ecfed29933f231625d7f4d7db",
+  "browser": "140.0.7339.16",
+  "playwright": "1.55.0",
+  "pdf_options": {
+    "format": "A4",
+    "landscape": false,
+    "margin": {
+      "top": "0",
+      "right": "0",
+      "bottom": "0",
+      "left": "0"
+    },
+    "printBackground": true,
+    "preferCSSPageSize": true,
+    "displayHeaderFooter": false,
+    "scale": 1
+  },
+  "environment": {
+    "node": "v24.19.0",
+    "platform": "linux",
+    "release": "6.18.44",
+    "cpu": "AMD EPYC 9V74 80-Core Processor",
+    "logicalCpus": 9,
+    "memoryBytes": 10451464192
+  },
+  "browser_command_line": [
+    "/root/.cache/ms-playwright/chromium_headless_shell-1187/chrome-linux/headless_shell",
+    "--disable-field-trial-config",
+    "--disable-background-networking",
+    "--disable-background-timer-throttling",
+    "--disable-backgrounding-occluded-windows",
+    "--disable-back-forward-cache",
+    "--disable-breakpad",
+    "--disable-client-side-phishing-detection",
+    "--disable-component-extensions-with-background-pages",
+    "--disable-component-update",
+    "--no-default-browser-check",
+    "--disable-default-apps",
+    "--disable-dev-shm-usage",
+    "--disable-extensions",
+    "--disable-features=AcceptCHFrame,AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate",
+    "--allow-pre-commit-input",
+    "--disable-hang-monitor",
+    "--disable-ipc-flooding-protection",
+    "--disable-popup-blocking",
+    "--disable-prompt-on-repost",
+    "--disable-renderer-backgrounding",
+    "--force-color-profile=srgb",
+    "--metrics-recording-only",
+    "--no-first-run",
+    "--password-store=basic",
+    "--use-mock-keychain",
+    "--no-service-autorun",
+    "--export-tagged-pdf",
+    "--disable-search-engine-choice-screen",
+    "--unsafely-disable-devtools-self-xss-warnings",
+    "--edge-skip-compat-layer-relaunch",
+    "--enable-automation",
+    "--headless",
+    "--hide-scrollbars",
+    "--mute-audio",
+    "--blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4",
+    "--no-sandbox",
+    "--user-data-dir=/tmp/playwright_chromiumdev_profile-G0n49R",
+    "--remote-debugging-pipe",
+    "--no-startup-window",
+    "--use-gl=angle",
+    "--use-angle=swiftshader-webgl",
+    "--ozone-platform=headless",
+    "--allow-pre-commit-input"
+  ],
+  "raster_environment": {
+    "python": "3.12.14",
+    "pymupdf": "1.26.6",
+    "pillow": "12.3.0",
+    "numpy": "2.3.5",
+    "scikit_image": "0.25.2"
+  },
+  "ssim": {
+    "cover": {
+      "current": {
+        "rgb": {
+          "mean": 0.9882076639565559,
+          "median": 0.9888194793660542,
+          "min": 0.9755763661011553,
+          "max": 0.9961540803009145
+        },
+        "layout": {
+          "mean": 0.9888777565360408,
+          "median": 0.9893336513352683,
+          "min": 0.9772325634429875,
+          "max": 0.9961331263378045
+        }
+      },
+      "native": {
+        "rgb": {
+          "mean": 0.9934252939098276,
+          "median": 0.9949705599656314,
+          "min": 0.9692067845211821,
+          "max": 0.997996014530267
+        },
+        "layout": {
+          "mean": 0.9939529386442943,
+          "median": 0.9953085425945596,
+          "min": 0.9721565482461396,
+          "max": 0.9980358544956
+        }
+      }
+    },
+    "letter": {
+      "current": {
+        "rgb": {
+          "mean": 0.9935249637848391,
+          "median": 0.9940503440669929,
+          "min": 0.9867719014386572,
+          "max": 0.9957453195959443
+        },
+        "layout": {
+          "mean": 0.9943418727439305,
+          "median": 0.9947243961988607,
+          "min": 0.9881329625510287,
+          "max": 0.9957983212552524
+        }
+      },
+      "native": {
+        "rgb": {
+          "mean": 0.9952495397589007,
+          "median": 0.9953577846775277,
+          "min": 0.9926986647503342,
+          "max": 0.9973859880082254
+        },
+        "layout": {
+          "mean": 0.9958197975820215,
+          "median": 0.9959603591740962,
+          "min": 0.9930693268865113,
+          "max": 0.9973578394147482
+        }
+      }
+    },
+    "cv": {
+      "current": {
+        "rgb": {
+          "mean": 0.953837023373226,
+          "median": 0.9448266135129826,
+          "min": 0.9299412889037043,
+          "max": 0.9881854247859162
+        },
+        "layout": {
+          "mean": 0.9545029542899067,
+          "median": 0.9454576463381241,
+          "min": 0.9313092908583458,
+          "max": 0.9889705716074652
+        }
+      },
+      "native": {
+        "rgb": {
+          "mean": 0.9895089494451543,
+          "median": 0.9907008388385842,
+          "min": 0.9759072953839292,
+          "max": 0.9933157344383902
+        },
+        "layout": {
+          "mean": 0.9901909054692649,
+          "median": 0.9914760426634267,
+          "min": 0.9762688619263948,
+          "max": 0.9939142119632454
+        }
+      }
+    },
+    "overall": {
+      "current": {
+        "rgb": {
+          "mean": 0.978523217038207,
+          "median": 0.988726829670922,
+          "min": 0.9299412889037043,
+          "max": 0.9961540803009145
+        },
+        "layout": {
+          "mean": 0.9792408611899593,
+          "median": 0.9891822877492655,
+          "min": 0.9313092908583458,
+          "max": 0.9961331263378045
+        }
+      },
+      "native": {
+        "rgb": {
+          "mean": 0.9927279277046276,
+          "median": 0.9944447309890309,
+          "min": 0.9692067845211821,
+          "max": 0.997996014530267
+        },
+        "layout": {
+          "mean": 0.9933212138985269,
+          "median": 0.9947931401877824,
+          "min": 0.9721565482461396,
+          "max": 0.9980358544956
+        }
+      }
+    }
+  },
+  "geometry": [
+    {
+      "template": "Brief",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 4.701225405234766e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Editorial",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 5.121934209206813e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Modern",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 5.121934209206813e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Warm",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 5.830425450881194e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Edel",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 5.122563340176356e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Colorful",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 5.854961554963012e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Blockig",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 4.701225405234766e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Seri\u00f6s",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 5.122563340176356e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Human",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 5.122563340176356e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Horizont",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 5.122563340176356e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Kolumne",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 5.292608428053569e-05,
+      "nodes": 29,
+      "pages": 3
+    },
+    {
+      "template": "Rahmen",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 5.122563340176356e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Sonne",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 5.121934209206813e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Studio",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 3.857111522620471e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Neon",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 5.122563340176356e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Aurora",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 5.121934209206813e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Verlauf",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 5.384551411857785e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Citrus",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 4.234320419982396e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Edge",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 4.701225405234766e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Glow",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 4.701225405234766e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Mono Luxe",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 4.701225405234766e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Horizon",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 4.701225405234766e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Sunrise",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 4.701225405234766e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Forest Flow",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 4.701225405234766e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Violet Pulse",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 4.701225405234766e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Studio 2",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 6.379566829295413e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Studio 3",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 6.379566829295413e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Warm 2",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 5.121934209206813e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Warm 3",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 5.121934209206813e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Verlauf 2",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 5.054527329573233e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Verlauf 3",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 5.054527329573233e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Ledger",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 5.121934209206813e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Prism",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 5.121934209206813e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Gallery",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 4.701225405234766e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Orbit",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 5.121934209206813e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Ribbon",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 5.121934209206813e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Cove",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 5.121934209206813e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Diagonal",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 5.054527329573233e-05,
+      "nodes": 26,
+      "pages": 3
+    },
+    {
+      "template": "Edel Dark",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "live_to_canonical_mm": 0,
+      "canonical_to_print_mm": 5.763018571336431e-05,
+      "nodes": 26,
+      "pages": 3
+    }
+  ],
+  "text_checks": [
+    {
+      "template": "Brief",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Brief",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 4,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1858,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold"
+      ]
+    },
+    {
+      "template": "Editorial",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Editorial",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1856,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-BoldItalic",
+        "CAAAAA+Cabin-Bold"
+      ]
+    },
+    {
+      "template": "Modern",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Modern",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 4,
+        "cv_name": 1,
+        "cv_section": 0,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1874,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold"
+      ]
+    },
+    {
+      "template": "Warm",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 2,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1782,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Warm",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 4,
+        "cv_name": 2,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1873,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold"
+      ]
+    },
+    {
+      "template": "Edel",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Edel",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1856,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold",
+        "CAAAAA+Cabin-Italic"
+      ]
+    },
+    {
+      "template": "Colorful",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Colorful",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 4,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": false,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1852,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold",
+        "CAAAAA+DejaVuSans-Bold"
+      ]
+    },
+    {
+      "template": "Blockig",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Blockig",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1858,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold"
+      ]
+    },
+    {
+      "template": "Seri\u00f6s",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Seri\u00f6s",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 4,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1856,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold"
+      ]
+    },
+    {
+      "template": "Human",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Human",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 4,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1856,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold",
+        "CAAAAA+Cabin-Italic"
+      ]
+    },
+    {
+      "template": "Horizont",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Horizont",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 4,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1856,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold"
+      ]
+    },
+    {
+      "template": "Kolumne",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Kontakt",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1852,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Kolumne",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Kontakt",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1862,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold",
+        "CAAAAA+DejaVuSans-Bold"
+      ]
+    },
+    {
+      "template": "Rahmen",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Rahmen",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1856,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold",
+        "CAAAAA+Cabin-Italic"
+      ]
+    },
+    {
+      "template": "Sonne",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Sonne",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 4,
+        "cv_name": 1,
+        "cv_section": 0,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1874,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold"
+      ]
+    },
+    {
+      "template": "Studio",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Studio",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 0,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1874,
+      "font_names": [
+        "AAAAAA+Cabin-Bold",
+        "BAAAAA+Cabin-Regular"
+      ]
+    },
+    {
+      "template": "Neon",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Neon",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 2,
+        "cv_section": 0,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1906,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold"
+      ]
+    },
+    {
+      "template": "Aurora",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Aurora",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 4,
+        "cv_name": 1,
+        "cv_section": 0,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1874,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold"
+      ]
+    },
+    {
+      "template": "Verlauf",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Verlauf",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1854,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold"
+      ]
+    },
+    {
+      "template": "Citrus",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Citrus",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1854,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold"
+      ]
+    },
+    {
+      "template": "Edge",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Edge",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1860,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold",
+        "CAAAAA+DejaVuSans-Bold"
+      ]
+    },
+    {
+      "template": "Glow",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Glow",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1858,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold"
+      ]
+    },
+    {
+      "template": "Mono Luxe",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Mono Luxe",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1858,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold",
+        "CAAAAA+DejaVuSerif-Bold"
+      ]
+    },
+    {
+      "template": "Horizon",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Horizon",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1858,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold"
+      ]
+    },
+    {
+      "template": "Sunrise",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Sunrise",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1858,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold"
+      ]
+    },
+    {
+      "template": "Forest Flow",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Forest Flow",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1858,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold",
+        "CAAAAA+DejaVuSans-Bold"
+      ]
+    },
+    {
+      "template": "Violet Pulse",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Violet Pulse",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1858,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold"
+      ]
+    },
+    {
+      "template": "Studio 2",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Studio 2",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1855,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold"
+      ]
+    },
+    {
+      "template": "Studio 3",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Studio 3",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": true,
+      "text_characters": 1854,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold"
+      ]
+    },
+    {
+      "template": "Warm 2",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Warm 2",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1856,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold"
+      ]
+    },
+    {
+      "template": "Warm 3",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Warm 3",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1856,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold"
+      ]
+    },
+    {
+      "template": "Verlauf 2",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Verlauf 2",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1856,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold"
+      ]
+    },
+    {
+      "template": "Verlauf 3",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Verlauf 3",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1856,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold"
+      ]
+    },
+    {
+      "template": "Ledger",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Ledger",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1856,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold"
+      ]
+    },
+    {
+      "template": "Prism",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Prism",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1856,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold"
+      ]
+    },
+    {
+      "template": "Gallery",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Gallery",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 4,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1858,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold"
+      ]
+    },
+    {
+      "template": "Orbit",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Orbit",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1856,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold"
+      ]
+    },
+    {
+      "template": "Ribbon",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Ribbon",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1856,
+      "font_names": [
+        "AAAAAA+Cabin-Bold",
+        "BAAAAA+Cabin-Regular"
+      ]
+    },
+    {
+      "template": "Cove",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Cove",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1856,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold"
+      ]
+    },
+    {
+      "template": "Diagonal",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Diagonal",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1856,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold"
+      ]
+    },
+    {
+      "template": "Edel Dark",
+      "path": "current",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": false,
+      "cv_title_before_entry": true,
+      "text_characters": 1850,
+      "font_names": [
+        "Cabin",
+        "Courier",
+        "Courier-Bold",
+        "Courier-BoldOblique",
+        "Courier-Oblique",
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-BoldOblique",
+        "Helvetica-Oblique",
+        "Symbol",
+        "Times-Bold",
+        "Times-BoldItalic",
+        "Times-Italic",
+        "Times-Roman",
+        "ZapfDingbats"
+      ]
+    },
+    {
+      "template": "Edel Dark",
+      "path": "native",
+      "source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "samples": {
+        "letter_header": "Herr Thomas Weber",
+        "letter_body": "Die Informatik begeistert mich",
+        "cv_name": "Lea M\u00fcller",
+        "cv_section": "Familie",
+        "cv_entry": "Sekundarschule, Niveau A"
+      },
+      "letter_header": true,
+      "letter_body": true,
+      "cv_name": true,
+      "cv_section": true,
+      "cv_entry": true,
+      "literal_search_hits": {
+        "letter_header": 1,
+        "letter_body": 1,
+        "cv_name": 1,
+        "cv_section": 1,
+        "cv_entry": 1
+      },
+      "letter_header_before_body": true,
+      "cv_name_before_entry": true,
+      "letter_body_before_closing": true,
+      "cv_title_before_entry": false,
+      "text_characters": 1856,
+      "font_names": [
+        "AAAAAA+Cabin-Regular",
+        "BAAAAA+Cabin-Bold",
+        "CAAAAA+Cabin-Italic"
+      ]
+    }
+  ],
+  "file_bytes": {
+    "current": {
+      "mean": 1308621.4871794872,
+      "median": 1288012,
+      "min": 1181305,
+      "max": 1474332
+    },
+    "native": {
+      "mean": 303536.5128205128,
+      "median": 180851,
+      "min": 125640,
+      "max": 1366683
+    }
+  },
+  "generation_ms": {
+    "current": {
+      "mean": 1795.9415414358982,
+      "median": 1746.3250870000047,
+      "min": 1600.024460000015,
+      "max": 2227.9226640000124
+    },
+    "native": {
+      "mean": 638.8829659743557,
+      "median": 564.5941929999972,
+      "min": 488.1917689999973,
+      "max": 1319.2035759999999
+    }
+  },
+  "long_fixtures": [
+    {
+      "fixture": "long-studio3-classic",
+      "canonical_pages": [
+        "cover",
+        "letter",
+        "letter",
+        "cv",
+        "cv",
+        "cv"
+      ],
+      "current_pages": 6,
+      "native_pages": 6
+    },
+    {
+      "fixture": "long-gallery-sidebar",
+      "canonical_pages": [
+        "cover",
+        "letter",
+        "letter",
+        "cv",
+        "cv",
+        "cv",
+        "cv",
+        "cv"
+      ],
+      "current_pages": 8,
+      "native_pages": 8
+    }
+  ],
+  "long_marker_distribution": {
+    "long-studio3-classic": {
+      "Briefmarker01": 2,
+      "Briefmarker02": 2,
+      "Briefmarker03": 2,
+      "Briefmarker04": 2,
+      "Briefmarker05": 2,
+      "Briefmarker06": 2,
+      "Briefmarker07": 2,
+      "Briefmarker08": 2,
+      "Briefmarker09": 2,
+      "Briefmarker10": 3,
+      "Briefmarker11": 3,
+      "Briefmarker12": 3,
+      "Briefmarker13": 3,
+      "Briefmarker14": 3,
+      "Praxisstation 01": 4,
+      "Praxisstation 02": 4,
+      "Praxisstation 03": 4,
+      "Praxisstation 04": 4,
+      "Praxisstation 05": 4,
+      "Praxisstation 06": 5,
+      "Praxisstation 07": 5,
+      "Praxisstation 08": 5,
+      "Praxisstation 09": 5,
+      "Praxisstation 10": 5,
+      "Praxisstation 11": 5,
+      "Praxisstation 12": 5,
+      "Praxisstation 13": 5,
+      "Praxisstation 14": 5,
+      "Praxisstation 15": 5,
+      "Praxisstation 16": 5,
+      "Praxisstation 17": 6,
+      "Praxisstation 18": 6,
+      "Referenzmarker": 6
+    },
+    "long-gallery-sidebar": {
+      "Briefmarker01": 2,
+      "Briefmarker02": 2,
+      "Briefmarker03": 2,
+      "Briefmarker04": 2,
+      "Briefmarker05": 2,
+      "Briefmarker06": 2,
+      "Briefmarker07": 2,
+      "Briefmarker08": 2,
+      "Briefmarker09": 2,
+      "Briefmarker10": 3,
+      "Briefmarker11": 3,
+      "Briefmarker12": 3,
+      "Briefmarker13": 3,
+      "Briefmarker14": 3,
+      "Praxisstation 01": 4,
+      "Praxisstation 02": 4,
+      "Praxisstation 03": 5,
+      "Praxisstation 04": 5,
+      "Praxisstation 05": 5,
+      "Praxisstation 06": 5,
+      "Praxisstation 07": 6,
+      "Praxisstation 08": 6,
+      "Praxisstation 09": 6,
+      "Praxisstation 10": 6,
+      "Praxisstation 11": 7,
+      "Praxisstation 12": 7,
+      "Praxisstation 13": 7,
+      "Praxisstation 14": 7,
+      "Praxisstation 15": 8,
+      "Praxisstation 16": 8,
+      "Praxisstation 17": 8,
+      "Praxisstation 18": 8,
+      "Referenzmarker": 8
+    }
+  },
+  "cv_deltas_descending": [
+    {
+      "template": "Neon",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "afa94c5da0a14e77ce0c6e9a2b030d321bb868912c7375b877d20ff38e5b492e",
+      "current_pdf_rgb_ssim": 0.9299412889037043,
+      "current_pdf_layout_ssim": 0.9313092908583458,
+      "native_pdf_rgb_ssim": 0.9904990872469653,
+      "native_pdf_layout_ssim": 0.9916323197327144,
+      "rgb_delta": 0.06055779834326103,
+      "layout_delta": 0.06032302887436858
+    },
+    {
+      "template": "Citrus",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "0ce3fa42c3a6d4d6c1727f457c0aba9bd25398a3e146c9971d993ab027b8ff18",
+      "current_pdf_rgb_ssim": 0.93880348524864,
+      "current_pdf_layout_ssim": 0.9395934372483828,
+      "native_pdf_rgb_ssim": 0.9912469550667993,
+      "native_pdf_layout_ssim": 0.9920005653421143,
+      "rgb_delta": 0.05244346981815928,
+      "layout_delta": 0.05240712809373149
+    },
+    {
+      "template": "Verlauf",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "d69c0403b9a02854a273892685ae444998cc0c137a7dcab58e2d017ae7404082",
+      "current_pdf_rgb_ssim": 0.940652054773893,
+      "current_pdf_layout_ssim": 0.9407209963741328,
+      "native_pdf_rgb_ssim": 0.9916444498978748,
+      "native_pdf_layout_ssim": 0.9921326046213895,
+      "rgb_delta": 0.05099239512398179,
+      "layout_delta": 0.05141160824725677
+    },
+    {
+      "template": "Edel",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "8f385b0c8862cc7a103f2c57ddc2860fb765cae4cae21761cae9ff00c2434fda",
+      "current_pdf_rgb_ssim": 0.9367400073202014,
+      "current_pdf_layout_ssim": 0.9382708115312299,
+      "native_pdf_rgb_ssim": 0.989581081831144,
+      "native_pdf_layout_ssim": 0.9893773974588193,
+      "rgb_delta": 0.052841074510942665,
+      "layout_delta": 0.05110658592758932
+    },
+    {
+      "template": "Human",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "2f56d1fa739314b85c77004bd2cc51969530d4b34fca7efb1e5c8cc8441fd09e",
+      "current_pdf_rgb_ssim": 0.9413306503879428,
+      "current_pdf_layout_ssim": 0.9417685054212813,
+      "native_pdf_rgb_ssim": 0.9917150857936455,
+      "native_pdf_layout_ssim": 0.9921554486470943,
+      "rgb_delta": 0.0503844354057027,
+      "layout_delta": 0.05038694322581294
+    },
+    {
+      "template": "Editorial",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "aff1bc64ad6d20fb97cb09ea811d2beab93d9d15a7b193dd14e2ba0ea05296a5",
+      "current_pdf_rgb_ssim": 0.942485922539464,
+      "current_pdf_layout_ssim": 0.9432928176980178,
+      "native_pdf_rgb_ssim": 0.9918078878230722,
+      "native_pdf_layout_ssim": 0.9927844107592606,
+      "rgb_delta": 0.049321965283608216,
+      "layout_delta": 0.049491593061242845
+    },
+    {
+      "template": "Horizont",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "0ace21adad37bbf483e4bf689c93f7ec4e2bb0160292c73992dbdb6e3184088d",
+      "current_pdf_rgb_ssim": 0.941757413288521,
+      "current_pdf_layout_ssim": 0.9422207170676545,
+      "native_pdf_rgb_ssim": 0.9908678942044218,
+      "native_pdf_layout_ssim": 0.9914062360026602,
+      "rgb_delta": 0.049110480915900756,
+      "layout_delta": 0.04918551893500567
+    },
+    {
+      "template": "Seri\u00f6s",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "19cea63e64ad96d2280e519ffe03338da391433ae434224638fb68cd12188552",
+      "current_pdf_rgb_ssim": 0.9426122937837006,
+      "current_pdf_layout_ssim": 0.9429826109792915,
+      "native_pdf_rgb_ssim": 0.9914601715637538,
+      "native_pdf_layout_ssim": 0.9921437060315846,
+      "rgb_delta": 0.04884787778005317,
+      "layout_delta": 0.04916109505229316
+    },
+    {
+      "template": "Studio",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "01738ee7ba301a9d7990c5bc45cc5355eee6c26ded56dad2bf20b585938fbd82",
+      "current_pdf_rgb_ssim": 0.9432173944685426,
+      "current_pdf_layout_ssim": 0.943970937235606,
+      "native_pdf_rgb_ssim": 0.991867595862402,
+      "native_pdf_layout_ssim": 0.9929557362860669,
+      "rgb_delta": 0.04865020139385945,
+      "layout_delta": 0.048984799050460937
+    },
+    {
+      "template": "Kolumne",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "cb42f410a23915e32c371878de3743a5885b36854005044c97d7b40ada40c92b",
+      "current_pdf_rgb_ssim": 0.9430563564210783,
+      "current_pdf_layout_ssim": 0.9438889902180734,
+      "native_pdf_rgb_ssim": 0.9907006110634035,
+      "native_pdf_layout_ssim": 0.9911294008740889,
+      "rgb_delta": 0.047644254642325135,
+      "layout_delta": 0.047240410656015475
+    },
+    {
+      "template": "Modern",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "f23b1ed1171e111601cf19099fafb22d80e0a555a26788191abfb40994d3e37e",
+      "current_pdf_rgb_ssim": 0.9435813244183086,
+      "current_pdf_layout_ssim": 0.9436964186988356,
+      "native_pdf_rgb_ssim": 0.9902642383119754,
+      "native_pdf_layout_ssim": 0.9908394707974365,
+      "rgb_delta": 0.046682913893666855,
+      "layout_delta": 0.047143052098600924
+    },
+    {
+      "template": "Ledger",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "8c149fb94fbcfbf0691c95695a8c00f3301fd59ede1a3a94ce14036ab5cc9486",
+      "current_pdf_rgb_ssim": 0.9438428573346022,
+      "current_pdf_layout_ssim": 0.9445604789178137,
+      "native_pdf_rgb_ssim": 0.990950769695377,
+      "native_pdf_layout_ssim": 0.9916426990326178,
+      "rgb_delta": 0.04710791236077483,
+      "layout_delta": 0.04708222011480412
+    },
+    {
+      "template": "Sonne",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "bf3091659db4654f7cdd6a5dee1867cdc8279439ead272562f387426d933e9bc",
+      "current_pdf_rgb_ssim": 0.9441238253544824,
+      "current_pdf_layout_ssim": 0.9446850320228666,
+      "native_pdf_rgb_ssim": 0.9908231066819589,
+      "native_pdf_layout_ssim": 0.991697564363122,
+      "rgb_delta": 0.04669928132747658,
+      "layout_delta": 0.047012532340255375
+    },
+    {
+      "template": "Aurora",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "40c3fcb0d03d6bf05423714bdd87bc3d0c7fefa17977991e278c54469bcb4037",
+      "current_pdf_rgb_ssim": 0.9440537326822013,
+      "current_pdf_layout_ssim": 0.9441436861250099,
+      "native_pdf_rgb_ssim": 0.9906026643325886,
+      "native_pdf_layout_ssim": 0.9910612785309496,
+      "rgb_delta": 0.046548931650387315,
+      "layout_delta": 0.046917592405939734
+    },
+    {
+      "template": "Rahmen",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "b359368722c79daf9c440c92c27ab1bf2087a2ea67ced9b9b7a1c5f691fdabe5",
+      "current_pdf_rgb_ssim": 0.9441294614986631,
+      "current_pdf_layout_ssim": 0.9448473807893875,
+      "native_pdf_rgb_ssim": 0.9911121574079207,
+      "native_pdf_layout_ssim": 0.9917211511930969,
+      "rgb_delta": 0.04698269590925763,
+      "layout_delta": 0.046873770403709436
+    },
+    {
+      "template": "Prism",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "ae31cb42fe91ce46428a179f0d67fd238066739dc3878781cdd0b7dbd218fe45",
+      "current_pdf_rgb_ssim": 0.9448010371585651,
+      "current_pdf_layout_ssim": 0.9450641205388655,
+      "native_pdf_rgb_ssim": 0.9913935547020932,
+      "native_pdf_layout_ssim": 0.9918871419365135,
+      "rgb_delta": 0.04659251754352811,
+      "layout_delta": 0.046823021397648046
+    },
+    {
+      "template": "Orbit",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "0ddecc07c78f414e0eb73644ec33d5075c8e3ebf43ce8c1f442d080b4b41cab7",
+      "current_pdf_rgb_ssim": 0.9448255244658537,
+      "current_pdf_layout_ssim": 0.9450859243270915,
+      "native_pdf_rgb_ssim": 0.9911100132891364,
+      "native_pdf_layout_ssim": 0.9915907416988511,
+      "rgb_delta": 0.04628448882328273,
+      "layout_delta": 0.0465048173717596
+    },
+    {
+      "template": "Ribbon",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "0a75830deb4319bdf32525a0674fede9d39903a8b490b9d9a2769922273e3969",
+      "current_pdf_rgb_ssim": 0.9448266135129826,
+      "current_pdf_layout_ssim": 0.9454576463381241,
+      "native_pdf_rgb_ssim": 0.9907008388385842,
+      "native_pdf_layout_ssim": 0.9913765620960713,
+      "rgb_delta": 0.04587422532560159,
+      "layout_delta": 0.045918915757947154
+    },
+    {
+      "template": "Warm 2",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "3c35e37d76fc91ac483e82fe89dc9842fc22a30530508d80849acdce77f8241c",
+      "current_pdf_rgb_ssim": 0.9456597217250943,
+      "current_pdf_layout_ssim": 0.9468015156395932,
+      "native_pdf_rgb_ssim": 0.9919232958826703,
+      "native_pdf_layout_ssim": 0.9926664275773401,
+      "rgb_delta": 0.04626357415757598,
+      "layout_delta": 0.04586491193774689
+    },
+    {
+      "template": "Warm 3",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "62dff9b869b43750ccb838ef4e1f471ac31c1af895aceb5d9c429941a534e338",
+      "current_pdf_rgb_ssim": 0.9448332001927198,
+      "current_pdf_layout_ssim": 0.9455490712087253,
+      "native_pdf_rgb_ssim": 0.9906580165244913,
+      "native_pdf_layout_ssim": 0.9913841994139826,
+      "rgb_delta": 0.04582481633177149,
+      "layout_delta": 0.04583512820525726
+    },
+    {
+      "template": "Cove",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "d017ce9d441d9a2553ff8e4483747359d558ec45c9571a27f7f12059e68d1565",
+      "current_pdf_rgb_ssim": 0.9442681150424067,
+      "current_pdf_layout_ssim": 0.945020202604723,
+      "native_pdf_rgb_ssim": 0.9894552187870884,
+      "native_pdf_layout_ssim": 0.9902756826077345,
+      "rgb_delta": 0.04518710374468171,
+      "layout_delta": 0.045255480003011495
+    },
+    {
+      "template": "Edge",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "bf0fab153e87834f19451bbad19199dc4e9354688a3291d5a45c09affaace4af",
+      "current_pdf_rgb_ssim": 0.9550316664151831,
+      "current_pdf_layout_ssim": 0.955844553494409,
+      "native_pdf_rgb_ssim": 0.990548688419091,
+      "native_pdf_layout_ssim": 0.9914760426634267,
+      "rgb_delta": 0.03551702200390794,
+      "layout_delta": 0.035631489169017705
+    },
+    {
+      "template": "Warm",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "7886928ab951fa93e3fea7e06c383b72508fd75a8d5cf8240c5f36d79bd0f951",
+      "current_pdf_rgb_ssim": 0.9553351526202264,
+      "current_pdf_layout_ssim": 0.9566510259940676,
+      "native_pdf_rgb_ssim": 0.9914350808747873,
+      "native_pdf_layout_ssim": 0.9921395758260924,
+      "rgb_delta": 0.036099928254560876,
+      "layout_delta": 0.03548854983202476
+    },
+    {
+      "template": "Colorful",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "4f66da6eba6d17e2c4f2c693452f09c4e24983dbf3c03ea94c49e3f792bf8543",
+      "current_pdf_rgb_ssim": 0.9415234625520698,
+      "current_pdf_layout_ssim": 0.9413733690235052,
+      "native_pdf_rgb_ssim": 0.9759072953839292,
+      "native_pdf_layout_ssim": 0.9762688619263948,
+      "rgb_delta": 0.03438383283185942,
+      "layout_delta": 0.034895492902889624
+    },
+    {
+      "template": "Mono Luxe",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "132da79760a0d0e1c5b620db98b07eafe977e5759164f1066fce8e6b67d7d73d",
+      "current_pdf_rgb_ssim": 0.957311418400106,
+      "current_pdf_layout_ssim": 0.9576732288281488,
+      "native_pdf_rgb_ssim": 0.9913748114770963,
+      "native_pdf_layout_ssim": 0.9924561150117182,
+      "rgb_delta": 0.034063393076990245,
+      "layout_delta": 0.034782886183569395
+    },
+    {
+      "template": "Forest Flow",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "3ed7d826a5fb0c2bb0a34c997fcc554ac47cf8675225774cc171b212be3d29be",
+      "current_pdf_rgb_ssim": 0.9580536880122964,
+      "current_pdf_layout_ssim": 0.958603232617576,
+      "native_pdf_rgb_ssim": 0.9906553499033574,
+      "native_pdf_layout_ssim": 0.9916596230648012,
+      "rgb_delta": 0.03260166189106095,
+      "layout_delta": 0.03305639044722519
+    },
+    {
+      "template": "Gallery",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "a99321cae996fa327e7e19860737514fff51c6c3547278afb6cee4fc62c30011",
+      "current_pdf_rgb_ssim": 0.9624428310178658,
+      "current_pdf_layout_ssim": 0.9627422258913146,
+      "native_pdf_rgb_ssim": 0.9909299366910629,
+      "native_pdf_layout_ssim": 0.9916212605722176,
+      "rgb_delta": 0.02848710567319712,
+      "layout_delta": 0.028879034680902915
+    },
+    {
+      "template": "Glow",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "83d083b1156d2b98b97cb636e6cf2ca7866c72b0d56a0e4db25f3bd771c3e4d3",
+      "current_pdf_rgb_ssim": 0.9660514857887798,
+      "current_pdf_layout_ssim": 0.9660374941020591,
+      "native_pdf_rgb_ssim": 0.9933157344383902,
+      "native_pdf_layout_ssim": 0.9939142119632454,
+      "rgb_delta": 0.027264248649610412,
+      "layout_delta": 0.027876717861186284
+    },
+    {
+      "template": "Horizon",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "b526624d3c638f84523c459d4117f594b8967912a8a16fdfd45569ce3944fdf3",
+      "current_pdf_rgb_ssim": 0.9564470483616746,
+      "current_pdf_layout_ssim": 0.956881106116311,
+      "native_pdf_rgb_ssim": 0.9833181666240621,
+      "native_pdf_layout_ssim": 0.9839347206526335,
+      "rgb_delta": 0.026871118262387528,
+      "layout_delta": 0.02705361453632249
+    },
+    {
+      "template": "Violet Pulse",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "db98fec3139d47824a5f88b333d5322fbc1fb10234862f6c5499d5cf8e8a046c",
+      "current_pdf_rgb_ssim": 0.964313939971202,
+      "current_pdf_layout_ssim": 0.9642611371088796,
+      "native_pdf_rgb_ssim": 0.9906480106451757,
+      "native_pdf_layout_ssim": 0.9910241578548287,
+      "rgb_delta": 0.026334070673973753,
+      "layout_delta": 0.02676302074594905
+    },
+    {
+      "template": "Sunrise",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "b48f0dc5ad1e3897fa2ad138e3a22a803b6e273eaa9c65fe96184708d4c0afd7",
+      "current_pdf_rgb_ssim": 0.9590546518371389,
+      "current_pdf_layout_ssim": 0.9606063859491344,
+      "native_pdf_rgb_ssim": 0.9845463019935253,
+      "native_pdf_layout_ssim": 0.9863140290506146,
+      "rgb_delta": 0.025491650156386436,
+      "layout_delta": 0.025707643101480215
+    },
+    {
+      "template": "Brief",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "87cfcabae362685123ff90e29d4bd43a07646f00ea677719ebfda82a07983a07",
+      "current_pdf_rgb_ssim": 0.9632217567684261,
+      "current_pdf_layout_ssim": 0.9635928005741505,
+      "native_pdf_rgb_ssim": 0.9879822336264893,
+      "native_pdf_layout_ssim": 0.9887746988540054,
+      "rgb_delta": 0.024760476858063152,
+      "layout_delta": 0.025181898279854842
+    },
+    {
+      "template": "Blockig",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "26fc379ee4c462d11ed1684e60be8a47b29681d4e7102c85c4a8b5af54c545aa",
+      "current_pdf_rgb_ssim": 0.963328852646748,
+      "current_pdf_layout_ssim": 0.9641312511850412,
+      "native_pdf_rgb_ssim": 0.9810561030211834,
+      "native_pdf_layout_ssim": 0.9828439409025067,
+      "rgb_delta": 0.017727250374435455,
+      "layout_delta": 0.018712689717465536
+    },
+    {
+      "template": "Diagonal",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "e0f6a224bf53119e5593827325d4783921e82883a0e6dd7c73e2a8df8140c44d",
+      "current_pdf_rgb_ssim": 0.9860424300380558,
+      "current_pdf_layout_ssim": 0.9876011391369223,
+      "native_pdf_rgb_ssim": 0.9914494497143709,
+      "native_pdf_layout_ssim": 0.9925852991255391,
+      "rgb_delta": 0.005407019676315072,
+      "layout_delta": 0.0049841599886167876
+    },
+    {
+      "template": "Edel Dark",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "798a98ad677a4144d6772d3ca37a1ec770ddae1f45e6afc6d74667d64ccb4ca3",
+      "current_pdf_rgb_ssim": 0.9845781377701742,
+      "current_pdf_layout_ssim": 0.9848966135594354,
+      "native_pdf_rgb_ssim": 0.9880475343607396,
+      "native_pdf_layout_ssim": 0.9884380310845603,
+      "rgb_delta": 0.0034693965905653323,
+      "layout_delta": 0.0035414175251249347
+    },
+    {
+      "template": "Verlauf 3",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "8ff1695ea207ffa039e55f5a254cce1962cd1ceefdcbdb302b4968a275824983",
+      "current_pdf_rgb_ssim": 0.9803417782915907,
+      "current_pdf_layout_ssim": 0.980705177038652,
+      "native_pdf_rgb_ssim": 0.9842055549058979,
+      "native_pdf_layout_ssim": 0.9835580419535124,
+      "rgb_delta": 0.003863776614307146,
+      "layout_delta": 0.0028528649148603646
+    },
+    {
+      "template": "Studio 2",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "07ed22eb898aef6a7c0981a9cb2077cbfbcf58cd82c28d528aaece73fb20e9b4",
+      "current_pdf_rgb_ssim": 0.9881854247859162,
+      "current_pdf_layout_ssim": 0.9889705716074652,
+      "native_pdf_rgb_ssim": 0.990835829699857,
+      "native_pdf_layout_ssim": 0.9912377608634462,
+      "rgb_delta": 0.0026504049139407515,
+      "layout_delta": 0.002267189255981017
+    },
+    {
+      "template": "Verlauf 2",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "e8bfbde20c3d0eab9d2d1ca509ac3192b94d10abb810db4bbbb378c90cfaf26d",
+      "current_pdf_rgb_ssim": 0.9811746376348195,
+      "current_pdf_layout_ssim": 0.983628730879035,
+      "native_pdf_rgb_ssim": 0.9846064218085901,
+      "native_pdf_layout_ssim": 0.9853589307874769,
+      "rgb_delta": 0.003431784173770658,
+      "layout_delta": 0.0017301999084419206
+    },
+    {
+      "template": "Studio 3",
+      "document": "cv",
+      "web_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "current_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "native_pdf_source_sha": "b64054c191f068a45d6024182f0734367ef563d4",
+      "fixture_sha256": "80fe09de120a9577386c2e7263ca23e8b586da4e75bc3f714a063c56506aac7b",
+      "current_pdf_rgb_ssim": 0.9876632681219704,
+      "current_pdf_layout_ssim": 0.9884845823572032,
+      "native_pdf_rgb_ssim": 0.9896018299660471,
+      "native_pdf_layout_ssim": 0.9899792661408039,
+      "rgb_delta": 0.0019385618440767027,
+      "layout_delta": 0.0014946837836007365
+    }
+  ]
+}

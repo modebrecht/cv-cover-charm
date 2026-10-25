@@ -1,0 +1,43 @@
+{
+  "baseCommit": "8dded5d7391158b162074b5f8a0bf61f2c44ce2c",
+  "docxTests": {
+    "pass": 437,
+    "fail": 0,
+    "files": 69,
+    "expectations": 7009
+  },
+  "targetedTests": {
+    "pass": 22,
+    "fail": 0,
+    "files": 3
+  },
+  "typecheck": "PASS",
+  "changedFilesLint": "PASS",
+  "changedFilesFormat": "PASS",
+  "build": "PASS",
+  "actualAppExports": 9,
+  "nativePreviewPages": 35,
+  "distinctNativeRastersReviewed": 26,
+  "semanticFields": 721,
+  "pillContainmentChecks": 42,
+  "layoutRelationshipChecks": 15,
+  "cv04WebAndNativePages": 2,
+  "cv04SavedContinuationTopMm": 40,
+  "deliveredDocx": 2,
+  "wordAcceptance": "PENDING for this supplement",
+  "generalUnitSuite": "Not repeated",
+  "userFeedbackV2": {
+    "04Colors": "GOOD",
+    "04ContinuationSpacing": "NOT ACCEPTED; new candidate provided",
+    "05References": "GOOD",
+    "06PhotoBadge": "GOOD",
+    "09Spacing": "NOT ACCEPTED; new candidate provided"
+  },
+  "scope": {
+    "defaultExportSwitch": false,
+    "merge": false,
+    "deployment": false,
+    "ciDispatch": false,
+    "sidebarOrAgentAChange": false
+  }
+}

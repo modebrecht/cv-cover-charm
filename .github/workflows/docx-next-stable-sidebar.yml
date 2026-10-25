@@ -1,0 +1,647 @@
+name: DOCX Next Stable Sidebar
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [dev, docx-next/integrate-39-templates]
+    paths:
+      - package.json
+      - bun.lock
+      - .github/workflows/docx-next-stable-sidebar.yml
+      - scripts/docx-next-*.py
+      - scripts/docx_next_attachment_qa.py
+      - scripts/docx_next_raster_qa.py
+      - scripts/docx_next_story_qa.py
+      - scripts/docx-next-*.ts
+      - scripts/docx-next-lo-kit.c
+      - scripts/qa-browser-setup.sh
+      - docs/docx-next/stable-*.json
+      - docs/docx-next/sidebar-body-attachment-evidence.json
+      - docs/docx-next/sidebar-cell-ending-evidence.json
+      - docs/docx-next/sidebar-selective-row-evidence.json
+      - docs/docx-next/sidebar-populated-row-evidence.json
+      - docs/docx-next/sidebar-main-ending-evidence.json
+      - docs/docx-next/sidebar-side-terminal-evidence.json
+      - docs/docx-next/sidebar-side-ending-evidence.json
+      - docs/docx-next/sidebar-lead-together-evidence.json
+      - docs/docx-next/sidebar-lead-padding-evidence.json
+      - docs/docx-next/sidebar-lead-boundary-evidence.json
+      - docs/docx-next/sidebar-lead-window-evidence.json
+      - docs/docx-next/sidebar-continuous-cell-evidence.json
+      - docs/docx-next/sidebar-description-owner-evidence.json
+      - docs/docx-next/sidebar-split-description-owner-evidence.json
+      - docs/docx-next/sidebar-nested-side-evidence.json
+      - docs/docx-next/sidebar-picture-identity-evidence.json
+      - docs/docx-next/sidebar-picture-frame-evidence.json
+      - docs/docx-next/sidebar-crop-precision-evidence.json
+      - docs/docx-next/sidebar-declared-crop-evidence.json
+      - docs/docx-next/sidebar-declared-window-evidence.json
+      - docs/docx-next/sidebar-photo-size-evidence.json
+      - docs/docx-next/sidebar-sized-shape-evidence.json
+      - docs/docx-next/sidebar-sized-rectangle-evidence.json
+      - docs/docx-next/sidebar-pixel-subset-evidence.json
+      - docs/docx-next/sidebar-container-identity-evidence.json
+      - docs/docx-next/sidebar-container-span-evidence.json
+      - docs/docx-next/sidebar-lead-main-ending-evidence.json
+      - docs/docx-next/sidebar-whole-story-contract-evidence.json
+      - docs/docx-next/sidebar-inline-story-evidence.json
+      - docs/docx-next/sidebar-dual-story-evidence.json
+      - docs/docx-next/sidebar-carrier-story-evidence.json
+      - docs/docx-next/sidebar-native-grid-evidence.json
+      - docs/docx-next/sidebar-native-boundary-evidence.json
+      - docs/docx-next/sidebar-native-import-evidence.json
+      - docs/docx-next/sidebar-native-stack-evidence.json
+      - src/lib/docx-next/**
+      - tests/fixtures/docx-next/**
+      - tests/unit/docx-next-active-registry.test.ts
+      - tests/unit/docx-next-selective-row.test.ts
+      - tests/unit/docx-next-populated-row.test.ts
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docx-next-stable-sidebar-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  stable-comparison:
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      QA_ROOT: /tmp/docx-next-stable-sidebar
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install locked app and PDF QA dependencies
+        run: |
+          bun install --frozen-lockfile
+          python -m pip install PyMuPDF==1.26.4 Pillow==11.3.0 pyelftools==0.32
+          python scripts/docx-next-stable-sidebar-test.py
+          python scripts/docx-next-populated-row-test.py
+          python scripts/docx-next-supported-summary-test.py
+          python scripts/docx-next-native-identity-test.py
+          python scripts/docx-next-container-identity-test.py
+          python scripts/docx-next-container-span-test.py
+          python scripts/docx-next-attachment-test.py
+          python scripts/docx-next-raster-test.py
+          python scripts/docx-next-continuous-cell-test.py
+          python scripts/docx-next-floating-continuation-test.py
+          python scripts/docx-next-story-contract-test.py
+          python scripts/docx-next-inline-story-test.py
+          python scripts/docx-next-dual-story-test.py
+          python scripts/docx-next-carrier-story-test.py
+          python scripts/docx-next-carrier-grid-test.py
+          python scripts/docx-next-grid-history-test.py
+          python scripts/docx-next-native-grid-test.py
+          python scripts/docx-next-native-boundary-test.py
+          python scripts/docx-next-native-import-test.py
+          python scripts/docx-next-native-stack-test.py
+          python scripts/docx-next-native-symbol-test.py
+          python scripts/docx-next-native-state-test.py
+          python scripts/docx-next-native-cache-test.py
+          python scripts/docx-next-native-pop-test.py
+          python scripts/docx-next-native-clamp-research-test.py
+          python scripts/docx-next-native-owner-test.py
+          python scripts/docx-next-owner-boundary-test.py
+          python scripts/docx-next-owner-transfer-test.py
+          python scripts/docx-next-body-carrier-test.py
+      - name: Cache pinned engine packages and fonts
+        uses: actions/cache@v4
+        with:
+          path: /tmp/docx-next-stable-assets
+          key: docx-next-stable-assets-${{ runner.os }}-${{ hashFiles('docs/docx-next/stable-lo-packages.json', 'docs/docx-next/stable-sidebar-fonts.json') }}
+      - name: Set up verified stable engine with bounded cold download
+        timeout-minutes: 12
+        run: python scripts/docx-next-stable-sidebar-setup.py "$QA_ROOT/setup" --assets /tmp/docx-next-stable-assets
+      - name: Set up hash-pinned isolated public UNO measurement binding
+        run: python scripts/docx-next-native-grid-setup.py "$QA_ROOT/setup/runtime" "$QA_ROOT/uno-binding"
+      - name: Generate guarded sidebar controls including isolated terminal endings
+        run: |
+          bun scripts/docx-next-cell-ending-probe.ts "$QA_ROOT/cell-ending"
+          bun scripts/docx-next-body-attachment-probe.ts "$QA_ROOT/body"
+          bun scripts/docx-next-selective-row-probe.ts "$QA_ROOT/selective-row"
+          bun scripts/docx-next-populated-row-probe.ts "$QA_ROOT/populated-row"
+          bun scripts/docx-next-main-ending-probe.ts "$QA_ROOT/main-ending"
+          bun scripts/docx-next-row-together-probe.ts "$QA_ROOT/row-together"
+          bun scripts/docx-next-side-terminal-probe.ts "$QA_ROOT/side-terminal"
+          bun scripts/docx-next-side-ending-probe.ts "$QA_ROOT/side-ending"
+          bun scripts/docx-next-lead-together-probe.ts "$QA_ROOT/lead-together"
+          bun scripts/docx-next-lead-padding-probe.ts "$QA_ROOT/lead-padding"
+          bun scripts/docx-next-lead-boundary-probe.ts "$QA_ROOT/lead-boundary"
+          bun scripts/docx-next-lead-window-probe.ts "$QA_ROOT/lead-window"
+          bun scripts/docx-next-description-owner-probe.ts "$QA_ROOT/description-owner"
+          bun scripts/docx-next-split-description-owner-probe.ts "$QA_ROOT/split-description-owner"
+          bun scripts/docx-next-nested-side-probe.ts "$QA_ROOT/nested-side"
+          bun scripts/docx-next-container-identity-probe.ts "$QA_ROOT/container-identity"
+          bun scripts/docx-next-container-span-probe.ts "$QA_ROOT/container-span"
+          bun scripts/docx-next-container-span-probe.ts "$QA_ROOT/container-declared-grid" --declared-grid
+          bun scripts/docx-next-container-span-probe.ts "$QA_ROOT/container-declared-width" --declared-width
+          bun scripts/docx-next-lead-main-ending-probe.ts "$QA_ROOT/lead-main-ending"
+          bun scripts/docx-next-continuous-cell-probe.ts "$QA_ROOT/continuous-cell"
+          bun scripts/docx-next-floating-continuation-probe.ts "$QA_ROOT/floating-continuation"
+          bun scripts/docx-next-floating-anchor-probe.ts "$QA_ROOT/floating-anchor"
+          bun scripts/docx-next-inline-story-probe.ts "$QA_ROOT/inline-story"
+          bun scripts/docx-next-dual-story-probe.ts "$QA_ROOT/dual-story"
+          bun scripts/docx-next-carrier-story-probe.ts "$QA_ROOT/carrier-story"
+          bun scripts/docx-next-owner-boundary-probe.ts "$QA_ROOT/owner-boundary"
+          bun scripts/docx-next-control-placement-probe.ts "$QA_ROOT/control-placement"
+          bun scripts/docx-next-body-carrier-probe.ts "$QA_ROOT/body-carrier"
+      - name: Require native container carrier ownership without weakening caption gates
+        run: python scripts/docx-next-container-identity-qa.py "$QA_ROOT/container-identity" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-container-identity-evidence.json
+      - name: Reproduce stopped multirow identity and exact native grid counterexamples
+        run: |
+          python scripts/docx-next-container-span-qa.py "$QA_ROOT/container-span" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-container-span-evidence.json
+          python scripts/docx-next-container-span-qa.py "$QA_ROOT/container-declared-grid" --declared-grid --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-container-span-evidence.json
+          python scripts/docx-next-container-span-qa.py "$QA_ROOT/container-declared-width" --declared-width --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-container-span-evidence.json
+      - name: Compare main-lead endings and explicit native paragraph attachment
+        timeout-minutes: 2
+        run: python scripts/docx-next-populated-row-qa.py "$QA_ROOT/lead-main-ending" --matrix lead-main-ending --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --baseline docs/docx-next/sidebar-lead-main-ending-evidence.json
+      - name: Reproduce the stopped continuous-cell owner counterexample
+        timeout-minutes: 2
+        run: python scripts/docx-next-continuous-cell-qa.py "$QA_ROOT/continuous-cell" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-continuous-cell-evidence.json
+      - name: Independently observe the documented floating continuation policy
+        timeout-minutes: 2
+        run: python scripts/docx-next-floating-continuation-qa.py "$QA_ROOT/floating-continuation" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-floating-continuation-evidence.json
+      - name: Strictly reproduce the independently executed native paragraph anchor
+        timeout-minutes: 2
+        run: python scripts/docx-next-floating-continuation-qa.py "$QA_ROOT/floating-anchor" --anchor-owner --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-floating-anchor-evidence.json
+      - name: Strictly compare complete native stories and visible counterexamples
+        run: python scripts/docx-next-story-contract-qa.py "$QA_ROOT" --baseline docs/docx-next/sidebar-whole-story-contract-evidence.json
+      - name: Observe full text, geometry and save/reopen on stable engine
+        timeout-minutes: 5
+        run: |
+          python scripts/docx-next-cell-ending-qa.py "$QA_ROOT/cell-ending" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe
+          python scripts/docx-next-body-attachment-qa.py "$QA_ROOT/body" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe
+          python scripts/docx-next-cell-ending-qa.py "$QA_ROOT/selective-row" --matrix selective-row --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable
+          python scripts/docx-next-stable-sidebar-compare.py "$QA_ROOT" --include-selective-row
+          python scripts/docx-next-populated-row-qa.py "$QA_ROOT/populated-row" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-populated-row-evidence.json
+          python scripts/docx-next-populated-row-qa.py "$QA_ROOT/main-ending" --matrix main-ending --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-main-ending-evidence.json
+          python scripts/docx-next-populated-row-qa.py "$QA_ROOT/row-together" --matrix row-together --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-row-together-evidence.json
+          python scripts/docx-next-populated-row-qa.py "$QA_ROOT/side-terminal" --matrix side-terminal --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --baseline docs/docx-next/sidebar-side-terminal-evidence.json
+          python scripts/docx-next-populated-row-qa.py "$QA_ROOT/side-ending" --matrix side-ending --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --baseline docs/docx-next/sidebar-side-ending-evidence.json
+          python scripts/docx-next-populated-row-qa.py "$QA_ROOT/lead-together" --matrix lead-together --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --baseline docs/docx-next/sidebar-lead-together-evidence.json
+          python scripts/docx-next-populated-row-qa.py "$QA_ROOT/lead-padding" --matrix lead-padding --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --baseline docs/docx-next/sidebar-lead-padding-evidence.json
+          python scripts/docx-next-populated-row-qa.py "$QA_ROOT/lead-boundary" --matrix lead-boundary --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --baseline docs/docx-next/sidebar-lead-boundary-evidence.json
+          python scripts/docx-next-populated-row-qa.py "$QA_ROOT/lead-window" --matrix lead-window --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --baseline docs/docx-next/sidebar-lead-window-evidence.json
+          python scripts/docx-next-populated-row-qa.py "$QA_ROOT/description-owner" --matrix description-owner --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --baseline docs/docx-next/sidebar-description-owner-evidence.json
+          python scripts/docx-next-populated-row-qa.py "$QA_ROOT/split-description-owner" --matrix split-description-owner --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --baseline docs/docx-next/sidebar-split-description-owner-evidence.json
+          python scripts/docx-next-populated-row-qa.py "$QA_ROOT/nested-side" --matrix nested-side --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --baseline docs/docx-next/sidebar-nested-side-evidence.json
+      - name: Require independently pinned complete inline-story counterevidence
+        run: python scripts/docx-next-inline-story-qa.py "$QA_ROOT/inline-story" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-inline-story-evidence.json
+      - name: Require independently pinned two-complete-floating-owner counterevidence
+        run: python scripts/docx-next-dual-story-qa.py "$QA_ROOT/dual-story" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-dual-story-evidence.json
+      - name: Require independently pinned complete automatic floating carrier counterevidence
+        run: python scripts/docx-next-carrier-story-qa.py "$QA_ROOT/carrier-story" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --baseline docs/docx-next/sidebar-carrier-story-evidence.json
+      - name: Audit actual stopped carrier grid without new native exports
+        run: python scripts/docx-next-carrier-grid-qa.py "$QA_ROOT/carrier-story" --baseline docs/docx-next/sidebar-carrier-story-evidence.json
+      - name: Compare already executed historical grids by canonical native ownership
+        run: python scripts/docx-next-grid-history-qa.py "$QA_ROOT" --baseline docs/docx-next/sidebar-carrier-story-evidence.json
+      - name: Strictly reproduce independently measured native separators and owner failures
+        run: python scripts/docx-next-native-grid-qa.py "$QA_ROOT" --native-uno "$QA_ROOT/uno-binding/native-uno" --baseline docs/docx-next/sidebar-native-grid-evidence.json
+      - name: Compare isolated first-cell conversion with original missing-control imports
+        run: python scripts/docx-next-native-boundary-qa.py "$QA_ROOT" --binding "$QA_ROOT/uno-binding" --baseline docs/docx-next/sidebar-native-boundary-evidence.json
+      - name: Observe original first-control creation and canonical paragraph disposal
+        run: python scripts/docx-next-native-import-qa.py "$QA_ROOT" --binding "$QA_ROOT/uno-binding" --baseline docs/docx-next/sidebar-native-import-evidence.json
+      - name: Measure pinned native frames inside original canonical paragraph disposal
+        run: python scripts/docx-next-native-stack-qa.py "$QA_ROOT" --binding "$QA_ROOT/uno-binding" --baseline docs/docx-next/sidebar-native-stack-evidence.json
+      - name: Cache exact verified official debug archive
+        uses: actions/cache@v4
+        with:
+          path: /tmp/docx-next-native-debug
+          key: docx-next-native-debug-${{ runner.os }}-${{ hashFiles('docs/docx-next/stable-native-debug-package.json') }}
+      - name: Look up matching official debug sections without native engine changes
+        timeout-minutes: 17
+        run: python scripts/docx-next-native-symbol-qa.py "$QA_ROOT" --package-cache /tmp/docx-next-native-debug/writer.ddeb --baseline docs/docx-next/stable-native-symbols.json
+      - name: Observe original carrier internal guards without changing native code
+        timeout-minutes: 2
+        run: python scripts/docx-next-native-state-qa.py "$QA_ROOT" --binding "$QA_ROOT/uno-binding" --baseline docs/docx-next/sidebar-native-state-evidence.json
+      - name: Measure first canonical cached start on unchanged original carrier
+        timeout-minutes: 4
+        run: python scripts/docx-next-native-cache-qa.py "$QA_ROOT" --binding "$QA_ROOT/uno-binding" --baseline docs/docx-next/sidebar-native-cache-evidence.json
+      - name: Verify exact original PopSdt locals and cursor fields offline
+        timeout-minutes: 4
+        run: python scripts/docx-next-native-pop-layout-qa.py --package /tmp/docx-next-native-debug/writer.ddeb --writer-image "$QA_ROOT/setup/runtime/usr/lib/libreoffice/program/libsw_writerfilterlo.so" --output "$QA_ROOT/native-pop-layout-report.json"
+      - name: Measure completed original first canonical PopSdt selection
+        timeout-minutes: 4
+        run: python scripts/docx-next-native-pop-qa.py "$QA_ROOT" --binding "$QA_ROOT/uno-binding" --baseline docs/docx-next/sidebar-native-pop-evidence.json
+      - name: Prove original control and paragraph disposal identity
+        timeout-minutes: 2
+        run: python scripts/docx-next-native-owner-qa.py "$QA_ROOT" --binding "$QA_ROOT/uno-binding"
+      - name: Reproduce guarded boundary semantic survival and rejected native lifetime
+        timeout-minutes: 5
+        run: python scripts/docx-next-owner-boundary-qa.py "$QA_ROOT" --binding "$QA_ROOT/uno-binding"
+      - name: Distinguish native frame transfer and complete long visibility counterexamples
+        timeout-minutes: 3
+        run: python scripts/docx-next-owner-transfer-qa.py "$QA_ROOT" --binding "$QA_ROOT/uno-binding" --baseline docs/docx-next/sidebar-owner-transfer-evidence.json
+      - name: Require complete native identity and rejected whole body-table reading order
+        timeout-minutes: 3
+        run: python scripts/docx-next-body-carrier-qa.py "$QA_ROOT" --binding "$QA_ROOT/uno-binding" --baseline docs/docx-next/sidebar-body-carrier-evidence.json
+      - name: Retain actual diagnostics even when a gate fails
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docx-next-stable-sidebar-${{ github.sha }}
+          retention-days: 30
+          path: |
+            ${{ env.QA_ROOT }}/stable-comparison.json
+            ${{ env.QA_ROOT }}/whole-story-contract-report.json
+            ${{ env.QA_ROOT }}/owner-transfer-report.json
+            ${{ env.QA_ROOT }}/owner-transfer-observation.json
+            ${{ env.QA_ROOT }}/control-placement/
+            ${{ env.QA_ROOT }}/body-carrier-report.json
+            ${{ env.QA_ROOT }}/body-carrier/
+            ${{ env.QA_ROOT }}/grid-history-report.json
+            ${{ env.QA_ROOT }}/native-grid-report.json
+            ${{ env.QA_ROOT }}/native-boundary-report.json
+            ${{ env.QA_ROOT }}/native-import-report.json
+            ${{ env.QA_ROOT }}/native-stack-report.json
+            ${{ env.QA_ROOT }}/native-stack-diagnostics.json
+            ${{ env.QA_ROOT }}/native-state-report.json
+            ${{ env.QA_ROOT }}/native-cache-report.json
+            ${{ env.QA_ROOT }}/native-pop-report.json
+            ${{ env.QA_ROOT }}/native-pop-diagnostics.json
+            ${{ env.QA_ROOT }}/native-pop-layout-report.json
+            ${{ env.QA_ROOT }}/native-owner-report.json
+            ${{ env.QA_ROOT }}/owner-boundary-report.json
+            ${{ env.QA_ROOT }}/owner-boundary-import-observation.json
+            ${{ env.QA_ROOT }}/owner-boundary/*
+            ${{ env.QA_ROOT }}/native-symbol-report.json
+            ${{ env.QA_ROOT }}/native-symbols/*/*
+            ${{ env.QA_ROOT }}/uno-binding/binding-record.json
+            ${{ env.QA_ROOT }}/inline-story/*
+            ${{ env.QA_ROOT }}/dual-story/*
+            ${{ env.QA_ROOT }}/carrier-story/*
+            ${{ env.QA_ROOT }}/setup/runtime/runtime-record.json
+            ${{ env.QA_ROOT }}/cell-ending/*
+            ${{ env.QA_ROOT }}/body/*
+            ${{ env.QA_ROOT }}/selective-row/*
+            ${{ env.QA_ROOT }}/populated-row/*
+            ${{ env.QA_ROOT }}/main-ending/*
+            ${{ env.QA_ROOT }}/row-together/*
+            ${{ env.QA_ROOT }}/side-terminal/*
+            ${{ env.QA_ROOT }}/side-ending/*
+            ${{ env.QA_ROOT }}/lead-together/*
+            ${{ env.QA_ROOT }}/lead-padding/*
+            ${{ env.QA_ROOT }}/lead-boundary/*
+            ${{ env.QA_ROOT }}/lead-window/*
+            ${{ env.QA_ROOT }}/description-owner/*
+            ${{ env.QA_ROOT }}/split-description-owner/*
+            ${{ env.QA_ROOT }}/nested-side/*
+            ${{ env.QA_ROOT }}/container-identity/*
+            ${{ env.QA_ROOT }}/container-span/*
+            ${{ env.QA_ROOT }}/container-declared-grid/*
+            ${{ env.QA_ROOT }}/container-declared-width/*
+            ${{ env.QA_ROOT }}/lead-main-ending/*
+            ${{ env.QA_ROOT }}/continuous-cell/*
+            ${{ env.QA_ROOT }}/floating-continuation/*
+            ${{ env.QA_ROOT }}/floating-anchor/*
+
+  entry-flow-content:
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    env:
+      QA_ROOT: /tmp/docx-next-entry-flow
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install locked app and content QA dependencies
+        run: |
+          bun install --frozen-lockfile
+          python -m pip install PyMuPDF==1.26.4 Pillow==11.3.0
+          bun test tests/unit/docx-next-entry-flow.test.ts
+      - name: Cache pinned engine packages and fonts
+        uses: actions/cache@v4
+        with:
+          path: /tmp/docx-next-stable-assets
+          key: docx-next-stable-assets-${{ runner.os }}-${{ hashFiles('docs/docx-next/stable-lo-packages.json', 'docs/docx-next/stable-sidebar-fonts.json') }}
+      - name: Set up verified stable engine
+        timeout-minutes: 12
+        run: python scripts/docx-next-stable-sidebar-setup.py "$QA_ROOT/setup" --assets /tmp/docx-next-stable-assets
+      - name: Set up hash-pinned public UNO binding
+        run: python scripts/docx-next-native-grid-setup.py "$QA_ROOT/setup/runtime" "$QA_ROOT/uno-binding"
+      - name: Generate guarded paragraph-entry compositions on both sides
+        run: bun scripts/docx-next-entry-flow-probe.ts "$QA_ROOT/fixtures"
+      - name: Require complete native and visible text order through two Save/Reopen cycles
+        timeout-minutes: 4
+        run: python scripts/docx-next-entry-flow-qa.py "$QA_ROOT/fixtures" --engine "$QA_ROOT/setup/runtime" --binding "$QA_ROOT/uno-binding"
+      - name: Generate guarded boundary attachment without changing semantic paragraphs
+        run: bun scripts/docx-next-entry-flow-probe.ts "$QA_ROOT/boundary" --keep-boundary
+      - name: Require complete roundtrip content with no empty CV pages
+        timeout-minutes: 4
+        run: python scripts/docx-next-entry-flow-qa.py "$QA_ROOT/boundary" --engine "$QA_ROOT/setup/runtime" --binding "$QA_ROOT/uno-binding" --require-no-empty-cv-page
+      - name: Retain actual content and outstanding geometry evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docx-next-entry-flow-${{ github.sha }}
+          retention-days: 30
+          path: |
+            ${{ env.QA_ROOT }}/fixtures/
+            ${{ env.QA_ROOT }}/boundary/
+            ${{ env.QA_ROOT }}/setup/runtime/runtime-record.json
+            ${{ env.QA_ROOT }}/uno-binding/binding-record.json
+
+  app-body-content:
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      QA_ROOT: /tmp/docx-next-app-body
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install locked app and native content/image QA dependencies
+        run: |
+          bun install --frozen-lockfile
+          python -m pip install PyMuPDF==1.26.4 Pillow==11.3.0 numpy==2.2.6
+          npm install --no-save --no-package-lock @playwright/test@1.55.0
+          bun test tests/unit/docx-next-sidebar-body.test.ts
+          bun test tests/unit/docx-next-first-footer.test.ts
+          bun test tests/unit/docx-next-table-grid.test.ts
+          python scripts/docx-next-sidebar-body-test.py
+          python scripts/docx-next-sidebar-save-geometry-test.py
+      - name: Install canonical browser decoder
+        timeout-minutes: 6
+        run: bash scripts/qa-browser-setup.sh
+      - name: Cache pinned engine packages and fonts
+        uses: actions/cache@v4
+        with:
+          path: /tmp/docx-next-stable-assets
+          key: docx-next-stable-assets-${{ runner.os }}-${{ hashFiles('docs/docx-next/stable-lo-packages.json', 'docs/docx-next/stable-sidebar-fonts.json') }}
+      - name: Set up verified stable engine
+        timeout-minutes: 12
+        run: python scripts/docx-next-stable-sidebar-setup.py "$QA_ROOT/setup" --assets /tmp/docx-next-stable-assets
+      - name: Set up hash-pinned public UNO binding
+        run: python scripts/docx-next-native-grid-setup.py "$QA_ROOT/setup/runtime" "$QA_ROOT/uno-binding"
+      - name: Generate real app snapshots through the shared guarded export with fresh browser images
+        run: |
+          mkdir -p "$QA_ROOT/fixtures"
+          python scripts/docx-next-fixture-images.py "$QA_ROOT/fixtures/images.json"
+          bun scripts/docx-next-sidebar-body-probe.ts "$QA_ROOT/fixtures"
+      - name: Require complete visible and native stories, chrome and photos through two Save/Reopen cycles
+        timeout-minutes: 10
+        run: python scripts/docx-next-sidebar-body-qa.py "$QA_ROOT/fixtures" --engine "$QA_ROOT/setup/runtime" --binding "$QA_ROOT/uno-binding"
+      - name: Measure exact save geometry separately and retain every outstanding counterexample
+        timeout-minutes: 5
+        run: python scripts/docx-next-sidebar-save-geometry-qa.py "$QA_ROOT/fixtures" --engine "$QA_ROOT/setup/runtime" --binding "$QA_ROOT/uno-binding"
+      - name: Retain actual app composition and outstanding geometry evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docx-next-app-body-${{ github.sha }}
+          retention-days: 30
+          path: |
+            ${{ env.QA_ROOT }}/fixtures/
+            ${{ env.QA_ROOT }}/setup/runtime/runtime-record.json
+            ${{ env.QA_ROOT }}/uno-binding/binding-record.json
+
+  supported-sidebar:
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      QA_ROOT: /tmp/docx-next-supported-sidebar
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install locked app and PDF/image QA dependencies
+        run: |
+          bun install --frozen-lockfile
+          python -m pip install PyMuPDF==1.26.4 Pillow==11.3.0
+          python scripts/docx-next-supported-summary-test.py
+          python scripts/docx-next-native-identity-test.py
+          npm install --no-save --no-package-lock @playwright/test@1.55.0
+      - name: Install canonical browser decoder
+        timeout-minutes: 6
+        run: bash scripts/qa-browser-setup.sh
+      - name: Cache pinned engine packages and fonts
+        uses: actions/cache@v4
+        with:
+          path: /tmp/docx-next-stable-assets
+          key: docx-next-stable-assets-${{ runner.os }}-${{ hashFiles('docs/docx-next/stable-lo-packages.json', 'docs/docx-next/stable-sidebar-fonts.json') }}
+      - name: Set up verified stable engine with bounded cold download
+        timeout-minutes: 12
+        run: python scripts/docx-next-stable-sidebar-setup.py "$QA_ROOT/setup" --assets /tmp/docx-next-stable-assets
+      - name: Generate existing supported Sidebar with browser images and JSON restoration
+        run: |
+          mkdir -p "$QA_ROOT/fixtures"
+          python scripts/docx-next-fixture-images.py "$QA_ROOT/fixtures/images.json"
+          bun scripts/docx-next-fixtures.ts "$QA_ROOT/fixtures" --sidebar --verify-json
+      - name: Verify all 31 supported native renders and save/reopen on stable engine
+        timeout-minutes: 5
+        run: |
+          python scripts/docx-next-render-qa.py "$QA_ROOT/fixtures" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --roundtrip
+          python scripts/docx-next-native-identity-qa.py "$QA_ROOT/fixtures"
+          python scripts/docx-next-supported-summary.py "$QA_ROOT/fixtures"
+          python scripts/docx-next-engine-replay.py "$QA_ROOT/fixtures"
+      - name: Retain actual supported Sidebar evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docx-next-supported-sidebar-${{ github.sha }}
+          retention-days: 30
+          path: |
+            ${{ env.QA_ROOT }}/setup/runtime/runtime-record.json
+            ${{ env.QA_ROOT }}/fixtures/
+
+  picture-identity:
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    env:
+      QA_ROOT: /tmp/docx-next-picture-identity
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install locked app and picture QA dependencies
+        run: |
+          bun install --frozen-lockfile
+          python -m pip install PyMuPDF==1.26.4 Pillow==11.3.0 pypdf==6.10.0
+          python scripts/docx-next-picture-identity-test.py
+          python scripts/docx-next-pdf-picture-test.py
+          python scripts/docx-next-native-photo-test.py
+          python scripts/docx-next-crop-precision-test.py
+          python scripts/docx-next-pixel-subset-test.py
+          npm install --no-save --no-package-lock @playwright/test@1.55.0
+      - name: Install canonical browser decoder with bounded Ubuntu downloads
+        timeout-minutes: 6
+        run: bash scripts/qa-browser-setup.sh
+      - name: Cache pinned engine packages and fonts
+        uses: actions/cache@v4
+        with:
+          path: /tmp/docx-next-stable-assets
+          key: docx-next-stable-assets-${{ runner.os }}-${{ hashFiles('docs/docx-next/stable-lo-packages.json', 'docs/docx-next/stable-sidebar-fonts.json') }}
+      - name: Set up verified stable engine with bounded cold download
+        timeout-minutes: 12
+        run: python scripts/docx-next-stable-sidebar-setup.py "$QA_ROOT/setup" --assets /tmp/docx-next-stable-assets
+      - name: Generate guarded minimal picture ownership controls
+        run: |
+          mkdir -p "$QA_ROOT/fixtures"
+          python scripts/docx-next-fixture-images.py "$QA_ROOT/fixtures/images.json"
+          bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/fixtures"
+          mkdir -p "$QA_ROOT/frames"
+          python scripts/docx-next-fixture-images.py "$QA_ROOT/frames/images.json"
+          bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/frames" --frames
+          mkdir -p "$QA_ROOT/precision"
+          python scripts/docx-next-fixture-images.py "$QA_ROOT/precision/images.json"
+          bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/precision" --precision-controls
+          mkdir -p "$QA_ROOT/windows"
+          python scripts/docx-next-fixture-images.py "$QA_ROOT/windows/images.json"
+          bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/windows" --window-controls
+          mkdir -p "$QA_ROOT/sizes"
+          python scripts/docx-next-fixture-images.py "$QA_ROOT/sizes/images.json" --picture-sizes
+          bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/sizes" --size-controls
+          mkdir -p "$QA_ROOT/sized-rectangles"
+          python scripts/docx-next-fixture-images.py "$QA_ROOT/sized-rectangles/images.json" --picture-sizes
+          bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/sized-rectangles" --sized-rectangle-controls
+          mkdir -p "$QA_ROOT/sized-shapes"
+          python scripts/docx-next-fixture-images.py "$QA_ROOT/sized-shapes/images.json" --picture-sizes
+          bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/sized-shapes" --sized-shape-controls
+      - name: Observe stable field identity, complete text, geometry and save/reopen
+        timeout-minutes: 3
+        run: |
+          python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/fixtures" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --replay --baseline docs/docx-next/sidebar-picture-identity-evidence.json
+          python scripts/docx-next-native-photo-qa.py "$QA_ROOT/fixtures" --baseline docs/docx-next/sidebar-picture-identity-evidence.json
+          python scripts/docx-next-pixel-subset-qa.py "$QA_ROOT/fixtures" --baseline docs/docx-next/sidebar-pixel-subset-evidence.json
+          python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/frames" --frames --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --replay --baseline docs/docx-next/sidebar-picture-frame-evidence.json
+          python scripts/docx-next-crop-precision-qa.py "$QA_ROOT/frames" --baseline docs/docx-next/sidebar-crop-precision-evidence.json
+          python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/precision" --precision-controls --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --replay --baseline docs/docx-next/sidebar-declared-crop-evidence.json
+          python scripts/docx-next-crop-precision-qa.py "$QA_ROOT/precision" --baseline docs/docx-next/sidebar-declared-crop-evidence.json --baseline-section precision
+          python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/windows" --window-controls --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --replay --baseline docs/docx-next/sidebar-declared-window-evidence.json
+          python scripts/docx-next-crop-precision-qa.py "$QA_ROOT/windows" --baseline docs/docx-next/sidebar-declared-window-evidence.json --baseline-section precision
+          python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/sizes" --size-controls --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --replay --baseline docs/docx-next/sidebar-photo-size-evidence.json
+          python scripts/docx-next-crop-precision-qa.py "$QA_ROOT/sizes" --baseline docs/docx-next/sidebar-photo-size-evidence.json --baseline-section precision
+          python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/sized-rectangles" --sized-rectangle-controls --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --replay --baseline docs/docx-next/sidebar-sized-rectangle-evidence.json
+          python scripts/docx-next-crop-precision-qa.py "$QA_ROOT/sized-rectangles" --baseline docs/docx-next/sidebar-sized-rectangle-evidence.json --baseline-section precision
+          python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/sized-shapes" --sized-shape-controls --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --replay --baseline docs/docx-next/sidebar-sized-shape-evidence.json
+          python scripts/docx-next-crop-precision-qa.py "$QA_ROOT/sized-shapes" --baseline docs/docx-next/sidebar-sized-shape-evidence.json --baseline-section precision
+          python scripts/docx-next-pixel-subset-qa.py "$QA_ROOT/sized-shapes" --baseline docs/docx-next/sidebar-pixel-subset-evidence.json --baseline-section sized
+      - name: Retain actual picture identity evidence including stopped cases
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docx-next-picture-identity-${{ github.sha }}
+          retention-days: 30
+          path: |
+            ${{ env.QA_ROOT }}/setup/runtime/runtime-record.json
+            ${{ env.QA_ROOT }}/fixtures/
+            ${{ env.QA_ROOT }}/frames/
+            ${{ env.QA_ROOT }}/precision/
+            ${{ env.QA_ROOT }}/windows/
+            ${{ env.QA_ROOT }}/sizes/
+            ${{ env.QA_ROOT }}/sized-shapes/
+            ${{ env.QA_ROOT }}/sized-rectangles/
+
+  integrated-template-qa:
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates'
+    name: Integrated template - ${{ matrix.template }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        template:
+          [edelDark, studio, studio2, edge, gallery, terracotta, citrus, neon, verlauf, aurora]
+        include:
+          - template: edelDark
+            font_profile: serif
+    env:
+      QA_ROOT: /tmp/docx-next-integrated-template
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install locked app and native QA dependencies
+        run: |
+          bun install --frozen-lockfile
+          python -m pip install PyMuPDF==1.26.4 Pillow==11.3.0
+          npm install --no-save --no-package-lock @playwright/test@1.55.0
+      - name: Install canonical Chromium
+        timeout-minutes: 6
+        run: bash scripts/qa-browser-setup.sh
+      - name: Cache pinned engine packages and fonts
+        uses: actions/cache@v4
+        with:
+          path: /tmp/docx-next-stable-assets
+          key: docx-next-stable-assets-${{ runner.os }}-${{ hashFiles('docs/docx-next/stable-lo-packages.json', 'docs/docx-next/stable-sidebar-fonts.json') }}
+      - name: Set up verified stable native runtime
+        if: matrix.font_profile != 'serif'
+        timeout-minutes: 12
+        run: python scripts/docx-next-stable-sidebar-setup.py "$QA_ROOT/setup" --assets /tmp/docx-next-stable-assets
+      - name: Set up verified historical serif template fonts
+        if: matrix.font_profile == 'serif'
+        timeout-minutes: 12
+        run: python scripts/docx-next-template-font-setup.py "$QA_ROOT/setup" --assets /tmp/docx-next-stable-assets
+      - name: Generate complete template stress set with immutable JSON restoration
+        run: |
+          mkdir -p "$QA_ROOT/fixtures"
+          python scripts/docx-next-fixture-images.py "$QA_ROOT/fixtures/images.json"
+          bun scripts/docx-next-fixtures.ts "$QA_ROOT/fixtures" --${{ matrix.template }} --verify-json
+      - name: Verify render, complete text, bounds and native Save/Reopen
+        run: |
+          python scripts/docx-next-render-qa.py "$QA_ROOT/fixtures" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --roundtrip
+          python scripts/docx-next-native-identity-qa.py "$QA_ROOT/fixtures"
+      - name: Verify independent template visual checks
+        env:
+          TEMPLATE: ${{ matrix.template }}
+        run: |
+          case "$TEMPLATE" in
+            aurora) python scripts/docx-next-aurora-visual-qa.py "$QA_ROOT/fixtures" ;;
+            terracotta) python scripts/docx-next-kolumne-template-qa.py "$QA_ROOT/fixtures" ;;
+          esac
+      - name: Verify actual editor, portable JSON and production PDF download
+        env:
+          DOCX_NEXT_EDITOR_TEMPLATE: ${{ matrix.template }}
+        run: bun scripts/docx-next-candidate-editor-qa.ts "$QA_ROOT/editor" "$QA_ROOT/fixtures/images.json"
+      - name: Retain native and editor evidence including identity blockers
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docx-next-integrated-${{ matrix.template }}-${{ github.sha }}
+          retention-days: 14
+          path: |
+            ${{ env.QA_ROOT }}/fixtures/
+            ${{ env.QA_ROOT }}/editor/
+            ${{ env.QA_ROOT }}/setup/runtime/runtime-record.json

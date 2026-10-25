@@ -13,12 +13,21 @@ export function normalizeLetterTextColor(value: unknown): string | null {
   return normalizeLetterPaperColor(value);
 }
 
+/** CV role overrides do not select the independently editable Letter ink. */
+function letterColors(design: LetterDesign): Record<string, string> {
+  return Object.fromEntries(
+    Object.entries(design.colors).filter(
+      ([key]) => key !== "cvInk" && key !== "cvMuted" && key !== "cvHeading",
+    ),
+  );
+}
+
 /** Tatsächlich sichtbare Papierfarbe des Anschreibens. */
 export function resolveLetterPaperColor(design: LetterDesign): string {
   const override = normalizeLetterPaperColor(design.paperColor);
   if (override) return override;
   if (design.template === "brief") return DEFAULT_LETTER_PAPER_COLOR;
-  return cvPalette(design.colors).paper;
+  return cvPalette(letterColors(design)).paper;
 }
 
 /**
@@ -28,16 +37,12 @@ export function resolveLetterPaperColor(design: LetterDesign): string {
 export function resolveLetterPalette(design: LetterDesign): CvPalette {
   const override = normalizeLetterPaperColor(design.paperColor);
   const textOverride = normalizeLetterTextColor(design.textColor);
+  const colors = letterColors(design);
   let palette: CvPalette;
   if (override) {
-    const letterColors = Object.fromEntries(
-      Object.entries(design.colors).filter(
-        ([key]) => key !== "cvInk" && key !== "cvMuted" && key !== "cvHeading",
-      ),
-    );
-    palette = cvPalette({ ...letterColors, sheet: override });
+    palette = cvPalette({ ...colors, sheet: override });
   } else {
-    const source = cvPalette(design.colors);
+    const source = cvPalette(colors);
     if (design.template === "brief") {
       palette = {
         ink: "#111111",

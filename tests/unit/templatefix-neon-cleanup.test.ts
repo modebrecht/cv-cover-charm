@@ -12,7 +12,9 @@ const cvRules = readFileSync(
 
 describe("Neon template cleanup", () => {
   test("cover hides the legacy separator above Kontakt", () => {
-    expect(coverFixes).toContain('html[data-dossier-template="neon"]');
+    expect(coverFixes).toContain(
+      'div[data-dossier-document="cover"][data-dossier-template="neon"]',
+    );
     expect(coverFixes).toContain('[data-block-id="trenner"]');
     expect(coverFixes).toContain("display: none !important;");
   });
@@ -24,7 +26,7 @@ describe("Neon template cleanup", () => {
   });
 
   test("Neon modern CV hides sidebar and header micro-rules without route-only attrs", () => {
-    expect(cvRules).toContain('html[data-dossier-template="neon"]');
+    expect(cvRules).toContain('div[data-cv-template="neon"][data-dossier-document="cv"]');
     expect(cvRules).toContain('[data-cv-section="sidebar"]');
     expect(cvRules).toContain('[data-cv-accent="header"]');
   });

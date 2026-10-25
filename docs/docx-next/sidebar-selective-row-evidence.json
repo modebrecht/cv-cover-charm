@@ -1,0 +1,1360 @@
+{
+  "libreOfficeVersion": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+  "libreOfficeInterface": "soffice CLI",
+  "cases": [
+    {
+      "fixture": "grid-220",
+      "diagnostic": {
+        "name": "grid-220",
+        "policy": "grid",
+        "leadMm": 220
+      },
+      "docxSha256": "1bd80767ed4d87e8ed0d45d166873ad080e05abfd6ff408980308f814f0b7d0b",
+      "package": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "pass"
+      },
+      "saveReopenPackage": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "source-only"
+      },
+      "render": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [1, 1, 1, 1, 2],
+        "baselineMatches": true,
+        "openingAttachment": "known-negative",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      },
+      "saveReopen": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [1, 1, 1, 1, 2],
+        "baselineMatches": true,
+        "openingAttachment": "known-negative",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      }
+    },
+    {
+      "fixture": "split-detached-220",
+      "diagnostic": {
+        "name": "split-detached-220",
+        "policy": "split-detached",
+        "leadMm": 220
+      },
+      "docxSha256": "1f3585a121f218237c34264df448363c7afd4400319bbc17eac6a8c763ebebb1",
+      "package": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "pass"
+      },
+      "saveReopenPackage": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "source-only"
+      },
+      "render": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [1, 1, 1, 1, 2],
+        "baselineMatches": true,
+        "openingAttachment": "known-negative",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      },
+      "saveReopen": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [1, 1, 1, 1, 2],
+        "baselineMatches": true,
+        "openingAttachment": "known-negative",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      }
+    },
+    {
+      "fixture": "split-attached-220",
+      "diagnostic": {
+        "name": "split-attached-220",
+        "policy": "split-attached",
+        "leadMm": 220
+      },
+      "docxSha256": "bad3845e166ceb29fe8e9719ff43aa42e77058a48eaeeca68c3bbd46b2c51aa0",
+      "package": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "pass"
+      },
+      "saveReopenPackage": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "source-only"
+      },
+      "render": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [2, 2, 2, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "pass",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      },
+      "saveReopen": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [2, 2, 2, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "pass",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      }
+    },
+    {
+      "fixture": "grid-224",
+      "diagnostic": {
+        "name": "grid-224",
+        "policy": "grid",
+        "leadMm": 224
+      },
+      "docxSha256": "34ad477f870b048167f7514895573a67e4b656556b3f8e47bc2f7717ff29b167",
+      "package": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "pass"
+      },
+      "saveReopenPackage": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "source-only"
+      },
+      "render": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [1, 1, 1, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "known-negative",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      },
+      "saveReopen": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [1, 1, 1, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "known-negative",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      }
+    },
+    {
+      "fixture": "split-detached-224",
+      "diagnostic": {
+        "name": "split-detached-224",
+        "policy": "split-detached",
+        "leadMm": 224
+      },
+      "docxSha256": "e31896c5c840589e40010adb7105d3f7e9b636e1d745f0ff147cd58cd5c63951",
+      "package": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "pass"
+      },
+      "saveReopenPackage": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "source-only"
+      },
+      "render": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [2, 2, 2, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "pass",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      },
+      "saveReopen": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [2, 2, 2, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "pass",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      }
+    },
+    {
+      "fixture": "split-attached-224",
+      "diagnostic": {
+        "name": "split-attached-224",
+        "policy": "split-attached",
+        "leadMm": 224
+      },
+      "docxSha256": "3b1e41b80f47ddc20e5229ef446c50673225399037abb4a8c7f2a003f9ebcf77",
+      "package": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "pass"
+      },
+      "saveReopenPackage": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "source-only"
+      },
+      "render": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [2, 2, 2, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "pass",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      },
+      "saveReopen": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [2, 2, 2, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "pass",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      }
+    },
+    {
+      "fixture": "grid-226",
+      "diagnostic": {
+        "name": "grid-226",
+        "policy": "grid",
+        "leadMm": 226
+      },
+      "docxSha256": "34b4b933f20ffd78aa93876b67c94f222337264337691665e1b3c98daee83336",
+      "package": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "pass"
+      },
+      "saveReopenPackage": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "source-only"
+      },
+      "render": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [1, 1, 1, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "known-negative",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      },
+      "saveReopen": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [1, 1, 1, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "known-negative",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      }
+    },
+    {
+      "fixture": "split-detached-226",
+      "diagnostic": {
+        "name": "split-detached-226",
+        "policy": "split-detached",
+        "leadMm": 226
+      },
+      "docxSha256": "807b600547154ba903e6d4527f01b274476fa451033ab599a27064c095a5c60c",
+      "package": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "pass"
+      },
+      "saveReopenPackage": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "source-only"
+      },
+      "render": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [2, 2, 2, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "pass",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      },
+      "saveReopen": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [2, 2, 2, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "pass",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      }
+    },
+    {
+      "fixture": "split-attached-226",
+      "diagnostic": {
+        "name": "split-attached-226",
+        "policy": "split-attached",
+        "leadMm": 226
+      },
+      "docxSha256": "7cc050824a22832f65db97784b943b0eaf96bbe14cfcbee88fd223e1b6e9c996",
+      "package": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "pass"
+      },
+      "saveReopenPackage": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "source-only"
+      },
+      "render": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [2, 2, 2, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "pass",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      },
+      "saveReopen": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [2, 2, 2, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "pass",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      }
+    },
+    {
+      "fixture": "grid-228",
+      "diagnostic": {
+        "name": "grid-228",
+        "policy": "grid",
+        "leadMm": 228
+      },
+      "docxSha256": "8a54993d0086088d406af1154ffa168c83a4e4f621e69384c9714e8b45f07849",
+      "package": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "pass"
+      },
+      "saveReopenPackage": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "source-only"
+      },
+      "render": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [1, 1, 2, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "known-negative",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      },
+      "saveReopen": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [1, 1, 2, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "known-negative",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      }
+    },
+    {
+      "fixture": "split-detached-228",
+      "diagnostic": {
+        "name": "split-detached-228",
+        "policy": "split-detached",
+        "leadMm": 228
+      },
+      "docxSha256": "72f7f64d8599a627e2bae0b00c60477c103c04284eea97062596c438e5564362",
+      "package": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "pass"
+      },
+      "saveReopenPackage": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "source-only"
+      },
+      "render": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [2, 2, 2, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "pass",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      },
+      "saveReopen": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [2, 2, 2, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "pass",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      }
+    },
+    {
+      "fixture": "split-attached-228",
+      "diagnostic": {
+        "name": "split-attached-228",
+        "policy": "split-attached",
+        "leadMm": 228
+      },
+      "docxSha256": "56c2dbd9da42a8f11b0a9abc8bc0657f5e6527a9b916ca1bd04721b8ac844b16",
+      "package": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "pass"
+      },
+      "saveReopenPackage": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "source-only"
+      },
+      "render": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [2, 2, 2, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "pass",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      },
+      "saveReopen": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [2, 2, 2, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "pass",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      }
+    },
+    {
+      "fixture": "grid-230",
+      "diagnostic": {
+        "name": "grid-230",
+        "policy": "grid",
+        "leadMm": 230
+      },
+      "docxSha256": "4b8a83a301556e2e4d7710c370c19a2e8dc6fa9fc1860144a5668ee1875169a9",
+      "package": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "pass"
+      },
+      "saveReopenPackage": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "source-only"
+      },
+      "render": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [1, 1, 2, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "known-negative",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      },
+      "saveReopen": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [1, 1, 2, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "known-negative",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      }
+    },
+    {
+      "fixture": "split-detached-230",
+      "diagnostic": {
+        "name": "split-detached-230",
+        "policy": "split-detached",
+        "leadMm": 230
+      },
+      "docxSha256": "353aae5f7259c5c6610d4a286fd2c495a4acb22412c71268d649cc4b636026eb",
+      "package": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "pass"
+      },
+      "saveReopenPackage": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "source-only"
+      },
+      "render": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [2, 2, 2, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "pass",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      },
+      "saveReopen": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [2, 2, 2, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "pass",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      }
+    },
+    {
+      "fixture": "split-attached-230",
+      "diagnostic": {
+        "name": "split-attached-230",
+        "policy": "split-attached",
+        "leadMm": 230
+      },
+      "docxSha256": "60e4f2b8c4f08f498e2d7d1035a004097a325a71b96aef93691e2e228fc51b87",
+      "package": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "pass"
+      },
+      "saveReopenPackage": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "source-only"
+      },
+      "render": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [2, 2, 2, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "pass",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      },
+      "saveReopen": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [2, 2, 2, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "pass",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      }
+    },
+    {
+      "fixture": "grid-234",
+      "diagnostic": {
+        "name": "grid-234",
+        "policy": "grid",
+        "leadMm": 234
+      },
+      "docxSha256": "8209986234d7abd5ec4ab7f086730d7a1e5ce6b2f0c82b8a591ee0d3fa4657c1",
+      "package": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "pass"
+      },
+      "saveReopenPackage": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "source-only"
+      },
+      "render": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [2, 2, 2, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "pass",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      },
+      "saveReopen": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [2, 2, 2, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "pass",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      }
+    },
+    {
+      "fixture": "split-detached-234",
+      "diagnostic": {
+        "name": "split-detached-234",
+        "policy": "split-detached",
+        "leadMm": 234
+      },
+      "docxSha256": "ac4588da5eea80268bab684d57124b7cf4eb59aa4bd5c5282a6f134a2b6e4df4",
+      "package": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "pass"
+      },
+      "saveReopenPackage": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "source-only"
+      },
+      "render": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [2, 2, 2, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "pass",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      },
+      "saveReopen": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [2, 2, 2, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "pass",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      }
+    },
+    {
+      "fixture": "split-attached-234",
+      "diagnostic": {
+        "name": "split-attached-234",
+        "policy": "split-attached",
+        "leadMm": 234
+      },
+      "docxSha256": "4b42f1f2626109d10d21a48945b9ec9da282a8b7affb6e0fcee53a998185e8e3",
+      "package": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "pass"
+      },
+      "saveReopenPackage": {
+        "allDeclaredFieldDataPreserved": true,
+        "nativeCellEndingFlags": "source-only"
+      },
+      "render": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [2, 2, 2, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "pass",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      },
+      "saveReopen": {
+        "pages": 10,
+        "fullTextVisible": true,
+        "openingCvPages": [2, 2, 2, 2, 2],
+        "baselineMatches": true,
+        "openingAttachment": "pass",
+        "metadataMetrics": [
+          {
+            "fieldId": "cv.section.custom:long-paragraph.heading",
+            "leftPt": 213.25,
+            "widthPt": 94.54803466796875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.date",
+            "leftPt": 213.25,
+            "widthPt": 52.457977294921875
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.title",
+            "leftPt": 213.25,
+            "widthPt": 131.11355590820312
+          },
+          {
+            "fieldId": "cv.entry.custom:long-paragraph:long-paragraph-entry.place",
+            "leftPt": 213.25,
+            "widthPt": 29.126998901367188
+          }
+        ]
+      }
+    }
+  ],
+  "architectureAcceptance": "bounded positive outer-row proof; populated tracks/photos/spans/chrome and Word pending; normal export remains blocked",
+  "earlyStop": "18 neutral cases on six boundaries; no expansion in this block",
+  "microsoftWord": "pending",
+  "startingRemoteDev": "5ee977c181220d6a14ed239668deb23b077142d6"
+}

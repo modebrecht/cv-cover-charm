@@ -1,6 +1,47 @@
 import { expect, test, type Page } from "@playwright/test";
 import { readFile, stat } from "node:fs/promises";
 
+async function extractPdfPages(path: string): Promise<string[]> {
+  const { getDocument } = await import("pdfjs-dist/legacy/build/pdf.mjs");
+  const bytes = await readFile(path);
+  await test.info().attach("downloaded-pdf", { body: bytes, contentType: "application/pdf" });
+  const loading = getDocument({
+    data: new Uint8Array(bytes),
+    disableFontFace: true,
+  });
+  const document = await loading.promise;
+  try {
+    const pages: string[] = [];
+    for (let pageNumber = 1; pageNumber <= document.numPages; pageNumber += 1) {
+      const content = await (await document.getPage(pageNumber)).getTextContent();
+      pages.push(
+        content.items
+          .map((item) => ("str" in item ? item.str : ""))
+          .filter(Boolean)
+          .join(" ")
+          .replace(/\s+/g, " ")
+          .trim(),
+      );
+    }
+    await test.info().attach("pdf-logical-pages", {
+      body: JSON.stringify(pages, null, 2),
+      contentType: "application/json",
+    });
+    return pages;
+  } finally {
+    await loading.destroy();
+  }
+}
+
+function expectLetterPdfContent(text: string) {
+  const letter = letterPayload().data;
+  const sequence = [letter.betreff, letter.anrede, letter.text, letter.gruss];
+  for (const value of sequence) expect(text).toContain(value);
+  for (let index = 1; index < sequence.length; index += 1)
+    expect(text.indexOf(sequence[index])).toBeGreaterThan(text.indexOf(sequence[index - 1]));
+  expect(text.lastIndexOf(letter.unterschrift)).toBeGreaterThan(text.indexOf(letter.gruss));
+}
+
 const BASE_URL = "http://127.0.0.1:4173";
 const FAMILY_IDS = ["classic", "modern", "executive", "editorial"] as const;
 const FAMILY_TEMPLATES = {
@@ -146,7 +187,6 @@ async function seedCv(page: Page, options: SeedOptions = {}) {
         localStorage.setItem("lebenslauf:photo-shape:v1", legacyPhotoShape);
       }
       if (coverRaw) localStorage.setItem("titelblatt:v3", coverRaw);
-      window.location.reload();
     },
     {
       payload: cvPayload({
@@ -161,7 +201,8 @@ async function seedCv(page: Page, options: SeedOptions = {}) {
       legacyPhotoShape: options.legacyPhotoShape,
     },
   );
-  await page.waitForLoadState("domcontentloaded");
+  await page.reload({ waitUntil: "domcontentloaded" });
+  await expect(previewRoot(page)).toHaveAttribute("data-cv-variant", options.layout ?? "classic");
   const visiblePage = previewRoot(page).locator("[data-cv-page]").filter({ visible: true }).first();
   await visiblePage.waitFor({ state: "visible" });
   await visiblePage.locator("[data-cv-main] [data-cv-entry]").first().waitFor({ state: "visible" });
@@ -384,7 +425,7 @@ test.describe("M5.8 dossier regression", () => {
       for (const layout of LAYOUT_IDS) {
         await seedCv(page, { family, layout });
         await expect(page.locator("html")).toHaveAttribute("data-dossier-family", family);
-        await expect(page.locator("html")).toHaveAttribute("data-cv-variant", layout);
+        await expect(previewRoot(page)).toHaveAttribute("data-cv-variant", layout);
         await assertNoMainClipping(page, `${family}/${layout}`);
       }
     }
@@ -393,7 +434,7 @@ test.describe("M5.8 dossier regression", () => {
   test("all five layouts remain valid when mirrored", async ({ page }) => {
     for (const layout of LAYOUT_IDS) {
       await seedCv(page, { family: "executive", layout, mirrored: true, photo: true });
-      await expect(page.locator("html")).toHaveAttribute("data-cv-mirrored", "true");
+      await expect(previewRoot(page)).toHaveAttribute("data-cv-mirrored", "true");
       await expect(
         previewRoot(page).locator("[data-cv-page] [data-cv-photo]").first(),
       ).toBeVisible();
@@ -482,7 +523,7 @@ test.describe("M5.8 dossier regression", () => {
       localStorage.setItem("lebenslauf:layout-mirror:v1", "true");
       window.dispatchEvent(new CustomEvent("lebenslauf-layout-change"));
     });
-    await expect(page.locator("html")).toHaveAttribute("data-cv-mirrored", "true");
+    await expect(previewRoot(page)).toHaveAttribute("data-cv-mirrored", "true");
 
     const mirrored = await geometry();
     expect(mirrored.sidebarX).toBeGreaterThan(mirrored.mainX);
@@ -496,7 +537,7 @@ test.describe("M5.8 dossier regression", () => {
 
     await page.reload({ waitUntil: "domcontentloaded" });
     await root.locator('[data-cv-page="0"]').waitFor({ state: "visible" });
-    await expect(page.locator("html")).toHaveAttribute("data-cv-mirrored", "true");
+    await expect(previewRoot(page)).toHaveAttribute("data-cv-mirrored", "true");
     expect((await geometry()).sidebarX).toBeGreaterThan((await geometry()).mainX);
 
     await page.evaluate(() => {
@@ -504,7 +545,7 @@ test.describe("M5.8 dossier regression", () => {
       localStorage.setItem("lebenslauf:layout-mirror:v1", "false");
       window.dispatchEvent(new CustomEvent("lebenslauf-layout-change"));
     });
-    await expect(page.locator("html")).toHaveAttribute("data-cv-mirrored", "false");
+    await expect(previewRoot(page)).toHaveAttribute("data-cv-mirrored", "false");
     const restored = await geometry();
     expect(restored.sidebarX).toBeLessThan(restored.mainX);
     expect(restored.side).toBe("left");
@@ -514,7 +555,7 @@ test.describe("M5.8 dossier regression", () => {
     const expectedRatio = { rect: 0.75, square: 1, portrait: 1.25, circle: 1 } as const;
     for (const shape of PHOTO_SHAPES) {
       await seedCv(page, { family: "modern", layout: "classic", photo: true, photoShape: shape });
-      await expect(page.locator("html")).toHaveAttribute("data-cv-photo-shape", shape);
+      await expect(previewRoot(page)).toHaveAttribute("data-cv-photo-shape", shape);
       const photo = previewRoot(page).locator("[data-cv-page] [data-cv-photo]").first();
       await expect(photo).toBeVisible();
       const box = await photo.boundingBox();
@@ -532,7 +573,7 @@ test.describe("M5.8 dossier regression", () => {
 
   test("legacy CV photo-shape preference migrates safely", async ({ page }) => {
     await seedCv(page, { photo: true, legacyPhotoShape: "circle" });
-    await expect(page.locator("html")).toHaveAttribute("data-cv-photo-shape", "circle");
+    await expect(previewRoot(page)).toHaveAttribute("data-cv-photo-shape", "circle");
     await page.getByRole("button", { name: "Quadrat", exact: true }).click();
     const migrated = await page.evaluate(() => localStorage.getItem("lebenslauf:photo:v2"));
     expect(migrated).not.toBeNull();
@@ -571,7 +612,7 @@ test.describe("M5.8 dossier regression", () => {
     });
     await seedCv(page, { coverRaw: cover });
     expect(await page.evaluate(() => localStorage.getItem("titelblatt:v3"))).toBe(cover);
-    await expect(page.locator("html")).toHaveAttribute("data-cv-photo-shape", /.+/);
+    await expect(previewRoot(page)).toHaveAttribute("data-cv-photo-shape", /.+/);
     await page.getByRole("button", { name: "Vom Titelblatt", exact: true }).click();
     await expect
       .poll(() =>
@@ -697,7 +738,7 @@ test.describe("M5.8 dossier regression", () => {
 
     await page.getByRole("button", { name: "Download" }).click();
     const downloadPromise = page.waitForEvent("download", { timeout: 90_000 });
-    await page.getByRole("button", { name: /Nur Lebenslauf als PDF/i }).click();
+    await page.getByRole("menuitem", { name: "PDF", exact: true }).click();
     const download = await downloadPromise;
     expect(download.suggestedFilename().toLowerCase()).toMatch(/\.pdf$/);
     const path = await download.path();
@@ -835,9 +876,7 @@ test.describe("M5.8 dossier regression", () => {
     await expect(downloadToggle).toHaveAttribute("aria-expanded", "false");
     await downloadToggle.click();
     await expect(downloadToggle).toHaveAttribute("aria-expanded", "true");
-    const button = page
-      .locator("[data-editor-action-menu] button")
-      .filter({ hasText: "Nur Motivationsschreiben als PDF" });
+    const button = page.getByRole("menuitem", { name: "PDF", exact: true });
     await expect(button).toBeEnabled();
     const downloadPromise = page.waitForEvent("download", { timeout: 90_000 });
     await button.click();
@@ -849,9 +888,9 @@ test.describe("M5.8 dossier regression", () => {
     expect(path).not.toBeNull();
     expect((await stat(path ?? "")).size).toBeGreaterThan(5_000);
 
-    const pdfSource = (await readFile(path ?? "")).toString("latin1");
-    expect(pdfSource).toContain("Bewerbung um eine Lehrstelle als Informatiker/in EFZ");
-    expect(pdfSource).toContain("Guten Tag Herr Weber");
+    const pdfPages = await extractPdfPages(path ?? "");
+    expect(pdfPages).toHaveLength(1);
+    expectLetterPdfContent(pdfPages[0]);
   });
 
   test("Motivationsschreiben paginates long content and returns to one page after shortening", async ({
@@ -915,11 +954,7 @@ test.describe("M5.8 dossier regression", () => {
 
     const downloadToggle = page.getByRole("button", { name: "Download", exact: true });
     await downloadToggle.click();
-    await expect(
-      page.locator("[data-editor-action-menu] button").filter({
-        hasText: "Nur Motivationsschreiben als PDF",
-      }),
-    ).toBeEnabled();
+    await expect(page.getByRole("menuitem", { name: "PDF", exact: true })).toBeEnabled();
 
     await body.fill(
       "Ich interessiere mich sehr für die Lehrstelle und freue mich auf ein Gespräch.",
@@ -1165,6 +1200,14 @@ test.describe("M5.8 dossier regression", () => {
     await readyPdfOption.click();
     const downloadButton = dialog.getByRole("button", { name: "PDF herunterladen", exact: true });
     await expect(downloadButton).toBeEnabled({ timeout: 15_000 });
+    const expectedPdfPages =
+      1 +
+      (await page
+        .locator('[data-dossier-document="letter"] [data-letter-document-pages] [data-letter-page]')
+        .count()) +
+      (await page
+        .locator('[data-dossier-document="cv"][data-export-mode="true"] [data-cv-page]')
+        .count());
     const downloadPromise = page.waitForEvent("download", { timeout: 90_000 });
     await downloadButton.click();
     const download = await downloadPromise;
@@ -1173,28 +1216,26 @@ test.describe("M5.8 dossier regression", () => {
     expect(path).not.toBeNull();
     expect((await stat(path ?? "")).size).toBeGreaterThan(10_000);
 
-    const pdfSource = (await readFile(path ?? "")).toString("latin1");
-    expect(pdfSource).toContain("Bewerbung um eine Lehrstelle als Informatiker/in EFZ");
-    expect(pdfSource).toContain("Guten Tag Herr Weber");
+    const pdfPages = await extractPdfPages(path ?? "");
+    expect(pdfPages).toHaveLength(expectedPdfPages);
+    // The physical dossier order is cover, letter, then CV.
+    expectLetterPdfContent(pdfPages[1]);
   });
 
   test("editor action menus share order, wording and monochrome icon labels", async ({ page }) => {
     const cases = [
       {
         path: "/titelblatt",
-        ownPdf: "Nur Titelblatt als PDF",
         reset: "Titelblatt zurücksetzen",
         positionReset: true,
       },
       {
         path: "/lebenslauf",
-        ownPdf: "Nur Lebenslauf als PDF",
         reset: "Lebenslauf zurücksetzen",
         positionReset: true,
       },
       {
         path: "/anschreiben",
-        ownPdf: "Nur Motivationsschreiben als PDF",
         reset: "Motivationsschreiben zurücksetzen",
         positionReset: false,
       },
@@ -1204,25 +1245,32 @@ test.describe("M5.8 dossier regression", () => {
       await page.goto(`${BASE_URL}${item.path}`, { waitUntil: "domcontentloaded" });
       const downloadToggle = page.getByRole("button", { name: "Download", exact: true });
       await expect(downloadToggle).toHaveAttribute("data-editor-ready", "true");
-      await expect(downloadToggle).toHaveAttribute("aria-expanded", "false");
       await downloadToggle.click();
-      await expect(downloadToggle).toHaveAttribute("aria-expanded", "true");
+      const downloadMenu = page.locator("[data-editor-download-menu]");
+      await expect(downloadMenu.getByRole("menuitem")).toHaveText([
+        "PDF",
+        "DOCX",
+        "Dossier JSON",
+        "Dossier PDF",
+        "Dossier DOCX",
+      ]);
+      await page.keyboard.press("Escape");
+      const editToggle = page.getByRole("button", { name: "Menü", exact: true });
+      await editToggle.click();
+      await expect(editToggle).toHaveAttribute("aria-expanded", "true");
       let menu = page.locator("[data-editor-action-menu]");
       await expect(menu).toBeVisible();
 
       await page.getByRole("button", { name: "Beispieldaten übernehmen", exact: true }).click();
       await page.getByRole("button", { name: "Ja", exact: true }).click();
-      await expect(downloadToggle).toHaveAttribute("aria-expanded", "false");
-      await downloadToggle.click();
-      await expect(downloadToggle).toHaveAttribute("aria-expanded", "true");
+      await expect(editToggle).toHaveAttribute("aria-expanded", "false");
+      await editToggle.click();
+      await expect(editToggle).toHaveAttribute("aria-expanded", "true");
       menu = page.locator("[data-editor-action-menu]");
       await expect(menu).toBeVisible();
 
       const labels = await menu.locator("[data-editor-menu-label]").allTextContents();
       expect(labels).toEqual([
-        "Ganzes Dossier als PDF",
-        item.ownPdf,
-        "Dossier speichern",
         "Dossier laden",
         "Beispieldaten übernehmen",
         ...(item.positionReset ? ["Positionen & Grössen zurücksetzen"] : []),
@@ -1290,7 +1338,7 @@ test.describe("M5.8 dossier regression", () => {
     await expect(page.getByRole("textbox", { name: "Titel / Betreff", exact: true })).toHaveValue(
       "Aktueller Betreff",
     );
-    await downloadToggle.click();
+    await page.getByRole("button", { name: "Menü", exact: true }).click();
 
     const historyButton = page
       .locator("[data-editor-action-menu] button")

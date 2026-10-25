@@ -21,13 +21,10 @@ async function openChrome(page: Page) {
 async function waitForSavedHeaderText(page: Page, storageKey: string, expected: string) {
   await expect
     .poll(() =>
-      page.evaluate(
-        (key) => {
-          const saved = JSON.parse(localStorage.getItem(key) ?? "{}");
-          return saved.design?.chromeContent?.headerText;
-        },
-        storageKey,
-      ),
+      page.evaluate((key) => {
+        const saved = JSON.parse(localStorage.getItem(key) ?? "{}");
+        return saved.design?.chromeContent?.headerText;
+      }, storageKey),
     )
     .toBe(expected);
 }

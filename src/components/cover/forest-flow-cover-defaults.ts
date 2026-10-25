@@ -247,7 +247,8 @@ const RIBBON_COVER_DEFAULTS: Record<string, Partial<BlockStyle>> = {
     tracking: 0.02,
     lineHeight: 1.15,
     maxLines: 2,
-    follows: null,
+    follows: "name",
+    gap: 5,
     above: null,
     anchorBottom: false,
   },
@@ -262,7 +263,8 @@ const RIBBON_COVER_DEFAULTS: Record<string, Partial<BlockStyle>> = {
     tracking: -0.01,
     lineHeight: 1.05,
     maxLines: 2,
-    follows: null,
+    follows: "kicker",
+    gap: 5,
     above: null,
     anchorBottom: false,
   },
@@ -276,7 +278,8 @@ const RIBBON_COVER_DEFAULTS: Record<string, Partial<BlockStyle>> = {
     bg: null,
     padX: 0,
     padY: 0,
-    follows: null,
+    follows: "beruf",
+    gap: 8,
     above: null,
     anchorBottom: false,
   },
@@ -334,7 +337,7 @@ const RIBBON_COVER_DEFAULTS: Record<string, Partial<BlockStyle>> = {
   },
   ortDatum: {
     x: 7,
-    y: 274,
+    y: 285,
     w: 34,
     size: 8,
     color: "bg",
@@ -342,7 +345,7 @@ const RIBBON_COVER_DEFAULTS: Record<string, Partial<BlockStyle>> = {
     opacity: 0.78,
     follows: null,
     above: null,
-    anchorBottom: false,
+    anchorBottom: true,
   },
   trenner: { hidden: true },
 };
@@ -526,6 +529,17 @@ export function applyForestFlowCoverDefaults(
   for (const [key, value] of Object.entries(defaults) as Array<
     [keyof BlockStyle, BlockStyle[keyof BlockStyle]]
   >) {
+    if (
+      templateId === "ribbon" &&
+      key === "follows" &&
+      custom.y !== undefined &&
+      custom.follows === undefined
+    ) {
+      // Older drafts can hold a manual Y without an explicit follows:null.
+      // Never reinterpret that editor position as a linked default.
+      patch.follows = null;
+      continue;
+    }
     if (custom[key] === undefined) (patch as Record<string, unknown>)[key] = value;
   }
 

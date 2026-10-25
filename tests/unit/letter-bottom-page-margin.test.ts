@@ -22,9 +22,7 @@ describe("motivation-letter physical bottom margin", () => {
       footerMode: "compact" as const,
     };
 
-    expect(letterDefaultPageMargins(DEMO_LETTER, design).bottom).toBe(
-      CV_PAGE_MARGIN_BOTTOM_MM,
-    );
+    expect(letterDefaultPageMargins(DEMO_LETTER, design).bottom).toBe(CV_PAGE_MARGIN_BOTTOM_MM);
 
     const footerHeight = letterFooterHeightMm(DEMO_LETTER, "compact");
     expect(letterPageGeometry(DEMO_LETTER, design).content.bottom).toBe(

@@ -18,11 +18,7 @@ const colors = {
   accent: "#315d7d",
 };
 
-function markup(
-  scope: "cv" | "letter",
-  headerMode: "compact" | "contact" | "none",
-  pageIndex = 1,
-) {
+function markup(scope: "cv" | "letter", headerMode: "compact" | "contact" | "none", pageIndex = 1) {
   return renderToStaticMarkup(
     createElement(DossierHeaderFooterChrome, {
       scope,

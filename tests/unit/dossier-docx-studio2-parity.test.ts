@@ -115,10 +115,14 @@ describe("Studio 2 DOCX PDF parity", () => {
     expect(cover).toMatch(
       /id="studio2-cover-signal"[^>]*margin-left:124mm;[^>]*margin-top:0mm;[^>]*width:86mm;[^>]*height:96mm;z-index:251658000;/,
     );
-    expect(cover).toContain('<v:shape id="studio2-cover-signal" coordorigin="0,0" coordsize="1000,1000"');
-    expect(cover).toContain('path="m 0,0 l 1000,0 1000,1000 190,1000 c 85,1000 0,915 0,810 l 0,0 x e"');
-    expect(cover).not.toContain('studio2-cover-signal-top-square');
-    expect(cover).not.toContain('studio2-cover-signal-right-square');
+    expect(cover).toContain(
+      '<v:shape id="studio2-cover-signal" coordorigin="0,0" coordsize="1000,1000"',
+    );
+    expect(cover).toContain(
+      'path="m 0,0 l 1000,0 1000,1000 190,1000 c 85,1000 0,915 0,810 l 0,0 x e"',
+    );
+    expect(cover).not.toContain("studio2-cover-signal-top-square");
+    expect(cover).not.toContain("studio2-cover-signal-right-square");
     expect(cover).toMatch(
       /<v:oval id="docx-recipe-cover-photo-mat"[^>]*margin-left:128mm;[^>]*margin-top:54mm;[^>]*width:49mm;[^>]*height:49mm;/,
     );
@@ -158,11 +162,19 @@ describe("Studio 2 DOCX PDF parity", () => {
     );
     expect(xml).toContain('w:bottom w:val="single" w:sz="8" w:space="1" w:color="B18F6F"');
     expect(
-      (xml.match(/<w:tcBorders><w:left w:val="single" w:sz="28" w:space="0" w:color="F2C84B"\/><\/w:tcBorders>/g) ?? []).length,
+      (
+        xml.match(
+          /<w:tcBorders><w:left w:val="single" w:sz="28" w:space="0" w:color="F2C84B"\/><\/w:tcBorders>/g,
+        ) ?? []
+      ).length,
     ).toBeGreaterThanOrEqual(4);
     expect(xml).not.toContain('<w:pBdr><w:left w:val="single" w:sz="24"');
-    expect(xml).toMatch(/<w:color w:val="626974"\/><\/w:rPr><w:t xml:space="preserve">2023 – heute<\/w:t>/);
-    expect(xml).toMatch(/<w:color w:val="626974"\/><\/w:rPr><w:t xml:space="preserve">Muttersprache<\/w:t>/);
+    expect(xml).toMatch(
+      /<w:color w:val="626974"\/><\/w:rPr><w:t xml:space="preserve">2023 – heute<\/w:t>/,
+    );
+    expect(xml).toMatch(
+      /<w:color w:val="626974"\/><\/w:rPr><w:t xml:space="preserve">Muttersprache<\/w:t>/,
+    );
     expect((xml.match(/<w:sectPr>/g) ?? []).length).toBe(3);
   });
 });

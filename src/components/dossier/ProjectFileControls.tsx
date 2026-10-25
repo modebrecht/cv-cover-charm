@@ -1,8 +1,5 @@
 import { useRef, useState, type ChangeEvent } from "react";
-import {
-  dossierProjectPartLabels,
-  parseDossierProjectText,
-} from "@/lib/dossier-project-file";
+import { dossierProjectPartLabels, parseDossierProjectText } from "@/lib/dossier-project-file";
 import { replaceDossierProject } from "@/lib/dossier-project";
 
 function JsonFileIcon() {

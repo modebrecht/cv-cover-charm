@@ -1,0 +1,162 @@
+{
+  "status": "PASS automated; Microsoft Word unverified",
+  "renderer": "LibreOffice supplemental, not Microsoft Word",
+  "results": [
+    {
+      "id": "01-Modern-Eine-CV-Seite",
+      "topMm": 24,
+      "webGeometry": [
+        {
+          "scope": "CV",
+          "pageIndex": 0,
+          "topMm": 24.000010208333332,
+          "heightMm": 4,
+          "gapMm": 20.000010208333332
+        },
+        {
+          "scope": "Letter",
+          "pageIndex": 0,
+          "topMm": 24.000010208333332,
+          "heightMm": 4,
+          "gapMm": 20.000010208333332
+        }
+      ],
+      "appPdfPages": 3,
+      "supplementalDocxPages": 3,
+      "appPdfFirstInkMm": [
+        23.662616814507377,
+        23.063162125481497
+      ],
+      "nativeFirstInkMm": [
+        24.129384189181856,
+        24.177023400200735
+      ],
+      "semanticFields": 82,
+      "allParagraphTextsPreserved": true,
+      "originalImagesPreserved": true,
+      "wordAcceptance": "UNVERIFIED"
+    },
+    {
+      "id": "04-Modern-Kontakt-senkrecht",
+      "topMm": 52,
+      "webGeometry": [
+        {
+          "scope": "CV",
+          "pageIndex": 0,
+          "topMm": 51.999885416666665,
+          "heightMm": 32,
+          "gapMm": 19.999885416666665
+        },
+        {
+          "scope": "CV",
+          "pageIndex": 1,
+          "topMm": 51.999885416666665,
+          "heightMm": 32,
+          "gapMm": 19.999885416666665
+        },
+        {
+          "scope": "Letter",
+          "pageIndex": 0,
+          "topMm": 51.999885416666665,
+          "heightMm": 32,
+          "gapMm": 19.999885416666665
+        },
+        {
+          "scope": "Letter",
+          "pageIndex": 1,
+          "topMm": 51.999885416666665,
+          "heightMm": 32,
+          "gapMm": 19.999885416666665
+        }
+      ],
+      "appPdfPages": 5,
+      "supplementalDocxPages": 5,
+      "appPdfFirstInkMm": [
+        52.601924896240234,
+        51.561032358805335,
+        51.05155118306478,
+        52.17311816745334
+      ],
+      "nativeFirstInkMm": [
+        52.122313774956595,
+        52.122313774956595,
+        52.16993145412869,
+        52.122313774956595
+      ],
+      "semanticFields": 73,
+      "allParagraphTextsPreserved": true,
+      "originalImagesPreserved": true,
+      "wordAcceptance": "UNVERIFIED"
+    },
+    {
+      "id": "05-Modern-Eigene-Werte-Referenzen",
+      "topMm": 44,
+      "webGeometry": [
+        {
+          "scope": "CV",
+          "pageIndex": 0,
+          "topMm": 43.99994375,
+          "heightMm": 4,
+          "gapMm": 39.99994375
+        },
+        {
+          "scope": "Letter",
+          "pageIndex": 0,
+          "topMm": 43.99994375,
+          "heightMm": 4,
+          "gapMm": 39.99994375
+        }
+      ],
+      "appPdfPages": 3,
+      "supplementalDocxPages": 4,
+      "appPdfFirstInkMm": [
+        43.65489349365234,
+        43.05546033647325
+      ],
+      "nativeFirstInkMm": [
+        44.11425391303168,
+        44.161871592203774,
+        44.161871592203774
+      ],
+      "semanticFields": 85,
+      "allParagraphTextsPreserved": true,
+      "originalImagesPreserved": true,
+      "wordAcceptance": "UNVERIFIED"
+    },
+    {
+      "id": "09-Brief-Lang-115-Prozent",
+      "topMm": 24,
+      "webGeometry": [
+        {
+          "scope": "CV",
+          "pageIndex": 0,
+          "topMm": 24.000010208333332,
+          "heightMm": 4,
+          "gapMm": 20.000010208333332
+        },
+        {
+          "scope": "Letter",
+          "pageIndex": 0,
+          "topMm": 24.000010208333332,
+          "heightMm": 4,
+          "gapMm": 20.000010208333332
+        }
+      ],
+      "appPdfPages": 3,
+      "supplementalDocxPages": 4,
+      "appPdfFirstInkMm": [
+        23.662616814507377,
+        22.872209633721244
+      ],
+      "nativeFirstInkMm": [
+        24.129384189181856,
+        24.177023400200735,
+        24.129384189181856
+      ],
+      "semanticFields": 82,
+      "allParagraphTextsPreserved": true,
+      "originalImagesPreserved": true,
+      "wordAcceptance": "UNVERIFIED"
+    }
+  ]
+}

@@ -1,6 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import type { CvLayoutWarning } from "@/components/cv/CvCanvas";
-import { letterPageOverflows, letterReadiness } from "@/components/letter/preflight";
+import { letterReadiness } from "@/components/letter/preflight";
+import {
+  createPdfAdvisoryConsent,
+  observePdfPreflight,
+  type PdfAdvisoryConsent,
+  type PdfPreflightResult,
+} from "@/lib/pdf-preflight";
 import {
   coverPdfDocumentFromSaved,
   coverPdfHasContent,
@@ -15,6 +21,8 @@ import {
   LETTER_STORAGE_KEY,
   readStoredDossierPart,
 } from "@/lib/dossier-project";
+import { nativePrintUiEnabled } from "@/lib/native-print-visibility";
+import { savedAppDocxNextAvailability, docxDownloadErrorMessage } from "@/lib/docx-next/app-source";
 
 export type DossierExportFormat = "json" | "pdf" | "docx";
 
@@ -26,10 +34,11 @@ type Props = {
   downloading: boolean;
   jsonAvailable?: boolean;
   pdfAvailable?: boolean;
-  docxAvailable?: boolean;
-  docxTemplateLabel?: string | null;
   onClose: () => void;
-  onDownload: (format: DossierExportFormat) => void | Promise<void>;
+  onDownload: (format: DossierExportFormat, consent?: PdfAdvisoryConsent) => void | Promise<void>;
+  onNativePrint?: () => void | Promise<void>;
+  nativePrinting?: boolean;
+  nativePrintError?: string | null;
 };
 
 function joinParts(parts: string[]) {
@@ -79,19 +88,46 @@ export function DossierExportDialog({
   downloading,
   jsonAvailable,
   pdfAvailable,
-  docxAvailable,
-  docxTemplateLabel,
   onClose,
   onDownload,
+  onNativePrint,
+  nativePrinting = false,
+  nativePrintError,
 }: Props) {
   const downloadRef = useRef<HTMLButtonElement>(null);
   const [format, setFormat] = useState<DossierExportFormat>("pdf");
-  const [letterOverflow, setLetterOverflow] = useState<boolean | null>(null);
-  const [letterPaginationError, setLetterPaginationError] = useState<string | null>(null);
-  const formatSelectionEnabled =
-    jsonAvailable !== undefined || pdfAvailable !== undefined || docxAvailable !== undefined;
+  const [preflight, setPreflight] = useState<PdfPreflightResult | null>(null);
+  const [overrideError, setOverrideError] = useState<string | null>(null);
+  const [creatingDocxNext, setCreatingDocxNext] = useState(false);
+  const [docxNextError, setDocxNextError] = useState<string | null>(null);
+  const docxNext = open ? savedAppDocxNextAvailability() : { available: false, reason: "" };
+  const letterOverflow =
+    preflight?.status === "blocked"
+      ? true
+      : preflight?.status === "pending" || !preflight
+        ? null
+        : false;
+  const letterPaginationError =
+    preflight?.issues.find((issue) => issue.severity === "blocked")?.message ?? null;
+  const formatSelectionEnabled = jsonAvailable !== undefined || pdfAvailable !== undefined;
   const canDownloadPdf = pdfAvailable ?? true;
-  const canDownloadDocx = docxAvailable ?? false;
+  const canDownloadDocx = docxNext.available;
+  const busy = downloading || nativePrinting || creatingDocxNext;
+
+  const downloadDocxNext = async () => {
+    if (busy || !docxNext.available) return;
+    setCreatingDocxNext(true);
+    setDocxNextError(null);
+    try {
+      const { downloadSavedDossierDocxNext } = await import("@/lib/dossier-docx-next-export");
+      await downloadSavedDossierDocxNext();
+      onClose();
+    } catch (error) {
+      setDocxNextError(docxDownloadErrorMessage(error));
+    } finally {
+      setCreatingDocxNext(false);
+    }
+  };
 
   const cover = coverPdfDocumentFromSaved(readStoredDossierPart(COVER_STORAGE_KEY));
   const letter = letterPdfDocumentFromSaved(readStoredDossierPart(LETTER_STORAGE_KEY));
@@ -127,56 +163,23 @@ export function DossierExportDialog({
     if (!open) return;
     downloadRef.current?.focus();
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && !downloading) onClose();
+      if (event.key === "Escape" && !busy) onClose();
     };
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
-  }, [downloading, onClose, open]);
+  }, [busy, onClose, open]);
 
   useEffect(() => {
     if (!open || !canDownloadPdf) {
-      setLetterOverflow(null);
-      setLetterPaginationError(null);
+      setPreflight(null);
+      setOverrideError(null);
       return;
     }
-    let resizeObserver: ResizeObserver | null = null;
-    let innerFrame = 0;
-    const measure = () => {
-      const documentRoot = document.querySelector<HTMLElement>(
-        "[data-dossier-document='letter'] [data-letter-document-root]",
-      );
-      if (!documentRoot || documentRoot.dataset.letterPaginationReady !== "true") {
-        setLetterOverflow(null);
-        setLetterPaginationError(null);
-        return;
-      }
-
-      const paginationError = documentRoot.dataset.letterPaginationErrorMessage?.trim() || null;
-      const pages = Array.from(documentRoot.querySelectorAll<HTMLElement>("[data-letter-page]"));
-      setLetterPaginationError(paginationError);
-      if (!pages.length) {
-        setLetterOverflow(null);
-        return;
-      }
-      setLetterOverflow(!!paginationError || pages.some(letterPageOverflows));
-
-      if (!resizeObserver) resizeObserver = new ResizeObserver(measure);
-      resizeObserver.disconnect();
-      for (const page of pages) resizeObserver.observe(page);
-    };
-    const mutationObserver = new MutationObserver(measure);
-    mutationObserver.observe(document.body, { childList: true, subtree: true, attributes: true });
-    const outerFrame = requestAnimationFrame(() => {
-      innerFrame = requestAnimationFrame(measure);
-    });
-    void document.fonts?.ready.then(measure);
-    measure();
-    return () => {
-      cancelAnimationFrame(outerFrame);
-      if (innerFrame) cancelAnimationFrame(innerFrame);
-      resizeObserver?.disconnect();
-      mutationObserver.disconnect();
-    };
+    return observePdfPreflight(
+      () => document.querySelector<HTMLElement>("[data-dossier-pdf-canvas]"),
+      "dossier",
+      setPreflight,
+    );
   }, [canDownloadPdf, open]);
 
   if (!open) return null;
@@ -184,11 +187,32 @@ export function DossierExportDialog({
   const layoutPending = warnings === null || letterOverflow === null;
   const pdfBlocked =
     !canDownloadPdf ||
-    downloading ||
+    busy ||
     layoutPending ||
     !letterState.readyToSend ||
-    letterOverflow === true;
-  const docxBlocked = !canDownloadDocx || downloading || !letterState.readyToSend;
+    letterOverflow === true ||
+    preflight?.status !== "pass";
+  const canOverride =
+    canDownloadPdf &&
+    !busy &&
+    !layoutPending &&
+    letterState.readyToSend &&
+    preflight?.status === "advisory" &&
+    preflight.issues.every((issue) => issue.overridePermitted);
+  const overrideDownload = () => {
+    try {
+      const root = document.querySelector<HTMLElement>("[data-dossier-pdf-canvas]");
+      if (!root) throw new Error("Die Exportansicht wird noch vorbereitet.");
+      const consent = createPdfAdvisoryConsent(root, "dossier");
+      setOverrideError(null);
+      void onDownload("pdf", consent);
+    } catch (error) {
+      setOverrideError(
+        error instanceof Error ? error.message : "Bitte den aktuellen Drucksatz erneut prüfen.",
+      );
+    }
+  };
+  const docxBlocked = !canDownloadDocx || busy || !letterState.readyToSend;
   const letterIssueCount =
     letterHasContent && !letterState.readyToSend ? letterState.missing.length : 0;
   const docxDesignIssue =
@@ -199,7 +223,10 @@ export function DossierExportDialog({
   const pdfOverflowIssue = canDownloadPdf && letterState.readyToSend && letterOverflow === true;
   const blockingCount =
     missingParts.length + letterIssueCount + (docxDesignIssue ? 1 : 0) + (pdfOverflowIssue ? 1 : 0);
-  const advisoryCount = (warnings?.length ?? 0) + (coverChanged ? 1 : 0);
+  const advisoryCount =
+    (warnings?.length ?? 0) +
+    (coverChanged ? 1 : 0) +
+    (preflight?.issues.filter((issue) => issue.severity === "advisory").length ?? 0);
 
   const missingPartsCompact = `${missingParts.length} Dossierteil${missingParts.length === 1 ? "" : "e"} ${
     missingParts.length === 1 ? "fehlt" : "fehlen"
@@ -215,26 +242,31 @@ export function DossierExportDialog({
         ? letterPaginationError
           ? "Briefinhalt prüfen"
           : "Briefseite prüfen"
-        : layoutPending
+        : layoutPending || !preflight || preflight.status === "pending"
           ? "Layout wird geprüft…"
-          : "Bereit";
+          : preflight.status === "blocked"
+            ? "Drucksatz prüfen"
+            : preflight?.status === "advisory"
+              ? "Layoutwarnung prüfen"
+              : "Bereit";
   const docxCompactStatus = missingParts.length
     ? missingPartsCompact
     : !letterState.readyToSend
       ? missingFieldsCompact
       : !canDownloadDocx
-        ? "Design angleichen"
+        ? "Nicht verfügbar"
         : "Bereit";
   const checkSummary = blockingCount
     ? `Was fehlt noch? · ${blockingCount} Punkt${blockingCount === 1 ? "" : "e"}`
-    : layoutPending && canDownloadPdf
+    : (layoutPending || !preflight || preflight.status === "pending") && canDownloadPdf
       ? "Layout wird geprüft…"
-      : advisoryCount
-        ? `Bereit · ${advisoryCount} Hinweis${advisoryCount === 1 ? "" : "e"}`
-        : "Alles bereit";
+      : preflight?.status === "blocked"
+        ? "Drucksatz prüfen"
+        : advisoryCount
+          ? `${preflight?.status === "advisory" ? "Layoutwarnung prüfen" : "Bereit"} · ${advisoryCount} Hinweis${advisoryCount === 1 ? "" : "e"}`
+          : "Alles bereit";
 
-  const downloadBlocked =
-    format === "pdf" ? pdfBlocked : format === "docx" ? docxBlocked : downloading;
+  const downloadBlocked = format === "pdf" ? pdfBlocked : format === "docx" ? docxBlocked : busy;
   const actionLabel = !formatSelectionEnabled
     ? downloading
       ? "PDF wird erstellt…"
@@ -244,7 +276,7 @@ export function DossierExportDialog({
         ? "PDF wird erstellt…"
         : "PDF herunterladen"
       : format === "docx"
-        ? downloading
+        ? creatingDocxNext
           ? "DOCX wird erstellt…"
           : "DOCX herunterladen"
         : downloading
@@ -259,7 +291,7 @@ export function DossierExportDialog({
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/35 p-2 backdrop-blur-[1px] sm:p-4"
       onMouseDown={(event) => {
-        if (event.target === event.currentTarget && !downloading) onClose();
+        if (event.target === event.currentTarget && !busy) onClose();
       }}
     >
       <div
@@ -291,9 +323,9 @@ export function DossierExportDialog({
               role="radio"
               aria-label="Projektdatei (JSON) – Projekt speichern"
               aria-checked={format === "json"}
-              disabled={downloading}
+              disabled={busy}
               onClick={() => setFormat("json")}
-              className={optionClass(format === "json", downloading)}
+              className={optionClass(format === "json", busy)}
             >
               <span className="flex items-center gap-3">
                 <FileFormatIcon label="JSON" />
@@ -308,9 +340,9 @@ export function DossierExportDialog({
               role="radio"
               aria-label="Fertiges Dossier (PDF)"
               aria-checked={format === "pdf"}
-              disabled={!canDownloadPdf || downloading}
+              disabled={!canDownloadPdf || busy}
               onClick={() => setFormat("pdf")}
-              className={optionClass(format === "pdf", !canDownloadPdf || downloading)}
+              className={optionClass(format === "pdf", !canDownloadPdf || busy)}
             >
               <span className="flex items-center gap-3">
                 <FileFormatIcon label="PDF" />
@@ -337,9 +369,6 @@ export function DossierExportDialog({
                   <span className="block text-sm font-semibold">Bearbeitbares Dossier (DOCX)</span>
                   <span className="mt-1 block text-xs text-muted-foreground">
                     {docxCompactStatus}
-                    {docxCompactStatus === "Bereit" && docxTemplateLabel
-                      ? ` · Vorlage ${docxTemplateLabel}`
-                      : ""}
                   </span>
                 </span>
               </span>
@@ -380,9 +409,8 @@ export function DossierExportDialog({
               ) : null}
               {docxDesignIssue ? (
                 <li data-dossier-docx-design-issue>
-                  <span className="font-medium text-foreground">Word (DOCX):</span> Titelblatt,
-                  Motivationsschreiben und Lebenslauf müssen dasselbe Design verwenden. Wähle bei
-                  allen drei dieselbe Vorlage.
+                  <span className="font-medium text-foreground">Word (DOCX):</span>{" "}
+                  {docxNext.reason}
                 </li>
               ) : null}
               {!blockingCount && layoutPending && canDownloadPdf ? (
@@ -397,10 +425,22 @@ export function DossierExportDialog({
               {warnings?.map((warning) => (
                 <li key={warning.id}>Layout-Hinweis: {warning.message}</li>
               ))}
+              {preflight?.issues.map((issue) => (
+                <li key={issue.code} data-pdf-advisory>
+                  {issue.message}
+                </li>
+              ))}
               {!blockingCount && !layoutPending ? (
                 <>
                   <li>
-                    <span className="font-medium text-foreground">PDF:</span> bereit.
+                    <span className="font-medium text-foreground">PDF:</span>{" "}
+                    {preflight?.status === "pass"
+                      ? "bereit."
+                      : preflight?.status === "advisory"
+                        ? canOverride
+                          ? "Layoutwarnung vor dem Download bestätigen."
+                          : "Umbruchmessung erneut vorbereiten; diese Dossierwarnung kann nicht übergangen werden."
+                        : "Drucksatz wird geprüft oder muss korrigiert werden."}
                   </li>
                   {formatSelectionEnabled ? (
                     <li>
@@ -417,11 +457,47 @@ export function DossierExportDialog({
           </div>
         </details>
 
-        <div className="mt-4 flex items-center justify-end gap-2">
+        {nativePrintUiEnabled() && onNativePrint ? (
+          <div className="mt-3 rounded-lg border px-3 py-2">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <p id="native-print-help" className="text-xs text-muted-foreground">
+                Experiment · öffnet den Druckdialog. Dort «Als PDF speichern» wählen.
+              </p>
+              <button
+                type="button"
+                onClick={() => void onNativePrint()}
+                disabled={pdfBlocked}
+                aria-describedby="native-print-help"
+                className="rounded-md border border-input px-3 py-2 text-sm font-medium hover:bg-accent disabled:opacity-50"
+              >
+                {nativePrinting ? "Druckdialog wird vorbereitet…" : "Drucken / als PDF speichern"}
+              </button>
+            </div>
+            <p className="mt-1 text-xs text-muted-foreground">
+              A4 · Skalierung 100 % · ohne Kopf-/Fusszeilen.
+            </p>
+            {nativePrintError ? (
+              <p role="alert" className="mt-2 text-sm text-destructive">
+                {nativePrintError}
+              </p>
+            ) : null}
+          </div>
+        ) : null}
+
+        <div className="mt-4 flex flex-wrap items-center justify-end gap-2">
+          {canOverride && format === "pdf" ? (
+            <button
+              type="button"
+              onClick={overrideDownload}
+              className="rounded-md border border-input px-4 py-2 text-sm hover:bg-accent"
+            >
+              PDF trotzdem herunterladen
+            </button>
+          ) : null}
           <button
             type="button"
             onClick={onClose}
-            disabled={downloading}
+            disabled={busy}
             className="rounded-md border border-input px-4 py-2 text-sm font-medium hover:bg-accent disabled:opacity-50"
           >
             Zurück zum Bearbeiten
@@ -429,13 +505,26 @@ export function DossierExportDialog({
           <button
             ref={downloadRef}
             type="button"
-            onClick={() => void onDownload(format)}
+            onClick={() => {
+              if (format === "docx") void downloadDocxNext();
+              else void onDownload(format);
+            }}
             disabled={downloadBlocked}
             className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-60"
           >
             {actionLabel}
           </button>
         </div>
+        {docxNextError ? (
+          <p role="alert" className="mt-2 text-sm text-destructive">
+            {docxNextError}
+          </p>
+        ) : null}
+        {overrideError ? (
+          <p role="alert" className="mt-2 text-sm text-destructive">
+            {overrideError}
+          </p>
+        ) : null}
       </div>
     </div>
   );

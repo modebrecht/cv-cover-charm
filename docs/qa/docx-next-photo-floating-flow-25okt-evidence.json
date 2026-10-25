@@ -1,0 +1,250 @@
+{
+  "date": "2026-10-25",
+  "branch": "fix/docx-next-shared-integration-22okt",
+  "baseHead": "3aa3f5c54971e3aade6b2b90d216ff8401653ebf",
+  "sourceSha256": "ad5fed158088ad5506c1bb483f441212bd58be57a35b7092c2ba299a57978968",
+  "scope": "NATURAL_FLOATING_PHOTO_WITHOUT_COMPENSATING_OFFSETS",
+  "anchor": {
+    "type": "wp:anchor",
+    "horizontalReference": "column",
+    "verticalReference": "paragraph",
+    "xEmu": 0,
+    "yEmu": 0,
+    "clearanceEmu": 0,
+    "wrap": "wp:wrapTopAndBottom",
+    "layoutInCell": 1,
+    "locked": 0
+  },
+  "cases": [
+    {
+      "scope": "inline-owner",
+      "probeSha256": "856ca25a6c96e1dc0393257e3c20e913293d8e56c71a51d17e5e51c976f19c38",
+      "initialPreservationPassed": true,
+      "controlOccurrences": 145,
+      "inverseRestoresCanonicalSource": true,
+      "pageCount": 4,
+      "pages": [
+        {
+          "page": 1,
+          "pixelIdentical": true,
+          "differenceBbox": null
+        },
+        {
+          "page": 2,
+          "pixelIdentical": true,
+          "differenceBbox": null
+        },
+        {
+          "page": 3,
+          "pixelIdentical": false,
+          "differenceBbox": [
+            53,
+            350,
+            374,
+            1300
+          ]
+        },
+        {
+          "page": 4,
+          "pixelIdentical": true,
+          "differenceBbox": null
+        }
+      ],
+      "photoYShiftPt": -4.95001220703125,
+      "photoYShiftMm": -1.7462543063693576,
+      "sidebarTextLines": 19,
+      "sidebarTextUnchanged": true,
+      "sidebarTextYShiftPtRange": [
+        4.949951171875,
+        4.95001220703125
+      ],
+      "sidebarTextYShiftMmRange": [
+        1.7462327745225694,
+        1.7462543063693576
+      ],
+      "sourcePhotoImageBboxPt": [
+        22.700000762939453,
+        152.30079650878906,
+        102.05000305175781,
+        251.50079345703125
+      ],
+      "probePhotoImageBboxPt": [
+        22.700000762939453,
+        147.3507843017578,
+        102.05000305175781,
+        246.55078125
+      ],
+      "initialLayoutAcceptance": "FAIL",
+      "productCandidate": false,
+      "wordAcceptance": "UNVERIFIED"
+    },
+    {
+      "scope": "block-owner",
+      "probeSha256": "bac9db4dbbfd7d4b7531c5533b872cbfcb3a106eb3c09e9bb04ff76d8bfc07c6",
+      "initialPreservationPassed": true,
+      "controlOccurrences": 145,
+      "inverseRestoresCanonicalSource": true,
+      "pageCount": 4,
+      "pages": [
+        {
+          "page": 1,
+          "pixelIdentical": true,
+          "differenceBbox": null
+        },
+        {
+          "page": 2,
+          "pixelIdentical": true,
+          "differenceBbox": null
+        },
+        {
+          "page": 3,
+          "pixelIdentical": false,
+          "differenceBbox": [
+            53,
+            350,
+            374,
+            1300
+          ]
+        },
+        {
+          "page": 4,
+          "pixelIdentical": true,
+          "differenceBbox": null
+        }
+      ],
+      "photoYShiftPt": -4.95001220703125,
+      "photoYShiftMm": -1.7462543063693576,
+      "sidebarTextLines": 19,
+      "sidebarTextUnchanged": true,
+      "sidebarTextYShiftPtRange": [
+        4.949951171875,
+        4.95001220703125
+      ],
+      "sidebarTextYShiftMmRange": [
+        1.7462327745225694,
+        1.7462543063693576
+      ],
+      "sourcePhotoImageBboxPt": [
+        22.700000762939453,
+        152.30079650878906,
+        102.05000305175781,
+        251.50079345703125
+      ],
+      "probePhotoImageBboxPt": [
+        22.700000762939453,
+        147.3507843017578,
+        102.05000305175781,
+        246.55078125
+      ],
+      "initialLayoutAcceptance": "FAIL",
+      "productCandidate": false,
+      "wordAcceptance": "UNVERIFIED"
+    }
+  ],
+  "targetedTests": 10,
+  "targetedTestResult": "PASS",
+  "sourceWordPacketReplaced": false,
+  "productionExportChanged": false,
+  "fullSchemaValidation": false,
+  "wordUiActionsProven": false,
+  "wordAcceptance": "UNVERIFIED",
+  "writerSave": {
+    "engine": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+    "saveCyclesPerCase": 1,
+    "cases": [
+      {
+        "scope": "inline-owner",
+        "savedSha256": "3e68a1b403ee6b370ed9b7428590e1777122601df70286fef53ca3f75c7d4bee",
+        "sourceOccurrences": 145,
+        "savedOccurrences": 49,
+        "savedCanonicalTags": 39,
+        "matchingTokenRoleOccurrences": 49,
+        "photo": [
+          {
+            "originalPixelsInsideOwner": false,
+            "originalPixelsSomewhereInPackage": false,
+            "canonicalOwnerMatchStatus": "MATCHED",
+            "savedOwnedPictureCount": 0,
+            "savedPixels": null,
+            "savedContainer": null
+          }
+        ],
+        "richOwnerFailedChecks": [
+          "allFieldCountsUnchanged",
+          "otherActivePicturesUnchanged",
+          "allFieldTokensAndRolesUnchanged",
+          "canonicalFieldNestingUnchanged",
+          "onePictureInsideCanonicalOwner",
+          "supportedRichNativeOwners",
+          "frameSizeAndShapeUnchanged"
+        ],
+        "wordAcceptance": "UNVERIFIED",
+        "activeCroppedPictures": [
+          {
+            "owners": [],
+            "storyRoles": [
+              "section:3/body"
+            ],
+            "container": "drawing-shape-fill",
+            "pixels": {
+              "width": 1920,
+              "height": 2400,
+              "rgbaSha256": "5eb06e4b7b894906d2500713f23c27682875fc39bf6183691b1e088a0b947178"
+            }
+          }
+        ]
+      },
+      {
+        "scope": "block-owner",
+        "savedSha256": "648120cb6fd65949ab6d3c2655bae31454c23f25b81ce39557a2062e71cd7b92",
+        "sourceOccurrences": 145,
+        "savedOccurrences": 49,
+        "savedCanonicalTags": 39,
+        "matchingTokenRoleOccurrences": 49,
+        "photo": [
+          {
+            "originalPixelsInsideOwner": false,
+            "originalPixelsSomewhereInPackage": false,
+            "canonicalOwnerMatchStatus": "MATCHED",
+            "savedOwnedPictureCount": 1,
+            "savedPixels": {
+              "width": 1920,
+              "height": 2400,
+              "rgbaSha256": "5eb06e4b7b894906d2500713f23c27682875fc39bf6183691b1e088a0b947178"
+            },
+            "savedContainer": "drawing-shape-fill"
+          }
+        ],
+        "richOwnerFailedChecks": [
+          "allFieldCountsUnchanged",
+          "otherActivePicturesUnchanged",
+          "allFieldTokensAndRolesUnchanged",
+          "canonicalFieldNestingUnchanged",
+          "supportedRichNativeOwners",
+          "frameSizeAndShapeUnchanged",
+          "activeEmbeddedPictureResolved",
+          "originalBytesAndPixelsInsideOwner",
+          "numericCropAndFillUnchanged"
+        ],
+        "wordAcceptance": "UNVERIFIED",
+        "activeCroppedPictures": [
+          {
+            "owners": [
+              "cv.person.photo"
+            ],
+            "storyRoles": [
+              "section:3/body"
+            ],
+            "container": "drawing-shape-fill",
+            "pixels": {
+              "width": 1920,
+              "height": 2400,
+              "rgbaSha256": "5eb06e4b7b894906d2500713f23c27682875fc39bf6183691b1e088a0b947178"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "existingReviewPacketSha256Unchanged": "430f88185d3091270d8cc7f40bade4fa295abc000cbdb22a6575b7c6e510f509"
+}

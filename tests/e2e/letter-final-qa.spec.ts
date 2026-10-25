@@ -11,13 +11,7 @@ const ARTIFACT_DIR = "artifacts/letter-final-qa";
 // Derive the letter QA catalog from the same side-effect-free Fresh registry as
 // the product. Frame is retired outright; Diagonal is the standalone geometric
 // successor and deliberately lives outside the historical Fresh registry.
-const RETIRED_TEMPLATE_IDS = new Set([
-  "edelBlockig",
-  "sonnig",
-  "warm4",
-  "warm5",
-  "frame",
-]);
+const RETIRED_TEMPLATE_IDS = new Set(["edelBlockig", "sonnig", "warm4", "warm5", "frame"]);
 const FRESH_TEMPLATE_IDS = FRESH_TEMPLATE_REGISTRY.filter(
   (template) => !RETIRED_TEMPLATE_IDS.has(template.id),
 ).map((template) => template.id);
@@ -474,11 +468,7 @@ test.describe("M5 final letter QA", () => {
     await expect(page.getByRole("alert")).toHaveCount(0);
     const download = page.getByRole("button", { name: "Download", exact: true });
     await download.click();
-    await expect(
-      page
-        .locator("[data-editor-action-menu] button")
-        .filter({ hasText: "Nur Motivationsschreiben als PDF" }),
-    ).toBeEnabled();
+    await expect(page.getByRole("menuitem", { name: "PDF", exact: true })).toBeEnabled();
   });
 
   test("multi-page-sized content paginates without clipping and remains exportable", async ({
@@ -510,10 +500,6 @@ test.describe("M5 final letter QA", () => {
 
     const download = page.getByRole("button", { name: "Download", exact: true });
     await download.click();
-    await expect(
-      page.locator("[data-editor-action-menu] button").filter({
-        hasText: "Nur Motivationsschreiben als PDF",
-      }),
-    ).toBeEnabled();
+    await expect(page.getByRole("menuitem", { name: "PDF", exact: true })).toBeEnabled();
   });
 });

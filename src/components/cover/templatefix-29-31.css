@@ -15,8 +15,7 @@
 /* 29 WARM 2 — coral + apricot only; calm cream paper                         */
 /* ========================================================================== */
 /* Cover: one warm hero with an integrated apricot corner. */
-html[data-dossier-template="warm2"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="warm2"]
   > div:first-child
   > div:first-child {
   left: 0 !important;
@@ -31,8 +30,7 @@ html[data-dossier-template="warm2"]
   overflow: hidden !important;
 }
 
-html[data-dossier-template="warm2"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="warm2"]
   > div:first-child
   > div:first-child
   > div:first-child {
@@ -47,8 +45,7 @@ html[data-dossier-template="warm2"]
   filter: none !important;
 }
 
-html[data-dossier-template="warm2"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="warm2"]
   > div:first-child
   > div:first-child
   > div:nth-child(2) {
@@ -77,8 +74,7 @@ html[data-dossier-template="warm2"]
 }
 
 /* CV: same two-tone cap, otherwise clean paper. */
-html[data-dossier-template="warm2"]
-  [data-dossier-document="cv"]
+div[data-cv-template="warm2"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child {
@@ -95,8 +91,7 @@ html[data-dossier-template="warm2"]
   overflow: hidden !important;
 }
 
-html[data-dossier-template="warm2"]
-  [data-dossier-document="cv"]
+div[data-cv-template="warm2"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child
@@ -112,8 +107,7 @@ html[data-dossier-template="warm2"]
   filter: none !important;
 }
 
-html[data-dossier-template="warm2"]
-  [data-dossier-document="cv"]
+div[data-cv-template="warm2"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child
@@ -121,7 +115,7 @@ html[data-dossier-template="warm2"]
   display: none !important;
 }
 
-html[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="warm2"][data-dossier-document="cv"] [data-cv-surface] {
   left: 0 !important;
   right: 0 !important;
   top: 9mm !important;
@@ -133,8 +127,7 @@ html[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-surfac
 /* ========================================================================== */
 /* 30 WARM 3 — deep teal + amber only; no terracotta/pink field               */
 /* ========================================================================== */
-html[data-dossier-template="warm3"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="warm3"]
   > div:first-child
   > div:first-child {
   left: 0 !important;
@@ -149,8 +142,7 @@ html[data-dossier-template="warm3"]
   overflow: hidden !important;
 }
 
-html[data-dossier-template="warm3"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="warm3"]
   > div:first-child
   > div:first-child
   > div:first-child {
@@ -165,8 +157,7 @@ html[data-dossier-template="warm3"]
   filter: none !important;
 }
 
-html[data-dossier-template="warm3"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="warm3"]
   > div:first-child
   > div:first-child
   > div:nth-child(2) {
@@ -193,8 +184,7 @@ html[data-dossier-template="warm3"]
   opacity: 1 !important;
 }
 
-html[data-dossier-template="warm3"]
-  [data-dossier-document="cv"]
+div[data-cv-template="warm3"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child {
@@ -211,8 +201,7 @@ html[data-dossier-template="warm3"]
   overflow: hidden !important;
 }
 
-html[data-dossier-template="warm3"]
-  [data-dossier-document="cv"]
+div[data-cv-template="warm3"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child
@@ -228,8 +217,7 @@ html[data-dossier-template="warm3"]
   filter: none !important;
 }
 
-html[data-dossier-template="warm3"]
-  [data-dossier-document="cv"]
+div[data-cv-template="warm3"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child
@@ -237,7 +225,7 @@ html[data-dossier-template="warm3"]
   display: none !important;
 }
 
-html[data-dossier-template="warm3"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="warm3"][data-dossier-document="cv"] [data-cv-surface] {
   left: 0 !important;
   right: 0 !important;
   top: 10mm !important;
@@ -250,8 +238,7 @@ html[data-dossier-template="warm3"] [data-dossier-document="cv"] [data-cv-surfac
 /* 31 LEDGER — navy / sand editorial, but no content trapped in a tiny index  */
 /* ========================================================================== */
 /* Cover keeps the ledger concept, with a slimmer, quieter index field. */
-html[data-dossier-template="ledger"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="ledger"]
   > div:first-child
   > div:first-child {
   left: 0 !important;
@@ -265,8 +252,7 @@ html[data-dossier-template="ledger"]
   overflow: visible !important;
 }
 
-html[data-dossier-template="ledger"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="ledger"]
   > div:first-child
   > div:first-child
   > div:first-child {
@@ -281,8 +267,7 @@ html[data-dossier-template="ledger"]
   filter: none !important;
 }
 
-html[data-dossier-template="ledger"]
-  [data-dossier-document="cover"]
+div[data-dossier-document="cover"][data-dossier-template="ledger"]
   > div:first-child
   > div:first-child
   > div:nth-child(2) {
@@ -311,8 +296,7 @@ html[data-dossier-template="ledger"]
 }
 
 /* CV: full-width reading sheet. The index becomes only a small top cap. */
-html[data-dossier-template="ledger"]
-  [data-dossier-document="cv"]
+div[data-cv-template="ledger"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child {
@@ -328,8 +312,7 @@ html[data-dossier-template="ledger"]
   overflow: hidden !important;
 }
 
-html[data-dossier-template="ledger"]
-  [data-dossier-document="cv"]
+div[data-cv-template="ledger"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child
@@ -345,8 +328,7 @@ html[data-dossier-template="ledger"]
   filter: none !important;
 }
 
-html[data-dossier-template="ledger"]
-  [data-dossier-document="cv"]
+div[data-cv-template="ledger"][data-dossier-document="cv"]
   [data-cv-background="motif"]
   > div
   > div:first-child
@@ -354,7 +336,7 @@ html[data-dossier-template="ledger"]
   display: none !important;
 }
 
-html[data-dossier-template="ledger"] [data-dossier-document="cv"] [data-cv-surface] {
+div[data-cv-template="ledger"][data-dossier-document="cv"] [data-cv-surface] {
   left: 0 !important;
   right: 0 !important;
   top: 10mm !important;
@@ -366,42 +348,25 @@ html[data-dossier-template="ledger"] [data-dossier-document="cv"] [data-cv-surfa
 
 /* All three use the standard one-column geometry by default. A manually chosen
  * Sidebar remains a user choice and is not globally disabled. */
-html[data-dossier-template="warm2"]
-  [data-dossier-document="cv"][data-cv-layout="classic"]
-  [data-cv-main],
-html[data-dossier-template="warm2"]
-  [data-dossier-document="cv"][data-cv-layout="classic"]
-  [data-cv-measure-page]
-  [data-cv-main],
-html[data-dossier-template="warm3"]
-  [data-dossier-document="cv"][data-cv-layout="classic"]
-  [data-cv-main],
-html[data-dossier-template="warm3"]
-  [data-dossier-document="cv"][data-cv-layout="classic"]
-  [data-cv-measure-page]
-  [data-cv-main],
-html[data-dossier-template="ledger"]
-  [data-dossier-document="cv"][data-cv-layout="classic"]
-  [data-cv-main],
-html[data-dossier-template="ledger"]
-  [data-dossier-document="cv"][data-cv-layout="classic"]
-  [data-cv-measure-page]
+div[data-cv-template="warm2"][data-dossier-document="cv"][data-cv-layout="classic"] [data-cv-main],
+div[data-cv-template="warm3"][data-dossier-document="cv"][data-cv-layout="classic"] [data-cv-main],
+div[data-cv-template="ledger"][data-dossier-document="cv"][data-cv-layout="classic"]
   [data-cv-main] {
   left: 20mm !important;
   right: 20mm !important;
 }
 
-html[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-accent="header"],
-html[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-accent="section"],
-html[data-dossier-template="warm3"] [data-dossier-document="cv"] [data-cv-accent="header"],
-html[data-dossier-template="warm3"] [data-dossier-document="cv"] [data-cv-accent="section"],
-html[data-dossier-template="ledger"] [data-dossier-document="cv"] [data-cv-accent="header"],
-html[data-dossier-template="ledger"] [data-dossier-document="cv"] [data-cv-accent="section"] {
+div[data-cv-template="warm2"][data-dossier-document="cv"] [data-cv-accent="header"],
+div[data-cv-template="warm2"][data-dossier-document="cv"] [data-cv-accent="section"],
+div[data-cv-template="warm3"][data-dossier-document="cv"] [data-cv-accent="header"],
+div[data-cv-template="warm3"][data-dossier-document="cv"] [data-cv-accent="section"],
+div[data-cv-template="ledger"][data-dossier-document="cv"] [data-cv-accent="header"],
+div[data-cv-template="ledger"][data-dossier-document="cv"] [data-cv-accent="section"] {
   display: none !important;
 }
 
-html[data-dossier-template="warm2"] [data-dossier-document="cv"] [data-cv-sidebar-tint],
-html[data-dossier-template="warm3"] [data-dossier-document="cv"] [data-cv-sidebar-tint],
-html[data-dossier-template="ledger"] [data-dossier-document="cv"] [data-cv-sidebar-tint] {
+div[data-cv-template="warm2"][data-dossier-document="cv"] [data-cv-sidebar-tint],
+div[data-cv-template="warm3"][data-dossier-document="cv"] [data-cv-sidebar-tint],
+div[data-cv-template="ledger"][data-dossier-document="cv"] [data-cv-sidebar-tint] {
   opacity: 0.045 !important;
 }

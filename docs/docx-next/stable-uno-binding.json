@@ -1,0 +1,13 @@
+{
+  "source": "Ubuntu noble snapshot 20260828T000000Z, noble-backports",
+  "package": "python3-uno",
+  "version": "4:25.8.7-0ubuntu0.25.10.1~bpo24.04.1",
+  "architecture": "amd64",
+  "url": "https://snapshot.ubuntu.com/ubuntu/20260828T000000Z/pool/main/libr/libreoffice/python3-uno_25.8.7-0ubuntu0.25.10.1~bpo24.04.1_amd64.deb",
+  "size": 147944,
+  "sha256": "77dd1d628d2d0b9a37477167e0f205378d86a549bca19cb2349afa29bd5b0331",
+  "nativeFiles": {
+    "pyuno.so": "ccc7a97969c2f4a68c42780186237b2837161b767ff5edff0cf18c2416a3979e",
+    "libpyuno.so": "27fa3a583c03492d79383f6a099c49af3f34f11d84b23f5b920a765c330e2562"
+  }
+}

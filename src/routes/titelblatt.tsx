@@ -16,22 +16,16 @@ import { useTemplateQaTemplateSwitch } from "@/lib/template-qa-switch";
 import { ColorChooser } from "@/components/cover/ColorChooser";
 import { ScaledPreview } from "@/components/cover/ScaledPreview";
 import { ThemeToggle } from "@/components/cover/ThemeToggle";
-import {
-  FileDown,
-  Files,
-  FolderOpen,
-  History,
-  MoveDiagonal2,
-  RotateCcw,
-  Save,
-  Sparkles,
-} from "lucide-react";
+import { FolderOpen, History, MoveDiagonal2, RotateCcw, Menu, Sparkles } from "lucide-react";
+import { EditorDownloadMenu } from "@/components/dossier/EditorDownloadMenu";
 import { EditorMenuLabel } from "@/components/dossier/EditorMenuLabel";
 import { ElementBar } from "@/components/cover/ElementBar";
 import { AddElementMenu } from "@/components/cover/AddElementMenu";
 import type { CvLayoutWarning } from "@/components/cv/CvCanvas";
 import { DossierExportDialog } from "@/components/dossier/DossierExportDialog";
 import { DossierPdfCanvas } from "@/components/dossier/DossierPdfCanvas";
+import { DossierNativePrintRoot } from "@/components/dossier/DossierNativePrintRoot";
+import { useDossierNativePrint } from "@/components/dossier/useDossierNativePrint";
 import { ResizableEditorPanel } from "@/components/dossier/ResizableEditorPanel";
 import {
   coverPdfHasContent,
@@ -57,6 +51,7 @@ import {
 } from "@/components/cover/layouts";
 import { downloadBlob, safeFileName } from "@/lib/download";
 import { downloadCombinedDossierPdf } from "@/lib/dossier-pdf";
+import type { PdfAdvisoryConsent } from "@/lib/pdf-preflight";
 import { normalizeCssZoomForHtml2Canvas } from "@/lib/html2canvas-export";
 import {
   COVER_STORAGE_KEY,
@@ -297,6 +292,7 @@ function Titelblatt() {
   const [selected, setSelected] = useState<string | null>(null);
   const [downloading, setDownloading] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [downloadMenuOpen, setDownloadMenuOpen] = useState(false);
   const [panelOpen, setPanelOpen] = useState(true);
   const [drawing, setDrawing] = useState(false);
   /** Zweiter Klick bestätigt das Leeren – das Formular ist sonst weg. */
@@ -340,7 +336,10 @@ function Titelblatt() {
   const menuRef = useRef<HTMLDivElement>(null);
   const exportRef = useRef<HTMLDivElement>(null);
   const dossierExportRef = useRef<HTMLDivElement>(null);
-  const restored = useRef(false);
+  const nativePrint = useDossierNativePrint(dossierExportRef);
+  // State gates autosave until the loaded payload has committed. A mutable ref
+  // becomes visible to the initial empty render's effects too early.
+  const [restored, setRestored] = useState(false);
 
   const activeTemplate = useMemo(() => TEMPLATES.find((t) => t.id === template)!, [template]);
   const colors = colorsByTemplate[template];
@@ -646,7 +645,7 @@ function Titelblatt() {
 
   // Entwurf laden (nach der Hydration, damit Server und Client übereinstimmen).
   useEffect(() => {
-    restored.current = true;
+    setRestored(true);
     setHistory(readHistory(HISTORY_KEYS.cover));
     if (!loadFromStorage()) setData(prefill);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -674,14 +673,14 @@ function Titelblatt() {
    * Zustand würde die frischere Arbeit sonst überschreiben.
    */
   useEffect(() => {
-    if (!visible || !restored.current) return;
+    if (!visible || !restored) return;
     if (changedElsewhere()) {
       loadFromStorage();
       setHistory(readHistory(HISTORY_KEYS.cover));
       setStatus({ kind: "ok", text: "Neuerer Stand aus einem anderen Fenster geladen" });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visible]);
+  }, [visible, restored]);
 
   /** Der laufende Entwurf, so wie er gespeichert bzw. exportiert wird. */
   const snapshotPayload = useCallback(
@@ -729,7 +728,7 @@ function Titelblatt() {
 
   // Entwurf sichern
   useEffect(() => {
-    if (!restored.current) return;
+    if (!restored) return;
     // Im Hintergrund nicht speichern – sonst überschreibt ein schlafender Tab
     // die Arbeit des aktiven Fensters.
     if (!visible) return;
@@ -749,7 +748,7 @@ function Titelblatt() {
       keepSnapshot("Automatisch");
     }, 400);
     return () => clearTimeout(id);
-  }, [snapshotPayload, keepSnapshot, visible, markWritten]);
+  }, [snapshotPayload, keepSnapshot, visible, markWritten, restored]);
 
   /*
    * Beide Knöpfe setzen auch das Layout zurück. Sonst wirkt ein frisch
@@ -890,22 +889,30 @@ function Titelblatt() {
     }
   };
 
-  const downloadDossierPdf = async () => {
+  const downloadDossierPdf = async (_format?: unknown, consent?: PdfAdvisoryConsent) => {
     if (!dossierExportRef.current || !canDownloadDossierPdf || downloading) return;
     setMenuOpen(false);
     setSelected(null);
     setDownloading(true);
     const name = [data.vorname, data.nachname].filter(Boolean).join(" ");
     try {
-      await downloadCombinedDossierPdf(dossierExportRef.current, `${dossierFileBase()}.pdf`, {
-        title: name ? `Bewerbungsdossier – ${name}` : "Bewerbungsdossier",
-        author: name,
-      });
+      await downloadCombinedDossierPdf(
+        dossierExportRef.current,
+        `${dossierFileBase()}.pdf`,
+        {
+          title: name ? `Bewerbungsdossier – ${name}` : "Bewerbungsdossier",
+          author: name,
+        },
+        consent,
+      );
       setStatus({ kind: "ok", text: "Ganzes Dossier als PDF heruntergeladen" });
       setDossierReviewOpen(false);
     } catch (error) {
       console.error(error);
-      setStatus({ kind: "error", text: "Dossier-PDF konnte nicht erstellt werden." });
+      setStatus({
+        kind: "error",
+        text: error instanceof Error ? error.message : "Dossier-PDF konnte nicht erstellt werden.",
+      });
       setDossierReviewOpen(false);
     } finally {
       setDownloading(false);
@@ -1083,75 +1090,43 @@ function Titelblatt() {
                 ))}
               </select>
             </label>
+            <EditorDownloadMenu
+              part="cover"
+              ready={saveState !== "idle"}
+              open={downloadMenuOpen}
+              onOpenChange={(open) => {
+                setDownloadMenuOpen(open);
+                if (open) setMenuOpen(false);
+              }}
+              busy={downloading || nativePrint.printing}
+              onPdf={downloadPdf}
+              onJson={downloadDossier}
+              onDossierPdf={() => {
+                setDossierWarnings(null);
+                setDossierReviewOpen(true);
+              }}
+              dossierPdfDisabled={!canDownloadDossierPdf}
+              dossierPdfHint={dossierPdfHint}
+            />
             <div className="relative" ref={menuRef}>
               <button
                 type="button"
-                onClick={() => setMenuOpen((v) => !v)}
-                disabled={downloading}
+                onClick={() => {
+                  setDownloadMenuOpen(false);
+                  setMenuOpen((v) => !v);
+                }}
                 aria-expanded={menuOpen}
-                data-editor-ready={saveState === "idle" ? "false" : "true"}
-                className="inline-flex items-center gap-2 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-60 sm:px-4"
+                aria-label="Menü"
+                title="Menü"
+                className="inline-flex shrink-0 items-center rounded-md border border-input bg-background px-2.5 py-2 hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
-                {downloading ? "PDF…" : "Download"}
-                <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
-                  <path
-                    d="M3 4.5l3 3 3-3"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                <Menu className="h-5 w-5" aria-hidden="true" />
               </button>
               {menuOpen && (
                 <div
                   data-editor-action-menu
                   className="absolute right-0 mt-2 w-72 overflow-hidden rounded-md border bg-popover shadow-lg"
                 >
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMenuOpen(false);
-                      setDossierWarnings(null);
-                      setDossierReviewOpen(true);
-                    }}
-                    disabled={!canDownloadDossierPdf}
-                    title={
-                      canDownloadDossierPdf
-                        ? "Titelblatt, Motivationsschreiben und alle CV-Seiten gemeinsam herunterladen"
-                        : dossierPdfHint
-                    }
-                    className="flex w-full items-center justify-between px-3 py-2 text-left text-sm font-medium hover:bg-accent disabled:cursor-not-allowed disabled:opacity-45"
-                  >
-                    <EditorMenuLabel icon={Files}>Ganzes Dossier als PDF</EditorMenuLabel>
-                    <span className="text-xs text-muted-foreground">
-                      Titelblatt + Motivationsschreiben + CV
-                    </span>
-                  </button>
-                  {!canDownloadDossierPdf ? (
-                    <p className="border-t bg-muted/30 px-3 py-2 text-[11px] leading-relaxed text-muted-foreground">
-                      {dossierPdfHint}
-                    </p>
-                  ) : null}
-                  <button
-                    type="button"
-                    onClick={downloadPdf}
-                    className="flex w-full items-center justify-between border-t px-3 py-2 text-left text-sm hover:bg-accent"
-                  >
-                    <EditorMenuLabel icon={FileDown}>Nur Titelblatt als PDF</EditorMenuLabel>
-                    <span className="text-xs text-muted-foreground">.pdf</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={downloadDossier}
-                    className="flex w-full items-center justify-between px-3 py-2 text-left text-sm hover:bg-accent"
-                  >
-                    <EditorMenuLabel icon={Save}>Dossier speichern</EditorMenuLabel>
-                    <span className="text-xs text-muted-foreground">
-                      Titelblatt + Motivationsschreiben + CV
-                    </span>
-                  </button>
                   <label className="flex cursor-pointer items-center justify-between border-t px-3 py-2 text-left text-sm hover:bg-accent">
                     <EditorMenuLabel icon={FolderOpen}>Dossier laden</EditorMenuLabel>
                     <span className="text-xs text-muted-foreground">.json</span>
@@ -1725,6 +1700,9 @@ function Titelblatt() {
         warnings={dossierWarnings}
         coverChanged={titleCoverChanged}
         downloading={downloading}
+        onNativePrint={nativePrint.print}
+        nativePrinting={nativePrint.printing}
+        nativePrintError={nativePrint.error}
         onClose={closeDossierReview}
         onDownload={downloadDossierPdf}
       />
@@ -1736,16 +1714,7 @@ function Titelblatt() {
         scope and can move the live cover photo immediately before rasterizing.
       */}
       {canDownloadDossierPdf && dossierReviewOpen ? (
-        <div
-          aria-hidden
-          style={{
-            position: "fixed",
-            left: "-20000px",
-            top: 0,
-            pointerEvents: "none",
-            zIndex: -1,
-          }}
-        >
+        <DossierNativePrintRoot>
           <DossierPdfCanvas
             ref={dossierExportRef}
             cover={currentCoverDocument}
@@ -1754,7 +1723,7 @@ function Titelblatt() {
             onCvLayoutWarnings={receiveDossierWarnings}
             onCvPageCount={setDossierCvPageCount}
           />
-        </div>
+        </DossierNativePrintRoot>
       ) : null}
     </div>
   );

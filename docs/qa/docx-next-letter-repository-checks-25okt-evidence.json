@@ -1,0 +1,237 @@
+{
+  "date": "2026-10-25",
+  "branch": "fix/docx-next-shared-integration-22okt",
+  "startingHead": "9eb1494017bf8f0f9e01dcd2e6235fac14f8dd3f",
+  "baselineHead": "b03be5da3adb6a340f8477dbf90b2583c104fe56",
+  "runtime": {
+    "bun": "1.3.13",
+    "bunBuild": "bf2e2cec",
+    "node": "24.22.1",
+    "typescript": "5.9.3",
+    "prettier": "3.8.3",
+    "eslint": "9.39.4",
+    "dependencyInstall": "bun install --frozen-lockfile --ignore-scripts",
+    "installedPackages": 463
+  },
+  "inputs": {
+    "verifiedRepositoryTextInputs": 918,
+    "sourceFiles": 429,
+    "unitFiles": 275,
+    "packageJsonGitBlob": "e35f6e874d584c4f0d65de72fa06032da7c78f84",
+    "bunLockGitBlob": "35761b70a19e26e4706a94e6da5cb0cae3db6e64",
+    "postCheckHashMismatches": [],
+    "initialIncompleteLocalCopiesExcluded": [
+      "src/components/cv/CvForm.tsx",
+      "src/components/ui/sidebar.tsx",
+      "src/routes/titelblatt.tsx"
+    ],
+    "missingFixtureRestored": "docs/qa/docx-next-modern-defaults-footer-18okt/project.json"
+  },
+  "checks": {
+    "fullTypecheck": {
+      "command": "bun run typecheck",
+      "exitCode": 0
+    },
+    "fullUnit": {
+      "command": "bun run test:unit",
+      "exitCode": 1,
+      "passed": 1403,
+      "failed": 4,
+      "total": 1407,
+      "files": 275,
+      "expectCalls": 26770,
+      "unhandledErrors": 0
+    },
+    "letterRecipientTests": {
+      "partOfFullUnit": true,
+      "sourceFlow": 14,
+      "rowMinimum": 5,
+      "passed": 19,
+      "failed": 0,
+      "noNodeTestAdapter": true
+    },
+    "activeFormatting": {
+      "files": 8,
+      "exitCode": 0
+    },
+    "activeLint": {
+      "files": 8,
+      "exitCode": 0
+    },
+    "fullFormatting": {
+      "command": "bun run format:check",
+      "exitCode": 1,
+      "remainingFiles": 171,
+      "remainingFilesOutsideFormattedScope": true
+    },
+    "compiledJavaScript": {
+      "allEightUnchangedAfterCanonicalFormatting": true
+    },
+    "isolatedPredecessorCheck": {
+      "passed": 10,
+      "failed": 4,
+      "files": 3,
+      "restoredProductFiles": [
+        "src/lib/docx-next/build-model.ts",
+        "src/lib/docx-next/model.ts",
+        "src/lib/docx-next/renderer.ts",
+        "src/lib/docx-next/validation.ts"
+      ],
+      "sameFailureCasesAsCurrent": true,
+      "fullBaselineSuiteRun": false
+    }
+  },
+  "existingFailures": [
+    {
+      "file": "tests/unit/cv-photo-frame.test.ts",
+      "test": "fresh CV photo placement is freely adjustable while legacy auto stays valid",
+      "finding": "Source-string assertion still expects the old forced-free setter removed by the automatic-photo preservation fix.",
+      "status": "UNCHANGED_PREDECESSOR_FAILURE"
+    },
+    {
+      "file": "tests/unit/docx-next-composite-paint.test.ts",
+      "test": "keeps authored layer order, page clipping and first/continuation scopes",
+      "finding": "Composite page paint has paintLayer zero while validateDecoration requires a positive value.",
+      "status": "UNCHANGED_PREDECESSOR_FAILURE"
+    },
+    {
+      "file": "tests/unit/docx-next-final-graphics.test.ts",
+      "test": "neon: all shared stress models validate and survive portable restoration",
+      "finding": "Same composite paintLayer zero validation mismatch.",
+      "status": "UNCHANGED_PREDECESSOR_FAILURE"
+    },
+    {
+      "file": "tests/unit/docx-next-final-graphics.test.ts",
+      "test": "verlauf: all shared stress models validate and survive portable restoration",
+      "finding": "Same composite paintLayer zero validation mismatch.",
+      "status": "UNCHANGED_PREDECESSOR_FAILURE"
+    }
+  ],
+  "formattedFiles": [
+    {
+      "path": "scripts/docx-next-letter-source-flow-probe.ts",
+      "changed": true,
+      "beforeGitBlob": "d132330b7702d8553b902b12570e3653cbee4186",
+      "afterGitBlob": "1dfb0330845c481ca56f3fcef3bb1a3d6cc547ec",
+      "normalizedCompiledJsSha256": "3144532ba1997087c6a1694e17306bf9e84bcc9d89f532036de6ce86216db597",
+      "compiledJavaScriptUnchanged": true,
+      "characters": 10305,
+      "bytes": 10307
+    },
+    {
+      "path": "src/lib/docx-next/build-model.ts",
+      "changed": true,
+      "beforeGitBlob": "bfee5638a7d0eb4bc45f49fb68ebc64da1dc9c21",
+      "afterGitBlob": "5653789bfec1b484e8d421c7618500573446ca2c",
+      "normalizedCompiledJsSha256": "a611533a0d3cdf298d1621e254c72ad14f0f74877f6e48b191a83c03e248d6a6",
+      "compiledJavaScriptUnchanged": true,
+      "characters": 73294,
+      "bytes": 73313
+    },
+    {
+      "path": "src/lib/docx-next/letter-source-flow.ts",
+      "changed": true,
+      "beforeGitBlob": "f7b5b1cff7b7c98f8711140903a80e39f945c878",
+      "afterGitBlob": "62cd0cb3385d2d908bb9c82cbde9e1263a7e56b9",
+      "normalizedCompiledJsSha256": "99bf9a1b1e4bd38d5ea6dd27e81a2ee5de6a42b0a22ffcc1b038974bdc349823",
+      "compiledJavaScriptUnchanged": true,
+      "characters": 6727,
+      "bytes": 6728
+    },
+    {
+      "path": "src/lib/docx-next/model.ts",
+      "changed": true,
+      "beforeGitBlob": "4163996bc039154865289e9001797daebfa3fbb7",
+      "afterGitBlob": "a2cde0eaf6b5f97c0d2b41ad50f6872a6fc37b0b",
+      "normalizedCompiledJsSha256": "4cae3bf2598756f3af769f112b20e7e47f47e938456697d5717567ac31902bff",
+      "compiledJavaScriptUnchanged": true,
+      "characters": 14335,
+      "bytes": 14335
+    },
+    {
+      "path": "src/lib/docx-next/renderer.ts",
+      "changed": true,
+      "beforeGitBlob": "acd1b14811065c24a2699726eb82b225bcb2b590",
+      "afterGitBlob": "504ffaeabc0502b0d78434d9b8b789826e3e52c1",
+      "normalizedCompiledJsSha256": "ac4b2904d84fbe601f43602374e49cbb90a0367058872f035400f52859d1dc73",
+      "compiledJavaScriptUnchanged": true,
+      "characters": 38511,
+      "bytes": 38512
+    },
+    {
+      "path": "src/lib/docx-next/validation.ts",
+      "changed": true,
+      "beforeGitBlob": "ba08a1e14bd4d70872c9428d7846773b1cdae1f5",
+      "afterGitBlob": "533e1aa591f9da5d79a3ea4ff61e7a02a4f6bf39",
+      "normalizedCompiledJsSha256": "f6ca148eea624c8909e7afd5074a442b06a4d71562ce67021d9a5f9693ff6e01",
+      "compiledJavaScriptUnchanged": true,
+      "characters": 27008,
+      "bytes": 27008
+    },
+    {
+      "path": "tests/unit/docx-next-letter-source-flow.test.ts",
+      "changed": true,
+      "beforeGitBlob": "74e867db95ba48ee42111862fd96b42c24135838",
+      "afterGitBlob": "add8eaeef840d494a4aa283543f2075c7159664f",
+      "normalizedCompiledJsSha256": "895b3092150f4c848bc3f5a0a32dd170932bcb0ad6ed5dc2b9ca512ecde1a13e",
+      "compiledJavaScriptUnchanged": true,
+      "characters": 11043,
+      "bytes": 11043
+    },
+    {
+      "path": "tests/unit/docx-next-table-minimum-height.test.ts",
+      "changed": true,
+      "beforeGitBlob": "03972ccbedad494dd4663fbabfba877810fa0203",
+      "afterGitBlob": "bc54d428dd488de4a81d5f38d9af12a76420cc30",
+      "normalizedCompiledJsSha256": "72abc51bf52238e547d34a72ffcfc3c1644f3dad9875af564b8ee166ab36cad6",
+      "compiledJavaScriptUnchanged": true,
+      "characters": 4680,
+      "bytes": 4680
+    }
+  ],
+  "logs": {
+    "unit-final": {
+      "sha256": "0a01940f2b40026c16730dc988e5a2ee9b839e6c3562ba008df46c3b22c68c0c",
+      "bytes": 227584
+    },
+    "typecheck-final": {
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+      "bytes": 15
+    },
+    "format-active": {
+      "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "bytes": 66
+    },
+    "lint-active": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "format-final": {
+      "sha256": "21f480a6a7c5253431ae902f13e1145a227e7a3329bf20d37731b0796710a9c7",
+      "bytes": 8451
+    },
+    "baseline-selected": {
+      "sha256": "396f0dde2e43719e75564aeb929ccf133a70e63b8964de95530d86d2c2eaa06a",
+      "bytes": 52180
+    }
+  },
+  "verdict": {
+    "letterTypeAndFocusedChecks": "PASS",
+    "fullRepositoryUnit": "FAIL_EXISTING_CASES",
+    "fullRepositoryFormatting": "FAIL_OUTSIDE_ACTIVE_SCOPE",
+    "behaviorChangeInThisCommit": false,
+    "normalExportChanged": false,
+    "wordAcceptance": "UNVERIFIED_UNCHANGED",
+    "referenceWrap": "OPEN_UNCHANGED",
+    "photoPacketModified": false,
+    "generalRelease": "NO_GO_UNCHANGED"
+  },
+  "limits": [
+    "No tests or validation gates were weakened to make the full suite green.",
+    "No browser/Office rerender or new Save/Reopen was run for this formatting-only change.",
+    "The earlier eight-dossier/37-page evidence remains attributed to its original recipient checkpoint.",
+    "Full lint/build, fresh browser export, Word editing/save acceptance and complete schema validation were not run.",
+    "Prettier canonicalized TypeScript output equality is a bounded behavior-invariance check, not a Word fidelity claim.",
+    "Raw logs, dependencies, input projects, DOCX/PDF/PNG and local helper files are not committed."
+  ]
+}

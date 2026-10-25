@@ -1,0 +1,123 @@
+/* Screen geometry stays measurable for BOTH exports; it is never printed here. */
+[data-dossier-native-print-root] {
+  position: fixed;
+  left: -20000px;
+  top: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  html:has(> body[data-dossier-native-print="true"]),
+  body[data-dossier-native-print="true"] {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    background: white !important;
+  }
+
+  body[data-dossier-native-print="true"] > :not([data-native-print-active="true"]) {
+    display: none !important;
+  }
+
+  body[data-dossier-native-print="true"] > [data-native-print-active="true"] {
+    display: block !important;
+    position: static !important;
+    inset: auto !important;
+    width: 210mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    z-index: auto !important;
+  }
+
+  [data-native-print-active="true"],
+  [data-native-print-active="true"] * {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  /* Keep inherited theme/state, but remove editor grids/gaps from page flow. */
+  [data-native-print-active="true"] [data-dossier-print-container] {
+    display: contents !important;
+  }
+
+  [data-native-print-active="true"] [data-dossier-print-page] {
+    box-sizing: border-box !important;
+    /* Preserve the resolved production page geometry. Replacing rounded A4
+       pixels with mm reflows percentage widths and moves content. Fit the
+       unchanged canvas uniformly to 297mm; the width differs by <0.02mm. */
+    width: 794px !important;
+    min-width: 794px !important;
+    max-width: 794px !important;
+    height: 1123px !important;
+    min-height: 1123px !important;
+    max-height: 1123px !important;
+    transform: scale(0.999572293) !important;
+    transform-origin: top left !important;
+    /* Preserve DOM ancestry as well as internal geometry. The negative bottom
+       margin makes the unchanged page occupy exactly one A4 sheet in flow. */
+    margin: 0 0 calc(297mm - 1123px) !important;
+    position: relative !important;
+    flex: none !important;
+    overflow: hidden !important;
+    /* These are resolved physical sheets, never intrinsic-size containers.
+       Chromium's print fitting otherwise includes oversized positioned motif
+       descendants even when their paint is clipped, shrinking every page.
+       Size containment preserves their geometry, filters and clipping. */
+    contain: size !important;
+    box-shadow: none !important;
+    break-inside: avoid-page;
+    break-after: page;
+    page-break-inside: avoid;
+    page-break-after: always;
+  }
+
+  [data-native-print-active="true"] [data-dossier-print-last="true"] {
+    break-after: auto;
+    page-break-after: auto;
+  }
+
+  /* Preserve probe geometry: display:none would invalidate live pagination. */
+  [data-native-print-active="true"]
+    :is([data-cv-measure-page], [data-letter-pagination-measurements]) {
+    position: fixed !important;
+    left: -40000px !important;
+    top: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  [data-native-print-active="true"] [data-cv-page-label] {
+    display: none !important;
+  }
+
+  /* Keep Neon foreground text semantic exactly once. An identity filter makes
+     just the visible shadow a graphic; negative stacking keeps it below the
+     untouched vector glyphs. Absolute paint cannot change wrapping/pagination. */
+  [data-native-print-active="true"] [data-native-neon-shadow] {
+    position: relative;
+    isolation: isolate;
+    text-shadow: none !important;
+  }
+
+  [data-native-print-active="true"] [data-native-neon-shadow]::before {
+    content: attr(data-native-neon-shadow);
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    color: transparent !important;
+    -webkit-text-fill-color: transparent !important;
+    text-shadow: var(--native-neon-text-shadow);
+    filter: opacity(1);
+    pointer-events: none;
+    user-select: none;
+  }
+}

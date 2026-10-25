@@ -1,0 +1,145 @@
+{
+  "docxSha256": "84ee6c6e9fd00d1b400353c540761c11bf025d05a232dfa446d2d09bb56f5579",
+  "entries": [
+    {
+      "path": "word/media/decoration-1.png",
+      "bytes": 3379390,
+      "sha256": "4980eb9b3344fa9c9db95f60a0fdde101311c67acca011a6708485435c291909"
+    },
+    {
+      "path": "word/media/decoration-2.png",
+      "bytes": 3321717,
+      "sha256": "0687e520039314622b3919f4f81e3ee145641c467e89f594464b93e4e8580a9d"
+    },
+    {
+      "path": "word/media/decoration-3.png",
+      "bytes": 857023,
+      "sha256": "c2623f9c4d014be53f0c2f08ed89942df4b8f25de131e252a3fbe07b136080cf"
+    },
+    {
+      "path": "word/media/decoration-4.png",
+      "bytes": 158058,
+      "sha256": "b5d0d3b64878b9a82bcb68465406c9d6fc344ce8225f8277864965b458489488"
+    },
+    {
+      "path": "word/cover-header.xml",
+      "bytes": 1649,
+      "sha256": "1ef828efb3e6de64eddcf60b381f8fd04df4a8025ea8f148f945639c917a42da"
+    },
+    {
+      "path": "word/cover-footer.xml",
+      "bytes": 515,
+      "sha256": "9c8bdcca999e1fde7bd3fe37a68711fbb76d291eabf98ef1aa8b26973b6a3901"
+    },
+    {
+      "path": "word/cover-header-first.xml",
+      "bytes": 1635,
+      "sha256": "480f04e22d579f4e4682f18c4529beabbf033b35f57e83c8046254a6794cafd0"
+    },
+    {
+      "path": "word/letter-header.xml",
+      "bytes": 1921,
+      "sha256": "0f233ec96a3c48b9f4e73a12c429b4f9891a4038ba4d47aaeb2bc9d8c708f876"
+    },
+    {
+      "path": "word/letter-footer.xml",
+      "bytes": 1006,
+      "sha256": "3b7bc87a52e0d3fd94adda219f1013360db55ac1b7f1ec73f421b490fb5e21a8"
+    },
+    {
+      "path": "word/letter-header-first.xml",
+      "bytes": 1919,
+      "sha256": "c43c9762a96e469e6000a0fecdabcdf71a802a48c9a7cafac2fa1acf9da8f913"
+    },
+    {
+      "path": "word/cv-header.xml",
+      "bytes": 1905,
+      "sha256": "71ac78b829aa95ad56844ba60263d9d7b881c808c85efa5b79a6257de29a1d2e"
+    },
+    {
+      "path": "word/cv-footer.xml",
+      "bytes": 1012,
+      "sha256": "af45f9f72cc29d899f404dc678f480cda5add3c3daf1e18d1c8f5f940df0dfae"
+    },
+    {
+      "path": "word/cv-header-first.xml",
+      "bytes": 1903,
+      "sha256": "508fd2e850fe2e032d6c059fe8d4911e54e871975eb90981cdd9076dcb61a8b1"
+    },
+    {
+      "path": "word/document.xml",
+      "bytes": 59263,
+      "sha256": "9a7fe4e871b3f8385a1e44077118dcd6ee08c8f74274f87facd47833f18fa2f0"
+    },
+    {
+      "path": "word/styles.xml",
+      "bytes": 1133,
+      "sha256": "5a16c28a57c63ea0a1c6d4e0bb2a0fa8c27cd403d7820a396c6710fce454980b"
+    },
+    {
+      "path": "word/settings.xml",
+      "bytes": 363,
+      "sha256": "f642f5dc4ad59f8ba4d4b4830712eafeec694f5131041f820c820f79668c8076"
+    },
+    {
+      "path": "word/fontTable.xml",
+      "bytes": 392,
+      "sha256": "6a508fdcb08f673e173885792fa70447df84e397e97d5384d387f17fd0395df8"
+    },
+    {
+      "path": "word/numbering.xml",
+      "bytes": 1701,
+      "sha256": "72015ebb8af8fb6e56f53483416c2477d091c2ec5613e343cd6b0b79b6725a99"
+    },
+    {
+      "path": "docProps/core.xml",
+      "bytes": 347,
+      "sha256": "9f78228752998c89c077740f8478b4004eb246b7c9137f1ce42ae8b526ecb04b"
+    },
+    {
+      "path": "[Content_Types].xml",
+      "bytes": 2520,
+      "sha256": "eea7929177e75fd1bec8e98f477bf4b771bbd46b19b0c2fad282268e0e352b1d"
+    },
+    {
+      "path": "word/_rels/document.xml.rels",
+      "bytes": 2568,
+      "sha256": "ddbbb4f2b167562038ff1c8c2f0ef31043bb19e13a0614e2c385e46ceebc13b2"
+    },
+    {
+      "path": "word/_rels/cover-header.xml.rels",
+      "bytes": 300,
+      "sha256": "4efe8679995a2aa67e012b9bead00a42f14c872024205ca6fa634f171c84d159"
+    },
+    {
+      "path": "word/_rels/cover-header-first.xml.rels",
+      "bytes": 300,
+      "sha256": "ae92ddc7f505c70e04c0da43ce3cdb659a652ccb86d6c7bece3f6718413f2466"
+    },
+    {
+      "path": "word/_rels/letter-header.xml.rels",
+      "bytes": 300,
+      "sha256": "ee031facf56a414eb5dc74a84e842578d3bc31cecdd00cab709207f2bbaeaaaf"
+    },
+    {
+      "path": "word/_rels/letter-header-first.xml.rels",
+      "bytes": 300,
+      "sha256": "ee031facf56a414eb5dc74a84e842578d3bc31cecdd00cab709207f2bbaeaaaf"
+    },
+    {
+      "path": "word/_rels/cv-header.xml.rels",
+      "bytes": 300,
+      "sha256": "c264f6a764be8c870b82b7d8fbc956bfb504751919f375b6c35f18a36a675723"
+    },
+    {
+      "path": "word/_rels/cv-header-first.xml.rels",
+      "bytes": 300,
+      "sha256": "c264f6a764be8c870b82b7d8fbc956bfb504751919f375b6c35f18a36a675723"
+    },
+    {
+      "path": "_rels/.rels",
+      "bytes": 446,
+      "sha256": "62fc6201f9772f4c084659b25d0e2da96cbfe34615e5e903f410bae0d3c920c7"
+    }
+  ]
+}

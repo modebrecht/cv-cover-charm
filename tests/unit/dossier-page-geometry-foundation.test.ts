@@ -7,10 +7,7 @@ import {
   type DossierChromeOptions,
 } from "../../src/lib/dossier-chrome";
 import { resolveDossierContentMargins } from "../../src/lib/dossier-page-geometry";
-import {
-  clearDossierPageMargins,
-  setDossierPageMargins,
-} from "../../src/lib/dossier-page-margins";
+import { clearDossierPageMargins, setDossierPageMargins } from "../../src/lib/dossier-page-margins";
 import { WARM_FIRST_PAGE_HEADER_HEIGHT_MM } from "../../src/components/letter/warm-letter-layout";
 
 // This suite is the final Package 3 release-gate anchor for shared page geometry.

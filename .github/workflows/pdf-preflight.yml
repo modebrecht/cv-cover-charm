@@ -1,0 +1,148 @@
+name: Automatic PDF preflight acceptance
+
+on:
+  push:
+    branches: ["fix/pdf-preflight-*"]
+    paths:
+      [
+        "src/**",
+        "tests/**",
+        "scripts/pdf_preflight_raster.py",
+        ".github/workflows/pdf-preflight.yml",
+      ]
+  pull_request:
+    branches: [dev]
+    paths:
+      [
+        "src/lib/pdf-preflight.ts",
+        "src/lib/dossier-pdf.ts",
+        "src/components/letter/**",
+        "src/components/dossier/DossierExportDialog.tsx",
+        "tests/qa/pdf-preflight*",
+        ".github/workflows/pdf-preflight.yml",
+      ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pdf-preflight-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Locked application and browser dependencies
+        run: |
+          bun install --frozen-lockfile
+          npm install --no-save --no-package-lock @playwright/test@1.55.0
+          bun install --frozen-lockfile
+      - name: Units, types, lint, formatting and production build
+        run: |
+          bun test tests/unit
+          bun run typecheck
+          npx tsc --noEmit -p tests/qa/tsconfig.json
+          bun run lint
+          bun run format:check:release
+          npx prettier --check src/lib/pdf-preflight.ts src/lib/html2canvas-export.ts src/components/letter/letter-paper.ts src/components/letter/LetterDocument.tsx src/routes/anschreiben.tsx src/routes/index.tsx src/routes/lebenslauf.tsx src/routes/titelblatt.tsx tests/qa/pdf-preflight*.ts tests/qa/pdf-raster-parity.qa.ts tests/unit/letter-paper-color.test.tsx tests/qa/playwright.preflight.config.ts tests/qa/pagination-browser.ts tests/e2e/letter-physical-preflight.spec.ts .github/workflows/pdf-preflight.yml
+          bun run build
+
+  browser:
+    needs: quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - suite: safety
+            command: npx playwright test --config tests/qa/playwright.preflight.config.ts
+          - suite: product
+            command: npx playwright test --config tests/qa/playwright.letter-product.config.ts
+          - suite: integration-1
+            command: npx playwright test --config tests/qa/playwright.integration.config.ts --shard=1/2
+          - suite: integration-2
+            command: npx playwright test --config tests/qa/playwright.integration.config.ts --shard=2/2
+          - suite: combined
+            command: npx playwright test --config tests/qa/playwright.combined.config.ts
+          - suite: search
+            command: npx playwright test --config tests/qa/playwright.pdf-search.config.ts --grep 'all 39 automatic Letter|automatic PDF retains'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Locked application and browser dependencies
+        run: |
+          bun install --frozen-lockfile
+          npm install --no-save --no-package-lock @playwright/test@1.55.0
+          bun install --frozen-lockfile
+      - name: Browser and PDF raster reader
+        run: |
+          bash scripts/qa-browser-setup.sh
+          python -m pip install PyMuPDF==1.26.6
+      # Separate runners prevent the cumulative suites from exhausting one job.
+      # Playwright's existing deadlines and strict assertions are unchanged.
+      - name: Production browser acceptance (${{ matrix.suite }})
+        env:
+          PAGINATION_QA_DIR: ${{ startsWith(matrix.suite, 'integration-') && 'artifacts/pdf-preflight-matrix' || 'artifacts/pdf-preflight' }}
+          PAGINATION_QA_REPORT: artifacts/pagination-integration/${{ matrix.suite }}.json
+          PAGINATION_COMBINED_QA_DIR: artifacts/pdf-preflight-combined
+        run: ${{ matrix.command }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pdf-preflight-${{ github.sha }}-${{ matrix.suite }}
+          path: |
+            artifacts/pdf-preflight*
+            artifacts/pagination-integration/*.json
+            artifacts/letter-textlayer/product-results.json
+            artifacts/pdf-text-search
+            tests/qa/artifacts/pdf-preflight
+            tests/qa/test-results/pdf-preflight
+            test-results/pdf-preflight
+            test-results/pagination-integration
+            test-results/pagination-combined
+            test-results/letter-textlayer-product
+            test-results/pdf-text-search
+          retention-days: 14
+
+  evidence:
+    needs: [quality, browser]
+    if: always() && needs.quality.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: pdf-preflight-${{ github.sha }}-*
+          merge-multiple: true
+      - name: PDF raster reader
+        run: python -m pip install PyMuPDF==1.26.6
+      - name: Visible raster, logical fields and full matrix evidence
+        env:
+          PAGINATION_QA_DIR: artifacts/pdf-preflight-matrix
+        run: |
+          python scripts/pdf_preflight_raster.py artifacts/pdf-preflight artifacts/pdf-preflight-matrix artifacts/pdf-preflight-combined
+          bun scripts/pagination_qa_fields.mjs
+          node scripts/pagination_qa_summary.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pdf-preflight-${{ github.sha }}-evidence
+          path: |
+            artifacts/pdf-preflight/raster-results.json
+            artifacts/pdf-preflight-matrix/summary.json
+            artifacts/pdf-preflight-matrix/logical-fields.json
+          retention-days: 14

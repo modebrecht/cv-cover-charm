@@ -1,0 +1,815 @@
+{
+  "sourceCommit": "f5b6df2744ffaf48296e8c4fb15775ad7ced4b2c",
+  "stableRun": "https://github.com/modebrecht/cv-cover-charm/actions/runs/37632467382",
+  "applicationRun": "https://github.com/modebrecht/cv-cover-charm/actions/runs/37632467368",
+  "exactSourceReplay": true,
+  "stable": {
+    "runtime": "LibreOffice 25.8.7.3 580(Build:3)",
+    "interface": "LibreOfficeKit",
+    "plannedCases": 8,
+    "actualCases": 8,
+    "pages": 24,
+    "stoppedAfter": null,
+    "fieldIdentityFailures": 0,
+    "tableIdentityFailures": 6,
+    "architectureAcceptance": "blocked; minimal diagnostics do not enable export or certify Word",
+    "fixtures": [
+      {
+        "fixture": "picture-identity-body-plain",
+        "execution": "rendered",
+        "sourceDocxSha256": "fca6357e5ab5073707d803e78d6efc1ccfb0543d30d64f7f86e9b7ec32c9b206",
+        "savedDocxSha256": "3bae942606bb129bd6d3166dcd3c448263646492355ab3bad1087acce27f4a87",
+        "native": {
+          "sourceTaggedFields": 7,
+          "savedMatchingTaggedFields": 7,
+          "completeNativeText": "pass",
+          "missingCompleteNativeText": [],
+          "fieldIdentity": "pass",
+          "missingOrChangedTaggedFields": [],
+          "tableIdentity": "pass",
+          "missingTableIds": [],
+          "saveReopenIdentity": "pass"
+        },
+        "render": {
+          "status": "pass",
+          "pages": 3,
+          "failures": [],
+          "pictures": []
+        },
+        "saveReopen": {
+          "status": "pass",
+          "pages": 3,
+          "failures": [],
+          "pictures": []
+        }
+      },
+      {
+        "fixture": "picture-identity-body-photo",
+        "execution": "rendered",
+        "sourceDocxSha256": "d873fb8eb3f631baeeff32bafde34b79bda04e29bcae31383b03d38d819c936e",
+        "savedDocxSha256": "1c46a3b9bc088699db3bef5eae493650c6f7965a9d22b1c30f0368578cd28983",
+        "native": {
+          "sourceTaggedFields": 8,
+          "savedMatchingTaggedFields": 8,
+          "completeNativeText": "pass",
+          "missingCompleteNativeText": [],
+          "fieldIdentity": "pass",
+          "missingOrChangedTaggedFields": [],
+          "tableIdentity": "pass",
+          "missingTableIds": [],
+          "saveReopenIdentity": "pass"
+        },
+        "render": {
+          "status": "pass",
+          "pages": 3,
+          "failures": [],
+          "pictures": [
+            {
+              "page": 3,
+              "boundsMm": [
+                20.003,
+                27.094,
+                54.01,
+                61.101
+              ]
+            }
+          ]
+        },
+        "saveReopen": {
+          "status": "pass",
+          "pages": 3,
+          "failures": [],
+          "pictures": [
+            {
+              "page": 3,
+              "boundsMm": [
+                20.003,
+                27.094,
+                54.01,
+                61.101
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "fixture": "picture-identity-single-plain",
+        "execution": "rendered",
+        "sourceDocxSha256": "79561ad7c17cf6368ee9f863f9ac8ce9434912ef4ab0733692639dd0ea358a78",
+        "savedDocxSha256": "c52e665469d5b140a748c8a38506bdcf0d36b44250c582669934acd0888d2d8e",
+        "native": {
+          "sourceTaggedFields": 7,
+          "savedMatchingTaggedFields": 7,
+          "completeNativeText": "pass",
+          "missingCompleteNativeText": [],
+          "fieldIdentity": "pass",
+          "missingOrChangedTaggedFields": [],
+          "tableIdentity": "fail",
+          "missingTableIds": [
+            "cv.identity.container"
+          ],
+          "saveReopenIdentity": "fail"
+        },
+        "render": {
+          "status": "pass",
+          "pages": 3,
+          "failures": [],
+          "pictures": []
+        },
+        "saveReopen": {
+          "status": "pass",
+          "pages": 3,
+          "failures": [],
+          "pictures": []
+        }
+      },
+      {
+        "fixture": "picture-identity-single-photo",
+        "execution": "rendered",
+        "sourceDocxSha256": "40dc2a65db89a9a18d12e3f298d9d8995ea93edb2bbc8495975e63528bd64d49",
+        "savedDocxSha256": "e8e8d04edd0a69ffa7dafc84c5f93023792e4d2c44f43f5c25146168dbb5b304",
+        "native": {
+          "sourceTaggedFields": 8,
+          "savedMatchingTaggedFields": 8,
+          "completeNativeText": "pass",
+          "missingCompleteNativeText": [],
+          "fieldIdentity": "pass",
+          "missingOrChangedTaggedFields": [],
+          "tableIdentity": "fail",
+          "missingTableIds": [
+            "cv.identity.container"
+          ],
+          "saveReopenIdentity": "fail"
+        },
+        "render": {
+          "status": "pass",
+          "pages": 3,
+          "failures": [],
+          "pictures": [
+            {
+              "page": 3,
+              "boundsMm": [
+                20.003,
+                27.094,
+                54.01,
+                61.101
+              ]
+            }
+          ]
+        },
+        "saveReopen": {
+          "status": "pass",
+          "pages": 3,
+          "failures": [],
+          "pictures": [
+            {
+              "page": 3,
+              "boundsMm": [
+                20.003,
+                27.094,
+                54.01,
+                61.101
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "fixture": "picture-identity-left-plain",
+        "execution": "rendered",
+        "sourceDocxSha256": "c7686a832853ee3f39da64881789e5cdc215e33f8df5e59ddb879db2a1522df9",
+        "savedDocxSha256": "6d20a66fe9181f9410a5924313715a24986fadc1fe4c20410b743a3cf591b337",
+        "native": {
+          "sourceTaggedFields": 7,
+          "savedMatchingTaggedFields": 7,
+          "completeNativeText": "pass",
+          "missingCompleteNativeText": [],
+          "fieldIdentity": "pass",
+          "missingOrChangedTaggedFields": [],
+          "tableIdentity": "fail",
+          "missingTableIds": [
+            "cv.identity.container"
+          ],
+          "saveReopenIdentity": "fail"
+        },
+        "render": {
+          "status": "pass",
+          "pages": 3,
+          "failures": [],
+          "pictures": []
+        },
+        "saveReopen": {
+          "status": "pass",
+          "pages": 3,
+          "failures": [],
+          "pictures": []
+        }
+      },
+      {
+        "fixture": "picture-identity-left-photo",
+        "execution": "rendered",
+        "sourceDocxSha256": "b05711e2fc055ac6387df5ef748ea12310e7c31b4105cfabaa11aa6ba60cbb42",
+        "savedDocxSha256": "8721ffa198a9ac230e9464d7a494a1966836be15dfec5904eec00fc1aebfdab2",
+        "native": {
+          "sourceTaggedFields": 8,
+          "savedMatchingTaggedFields": 8,
+          "completeNativeText": "pass",
+          "missingCompleteNativeText": [],
+          "fieldIdentity": "pass",
+          "missingOrChangedTaggedFields": [],
+          "tableIdentity": "fail",
+          "missingTableIds": [
+            "cv.identity.container"
+          ],
+          "saveReopenIdentity": "fail"
+        },
+        "render": {
+          "status": "pass",
+          "pages": 3,
+          "failures": [],
+          "pictures": [
+            {
+              "page": 3,
+              "boundsMm": [
+                20.003,
+                27.094,
+                54.01,
+                61.101
+              ]
+            }
+          ]
+        },
+        "saveReopen": {
+          "status": "pass",
+          "pages": 3,
+          "failures": [],
+          "pictures": [
+            {
+              "page": 3,
+              "boundsMm": [
+                20.003,
+                27.094,
+                54.01,
+                61.101
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "fixture": "picture-identity-right-plain",
+        "execution": "rendered",
+        "sourceDocxSha256": "f15d981cf51833097e6f913119062e7775f0491c3fa752c812f18223ae1b7003",
+        "savedDocxSha256": "3d187242a7cf04c9df7d6ec986d856908d6b044bc6820ca8148e5b7c1a7f40c3",
+        "native": {
+          "sourceTaggedFields": 7,
+          "savedMatchingTaggedFields": 7,
+          "completeNativeText": "pass",
+          "missingCompleteNativeText": [],
+          "fieldIdentity": "pass",
+          "missingOrChangedTaggedFields": [],
+          "tableIdentity": "fail",
+          "missingTableIds": [
+            "cv.identity.container"
+          ],
+          "saveReopenIdentity": "fail"
+        },
+        "render": {
+          "status": "pass",
+          "pages": 3,
+          "failures": [],
+          "pictures": []
+        },
+        "saveReopen": {
+          "status": "pass",
+          "pages": 3,
+          "failures": [],
+          "pictures": []
+        }
+      },
+      {
+        "fixture": "picture-identity-right-photo",
+        "execution": "rendered",
+        "sourceDocxSha256": "8eb7b6b7d03d4f6e1250e7622afcb25bc42539a5087c5fd61df5859bd264758a",
+        "savedDocxSha256": "0ffda1f689ad65357eecbfeb7549c28c195e6792be0ea9d79bf627962b6f60dc",
+        "native": {
+          "sourceTaggedFields": 8,
+          "savedMatchingTaggedFields": 8,
+          "completeNativeText": "pass",
+          "missingCompleteNativeText": [],
+          "fieldIdentity": "pass",
+          "missingOrChangedTaggedFields": [],
+          "tableIdentity": "fail",
+          "missingTableIds": [
+            "cv.identity.container"
+          ],
+          "saveReopenIdentity": "fail"
+        },
+        "render": {
+          "status": "pass",
+          "pages": 3,
+          "failures": [],
+          "pictures": [
+            {
+              "page": 3,
+              "boundsMm": [
+                105.004,
+                27.094,
+                139.012,
+                61.101
+              ]
+            }
+          ]
+        },
+        "saveReopen": {
+          "status": "pass",
+          "pages": 3,
+          "failures": [],
+          "pictures": [
+            {
+              "page": 3,
+              "boundsMm": [
+                105.004,
+                27.094,
+                139.012,
+                61.101
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "devCli": {
+    "runtime": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+    "interface": "soffice CLI",
+    "plannedCases": 8,
+    "actualCases": 2,
+    "pages": 6,
+    "stoppedAfter": "picture-identity-body-photo:field-identity",
+    "fieldIdentityFailures": 1,
+    "tableIdentityFailures": 0,
+    "architectureAcceptance": "blocked; minimal diagnostics do not enable export or certify Word",
+    "fixtures": [
+      {
+        "fixture": "picture-identity-body-plain",
+        "execution": "rendered",
+        "sourceDocxSha256": "fca6357e5ab5073707d803e78d6efc1ccfb0543d30d64f7f86e9b7ec32c9b206",
+        "savedDocxSha256": "ba891e1146c34e2d5a59f4dfd1d6fb9e34ebd68acb09212a75c1cf028e4a0351",
+        "native": {
+          "sourceTaggedFields": 7,
+          "savedMatchingTaggedFields": 7,
+          "completeNativeText": "pass",
+          "missingCompleteNativeText": [],
+          "fieldIdentity": "pass",
+          "missingOrChangedTaggedFields": [],
+          "tableIdentity": "pass",
+          "missingTableIds": [],
+          "saveReopenIdentity": "pass"
+        },
+        "render": {
+          "status": "pass",
+          "pages": 3,
+          "failures": [],
+          "pictures": []
+        },
+        "saveReopen": {
+          "status": "pass",
+          "pages": 3,
+          "failures": [],
+          "pictures": []
+        }
+      },
+      {
+        "fixture": "picture-identity-body-photo",
+        "execution": "rendered",
+        "sourceDocxSha256": "d873fb8eb3f631baeeff32bafde34b79bda04e29bcae31383b03d38d819c936e",
+        "savedDocxSha256": "579a6b00cedb8ba514db4afeb651c77914734e62d6b288dd5ff07c36cc4dd12d",
+        "native": {
+          "sourceTaggedFields": 8,
+          "savedMatchingTaggedFields": 3,
+          "completeNativeText": "pass",
+          "missingCompleteNativeText": [],
+          "fieldIdentity": "fail",
+          "missingOrChangedTaggedFields": [
+            {
+              "fieldId": "cv.identity.after",
+              "characters": 69,
+              "textSha256": "145f6bc9d67293dbb8a8a882ad5ac3e40f082015e6c5b71c3df02f5b4fa78049"
+            },
+            {
+              "fieldId": "cv.identity.description",
+              "characters": 181,
+              "textSha256": "2bd64cb02870d3f64b7b3b9482d90c47ff815458e6d830fad3e91fecae54ac5f"
+            },
+            {
+              "fieldId": "cv.identity.neighbour.before",
+              "characters": 35,
+              "textSha256": "ebe30b89596833d32499a4537dbddc9ca8203e926f838a44b2447299b2816855"
+            },
+            {
+              "fieldId": "cv.identity.neighbour.description",
+              "characters": 139,
+              "textSha256": "8163b5f8fb7c2e28508a7abd518094e8e7ac6b94d98cc7f7921f626992a1b24f"
+            },
+            {
+              "fieldId": "cv.person.photo",
+              "characters": 0,
+              "textSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "tableIdentity": "pass",
+          "missingTableIds": [],
+          "saveReopenIdentity": "fail"
+        },
+        "render": {
+          "status": "pass",
+          "pages": 3,
+          "failures": [],
+          "pictures": [
+            {
+              "page": 3,
+              "boundsMm": [
+                20.003,
+                27.094,
+                54.01,
+                61.101
+              ]
+            }
+          ]
+        },
+        "saveReopen": {
+          "status": "pass",
+          "pages": 3,
+          "failures": [],
+          "pictures": [
+            {
+              "page": 3,
+              "boundsMm": [
+                20.003,
+                27.094,
+                54.01,
+                61.101
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "fixture": "picture-identity-single-plain",
+        "execution": "unrendered",
+        "reason": "stopped after picture-identity-body-photo:field-identity"
+      },
+      {
+        "fixture": "picture-identity-single-photo",
+        "execution": "unrendered",
+        "reason": "stopped after picture-identity-body-photo:field-identity"
+      },
+      {
+        "fixture": "picture-identity-left-plain",
+        "execution": "unrendered",
+        "reason": "stopped after picture-identity-body-photo:field-identity"
+      },
+      {
+        "fixture": "picture-identity-left-photo",
+        "execution": "unrendered",
+        "reason": "stopped after picture-identity-body-photo:field-identity"
+      },
+      {
+        "fixture": "picture-identity-right-plain",
+        "execution": "unrendered",
+        "reason": "stopped after picture-identity-body-photo:field-identity"
+      },
+      {
+        "fixture": "picture-identity-right-photo",
+        "execution": "unrendered",
+        "reason": "stopped after picture-identity-body-photo:field-identity"
+      }
+    ]
+  },
+  "stablePhoto": {
+    "runtime": "LibreOffice 25.8.7.3 580(Build:3)",
+    "interface": "LibreOfficeKit",
+    "actualPhotoCases": 4,
+    "scope": "Original decoded photo pixels/crop in native saved package; independent of input/model JSON restoration and SDT field identity.",
+    "originalPixelFailures": 4,
+    "nativeFrameFailures": 0,
+    "fixtures": [
+      {
+        "fixture": "picture-identity-body-photo",
+        "sourceDocxSha256": "d873fb8eb3f631baeeff32bafde34b79bda04e29bcae31383b03d38d819c936e",
+        "savedDocxSha256": "1c46a3b9bc088699db3bef5eae493650c6f7965a9d22b1c30f0368578cd28983",
+        "pictures": [
+          {
+            "pictureId": "cv.person.photo",
+            "source": {
+              "pictureId": "cv.person.photo",
+              "alt": "CV portrait",
+              "story": "word/document.xml",
+              "representation": "picture",
+              "extentMm": [
+                34.0,
+                34.0
+              ],
+              "crop": {
+                "l": 8400,
+                "t": 24400,
+                "r": 11600,
+                "b": 22267
+              },
+              "shape": "ellipse",
+              "borderMm": 0.4,
+              "borderColor": "244A61",
+              "media": "word/media/image-1.png",
+              "widthPx": 120,
+              "heightPx": 180,
+              "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+            },
+            "saved": {
+              "pictureId": "cv.person.photo",
+              "alt": "CV portrait",
+              "story": "word/document.xml",
+              "representation": "image-fill",
+              "extentMm": [
+                34.007778,
+                34.007778
+              ],
+              "crop": {
+                "l": 0,
+                "t": 0,
+                "r": 0,
+                "b": 0
+              },
+              "shape": "ellipse",
+              "borderMm": 0.41,
+              "borderColor": "244a61",
+              "media": "word/media/image1.png",
+              "widthPx": 96,
+              "heightPx": 96,
+              "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+            },
+            "drawingName": "pass",
+            "originalPhotoPixels": "fail",
+            "nativeCropParameters": "changed",
+            "nativeFrameGeometry": "pass"
+          }
+        ]
+      },
+      {
+        "fixture": "picture-identity-single-photo",
+        "sourceDocxSha256": "40dc2a65db89a9a18d12e3f298d9d8995ea93edb2bbc8495975e63528bd64d49",
+        "savedDocxSha256": "e8e8d04edd0a69ffa7dafc84c5f93023792e4d2c44f43f5c25146168dbb5b304",
+        "pictures": [
+          {
+            "pictureId": "cv.person.photo",
+            "source": {
+              "pictureId": "cv.person.photo",
+              "alt": "CV portrait",
+              "story": "word/document.xml",
+              "representation": "picture",
+              "extentMm": [
+                34.0,
+                34.0
+              ],
+              "crop": {
+                "l": 8400,
+                "t": 24400,
+                "r": 11600,
+                "b": 22267
+              },
+              "shape": "ellipse",
+              "borderMm": 0.4,
+              "borderColor": "244A61",
+              "media": "word/media/image-1.png",
+              "widthPx": 120,
+              "heightPx": 180,
+              "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+            },
+            "saved": {
+              "pictureId": "cv.person.photo",
+              "alt": "CV portrait",
+              "story": "word/document.xml",
+              "representation": "image-fill",
+              "extentMm": [
+                34.007778,
+                34.007778
+              ],
+              "crop": {
+                "l": 0,
+                "t": 0,
+                "r": 0,
+                "b": 0
+              },
+              "shape": "ellipse",
+              "borderMm": 0.41,
+              "borderColor": "244a61",
+              "media": "word/media/image1.png",
+              "widthPx": 96,
+              "heightPx": 96,
+              "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+            },
+            "drawingName": "pass",
+            "originalPhotoPixels": "fail",
+            "nativeCropParameters": "changed",
+            "nativeFrameGeometry": "pass"
+          }
+        ]
+      },
+      {
+        "fixture": "picture-identity-left-photo",
+        "sourceDocxSha256": "b05711e2fc055ac6387df5ef748ea12310e7c31b4105cfabaa11aa6ba60cbb42",
+        "savedDocxSha256": "8721ffa198a9ac230e9464d7a494a1966836be15dfec5904eec00fc1aebfdab2",
+        "pictures": [
+          {
+            "pictureId": "cv.person.photo",
+            "source": {
+              "pictureId": "cv.person.photo",
+              "alt": "CV portrait",
+              "story": "word/document.xml",
+              "representation": "picture",
+              "extentMm": [
+                34.0,
+                34.0
+              ],
+              "crop": {
+                "l": 8400,
+                "t": 24400,
+                "r": 11600,
+                "b": 22267
+              },
+              "shape": "ellipse",
+              "borderMm": 0.4,
+              "borderColor": "244A61",
+              "media": "word/media/image-1.png",
+              "widthPx": 120,
+              "heightPx": 180,
+              "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+            },
+            "saved": {
+              "pictureId": "cv.person.photo",
+              "alt": "CV portrait",
+              "story": "word/document.xml",
+              "representation": "image-fill",
+              "extentMm": [
+                34.007778,
+                34.007778
+              ],
+              "crop": {
+                "l": 0,
+                "t": 0,
+                "r": 0,
+                "b": 0
+              },
+              "shape": "ellipse",
+              "borderMm": 0.41,
+              "borderColor": "244a61",
+              "media": "word/media/image1.png",
+              "widthPx": 96,
+              "heightPx": 96,
+              "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+            },
+            "drawingName": "pass",
+            "originalPhotoPixels": "fail",
+            "nativeCropParameters": "changed",
+            "nativeFrameGeometry": "pass"
+          }
+        ]
+      },
+      {
+        "fixture": "picture-identity-right-photo",
+        "sourceDocxSha256": "8eb7b6b7d03d4f6e1250e7622afcb25bc42539a5087c5fd61df5859bd264758a",
+        "savedDocxSha256": "0ffda1f689ad65357eecbfeb7549c28c195e6792be0ea9d79bf627962b6f60dc",
+        "pictures": [
+          {
+            "pictureId": "cv.person.photo",
+            "source": {
+              "pictureId": "cv.person.photo",
+              "alt": "CV portrait",
+              "story": "word/document.xml",
+              "representation": "picture",
+              "extentMm": [
+                34.0,
+                34.0
+              ],
+              "crop": {
+                "l": 8400,
+                "t": 24400,
+                "r": 11600,
+                "b": 22267
+              },
+              "shape": "ellipse",
+              "borderMm": 0.4,
+              "borderColor": "244A61",
+              "media": "word/media/image-1.png",
+              "widthPx": 120,
+              "heightPx": 180,
+              "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+            },
+            "saved": {
+              "pictureId": "cv.person.photo",
+              "alt": "CV portrait",
+              "story": "word/document.xml",
+              "representation": "image-fill",
+              "extentMm": [
+                34.007778,
+                34.007778
+              ],
+              "crop": {
+                "l": 0,
+                "t": 0,
+                "r": 0,
+                "b": 0
+              },
+              "shape": "ellipse",
+              "borderMm": 0.41,
+              "borderColor": "244a61",
+              "media": "word/media/image1.png",
+              "widthPx": 96,
+              "heightPx": 96,
+              "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+            },
+            "drawingName": "pass",
+            "originalPhotoPixels": "fail",
+            "nativeCropParameters": "changed",
+            "nativeFrameGeometry": "pass"
+          }
+        ]
+      }
+    ]
+  },
+  "devCliPhoto": {
+    "runtime": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+    "interface": "soffice CLI",
+    "actualPhotoCases": 1,
+    "scope": "Original decoded photo pixels/crop in native saved package; independent of input/model JSON restoration and SDT field identity.",
+    "originalPixelFailures": 1,
+    "nativeFrameFailures": 0,
+    "fixtures": [
+      {
+        "fixture": "picture-identity-body-photo",
+        "sourceDocxSha256": "d873fb8eb3f631baeeff32bafde34b79bda04e29bcae31383b03d38d819c936e",
+        "savedDocxSha256": "579a6b00cedb8ba514db4afeb651c77914734e62d6b288dd5ff07c36cc4dd12d",
+        "pictures": [
+          {
+            "pictureId": "cv.person.photo",
+            "source": {
+              "pictureId": "cv.person.photo",
+              "alt": "CV portrait",
+              "story": "word/document.xml",
+              "representation": "picture",
+              "extentMm": [
+                34.0,
+                34.0
+              ],
+              "crop": {
+                "l": 8400,
+                "t": 24400,
+                "r": 11600,
+                "b": 22267
+              },
+              "shape": "ellipse",
+              "borderMm": 0.4,
+              "borderColor": "244A61",
+              "media": "word/media/image-1.png",
+              "widthPx": 120,
+              "heightPx": 180,
+              "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+            },
+            "saved": {
+              "pictureId": "cv.person.photo",
+              "alt": "CV portrait",
+              "story": "word/document.xml",
+              "representation": "image-fill",
+              "extentMm": [
+                34.007778,
+                34.007778
+              ],
+              "crop": {
+                "l": 0,
+                "t": 0,
+                "r": 0,
+                "b": 0
+              },
+              "shape": "ellipse",
+              "borderMm": 0.41,
+              "borderColor": "244A61",
+              "media": "word/media/image1.png",
+              "widthPx": 96,
+              "heightPx": 96,
+              "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+            },
+            "drawingName": "pass",
+            "originalPhotoPixels": "fail",
+            "nativeCropParameters": "changed",
+            "nativeFrameGeometry": "pass"
+          }
+        ]
+      }
+    ]
+  },
+  "localKitAttempt": {
+    "execution": "runtime-failed",
+    "actualAcceptedCases": 0,
+    "failure": "SIGSEGV in LOKClipboard while converting first plain body case; version initialization alone succeeds. No local Kit result accepted."
+  }
+}

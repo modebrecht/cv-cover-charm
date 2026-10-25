@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { ScaledPreview } from "@/components/cover/ScaledPreview";
 import type { DossierChromeContact, DossierChromeOptions } from "@/lib/dossier-chrome";
+import { getDossierPageMargins, subscribeDossierPageMargins } from "@/lib/dossier-page-margins";
 import { LetterCanvas } from "./LetterCanvas";
 import { withLetterPaginationPageContext } from "./letter-page-context";
 import {
@@ -9,6 +10,7 @@ import {
   type LetterPaginationIssue,
 } from "./letter-pagination";
 import { letterPageOverflows } from "./preflight";
+import { pdfContentHash } from "@/lib/pdf-preflight";
 import { letterRichHtml, plainTextToRichHtml, richHtmlToPlainText } from "./rich-text";
 import type { LetterData, LetterDesign, LetterFlowImage } from "./types";
 import "./letter-pagination.css";
@@ -17,6 +19,7 @@ const PLACEHOLDER =
   "Hier entsteht dein persönliches Motivationsschreiben. Erkläre, weshalb du dich für diesen Beruf und diesen Lehrbetrieb interessierst und was du mitbringst.";
 const PROBE_BODY_HTML = '<div data-align="justify">Messzeile für den Seitenumbruch</div>';
 const EMPTY_BODY_HTML = '<div data-align="justify"><br></div>';
+const letterMarginsSnapshot = () => JSON.stringify(getDossierPageMargins("letter"));
 
 type LetterPhysicalOverflowIssue = {
   code: "physical-overflow";
@@ -109,9 +112,18 @@ function LetterPageShell({
   onImageRemove?: (id: string) => void;
   ariaLabel: string;
 }) {
-  const contextualDesign = pageDesign(design, fragment.pageIndex, fragment.finalPage);
-  const contextualChrome = pageChromeOptions(chromeOptions, fragment.finalPage);
-  const contextualData = pageData(data, fragment.bodyHtml, fragment.images, fragment.finalPage);
+  const contextualDesign = useMemo(
+    () => pageDesign(design, fragment.pageIndex, fragment.finalPage),
+    [design, fragment.pageIndex, fragment.finalPage],
+  );
+  const contextualChrome = useMemo(
+    () => pageChromeOptions(chromeOptions, fragment.finalPage),
+    [chromeOptions, fragment.finalPage],
+  );
+  const contextualData = useMemo(
+    () => pageData(data, fragment.bodyHtml, fragment.images, fragment.finalPage),
+    [data, fragment.bodyHtml, fragment.images, fragment.finalPage],
+  );
   const reportOverflow = useCallback(
     (overflow: boolean) => onOverflowChange?.(fragment.pageIndex, overflow),
     [fragment.pageIndex, onOverflowChange],
@@ -210,6 +222,11 @@ export function LetterDocument({
   scaledPreview = false,
   ariaLabel = "Vorschau Motivationsschreiben",
 }: Props) {
+  const marginsSnapshot = useSyncExternalStore(
+    subscribeDossierPageMargins,
+    letterMarginsSnapshot,
+    () => "null",
+  );
   const bodyHtml = useMemo(() => resolvedBodyHtml(data, exportMode), [data, exportMode]);
   const allImages = useMemo(() => data.images ?? [], [data.images]);
   const freeImages = useMemo(
@@ -236,28 +253,20 @@ export function LetterDocument({
   const [pages, setPages] = useState<LetterPageFragment[]>(fallback);
   const [algorithmIssue, setAlgorithmIssue] = useState<LetterPaginationIssue | null>(null);
   const [measurementReady, setMeasurementReady] = useState(false);
+  const measurementKey = useMemo(
+    () => JSON.stringify([bodyHtml, data, design, chromeOptions, chromeContact, marginsSnapshot]),
+    [bodyHtml, data, design, chromeOptions, chromeContact, marginsSnapshot],
+  );
+  const [measuredKey, setMeasuredKey] = useState<string | null>(null);
   const [pageOverflow, setPageOverflow] = useState<Record<number, boolean>>({});
-  const [pagination, setPagination] = useState<LetterPaginationState>({
-    ready: false,
-    pageCount: fallback.length,
-    issue: null,
-    warning: null,
-  });
-
+  // Measurement already waits for fonts, images and two animation frames.
+  // Invalidate after commit so reporting pagination cannot replay a parent's
+  // pending design update inside a synchronous layout-effect render loop.
   useEffect(() => {
-    onPaginationChange?.(pagination);
-  }, [onPaginationChange, pagination]);
-
-  useLayoutEffect(() => {
     let cancelled = false;
     setAlgorithmIssue(null);
     setMeasurementReady(false);
     setPageOverflow({});
-    setPagination((current) =>
-      current.ready || current.issue || current.warning
-        ? { ready: false, pageCount: current.pageCount, issue: null, warning: null }
-        : current,
-    );
 
     const measure = async () => {
       const root = measurementRef.current;
@@ -289,7 +298,7 @@ export function LetterDocument({
         // geometry decide whether PDF export is actually unsafe.
         setAlgorithmIssue(result.issue);
         setPages(fallback);
-        setPagination({ ready: false, pageCount: fallback.length, issue: null, warning: null });
+        setMeasuredKey(measurementKey);
         setMeasurementReady(true);
         return;
       }
@@ -301,7 +310,7 @@ export function LetterDocument({
       );
       setAlgorithmIssue(null);
       setPages(resolvedPages);
-      setPagination({ ready: false, pageCount: resolvedPages.length, issue: null, warning: null });
+      setMeasuredKey(measurementKey);
       setMeasurementReady(true);
     };
 
@@ -309,7 +318,18 @@ export function LetterDocument({
     return () => {
       cancelled = true;
     };
-  }, [bodyHtml, chromeContact, chromeOptions, data, design, fallback, flowImages, freeImages]);
+  }, [
+    bodyHtml,
+    chromeContact,
+    chromeOptions,
+    data,
+    design,
+    fallback,
+    flowImages,
+    freeImages,
+    marginsSnapshot,
+    measurementKey,
+  ]);
 
   // Pagination owns the page assignment, while interactive image geometry must
   // follow pointer updates immediately. Keep each image on its last valid page
@@ -335,47 +355,76 @@ export function LetterDocument({
     );
   }, []);
 
+  // A safe complete fallback can reuse the initial page fragments. In that
+  // case LetterCanvas has no changed props/size and need not emit a second
+  // callback after the paginator clears its old measurements. Measure the
+  // committed physical pages once whenever the measurement finishes.
   useEffect(() => {
     if (!measurementReady) return;
-    const pageIndexes = renderedPages.map((fragment) => fragment.pageIndex);
-    if (!pageIndexes.length || pageIndexes.some((pageIndex) => pageOverflow[pageIndex] === undefined)) {
-      return;
-    }
+    const frame = requestAnimationFrame(() => {
+      for (const fragment of renderedPages) recordPageOverflow(fragment.pageIndex, false);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [measurementReady, recordPageOverflow, renderedPages]);
 
-    const physicallyOverflows = pageIndexes.some((pageIndex) => pageOverflow[pageIndex]);
-    const issue: LetterBlockingIssue | null = physicallyOverflows
+  // Readiness is derived from the measured pages rather than maintained by a
+  // second effect that can invalidate and re-enable itself in the same commit.
+  const pagination = useMemo<LetterPaginationState>(() => {
+    const pending = { ready: false, pageCount: renderedPages.length, issue: null, warning: null };
+    // Invalidate during the edit's render, before an effect or observer can
+    // report an old settled result for newly changed margins/type/content.
+    if (!measurementReady || measuredKey !== measurementKey) return pending;
+    const pageIndexes = renderedPages.map((fragment) => fragment.pageIndex);
+    if (
+      !pageIndexes.length ||
+      pageIndexes.some((pageIndex) => pageOverflow[pageIndex] === undefined)
+    )
+      return pending;
+    const issue: LetterBlockingIssue | null = pageIndexes.some(
+      (pageIndex) => pageOverflow[pageIndex],
+    )
       ? {
           code: "physical-overflow",
           message:
             "Mindestens eine A4-Seite enthält sichtbaren Inhalt ausserhalb des verfügbaren Seitenbereichs. Verkleinere den Inhalt oder passe die Abstände an.",
         }
       : null;
-    const warning = issue ? null : algorithmIssue;
-    const next: LetterPaginationState = {
+    return {
       ready: true,
       pageCount: renderedPages.length,
       issue,
-      warning,
+      warning: issue ? null : algorithmIssue,
     };
+  }, [algorithmIssue, measurementReady, measuredKey, measurementKey, pageOverflow, renderedPages]);
 
-    setPagination((current) =>
-      current.ready === next.ready &&
-      current.pageCount === next.pageCount &&
-      current.issue?.code === next.issue?.code &&
-      current.issue?.message === next.issue?.message &&
-      current.warning?.code === next.warning?.code &&
-      current.warning?.message === next.warning?.message
-        ? current
-        : next,
-    );
-  }, [algorithmIssue, measurementReady, pageOverflow, renderedPages]);
+  const reportedPagination = useRef<LetterPaginationState | null>(null);
+  useEffect(() => {
+    if (!onPaginationChange) return;
+    const current = reportedPagination.current;
+    if (
+      current &&
+      current.ready === pagination.ready &&
+      current.pageCount === pagination.pageCount &&
+      current.issue?.code === pagination.issue?.code &&
+      current.issue?.message === pagination.issue?.message &&
+      current.warning?.code === pagination.warning?.code &&
+      current.warning?.message === pagination.warning?.message
+    )
+      return;
+    reportedPagination.current = pagination;
+    onPaginationChange(pagination);
+  }, [onPaginationChange, pagination]);
 
   return (
     <div
       ref={documentRootRef}
       data-letter-document-root
+      data-dossier-document="letter"
+      data-dossier-template={design.template}
       data-letter-pagination-ready={pagination.ready ? "true" : "false"}
       data-letter-page-count={renderedPages.length}
+      data-letter-content-hash={pdfContentHash(richHtmlToPlainText(bodyHtml))}
+      data-letter-required-images={JSON.stringify(allImages.map((image) => image.id))}
       data-letter-pagination-error={pagination.issue?.code}
       data-letter-pagination-error-message={pagination.issue?.message}
       data-letter-pagination-warning={pagination.warning?.code}
@@ -384,7 +433,13 @@ export function LetterDocument({
         pagination.issue?.code === "physical-overflow" ? "true" : undefined
       }
     >
-      <div data-letter-document-pages className={scaledPreview ? "grid w-full gap-6" : undefined}>
+      {/* Storage-backed margins can differ from SSR. Remount both real pages and
+          probes together so retained hydration styles cannot change capacity. */}
+      <div
+        key={marginsSnapshot}
+        data-letter-document-pages
+        className={scaledPreview ? "grid w-full gap-6" : undefined}
+      >
         {renderedPages.map((fragment) => {
           const page = (
             <LetterPageShell
@@ -411,7 +466,12 @@ export function LetterDocument({
         })}
       </div>
 
-      <div ref={measurementRef} data-letter-pagination-measurements aria-hidden="true">
+      <div
+        key={`measurements:${marginsSnapshot}`}
+        ref={measurementRef}
+        data-letter-pagination-measurements
+        aria-hidden="true"
+      >
         <MeasurementProbe
           name="source"
           pageIndex={1}

@@ -14,6 +14,8 @@ import {
   type DossierExportFormat,
 } from "@/components/dossier/DossierExportDialog";
 import { DossierPdfCanvas } from "@/components/dossier/DossierPdfCanvas";
+import { DossierNativePrintRoot } from "@/components/dossier/DossierNativePrintRoot";
+import { useDossierNativePrint } from "@/components/dossier/useDossierNativePrint";
 import { ProjectLoadButton } from "@/components/dossier/ProjectFileControls";
 import type { CvLayoutWarning } from "@/components/cv/CvCanvas";
 import {
@@ -28,8 +30,9 @@ import {
   type LetterPdfDocument,
 } from "@/lib/dossier-pdf-document";
 import { downloadCombinedDossierPdf } from "@/lib/dossier-pdf";
+import type { PdfAdvisoryConsent } from "@/lib/pdf-preflight";
 import { downloadDossierProjectFromBrowser } from "@/lib/dossier-project-file";
-import { downloadDossierDocx, resolveDossierDocxProfile } from "@/lib/dossier-docx-export";
+import { docxDownloadErrorMessage } from "@/lib/docx-next/app-source";
 import {
   COVER_STORAGE_KEY,
   CV_STORAGE_KEY,
@@ -410,9 +413,13 @@ function Start() {
   const [downloading, setDownloading] = useState(false);
   const [dossierNote, setDossierNote] = useState<string | null>(null);
   const dossierExportRef = useRef<HTMLDivElement>(null);
+  const nativePrint = useDossierNativePrint(dossierExportRef);
 
   const refreshDocuments = useCallback(() => {
-    setDocuments(readDossierDocuments());
+    const next = readDossierDocuments();
+    // Returning from another window must not restart a settled paginator when
+    // the saved content is unchanged. Real storage edits still replace it.
+    setDocuments((current) => (JSON.stringify(current) === JSON.stringify(next) ? current : next));
   }, []);
 
   useEffect(() => {
@@ -437,11 +444,6 @@ function Start() {
   const readiness = useMemo(() => dossierReadiness(documents), [documents]);
   const missingParts = useMemo(() => missingDossierParts(readiness), [readiness]);
   const projectAvailable = !!(documents.cover || documents.letter || documents.cv);
-  const docxProfile = useMemo(
-    () => resolveDossierDocxProfile(documents.cover, documents.letter, documents.cv),
-    [documents],
-  );
-  const docxAvailable = readiness.complete && docxProfile !== null;
 
   const openDossierReview = () => {
     const freshDocuments = readDossierDocuments();
@@ -464,7 +466,7 @@ function Start() {
     });
   }, []);
 
-  const downloadDossier = async () => {
+  const downloadDossier = async (consent?: PdfAdvisoryConsent) => {
     const root = dossierExportRef.current;
     if (!root || !readiness.complete) {
       setDossierNote("Das Dossier ist noch nicht vollständig.");
@@ -485,12 +487,17 @@ function Start() {
 
     setDownloading(true);
     try {
-      await downloadCombinedDossierPdf(root, fileName, {
-        title: `Bewerbungsdossier – ${author}`,
-        author,
-        subject: "Lehrstellenbewerbung",
-        keywords: "Bewerbung, Titelblatt, Motivationsschreiben, Lebenslauf",
-      });
+      await downloadCombinedDossierPdf(
+        root,
+        fileName,
+        {
+          title: `Bewerbungsdossier – ${author}`,
+          author,
+          subject: "Lehrstellenbewerbung",
+          keywords: "Bewerbung, Titelblatt, Motivationsschreiben, Lebenslauf",
+        },
+        consent,
+      );
       setReviewOpen(false);
       setDossierNote("Gesamtdossier wurde als PDF erstellt.");
     } catch (error) {
@@ -513,53 +520,21 @@ function Start() {
   };
 
   const downloadDocx = async () => {
-    const { cover, letter, cv } = readDossierDocuments();
-    if (
-      !cover ||
-      !letter ||
-      !cv ||
-      !coverPdfHasContent(cover.data) ||
-      !letterPdfHasContent(letter.data) ||
-      !cvPdfHasContent(cv.data)
-    ) {
-      setDossierNote(
-        "Für DOCX müssen Titelblatt, Motivationsschreiben und Lebenslauf ausgefüllt sein.",
-      );
-      return;
-    }
-
-    const profile = resolveDossierDocxProfile(cover, letter, cv);
-    if (!profile) {
-      setDossierNote(
-        "Für DOCX muss in Titelblatt, Motivationsschreiben und Lebenslauf dieselbe aktive Vorlage gewählt sein.",
-      );
-      return;
-    }
-
-    const author =
-      [cover.data.vorname, cover.data.nachname].filter(Boolean).join(" ") ||
-      [cv.data.person.vorname, cv.data.person.nachname].filter(Boolean).join(" ") ||
-      "Bewerbungsdossier";
-    const fileName =
-      author === "Bewerbungsdossier"
-        ? "Bewerbungsdossier.docx"
-        : `Bewerbungsdossier-${author}.docx`;
-
+    if (downloading) return;
     setDownloading(true);
     try {
-      await downloadDossierDocx(cover, letter, cv, fileName);
+      const { downloadSavedDossierDocxNext } = await import("@/lib/dossier-docx-next-export");
+      await downloadSavedDossierDocxNext();
       setReviewOpen(false);
-      setDossierNote(`DOCX-Referenz ${profile.label} wurde erstellt.`);
+      setDossierNote("DOCX-Datei wurde erstellt.");
     } catch (error) {
-      setDossierNote(
-        error instanceof Error ? error.message : "Das DOCX-Dossier konnte nicht erstellt werden.",
-      );
+      setDossierNote(docxDownloadErrorMessage(error));
     } finally {
       setDownloading(false);
     }
   };
 
-  const downloadExport = async (format: DossierExportFormat) => {
+  const downloadExport = async (format: DossierExportFormat, consent?: PdfAdvisoryConsent) => {
     if (format === "json") {
       downloadProject();
       return;
@@ -568,7 +543,7 @@ function Start() {
       await downloadDocx();
       return;
     }
-    await downloadDossier();
+    await downloadDossier(consent);
   };
 
   return (
@@ -654,23 +629,15 @@ function Start() {
         downloading={downloading}
         jsonAvailable={projectAvailable}
         pdfAvailable={readiness.complete}
-        docxAvailable={docxAvailable}
-        docxTemplateLabel={docxProfile?.label ?? null}
+        onNativePrint={nativePrint.print}
+        nativePrinting={nativePrint.printing}
+        nativePrintError={nativePrint.error}
         onClose={closeDossierReview}
         onDownload={downloadExport}
       />
 
       {readiness.complete && (reviewOpen || downloading) ? (
-        <div
-          aria-hidden
-          style={{
-            position: "fixed",
-            left: "-20000px",
-            top: 0,
-            pointerEvents: "none",
-            zIndex: -1,
-          }}
-        >
+        <DossierNativePrintRoot>
           <DossierPdfCanvas
             ref={dossierExportRef}
             cover={documents.cover}
@@ -680,7 +647,7 @@ function Start() {
             onCvLayoutWarnings={receiveWarnings}
             onCvPageCount={setCvPageCount}
           />
-        </div>
+        </DossierNativePrintRoot>
       ) : null}
     </div>
   );

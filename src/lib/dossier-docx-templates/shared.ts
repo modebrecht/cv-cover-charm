@@ -22,10 +22,8 @@ export function recipeTemplate(templateId: string) {
       return createPolishedLegacyRecipeDossierDocxBlob(cover, letter, cv);
     }
 
-    const {
-      createGenericFamilyDossierDocxBlob,
-      genericFamilyDossierDocxSupported,
-    } = await import("@/lib/dossier-docx-family-renderer");
+    const { createGenericFamilyDossierDocxBlob, genericFamilyDossierDocxSupported } =
+      await import("@/lib/dossier-docx-family-renderer");
     if (!genericFamilyDossierDocxSupported(cover, letter, cv)) {
       throw new Error(`Kein DOCX-Rezept oder Family-Fallback für ${templateId}.`);
     }

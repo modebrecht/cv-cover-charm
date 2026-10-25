@@ -1,0 +1,227 @@
+{
+  "kind": "cv-cover-charm-dossier",
+  "version": 1,
+  "savedAt": "2026-10-16T06:00:00.000Z",
+  "cover": {
+    "version": 9,
+    "template": "modern",
+    "data": {
+      "meta": {
+        "title": "",
+        "author": "",
+        "subject": "",
+        "keywords": ""
+      },
+      "kicker": "Bewerbung um eine Lehrstelle als",
+      "eyebrow": "",
+      "beruf": "Informatiker/in EFZ",
+      "lehrbeginn": "August 2028",
+      "vorname": "Lea",
+      "nachname": "Müller",
+      "adresse": "Dorfstrasse 12",
+      "plzOrt": "4535 Hubersdorf",
+      "telefon": "079 123 45 67",
+      "email": "lea.mueller@example.ch",
+      "geburtsdatum": "14.03.2010",
+      "lehrbetrieb": "Beispiel AG",
+      "ansprechperson": "Herr Thomas Weber",
+      "betriebAdresse": "Industriestrasse 8, 4535 Hubersdorf",
+      "ort": "Hubersdorf",
+      "datum": "15.11.2026",
+      "labelKontakt": "",
+      "labelEmpfaenger": "",
+      "foto": null,
+      "showBetriebOnCover": false,
+      "showBeilagenOnCover": true,
+      "beilagen": ["Motivationsschreiben", "Lebenslauf", "Zeugnis"]
+    },
+    "colors": {},
+    "layout": {
+      "modern": {}
+    },
+    "fontScale": 1
+  },
+  "letter": {
+    "data": {
+      "absenderName": "Lea Müller",
+      "absenderAdresse": "Dorfstrasse 12",
+      "absenderPlzOrt": "4535 Hubersdorf",
+      "absenderTelefon": "079 123 45 67",
+      "absenderEmail": "lea.mueller@example.ch",
+      "empfaengerFirma": "Beispiel AG",
+      "empfaengerName": "Herr Thomas Weber",
+      "empfaengerAdresse": "Industriestrasse 8",
+      "empfaengerPlzOrt": "4535 Hubersdorf",
+      "ort": "Hubersdorf",
+      "datum": "15.11.2026",
+      "betreff": "Bewerbung um eine Lehrstelle als Informatiker/in EFZ",
+      "anrede": "Guten Tag Herr Weber",
+      "text": "Die Informatik begeistert mich, weil ich gerne logisch denke, Probleme löse und Neues ausprobiere. Deshalb bewerbe ich mich mit grossem Interesse um die Lehrstelle als Informatikerin EFZ bei der Beispiel AG.\n\nIn der Schule arbeite ich besonders gerne an Aufgaben, bei denen ich selbstständig Lösungen entwickeln kann. Ich bin zuverlässig, lerne schnell und arbeite gerne im Team.\n\nGerne möchte ich Ihr Unternehmen und den Beruf bei einem persönlichen Gespräch oder einer Schnupperlehre näher kennenlernen. Ich freue mich über Ihre Rückmeldung.",
+      "richTextHtml": "",
+      "gruss": "Freundliche Grüsse",
+      "unterschrift": "Lea Müller",
+      "images": [],
+      "showBeilagen": true,
+      "beilagen": ["Lebenslauf", "Zeugnis"]
+    },
+    "design": {
+      "template": "modern",
+      "colors": {
+        "ink": "#111111",
+        "accent": "#244a61"
+      },
+      "bgOpacity": 0.25,
+      "paperColor": null,
+      "textColor": null,
+      "font": "freundlich",
+      "fontOverride": "sans",
+      "senderAlign": "left",
+      "recipientAlign": "left",
+      "dateAlign": "left",
+      "ruleAfterSender": false,
+      "ruleAfterRecipient": false,
+      "ruleAfterSubject": false,
+      "headerMode": "compact",
+      "headerShowName": true,
+      "headerShowAddress": true,
+      "headerShowPhone": true,
+      "headerShowEmail": true,
+      "headerDifferentFirstPage": false,
+      "headerHeightMm": null,
+      "headerTextLayout": "stacked",
+      "headerInlineSeparator": "icons",
+      "headerBackgroundColor": null,
+      "headerGradientColor": null,
+      "footerMode": "compact",
+      "footerHeightMm": null,
+      "footerTextLayout": "inline",
+      "footerBackgroundColor": null,
+      "footerGradientColor": null,
+      "chromeBorderEnabled": false,
+      "chromeBorderColor": null,
+      "chromeBorderWidthMm": 0.6,
+      "chromeTextFont": null
+    }
+  },
+  "cv": {
+    "data": {
+      "titel": "Lebenslauf",
+      "person": {
+        "vorname": "Lea",
+        "nachname": "Müller",
+        "adresse": "Dorfstrasse 12",
+        "plzOrt": "4535 Hubersdorf",
+        "telefon": "079 123 45 67",
+        "email": "lea.mueller@example.ch",
+        "geburtsdatum": "14.03.2010",
+        "nationalitaet": "",
+        "untertitel": "",
+        "foto": null
+      },
+      "schule": [
+        {
+          "id": "demo-s1",
+          "zeit": "2023 – heute",
+          "titel": "Sekundarschule, Niveau A",
+          "ort": "Schulhaus Zentrum, Hubersdorf",
+          "beschreibung": "Schwerpunkt Mathematik und Informatik"
+        },
+        {
+          "id": "demo-s2",
+          "zeit": "2017 – 2023",
+          "titel": "Primarschule",
+          "ort": "Primarschule Hubersdorf",
+          "beschreibung": ""
+        }
+      ],
+      "erfahrung": [
+        {
+          "id": "demo-p1",
+          "zeit": "Sept. 2026",
+          "titel": "Schnupperlehre Informatik",
+          "ort": "Beispiel AG, Hubersdorf",
+          "beschreibung": "Support, kleine Automatisierungen mit Python"
+        },
+        {
+          "id": "demo-p2",
+          "zeit": "März 2026",
+          "titel": "Schnupperlehre Mediamatik",
+          "ort": "Muster GmbH, Hubersdorf",
+          "beschreibung": "Website-Pflege, Bildbearbeitung"
+        }
+      ],
+      "sprachen": [
+        {
+          "id": "demo-l1",
+          "name": "Deutsch",
+          "niveau": "Muttersprache"
+        },
+        {
+          "id": "demo-l2",
+          "name": "Englisch",
+          "niveau": "Gute Schulkenntnisse (B1)"
+        },
+        {
+          "id": "demo-l3",
+          "name": "Französisch",
+          "niveau": "Grundkenntnisse (A2)"
+        }
+      ],
+      "hobbys": ["Volleyball im Verein", "Programmieren kleiner Spiele", "Fotografieren"],
+      "staerken": ["Zuverlässig und pünktlich", "Arbeitet gern im Team", "Lernt schnell Neues"],
+      "referenzen": [
+        {
+          "id": "demo-r1",
+          "name": "Herr Thomas Weber",
+          "funktion": "Klassenlehrer, Schulhaus Zentrum",
+          "kontakt": "079 555 12 34",
+          "email": "",
+          "zusatz": ""
+        }
+      ],
+      "customSections": [
+        {
+          "id": "familie",
+          "title": "Familie",
+          "preset": "familie",
+          "entries": [
+            {
+              "id": "demo-familie",
+              "zeit": "",
+              "titel": "",
+              "ort": "Sohn von Monika Müller, Detailhandelsfachfrau und Peter Müller, Maurer",
+              "beschreibung": "Bruder von Aline, 2004, Medizinische Praxisassistentin und Jaro, 2015, Schüler"
+            }
+          ]
+        }
+      ],
+      "sectionOrder": [
+        "person",
+        "custom:familie",
+        "schule",
+        "erfahrung",
+        "sprachen",
+        "hobbys",
+        "staerken",
+        "referenzen"
+      ],
+      "labels": {},
+      "hidden": {},
+      "sectionLayouts": {}
+    },
+    "design": {
+      "template": "modern",
+      "colors": {
+        "ink": "#111111",
+        "accent": "#244a61"
+      },
+      "bgOpacity": 0.25,
+      "useElements": false,
+      "sectionTitlePill": true,
+      "sectionTitleOffsetMm": 4,
+      "sectionContentIndentMm": 6
+    },
+    "elements": [],
+    "elementStyles": {}
+  }
+}

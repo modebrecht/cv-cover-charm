@@ -1,0 +1,933 @@
+import type {
+  DossierDocModel,
+  DocumentPart,
+  DocBlock,
+  Paragraph,
+  TableBlock,
+  ImageBlock,
+  DecorativeArtwork,
+  DecorativeShape,
+  ParagraphFrameBlock,
+} from "./model";
+import { walkBlocks } from "./model";
+import { WordPackage, WORD_PART_TYPES } from "./package";
+import { DECL, W, R, namespaces, xml, twips, emu } from "./xml";
+import { cumulativeColumnTwips } from "./table-grid";
+import {
+  normalizeBrowserImage,
+  imageCache,
+  type ImageNormalizer,
+  type NormalizedImage,
+} from "./images";
+import { stylesXml, fontTableXml } from "./styles";
+import { planNumbering } from "./numbering";
+import { validateWordPackage, validateDossierDocModel } from "./validation";
+import {
+  rasterizeDecoration,
+  decorationAssetKey,
+  type DecorationRasterizer,
+  type DecorationPaint,
+} from "./decoration";
+import { pictureGeometry } from "./picture-geometry";
+import { paintPng } from "./artwork";
+import { planPartSections, type PlannedSection } from "./section-plan";
+import { tableColumnWidths } from "./layouts";
+import { nativeTextShapeRun } from "./native-text-shape";
+import { nativePictureFrameRun } from "./native-picture-frame";
+import { nativeVMLAvatarRun } from "./native-vml-avatar";
+import { flowSurfacePaint } from "./flow-surface";
+import { parallelFlowTable } from "./parallel-flow";
+import { imageZoneTable } from "./image-zone";
+import { cellProperties, planCellRowSpans } from "./native-cell";
+import {
+  decorationPageGeometry,
+  orderedPagePaint,
+  compositePagePaint,
+  nativePagePaintGeometry,
+} from "./page-artwork";
+import {
+  control,
+  pictureControl,
+  paragraph,
+  emptyParagraph,
+  emptyParagraphWithRuns,
+  pageBreak,
+} from "./native-text";
+
+export type RenderOptions = {
+  /** Omit unrelated dossier stories and assets for a single-document download. */
+  part?: DocumentPart["id"];
+  normalizeImage?: ImageNormalizer;
+  allowUnacceptedModelIssues?: boolean;
+  rasterizeDecoration?: DecorationRasterizer;
+  onDecorationFailure?: (id: string, error: unknown) => void;
+};
+/** One renderer for all semantic blocks. Templates never generate XML. */
+export async function renderDossierDocx(
+  model: DossierDocModel,
+  options: RenderOptions = {},
+): Promise<Blob> {
+  const parts = [model.cover, model.letter, model.cv].filter(
+    (part) => options.part === undefined || part.id === options.part,
+  );
+  if (!parts.length) throw new Error("Unknown document part");
+  if (model.issues.length && !options.allowUnacceptedModelIssues)
+    throw new Error(
+      `DOCX Next has unaccepted model issues: ${model.issues.map((issue) => issue.code).join(", ")}`,
+    );
+  validateDossierDocModel(model);
+  if (parts.some((part) => part.firstFooter !== undefined) && !options.allowUnacceptedModelIssues)
+    throw new Error("DOCX Next first footer identity is unaccepted; diagnostic opt-in required");
+  if (model.floatingTableTextFlow !== undefined && !options.allowUnacceptedModelIssues)
+    throw new Error(
+      "DOCX Next floating table continuation is unaccepted; diagnostic opt-in required",
+    );
+  const numbering = planNumbering(model);
+  const renderParagraph = (
+    value: Paragraph,
+    drawings = "",
+    indentMm = 0,
+    frame?: ParagraphFrameBlock,
+  ) =>
+    paragraph(
+      indentMm ? { ...value, indentMm: (value.indentMm ?? 0) + indentMm } : value,
+      drawings,
+      numbering.ids.get(value.id),
+      frame,
+    );
+  const pkg = new WordPackage();
+  const normalize = imageCache(options.normalizeImage ?? normalizeBrowserImage);
+  const sources = new Map<string, { asset: NormalizedImage; rid: string; file: string }>();
+  const blocks = parts.flatMap((part) => [
+    ...walkBlocks(part.blocks),
+    ...(part.headerShapes ?? []),
+    ...(part.headerFrames ?? []),
+    ...(part.headerImages ?? []),
+  ]);
+  if (
+    blocks.some((block) => block.kind === "paragraph-frame") &&
+    !options.allowUnacceptedModelIssues
+  )
+    throw new Error(
+      "DOCX Next paragraph frame pagination is unaccepted; diagnostic opt-in required",
+    );
+  if (
+    blocks.some((block) => block.kind === "table" && block.position) &&
+    !options.allowUnacceptedModelIssues
+  )
+    throw new Error(
+      "DOCX Next floating table pagination is unaccepted; diagnostic opt-in required",
+    );
+  const storyBlocks = parts.flatMap((part) =>
+    walkBlocks([
+      ...part.blocks,
+      ...part.header,
+      ...(part.firstHeader ?? []),
+      ...part.footer,
+      ...(part.firstFooter ?? []),
+      ...(part.headerShapes ?? []),
+      ...(part.headerFrames ?? []),
+      ...(part.headerImages ?? []),
+    ]),
+  );
+  if (
+    storyBlocks.some(
+      (block) =>
+        block.kind === "table" && block.rows.some((row) => row.minimumHeightMm !== undefined),
+    ) &&
+    !options.allowUnacceptedModelIssues
+  )
+    throw Error("DOCX Next table row minimum height is unaccepted; diagnostic opt-in required");
+  if (
+    storyBlocks.some((block) => block.kind === "image" && block.nativeOwner) &&
+    !options.allowUnacceptedModelIssues
+  )
+    throw Error("DOCX Next page picture ownership is unaccepted; diagnostic opt-in required");
+  if (
+    storyBlocks.some((b) => b.kind === "table" && b.afterMm !== undefined) &&
+    !options.allowUnacceptedModelIssues
+  )
+    throw Error("DOCX Next table after-spacing requires the explicit candidate gate");
+  if (
+    storyBlocks.some(
+      (b) => b.kind === "paragraph" && (b.flowSurface || b.fieldControls || b.tabStopsMm),
+    ) &&
+    !options.allowUnacceptedModelIssues
+  )
+    throw Error("DOCX Next measured interior composition requires the explicit candidate gate");
+  if (
+    storyBlocks.some((block) => block.kind === "table" && block.bodyBoundary !== undefined) &&
+    !options.allowUnacceptedModelIssues
+  )
+    throw new Error("DOCX Next table body boundary is unaccepted; diagnostic opt-in required");
+  if (
+    storyBlocks.some(
+      (block) => block.kind === "paragraph" && block.controlPlacement !== undefined,
+    ) &&
+    !options.allowUnacceptedModelIssues
+  )
+    throw new Error(
+      "DOCX Next inline paragraph identity is unaccepted; diagnostic opt-in required",
+    );
+  if (
+    storyBlocks.some((block) => block.kind === "table" && block.identityCarrier !== undefined) &&
+    !options.allowUnacceptedModelIssues
+  )
+    throw new Error("DOCX Next table identity carrier is unaccepted; diagnostic opt-in required");
+  if (parts.some((part) => part.pagePaintCoverage) && !options.allowUnacceptedModelIssues)
+    throw Error("DOCX Next native page coverage requires the explicit candidate gate");
+  if (
+    storyBlocks.some(
+      (block) =>
+        block.kind === "table" && block.rows.some((row) => row.cellEndKeepNext !== undefined),
+    ) &&
+    !options.allowUnacceptedModelIssues
+  )
+    throw new Error("DOCX Next cell-ending attachment is unaccepted; diagnostic opt-in required");
+  for (const block of blocks)
+    if (block.kind === "image" && !sources.has(block.source)) {
+      const asset = await normalize(block.source),
+        index = sources.size + 1;
+      const file = `media/image-${index}.png`,
+        rid = `image${index}`;
+      sources.set(block.source, { asset, rid, file });
+      pkg.add(`word/${file}`, asset.contentType, asset.bytes);
+      pkg.relate("word/document.xml", rid, "image", file);
+    }
+  const decorationSources = new Map<string, { rid: string; file: string }>();
+  const decorationIds = new Map<string, { rid: string; file: string }>();
+  const rasterize = options.rasterizeDecoration ?? rasterizeDecoration;
+  const normalizeDecoration = imageCache((key) => rasterize(JSON.parse(key) as DecorationPaint));
+  const composedPaint = new Map<string, DecorationPaint>();
+  for (const part of parts) {
+    if (part.pagePaintComposition)
+      for (const first of [false, true]) {
+        const paint = compositePagePaint(part, first);
+        if (paint) composedPaint.set(paint.id, paint);
+      }
+  }
+  for (const part of parts)
+    for (const block of [
+      ...walkBlocks(part.blocks).flatMap((block) =>
+        block.kind === "paragraph" && block.flowSurface
+          ? [block, flowSurfacePaint(block)]
+          : [block],
+      ),
+      ...(part.pagePaintComposition
+        ? [...composedPaint.values()].filter((p) => p.id.startsWith(part.id + "."))
+        : (part.headerShapes ?? [])),
+    ]) {
+      if (block.kind !== "decorative-shape") continue;
+      const bounds = decorationPageGeometry(block, part.page);
+      const key = decorationAssetKey({
+        ...block,
+        ...(block.clipToPage
+          ? {
+              viewport: {
+                leftMm: bounds.xMm - block.xMm,
+                topMm: bounds.yMm - block.yMm,
+                widthMm: bounds.widthMm,
+                heightMm: bounds.heightMm,
+              },
+            }
+          : {}),
+      });
+      try {
+        if (!decorationSources.has(key)) {
+          const asset = await normalizeDecoration(key);
+          const index = decorationSources.size + 1;
+          const rid = `decoration${index}`,
+            file = `media/decoration-${index}.png`;
+          pkg.add(`word/${file}`, asset.contentType, asset.bytes);
+          pkg.relate("word/document.xml", rid, "image", file);
+          decorationSources.set(key, { rid, file });
+        }
+        decorationIds.set(block.id, decorationSources.get(key)!);
+      } catch (error) {
+        if (composedPaint.has(block.id)) throw error;
+        if (options.onDecorationFailure) options.onDecorationFailure(block.id, error);
+        else console.warn(`DOCX Next omitted nonsemantic decoration ${block.id}:`, error);
+      }
+    }
+  let drawingId = 0;
+  function pictureRun(
+    value: ImageBlock,
+    rid: string,
+    geometry: ReturnType<typeof pictureGeometry>,
+    widthMm: number,
+    page: DocumentPart["page"],
+    behind = false,
+    paintLayer?: number,
+    authoredParagraphOffsets = false,
+    noTextWrap = false,
+  ): string {
+    if (
+      paintLayer !== undefined &&
+      (!Number.isSafeInteger(paintLayer) || paintLayer < 0 || paintLayer > 2147483647)
+    )
+      throw new Error("DOCX Next invalid native paint layer");
+    const finalWidth = geometry.widthMm,
+      finalHeight = geometry.heightMm;
+    const cx = emu(finalWidth),
+      cy = emu(finalHeight),
+      id = ++drawingId;
+    const crop = geometry.crop;
+    const outline = geometry.borderWidthMm
+      ? `<a:ln w="${emu(geometry.borderWidthMm)}"><a:solidFill><a:srgbClr val="${geometry.borderColor}"/></a:solidFill></a:ln>`
+      : "";
+    const corners =
+      geometry.shape === "roundRect"
+        ? `<a:gd name="adj" fmla="val ${geometry.cornerAdjustment}"/>`
+        : "";
+    const picture = `<a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic><pic:nvPicPr><pic:cNvPr id="${id}" name="${xml(value.id)}"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="${rid}"/><a:srcRect l="${crop.left}" t="${crop.top}" r="${crop.right}" b="${crop.bottom}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm><a:prstGeom prst="${geometry.shape}"><a:avLst>${corners}</a:avLst></a:prstGeom>${outline}</pic:spPr></pic:pic></a:graphicData></a:graphic>`;
+    // Word paints picture outlines outside the image's fill bounds. Reserve the
+    // complete stroke on each edge so an inline line box cannot clip its paint.
+    const paintExtent = emu(geometry.borderWidthMm);
+    const extent = `<wp:extent cx="${cx}" cy="${cy}"/><wp:effectExtent l="${paintExtent}" t="${paintExtent}" r="${paintExtent}" b="${paintExtent}"/>`;
+    const properties = `<wp:docPr id="${id}" name="${xml(value.id)}" descr="${xml(value.alt)}"/><wp:cNvGraphicFramePr><a:graphicFrameLocks noChangeAspect="1"/></wp:cNvGraphicFramePr>`;
+    const distances = `distT="${emu(value.gapMm)}" distB="${emu(value.gapMm)}" distL="${emu(value.gapMm)}" distR="${emu(value.gapMm)}"`;
+    let drawing: string;
+    if (value.placement === "inline")
+      drawing = `<wp:inline ${distances}>${extent}${properties}${picture}</wp:inline>`;
+    else {
+      const pageOrigin = value.coordinateOrigin === "page";
+      const originWidth = pageOrigin ? page.widthMm : widthMm;
+      const inset = geometry.borderWidthMm / 2;
+      const x = authoredParagraphOffsets
+        ? value.xMm
+        : value.placement === "free"
+          ? Math.max(inset, Math.min(originWidth - finalWidth - inset, value.xMm))
+          : value.placement === "right"
+            ? widthMm - finalWidth
+            : 0;
+      const y = authoredParagraphOffsets
+        ? value.yMm
+        : Math.max(
+            pageOrigin ? inset : 0,
+            Math.min(page.heightMm - finalHeight - inset, value.yMm),
+          );
+      drawing = `<wp:anchor ${distances} simplePos="0" relativeHeight="${paintLayer ?? id}" behindDoc="${behind ? 1 : 0}" locked="0" layoutInCell="${value.nativeOwner === "page-picture" ? 0 : 1}" allowOverlap="${behind || noTextWrap ? 1 : 0}"><wp:simplePos x="0" y="0"/><wp:positionH relativeFrom="${pageOrigin ? "page" : "column"}"><wp:posOffset>${emu(x)}</wp:posOffset></wp:positionH><wp:positionV relativeFrom="${value.verticalOrigin ?? (authoredParagraphOffsets ? "line" : pageOrigin ? "page" : "paragraph")}"><wp:posOffset>${emu(y)}</wp:posOffset></wp:positionV>${extent}${behind || noTextWrap ? "<wp:wrapNone/>" : '<wp:wrapSquare wrapText="bothSides"/>'}${properties}${picture}</wp:anchor>`;
+    }
+    return `<w:r><w:drawing>${drawing}</w:drawing></w:r>`;
+  }
+  function imageRun(value: ImageBlock, widthMm: number, page: DocumentPart["page"]): string {
+    const media = sources.get(value.source)!;
+    return pictureRun(
+      value,
+      media.rid,
+      pictureGeometry(value, media.asset, widthMm),
+      widthMm,
+      page,
+      false,
+      undefined,
+      false,
+      value.wrapMode === "none",
+    );
+  }
+  function ownedImageRun(value: ImageBlock, widthMm: number, page: DocumentPart["page"]): string {
+    if (value.nativeOwner === "page-picture") return imageRun(value, widthMm, page);
+    if (
+      value.placement === "free" &&
+      value.sourceLayout &&
+      (value.coordinateOrigin === "content" || value.nativeOwner === "page-frame")
+    ) {
+      const media = sources.get(value.source)!;
+      const geometry = pictureGeometry(
+        value,
+        media.asset,
+        value.nativeOwner === "page-frame" ? value.widthMm : widthMm,
+      );
+      const inline = pictureRun(
+        { ...value, placement: "inline", gapMm: 0 },
+        media.rid,
+        geometry,
+        widthMm,
+        page,
+      );
+      const owned = pictureControl(value.id, inline, drawingId);
+      return nativePictureFrameRun(value, geometry.heightMm, owned, ++drawingId);
+    }
+    const drawing = imageRun(value, widthMm, page);
+    return value.placement === "inline" ? pictureControl(value.id, drawing, drawingId) : drawing;
+  }
+  function decorationRun(
+    value: DecorativeShape,
+    page: DocumentPart["page"],
+    story = "word/document.xml",
+    nativeCoverage = false,
+  ): string {
+    const media = decorationIds.get(value.id);
+    if (!media) return "";
+    const { rid } = media;
+    const geometry = nativeCoverage
+      ? nativePagePaintGeometry(page)
+      : decorationPageGeometry(value, page);
+    if (
+      story !== "word/document.xml" &&
+      !pkg.relationships.some((rel) => rel.source === story && rel.id === rid)
+    )
+      pkg.relate(story, rid, "image", media.file);
+    return pictureRun(
+      {
+        kind: "image",
+        id: value.id,
+        source: "",
+        alt: "",
+        widthMm: value.widthMm,
+        maxHeightMm: value.heightMm,
+        placement: "free",
+        coordinateOrigin: "page",
+        xMm: geometry.xMm,
+        yMm: geometry.yMm,
+        gapMm: 0,
+      },
+      rid,
+      {
+        widthMm: geometry.widthMm,
+        heightMm: geometry.heightMm,
+        crop: { left: 0, top: 0, right: 0, bottom: 0 },
+        shape: "rect",
+        cornerAdjustment: 0,
+        borderWidthMm: 0,
+        borderColor: "000000",
+      },
+      page.widthMm,
+      page,
+      true,
+      value.paintLayer,
+    );
+  }
+  const paints = new Map<string, string>();
+  function artwork(value: DecorativeArtwork, part: DocumentPart, story: string): string {
+    const key = `${value.fill.color}:${value.fill.endColor ?? value.fill.color}`;
+    if (!paints.has(key)) {
+      const file = `media/paint-${paints.size + 1}.png`;
+      pkg.add(`word/${file}`, "image/png", paintPng(value.fill));
+      paints.set(key, file);
+    }
+    const rid = `paint-${value.id}`;
+    pkg.relate(story, rid, "image", paints.get(key)!);
+    return pictureRun(
+      {
+        kind: "image",
+        id: value.id,
+        source: key,
+        alt: "",
+        widthMm: value.widthMm,
+        maxHeightMm: value.heightMm,
+        placement: "free",
+        xMm: value.xMm,
+        yMm: value.yMm,
+        gapMm: 0,
+        coordinateOrigin: "page",
+      },
+      rid,
+      {
+        widthMm: value.widthMm,
+        heightMm: value.heightMm,
+        crop: { left: 0, top: 0, right: 0, bottom: 0 },
+        shape: "rect",
+        cornerAdjustment: 0,
+        borderWidthMm: 0,
+        borderColor: "000000",
+      },
+      part.page.widthMm,
+      part.page,
+      true,
+      value.paintLayer,
+    );
+  }
+  function image(value: ImageBlock, widthMm: number, page: DocumentPart["page"]): string {
+    if (value.wrapMode === "none") {
+      return control(
+        value.id,
+        `<w:p><w:pPr>${value.align ? `<w:jc w:val="${value.align}"/>` : ""}<w:spacing w:before="0" w:after="0" w:line="20" w:lineRule="exact"/></w:pPr>${imageRun(value, widthMm, page)}</w:p>`,
+      );
+    }
+    const drawing = ownedImageRun(value, widthMm, page);
+    return `<w:p><w:pPr><w:spacing w:after="${twips(3)}" w:line="240" w:lineRule="auto"/>${value.align ? `<w:jc w:val="${value.align}"/>` : ""}</w:pPr>${drawing}</w:p>`;
+  }
+  function table(
+    value: TableBlock,
+    widthMm: number,
+    page: DocumentPart["page"],
+    cumulativeGrid = false,
+    openingDrawings = "",
+  ): string {
+    const tableWidth = value.widthMm ?? widthMm - (value.indentMm ?? 0);
+    if (
+      tableWidth < 10 ||
+      (!value.position && tableWidth + (value.indentMm ?? 0) > widthMm + 0.001)
+    )
+      throw new Error(`DOCX Next flow box exceeds available width ${value.id}`);
+    const position = value.position
+      ? `<w:tblpPr w:leftFromText="0" w:rightFromText="0" w:topFromText="0" w:bottomFromText="0" w:vertAnchor="page" w:horzAnchor="page" w:tblpX="${twips(value.position.xMm)}" w:tblpY="${twips(value.position.yMm)}"/><w:tblOverlap w:val="never"/>`
+      : "";
+    const d = value.decoration;
+    const paddingX = d?.paddingXMm ?? 2,
+      paddingY = d?.paddingYMm ?? 0;
+    const shading = d?.fillColor
+      ? `<w:shd w:val="clear" w:color="auto" w:fill="${d.fillColor}"/>`
+      : "";
+    const border = d?.borderWidthMm
+      ? `w:val="single" w:sz="${Math.min(96, Math.max(2, Math.round(((d.borderWidthMm * 72) / 25.4) * 8)))}" w:color="${d.borderColor}"`
+      : 'w:val="nil"';
+    const widths = tableColumnWidths(value, tableWidth);
+    cumulativeGrid ||= value.columnRounding === "cumulative";
+    const gridWidths = cumulativeGrid
+      ? cumulativeColumnTwips(widths, tableWidth)
+      : widths.map(twips);
+    const merges = planCellRowSpans(value);
+    const rows = value.rows
+      .map(
+        (row, rowIndex) =>
+          `<w:tr>${
+            row.keepTogether || row.minimumHeightMm !== undefined
+              ? `<w:trPr>${row.keepTogether ? "<w:cantSplit/>" : ""}${row.minimumHeightMm === undefined ? "" : `<w:trHeight w:val="${twips(row.minimumHeightMm)}" w:hRule="atLeast"/>`}</w:trPr>`
+              : ""
+          }${row.cells
+            .map((cell, index) => {
+              const merge = merges[rowIndex][index]
+                ? `<w:vMerge w:val="${merges[rowIndex][index]}"/>`
+                : "";
+              const paint = row.cellDecorations?.[index];
+              const contentWidth =
+                widths[index] -
+                (paint?.paddingLeftMm ?? paint?.paddingXMm ?? paddingX) -
+                (paint?.paddingRightMm ?? paint?.paddingXMm ?? paddingX);
+              if (paint && cell.length && contentWidth < 10)
+                throw new Error(`DOCX Next cell leaves insufficient text width ${value.id}`);
+              const props = paint ? cellProperties(paint) : shading;
+              const emptyEnding = emptyParagraphWithRuns(
+                "",
+                row.cellEndKeepNext?.[index] ?? undefined,
+              );
+              const cellStart =
+                value.bodyBoundary === "section-start" && rowIndex === 0 && cell.length
+                  ? emptyParagraphWithRuns(
+                      index === row.cells.findIndex((content) => content.length > 0)
+                        ? openingDrawings
+                        : "",
+                      true,
+                      20 +
+                        twips(
+                          value.bodyBoundaryLeadByCellMm?.[index] ?? value.bodyBoundaryLeadMm ?? 0,
+                        ),
+                    )
+                  : "";
+              const ending =
+                value.identityCarrier === "cell-ending" && rowIndex === 0 && index === 0
+                  ? control(value.id, emptyEnding)
+                  : emptyEnding;
+              return `<w:tc><w:tcPr><w:tcW w:w="${gridWidths[index]}" w:type="dxa"/>${merge}${props}<w:vAlign w:val="top"/></w:tcPr>${cellStart}${renderBlocks(cell, Math.max(10, contentWidth), page, 0, cumulativeGrid)}${ending}</w:tc>`;
+            })
+            .join("")}</w:tr>`,
+      )
+      .join("");
+    // Adjacent diagnostic floating owners deliberately invoke the importer's separate anchors.
+    // Other semantic tables retain the paragraph boundary.
+    // An explicit body boundary gives the importer a real paragraph before the table.
+    // This guarded composition remains unaccepted for native owner lifetime.
+    const leading =
+      value.bodyBoundary === "paragraph"
+        ? emptyParagraphWithRuns(
+            "",
+            value.bodyBoundaryKeepNext,
+            20 + twips(value.bodyBoundaryLeadMm ?? 0),
+          )
+        : value.position?.leadingBoundary === "paragraph"
+          ? emptyParagraph
+          : "";
+    return `${leading}<w:tbl><w:tblPr>${position}<w:tblW w:w="${twips(tableWidth)}" w:type="dxa"/>${value.indentMm ? `<w:tblInd w:w="${twips(value.indentMm)}" w:type="dxa"/>` : ""}<w:tblBorders>${["top", "left", "bottom", "right"].map((edge) => `<w:${edge} ${!d?.borderSides || d.borderSides.includes(edge as "top" | "left" | "bottom" | "right") ? border : 'w:val="nil"'}/>`).join("")}<w:insideH w:val="nil"/><w:insideV w:val="nil"/></w:tblBorders><w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="${twips(paddingY)}" w:type="dxa"/><w:left w:w="${twips(paddingX)}" w:type="dxa"/><w:bottom w:w="${twips(paddingY)}" w:type="dxa"/><w:right w:w="${twips(paddingX)}" w:type="dxa"/></w:tblCellMar><w:tblCaption w:val="${xml(value.id)}"/></w:tblPr><w:tblGrid>${gridWidths.map((width) => `<w:gridCol w:w="${width}"/>`).join("")}</w:tblGrid>${rows}</w:tbl>${value.position?.anchorParagraphId || value.position?.nextFloatingTableId ? "" : value.afterMm === undefined ? emptyParagraph : emptyParagraphWithRuns("", undefined, 20, twips(value.afterMm))}`;
+  }
+  function renderBlock(
+    block: DocBlock,
+    widthMm: number,
+    page: DocumentPart["page"],
+    indentMm = 0,
+    cumulativeGrid = false,
+  ): string {
+    if (block.kind === "paragraph") {
+      let surface = "";
+      if (block.flowSurface) {
+        const s = block.flowSurface,
+          media = decorationIds.get(block.id + ".flow-paint");
+        if (!media) throw Error("DOCX Next: Rubrikfläche konnte nicht erstellt werden.");
+        surface = pictureRun(
+          {
+            kind: "image",
+            id: block.id + ".flow-paint",
+            source: "",
+            alt: "",
+            widthMm: s.rowWidthMm,
+            maxHeightMm: s.heightMm,
+            placement: "free",
+            coordinateOrigin: "content",
+            xMm: (block.indentMm ?? 0) + indentMm,
+            yMm: -s.paddingYMm,
+            gapMm: 0,
+          },
+          media.rid,
+          {
+            widthMm: s.rowWidthMm,
+            heightMm: s.heightMm,
+            crop: { left: 0, top: 0, right: 0, bottom: 0 },
+            shape: "rect",
+            cornerAdjustment: 0,
+            borderWidthMm: 0,
+            borderColor: "000000",
+          },
+          widthMm,
+          page,
+          true,
+          undefined,
+          true,
+        );
+      }
+      return renderParagraph(block, surface, indentMm);
+    }
+    if (block.kind === "paragraph-frame")
+      return block.surface
+        ? emptyParagraphWithRuns(
+            block.surface.diagnosticShapeFormat === "legacy-vml"
+              ? nativeVMLAvatarRun(block, ++drawingId, renderParagraph)
+              : nativeTextShapeRun(block, ++drawingId, renderParagraph),
+          )
+        : block.paragraphs.map((value) => renderParagraph(value, "", 0, block)).join("");
+    if (block.kind === "image") return image(block, widthMm, page);
+    if (block.kind === "decorative-shape")
+      return emptyParagraphWithRuns(decorationRun(block, page));
+    if (block.kind === "spacer")
+      return control(
+        block.id,
+        `<w:p><w:pPr><w:spacing w:before="0" w:after="0" w:line="${Math.max(1, twips(block.heightMm))}" w:lineRule="exact"/></w:pPr></w:p>`,
+      );
+    if (block.kind === "page-break") return pageBreak;
+    if (block.kind === "rule") {
+      indentMm += block.indentMm ?? 0;
+      const length = Math.min(block.lengthMm, widthMm - indentMm);
+      if (length <= 0 || indentMm < -page.margins.left)
+        throw new Error(`DOCX Next rule outside content width ${block.id}`);
+      return control(
+        block.id,
+        `<w:p><w:pPr><w:keepNext w:val="${block.keepNext ? 1 : 0}"/><w:pBdr><w:bottom w:val="single" w:sz="${block.strokeWidthMm === undefined ? 4 : Math.round(((block.strokeWidthMm * 72) / 25.4) * 8)}" w:space="0" w:color="${block.color}"/></w:pBdr><w:spacing w:after="${twips(block.afterMm)}" w:line="20" w:lineRule="exact"/><w:ind w:left="${twips(indentMm)}" w:right="${twips(widthMm - indentMm - length)}"/></w:pPr><w:r/></w:p>`,
+      );
+    }
+    if (block.kind === "table")
+      return table(
+        { ...block, indentMm: (block.indentMm ?? 0) + indentMm },
+        widthMm,
+        page,
+        cumulativeGrid,
+      );
+    if (block.kind === "image-zone") {
+      const zone = imageZoneTable(block, widthMm - indentMm);
+      return table(
+        { ...zone, indentMm: (zone.indentMm ?? 0) + indentMm },
+        widthMm,
+        page,
+        cumulativeGrid,
+      );
+    }
+    if (block.kind === "parallel-flow")
+      return table(
+        { ...parallelFlowTable(block, widthMm - indentMm), indentMm },
+        widthMm,
+        page,
+        cumulativeGrid,
+      );
+    if (block.kind === "columns")
+      return table(
+        {
+          kind: "table",
+          id: block.id,
+          widths: block.widths,
+          indentMm,
+          rows: [{ cells: block.columns, keepTogether: false }],
+        },
+        widthMm,
+        page,
+        cumulativeGrid,
+      );
+    if (block.kind === "entry" && block.keepTogether)
+      return table(
+        {
+          kind: "table",
+          id: block.id,
+          widths: [1],
+          indentMm,
+          rows: [{ cells: [block.blocks], keepTogether: true }],
+          decoration: { borderColor: "FFFFFF", borderWidthMm: 0, paddingXMm: 0, paddingYMm: 0 },
+        },
+        widthMm,
+        page,
+        cumulativeGrid,
+      );
+    if (block.kind === "entry" || block.kind === "group")
+      return renderBlocks(block.blocks, widthMm, page, indentMm, cumulativeGrid);
+    if (block.kind === "column-flow")
+      throw new Error("Column flow must be planned before Word rendering.");
+    return `${block.heading ? renderBlock(block.heading, widthMm, page, indentMm, cumulativeGrid) : ""}${renderBlocks(block.blocks, widthMm, page, indentMm + (block.contentIndentMm ?? 0), cumulativeGrid)}`;
+  }
+  const rendersContent = (value: DocBlock): boolean =>
+    value.kind === "decorative-shape"
+      ? decorationIds.has(value.id)
+      : value.kind === "group"
+        ? value.blocks.some(rendersContent)
+        : true;
+  function renderBlocks(
+    values: DocBlock[],
+    widthMm: number,
+    page: DocumentPart["page"],
+    indentMm = 0,
+    cumulativeGrid = false,
+  ): string {
+    let result = "",
+      page2Started = false;
+    for (let index = 0; index < values.length; index++) {
+      const block = values[index];
+      if (block.kind === "group" && !rendersContent(block)) continue;
+      // Floating image geometry is relative to one known paragraph anchor. Do not
+      // insert separate anchor paragraphs that move each image's origin downwards.
+      if (
+        block.kind === "decorative-shape" ||
+        (block.kind === "image" && block.placement !== "inline")
+      ) {
+        const drawings: string[] = [];
+        let ownsPicture = false;
+        let ordinaryPicture = false;
+        let cursor = index;
+        while (
+          values[cursor]?.kind === "decorative-shape" ||
+          (values[cursor]?.kind === "image" &&
+            (values[cursor] as ImageBlock).placement !== "inline")
+        ) {
+          const value = values[cursor];
+          if (value.kind === "image" && value.nativeOwner === "page-picture")
+            ordinaryPicture = true;
+          if (
+            value.kind === "image" &&
+            (value.nativeOwner === "page-picture" ||
+              (value.sourceLayout &&
+                (value.coordinateOrigin === "content" || value.nativeOwner === "page-frame")))
+          )
+            ownsPicture = true;
+          drawings.push(
+            value.kind === "decorative-shape"
+              ? decorationRun(value, page)
+              : ownedImageRun(value as ImageBlock, widthMm, page),
+          );
+          cursor++;
+        }
+        const anchor = values[cursor];
+        if (
+          ordinaryPicture &&
+          anchor?.kind === "table" &&
+          anchor.bodyBoundary === "section-start"
+        ) {
+          // A body paragraph before a continuous CV row can strand the photo
+          // on its own Word page. Reuse the row's existing structural paragraph.
+          // layoutInCell=0 leaves the ordinary picture free of cell layout bounds;
+          // no content control or enclosing shape is introduced.
+          result += table(anchor, widthMm, page, cumulativeGrid, drawings.join(""));
+          index = cursor;
+          continue;
+        }
+        if (anchor?.kind === "paragraph") {
+          // Keep text ownership separate from the native picture frame anchored here.
+          result += renderParagraph(
+            ownsPicture ? { ...anchor, controlPlacement: "inline" } : anchor,
+            drawings.join(""),
+            indentMm,
+          );
+          index = cursor;
+          continue;
+        }
+        if (drawings.some(Boolean))
+          result += emptyParagraphWithRuns(drawings.join(""), ordinaryPicture ? true : undefined);
+        index = cursor - 1;
+        continue;
+      }
+      if (
+        (block.kind === "section" || block.kind === "group") &&
+        block.startPage === 2 &&
+        !page2Started
+      ) {
+        result += pageBreak;
+        page2Started = true;
+      }
+      if (block.kind === "section" && block.width === "half") {
+        const next = values[index + 1];
+        const cells: DocBlock[][] = [[{ ...block, width: "full" }], []];
+        if (
+          next?.kind === "section" &&
+          next.width === "half" &&
+          next.startPage === block.startPage
+        ) {
+          cells[1] = [{ ...next, width: "full" }];
+          index++;
+        }
+        result += table(
+          {
+            kind: "table",
+            id: `${block.id}.half-row`,
+            widths: [1, 1, 1],
+            columnWidthsMm: [null, 6, null],
+            indentMm,
+            rows: [{ cells: [cells[0], [], cells[1]], keepTogether: false }],
+            decoration: { borderColor: "FFFFFF", borderWidthMm: 0, paddingXMm: 0, paddingYMm: 0 },
+          },
+          widthMm,
+          page,
+          cumulativeGrid,
+        );
+      } else result += renderBlock(block, widthMm, page, indentMm, cumulativeGrid);
+    }
+    return result;
+  }
+  const chromeReferences = new Map<string, string>();
+  function chrome(part: DocumentPart, scope: "header" | "footer", first = false): string {
+    const id = `${part.id}-${scope}${first ? "-first" : ""}`;
+    if (chromeReferences.has(id)) return chromeReferences.get(id)!;
+    const content = first
+      ? scope === "header"
+        ? part.firstHeader!
+        : part.firstFooter!
+      : part[scope];
+    const story = `word/${id}.xml`;
+    const drawings =
+      scope === "header"
+        ? (part.pagePaintComposition
+            ? [
+                composedPaint.get(`${part.id}.page-paint.${first ? "first" : "continuation"}`),
+              ].filter((value): value is DecorationPaint => !!value)
+            : orderedPagePaint(part, first)
+          )
+            .map((value) =>
+              value.kind === "decorative-artwork"
+                ? artwork(value, part, story)
+                : decorationRun(value, part.page, story, !!part.pagePaintCoverage),
+            )
+            .join("")
+        : "";
+    const headerIcons =
+      scope === "header"
+        ? (part.headerImages ?? [])
+            .filter((value) => value.repeat === (first ? "first" : "continuation"))
+            .map((value) => {
+              const media = sources.get(value.source)!;
+              if (!pkg.relationships.some((rel) => rel.source === story && rel.id === media.rid))
+                pkg.relate(story, media.rid, "image", media.file);
+              return pictureRun(
+                value,
+                media.rid,
+                pictureGeometry(value, media.asset, part.page.widthMm),
+                part.page.widthMm,
+                part.page,
+                true,
+              );
+            })
+            .join("")
+        : "";
+    const frames =
+      scope === "header"
+        ? (part.headerFrames ?? [])
+            .filter((value) => value.repeat === (first ? "first" : "continuation"))
+            .map((frame) => frame.paragraphs.map((p) => renderParagraph(p, "", 0, frame)).join(""))
+            .join("")
+        : "";
+    const paragraphs =
+      (content.length
+        ? content
+            .map((value, index) => renderParagraph(value, index === 0 ? drawings : ""))
+            .join("")
+        : emptyParagraphWithRuns(drawings + headerIcons)) +
+      frames +
+      (frames ? emptyParagraph : "");
+    pkg.add(
+      story,
+      WORD_PART_TYPES[scope],
+      `${DECL}<w:${scope === "header" ? "hdr" : "ftr"} ${namespaces}>${paragraphs}</w:${scope === "header" ? "hdr" : "ftr"}>`,
+    );
+    pkg.relate("word/document.xml", id, scope, `${id}.xml`);
+    const reference = `<w:${scope}Reference w:type="${first ? "first" : "default"}" r:id="${id}"/>`;
+    chromeReferences.set(id, reference);
+    return reference;
+  }
+  function section(part: DocumentPart, planned: PlannedSection): string {
+    const m = part.page.margins;
+    let references = "";
+    // Even empty headers/footers explicitly break inheritance between dossier parts.
+    references += chrome(part, "header");
+    references += chrome(part, "footer");
+    if (part.firstHeader && planned.logicalStart) {
+      references += chrome(part, "header", true);
+      // titlePg selects both first-page stories. Reuse the known footer part
+      // explicitly so a different first header does not leave its footer blank.
+      references += part.firstFooter
+        ? chrome(part, "footer", true)
+        : `<w:footerReference w:type="first" r:id="${part.id}-footer"/>`;
+    }
+    return `<w:sectPr>${references}<w:type w:val="${planned.breakBefore}"/><w:pgSz w:w="${twips(part.page.widthMm)}" w:h="${twips(part.page.heightMm)}"/><w:pgMar w:top="${twips(m.top)}" w:right="${twips(m.right)}" w:bottom="${twips(m.bottom)}" w:left="${twips(m.left)}" w:header="${twips(part.page.headerDistanceMm)}" w:footer="${twips(part.page.footerDistanceMm)}" w:gutter="0"/>${part.chrome.borderColor ? `<w:pgBorders w:offsetFrom="page">${["top", "left", "bottom", "right"].map((edge) => `<w:${edge} w:val="single" w:sz="${Math.max(1, Math.round(((part.chrome.borderWidthMm * 72) / 25.4) * 8))}" w:space="12" w:color="${part.chrome.borderColor}"/>`).join("")}</w:pgBorders>` : ""}<w:cols w:equalWidth="1" w:num="${planned.columns.count}" w:space="${twips(planned.columns.gapMm)}"/>${part.firstHeader && planned.logicalStart ? "<w:titlePg/>" : ""}</w:sectPr>`;
+  }
+  const physicalSections = parts.flatMap((part) =>
+    planPartSections(part).map((planned) => ({ part, planned })),
+  );
+  const body = physicalSections
+    .map(({ part, planned }, index) => {
+      const widthMm =
+        (part.page.widthMm -
+          part.page.margins.left -
+          part.page.margins.right -
+          (planned.columns.count - 1) * planned.columns.gapMm) /
+        planned.columns.count;
+      const content = renderBlocks(planned.blocks, widthMm, part.page);
+      return (
+        content +
+        (index < physicalSections.length - 1
+          ? `<w:p><w:pPr>${section(part, planned)}</w:pPr></w:p>`
+          : section(part, planned))
+      );
+    })
+    .join("");
+  pkg.add(
+    "word/document.xml",
+    WORD_PART_TYPES.document,
+    `${DECL}<w:document ${namespaces}><w:body>${body}</w:body></w:document>`,
+  );
+  pkg.add("word/styles.xml", WORD_PART_TYPES.styles, stylesXml(model));
+  pkg.add(
+    "word/settings.xml",
+    WORD_PART_TYPES.settings,
+    `${DECL}<w:settings xmlns:w="${W}"><w:embedTrueTypeFonts w:val="0"/><w:autoHyphenation w:val="0"/><w:doNotHyphenateCaps/><w:compat>${blocks.some((block) => block.kind === "table" && block.position) ? '<w:doNotBreakWrappedTables w:val="0"/>' : ""}<w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/>${model.floatingTableTextFlow === "all-pages" ? '<w:compatSetting w:name="allowTextAfterFloatingTableBreak" w:uri="http://schemas.microsoft.com/office/word" w:val="1"/>' : ""}</w:compat>${sources.size ? "<w:doNotAutoCompressPictures/>" : ""}</w:settings>`,
+  );
+  const fonts = new Set<string>([model.theme.font]);
+  for (const part of parts)
+    for (const block of walkBlocks([
+      ...part.blocks,
+      ...part.header,
+      ...(part.firstHeader ?? []),
+      ...part.footer,
+      ...(part.firstFooter ?? []),
+      ...(part.headerFrames ?? []),
+    ]))
+      if (block.kind === "paragraph") block.runs.forEach((value) => fonts.add(value.style.font));
+  pkg.add("word/fontTable.xml", WORD_PART_TYPES.fontTable, fontTableXml(fonts));
+  pkg.add("word/numbering.xml", WORD_PART_TYPES.numbering, numbering.xml);
+  for (const type of ["styles", "settings", "fontTable", "numbering"])
+    pkg.relate("word/document.xml", type, type, `${type}.xml`);
+  pkg.add(
+    "docProps/core.xml",
+    "application/vnd.openxmlformats-package.core-properties+xml",
+    `${DECL}<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:title>${xml(model.metadata.title)}</dc:title><dc:creator>${xml(model.metadata.author)}</dc:creator><dc:subject>${xml(model.metadata.subject)}</dc:subject><cp:keywords>${xml(model.metadata.keywords)}</cp:keywords></cp:coreProperties>`,
+  );
+  pkg.relate("", "document", "officeDocument", "word/document.xml");
+  pkg.relationships.push({
+    source: "",
+    id: "core",
+    type: "http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties",
+    target: "docProps/core.xml",
+  });
+  validateWordPackage(pkg, model);
+  return pkg.blob();
+}

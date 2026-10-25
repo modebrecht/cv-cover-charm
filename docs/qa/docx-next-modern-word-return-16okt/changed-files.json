@@ -1,0 +1,21 @@
+[
+  "docs/qa/docx-next-modern-edge-review-16okt.md",
+  "docs/qa/docx-next-modern-pill-body-16okt.md",
+  "docs/qa/docx-next-modern-word-return-16okt.md",
+  "docs/qa/docx-next-modern-word-return-16okt/.gitattributes",
+  "docs/qa/docx-next-modern-word-return-16okt/candidate-validation.json",
+  "docs/qa/docx-next-modern-word-return-16okt/changed-files.json",
+  "docs/qa/docx-next-modern-word-return-16okt/modern-shared-edge-normal.docx",
+  "docs/qa/docx-next-modern-word-return-16okt/normal-app-evidence.json",
+  "docs/qa/docx-next-modern-word-return-16okt/normal-metrics.json",
+  "docs/qa/docx-next-modern-word-return-16okt/normal-model.json",
+  "docs/qa/docx-next-modern-word-return-16okt/normal-project.json",
+  "docs/qa/docx-next-modern-word-return-16okt/normal-snapshot.json",
+  "docs/qa/docx-next-modern-word-return-16okt/sha256.json",
+  "docs/qa/docx-next-modern-word-return-16okt/shared-edge-a4-comparison.pdf",
+  "docs/qa/docx-next-modern-word-return-16okt/verification.json",
+  "docs/qa/docx-next-modern-word-return-16okt/word-return-inspection.json",
+  "scripts/docx-next-word-return-qa37d.py",
+  "src/lib/docx-next/compact-chrome.ts",
+  "tests/unit/docx-next-design-fidelity.test.ts"
+]

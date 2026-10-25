@@ -19,8 +19,6 @@
   opacity: 0.72 !important;
 }
 
-html[data-dossier-template="pastell"]
-  [data-dossier-document="cv"]
-  [data-cv-sidebar-tint] {
+div[data-cv-template="pastell"][data-dossier-document="cv"] [data-cv-sidebar-tint] {
   opacity: 0.35 !important;
 }

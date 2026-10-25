@@ -4,10 +4,7 @@ import {
   cvPdfDocumentFromSaved,
   letterPdfDocumentFromSaved,
 } from "../../src/lib/dossier-pdf-document";
-import {
-  briefDossierDocxSupported,
-  createBriefDossierDocxBlob,
-} from "../../src/lib/dossier-docx";
+import { briefDossierDocxSupported, createBriefDossierDocxBlob } from "../../src/lib/dossier-docx";
 
 function u16(bytes: Uint8Array, offset: number) {
   return bytes[offset] | (bytes[offset + 1] << 8);

@@ -1,8 +1,11 @@
 import { ChevronDown, ChevronUp, Plus, Trash2 } from "lucide-react";
+import { semanticListItemIds, newSemanticListItemId } from "@/lib/dossier-semantic-fields";
 
 type AttachmentListEditorProps = {
   values: string[];
-  onChange: (values: string[]) => void;
+  ids?: string[];
+  fieldIdPrefix?: string;
+  onChange: (values: string[], ids?: string[]) => void;
 };
 
 type AttachmentListStyle = "none" | "bullet" | "dash" | "number";
@@ -67,7 +70,13 @@ function formatAttachments(values: string[], style: AttachmentListStyle): string
   return values.map((value, index) => formatAttachment(value, style, index));
 }
 
-export function AttachmentListEditor({ values, onChange }: AttachmentListEditorProps) {
+export function AttachmentListEditor({
+  values,
+  ids,
+  fieldIdPrefix,
+  onChange,
+}: AttachmentListEditorProps) {
+  const itemIds = semanticListItemIds(values.length, ids);
   const letterEditor =
     typeof window !== "undefined" && window.location.pathname.startsWith("/anschreiben");
   const listStyle = letterEditor ? attachmentListStyle(values) : "none";
@@ -77,7 +86,7 @@ export function AttachmentListEditor({ values, onChange }: AttachmentListEditorP
     next[index] = letterEditor
       ? formatAttachment(escapeLiteralMarker(value), listStyle, index)
       : value;
-    onChange(next);
+    onChange(next, itemIds);
   };
 
   const moveEntry = (index: number, direction: -1 | 1) => {
@@ -86,16 +95,21 @@ export function AttachmentListEditor({ values, onChange }: AttachmentListEditorP
 
     const next = [...values];
     [next[index], next[targetIndex]] = [next[targetIndex], next[index]];
-    onChange(letterEditor ? formatAttachments(next, listStyle) : next);
+    const nextIds = [...itemIds];
+    [nextIds[index], nextIds[targetIndex]] = [nextIds[targetIndex], nextIds[index]];
+    onChange(letterEditor ? formatAttachments(next, listStyle) : next, nextIds);
   };
 
   const removeEntry = (index: number) => {
     const next = values.filter((_, entryIndex) => entryIndex !== index);
-    onChange(letterEditor ? formatAttachments(next, listStyle) : next);
+    onChange(
+      letterEditor ? formatAttachments(next, listStyle) : next,
+      itemIds.filter((_, entryIndex) => entryIndex !== index),
+    );
   };
 
   const setListStyle = (style: AttachmentListStyle) => {
-    onChange(formatAttachments(values, style));
+    onChange(formatAttachments(values, style), itemIds);
   };
 
   return (
@@ -125,16 +139,15 @@ export function AttachmentListEditor({ values, onChange }: AttachmentListEditorP
 
       {values.length ? (
         values.map((value, index) => (
-          <div key={index} className="flex items-end gap-2">
+          <div key={itemIds[index]} className="flex items-end gap-2">
             <label className="min-w-0 flex-1 text-xs font-medium text-foreground">
               Beilage {index + 1}
               <input
-                type="text"
-                value={
-                  letterEditor
-                    ? displayAttachmentText(attachmentMarker(value).text)
-                    : value
+                data-dossier-field-id={
+                  fieldIdPrefix ? `${fieldIdPrefix}:${itemIds[index]}` : undefined
                 }
+                type="text"
+                value={letterEditor ? displayAttachmentText(attachmentMarker(value).text) : value}
                 onChange={(event) => changeEntry(index, event.target.value)}
                 className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring"
               />
@@ -178,7 +191,7 @@ export function AttachmentListEditor({ values, onChange }: AttachmentListEditorP
 
       <button
         type="button"
-        onClick={() => onChange([...values, ""])}
+        onClick={() => onChange([...values, ""], [...itemIds, newSemanticListItemId()])}
         className="inline-flex w-fit items-center gap-2 rounded-md border border-input px-3 py-2 text-sm font-medium transition-colors hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring"
       >
         <Plus className="size-4" aria-hidden="true" />

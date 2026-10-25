@@ -54,11 +54,7 @@ export function DossierPageMarginsControl({
   /** Dokument-spezifische Abstände, die geometrisch direkt zu den Seitenrändern gehören. */
   extraControls?: ReactNode;
 }) {
-  useSyncExternalStore(
-    subscribeDossierPageMargins,
-    getDossierPageMarginsSnapshot,
-    () => "{}",
-  );
+  useSyncExternalStore(subscribeDossierPageMargins, getDossierPageMarginsSnapshot, () => "{}");
   const custom = getDossierPageMargins(scope);
   const scopeMinimums = useMemo(
     () => ({
@@ -69,10 +65,8 @@ export function DossierPageMarginsControl({
   );
   const minimums = useMemo(() => {
     const clamped =
-      clampDossierPageMarginsToMinimums(
-        scopeMinimums,
-        minimumMargins ?? scopeMinimums,
-      ) ?? scopeMinimums;
+      clampDossierPageMarginsToMinimums(scopeMinimums, minimumMargins ?? scopeMinimums) ??
+      scopeMinimums;
     return { ...clamped, bottom: CV_PAGE_MARGIN_BOTTOM_MM };
   }, [minimumMargins, scopeMinimums]);
   const defaults = useMemo(
@@ -134,7 +128,10 @@ export function DossierPageMarginsControl({
     <details
       data-dossier-page-margins-control={scope}
       className="group rounded-md border bg-muted/10"
-      style={{ borderLeftColor: accentColor || undefined, borderLeftWidth: accentColor ? 3 : undefined }}
+      style={{
+        borderLeftColor: accentColor || undefined,
+        borderLeftWidth: accentColor ? 3 : undefined,
+      }}
     >
       <summary className="flex cursor-pointer list-none items-center gap-2 px-3 py-2.5 text-xs select-none [&::-webkit-details-marker]:hidden">
         <span className="min-w-0 flex-1">
@@ -148,7 +145,10 @@ export function DossierPageMarginsControl({
         <span className="shrink-0 rounded-full border bg-background px-2 py-0.5 text-[10px] text-muted-foreground">
           {custom ? "Eigene Werte" : "Vorlage"}
         </span>
-        <span aria-hidden className="text-muted-foreground transition-transform group-open:rotate-180">
+        <span
+          aria-hidden
+          className="text-muted-foreground transition-transform group-open:rotate-180"
+        >
           ▾
         </span>
       </summary>
@@ -210,8 +210,9 @@ export function DossierPageMarginsControl({
             </>
           ) : (
             <>
-              Der Standard unten ist 1 mm, damit beim Drucken bzw. Exportieren ins PDF kein unnötiger
-              Leerraum entsteht. Footer-Abstand und Vorlagenschutz werden separat berücksichtigt.
+              Der Standard unten ist 1 mm, damit beim Drucken bzw. Exportieren ins PDF kein
+              unnötiger Leerraum entsteht. Footer-Abstand und Vorlagenschutz werden separat
+              berücksichtigt.
             </>
           )}
         </p>
