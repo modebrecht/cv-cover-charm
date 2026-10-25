@@ -142,8 +142,9 @@ export function composeSourceLetterFlow(part: DocumentPart, source: DossierAppSn
     // The existing renderer emits one cell-ending and one table-ending
     // paragraph. Keep the cell ending outside the authored 24 mm minimum,
     // then account for both native boundaries in the following source gap.
-    rows: [{ cells: [recipients], keepTogether: false,
-      minimumHeightMm: 24 + NATIVE_BOUNDARY_HEIGHT_MM }],
+    rows: [
+      { cells: [recipients], keepTogether: false, minimumHeightMm: 24 + NATIVE_BOUNDARY_HEIGHT_MM },
+    ],
     decoration: { borderColor: "FFFFFF", borderWidthMm: 0, paddingXMm: 0, paddingYMm: 0 },
   };
   part.blocks = part.blocks.flatMap<DocBlock>((block) => {

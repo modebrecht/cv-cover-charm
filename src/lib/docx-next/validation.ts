@@ -181,7 +181,10 @@ export function validateDossierDocModel(model: DossierDocModel): void {
         const s = block.flowSurface;
         if (
           (s.variant !== undefined &&
-            (s.variant !== "rule" || s.paddingXMm !== 0 || s.paddingYMm !== 0 || s.outlineMm !== 0)) ||
+            (s.variant !== "rule" ||
+              s.paddingXMm !== 0 ||
+              s.paddingYMm !== 0 ||
+              s.outlineMm !== 0)) ||
           part.id !== "cv" ||
           block.role !== "heading" ||
           block.align !== "left" ||
@@ -213,13 +216,19 @@ export function validateDossierDocModel(model: DossierDocModel): void {
         )
           throw Error("DOCX Next invalid flowing rubric rule");
       }
-      if (block.kind === "paragraph" &&
-          ((block.rightIndentMm !== undefined && (!Number.isFinite(block.rightIndentMm) || block.rightIndentMm < 0)) ||
-            (block.listIndentMm !== undefined && (!block.list || !Number.isFinite(block.listIndentMm) || block.listIndentMm <= 0))))
+      if (
+        block.kind === "paragraph" &&
+        ((block.rightIndentMm !== undefined &&
+          (!Number.isFinite(block.rightIndentMm) || block.rightIndentMm < 0)) ||
+          (block.listIndentMm !== undefined &&
+            (!block.list || !Number.isFinite(block.listIndentMm) || block.listIndentMm <= 0)))
+      )
         throw Error(`DOCX Next invalid paragraph inset ${block.id}`);
       if (block.kind === "paragraph-frame") {
-        if (block.wrapMode !== undefined &&
-            (block.wrapMode !== "none" || block.surface !== undefined))
+        if (
+          block.wrapMode !== undefined &&
+          (block.wrapMode !== "none" || block.surface !== undefined)
+        )
           throw Error(`DOCX Next invalid native page frame wrap ${block.id}`);
         const inHeader = part.headerFrames?.includes(
           block as NonNullable<typeof part.headerFrames>[number],
@@ -260,8 +269,7 @@ export function validateDossierDocModel(model: DossierDocModel): void {
                 s.borderWidthMm >= Math.min(block.widthMm, s.heightMm))) ||
             (!!s.borderWidthMm && !s.borderColor) ||
             (s.verticalAlign !== undefined && !["top", "center"].includes(s.verticalAlign)) ||
-            (s.diagnosticShapeFormat !== undefined &&
-              s.diagnosticShapeFormat !== "legacy-vml") ||
+            (s.diagnosticShapeFormat !== undefined && s.diagnosticShapeFormat !== "legacy-vml") ||
             block.paragraphs.length !== 1 ||
             block.paragraphs.some(
               (p) =>
@@ -296,7 +304,12 @@ export function validateDossierDocModel(model: DossierDocModel): void {
         decorationPageGeometry(block, part.page);
       }
       if (block.kind === "paragraph") {
-        if (block.listMarkerStyle && (!block.list || !/^[0-9A-F]{6}$/.test(block.listMarkerStyle.color) || typeof block.listMarkerStyle.bold !== "boolean"))
+        if (
+          block.listMarkerStyle &&
+          (!block.list ||
+            !/^[0-9A-F]{6}$/.test(block.listMarkerStyle.color) ||
+            typeof block.listMarkerStyle.bold !== "boolean")
+        )
           throw new Error(`DOCX Next invalid list marker style ${block.id}`);
         if (block.controlPlacement !== undefined && block.controlPlacement !== "inline")
           throw new Error(`DOCX Next invalid paragraph control placement ${block.id}`);
@@ -320,8 +333,7 @@ export function validateDossierDocModel(model: DossierDocModel): void {
           throw new Error(`DOCX Next invalid paragraph geometry ${block.id}`);
         for (const run of block.runs) {
           if (
-            (run.style.kerning !== undefined &&
-              typeof run.style.kerning !== "boolean") ||
+            (run.style.kerning !== undefined && typeof run.style.kerning !== "boolean") ||
             !Number.isFinite(run.style.sizePt) ||
             run.style.sizePt <= 0 ||
             !/^[0-9A-F]{6}$/.test(run.style.color) ||
@@ -373,14 +385,26 @@ export function validateDossierDocModel(model: DossierDocModel): void {
         throw new Error(`DOCX Next unsupported image opacity ${block.id}`);
       if (block.kind === "image" && !block.source.trim())
         throw new Error(`DOCX Next missing image source ${block.id}`);
-      if (block.kind === "image" && block.nativeOwner !== undefined &&
-          (block.nativeOwner !== "page-frame" || part.id !== "cv" ||
-            part.layout.mode !== "sidebar" || block.placement !== "free" ||
-            block.coordinateOrigin !== "page" || !block.sourceLayout || !block.frame))
+      if (
+        block.kind === "image" &&
+        block.nativeOwner !== undefined &&
+        (block.nativeOwner !== "page-frame" ||
+          part.id !== "cv" ||
+          part.layout.mode !== "sidebar" ||
+          block.placement !== "free" ||
+          block.coordinateOrigin !== "page" ||
+          !block.sourceLayout ||
+          !block.frame)
+      )
         throw Error(`DOCX Next invalid page picture ownership ${block.id}`);
-      if (block.kind === "image" && block.wrapMode !== undefined &&
-          (block.wrapMode !== "none" || block.placement !== "free" ||
-            block.coordinateOrigin !== "page" || block.gapMm !== 0))
+      if (
+        block.kind === "image" &&
+        block.wrapMode !== undefined &&
+        (block.wrapMode !== "none" ||
+          block.placement !== "free" ||
+          block.coordinateOrigin !== "page" ||
+          block.gapMm !== 0)
+      )
         throw new Error(`DOCX Next invalid authored page picture wrap ${block.id}`);
 
       if (
@@ -405,16 +429,29 @@ export function validateDossierDocModel(model: DossierDocModel): void {
       )
         throw new Error(`DOCX Next invalid table geometry ${block.id}`);
       if (block.kind === "table") {
-        if (block.rows.some((row) => row.minimumHeightMm !== undefined &&
-            (!Number.isFinite(row.minimumHeightMm) || row.minimumHeightMm <= 0 ||
-              Math.round(row.minimumHeightMm * 1440 / 25.4) < 1 ||
-              row.minimumHeightMm > part.page.heightMm - margins.top - margins.bottom)))
+        if (
+          block.rows.some(
+            (row) =>
+              row.minimumHeightMm !== undefined &&
+              (!Number.isFinite(row.minimumHeightMm) ||
+                row.minimumHeightMm <= 0 ||
+                Math.round((row.minimumHeightMm * 1440) / 25.4) < 1 ||
+                row.minimumHeightMm > part.page.heightMm - margins.top - margins.bottom),
+          )
+        )
           throw Error(`DOCX Next invalid table row minimum height ${block.id}`);
-        if (block.bodyBoundaryLeadByCellMm !== undefined &&
-            (block.bodyBoundary !== "section-start" || block.bodyBoundaryLeadMm !== undefined ||
-              block.bodyBoundaryLeadByCellMm.length !== block.widths.length ||
-              block.bodyBoundaryLeadByCellMm.some(n => !Number.isFinite(n) || n < 0 ||
-                n > part.page.heightMm - margins.top - margins.bottom - 30)))
+        if (
+          block.bodyBoundaryLeadByCellMm !== undefined &&
+          (block.bodyBoundary !== "section-start" ||
+            block.bodyBoundaryLeadMm !== undefined ||
+            block.bodyBoundaryLeadByCellMm.length !== block.widths.length ||
+            block.bodyBoundaryLeadByCellMm.some(
+              (n) =>
+                !Number.isFinite(n) ||
+                n < 0 ||
+                n > part.page.heightMm - margins.top - margins.bottom - 30,
+            ))
+        )
           throw Error(`DOCX Next invalid cell body boundary lead ${block.id}`);
         if (
           block.afterMm !== undefined &&
@@ -455,7 +492,8 @@ export function validateDossierDocModel(model: DossierDocModel): void {
           block.bodyBoundary === "section-start" &&
           (part.id !== "cv" ||
             part.blocks.find(
-              (candidate) => candidate.kind !== "decorative-shape" &&
+              (candidate) =>
+                candidate.kind !== "decorative-shape" &&
                 !(candidate.kind === "image" && candidate.nativeOwner === "page-frame"),
             ) !== block)
         )
@@ -564,4 +602,3 @@ export function validateDossierDocModel(model: DossierDocModel): void {
     }
   }
 }
-

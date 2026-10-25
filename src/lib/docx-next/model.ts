@@ -383,4 +383,3 @@ export function walkBlocks(blocks: DocBlock[]): DocBlock[] {
                   : []),
   ]);
 }
-

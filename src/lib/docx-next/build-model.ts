@@ -51,10 +51,7 @@ import { composeCvSidebar } from "./cv-sidebar-composition";
 import { composeSharedCvSidebar } from "./cv-sidebar-shared";
 import { applyCvSidebarTypography } from "./cv-sidebar-typography";
 import type { CvSidebarTextMetrics } from "./cv-sidebar-text-metrics";
-import {
-  cvSidebarGeometry,
-  cvSidebarPhotoWidthMm,
-} from "@/components/cv/sidebar-geometry";
+import { cvSidebarGeometry, cvSidebarPhotoWidthMm } from "@/components/cv/sidebar-geometry";
 import { sidebarPlan } from "@/components/cv/intelligence";
 import { cvFrameFor } from "@/components/cv/archetype";
 import {
@@ -180,8 +177,10 @@ export function buildDossierDocModel(
       cvVariant !== "sidebar")
   )
     throw new Error("DOCX Next invalid diagnostic Sidebar composition");
-  if (options.coverComposition !== undefined &&
-      !["authored-frames", "graphic-family-qa"].includes(options.coverComposition))
+  if (
+    options.coverComposition !== undefined &&
+    !["authored-frames", "graphic-family-qa"].includes(options.coverComposition)
+  )
     throw Error("DOCX Next invalid authored cover composition");
   if (
     options.coverBadgePlacement !== undefined &&
@@ -238,20 +237,28 @@ export function buildDossierDocModel(
       ? { ...DEFAULT_CV_PLACEMENTS, ...settings.placements }
       : settings.placements;
   const template = nextTemplate(String(cover.template));
-  if (options.coverComposition === "graphic-family-qa" &&
-      template.cover.nativePhotoPlaceholder !== "editable-initials")
-    throw Error("DOCX Next graphic-family page positions require a declared editable cover capability");
-  if (options.nativeAvatarComposition !== undefined &&
-      (!["writer-vml", "writer-frame"].includes(options.nativeAvatarComposition) ||
-        options.coverComposition !== undefined ||
-        template.cover.nativePhotoPlaceholder !== "editable-initials" ||
-        !!cover.data.foto))
+  if (
+    options.coverComposition === "graphic-family-qa" &&
+    template.cover.nativePhotoPlaceholder !== "editable-initials"
+  )
+    throw Error(
+      "DOCX Next graphic-family page positions require a declared editable cover capability",
+    );
+  if (
+    options.nativeAvatarComposition !== undefined &&
+    (!["writer-vml", "writer-frame"].includes(options.nativeAvatarComposition) ||
+      options.coverComposition !== undefined ||
+      template.cover.nativePhotoPlaceholder !== "editable-initials" ||
+      !!cover.data.foto)
+  )
     throw Error("DOCX Next native avatar trial requires an approved no-photo flow family");
-  if (options.coverPhotoPlacement !== undefined &&
-      (options.coverPhotoPlacement !== "authored-page" ||
-        options.coverComposition !== undefined ||
-        template.cover.nativePhotoPlaceholder !== "editable-initials" ||
-        !cover.data.foto))
+  if (
+    options.coverPhotoPlacement !== undefined &&
+    (options.coverPhotoPlacement !== "authored-page" ||
+      options.coverComposition !== undefined ||
+      template.cover.nativePhotoPlaceholder !== "editable-initials" ||
+      !cover.data.foto)
+  )
     throw Error("DOCX Next authored photo positioning requires an approved photo QA candidate");
   if (
     options.compactChromeComposition !== undefined &&
@@ -427,8 +434,8 @@ export function buildDossierDocModel(
     fieldStyles: settings.fieldStyles,
   });
   coverPart.blocks =
-    (options.coverComposition === "authored-frames" ||
-      options.coverComposition === "graphic-family-qa")
+    options.coverComposition === "authored-frames" ||
+    options.coverComposition === "graphic-family-qa"
       ? composeAuthoredCover(
           cover,
           coverPart.page,
@@ -1886,7 +1893,8 @@ export function buildDossierDocModel(
   }
   if (readingRows && capturedInteriorMetrics?.cvFlowScale !== undefined)
     cvPart.blocks = scaleCvReadingFlow(cvPart, capturedInteriorMetrics.cvFlowScale);
-  if (options.cvSidebarTextMetrics) applyCvSidebarTypography(cvPart, input, options.cvSidebarTextMetrics);
+  if (options.cvSidebarTextMetrics)
+    applyCvSidebarTypography(cvPart, input, options.cvSidebarTextMetrics);
   if (options.letterFlowComposition) {
     if (options.letterFlowComposition !== "source-lines")
       throw Error("DOCX Next invalid Letter flow composition");
@@ -1912,4 +1920,3 @@ export function buildDossierDocModel(
     issues,
   };
 }
-

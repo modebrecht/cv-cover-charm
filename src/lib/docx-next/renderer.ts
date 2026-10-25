@@ -128,13 +128,17 @@ export async function renderDossierDocx(
     ]),
   );
   if (
-    storyBlocks.some((block) => block.kind === "table" &&
-      block.rows.some((row) => row.minimumHeightMm !== undefined)) &&
+    storyBlocks.some(
+      (block) =>
+        block.kind === "table" && block.rows.some((row) => row.minimumHeightMm !== undefined),
+    ) &&
     !options.allowUnacceptedModelIssues
   )
     throw Error("DOCX Next table row minimum height is unaccepted; diagnostic opt-in required");
-  if (storyBlocks.some(block => block.kind === "image" && block.nativeOwner) &&
-      !options.allowUnacceptedModelIssues)
+  if (
+    storyBlocks.some((block) => block.kind === "image" && block.nativeOwner) &&
+    !options.allowUnacceptedModelIssues
+  )
     throw Error("DOCX Next page picture ownership is unaccepted; diagnostic opt-in required");
   if (
     storyBlocks.some((b) => b.kind === "table" && b.afterMm !== undefined) &&
@@ -321,11 +325,17 @@ export async function renderDossierDocx(
     );
   }
   function ownedImageRun(value: ImageBlock, widthMm: number, page: DocumentPart["page"]): string {
-    if (value.placement === "free" && value.sourceLayout &&
-        (value.coordinateOrigin === "content" || value.nativeOwner === "page-frame")) {
+    if (
+      value.placement === "free" &&
+      value.sourceLayout &&
+      (value.coordinateOrigin === "content" || value.nativeOwner === "page-frame")
+    ) {
       const media = sources.get(value.source)!;
-      const geometry = pictureGeometry(value, media.asset,
-        value.nativeOwner === "page-frame" ? value.widthMm : widthMm);
+      const geometry = pictureGeometry(
+        value,
+        media.asset,
+        value.nativeOwner === "page-frame" ? value.widthMm : widthMm,
+      );
       const inline = pictureRun(
         { ...value, placement: "inline", gapMm: 0 },
         media.rid,
@@ -469,15 +479,18 @@ export async function renderDossierDocx(
     const rows = value.rows
       .map(
         (row, rowIndex) =>
-          `<w:tr>${row.keepTogether || row.minimumHeightMm !== undefined
-            ? `<w:trPr>${row.keepTogether ? "<w:cantSplit/>" : ""}${row.minimumHeightMm === undefined ? "" : `<w:trHeight w:val="${twips(row.minimumHeightMm)}" w:hRule="atLeast"/>`}</w:trPr>`
-            : ""}${row.cells
+          `<w:tr>${
+            row.keepTogether || row.minimumHeightMm !== undefined
+              ? `<w:trPr>${row.keepTogether ? "<w:cantSplit/>" : ""}${row.minimumHeightMm === undefined ? "" : `<w:trHeight w:val="${twips(row.minimumHeightMm)}" w:hRule="atLeast"/>`}</w:trPr>`
+              : ""
+          }${row.cells
             .map((cell, index) => {
               const merge = merges[rowIndex][index]
                 ? `<w:vMerge w:val="${merges[rowIndex][index]}"/>`
                 : "";
               const paint = row.cellDecorations?.[index];
-              const contentWidth = widths[index] -
+              const contentWidth =
+                widths[index] -
                 (paint?.paddingLeftMm ?? paint?.paddingXMm ?? paddingX) -
                 (paint?.paddingRightMm ?? paint?.paddingXMm ?? paddingX);
               if (paint && cell.length && contentWidth < 10)
@@ -489,8 +502,14 @@ export async function renderDossierDocx(
               );
               const cellStart =
                 value.bodyBoundary === "section-start" && rowIndex === 0 && cell.length
-                  ? emptyParagraphWithRuns("", true, 20 + twips(
-                      value.bodyBoundaryLeadByCellMm?.[index] ?? value.bodyBoundaryLeadMm ?? 0))
+                  ? emptyParagraphWithRuns(
+                      "",
+                      true,
+                      20 +
+                        twips(
+                          value.bodyBoundaryLeadByCellMm?.[index] ?? value.bodyBoundaryLeadMm ?? 0,
+                        ),
+                    )
                   : "";
               const ending =
                 value.identityCarrier === "cell-ending" && rowIndex === 0 && index === 0
@@ -679,8 +698,11 @@ export async function renderDossierDocx(
             (values[cursor] as ImageBlock).placement !== "inline")
         ) {
           const value = values[cursor];
-          if (value.kind === "image" && value.sourceLayout &&
-              (value.coordinateOrigin === "content" || value.nativeOwner === "page-frame"))
+          if (
+            value.kind === "image" &&
+            value.sourceLayout &&
+            (value.coordinateOrigin === "content" || value.nativeOwner === "page-frame")
+          )
             ownsPicture = true;
           drawings.push(
             value.kind === "decorative-shape"
@@ -888,4 +910,3 @@ export async function renderDossierDocx(
   validateWordPackage(pkg, model);
   return pkg.blob();
 }
-
