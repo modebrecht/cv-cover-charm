@@ -111,6 +111,8 @@ export type BuildModelOptions = {
   coverTextMetrics?: CoverTextMetrics;
   /** Unaccepted shared native Sidebar body composition; renderer opt-in is also required. */
   cvSidebarComposition?: "body-stories" | "shared-body-stories";
+  /** Ordinary body-anchored picture, outside table cells and content controls. */
+  cvPhotoComposition?: "ordinary-picture";
   /** Fresh source-bound Web typography; internal shared Sidebar candidate only. */
   cvSidebarTextMetrics?: CvSidebarTextMetrics;
   /** Unaccepted native identity separation for first-page header/footer stories. */
@@ -164,6 +166,12 @@ export function buildDossierDocModel(
   if (options.coverTextMetrics && options.coverComposition !== "authored-frames")
     throw Error("DOCX Next cover metrics require authored frame composition");
   const cvVariant = cvWordLayout(settings.cvLayout);
+  if (
+    options.cvPhotoComposition !== undefined &&
+    (options.cvPhotoComposition !== "ordinary-picture" ||
+      options.cvSidebarComposition !== "shared-body-stories")
+  )
+    throw Error("DOCX Next ordinary CV picture requires shared Sidebar composition");
   if (options.cvSidebarTextMetrics && options.cvSidebarComposition !== "shared-body-stories")
     throw Error("DOCX Next: Sidebar-Schriftwerte benötigen den expliziten gemeinsamen Kandidaten.");
   if (
@@ -1764,6 +1772,7 @@ export function buildDossierDocModel(
             sidebarPlan(cv.data).veryCompact,
           )
         : undefined,
+      options.cvPhotoComposition === "ordinary-picture",
     );
   } else {
     composeCvSidebar(

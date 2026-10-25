@@ -93,8 +93,8 @@ export type ImageBlock = {
     borderColor: string;
   };
   coordinateOrigin?: "content" | "page";
-  /** Unaccepted Sidebar candidate: page-positioned frame owns an inline picture SDT. */
-  nativeOwner?: "page-frame";
+  /** Sidebar page image: legacy picture frame, or ordinary unwrapped body picture. */
+  nativeOwner?: "page-frame" | "page-picture";
   /** Explicitly opted-in QA page picture: no Word text wrap. */
   wrapMode?: "none";
   sourceLayout?: ElementSourceLayout;

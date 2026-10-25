@@ -1,5 +1,5 @@
 /** Current synthetic source replay. No browser/Word acceptance or normal export switch.
- * bun scripts/docx-next-letter-source-flow-probe.ts ASSET_DIRECTORY NEW_OUTPUT [--recipient-cases]
+ * bun scripts/docx-next-letter-source-flow-probe.ts ASSET_DIRECTORY NEW_OUTPUT [--recipient-cases|--ordinary-photo]
  */
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
@@ -22,7 +22,8 @@ const hash = (bytes: Uint8Array) => createHash("sha256").update(bytes).digest("h
 const assetsDir = path.resolve(process.argv[2]),
   output = path.resolve(process.argv[3]);
 assert.ok(
-  process.argv[4] === undefined || process.argv[4] === "--recipient-cases",
+  process.argv[4] === undefined ||
+    ["--recipient-cases", "--ordinary-photo"].includes(process.argv[4]),
   "Unknown probe option",
 );
 const fixture = JSON.parse(
@@ -77,9 +78,12 @@ const baseline = buildDossierDocModel(source, options);
 const candidate = buildDossierDocModel(source, {
   ...options,
   letterFlowComposition: "source-lines",
+  ...(process.argv[4] === "--ordinary-photo"
+    ? { cvPhotoComposition: "ordinary-picture" as const }
+    : {}),
 });
 assert.deepEqual(candidate.cover, baseline.cover);
-assert.deepEqual(candidate.cv, baseline.cv);
+if (process.argv[4] !== "--ordinary-photo") assert.deepEqual(candidate.cv, baseline.cv);
 const manifest = JSON.parse(await readFile(path.join(assetsDir, "assets.json"), "utf8")) as {
   controlSha256: string;
   assets: Record<string, Omit<NormalizedImage, "bytes"> & { file: string; sha256: string }>;
@@ -160,7 +164,13 @@ try {
 assert.equal(exists, false, "Use a new output directory");
 await mkdir(output, { recursive: true });
 await writeFile(path.join(output, "Control.docx"), originalBytes);
-await writeFile(path.join(output, "Letter-Candidate.docx"), candidateBytes);
+await writeFile(
+  path.join(
+    output,
+    process.argv[4] === "--ordinary-photo" ? "CV-Foto.docx" : "Letter-Candidate.docx",
+  ),
+  candidateBytes,
+);
 await writeFile(
   path.join(output, "probe.json"),
   JSON.stringify(
@@ -169,7 +179,9 @@ await writeFile(
       sourceSha256: hash(originalBytes),
       candidateSha256: hash(candidateBytes),
       coverModelUnchanged: true,
-      cvModelUnchanged: true,
+      cvModelUnchanged: process.argv[4] !== "--ordinary-photo",
+      cvPhotoComposition:
+        process.argv[4] === "--ordinary-photo" ? "ordinary-picture" : "typed-inline",
       scope:
         "Current frozen synthetic long case; full model and native renderer; reused frozen nonsemantic paint",
       normalExportGuard: "CLOSED",
@@ -259,4 +271,8 @@ if (process.argv[4] === "--recipient-cases") {
     ) + "\n",
   );
 }
-console.log("Synthetic control reproduced byte-exactly; complete Letter candidate written.");
+console.log(
+  process.argv[4] === "--ordinary-photo"
+    ? "Synthetic control reproduced byte-exactly; ordinary photo dossier written."
+    : "Synthetic control reproduced byte-exactly; complete Letter candidate written.",
+);

@@ -388,7 +388,7 @@ export function validateDossierDocModel(model: DossierDocModel): void {
       if (
         block.kind === "image" &&
         block.nativeOwner !== undefined &&
-        (block.nativeOwner !== "page-frame" ||
+        (!["page-frame", "page-picture"].includes(block.nativeOwner) ||
           part.id !== "cv" ||
           part.layout.mode !== "sidebar" ||
           block.placement !== "free" ||
@@ -397,6 +397,12 @@ export function validateDossierDocModel(model: DossierDocModel): void {
           !block.frame)
       )
         throw Error(`DOCX Next invalid page picture ownership ${block.id}`);
+      if (
+        block.kind === "image" &&
+        block.nativeOwner === "page-picture" &&
+        (!part.blocks.includes(block) || block.wrapMode !== "none" || block.gapMm !== 0)
+      )
+        throw Error(`DOCX Next ordinary picture must be outside cells and controls ${block.id}`);
       if (
         block.kind === "image" &&
         block.wrapMode !== undefined &&
@@ -494,7 +500,7 @@ export function validateDossierDocModel(model: DossierDocModel): void {
             part.blocks.find(
               (candidate) =>
                 candidate.kind !== "decorative-shape" &&
-                !(candidate.kind === "image" && candidate.nativeOwner === "page-frame"),
+                !(candidate.kind === "image" && candidate.nativeOwner !== undefined),
             ) !== block)
         )
           throw new Error(`DOCX Next section-start table must open the CV ${block.id}`);

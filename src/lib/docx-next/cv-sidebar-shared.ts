@@ -3,6 +3,7 @@ import type { CellDecoration, DocBlock, DocumentPart, TableBlock } from "./model
 import { walkBlocks } from "./model";
 import { imageZoneExtent } from "./image-zone";
 import { compositeTextColor } from "./colors";
+import { NATIVE_BOUNDARY_HEIGHT_MM } from "./flow-boundaries";
 
 /** Two complete native stories on the authored page grid. No browser pagination. */
 export function composeSharedCvSidebar(
@@ -13,6 +14,7 @@ export function composeSharedCvSidebar(
   paper: string,
   opacity: number,
   automaticSidePhotoWidthMm?: number,
+  ordinaryPicture = false,
 ): void {
   if (part.layout.mode !== "sidebar") throw Error("DOCX Next shared grid requires Sidebar");
   const { rail, mainText, sideText } = first;
@@ -50,6 +52,8 @@ export function composeSharedCvSidebar(
     side: DocBlock[] = [],
     pagePictures: DocBlock[] = [],
     outside: DocBlock[] = [];
+  let sidePhotoSpaceMm = 0,
+    mainPhotoSpaceMm = 0;
   for (const block of part.blocks) {
     if (block.id === "cv.firstPageLead") continue;
     if (block.kind === "decorative-shape") outside.push(block);
@@ -76,7 +80,8 @@ export function composeSharedCvSidebar(
         pagePictures.push({
           ...block,
           xMm,
-          nativeOwner: "page-frame",
+          nativeOwner: ordinaryPicture ? "page-picture" : "page-frame",
+          ...(ordinaryPicture ? { gapMm: 0, wrapMode: "none" as const } : {}),
           sourceLayout: {
             xMm: block.xMm,
             yMm: block.yMm,
@@ -95,6 +100,33 @@ export function composeSharedCvSidebar(
           (target === side ? sideText.widthMm : mainText.widthMm)
         )
           throw Error(`DOCX Next sidebar photo exceeds shared text area ${block.id}`);
+        if (ordinaryPicture) {
+          const image = { ...block, widthMm };
+          const { heightMm, borderOutsetMm } = imageZoneExtent(image);
+          const area = target === side ? first.sideText : first.mainText;
+          // The initial flow reserves the authored photo rectangle and its gap.
+          // The actual picture lives in the body, never in this cell or an SDT.
+          const reserveMm = heightMm + 2 * borderOutsetMm + 3;
+          if (target === side) sidePhotoSpaceMm += reserveMm;
+          else mainPhotoSpaceMm += reserveMm;
+          pagePictures.push({
+            ...image,
+            placement: "free",
+            coordinateOrigin: "page",
+            nativeOwner: "page-picture",
+            wrapMode: "none",
+            gapMm: 0,
+            xMm: area.leftMm + borderOutsetMm,
+            yMm: area.topMm + NATIVE_BOUNDARY_HEIGHT_MM + borderOutsetMm,
+            sourceLayout: {
+              xMm: area.leftMm,
+              yMm: area.topMm,
+              widthMm,
+              minimumHeightMm: heightMm,
+            },
+          });
+          continue;
+        }
         target.unshift({
           ...block,
           widthMm,
@@ -143,8 +175,8 @@ export function composeSharedCvSidebar(
     paddingYMm: 0,
     paddingTopMm: continuation.mainText.topMm - bodyTopMm,
   };
-  const sideLeadMm = first.sideText.topMm - continuation.sideText.topMm;
-  const mainLeadMm = first.mainText.topMm - continuation.mainText.topMm;
+  const sideLeadMm = first.sideText.topMm - continuation.sideText.topMm + sidePhotoSpaceMm;
+  const mainLeadMm = first.mainText.topMm - continuation.mainText.topMm + mainPhotoSpaceMm;
   if (Math.min(sideLeadMm, mainLeadMm) < 0)
     throw Error("DOCX Next shared Sidebar needs a smaller first-page inset than continuation");
   // Word processors can apply the largest vertical cell margin to the whole

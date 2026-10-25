@@ -306,7 +306,7 @@ export async function renderDossierDocx(
             pageOrigin ? inset : 0,
             Math.min(page.heightMm - finalHeight - inset, value.yMm),
           );
-      drawing = `<wp:anchor ${distances} simplePos="0" relativeHeight="${paintLayer ?? id}" behindDoc="${behind ? 1 : 0}" locked="0" layoutInCell="1" allowOverlap="${behind || noTextWrap ? 1 : 0}"><wp:simplePos x="0" y="0"/><wp:positionH relativeFrom="${pageOrigin ? "page" : "column"}"><wp:posOffset>${emu(x)}</wp:posOffset></wp:positionH><wp:positionV relativeFrom="${authoredParagraphOffsets ? "line" : pageOrigin ? "page" : "paragraph"}"><wp:posOffset>${emu(y)}</wp:posOffset></wp:positionV>${extent}${behind || noTextWrap ? "<wp:wrapNone/>" : '<wp:wrapSquare wrapText="bothSides"/>'}${properties}${picture}</wp:anchor>`;
+      drawing = `<wp:anchor ${distances} simplePos="0" relativeHeight="${paintLayer ?? id}" behindDoc="${behind ? 1 : 0}" locked="0" layoutInCell="${value.nativeOwner === "page-picture" ? 0 : 1}" allowOverlap="${behind || noTextWrap ? 1 : 0}"><wp:simplePos x="0" y="0"/><wp:positionH relativeFrom="${pageOrigin ? "page" : "column"}"><wp:posOffset>${emu(x)}</wp:posOffset></wp:positionH><wp:positionV relativeFrom="${authoredParagraphOffsets ? "line" : pageOrigin ? "page" : "paragraph"}"><wp:posOffset>${emu(y)}</wp:posOffset></wp:positionV>${extent}${behind || noTextWrap ? "<wp:wrapNone/>" : '<wp:wrapSquare wrapText="bothSides"/>'}${properties}${picture}</wp:anchor>`;
     }
     return `<w:r><w:drawing>${drawing}</w:drawing></w:r>`;
   }
@@ -325,6 +325,7 @@ export async function renderDossierDocx(
     );
   }
   function ownedImageRun(value: ImageBlock, widthMm: number, page: DocumentPart["page"]): string {
+    if (value.nativeOwner === "page-picture") return imageRun(value, widthMm, page);
     if (
       value.placement === "free" &&
       value.sourceLayout &&
@@ -691,6 +692,7 @@ export async function renderDossierDocx(
       ) {
         const drawings: string[] = [];
         let ownsPicture = false;
+        let ordinaryPicture = false;
         let cursor = index;
         while (
           values[cursor]?.kind === "decorative-shape" ||
@@ -698,10 +700,13 @@ export async function renderDossierDocx(
             (values[cursor] as ImageBlock).placement !== "inline")
         ) {
           const value = values[cursor];
+          if (value.kind === "image" && value.nativeOwner === "page-picture")
+            ordinaryPicture = true;
           if (
             value.kind === "image" &&
-            value.sourceLayout &&
-            (value.coordinateOrigin === "content" || value.nativeOwner === "page-frame")
+            (value.nativeOwner === "page-picture" ||
+              (value.sourceLayout &&
+                (value.coordinateOrigin === "content" || value.nativeOwner === "page-frame")))
           )
             ownsPicture = true;
           drawings.push(
@@ -722,7 +727,8 @@ export async function renderDossierDocx(
           index = cursor;
           continue;
         }
-        if (drawings.some(Boolean)) result += emptyParagraphWithRuns(drawings.join(""));
+        if (drawings.some(Boolean))
+          result += emptyParagraphWithRuns(drawings.join(""), ordinaryPicture ? true : undefined);
         index = cursor - 1;
         continue;
       }

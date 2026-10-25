@@ -1,5 +1,7 @@
 # Handoff CV Cover Charm Sidebar und gemeinsamer DOCX Stand
 
+**Foto am 25. Oktober konkret umgebaut:** [Gewöhnliches Word-Foto](docx-next-ordinary-photo-25okt.md). Ein einziges direkt im Body verankertes Bild ersetzt Foto-Control und Tabellen-/Textrahmenbesitz; Original/Crop/Rahmen und alle 144 Textfelder erhalten. Vollständige Suite 1418 PASS / 0 FAIL, TypeScript/Build und geänderte Lint-/Formatdateien PASS; vier Seiten geprüft. Einzelfile `CV-Foto.docx` bereitgestellt. Word-Ziehen bleibt vom Agenten nicht selbst ausführbar. Benutzer verlangt ausdrücklich keine weiteren Umbenennungs-/Save1-/Save2-Proben. Keine erneute Speichermatrix anfordern. Brief-Standard zwischen Save1 und Save2 visuell/inhaltlich stabil; Rubrikverschiebung und Referenzumbruch separat offen. Kein Merge, normaler Export gesperrt.
+
 Stand der neuesten Ergänzung: 25. Oktober 2026. Ursprüngliche Übergabe: 24. Oktober. Diese Übergabe ersetzt die Fortsetzungsanweisungen älterer Berichte. Repository: `modebrecht/cv-cover-charm`.
 
 
