@@ -1,3 +1,7 @@
+import {
+  reportDossierStorageWriteFailure,
+  registerDossierStorageReset,
+} from "@/lib/dossier-storage-write";
 import { CANONICAL_DOSSIER_PRESENTATION } from "@/lib/dossier-default-presentation";
 import { cvReadingDefaults } from "./reading-defaults";
 import {
@@ -308,11 +312,14 @@ export function getCvContinuationTopMarginMm(template?: string, layout = "classi
   return readContinuationTopMargin(cvReadingDefaults(template, layout).continuationTopMm);
 }
 
+registerDossierStorageReset(() => applyVariant(readChoice()));
+
 export function setCvLayout(layout: CvLayoutId) {
   if (typeof window === "undefined") return;
   try {
     window.localStorage.setItem(STORAGE_KEY, layout);
-  } catch {
+  } catch (error) {
+    reportDossierStorageWriteFailure(error);
     // Aufbauwahl funktioniert für die laufende Seite trotzdem über das Event.
   }
   applyVariant(readChoice());
@@ -327,7 +334,8 @@ export function setCvLayoutMirror(mirrored: boolean) {
     // die neue, explizite Seitenwahl synchron, damit ein bereits vorhandener
     // info-position-Wert den importierten Altzustand nicht unsichtbar macht.
     window.localStorage.setItem(CV_INFO_POSITION_STORAGE_KEY, mirrored ? "mirrored" : "standard");
-  } catch {
+  } catch (error) {
+    reportDossierStorageWriteFailure(error);
     // Die laufende Seite reagiert trotzdem über das Event.
   }
   applyVariant(readChoice());
@@ -342,7 +350,8 @@ export function setCvInfoPosition(position: CvInfoPosition) {
     // Boolean. Beide Schlüssel beschreiben dieselbe Wahl und dürfen deshalb
     // nicht auseinanderlaufen.
     window.localStorage.setItem(MIRROR_STORAGE_KEY, position === "mirrored" ? "true" : "false");
-  } catch {
+  } catch (error) {
+    reportDossierStorageWriteFailure(error);
     // Die laufende Seite reagiert trotzdem über das Event.
   }
   applyVariant(readChoice());
@@ -358,7 +367,8 @@ export function setCvSectionGapMm(value: number | null) {
       if (normalized === null) window.localStorage.removeItem(SECTION_GAP_STORAGE_KEY);
       else window.localStorage.setItem(SECTION_GAP_STORAGE_KEY, String(normalized));
     }
-  } catch {
+  } catch (error) {
+    reportDossierStorageWriteFailure(error);
     // Die laufende Seite reagiert trotzdem über CSS + Event.
   }
   applyVariant(readChoice());
@@ -372,7 +382,8 @@ export function setCvContinuationTopMarginMm(value: number | null) {
     if (value === null) window.localStorage.removeItem(CV_CONTINUATION_TOP_MARGIN_STORAGE_KEY);
     else window.localStorage.setItem(CV_CONTINUATION_TOP_MARGIN_STORAGE_KEY, String(normalized));
     window.localStorage.removeItem(CV_CONTINUATION_GAP_STORAGE_KEY);
-  } catch {
+  } catch (error) {
+    reportDossierStorageWriteFailure(error);
     // Die laufende Seite reagiert trotzdem über das Event.
   }
   window.dispatchEvent(new CustomEvent(CV_LAYOUT_EVENT));

@@ -51,6 +51,8 @@
   [data-dossier-sheet-background="sonne"]
   > .absolute.inset-x-0.top-0 {
   height: 38mm !important;
+  /* Custom margins and continuation pages can start above the legacy band. */
+  max-height: var(--letter-content-top, 38mm);
 }
 
 /*

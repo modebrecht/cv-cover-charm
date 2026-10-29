@@ -22,6 +22,7 @@ import { DossierHyphenationBridge } from "../components/dossier/DossierHyphenati
 import { TemplateQaKeyboardSwitch } from "../components/dossier/TemplateQaKeyboardSwitch";
 import { THEME_BOOTSTRAP_SCRIPT } from "../lib/app-theme";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { DossierImportGate } from "../components/dossier/DossierImportGate";
 
 function NotFoundComponent() {
   return (
@@ -199,10 +200,12 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <DossierHyphenationBridge />
-      <TemplateQaGate />
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <DossierImportGate>
+        <DossierHyphenationBridge />
+        <TemplateQaGate />
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <Outlet />
+      </DossierImportGate>
     </QueryClientProvider>
   );
 }

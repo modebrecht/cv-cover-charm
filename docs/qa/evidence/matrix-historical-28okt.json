@@ -1,0 +1,59 @@
+{
+  "date": "2026-10-28",
+  "testedCommit": "ebf6a4c3b58b2e73f08c0a1610308820cf49f479",
+  "productSourceTree": "9492baf4589b47e60f5b3eb30666e65a054112f2",
+  "matrix": {
+    "sourceSha": "ebf6a4c3b58b2e73f08c0a1610308820cf49f479",
+    "sourceTree": "9492baf4589b47e60f5b3eb30666e65a054112f2",
+    "expected": 156,
+    "passed": 156,
+    "failed": 0,
+    "skipped": 0,
+    "flaky": 0,
+    "retries": 0,
+    "templates": 39,
+    "documents": 156,
+    "pdfs": 156,
+    "pdfPages": 234,
+    "pdfBytes": 176164875
+  },
+  "raster": {
+    "pdfs": 156,
+    "pages": 234,
+    "markers": 2730,
+    "failures": 0
+  },
+  "logicalFields": {
+    "documents": 156,
+    "fields": 5460,
+    "failures": 0
+  },
+  "historicalImport": {
+    "sourceSha": "ebf6a4c3b58b2e73f08c0a1610308820cf49f479",
+    "sourceTree": "9492baf4589b47e60f5b3eb30666e65a054112f2",
+    "browserTests": 70,
+    "passed": 70,
+    "failed": 0,
+    "skipped": 0,
+    "retries": 0,
+    "flaky": 0,
+    "originalProjects": 67,
+    "editorLoads": 201,
+    "decodedHistoricalImages": 4,
+    "docxControls": 3,
+    "reportSha256": "f190197251dcd9c076acbdbacfd4de480d908f7a73d60ad329c3d4d47b219ee6"
+  },
+  "docxPackage": {
+    "documents": 3,
+    "passed": 3,
+    "logicalFieldsPerDocument": 14,
+    "ordinaryPhotoPerDocument": 1,
+    "sourcePhotoPixels": [
+      120,
+      180
+    ]
+  },
+  "docxVisual": "Mirrored photo x=155 mm in DOCX XML but about111 mm in LibreOffice PDF; desktop Word acceptance remains open. Contact header is visible; initial contrary interpretation withdrawn.",
+  "pushed": false,
+  "deployed": false
+}

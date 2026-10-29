@@ -1,6 +1,6 @@
 import { useRef, useState, type ChangeEvent } from "react";
 import { dossierProjectPartLabels, parseDossierProjectText } from "@/lib/dossier-project-file";
-import { replaceDossierProject } from "@/lib/dossier-project";
+import { importDossierProjectSafely } from "@/lib/dossier-import";
 
 function JsonFileIcon() {
   return (
@@ -59,7 +59,7 @@ export function ProjectLoadButton() {
       );
       if (!confirmed) return;
 
-      replaceDossierProject(project);
+      await importDossierProjectSafely(project, { replace: true });
       window.location.reload();
     } catch {
       window.alert(

@@ -322,12 +322,37 @@ function snapshotZoomedLines(roots: HTMLElement[], view: Window) {
         parts.some((part) => !Number.isFinite(part.left) || Math.abs(part.left - parts[0].left) > 1)
       )
         continue;
+      // New line/run spans also match broad native-role descendant selectors.
+      // Preserve the measured typography explicitly: inheriting after wrapping
+      // can otherwise turn an authored Georgia name into the dossier's Cabin.
+      // This affects only html2canvas's disposable clone, never the live editor.
+      const typography = [
+        "font-family",
+        "font-size",
+        "font-weight",
+        "font-style",
+        "font-stretch",
+        "font-variant",
+        "font-kerning",
+        "font-feature-settings",
+        "font-variation-settings",
+        "line-height",
+        "letter-spacing",
+        "word-spacing",
+        "text-transform",
+      ].map((property) => [property, style.getPropertyValue(property)] as const);
+      const preserveTypography = (span: HTMLElement) => {
+        for (const [property, value] of typography) {
+          if (value) span.style.setProperty(property, value, "important");
+        }
+      };
       const fragment = element.ownerDocument.createDocumentFragment();
       let lineOffset = 0;
       for (const [index, part] of parts.entries()) {
         if (index) fragment.append(element.ownerDocument.createElement("br"));
         const span = element.ownerDocument.createElement("span");
         span.style.cssText = "display:inline-block;white-space:nowrap";
+        preserveTypography(span);
         const tokens = Array.from(part.text.matchAll(/\S+|\s+/gu)).map((match) => {
           range.setStart(node, lineOffset + match.index!);
           range.setEnd(node, lineOffset + match.index! + match[0].length);
@@ -340,6 +365,7 @@ function snapshotZoomedLines(roots: HTMLElement[], view: Window) {
         const runs = tokens.map((token, tokenIndex) => {
           const ink = element.ownerDocument.createElement("span");
           ink.style.cssText = "display:inline-block;white-space:pre;transform-origin:left top";
+          preserveTypography(ink);
           ink.textContent = token.text;
           span.append(ink);
           const previous = tokens[tokenIndex - 1],

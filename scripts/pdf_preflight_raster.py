@@ -44,9 +44,11 @@ def inspect(pdf_path, pages):
 reports = []
 for directory in map(Path, sys.argv[1:]):
     for path in sorted(directory.glob("*.json")):
-        data = json.loads(path.read_text())
         pdf_path = path.with_suffix(".pdf")
-        if not pdf_path.exists() or data.get("status") != "PASS":
+        if not pdf_path.exists():
+            continue
+        data = json.loads(path.read_text())
+        if data.get("status") != "PASS":
             continue
         if "canonical" in data and data.get("pdf"):
             pages = data["canonical"]

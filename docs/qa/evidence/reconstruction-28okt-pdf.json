@@ -1,0 +1,1404 @@
+{
+  "sourceSha": "1c504e453918eab88810f0e0df5273aae95555d8",
+  "sourceTree": "6b1f3d2727c22f51a6dc4ea6f08fed8d4b6ee963",
+  "pdfs": 14,
+  "pages": 23,
+  "markerRectangles": 238,
+  "failures": 0,
+  "thresholds": {
+    "contrast": 90,
+    "minimumContrastedPixels": 10
+  },
+  "visualReview": ["two new 1-page letter PDFs", "MonoLuxe authored-serif first CV page"],
+  "limitations": [
+    "marker ink presence is not full pixel parity or OCR",
+    "78-template matrix not rerun",
+    "desktop Word save/reopen not performed"
+  ],
+  "checks": [
+    {
+      "file": "artifacts/pdf-core-after-font/preflight-empty-trailing-box.pdf",
+      "pages": [
+        {
+          "page": 1,
+          "markers": [
+            {
+              "marker": "QASALUTATION001",
+              "contrast": 714,
+              "contrastedPixels": 1390
+            },
+            {
+              "marker": "QAPARA001",
+              "contrast": 714,
+              "contrastedPixels": 863
+            },
+            {
+              "marker": "QAPARAEND001",
+              "contrast": 717,
+              "contrastedPixels": 1251
+            },
+            {
+              "marker": "QAPARA002",
+              "contrast": 717,
+              "contrastedPixels": 931
+            },
+            {
+              "marker": "QAPARAEND002",
+              "contrast": 714,
+              "contrastedPixels": 1205
+            },
+            {
+              "marker": "QACLOSING001",
+              "contrast": 714,
+              "contrastedPixels": 1143
+            },
+            {
+              "marker": "QASIGNATURE001",
+              "contrast": 714,
+              "contrastedPixels": 1282
+            },
+            {
+              "marker": "QAATTACHMENT001",
+              "contrast": 714,
+              "contrastedPixels": 1299
+            },
+            {
+              "marker": "QAATTACHMENT002",
+              "contrast": 714,
+              "contrastedPixels": 1324
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "artifacts/pdf-core-after-font/preflight-header-gap-0.pdf",
+      "pages": [
+        {
+          "page": 1,
+          "markers": [
+            {
+              "marker": "QASENDER001",
+              "contrast": 717,
+              "contrastedPixels": 5196
+            },
+            {
+              "marker": "QASALUTATION001",
+              "contrast": 714,
+              "contrastedPixels": 1517
+            },
+            {
+              "marker": "QAPARA001",
+              "contrast": 717,
+              "contrastedPixels": 1122
+            },
+            {
+              "marker": "QAPARAEND001",
+              "contrast": 717,
+              "contrastedPixels": 1545
+            },
+            {
+              "marker": "QAPARA002",
+              "contrast": 717,
+              "contrastedPixels": 1155
+            },
+            {
+              "marker": "QAPARAEND002",
+              "contrast": 717,
+              "contrastedPixels": 1585
+            },
+            {
+              "marker": "QAPARA003",
+              "contrast": 717,
+              "contrastedPixels": 1169
+            },
+            {
+              "marker": "QAPARAEND003",
+              "contrast": 717,
+              "contrastedPixels": 1585
+            }
+          ]
+        },
+        {
+          "page": 2,
+          "markers": [
+            {
+              "marker": "QASENDER001",
+              "contrast": 717,
+              "contrastedPixels": 5196
+            },
+            {
+              "marker": "QAATTACHMENT001",
+              "contrast": 678,
+              "contrastedPixels": 3292
+            },
+            {
+              "marker": "QAATTACHMENT002",
+              "contrast": 675,
+              "contrastedPixels": 3277
+            },
+            {
+              "marker": "QAPARA004",
+              "contrast": 717,
+              "contrastedPixels": 1162
+            },
+            {
+              "marker": "QAPARAEND004",
+              "contrast": 717,
+              "contrastedPixels": 1583
+            },
+            {
+              "marker": "QAPARA005",
+              "contrast": 717,
+              "contrastedPixels": 1175
+            },
+            {
+              "marker": "QAPARAEND005",
+              "contrast": 717,
+              "contrastedPixels": 1597
+            },
+            {
+              "marker": "QAPARA006",
+              "contrast": 717,
+              "contrastedPixels": 1169
+            },
+            {
+              "marker": "QAPARAEND006",
+              "contrast": 717,
+              "contrastedPixels": 1593
+            },
+            {
+              "marker": "QACLOSING001",
+              "contrast": 717,
+              "contrastedPixels": 1259
+            },
+            {
+              "marker": "QASIGNATURE001",
+              "contrast": 717,
+              "contrastedPixels": 1401
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "artifacts/pdf-core-after-font/preflight-header-gap-40.pdf",
+      "pages": [
+        {
+          "page": 1,
+          "markers": [
+            {
+              "marker": "QASENDER001",
+              "contrast": 717,
+              "contrastedPixels": 5196
+            },
+            {
+              "marker": "QASALUTATION001",
+              "contrast": 717,
+              "contrastedPixels": 1438
+            },
+            {
+              "marker": "QAPARA001",
+              "contrast": 717,
+              "contrastedPixels": 1115
+            },
+            {
+              "marker": "QAPARAEND001",
+              "contrast": 717,
+              "contrastedPixels": 1542
+            },
+            {
+              "marker": "QAPARA002",
+              "contrast": 717,
+              "contrastedPixels": 1157
+            },
+            {
+              "marker": "QAPARAEND002",
+              "contrast": 717,
+              "contrastedPixels": 1571
+            }
+          ]
+        },
+        {
+          "page": 2,
+          "markers": [
+            {
+              "marker": "QASENDER001",
+              "contrast": 717,
+              "contrastedPixels": 5196
+            },
+            {
+              "marker": "QAPARA003",
+              "contrast": 717,
+              "contrastedPixels": 1161
+            },
+            {
+              "marker": "QAPARAEND003",
+              "contrast": 717,
+              "contrastedPixels": 1592
+            },
+            {
+              "marker": "QAPARA004",
+              "contrast": 717,
+              "contrastedPixels": 1160
+            },
+            {
+              "marker": "QAPARAEND004",
+              "contrast": 717,
+              "contrastedPixels": 1592
+            },
+            {
+              "marker": "QAPARA005",
+              "contrast": 717,
+              "contrastedPixels": 1165
+            },
+            {
+              "marker": "QAPARAEND005",
+              "contrast": 717,
+              "contrastedPixels": 1594
+            }
+          ]
+        },
+        {
+          "page": 3,
+          "markers": [
+            {
+              "marker": "QASENDER001",
+              "contrast": 717,
+              "contrastedPixels": 5196
+            },
+            {
+              "marker": "QAATTACHMENT001",
+              "contrast": 678,
+              "contrastedPixels": 3292
+            },
+            {
+              "marker": "QAATTACHMENT002",
+              "contrast": 675,
+              "contrastedPixels": 3277
+            },
+            {
+              "marker": "QAPARA006",
+              "contrast": 717,
+              "contrastedPixels": 1165
+            },
+            {
+              "marker": "QAPARAEND006",
+              "contrast": 717,
+              "contrastedPixels": 1598
+            },
+            {
+              "marker": "QACLOSING001",
+              "contrast": 717,
+              "contrastedPixels": 1180
+            },
+            {
+              "marker": "QASIGNATURE001",
+              "contrast": 717,
+              "contrastedPixels": 1471
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "artifacts/pdf-core-after-font/preflight-image-free.pdf",
+      "pages": [
+        {
+          "page": 1,
+          "markers": [
+            {
+              "marker": "QASALUTATION001",
+              "contrast": 714,
+              "contrastedPixels": 1390
+            },
+            {
+              "marker": "QAPARA001",
+              "contrast": 714,
+              "contrastedPixels": 859
+            },
+            {
+              "marker": "QAPARAEND001",
+              "contrast": 714,
+              "contrastedPixels": 1175
+            },
+            {
+              "marker": "QAPARA002",
+              "contrast": 714,
+              "contrastedPixels": 882
+            },
+            {
+              "marker": "QAPARAEND002",
+              "contrast": 717,
+              "contrastedPixels": 1284
+            },
+            {
+              "marker": "QACLOSING001",
+              "contrast": 714,
+              "contrastedPixels": 1086
+            },
+            {
+              "marker": "QASIGNATURE001",
+              "contrast": 714,
+              "contrastedPixels": 1366
+            },
+            {
+              "marker": "QAATTACHMENT001",
+              "contrast": 714,
+              "contrastedPixels": 1326
+            },
+            {
+              "marker": "QAATTACHMENT002",
+              "contrast": 717,
+              "contrastedPixels": 1351
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "artifacts/pdf-core-after-font/preflight-image-left.pdf",
+      "pages": [
+        {
+          "page": 1,
+          "markers": [
+            {
+              "marker": "QASALUTATION001",
+              "contrast": 714,
+              "contrastedPixels": 1390
+            },
+            {
+              "marker": "QAPARA001",
+              "contrast": 714,
+              "contrastedPixels": 859
+            },
+            {
+              "marker": "QAPARAEND001",
+              "contrast": 714,
+              "contrastedPixels": 1175
+            },
+            {
+              "marker": "QAPARA002",
+              "contrast": 714,
+              "contrastedPixels": 882
+            },
+            {
+              "marker": "QAPARAEND002",
+              "contrast": 717,
+              "contrastedPixels": 1284
+            },
+            {
+              "marker": "QACLOSING001",
+              "contrast": 714,
+              "contrastedPixels": 1086
+            },
+            {
+              "marker": "QASIGNATURE001",
+              "contrast": 714,
+              "contrastedPixels": 1366
+            },
+            {
+              "marker": "QAATTACHMENT001",
+              "contrast": 714,
+              "contrastedPixels": 1326
+            },
+            {
+              "marker": "QAATTACHMENT002",
+              "contrast": 717,
+              "contrastedPixels": 1351
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "artifacts/raster-font-after/variant-raster-brief-blank-lines-cv.pdf",
+      "pages": [
+        {
+          "page": 1,
+          "markers": [
+            {
+              "marker": "QASCHOOL001",
+              "contrast": 670,
+              "contrastedPixels": 2043
+            },
+            {
+              "marker": "QAEDU001",
+              "contrast": 668,
+              "contrastedPixels": 983
+            },
+            {
+              "marker": "QAEDUEND001",
+              "contrast": 669,
+              "contrastedPixels": 1412
+            },
+            {
+              "marker": "QAWORK001",
+              "contrast": 669,
+              "contrastedPixels": 1828
+            },
+            {
+              "marker": "QADESC001",
+              "contrast": 668,
+              "contrastedPixels": 1116
+            },
+            {
+              "marker": "QAEND001",
+              "contrast": 670,
+              "contrastedPixels": 1041
+            },
+            {
+              "marker": "QAWORK002",
+              "contrast": 670,
+              "contrastedPixels": 1880
+            },
+            {
+              "marker": "QADESC002",
+              "contrast": 669,
+              "contrastedPixels": 1149
+            },
+            {
+              "marker": "QAEND002",
+              "contrast": 670,
+              "contrastedPixels": 1057
+            },
+            {
+              "marker": "QAREF001",
+              "contrast": 670,
+              "contrastedPixels": 1354
+            },
+            {
+              "marker": "QAPROJECT001",
+              "contrast": 670,
+              "contrastedPixels": 2079
+            },
+            {
+              "marker": "QAPROJECTEND001",
+              "contrast": 669,
+              "contrastedPixels": 1704
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "artifacts/raster-font-after/variant-raster-brief-boundary-cv.pdf",
+      "pages": [
+        {
+          "page": 1,
+          "markers": [
+            {
+              "marker": "QASCHOOL001",
+              "contrast": 670,
+              "contrastedPixels": 2043
+            },
+            {
+              "marker": "QAEDU001",
+              "contrast": 668,
+              "contrastedPixels": 983
+            },
+            {
+              "marker": "QAEDUEND001",
+              "contrast": 669,
+              "contrastedPixels": 1412
+            },
+            {
+              "marker": "QAWORK001",
+              "contrast": 669,
+              "contrastedPixels": 1828
+            },
+            {
+              "marker": "QADESC001",
+              "contrast": 668,
+              "contrastedPixels": 1116
+            },
+            {
+              "marker": "QAEND001",
+              "contrast": 672,
+              "contrastedPixels": 1030
+            },
+            {
+              "marker": "QAWORK002",
+              "contrast": 669,
+              "contrastedPixels": 1881
+            },
+            {
+              "marker": "QADESC002",
+              "contrast": 669,
+              "contrastedPixels": 1150
+            },
+            {
+              "marker": "QAEND002",
+              "contrast": 670,
+              "contrastedPixels": 1055
+            },
+            {
+              "marker": "QAWORK003",
+              "contrast": 672,
+              "contrastedPixels": 1884
+            },
+            {
+              "marker": "QADESC003",
+              "contrast": 669,
+              "contrastedPixels": 1158
+            },
+            {
+              "marker": "QAEND003",
+              "contrast": 669,
+              "contrastedPixels": 1066
+            },
+            {
+              "marker": "QAWORK004",
+              "contrast": 669,
+              "contrastedPixels": 1882
+            },
+            {
+              "marker": "QADESC004",
+              "contrast": 669,
+              "contrastedPixels": 1147
+            },
+            {
+              "marker": "QAEND004",
+              "contrast": 668,
+              "contrastedPixels": 1080
+            },
+            {
+              "marker": "QAWORK005",
+              "contrast": 669,
+              "contrastedPixels": 1896
+            },
+            {
+              "marker": "QADESC005",
+              "contrast": 668,
+              "contrastedPixels": 1160
+            },
+            {
+              "marker": "QAEND005",
+              "contrast": 669,
+              "contrastedPixels": 1024
+            }
+          ]
+        },
+        {
+          "page": 2,
+          "markers": [
+            {
+              "marker": "QAWORK006",
+              "contrast": 669,
+              "contrastedPixels": 1886
+            },
+            {
+              "marker": "QADESC006",
+              "contrast": 669,
+              "contrastedPixels": 1167
+            },
+            {
+              "marker": "QAEND006",
+              "contrast": 669,
+              "contrastedPixels": 1090
+            },
+            {
+              "marker": "QAWORK007",
+              "contrast": 670,
+              "contrastedPixels": 1862
+            },
+            {
+              "marker": "QADESC007",
+              "contrast": 669,
+              "contrastedPixels": 1122
+            },
+            {
+              "marker": "QAEND007",
+              "contrast": 668,
+              "contrastedPixels": 1027
+            },
+            {
+              "marker": "QAWORK008",
+              "contrast": 670,
+              "contrastedPixels": 1923
+            },
+            {
+              "marker": "QADESC008",
+              "contrast": 668,
+              "contrastedPixels": 1192
+            },
+            {
+              "marker": "QAEND008",
+              "contrast": 669,
+              "contrastedPixels": 1123
+            },
+            {
+              "marker": "QAWORK009",
+              "contrast": 670,
+              "contrastedPixels": 1898
+            },
+            {
+              "marker": "QADESC009",
+              "contrast": 670,
+              "contrastedPixels": 1165
+            },
+            {
+              "marker": "QAEND009",
+              "contrast": 670,
+              "contrastedPixels": 1067
+            },
+            {
+              "marker": "QAWORK010",
+              "contrast": 669,
+              "contrastedPixels": 1819
+            },
+            {
+              "marker": "QADESC010",
+              "contrast": 670,
+              "contrastedPixels": 1114
+            },
+            {
+              "marker": "QAEND010",
+              "contrast": 669,
+              "contrastedPixels": 1021
+            },
+            {
+              "marker": "QAWORK011",
+              "contrast": 670,
+              "contrastedPixels": 1716
+            },
+            {
+              "marker": "QADESC011",
+              "contrast": 669,
+              "contrastedPixels": 1046
+            },
+            {
+              "marker": "QAEND011",
+              "contrast": 670,
+              "contrastedPixels": 959
+            }
+          ]
+        },
+        {
+          "page": 3,
+          "markers": [
+            {
+              "marker": "QAREF001",
+              "contrast": 669,
+              "contrastedPixels": 1330
+            },
+            {
+              "marker": "QAPROJECT001",
+              "contrast": 669,
+              "contrastedPixels": 2109
+            },
+            {
+              "marker": "QAPROJECTEND001",
+              "contrast": 669,
+              "contrastedPixels": 1818
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "artifacts/raster-font-after/variant-raster-dark-letter.pdf",
+      "pages": [
+        {
+          "page": 1,
+          "markers": [
+            {
+              "marker": "QASALUTATION001",
+              "contrast": 701,
+              "contrastedPixels": 4821
+            },
+            {
+              "marker": "QAPARA001",
+              "contrast": 701,
+              "contrastedPixels": 2838
+            },
+            {
+              "marker": "QAPARAEND001",
+              "contrast": 701,
+              "contrastedPixels": 3955
+            },
+            {
+              "marker": "QAPARA002",
+              "contrast": 701,
+              "contrastedPixels": 2824
+            },
+            {
+              "marker": "QAPARAEND002",
+              "contrast": 701,
+              "contrastedPixels": 4008
+            },
+            {
+              "marker": "QACLOSING001",
+              "contrast": 701,
+              "contrastedPixels": 3925
+            },
+            {
+              "marker": "QASIGNATURE001",
+              "contrast": 702,
+              "contrastedPixels": 4515
+            },
+            {
+              "marker": "QAATTACHMENT001",
+              "contrast": 701,
+              "contrastedPixels": 4709
+            },
+            {
+              "marker": "QAATTACHMENT002",
+              "contrast": 701,
+              "contrastedPixels": 4760
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "artifacts/raster-font-after/variant-raster-gallery-timeline-cv.pdf",
+      "pages": [
+        {
+          "page": 1,
+          "markers": [
+            {
+              "marker": "QASCHOOL001",
+              "contrast": 670,
+              "contrastedPixels": 2039
+            },
+            {
+              "marker": "QAEDU001",
+              "contrast": 671,
+              "contrastedPixels": 979
+            },
+            {
+              "marker": "QAEDUEND001",
+              "contrast": 669,
+              "contrastedPixels": 1435
+            },
+            {
+              "marker": "QASCHOOL002",
+              "contrast": 670,
+              "contrastedPixels": 2111
+            },
+            {
+              "marker": "QAEDU002",
+              "contrast": 670,
+              "contrastedPixels": 1041
+            },
+            {
+              "marker": "QAEDUEND002",
+              "contrast": 669,
+              "contrastedPixels": 1467
+            },
+            {
+              "marker": "QASCHOOL003",
+              "contrast": 670,
+              "contrastedPixels": 2109
+            },
+            {
+              "marker": "QAEDU003",
+              "contrast": 672,
+              "contrastedPixels": 1045
+            },
+            {
+              "marker": "QAEDUEND003",
+              "contrast": 669,
+              "contrastedPixels": 1461
+            },
+            {
+              "marker": "QASCHOOL004",
+              "contrast": 669,
+              "contrastedPixels": 2113
+            },
+            {
+              "marker": "QAEDU004",
+              "contrast": 671,
+              "contrastedPixels": 1040
+            },
+            {
+              "marker": "QAEDUEND004",
+              "contrast": 669,
+              "contrastedPixels": 1468
+            },
+            {
+              "marker": "QASCHOOL005",
+              "contrast": 670,
+              "contrastedPixels": 2127
+            },
+            {
+              "marker": "QAEDU005",
+              "contrast": 670,
+              "contrastedPixels": 1047
+            },
+            {
+              "marker": "QAEDUEND005",
+              "contrast": 670,
+              "contrastedPixels": 1473
+            },
+            {
+              "marker": "QASCHOOL006",
+              "contrast": 669,
+              "contrastedPixels": 2133
+            },
+            {
+              "marker": "QAEDU006",
+              "contrast": 668,
+              "contrastedPixels": 1041
+            },
+            {
+              "marker": "QAEDUEND006",
+              "contrast": 670,
+              "contrastedPixels": 1454
+            },
+            {
+              "marker": "QAWORK001",
+              "contrast": 669,
+              "contrastedPixels": 1882
+            },
+            {
+              "marker": "QADESC001",
+              "contrast": 668,
+              "contrastedPixels": 1101
+            },
+            {
+              "marker": "QAEND001",
+              "contrast": 669,
+              "contrastedPixels": 1040
+            }
+          ]
+        },
+        {
+          "page": 2,
+          "markers": [
+            {
+              "marker": "QAWORK002",
+              "contrast": 670,
+              "contrastedPixels": 1868
+            },
+            {
+              "marker": "QADESC002",
+              "contrast": 668,
+              "contrastedPixels": 1152
+            },
+            {
+              "marker": "QAEND002",
+              "contrast": 669,
+              "contrastedPixels": 1038
+            },
+            {
+              "marker": "QAWORK003",
+              "contrast": 669,
+              "contrastedPixels": 1889
+            },
+            {
+              "marker": "QADESC003",
+              "contrast": 668,
+              "contrastedPixels": 1140
+            },
+            {
+              "marker": "QAEND003",
+              "contrast": 670,
+              "contrastedPixels": 1085
+            },
+            {
+              "marker": "QAWORK004",
+              "contrast": 669,
+              "contrastedPixels": 1876
+            },
+            {
+              "marker": "QADESC004",
+              "contrast": 669,
+              "contrastedPixels": 1154
+            },
+            {
+              "marker": "QAEND004",
+              "contrast": 670,
+              "contrastedPixels": 1080
+            },
+            {
+              "marker": "QAWORK005",
+              "contrast": 670,
+              "contrastedPixels": 1897
+            },
+            {
+              "marker": "QADESC005",
+              "contrast": 670,
+              "contrastedPixels": 1159
+            },
+            {
+              "marker": "QAEND005",
+              "contrast": 669,
+              "contrastedPixels": 1083
+            },
+            {
+              "marker": "QAWORK006",
+              "contrast": 669,
+              "contrastedPixels": 1895
+            },
+            {
+              "marker": "QADESC006",
+              "contrast": 668,
+              "contrastedPixels": 1166
+            },
+            {
+              "marker": "QAEND006",
+              "contrast": 671,
+              "contrastedPixels": 1101
+            },
+            {
+              "marker": "QAWORK007",
+              "contrast": 670,
+              "contrastedPixels": 1864
+            },
+            {
+              "marker": "QADESC007",
+              "contrast": 668,
+              "contrastedPixels": 1136
+            },
+            {
+              "marker": "QAEND007",
+              "contrast": 669,
+              "contrastedPixels": 1003
+            }
+          ]
+        },
+        {
+          "page": 3,
+          "markers": [
+            {
+              "marker": "QAWORK008",
+              "contrast": 670,
+              "contrastedPixels": 1919
+            },
+            {
+              "marker": "QADESC008",
+              "contrast": 668,
+              "contrastedPixels": 1188
+            },
+            {
+              "marker": "QAEND008",
+              "contrast": 669,
+              "contrastedPixels": 1083
+            },
+            {
+              "marker": "QAWORK009",
+              "contrast": 670,
+              "contrastedPixels": 1891
+            },
+            {
+              "marker": "QADESC009",
+              "contrast": 668,
+              "contrastedPixels": 1147
+            },
+            {
+              "marker": "QAEND009",
+              "contrast": 670,
+              "contrastedPixels": 1093
+            },
+            {
+              "marker": "QAWORK010",
+              "contrast": 669,
+              "contrastedPixels": 1820
+            },
+            {
+              "marker": "QADESC010",
+              "contrast": 669,
+              "contrastedPixels": 1114
+            },
+            {
+              "marker": "QAEND010",
+              "contrast": 670,
+              "contrastedPixels": 1018
+            },
+            {
+              "marker": "QAWORK011",
+              "contrast": 670,
+              "contrastedPixels": 1713
+            },
+            {
+              "marker": "QADESC011",
+              "contrast": 670,
+              "contrastedPixels": 1045
+            },
+            {
+              "marker": "QAEND011",
+              "contrast": 669,
+              "contrastedPixels": 952
+            },
+            {
+              "marker": "QAWORK012",
+              "contrast": 669,
+              "contrastedPixels": 1780
+            },
+            {
+              "marker": "QADESC012",
+              "contrast": 668,
+              "contrastedPixels": 1083
+            },
+            {
+              "marker": "QAEND012",
+              "contrast": 671,
+              "contrastedPixels": 995
+            }
+          ]
+        },
+        {
+          "page": 4,
+          "markers": [
+            {
+              "marker": "QAREF001",
+              "contrast": 669,
+              "contrastedPixels": 1376
+            },
+            {
+              "marker": "QAPROJECT001",
+              "contrast": 670,
+              "contrastedPixels": 2115
+            },
+            {
+              "marker": "QAPROJECTEND001",
+              "contrast": 670,
+              "contrastedPixels": 1810
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "artifacts/raster-font-after/variant-raster-monoLuxe-font-inheritance-cv.pdf",
+      "pages": [
+        {
+          "page": 1,
+          "markers": [
+            {
+              "marker": "QANAME001",
+              "contrast": 670,
+              "contrastedPixels": 10721
+            },
+            {
+              "marker": "QASCHOOL001",
+              "contrast": 670,
+              "contrastedPixels": 2045
+            },
+            {
+              "marker": "QAEDU001",
+              "contrast": 667,
+              "contrastedPixels": 1007
+            },
+            {
+              "marker": "QAEDUEND001",
+              "contrast": 669,
+              "contrastedPixels": 1411
+            },
+            {
+              "marker": "QASCHOOL002",
+              "contrast": 669,
+              "contrastedPixels": 2104
+            },
+            {
+              "marker": "QAEDU002",
+              "contrast": 670,
+              "contrastedPixels": 1027
+            },
+            {
+              "marker": "QAEDUEND002",
+              "contrast": 670,
+              "contrastedPixels": 1449
+            },
+            {
+              "marker": "QAWORK001",
+              "contrast": 670,
+              "contrastedPixels": 1879
+            },
+            {
+              "marker": "QADESC001",
+              "contrast": 669,
+              "contrastedPixels": 1114
+            },
+            {
+              "marker": "QAEND001",
+              "contrast": 669,
+              "contrastedPixels": 1019
+            },
+            {
+              "marker": "QAWORK002",
+              "contrast": 669,
+              "contrastedPixels": 1877
+            },
+            {
+              "marker": "QADESC002",
+              "contrast": 669,
+              "contrastedPixels": 1149
+            },
+            {
+              "marker": "QAEND002",
+              "contrast": 669,
+              "contrastedPixels": 1059
+            },
+            {
+              "marker": "QAWORK003",
+              "contrast": 671,
+              "contrastedPixels": 1893
+            },
+            {
+              "marker": "QADESC003",
+              "contrast": 669,
+              "contrastedPixels": 1156
+            },
+            {
+              "marker": "QAEND003",
+              "contrast": 671,
+              "contrastedPixels": 1048
+            }
+          ]
+        },
+        {
+          "page": 2,
+          "markers": [
+            {
+              "marker": "QAREF001",
+              "contrast": 670,
+              "contrastedPixels": 1329
+            },
+            {
+              "marker": "QAPROJECT001",
+              "contrast": 670,
+              "contrastedPixels": 2136
+            },
+            {
+              "marker": "QAPROJECTEND001",
+              "contrast": 669,
+              "contrastedPixels": 1818
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "artifacts/raster-font-after/variant-raster-studio-one-cv.pdf",
+      "pages": [
+        {
+          "page": 1,
+          "markers": [
+            {
+              "marker": "QASCHOOL001",
+              "contrast": 671,
+              "contrastedPixels": 1778
+            },
+            {
+              "marker": "QAEDU001",
+              "contrast": 667,
+              "contrastedPixels": 864
+            },
+            {
+              "marker": "QAEDUEND001",
+              "contrast": 669,
+              "contrastedPixels": 1223
+            },
+            {
+              "marker": "QAWORK001",
+              "contrast": 670,
+              "contrastedPixels": 1621
+            },
+            {
+              "marker": "QADESC001",
+              "contrast": 668,
+              "contrastedPixels": 960
+            },
+            {
+              "marker": "QAEND001",
+              "contrast": 669,
+              "contrastedPixels": 859
+            },
+            {
+              "marker": "QAREF001",
+              "contrast": 669,
+              "contrastedPixels": 1110
+            },
+            {
+              "marker": "QAPROJECT001",
+              "contrast": 669,
+              "contrastedPixels": 1869
+            },
+            {
+              "marker": "QAPROJECTEND001",
+              "contrast": 668,
+              "contrastedPixels": 1550
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "test-results/pdf-core-recovery/qa-pdf-consent-boundaries.-440a2-pair-before-actual-download/clean-letter.pdf",
+      "pages": [
+        {
+          "page": 1,
+          "markers": [
+            {
+              "marker": "QASALUTATION001",
+              "contrast": 714,
+              "contrastedPixels": 1390
+            },
+            {
+              "marker": "QAPARA001",
+              "contrast": 714,
+              "contrastedPixels": 863
+            },
+            {
+              "marker": "QAPARAEND001",
+              "contrast": 717,
+              "contrastedPixels": 1251
+            },
+            {
+              "marker": "QAPARA002",
+              "contrast": 717,
+              "contrastedPixels": 931
+            },
+            {
+              "marker": "QAPARAEND002",
+              "contrast": 714,
+              "contrastedPixels": 1205
+            },
+            {
+              "marker": "QACLOSING001",
+              "contrast": 714,
+              "contrastedPixels": 1143
+            },
+            {
+              "marker": "QASIGNATURE001",
+              "contrast": 714,
+              "contrastedPixels": 1282
+            },
+            {
+              "marker": "QAATTACHMENT001",
+              "contrast": 714,
+              "contrastedPixels": 1299
+            },
+            {
+              "marker": "QAATTACHMENT002",
+              "contrast": 714,
+              "contrastedPixels": 1324
+            }
+          ]
+        }
+      ],
+      "fullBodySegments": 2,
+      "uniqueMarkers": 9,
+      "rasterSha256": "9496eedf7bcd8ffffc5be01bfd0b4c990787fc26c1908319b274ce9643bdfcac",
+      "sameRasterAsPreFontFix": true
+    },
+    {
+      "file": "test-results/pdf-core-recovery/qa-pdf-consent-boundaries.-fe579-ide-across-reopen-or-reload/confirmed-letter.pdf",
+      "pages": [
+        {
+          "page": 1,
+          "markers": [
+            {
+              "marker": "QASALUTATION001",
+              "contrast": 714,
+              "contrastedPixels": 1390
+            },
+            {
+              "marker": "QAPARA001",
+              "contrast": 714,
+              "contrastedPixels": 863
+            },
+            {
+              "marker": "QAPARAEND001",
+              "contrast": 717,
+              "contrastedPixels": 1251
+            },
+            {
+              "marker": "QAPARA002",
+              "contrast": 717,
+              "contrastedPixels": 931
+            },
+            {
+              "marker": "QAPARAEND002",
+              "contrast": 714,
+              "contrastedPixels": 1205
+            },
+            {
+              "marker": "QACLOSING001",
+              "contrast": 714,
+              "contrastedPixels": 1143
+            },
+            {
+              "marker": "QASIGNATURE001",
+              "contrast": 714,
+              "contrastedPixels": 1282
+            },
+            {
+              "marker": "QAATTACHMENT001",
+              "contrast": 714,
+              "contrastedPixels": 1299
+            },
+            {
+              "marker": "QAATTACHMENT002",
+              "contrast": 714,
+              "contrastedPixels": 1324
+            }
+          ]
+        }
+      ],
+      "fullBodySegments": 2,
+      "uniqueMarkers": 9,
+      "rasterSha256": "9496eedf7bcd8ffffc5be01bfd0b4c990787fc26c1908319b274ce9643bdfcac",
+      "sameRasterAsPreFontFix": true
+    },
+    {
+      "file": "artifacts/pdf-preflight/advisory-letter.pdf",
+      "pages": [
+        {
+          "page": 1,
+          "markers": [
+            {
+              "marker": "QASALUTATION001",
+              "contrast": 714,
+              "contrastedPixels": 1390
+            },
+            {
+              "marker": "QAPARA001",
+              "contrast": 714,
+              "contrastedPixels": 863
+            },
+            {
+              "marker": "QAPARAEND001",
+              "contrast": 717,
+              "contrastedPixels": 1251
+            },
+            {
+              "marker": "QAPARA002",
+              "contrast": 717,
+              "contrastedPixels": 931
+            },
+            {
+              "marker": "QAPARAEND002",
+              "contrast": 714,
+              "contrastedPixels": 1205
+            },
+            {
+              "marker": "QACLOSING001",
+              "contrast": 714,
+              "contrastedPixels": 1143
+            },
+            {
+              "marker": "QASIGNATURE001",
+              "contrast": 714,
+              "contrastedPixels": 1282
+            },
+            {
+              "marker": "QAATTACHMENT001",
+              "contrast": 714,
+              "contrastedPixels": 1299
+            },
+            {
+              "marker": "QAATTACHMENT002",
+              "contrast": 714,
+              "contrastedPixels": 1324
+            }
+          ]
+        }
+      ],
+      "canonicalFixture": "same brief/2-paragraph fixture as confirmed-letter"
+    }
+  ]
+}

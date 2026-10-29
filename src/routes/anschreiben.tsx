@@ -1,3 +1,4 @@
+import { importDossierProjectSafely } from "@/lib/dossier-import";
 import { useDossierChromePalette } from "@/lib/dossier-chrome-palette.browser";
 import { LETTER_FIELD_IDS } from "@/lib/dossier-semantic-fields";
 import { createFileRoute, Link } from "@tanstack/react-router";
@@ -60,7 +61,6 @@ import {
   createDossierProject,
   parseDossierProject,
   readStoredDossierPart,
-  storeDossierProject,
 } from "@/lib/dossier-project";
 import { readPhoto } from "@/lib/image";
 import { readDossierContact } from "@/lib/dossier-contact";
@@ -675,44 +675,19 @@ function Anschreiben() {
     setTransferNote({ kind: "ok", text: "Dossier als JSON gespeichert" });
   };
 
-  const importDossierProject = (file: File | undefined) => {
+  const importDossierProject = async (file: File | undefined) => {
     if (!file) return;
-    const reader = new FileReader();
-    reader.onerror = () =>
-      setTransferNote({ kind: "error", text: "Dossier-Datei konnte nicht gelesen werden." });
-    reader.onload = () => {
-      try {
-        const parsed: unknown = JSON.parse(String(reader.result));
-        const project = parseDossierProject(parsed);
-        if (!project) throw new Error("Keine gültige Dossier-Datei.");
-        keepSnapshot("Vor dem Laden", true);
-        const loaded = storeDossierProject(project);
-        if (loaded.letter && project.letter) {
-          const saved = project.letter as Partial<SavedLetter>;
-          if (saved.data && typeof saved.data === "object") {
-            setData({ ...EMPTY_LETTER, ...saved.data });
-          }
-          if (saved.design) setDesign(normalizeLetterDesign(saved.design));
-          const raw = window.localStorage.getItem(LETTER_STORAGE_KEY);
-          if (raw) markWritten(raw);
-        }
-        refreshSource();
-        setSaveState("saved");
-        setMenuOpen(false);
-        setTransferNote({
-          kind: "ok",
-          text: loaded.letter
-            ? "Dossier geladen"
-            : "Dossier geladen – Motivationsschreiben war in der Datei nicht enthalten.",
-        });
-      } catch (error) {
-        setTransferNote({
-          kind: "error",
-          text: error instanceof Error ? error.message : "Dossier konnte nicht geladen werden.",
-        });
-      }
-    };
-    reader.readAsText(file);
+    try {
+      const project = parseDossierProject(JSON.parse(await file.text()) as unknown);
+      if (!project) throw new Error("Keine gültige Dossier-Datei.");
+      await importDossierProjectSafely(project);
+      window.location.reload();
+    } catch (error) {
+      setTransferNote({
+        kind: "error",
+        text: error instanceof Error ? error.message : "Dossier konnte nicht geladen werden.",
+      });
+    }
   };
 
   const syncAllFromDossier = () => {

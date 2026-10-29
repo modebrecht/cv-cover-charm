@@ -19,6 +19,8 @@ on:
         "src/components/letter/**",
         "src/components/dossier/DossierExportDialog.tsx",
         "tests/qa/pdf-preflight*",
+        "tests/qa/pdf-consent-boundaries.qa.ts",
+        "tests/qa/playwright.preflight.config.ts",
         ".github/workflows/pdf-preflight.yml",
       ]
   workflow_dispatch:
@@ -52,7 +54,7 @@ jobs:
           npx tsc --noEmit -p tests/qa/tsconfig.json
           bun run lint
           bun run format:check:release
-          npx prettier --check src/lib/pdf-preflight.ts src/lib/html2canvas-export.ts src/components/letter/letter-paper.ts src/components/letter/LetterDocument.tsx src/routes/anschreiben.tsx src/routes/index.tsx src/routes/lebenslauf.tsx src/routes/titelblatt.tsx tests/qa/pdf-preflight*.ts tests/qa/pdf-raster-parity.qa.ts tests/unit/letter-paper-color.test.tsx tests/qa/playwright.preflight.config.ts tests/qa/pagination-browser.ts tests/e2e/letter-physical-preflight.spec.ts .github/workflows/pdf-preflight.yml
+          npx prettier --check src/lib/pdf-preflight.ts src/lib/html2canvas-export.ts src/components/letter/letter-paper.ts src/components/letter/LetterDocument.tsx src/routes/anschreiben.tsx src/routes/index.tsx src/routes/lebenslauf.tsx src/routes/titelblatt.tsx tests/qa/pdf-preflight*.ts tests/qa/pdf-consent-boundaries.qa.ts tests/qa/pdf-raster-parity.qa.ts tests/unit/letter-paper-color.test.tsx tests/qa/playwright.preflight.config.ts tests/qa/pagination-browser.ts tests/e2e/letter-physical-preflight.spec.ts .github/workflows/pdf-preflight.yml
           bun run build
 
   browser:

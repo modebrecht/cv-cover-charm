@@ -116,7 +116,7 @@ test.describe("letter physical PDF preflight", () => {
     // The deliberately broken hidden probe is now an explicit advisory. The
     // inflated aggregate scroll metric itself remains irrelevant to safety.
     await expect(pdfButton).toBeDisabled();
-    const overrideButton = page.getByRole("button", {
+    const overrideButton = page.getByRole("menuitem", {
       name: "PDF trotzdem herunterladen",
       exact: true,
     });

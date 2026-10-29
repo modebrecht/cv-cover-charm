@@ -1,9 +1,16 @@
+import {
+  reportDossierStorageWriteFailure,
+  registerDossierStorageReset,
+} from "@/lib/dossier-storage-write";
 import { isBodyTextAlignment, type BodyTextAlignment } from "@/lib/text-alignment";
 
 export const CV_TEXT_ALIGNMENT_STORAGE_KEY = "lebenslauf:text-align:v1";
 const CV_TEXT_ALIGNMENT_EVENT = "lebenslauf:text-align-changed";
 const DEFAULT_CV_TEXT_ALIGNMENT: BodyTextAlignment = "left";
 let memoryAlignment: BodyTextAlignment | undefined;
+registerDossierStorageReset(() => {
+  memoryAlignment = undefined;
+});
 
 export function readPersistedCvTextAlignment(): BodyTextAlignment | undefined {
   if (typeof window === "undefined") return undefined;
@@ -24,7 +31,8 @@ export function setCvTextAlignment(value: BodyTextAlignment) {
   memoryAlignment = value;
   try {
     window.localStorage.setItem(CV_TEXT_ALIGNMENT_STORAGE_KEY, value);
-  } catch {
+  } catch (error) {
+    reportDossierStorageWriteFailure(error);
     // Blockierter Speicher verhindert nur die Persistenz; die Sitzung bleibt reaktiv.
   }
   window.dispatchEvent(new CustomEvent(CV_TEXT_ALIGNMENT_EVENT));
@@ -35,7 +43,8 @@ export function clearCvTextAlignment() {
   if (typeof window === "undefined") return;
   try {
     window.localStorage.removeItem(CV_TEXT_ALIGNMENT_STORAGE_KEY);
-  } catch {
+  } catch (error) {
+    reportDossierStorageWriteFailure(error);
     // Der In-Memory-Stand ist trotzdem zurückgesetzt.
   }
   window.dispatchEvent(new CustomEvent(CV_TEXT_ALIGNMENT_EVENT));

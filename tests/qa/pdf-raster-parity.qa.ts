@@ -7,6 +7,7 @@ for (const [template, label, options] of [
   ["brief", "boundary", { works: 11, schools: 1 }],
   ["brief", "blank-lines", { works: 2, schools: 1 }],
   ["studio", "one", { works: 1, schools: 1 }],
+  ["monoLuxe", "font-inheritance", { works: 3, schools: 2 }],
   ["gallery", "timeline", { works: 12, schools: 6, layout: "timeline" }],
 ] as [string, string, FixtureOptions][]) {
   test(`raster clone retains measured plain CV lines: ${template} ${label}`, async ({ page }) => {
@@ -19,6 +20,13 @@ for (const [template, label, options] of [
       );
       fixture.storage["lebenslauf:v1"] = JSON.stringify(stored);
     }
+    if (label === "font-inheritance") {
+      const saved = JSON.parse(fixture.storage["lebenslauf:v1"]);
+      saved.data.person.vorname = "QANAME001 Lea";
+      saved.data.person.nameStyle = { font: "serif" };
+      fixture.storage["lebenslauf:v1"] = JSON.stringify(saved);
+      fixture.markers.cv.push("QANAME001");
+    }
     await loadFixture(page, fixture, "cv");
     const clones = await page
       .locator('[data-dossier-document="cv"][data-export-mode="true"]')
@@ -28,7 +36,7 @@ for (const [template, label, options] of [
         const canvasPath = "/node_modules/.vite/deps/html2canvas-pro.js";
         const { default: html2canvas } = await import(canvasPath);
         const measure = (sheet: HTMLElement) => {
-          const result: { marker: string; box: number[]; font: string }[] = [];
+          const result: { marker: string; box: number[]; font: string; family: string }[] = [];
           const p = sheet.getBoundingClientRect();
           const walker = document.createTreeWalker(sheet, NodeFilter.SHOW_TEXT);
           let node: Node | null;
@@ -48,6 +56,7 @@ for (const [template, label, options] of [
                     (r.height * 297) / p.height,
                   ],
                   font: getComputedStyle(node.parentElement!).fontSize,
+                  family: getComputedStyle(node.parentElement!).fontFamily,
                 });
               }
             }
@@ -78,6 +87,7 @@ for (const [template, label, options] of [
       for (const [index, before] of clone.before.entries()) {
         const after = clone.after[index];
         expect(after.font, before.marker).toBe(before.font);
+        expect(after.family, before.marker).toBe(before.family);
         for (let coordinate = 0; coordinate < 4; coordinate++)
           expect(
             Math.abs(after.box[coordinate] - before.box[coordinate]),

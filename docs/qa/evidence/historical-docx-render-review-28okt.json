@@ -1,0 +1,150 @@
+{
+  "status": "PACKAGE_PASSED_VISUAL_RENDERER_FINDING_OPEN",
+  "renderer": "Bundled LibreOffice headless",
+  "documents": 3,
+  "renderedPages": 9,
+  "reviewedPages": 9,
+  "rows": [
+    {
+      "variant": "baseline",
+      "renderedPages": 3,
+      "reviewedPngPages": [
+        1,
+        2,
+        3
+      ],
+      "status": "NO_CONFIRMED_VISUAL_FINDING",
+      "cvHeaderAddress": {
+        "pdfTextPresent": true,
+        "inkColor": 15987700,
+        "boxPt": [
+          68.1500015258789,
+          37.78074645996094,
+          159.09402465820312,
+          53.40474319458008
+        ],
+        "rasterContrastSumRgb": 649,
+        "finding": "Visible in original PNG and actual PDF. Initial covered-header diagnosis withdrawn after pixel checks and independent rasterization.",
+        "center15mmPixels": {
+          "runtimePdftoppm": [
+            17,
+            24,
+            40
+          ],
+          "mupdf": [
+            17,
+            24,
+            40
+          ]
+        }
+      },
+      "cvPhoto": {
+        "xmlXMm": 8.0,
+        "xmlHorizontalOrigin": "page",
+        "renderedImageBBoxPt": [
+          22.700000762939453,
+          147.3507843017578,
+          102.05000305175781,
+          246.55078125
+        ],
+        "renderedImageXMm": 8.00805582470364,
+        "finding": "Rendered photo x agrees with DOCX XML within 0.01 mm."
+      }
+    },
+    {
+      "variant": "mirrored",
+      "renderedPages": 3,
+      "reviewedPngPages": [
+        1,
+        2,
+        3
+      ],
+      "status": "LIBREOFFICE_PHOTO_POSITION_FINDING",
+      "cvHeaderAddress": {
+        "pdfTextPresent": true,
+        "inkColor": 15987700,
+        "boxPt": [
+          68.1500015258789,
+          37.78074645996094,
+          159.09402465820312,
+          53.40474319458008
+        ],
+        "rasterContrastSumRgb": 649,
+        "finding": "Visible in original PNG and actual PDF. Initial covered-header diagnosis withdrawn after pixel checks and independent rasterization.",
+        "center15mmPixels": {
+          "runtimePdftoppm": [
+            17,
+            24,
+            40
+          ],
+          "mupdf": [
+            17,
+            24,
+            40
+          ]
+        }
+      },
+      "cvPhoto": {
+        "xmlXMm": 155.0,
+        "xmlHorizontalOrigin": "page",
+        "renderedImageBBoxPt": [
+          314.54998779296875,
+          147.3507843017578,
+          393.8999938964844,
+          246.55078125
+        ],
+        "renderedImageXMm": 110.96624569363064,
+        "finding": "DOCX XML requests page x=155 mm; LibreOffice PDF places photo near x=111 mm, confirmed by MuPDF and system pdftocairo."
+      }
+    },
+    {
+      "variant": "embedded-legacy-chrome",
+      "renderedPages": 3,
+      "reviewedPngPages": [
+        1,
+        2,
+        3
+      ],
+      "status": "NO_CONFIRMED_VISUAL_FINDING",
+      "cvHeaderAddress": {
+        "pdfTextPresent": true,
+        "inkColor": 15987700,
+        "boxPt": [
+          68.1500015258789,
+          37.78074645996094,
+          159.09402465820312,
+          53.40474319458008
+        ],
+        "rasterContrastSumRgb": 649,
+        "finding": "Visible in original PNG and actual PDF. Initial covered-header diagnosis withdrawn after pixel checks and independent rasterization.",
+        "center15mmPixels": {
+          "runtimePdftoppm": [
+            17,
+            24,
+            40
+          ],
+          "mupdf": [
+            17,
+            24,
+            40
+          ]
+        }
+      },
+      "cvPhoto": {
+        "xmlXMm": 8.0,
+        "xmlHorizontalOrigin": "page",
+        "renderedImageBBoxPt": [
+          22.700000762939453,
+          147.3507843017578,
+          102.05000305175781,
+          246.55078125
+        ],
+        "renderedImageXMm": 8.00805582470364,
+        "finding": "Rendered photo x agrees with DOCX XML within 0.01 mm."
+      }
+    }
+  ],
+  "scope": "Actual downloaded DOCX files after import; 3 documents/9 pages reviewed. Package and logical-content checks passed. Desktop Microsoft Word save/reopen has not been run. No production workaround was applied.",
+  "pdfRasterCrossCheck": "Original runtime pdftoppm PNG, MuPDF and system pdftocairo show the contact header. Initial visual interpretation was incorrect and is withdrawn. Mirrored photo displacement is confirmed in the actual LibreOffice PDF.",
+  "reviewedPdfPages": 9
+}

@@ -1,0 +1,307 @@
+{
+  "date": "2026-10-29",
+  "branch": "work/29okt-smart-page-fit",
+  "sourceCommit": "a30f6d1399dfff637c18ff5b9ebf713b8cd4d559",
+  "sourceTree": "9d5b2999ce4c3d11c108c4677b2cf1454094fde3",
+  "cleanAtFinalAppChecks": true,
+  "baseline": {
+    "commit": "b6b89944da8c2c53e5f83ed192da55659874bf29",
+    "failure": "Short Sidebar remains two pages after automatic fit",
+    "expectedPages": 1,
+    "observedPages": 2,
+    "report": "baseline-failing-results.json"
+  },
+  "runtime": {
+    "bun": "1.3.13",
+    "playwright": "1.56.1",
+    "chromium": "141.0.7390.37",
+    "font": "Liberation Sans from bundled LibreOffice fonts registered in user fontconfig"
+  },
+  "unit": {
+    "passed": 1438,
+    "failed": 0,
+    "files": 278,
+    "assertions": 27151
+  },
+  "smartBrowser": {
+    "startTime": "2026-10-29T00:25:34.695Z",
+    "duration": 65851.665,
+    "expected": 16,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "historicalNativeBrowser": {
+    "startTime": "2026-10-29T00:26:54.104Z",
+    "duration": 20388.843,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "typechecks": {
+    "app": "PASS",
+    "qa": "PASS"
+  },
+  "format": "PASS",
+  "lint": {
+    "errors": 0,
+    "existingWarnings": 21
+  },
+  "productionBuild": {
+    "exitCode": 0,
+    "outputPresent": true
+  },
+  "nativeIndependent": {
+    "status": "PASS",
+    "identicalFieldsAcrossSides": true,
+    "documents": [
+      {
+        "file": "left-one-page.docx",
+        "sha256": "034018f0b6de6a716a6b668247f9c313df2b4c628e782e7738108ce7ee1ebc15",
+        "sections": 1,
+        "fieldOccurrences": 59,
+        "photoDimensions": [120, 180],
+        "originalPhotoPixelsPreserved": true,
+        "ordinaryPhotoOutsideContentControl": true,
+        "photoXMm": 8.0,
+        "fields": [
+          ["cv.documentTitle", "Lebenslauf"],
+          [
+            "cv.entry.custom:familie:demo-familie.description",
+            "Bruder von Aline, 2004, Medizinische Praxisassistentin und Jaro, 2015, Schüler"
+          ],
+          [
+            "cv.entry.custom:familie:demo-familie.place",
+            "Sohn von Monika Müller, Detailhandelsfachfrau und Peter Müller, Maurer"
+          ],
+          ["cv.entry.erfahrung:demo-p1.date", "Sept. 2026"],
+          [
+            "cv.entry.erfahrung:demo-p1.description",
+            "Support, kleine Automatisierungen mit Python"
+          ],
+          ["cv.entry.erfahrung:demo-p1.place", "Beispiel AG, Hubersdorf"],
+          ["cv.entry.erfahrung:demo-p1.title", "Schnupperlehre Informatik"],
+          ["cv.entry.erfahrung:demo-p2.date", "März 2026"],
+          ["cv.entry.erfahrung:demo-p2.description", "Website-Pflege, Bildbearbeitung"],
+          ["cv.entry.erfahrung:demo-p2.place", "Muster GmbH, Hubersdorf"],
+          ["cv.entry.erfahrung:demo-p2.title", "Schnupperlehre Mediamatik"],
+          ["cv.entry.hobbys:0", "Volleyball im Verein"],
+          ["cv.entry.hobbys:1", "Programmieren kleiner Spiele"],
+          ["cv.entry.hobbys:2", "Fotografieren"],
+          ["cv.entry.referenzen:demo-r1.contact", "079 555 12 34"],
+          ["cv.entry.referenzen:demo-r1.name", "Herr Thomas Weber"],
+          ["cv.entry.referenzen:demo-r1.role", "Klassenlehrer, Schulhaus Zentrum"],
+          ["cv.entry.schule:demo-s1.date", "2023 – heute"],
+          ["cv.entry.schule:demo-s1.description", "Schwerpunkt Mathematik und Informatik"],
+          ["cv.entry.schule:demo-s1.place", "Schulhaus Zentrum, Hubersdorf"],
+          ["cv.entry.schule:demo-s1.title", "Sekundarschule, Niveau A"],
+          ["cv.entry.schule:demo-s2.date", "2017 – 2023"],
+          ["cv.entry.schule:demo-s2.place", "Primarschule Hubersdorf"],
+          ["cv.entry.schule:demo-s2.title", "Primarschule"],
+          ["cv.entry.sprachen:demo-l1.level", "Muttersprache"],
+          ["cv.entry.sprachen:demo-l1.name", "Deutsch"],
+          ["cv.entry.sprachen:demo-l2.level", "Gute Schulkenntnisse (B1)"],
+          ["cv.entry.sprachen:demo-l2.name", "Englisch"],
+          ["cv.entry.sprachen:demo-l3.level", "Grundkenntnisse (A2)"],
+          ["cv.entry.sprachen:demo-l3.name", "Französisch"],
+          ["cv.entry.staerken:0", "Zuverlässig und pünktlich"],
+          ["cv.entry.staerken:1", "Arbeitet gern im Team"],
+          ["cv.entry.staerken:2", "Lernt schnell Neues"],
+          ["cv.header.continuation.row:0", "Lea Müller"],
+          ["cv.header.continuation.row:1", "Dorfstrasse 12·4535 Hubersdorf"],
+          ["cv.header.continuation.row:2", "079 123 45 67·lea.mueller@example.ch"],
+          ["cv.header.first.row:0", "Lea Müller"],
+          ["cv.header.first.row:1", "Dorfstrasse 12·4535 Hubersdorf"],
+          ["cv.header.first.row:2", "079 123 45 67·lea.mueller@example.ch"],
+          ["cv.person.address", "Dorfstrasse 12"],
+          ["cv.person.address", "Dorfstrasse 12"],
+          ["cv.person.email", "lea.mueller@example.ch"],
+          ["cv.person.email", "lea.mueller@example.ch"],
+          ["cv.person.geburtsdatum", "Geburtsdatum: 14.03.2010"],
+          ["cv.person.name", "Lea Müller"],
+          ["cv.person.name", "Lea Müller"],
+          ["cv.person.name", "Lea Müller"],
+          ["cv.person.phone", "079 123 45 67"],
+          ["cv.person.phone", "079 123 45 67"],
+          ["cv.person.place", "4535 Hubersdorf"],
+          ["cv.person.place", "4535 Hubersdorf"],
+          ["cv.section.custom:familie.heading", "00Familie"],
+          ["cv.section.erfahrung.heading", "00Praktika & Schnuppertage"],
+          ["cv.section.hobbys.heading", "Hobbys & Interessen"],
+          ["cv.section.person.heading", "00Kontakt"],
+          ["cv.section.referenzen.heading", "00Referenzen"],
+          ["cv.section.schule.heading", "00Schulbildung"],
+          ["cv.section.sprachen.heading", "00Sprachen"],
+          ["cv.section.staerken.heading", "00Stärken"]
+        ]
+      },
+      {
+        "file": "right-one-page.docx",
+        "sha256": "4956e3e76a4f4647f99b929aa824b1fd8ab7a19a0890b5b852751f49bee1764f",
+        "sections": 1,
+        "fieldOccurrences": 59,
+        "photoDimensions": [120, 180],
+        "originalPhotoPixelsPreserved": true,
+        "ordinaryPhotoOutsideContentControl": true,
+        "photoXMm": 155.0,
+        "fields": [
+          ["cv.documentTitle", "Lebenslauf"],
+          [
+            "cv.entry.custom:familie:demo-familie.description",
+            "Bruder von Aline, 2004, Medizinische Praxisassistentin und Jaro, 2015, Schüler"
+          ],
+          [
+            "cv.entry.custom:familie:demo-familie.place",
+            "Sohn von Monika Müller, Detailhandelsfachfrau und Peter Müller, Maurer"
+          ],
+          ["cv.entry.erfahrung:demo-p1.date", "Sept. 2026"],
+          [
+            "cv.entry.erfahrung:demo-p1.description",
+            "Support, kleine Automatisierungen mit Python"
+          ],
+          ["cv.entry.erfahrung:demo-p1.place", "Beispiel AG, Hubersdorf"],
+          ["cv.entry.erfahrung:demo-p1.title", "Schnupperlehre Informatik"],
+          ["cv.entry.erfahrung:demo-p2.date", "März 2026"],
+          ["cv.entry.erfahrung:demo-p2.description", "Website-Pflege, Bildbearbeitung"],
+          ["cv.entry.erfahrung:demo-p2.place", "Muster GmbH, Hubersdorf"],
+          ["cv.entry.erfahrung:demo-p2.title", "Schnupperlehre Mediamatik"],
+          ["cv.entry.hobbys:0", "Volleyball im Verein"],
+          ["cv.entry.hobbys:1", "Programmieren kleiner Spiele"],
+          ["cv.entry.hobbys:2", "Fotografieren"],
+          ["cv.entry.referenzen:demo-r1.contact", "079 555 12 34"],
+          ["cv.entry.referenzen:demo-r1.name", "Herr Thomas Weber"],
+          ["cv.entry.referenzen:demo-r1.role", "Klassenlehrer, Schulhaus Zentrum"],
+          ["cv.entry.schule:demo-s1.date", "2023 – heute"],
+          ["cv.entry.schule:demo-s1.description", "Schwerpunkt Mathematik und Informatik"],
+          ["cv.entry.schule:demo-s1.place", "Schulhaus Zentrum, Hubersdorf"],
+          ["cv.entry.schule:demo-s1.title", "Sekundarschule, Niveau A"],
+          ["cv.entry.schule:demo-s2.date", "2017 – 2023"],
+          ["cv.entry.schule:demo-s2.place", "Primarschule Hubersdorf"],
+          ["cv.entry.schule:demo-s2.title", "Primarschule"],
+          ["cv.entry.sprachen:demo-l1.level", "Muttersprache"],
+          ["cv.entry.sprachen:demo-l1.name", "Deutsch"],
+          ["cv.entry.sprachen:demo-l2.level", "Gute Schulkenntnisse (B1)"],
+          ["cv.entry.sprachen:demo-l2.name", "Englisch"],
+          ["cv.entry.sprachen:demo-l3.level", "Grundkenntnisse (A2)"],
+          ["cv.entry.sprachen:demo-l3.name", "Französisch"],
+          ["cv.entry.staerken:0", "Zuverlässig und pünktlich"],
+          ["cv.entry.staerken:1", "Arbeitet gern im Team"],
+          ["cv.entry.staerken:2", "Lernt schnell Neues"],
+          ["cv.header.continuation.row:0", "Lea Müller"],
+          ["cv.header.continuation.row:1", "Dorfstrasse 12·4535 Hubersdorf"],
+          ["cv.header.continuation.row:2", "079 123 45 67·lea.mueller@example.ch"],
+          ["cv.header.first.row:0", "Lea Müller"],
+          ["cv.header.first.row:1", "Dorfstrasse 12·4535 Hubersdorf"],
+          ["cv.header.first.row:2", "079 123 45 67·lea.mueller@example.ch"],
+          ["cv.person.address", "Dorfstrasse 12"],
+          ["cv.person.address", "Dorfstrasse 12"],
+          ["cv.person.email", "lea.mueller@example.ch"],
+          ["cv.person.email", "lea.mueller@example.ch"],
+          ["cv.person.geburtsdatum", "Geburtsdatum: 14.03.2010"],
+          ["cv.person.name", "Lea Müller"],
+          ["cv.person.name", "Lea Müller"],
+          ["cv.person.name", "Lea Müller"],
+          ["cv.person.phone", "079 123 45 67"],
+          ["cv.person.phone", "079 123 45 67"],
+          ["cv.person.place", "4535 Hubersdorf"],
+          ["cv.person.place", "4535 Hubersdorf"],
+          ["cv.section.custom:familie.heading", "00Familie"],
+          ["cv.section.erfahrung.heading", "00Praktika & Schnuppertage"],
+          ["cv.section.hobbys.heading", "Hobbys & Interessen"],
+          ["cv.section.person.heading", "00Kontakt"],
+          ["cv.section.referenzen.heading", "00Referenzen"],
+          ["cv.section.schule.heading", "00Schulbildung"],
+          ["cv.section.sprachen.heading", "00Sprachen"],
+          ["cv.section.staerken.heading", "00Stärken"]
+        ]
+      }
+    ]
+  },
+  "unchangedNativeRegression": [
+    {
+      "variant": "baseline",
+      "byteIdenticalTo28October": true,
+      "sha256": "baab4a6ec960037978e88998aa03658f79e135d5606430fde1da5cb1c80f33a6",
+      "previousSha256": "baab4a6ec960037978e88998aa03658f79e135d5606430fde1da5cb1c80f33a6"
+    },
+    {
+      "variant": "mirrored",
+      "byteIdenticalTo28October": true,
+      "sha256": "16e69a263c6c3d0703f266a9d826a92ed51d8eac21b6e7e2d7eb7f4faca3baea",
+      "previousSha256": "16e69a263c6c3d0703f266a9d826a92ed51d8eac21b6e7e2d7eb7f4faca3baea"
+    },
+    {
+      "variant": "embedded-legacy-chrome",
+      "byteIdenticalTo28October": true,
+      "sha256": "baab4a6ec960037978e88998aa03658f79e135d5606430fde1da5cb1c80f33a6",
+      "previousSha256": "baab4a6ec960037978e88998aa03658f79e135d5606430fde1da5cb1c80f33a6"
+    }
+  ],
+  "webPdf": [
+    {
+      "side": "left",
+      "pages": 1,
+      "sha256": "5500fff1507f9efb8c2dbb209da307a475f8f64642d7b19298f57aa4657029c0"
+    },
+    {
+      "side": "right",
+      "pages": 1,
+      "sha256": "6804ce4100fff5388ff2c1f7c71cdf5ab0a41589dd18dc154e9bda56358532f6"
+    }
+  ],
+  "libreOfficeDiagnostic": [
+    {
+      "side": "left",
+      "pages": 1,
+      "renderer": "LibreOfficeDev 26.8.0.0.alpha0 (X86_64)",
+      "headerNamePresent": true,
+      "referenceRolePresent": true,
+      "photoXMm": 8.00805582470364,
+      "status": "NO_CONFIRMED_VISUAL_FINDING"
+    },
+    {
+      "side": "right",
+      "pages": 1,
+      "renderer": "LibreOfficeDev 26.8.0.0.alpha0 (X86_64)",
+      "headerNamePresent": true,
+      "referenceRolePresent": true,
+      "photoXMm": 110.96624569363064,
+      "status": "KNOWN_MIRRORED_PHOTO_OFFSET"
+    }
+  ],
+  "logs": {
+    "unit-final-29okt.log": {
+      "sha256": "c69c6589670b7d5ca749c1b6d410fc85e033f3efb146f648b3157f1609418afb",
+      "bytes": 180300
+    },
+    "typecheck-final-29okt.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "typecheck-qa-final-29okt.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "lint-final-29okt.log": {
+      "sha256": "1356486c857420df4b22d5dabb56385b17fd7d158d0e2e326ee58adb30cfdeb0",
+      "bytes": 6183
+    },
+    "format-final-29okt.log": {
+      "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "bytes": 66
+    },
+    "build-final-29okt.log": {
+      "sha256": "e99670909b87251ef3447c3e4faf36fb00e65d9a4b71fd31d68d36af29cc9079",
+      "bytes": 7484
+    }
+  },
+  "limitations": [
+    "Desktop Microsoft Word was not available; no Word save/reopen or page-count acceptance claimed.",
+    "Existing mirrored photo displacement in LibreOffice remains open.",
+    "No new all-39-template acceptance; the previous 156 and 70 counts refer to 28 October.",
+    "Existing compact standard/Masonry height fallback is unchanged."
+  ],
+  "pushed": false,
+  "published": false
+}

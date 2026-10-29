@@ -1,0 +1,59 @@
+name: Dossier JSON import recovery
+
+on:
+  pull_request:
+    branches: [dev]
+    paths:
+      [
+        "src/**",
+        "tests/e2e/dossier-import-recovery.spec.ts",
+        "tests/unit/dossier-project-file.test.ts",
+        "tests/qa/playwright.import-recovery.config.ts",
+        ".github/workflows/dossier-import-recovery.yml",
+        "package.json",
+        "bun.lock",
+      ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dossier-import-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.13
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Locked application dependencies and isolated browser tooling
+        run: |
+          bun install --frozen-lockfile
+          npm install --prefix "$RUNNER_TEMP/cvcc-browser-tools" --no-package-lock --no-audit --no-fund @playwright/test@1.56.1
+          ln -s "$RUNNER_TEMP/cvcc-browser-tools/node_modules/@playwright" node_modules/@playwright
+          "$RUNNER_TEMP/cvcc-browser-tools/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Units, types, lint and build
+        run: |
+          bun test tests/unit
+          bun run typecheck
+          npx tsc --noEmit -p tests/qa/tsconfig.json
+          bun run lint
+          bun run build
+      - name: Native browser import and recovery
+        run: '"$RUNNER_TEMP/cvcc-browser-tools/node_modules/.bin/playwright" test --config tests/qa/playwright.import-recovery.config.ts'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dossier-import-${{ github.sha }}
+          path: |
+            artifacts/import-recovery/results.json
+            test-results/import-recovery
+          retention-days: 14

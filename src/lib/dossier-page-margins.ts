@@ -1,3 +1,7 @@
+import {
+  reportDossierStorageWriteFailure,
+  registerDossierStorageReset,
+} from "@/lib/dossier-storage-write";
 export type DossierPageMarginScope = "cv" | "letter";
 
 export type DossierPageMargins = {
@@ -18,6 +22,10 @@ export const DOSSIER_PAGE_MARGIN_MAX_MM = 80;
 export const DOSSIER_PAGE_MARGIN_HARD_MAX_MM = 120;
 
 let memoryRaw = "{}";
+registerDossierStorageReset(() => {
+  memoryRaw = "{}";
+  applyDossierPageMarginsToDocument();
+});
 
 const roundHalfMm = (value: number) => Math.round(value * 2) / 2;
 
@@ -157,7 +165,8 @@ function writeState(state: DossierPageMarginsState) {
     } else {
       window.localStorage.setItem(DOSSIER_PAGE_MARGINS_STORAGE_KEY, raw);
     }
-  } catch {
+  } catch (error) {
+    reportDossierStorageWriteFailure(error);
     // The in-memory copy still keeps the current editor session responsive.
   }
   applyDossierPageMarginsToDocument(normalized);

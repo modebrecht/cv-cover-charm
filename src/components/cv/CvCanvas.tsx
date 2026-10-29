@@ -24,16 +24,19 @@ import {
   withDossierChromeDocumentContent,
 } from "@/lib/dossier-chrome-content";
 import { CvPageFitMenuPortal } from "./CvPageFitMenuPortal";
+import { useMeasuredOnePageFit, type CvMeasuredPageFitResult } from "./use-measured-one-page-fit";
 import { CvTextAlignmentPortal } from "./CvTextAlignmentPortal";
 import { cvPresentationCssVariables, useCvPresentation, type CvPresentation } from "./presentation";
 import { cvContentBox, cvFrameFor } from "./archetype";
 import { CV_LAYOUT_EVENT } from "./layout";
+import { resolveCvPlacement } from "./placement";
 import { CvCanvas as BaseCvCanvas } from "./CvCanvasBase";
 import { resolveCvRubricOptions } from "./citrus-rubric";
 import {
   buildCvPageFitPlan,
   measureCvPageFitSectionHeights,
   measureCvPageFitCapacityPx,
+  measureCvPageFitSidebarFits,
   chooseCvSmartPageFitMode,
   cvPageFitKeepsManualPosition,
   consumeCvPageFitMode,
@@ -48,6 +51,7 @@ import {
   CV_SCALE_MAX,
   CV_SCALE_MIN,
   CV_TYPE_DEFAULTS,
+  cvSectionOrder,
   type CvData,
   type CvDesign,
   type CvLayoutSectionKey,
@@ -82,6 +86,9 @@ type Props = Omit<
   manageGlobalTemplateScope?: boolean;
   /** Persist the one-shot page-fit typography into the real CV design state. */
   onPageFitDesign?: (patch: Pick<CvDesign, "titleScale" | "headingScale" | "bodyScale">) => void;
+  /** Commit the first measured one-page fit atomically, preserving section order. */
+  onMeasuredPageFit?: (result: CvMeasuredPageFitResult) => void;
+  onPageFitNotice?: (message: string) => void;
 };
 
 /**
@@ -258,6 +265,22 @@ export function CvCanvas({
   const pageFitMode = useSyncExternalStore(subscribeCvPageFit, getCvPageFitMode, () => null);
   const pageFitRevision = useSyncExternalStore(subscribeCvPageFit, getCvPageFitRevision, () => 0);
   const geometryScopeRef = useRef<HTMLDivElement>(null);
+  const onePageTrial = useMeasuredOnePageFit({
+    mode: pageFitMode,
+    revision: pageFitRevision,
+    data: props.data,
+    design: props.design,
+    classic: pageFitLayout === "classic",
+    enabled: !props.exportMode && !!props.onMeasuredPageFit,
+    fixedSecondPage:
+      Object.values(props.data.sectionLayouts ?? {}).some(
+        (layout) => layout?.positioning === "free" && layout.page === 2,
+      ) || !!(props.design.useElements && props.elements.some((element) => element.page === 2)),
+    scope: geometryScopeRef,
+    onApply: props.onMeasuredPageFit,
+    onNotice: props.onPageFitNotice,
+  });
+  const fitData = onePageTrial?.data ?? props.data;
   const localContact = useMemo(() => contactFromCv(props.data), [props.data]);
   const resolvedContact = useMemo(
     () => resolveCvChromeContact(localContact, chromeContact),
@@ -265,14 +288,15 @@ export function CvCanvas({
   );
   const pageFitPlan = useMemo(
     () =>
-      pageFitMode && !props.exportMode
+      pageFitMode && pageFitMode !== "one" && !props.exportMode
         ? buildCvPageFitPlan(props.data, pageFitMode === "auto" ? "two" : pageFitMode, {
             allowHalfWidth: pageFitLayout === "classic",
           })
         : null,
     [pageFitLayout, pageFitMode, props.data, props.exportMode],
   );
-  const baseDesign = useMemo(() => cvDesignWithFullSectionRules(props.design), [props.design]);
+  const trialDesign = onePageTrial?.design ?? props.design;
+  const baseDesign = useMemo(() => cvDesignWithFullSectionRules(trialDesign), [trialDesign]);
   const design = useMemo<CvDesign>(() => {
     // Intelligent fitting measures the user's actual typography. It must not
     // silently scale down already-fitting text during its temporary action.
@@ -318,8 +342,8 @@ export function CvCanvas({
     };
   }, [design.template, resolvedChromeOptions]);
   const data = useMemo(
-    () => cvBodyData(props.data, canvasChromeOptions),
-    [canvasChromeOptions, props.data],
+    () => cvBodyData(fitData, canvasChromeOptions),
+    [canvasChromeOptions, fitData],
   );
   // CvCanvasBase stores paginated React rows in state and recalculates that state
   // when its `data` input changes. Design-only edits used to leave those cached
@@ -328,11 +352,8 @@ export function CvCanvas({
   // so every typography/color/spacing toggle is reflected immediately.
   const paginationData = useMemo(() => ({ ...data }), [data, design, presentation]);
 
-  // The pupil-facing page-fit actions reuse the existing section-layout callback.
-  // One-page mode first packs safe short rubrics into two independent Masonry
-  // columns and only then tightens typography. Two-page mode restores normal
-  // full-width row packing. Re-applying the same action is intentional; a
-  // monotonically increasing revision resets manual page/width/packing edits.
+  // Automatic/two-page actions reuse the existing section-layout callback.
+  // Explicit one-page fitting above measures local trials before committing.
   const appliedPageFit = useRef<string | null>(null);
   useEffect(() => {
     if (!pageFitPlan || props.exportMode || !props.onSectionLayout) {
@@ -347,6 +368,17 @@ export function CvCanvas({
             heights,
             measureCvPageFitCapacityPx(geometryScopeRef.current),
             geometryScopeRef.current?.querySelectorAll("[data-cv-page]").length === 1,
+            pageFitLayout === "modern"
+              ? {
+                  mainSectionKeys: cvSectionOrder(props.data).filter(
+                    (key) =>
+                      key === "person" ||
+                      resolveCvPlacement(presentation.placements, key) === "main",
+                  ),
+                  sidebarFitsFirstPage:
+                    measureCvPageFitSidebarFits(geometryScopeRef.current) === true,
+                }
+              : undefined,
           )
         : pageFitPlan.mode;
     const measuredPlan =
@@ -401,6 +433,7 @@ export function CvCanvas({
     pageFitMode,
     pageFitLayout,
     pageFitRevision,
+    presentation.placements,
     props.data,
     props.exportMode,
     props.onPageFitDesign,
@@ -580,6 +613,7 @@ export function CvCanvas({
         chromeContact={resolvedContact}
         chromeDocumentContent={chromeDocumentContent}
         onPageCount={handlePageCount}
+        measurePageFitSidebar={pageFitMode === "auto"}
       />
       {!props.exportMode ? <CvPageFitMenuPortal /> : null}
       {!props.exportMode ? (

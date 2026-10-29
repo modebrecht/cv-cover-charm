@@ -1,3 +1,4 @@
+import { reportDossierStorageWriteFailure } from "@/lib/dossier-storage-write";
 import { referenceHasContent } from "@/lib/dossier-semantic-fields";
 import {
   cvSectionOrder,
@@ -25,7 +26,8 @@ function clearLegacyPageFitStorage() {
   if (typeof window === "undefined") return;
   try {
     window.localStorage.removeItem(CV_PAGE_FIT_STORAGE_KEY);
-  } catch {
+  } catch (error) {
+    reportDossierStorageWriteFailure(error);
     // A blocked storage API must not prevent the in-memory action.
   }
 }
@@ -221,8 +223,12 @@ export function chooseCvSmartPageFitMode(
   measured: Partial<Record<CvLayoutSectionKey, number>> | null,
   usableFirstPagePx: number | null,
   currentlyOnePage = false,
+  options: {
+    mainSectionKeys?: readonly CvLayoutSectionKey[];
+    sidebarFitsFirstPage?: boolean;
+  } = {},
 ): "one" | "two" {
-  const active = cvSectionOrder(data).filter(
+  let active = cvSectionOrder(data).filter(
     (key) => key === "person" || cvPageFitSectionWeight(data, key) > 0,
   );
   if (
@@ -232,6 +238,13 @@ export function chooseCvSmartPageFitMode(
     })
   )
     return "two";
+  // Main and Sidebar flow side by side. Require a complete measured Sidebar
+  // before excluding its rubrics from the main-column capacity calculation.
+  const mainSectionKeys = options.mainSectionKeys;
+  if (mainSectionKeys) {
+    if (options.sidebarFitsFirstPage !== true) return "two";
+    active = active.filter((key) => mainSectionKeys.includes(key));
+  }
   if (!active.length) return "one";
   if (!measured || !Number.isFinite(usableFirstPagePx) || (usableFirstPagePx ?? 0) <= 0)
     return "two";
@@ -271,13 +284,57 @@ export function measureCvPageFitCapacityPx(canvas: HTMLElement | null): number |
   return typeof height === "number" && Number.isFinite(height) && height > 0 ? height : null;
 }
 
-function onePageScale(weight: number) {
-  if (weight <= 18) return 1;
-  if (weight <= 24) return 0.97;
-  if (weight <= 32) return 0.93;
-  if (weight <= 40) return 0.89;
-  if (weight <= 50) return 0.85;
-  return 0.82;
+/** Measure all flowing Sidebar rubrics at their actual first-page geometry.
+ * Saved page assignments must not hide second-page content from smart fit. */
+export function measureCvPageFitSidebarFits(canvas: HTMLElement | null): boolean | null {
+  const rail = canvas?.querySelector<HTMLElement>("[data-cv-measure-sidebar] [data-cv-sidebar]");
+  const content = rail?.querySelector<HTMLElement>("[data-cv-sidebar-content]");
+  if (!rail || !content) return null;
+  const railHeight = rail.getBoundingClientRect().height;
+  const contentHeight = content.getBoundingClientRect().height;
+  const scale = railHeight / rail.offsetHeight;
+  const style = getComputedStyle(rail);
+  const padding =
+    (Number.parseFloat(style.paddingTop) + Number.parseFloat(style.paddingBottom)) * scale;
+  const capacity = railHeight - padding;
+  if (
+    ![scale, capacity, contentHeight].every(Number.isFinite) ||
+    scale <= 0 ||
+    capacity <= 0 ||
+    contentHeight < 0
+  )
+    return null;
+  return contentHeight <= capacity * 0.9;
+}
+
+/** Exact one-page trial: use the paginator's own measured height, including
+ * grouped/Masonry rows, plus the actual first-page Sidebar. No text estimates
+ * or zoom-dependent pixel budgets participate in this decision. */
+export function measureCvOnePageDemand(canvas: HTMLElement | null): number | null {
+  const main = canvas?.querySelector<HTMLElement>("[data-cv-measure-page] [data-cv-main]");
+  const used = Number(main?.dataset.cvFlowHeightPx);
+  const capacity = Number(main?.dataset.cvFlowCapacityPx);
+  if (!Number.isFinite(used) || !Number.isFinite(capacity) || used < 0 || capacity <= 0)
+    return null;
+  const rail = canvas?.querySelector<HTMLElement>('[data-cv-page="0"] [data-cv-sidebar]');
+  const content = rail?.querySelector<HTMLElement>("[data-cv-sidebar-content]");
+  if (!rail) return used / capacity;
+  if (!content) return null;
+  const scale = rail.getBoundingClientRect().height / rail.offsetHeight;
+  const style = getComputedStyle(rail);
+  const sidebarCapacity =
+    rail.getBoundingClientRect().height / scale -
+    Number.parseFloat(style.paddingTop) -
+    Number.parseFloat(style.paddingBottom) -
+    2;
+  const sidebarUsed = content.getBoundingClientRect().height / scale;
+  if (
+    ![scale, sidebarCapacity, sidebarUsed].every(Number.isFinite) ||
+    scale <= 0 ||
+    sidebarCapacity <= 0
+  )
+    return null;
+  return Math.max(used / capacity, sidebarUsed / sidebarCapacity);
 }
 
 function twoPageScale(weight: number) {
@@ -363,7 +420,7 @@ function onePageCompactLayout(
 /**
  * Build a predictable pupil-facing plan:
  * - one page: everything returns to page 1 / normal flow, contiguous short
- *   rubrics may form a Masonry group, and typography only tightens afterwards;
+ *   rubrics may form a Masonry trial; live measurements decide typography;
  * - two pages: keep section order, restore full widths + normal row packing,
  *   put personal data on page 1, and choose the split whose estimated content
  *   weights are closest to balanced.
@@ -442,10 +499,9 @@ export function buildCvPageFitPlan(
     }
   }
 
-  const scaleWeight = mode === "one" ? effectiveWeight : totalWeight;
-  const baseScale = mode === "one" ? onePageScale(scaleWeight) : twoPageScale(scaleWeight);
-  const titleScaleFactor = mode === "one" ? Math.max(0.9, baseScale) : Math.min(1.04, baseScale);
-  const headingScaleFactor = mode === "one" ? Math.max(0.86, baseScale) : baseScale;
+  const baseScale = mode === "one" ? 1 : twoPageScale(totalWeight);
+  const titleScaleFactor = mode === "one" ? 1 : Math.min(1.04, baseScale);
+  const headingScaleFactor = baseScale;
   const bodyScaleFactor = baseScale;
   const assignmentSignature = `${mode}|${order
     .map(

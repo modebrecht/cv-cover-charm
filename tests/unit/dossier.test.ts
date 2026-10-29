@@ -309,11 +309,7 @@ describe("combined dossier project", () => {
         savedAt: "now",
         cover: { version: 7 },
       }),
-    ).toEqual({
-      kind: DOSSIER_PROJECT_KIND,
-      version: 1,
-      savedAt: "now",
-    });
+    ).toBeNull();
   });
 });
 

@@ -1,3 +1,4 @@
+import { reportDossierStorageWriteFailure } from "@/lib/dossier-storage-write";
 import {
   CV_CONTINUATION_GAP_STORAGE_KEY,
   CV_CONTINUATION_TOP_MARGIN_STORAGE_KEY,
@@ -182,7 +183,8 @@ export function clearPortableCvState() {
   try {
     const storage = window.localStorage;
     for (const key of PORTABLE_CV_STORAGE_KEYS) storage.removeItem(key);
-  } catch {
+  } catch (error) {
+    reportDossierStorageWriteFailure(error);
     // Blockierter Browser-Speicher darf den restlichen Import nicht abbrechen.
   }
   setCvPageFitMode(null);

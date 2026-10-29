@@ -1,0 +1,95 @@
+{
+  "productCommit": "6af2aebff0fb03f66dbef62b74a28cd34bfc723d",
+  "sourceTree": "2125475451d8e85a4f3ce414cc545877f246a6ce",
+  "baselineProductCommit": "e8c231ec65a89546132a93b4df9e4453ee9a353e",
+  "baselineExpectedFailures": 2,
+  "browser": {
+    "onePage": {
+      "startTime": "2026-10-29T08:33:58.625Z",
+      "duration": 50264.386,
+      "expected": 10,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "autoRegression": {
+      "startTime": "2026-10-29T08:34:49.626Z",
+      "duration": 58689.777,
+      "expected": 16,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    }
+  },
+  "unit": {
+    "passed": 1438,
+    "failed": 0,
+    "files": 278,
+    "assertions": 27152
+  },
+  "checks": {
+    "typecheck": 0,
+    "qa-typecheck": 0,
+    "format": 0,
+    "lint": 0,
+    "build": 0
+  },
+  "eslint": {
+    "errors": 0,
+    "existingWarnings": 21
+  },
+  "nativeDocx": {
+    "file": "native-one-page.docx",
+    "sha256": "034018f0b6de6a716a6b668247f9c313df2b4c628e782e7738108ce7ee1ebc15",
+    "sections": 1,
+    "fieldOccurrences": 59,
+    "photoDimensions": [120, 180],
+    "originalPhotoPixelsPreserved": true,
+    "ordinaryPhotoOutsideContentControl": true,
+    "photoXMm": 8.0
+  },
+  "published": false,
+  "packed-classic": {
+    "designBefore": {
+      "template": "modern",
+      "colors": {},
+      "paperColor": null,
+      "font": "freundlich",
+      "bgOpacity": 0.25,
+      "useElements": false
+    },
+    "designAfter": {
+      "template": "modern",
+      "colors": {},
+      "paperColor": null,
+      "font": "freundlich",
+      "bgOpacity": 0.25,
+      "useElements": false
+    },
+    "pdfPages": 1,
+    "pdfSha256": "89c1901e365690cd7a99ee1b540cd36c64bfc4612565764ccb32c01917e4078f"
+  },
+  "minimal-sidebar": {
+    "designBefore": {
+      "template": "modern",
+      "colors": {},
+      "paperColor": null,
+      "font": "freundlich",
+      "bgOpacity": 0.25,
+      "useElements": false
+    },
+    "designAfter": {
+      "template": "modern",
+      "colors": {},
+      "paperColor": null,
+      "font": "freundlich",
+      "bgOpacity": 0.25,
+      "useElements": false,
+      "titleScale": 0.99,
+      "headingScale": 0.99,
+      "bodyScale": 0.99
+    },
+    "pdfPages": 1,
+    "pdfSha256": "9a8f0ef2d73e63f91d3b34b79bb8c1150bc455e4605c9d83042d37170c2c5827"
+  }
+}
