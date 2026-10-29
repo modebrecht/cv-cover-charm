@@ -1,3 +1,7 @@
+import {
+  reportDossierStorageWriteFailure,
+  registerDossierStorageReset,
+} from "@/lib/dossier-storage-write";
 import { defaultHeaderModeForTemplate, defaultFooterModeForTemplate } from "@/lib/template-chrome";
 import { FONT_LABELS, type FontKey } from "@/components/cover/types";
 import { CANONICAL_DOSSIER_PRESENTATION } from "@/lib/dossier-default-presentation";
@@ -126,6 +130,9 @@ export const DEFAULT_DOSSIER_CHROME_STATE: DossierChromeState = {
 };
 
 let cached: DossierChromeState | null = null;
+registerDossierStorageReset(() => {
+  cached = null;
+});
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   !!value && typeof value === "object" && !Array.isArray(value);
@@ -258,51 +265,58 @@ function normalizeOptions(
   };
 }
 
+function optionsFromLegacyLetter(parsed: unknown): DossierChromeOptions | null {
+  if (!isRecord(parsed) || !isRecord(parsed.design)) return null;
+  const design = parsed.design;
+  return normalizeOptions({
+    headerMode:
+      design.headerMode ?? defaultHeaderModeForTemplate(String(design.template ?? "brief")),
+    headerShowName: design.headerShowName,
+    headerShowAddress: design.headerShowAddress,
+    headerShowPhone: design.headerShowPhone,
+    headerShowEmail: design.headerShowEmail,
+    headerDifferentFirstPage:
+      typeof design.headerDifferentFirstPage === "boolean" ? design.headerDifferentFirstPage : true,
+    headerContinuationMode: design.headerContinuationMode,
+    headerHeightMm: design.headerHeightMm,
+    headerGapMm: design.headerGapMm,
+    headerTextLayout: design.headerTextLayout,
+    headerInlineSeparator: design.headerInlineSeparator,
+    headerBackgroundColor: design.headerBackgroundColor,
+    headerGradientColor: design.headerGradientColor,
+    headerTextColor: design.chromeHeaderTextColor,
+    headerFontSizePt: design.chromeHeaderFontSizePt,
+    footerMode:
+      design.footerMode === "attachments"
+        ? "details"
+        : (design.footerMode ?? defaultFooterModeForTemplate(String(design.template ?? "brief"))),
+    footerHeightMm: design.footerHeightMm,
+    footerTextLayout: design.footerTextLayout,
+    footerBackgroundColor: design.footerBackgroundColor,
+    footerGradientColor: design.footerGradientColor,
+    footerTextColor: design.chromeFooterTextColor,
+    footerFontSizePt: design.chromeFooterFontSizePt,
+    borderEnabled: design.chromeBorderEnabled,
+    borderColor: design.chromeBorderColor,
+    borderWidthMm: design.chromeBorderWidthMm,
+    textFont: design.chromeTextFont,
+  });
+}
+
 function optionsFromSavedLetter(storage: Storage): DossierChromeOptions | null {
   try {
     const raw = storage.getItem(LETTER_STORAGE_KEY);
-    if (!raw) return null;
-    const parsed: unknown = JSON.parse(raw);
-    if (!isRecord(parsed) || !isRecord(parsed.design)) return null;
-    const design = parsed.design;
-    return normalizeOptions({
-      headerMode:
-        design.headerMode ?? defaultHeaderModeForTemplate(String(design.template ?? "brief")),
-      headerShowName: design.headerShowName,
-      headerShowAddress: design.headerShowAddress,
-      headerShowPhone: design.headerShowPhone,
-      headerShowEmail: design.headerShowEmail,
-      headerDifferentFirstPage:
-        typeof design.headerDifferentFirstPage === "boolean"
-          ? design.headerDifferentFirstPage
-          : true,
-      headerContinuationMode: design.headerContinuationMode,
-      headerHeightMm: design.headerHeightMm,
-      headerGapMm: design.headerGapMm,
-      headerTextLayout: design.headerTextLayout,
-      headerInlineSeparator: design.headerInlineSeparator,
-      headerBackgroundColor: design.headerBackgroundColor,
-      headerGradientColor: design.headerGradientColor,
-      headerTextColor: design.chromeHeaderTextColor,
-      headerFontSizePt: design.chromeHeaderFontSizePt,
-      footerMode:
-        design.footerMode === "attachments"
-          ? "details"
-          : (design.footerMode ?? defaultFooterModeForTemplate(String(design.template ?? "brief"))),
-      footerHeightMm: design.footerHeightMm,
-      footerTextLayout: design.footerTextLayout,
-      footerBackgroundColor: design.footerBackgroundColor,
-      footerGradientColor: design.footerGradientColor,
-      footerTextColor: design.chromeFooterTextColor,
-      footerFontSizePt: design.chromeFooterFontSizePt,
-      borderEnabled: design.chromeBorderEnabled,
-      borderColor: design.chromeBorderColor,
-      borderWidthMm: design.chromeBorderWidthMm,
-      textFont: design.chromeTextFont,
-    });
+    return raw ? optionsFromLegacyLetter(JSON.parse(raw) as unknown) : null;
   } catch {
     return null;
   }
+}
+
+export function dossierChromeStateFromLegacyLetter(saved: unknown): DossierChromeState | null {
+  const shared = optionsFromLegacyLetter(saved);
+  return shared
+    ? normalizeDossierChromeState({ sync: true, shared, cv: shared, letter: shared })
+    : null;
 }
 
 export function normalizeDossierChromeState(value: unknown): DossierChromeState {
@@ -497,7 +511,8 @@ function mirrorLegacyLetterDesign(next: DossierChromeState) {
     // embedded copies whenever the compatibility design mirror is touched.
     delete nextLetter.chrome;
     window.localStorage.setItem(LETTER_STORAGE_KEY, JSON.stringify(nextLetter));
-  } catch {
+  } catch (error) {
+    reportDossierStorageWriteFailure(error);
     // Der neue gemeinsame Speicher bleibt die kanonische Quelle. Die Spiegelung
     // existiert nur für ältere Einzelbrief-Stände und Browser-Automation.
   }
@@ -509,7 +524,8 @@ function store(next: DossierChromeState) {
   try {
     window.localStorage?.setItem(DOSSIER_CHROME_STORAGE_KEY, JSON.stringify(next));
     mirrorLegacyLetterDesign(next);
-  } catch {
+  } catch (error) {
+    reportDossierStorageWriteFailure(error);
     // Der laufende Tab reagiert weiterhin über das Event.
   }
   if (typeof window.dispatchEvent === "function" && typeof CustomEvent !== "undefined") {

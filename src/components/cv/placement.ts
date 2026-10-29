@@ -1,4 +1,8 @@
 import {
+  reportDossierStorageWriteFailure,
+  registerDossierStorageReset,
+} from "@/lib/dossier-storage-write";
+import {
   DEFAULT_CV_PLACEMENTS,
   isCustomSectionKey,
   type CvPlacement,
@@ -10,6 +14,9 @@ const STORAGE_KEY = "lebenslauf:placement:v1";
 const EVENT = "lebenslauf-placement-change";
 
 let cached: CvPlacements | null = null;
+registerDossierStorageReset(() => {
+  cached = null;
+});
 
 function read(): CvPlacements {
   if (typeof window === "undefined") return DEFAULT_CV_PLACEMENTS;
@@ -49,7 +56,8 @@ export function setCvPlacement(key: CvPlacementKey, value: CvPlacement) {
   cached = { ...getCvPlacements(), [key]: value };
   try {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(cached));
-  } catch {
+  } catch (error) {
+    reportDossierStorageWriteFailure(error);
     // Die laufende Seite reagiert trotzdem über das Event.
   }
   window.dispatchEvent(new CustomEvent(EVENT));

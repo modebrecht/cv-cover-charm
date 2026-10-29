@@ -21,6 +21,7 @@ dist-ssr
 .dev.vars
 
 # Playwright-Artefakte der Regressionstests
+/artifacts/
 test-results/
 playwright-report/
 blob-report/

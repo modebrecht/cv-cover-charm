@@ -2,6 +2,7 @@ import { afterEach, describe, expect, test } from "bun:test";
 import {
   dossierProjectFileName,
   parseDossierProjectText,
+  parseLegacyDossierPart,
   serializeDossierProject,
 } from "../../src/lib/dossier-project-file";
 import {
@@ -67,6 +68,66 @@ describe("dossier JSON project files", () => {
   test("rejects malformed or unrelated JSON before changing browser state", () => {
     expect(parseDossierProjectText("{ nope")).toBeNull();
     expect(parseDossierProjectText(JSON.stringify({ hello: "world" }))).toBeNull();
+  });
+
+  test("a malformed supplied document cannot silently become a destructive partial project", () => {
+    for (const part of ["cover", "letter", "cv"]) {
+      for (const bad of [null, [], { data: [] }, { version: 6 }, { data: "not data" }]) {
+        expect(parseDossierProjectText(JSON.stringify({ ...project, [part]: bad }))).toBeNull();
+      }
+    }
+    for (const bad of [
+      { ...project, cover: { data: { vorname: 42 } } },
+      { ...project, cv: { data: { person: [], schule: [] } } },
+      { ...project, cv: { data: { schule: "bad" } } },
+      { ...project, cv: { data: { hobbys: [{}] } } },
+      { ...project, letter: { data: { text: {} } } },
+      { ...project, letter: { data: { images: [{ src: {} }] } } },
+    ])
+      expect(parseDossierProjectText(JSON.stringify(bad))).toBeNull();
+  });
+
+  test("legacy editor files need record data and cannot disguise foreign project formats", () => {
+    expect(parseLegacyDossierPart({ data: { vorname: "Lea" } })).toEqual({
+      data: { vorname: "Lea" },
+    });
+    for (const bad of [
+      [],
+      null,
+      { data: [] },
+      { kind: "future", data: {} },
+      { kind: "cv-cover-charm-dossier", version: 99, data: {} },
+    ]) {
+      expect(parseLegacyDossierPart(bad)).toBeNull();
+    }
+  });
+
+  test("full replacement migrates legacy letter chrome while explicit project chrome wins", () => {
+    const storage = installStorage({});
+    const legacy: DossierProject = {
+      ...project,
+      letter: {
+        data: {},
+        design: {
+          template: "brief",
+          headerMode: "contact",
+          footerMode: "attachments",
+          headerInlineSeparator: "icons",
+        },
+      },
+    };
+    replaceDossierProject(legacy);
+    const migrated = JSON.parse(storage.get("bewerbungsdossier:chrome:v1") ?? "null");
+    expect(migrated.shared.headerMode).toBe("contact");
+    expect(migrated.shared.footerMode).toBe("details");
+    expect(migrated.shared.headerInlineSeparator).toBe("dot");
+    replaceDossierProject({
+      ...legacy,
+      chrome: { ...migrated, shared: { ...migrated.shared, headerMode: "none" } },
+    });
+    expect(JSON.parse(storage.get("bewerbungsdossier:chrome:v1") ?? "null").shared.headerMode).toBe(
+      "none",
+    );
   });
 
   test("replace restore removes stale parts and portable CV sidecars", () => {

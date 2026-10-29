@@ -74,7 +74,7 @@ describe("CV pupil page fit", () => {
     ).toBe("masonry");
   });
 
-  test("tightens dense one-page content without crossing the safe scale floor", () => {
+  test("does not choose one-page typography from character counts", () => {
     const dense: CvData = {
       ...DEMO_CV,
       erfahrung: DEMO_CV.erfahrung.map((entry, index) => ({
@@ -84,8 +84,9 @@ describe("CV pupil page fit", () => {
       })),
     };
     const plan = buildCvPageFitPlan(dense, "one");
-    expect(plan.bodyScaleFactor).toBeLessThan(1);
-    expect(plan.bodyScaleFactor).toBeGreaterThanOrEqual(0.82);
+    expect(plan.bodyScaleFactor).toBe(1);
+    expect(plan.headingScaleFactor).toBe(1);
+    expect(plan.titleScaleFactor).toBe(1);
   });
 });
 
@@ -268,5 +269,50 @@ describe("intelligent 1–2 page choice", () => {
     } as unknown as HTMLElement;
     expect(measureCvPageFitCapacityPx(canvas)).toBe(912);
     expect(measureCvPageFitCapacityPx(null)).toBeNull();
+  });
+
+  test("compares independent Sidebar and main-column demand instead of requiring Sidebar rows in main", () => {
+    const mainSectionKeys = [
+      "person",
+      "custom:familie",
+      "schule",
+      "erfahrung",
+      "referenzen",
+    ] as const;
+    const main = { person: 75, "custom:familie": 67, schule: 104, erfahrung: 122, referenzen: 74 };
+    expect(chooseCvSmartPageFitMode(DEMO_CV, main, 875, false)).toBe("two");
+    expect(
+      chooseCvSmartPageFitMode(DEMO_CV, main, 875, false, {
+        mainSectionKeys,
+        sidebarFitsFirstPage: true,
+      }),
+    ).toBe("one");
+    for (const sidebarFitsFirstPage of [false, undefined]) {
+      expect(
+        chooseCvSmartPageFitMode(DEMO_CV, main, 875, false, {
+          mainSectionKeys,
+          sidebarFitsFirstPage,
+        }),
+      ).toBe("two");
+    }
+    expect(
+      chooseCvSmartPageFitMode(DEMO_CV, { ...main, erfahrung: 1200 }, 875, false, {
+        mainSectionKeys,
+        sidebarFitsFirstPage: true,
+      }),
+    ).toBe("two");
+  });
+
+  test("a measured Sidebar cannot override free second-page placement", () => {
+    const data = structuredClone(DEMO_CV);
+    data.sectionLayouts = {
+      sprachen: { ...normalizeCvSectionLayout(undefined), positioning: "free", page: 2 },
+    };
+    expect(
+      chooseCvSmartPageFitMode(data, measured, 900, false, {
+        mainSectionKeys: ["person", "custom:familie", "schule", "erfahrung", "referenzen"],
+        sidebarFitsFirstPage: true,
+      }),
+    ).toBe("two");
   });
 });

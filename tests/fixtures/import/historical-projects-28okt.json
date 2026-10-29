@@ -1,0 +1,270 @@
+[
+  {
+    "path": "docs/qa/docx-next-design-fidelity-16okt/audit/freundlich/project.json",
+    "sha256": "c5974b1c06e6e234e8055ac5ee4e9c6dcb5ec79f7e0997a5d6335a3984178e11"
+  },
+  {
+    "path": "docs/qa/docx-next-design-fidelity-16okt/audit/modern/project.json",
+    "sha256": "975abd038e8bb255bc6675efdecac2e64cd0f637e38f2878d0511ea97693b552"
+  },
+  {
+    "path": "docs/qa/docx-next-design-fidelity-16okt/audit/neon/project.json",
+    "sha256": "a5293cda1b78f9e9568d1d2d61dc4dde269da756c7d4ebe3cd3bb3caa8dcca7f"
+  },
+  {
+    "path": "docs/qa/docx-next-design-fidelity-16okt/audit/verlauf/project.json",
+    "sha256": "e0e4f1654acf99971d1f61bb354f070647b08fcbb74a262257135b686cdb1241"
+  },
+  {
+    "path": "docs/qa/docx-next-design-fidelity-16okt/normal-project.json",
+    "sha256": "d0ec17c90691ed2ac4ecd63da56931996f1494a7de89d20bfff6d0196bcc8258"
+  },
+  {
+    "path": "docs/qa/docx-next-modern-contact-accent-16okt/normal-project.json",
+    "sha256": "fd0bd2242cafb05df510eaf3fef73443152c9f7271d3f73e841e44c23e357988"
+  },
+  {
+    "path": "docs/qa/docx-next-modern-contact-colors-18okt/cv-pills-offset-project.json",
+    "sha256": "5df3ffccc9519ffe1ad219d64466390be133a7a47d9d0fb7f48e0a87b58cfd71"
+  },
+  {
+    "path": "docs/qa/docx-next-modern-contact-colors-18okt/cv-pills-project.json",
+    "sha256": "e3a5ac3f8c3c6e15d8fff22c98fba039fefa4447c1cc07611f75e2863a49c736"
+  },
+  {
+    "path": "docs/qa/docx-next-modern-contact-colors-18okt/header-inline-custom-colors-project.json",
+    "sha256": "720ec99a4000fc7ee1fb019762828d0f0b9c1354a4f5cfb9ab18417df89ccc63"
+  },
+  {
+    "path": "docs/qa/docx-next-modern-contact-colors-18okt/header-inline-pipe-project.json",
+    "sha256": "a592ec5a498ea34e611fbc3081288d94a03d9689871b993db8226b171b5d094b"
+  },
+  {
+    "path": "docs/qa/docx-next-modern-contact-colors-18okt/header-inline-project.json",
+    "sha256": "2d0ab6c696a1a7f3c9c21b85e6635480c43d66e762ee157b9898ccc85b2b7e3e"
+  },
+  {
+    "path": "docs/qa/docx-next-modern-contact-colors-18okt/header-inline-unsynced-project.json",
+    "sha256": "db5b850065adfb6122b27ebdc7ad3f1437b262d3f5b05abb5ba5ac095b01646c"
+  },
+  {
+    "path": "docs/qa/docx-next-modern-contact-colors-18okt/header-stacked-project.json",
+    "sha256": "e0ad585690481373b7fd9d6055bebf122ce59bce06510384161b9970eed02c77"
+  },
+  {
+    "path": "docs/qa/docx-next-modern-cv-spacing-settings-18okt/project.json",
+    "sha256": "a2c70b05cb5025ea16ade5f871a703bc57554a593382a95c9b5adf99025f01bd"
+  },
+  {
+    "path": "docs/qa/docx-next-modern-defaults-footer-18okt/override-project.json",
+    "sha256": "b06dbb5c159c434ce4bc50257a23eabfde8a78c3629b9a67b7b73ae440e7db42"
+  },
+  {
+    "path": "docs/qa/docx-next-modern-defaults-footer-18okt/project.json",
+    "sha256": "6c6be45f7022c3c06ec1fb278fd0d2a70da638a426f3d5055c7787a3a79f71be"
+  },
+  {
+    "path": "docs/qa/docx-next-modern-grouped-pill-interiors-16okt/cv-pills-offset-project.json",
+    "sha256": "b4ded901ac40b3289f50ae8bf4e576fd176f3d618f4e8336cba03ba07e4588fc"
+  },
+  {
+    "path": "docs/qa/docx-next-modern-grouped-pill-interiors-16okt/cv-pills-project.json",
+    "sha256": "38c762e3b2c1b135ba7ccb726bb8c72f0c205dbdc340d586b56a3093480a0028"
+  },
+  {
+    "path": "docs/qa/docx-next-modern-grouped-pill-interiors-16okt/header-inline-pipe-project.json",
+    "sha256": "a4751842c8f93eb5f9dad8919f4a45fd5f60dc43fa7ab8204f86a918b56574db"
+  },
+  {
+    "path": "docs/qa/docx-next-modern-grouped-pill-interiors-16okt/header-inline-project.json",
+    "sha256": "c1aeb7589f8d9b4877f27510ccf9db859b714030126bc549553200789f424646"
+  },
+  {
+    "path": "docs/qa/docx-next-modern-grouped-pill-interiors-16okt/header-reduced-project.json",
+    "sha256": "bd853614a90f9227b366834a0c7a532cfcf038efedc19c51d38e7db85e90377b"
+  },
+  {
+    "path": "docs/qa/docx-next-modern-grouped-pill-interiors-16okt/header-stacked-project.json",
+    "sha256": "2941e029c328b45d4852945ef858ba6c2dcec2b055110d323bc0a36306f545f1"
+  },
+  {
+    "path": "docs/qa/docx-next-modern-interior-candidate-17okt/header-inline-pipe-project.json",
+    "sha256": "15a16bee0852b73a5d5813cf0946fb671d2e840da14c34b50abdc79dadecd15d"
+  },
+  {
+    "path": "docs/qa/docx-next-modern-interior-candidate-17okt/header-inline-project.json",
+    "sha256": "1958f3f295f66328589e7a20bcb408c884e2eef6de9044b602ac2e727c553c7e"
+  },
+  {
+    "path": "docs/qa/docx-next-modern-interior-candidate-17okt/header-stacked-project.json",
+    "sha256": "55760ddcfbdfeb6bb1843821cc2e7f954863fc2921ae5ac67d69da540ff0bb74"
+  },
+  {
+    "path": "docs/qa/docx-next-modern-interior-candidate-17okt/sans-control-project.json",
+    "sha256": "21a7eb67ebd7c3c891d4a3b4176713e67b778606d404d203b2beb7a5b852a6cd"
+  },
+  {
+    "path": "docs/qa/docx-next-shared-reading-rows-18okt/brief/project.json",
+    "sha256": "1221b0e6d8e170893e8a9ef6b11d5a08383ce0221abdb9cc492bf08ab6eaa68a"
+  },
+  {
+    "path": "docs/qa/docx-next-shared-reading-rows-18okt/freundlich/project.json",
+    "sha256": "c92748bc5e2777a389f4616187afd19d2aefc2d07b84c45b097b723bf949e64a"
+  },
+  {
+    "path": "docs/qa/docx-next-shared-reading-rows-18okt/neon/project.json",
+    "sha256": "6a0d23476cad90c00e6643358d7430de9bd302554b592dcd0654352ebfb1cc23"
+  },
+  {
+    "path": "docs/qa/docx-next-shared-reading-rows-18okt/verlauf/project.json",
+    "sha256": "ce23784a4e478f2fca3691f7779d2d824557a3eabec51670c681be6f85e84072"
+  },
+  {
+    "path": "docs/qa/docx-next-shared-settings-18okt/baseline/brief/project.json",
+    "sha256": "1d1a475f9583ede5002ec3084f0eb86aabc1cf2c321645eef90cbfc90f814e6a"
+  },
+  {
+    "path": "docs/qa/docx-next-shared-settings-18okt/baseline/freundlich/project.json",
+    "sha256": "b6f1e63c66ab8a8a8fa6692b096c92f6bf8426382fc001784329774ba372f9ee"
+  },
+  {
+    "path": "docs/qa/docx-next-shared-settings-18okt/baseline/modern/project.json",
+    "sha256": "61c43cc101c873120a26d9b2449e09be5c7df8c69be85e55ca872a7f783c2c01"
+  },
+  {
+    "path": "docs/qa/docx-next-shared-settings-18okt/baseline/neon/project.json",
+    "sha256": "2ea0ff8331ad5311baab9e9a99a25a942fc36ac45a34bd0f52e8cec6a7d85ff7"
+  },
+  {
+    "path": "docs/qa/docx-next-shared-settings-18okt/baseline/verlauf/project.json",
+    "sha256": "a0e5e821ddbecfda4d630e1824d13dbf088474d59b318589758c34af25b12c56"
+  },
+  {
+    "path": "docs/qa/docx-next-shared-settings-18okt/brief-proof/project.json",
+    "sha256": "4180802b2676f0f32cdd555d997212e86b5c54ff0b2a0716e8486eb8b47c3bfa"
+  },
+  {
+    "path": "docs/qa/docx-next-shared-settings-18okt/cohort/brief-default/project.json",
+    "sha256": "5a46d864cc48c8d9a2542fcb79767709fb317fd5e1024a57d0b927de80109510"
+  },
+  {
+    "path": "docs/qa/docx-next-shared-settings-18okt/cohort/brief-saved/project.json",
+    "sha256": "eafc2758e2eea8d0912cae3d5328719237a64345c592c0a934a069eaff977bc1"
+  },
+  {
+    "path": "docs/qa/docx-next-shared-settings-18okt/cohort/freundlich-default/project.json",
+    "sha256": "8681e302cff5341fc16dfcd7257d2c908be376e2f6658cc85cf67ee065aa0be1"
+  },
+  {
+    "path": "docs/qa/docx-next-shared-settings-18okt/cohort/freundlich-saved/project.json",
+    "sha256": "c4699880794169c64ce99d532aabc417cc670e184354435f3456d26ad217722e"
+  },
+  {
+    "path": "docs/qa/docx-next-shared-settings-18okt/cohort/modern-default/project.json",
+    "sha256": "6c20ca51e2c1481425d85bd4120d8d8711d0d211307b3b070d1fca1f7281e30e"
+  },
+  {
+    "path": "docs/qa/docx-next-shared-settings-18okt/cohort/modern-saved/project.json",
+    "sha256": "5b0baa3d27e3d3d5980a914643a53f9cb689cfcab4ab2a1d50042cd548f41a35"
+  },
+  {
+    "path": "docs/qa/docx-next-shared-settings-18okt/cohort/neon-default/project.json",
+    "sha256": "20e50b1ecff379ed7b4cb22247f78c86f7302fbfd14feb01668e7389da402695"
+  },
+  {
+    "path": "docs/qa/docx-next-shared-settings-18okt/cohort/neon-saved/project.json",
+    "sha256": "2684c070b381924f9e97527d8da8d0cfe7a0a7a4049e534f9f5b8ff3c93d6f4d"
+  },
+  {
+    "path": "docs/qa/docx-next-shared-settings-18okt/cohort/verlauf-default/project.json",
+    "sha256": "c6e8fdbdf0226475108181b9be990a6c7f42d2826aaedc099568f55eb29c9735"
+  },
+  {
+    "path": "docs/qa/docx-next-shared-settings-18okt/cohort/verlauf-saved/project.json",
+    "sha256": "94bbcd78496804f661a8a264917e7faf5a1e0cafcc14503ae87abb01482b9d21"
+  },
+  {
+    "path": "docs/qa/docx-next-shared-settings-18okt/no-header-proof/project.json",
+    "sha256": "bf596ce9bb3ec2df30028f0453d9028e77407cebdb5a0ec651446ff30240e601"
+  },
+  {
+    "path": "docs/qa/docx-next-word-batch-19okt/03-Modern-Kontakt-waagrecht/input-project.json",
+    "sha256": "da9d3cb24b3ab7ffa2584107896abdd8e8c3a8fa30ceb6c75b94d845e52e684e"
+  },
+  {
+    "path": "docs/qa/docx-next-word-batch-19okt/04-Modern-Kontakt-senkrecht/input-project.json",
+    "sha256": "e199ee55f6be60ce5be55fc2d872a531a8b90957aa1db31ed0721d58a88ac836"
+  },
+  {
+    "path": "docs/qa/docx-next-word-batch-19okt/05-Modern-Eigene-Werte-Referenzen/input-project.json",
+    "sha256": "102033c5648e05ad8eb99373baf2977fa98fcac0aa460415643bda5548e6258f"
+  },
+  {
+    "path": "docs/qa/docx-next-word-batch-19okt/06-Modern-Foto-Pille-rechts/input-project.json",
+    "sha256": "17f87cd3ebef6744b3e417abaa3635b1d78763d79cf33da82439647071f5f351"
+  },
+  {
+    "path": "docs/qa/docx-next-word-batch-19okt/07-Modern-Lang-115-Prozent/input-project.json",
+    "sha256": "37d663a4bd336e094cc89db207ceb59f92e2aead1c6dfb55e0e9bf48198f7779"
+  },
+  {
+    "path": "docs/qa/docx-next-word-batch-19okt/08-Brief-Standard/input-project.json",
+    "sha256": "01f565be78800f8bae41f6245dc717d7981b75f0ceeff5bd207a6ca80e9e5025"
+  },
+  {
+    "path": "docs/qa/docx-next-word-batch-19okt/09-Brief-Lang-115-Prozent/input-project.json",
+    "sha256": "b3b4e15b8d9675614466c95159787c281e157ebdc4cf2c519efa4101b70f82cd"
+  },
+  {
+    "path": "docs/qa/docx-next-word-batch-19okt/10-Brief-Foto-Hochformat/input-project.json",
+    "sha256": "3b2df2ae5b67351a3d0dd91a17e6da145febb8772037f52ce817473b99a93bfc"
+  },
+  {
+    "path": "docs/qa/docx-next-word-feedback-19okt-v2/01-Modern-Eine-CV-Seite-project.json",
+    "sha256": "5f33b5d4658a2bee782905c7589c16f801c11ee6c515fb93b385fdabd7036fcd"
+  },
+  {
+    "path": "docs/qa/docx-next-word-feedback-19okt-v2/02-Modern-Zwei-CV-Seiten-project.json",
+    "sha256": "64a6bfe802f863ced2435c7a3d029d9a8723fc304806da235399c19371b6e9b1"
+  },
+  {
+    "path": "docs/qa/docx-next-word-feedback-19okt-v2/03-Modern-Kontakt-waagrecht-project.json",
+    "sha256": "b61a5c03cfc544c074b74f454b1d32e893fd70dd7f4f8be87f51cb75a2216379"
+  },
+  {
+    "path": "docs/qa/docx-next-word-feedback-19okt-v2/04-Modern-Kontakt-senkrecht-project.json",
+    "sha256": "4881ef1f716cd0df8103db7a1e7ea4ff4c44bd8c671fbdaf2855fe5f2163d0e8"
+  },
+  {
+    "path": "docs/qa/docx-next-word-feedback-19okt-v2/05-Modern-Eigene-Werte-Referenzen-project.json",
+    "sha256": "4337f3da3e654e68b9bb4088bd0ad2f06682767e36f57c618d3232d1f7ab22ff"
+  },
+  {
+    "path": "docs/qa/docx-next-word-feedback-19okt-v2/06-Modern-Foto-Standard-project.json",
+    "sha256": "1adfa4fdbadcf2a27ab7dde44992018f8644d40cc867cd9a2901f4c650238d83"
+  },
+  {
+    "path": "docs/qa/docx-next-word-feedback-19okt-v2/07-Modern-Lang-115-Prozent-project.json",
+    "sha256": "531e68ec8830ff2ef3977f9fd640f8406ab7481afa1d3747e4b5d76d1084217e"
+  },
+  {
+    "path": "docs/qa/docx-next-word-feedback-19okt-v2/08-Brief-Standard-project.json",
+    "sha256": "d4c3ed2683c6b14aa669c6b976b54274de42f3d3db7aeb87c3d18f8fd49d7705"
+  },
+  {
+    "path": "docs/qa/docx-next-word-feedback-19okt-v2/09-Brief-Lang-115-Prozent-project.json",
+    "sha256": "2369a6764985852dd4a65681561c58250d75db0f8c92987ae1bf3e6aeb6e9a23"
+  },
+  {
+    "path": "docs/qa/docx-next-word-feedback-19okt-v2/10-Brief-Foto-Hochformat-project.json",
+    "sha256": "bf2cd831b78afe60db2ef80f0ea61da6126c448a04cba7a5cbe43e71c67d9b32"
+  },
+  {
+    "path": "docs/qa/docx-next-word-spacing-19okt-v3/04-Modern-Kontakt-senkrecht-project.json",
+    "sha256": "ef7028df8f3da49489fc15230f5775d231f17d2d4dd571af5d93839e3c30377e"
+  },
+  {
+    "path": "docs/qa/docx-next-word-spacing-19okt-v3/09-Brief-Lang-115-Prozent-project.json",
+    "sha256": "c1b387adaf93b41a3c9fcf837a1915ba49a6b2fbacecd0ddc446497578bc2359"
+  }
+]

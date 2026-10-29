@@ -129,6 +129,19 @@ export async function collectDocument(page: Page, selector: string, kind: Docume
             ancestor = ancestor.parentElement;
           }
           if (hidden) continue;
+          // Names and document titles have no QA token. Inspect their painted
+          // raster too: a valid text layer can conceal white text on paper.
+          const heading = node.parentElement?.closest("[data-cv-name], [data-cv-doc-title]");
+          if (heading) {
+            const headingRange = document.createRange();
+            headingRange.selectNodeContents(node);
+            for (const rect of Array.from(headingRange.getClientRects()))
+              if (rect.width > 0 && rect.height > 0)
+                markerBoxes.push({
+                  marker: heading.hasAttribute("data-cv-name") ? "FIELD:cv-name" : "FIELD:cv-title",
+                  box: box(rect),
+                });
+          }
           for (const match of (node.textContent ?? "").matchAll(/QA[A-Z]+\d{3}/g)) {
             const markerRange = document.createRange();
             markerRange.setStart(node, match.index!);
@@ -257,9 +270,7 @@ export async function collectDocument(page: Page, selector: string, kind: Docume
 
 async function pdfEvidence(page: Page, kind: DocumentKind, name: string) {
   await page.getByRole("button", { name: "Download", exact: true }).click();
-  const button = page.getByRole("button", {
-    name: kind === "cv" ? /Nur Lebenslauf als PDF/i : /Nur Motivationsschreiben als PDF/i,
-  });
+  const button = page.getByRole("menuitem", { name: "PDF", exact: true });
   await expect(button).toBeVisible();
   if (!(await button.isEnabled()))
     return {

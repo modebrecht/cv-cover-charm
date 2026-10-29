@@ -1,3 +1,7 @@
+import {
+  reportDossierStorageWriteFailure,
+  registerDossierStorageReset,
+} from "@/lib/dossier-storage-write";
 /**
  * Wo das Foto auf dem Blatt sitzt, wie gross es ist und welchen Rahmen es hat.
  *
@@ -120,6 +124,10 @@ function apply(place: CvPhotoPlacement) {
 }
 
 let cached: CvPhotoPlacement | null = null;
+registerDossierStorageReset(() => {
+  cached = read();
+  apply(cached);
+});
 
 function read(): CvPhotoPlacement {
   if (typeof window === "undefined") return DEFAULT_CV_PHOTO_PLACEMENT;
@@ -143,7 +151,8 @@ export function setCvPhotoPlacement(patch: Partial<CvPhotoPlacement>) {
   if (typeof window === "undefined") return;
   try {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-  } catch {
+  } catch (error) {
+    reportDossierStorageWriteFailure(error);
     // Die laufende Seite reagiert trotzdem über das Event.
   }
   apply(next);

@@ -4,8 +4,10 @@ import {
   readPortableCvState,
   type PortableCvState,
 } from "@/components/cv/portable-state";
+import { validDossierProjectPart } from "@/lib/dossier-project-validation";
 import {
   applyPortableDossierChromeState,
+  dossierChromeStateFromLegacyLetter,
   normalizeDossierChromeState,
   readPortableDossierChromeState,
   type DossierChromeState,
@@ -117,6 +119,14 @@ export function parseDossierProject(value: unknown): DossierProject | null {
   if (!isRecord(value)) return null;
   if (value.kind !== DOSSIER_PROJECT_KIND || value.version !== DOSSIER_PROJECT_VERSION) return null;
 
+  // A malformed supplied part must never silently become a missing part during
+  // a full replacement: that would turn an invalid file into a destructive load.
+  for (const key of ["cover", "letter", "cv"] as const) {
+    if (value[key] !== undefined && !validDossierProjectPart(key, value[key])) {
+      return null;
+    }
+  }
+
   const cover = isRecord(value.cover) && isRecord(value.cover.data) ? value.cover : undefined;
   const letter = isRecord(value.letter) && isRecord(value.letter.data) ? value.letter : undefined;
   const cv = isRecord(value.cv) && isRecord(value.cv.data) ? value.cv : undefined;
@@ -210,7 +220,10 @@ export function replaceDossierProject(project: DossierProject): {
 
   const restored = storeDossierProject(project);
   if (!project.chrome) {
-    applyPortableDossierChromeState(normalizeDossierChromeState(null), { replaceExisting: true });
+    applyPortableDossierChromeState(
+      dossierChromeStateFromLegacyLetter(project.letter) ?? normalizeDossierChromeState(null),
+      { replaceExisting: true },
+    );
   }
   if (!project.hyphenation) applyPortableDossierHyphenationState(null);
   return restored;

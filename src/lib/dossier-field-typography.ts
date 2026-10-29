@@ -1,3 +1,4 @@
+import { reportDossierStorageWriteFailure } from "@/lib/dossier-storage-write";
 import { isSemanticDossierFieldId } from "./dossier-semantic-fields";
 export type DossierFieldTypographyScope = "cv" | "letter";
 
@@ -221,7 +222,8 @@ function writeState(state: PortableDossierFieldTypographyState) {
   if (typeof window === "undefined") return;
   try {
     window.localStorage.setItem(DOSSIER_FIELD_TYPOGRAPHY_STORAGE_KEY, JSON.stringify(state));
-  } catch {
+  } catch (error) {
+    reportDossierStorageWriteFailure(error);
     // Formatting still works for the current render when storage is blocked.
   }
   window.dispatchEvent(new CustomEvent(DOSSIER_FIELD_TYPOGRAPHY_EVENT));
@@ -240,7 +242,8 @@ export function clearDossierFieldTypographyState() {
   if (typeof window === "undefined") return;
   try {
     window.localStorage.removeItem(DOSSIER_FIELD_TYPOGRAPHY_STORAGE_KEY);
-  } catch {
+  } catch (error) {
+    reportDossierStorageWriteFailure(error);
     // Storage is optional; still refresh live previews below.
   }
   window.dispatchEvent(new CustomEvent(DOSSIER_FIELD_TYPOGRAPHY_EVENT));

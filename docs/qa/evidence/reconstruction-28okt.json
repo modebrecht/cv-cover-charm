@@ -1,0 +1,531 @@
+{
+  "date": "2026-10-28",
+  "scope": "New reconstruction from published dev; original 41 unpublished commits are unavailable.",
+  "publishedBase": "c63fc793a293c3925281a752bbf11e55a6428518",
+  "unavailableOriginalHead": "436b8e6103083f9086fba72e01c1921958d66ba6",
+  "verifiedCodeHead": "6b7eb58af3d3c06c4c084ff8c616957390d227d1",
+  "sourceTree": "40d3c8fed495a34f228f9d63758f50c2ba396c22",
+  "environment": {
+    "node": "24.22.1",
+    "bun": "1.3.13",
+    "playwright": "1.56.1",
+    "chromium": "141.0.7390.37",
+    "arialFontconfigFallback": "Nimbus Sans"
+  },
+  "quality": {
+    "unit": {
+      "passed": 1436,
+      "failed": 0,
+      "files": 278,
+      "assertions": 27145
+    },
+    "applicationTypes": "PASS",
+    "qaTypes": "PASS",
+    "formatChangedFiles": "PASS",
+    "eslint": {
+      "errors": 0,
+      "existingWarnings": 21
+    },
+    "productionBuild": "PASS — separate completed build-final.log"
+  },
+  "browserCases": 80,
+  "retries": 0,
+  "suites": [
+    {
+      "suite": "native-import",
+      "testedCommit": "6b7eb58af3d3c06c4c084ff8c616957390d227d1",
+      "stats": {
+        "startTime": "2026-10-28T08:52:47.279Z",
+        "duration": 57819.727000000006,
+        "expected": 25,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "reportSha256": "691d2f96244e94fe44cc67d88e521a351859bd795bafcf46a79b7727a653f9ce",
+      "cases": [
+        {
+          "title": "successful full replacement retains every imported photo and commits before reload",
+          "status": "passed",
+          "durationMs": 3976
+        },
+        {
+          "title": "a valid empty project remains loadable as an explicitly selected full replacement",
+          "status": "passed",
+          "durationMs": 1058
+        },
+        {
+          "title": "one failed native write rolls back exact raw state: titelblatt:v3",
+          "status": "passed",
+          "durationMs": 1564
+        },
+        {
+          "title": "one failed native write rolls back exact raw state: anschreiben:v1",
+          "status": "passed",
+          "durationMs": 1576
+        },
+        {
+          "title": "one failed native write rolls back exact raw state: lebenslauf:v1",
+          "status": "passed",
+          "durationMs": 1580
+        },
+        {
+          "title": "one failed native write rolls back exact raw state: lebenslauf:layout:v1",
+          "status": "passed",
+          "durationMs": 1563
+        },
+        {
+          "title": "one failed native write rolls back exact raw state: lebenslauf:text-align:v1",
+          "status": "passed",
+          "durationMs": 1745
+        },
+        {
+          "title": "one failed native write rolls back exact raw state: bewerbungsdossier:chrome:v1",
+          "status": "passed",
+          "durationMs": 1704
+        },
+        {
+          "title": "one failed native write rolls back exact raw state: bewerbungsdossier:hyphenation:v1",
+          "status": "passed",
+          "durationMs": 1749
+        },
+        {
+          "title": "aborted IndexedDB pending transaction never accepts partial import",
+          "status": "passed",
+          "durationMs": 1181
+        },
+        {
+          "title": "aborted IndexedDB committed transaction never accepts partial import",
+          "status": "passed",
+          "durationMs": 1171
+        },
+        {
+          "title": "startup honors a pending journal before any editor mounts",
+          "status": "passed",
+          "durationMs": 3207
+        },
+        {
+          "title": "startup honors a committed journal before any editor mounts",
+          "status": "passed",
+          "durationMs": 2991
+        },
+        {
+          "title": "missing journal backup blocks editors and preserves all remaining state",
+          "status": "passed",
+          "durationMs": 1565
+        },
+        {
+          "title": "malformed supplied part and future format cannot create a backup or alter state",
+          "status": "passed",
+          "durationMs": 1138
+        },
+        {
+          "title": "large existing image strings are backed up in IndexedDB without a second localStorage copy",
+          "status": "passed",
+          "durationMs": 1399
+        },
+        {
+          "title": "failed rollback keeps the backup and blocks editors until recovery succeeds",
+          "status": "passed",
+          "durationMs": 1348
+        },
+        {
+          "title": "legacy cover loads through the real file input, persists immediately and survives reload",
+          "status": "passed",
+          "durationMs": 3563
+        },
+        {
+          "title": "legacy cv loads through the real file input, persists immediately and survives reload",
+          "status": "passed",
+          "durationMs": 2832
+        },
+        {
+          "title": "home file input uses full replacement and removes absent documents",
+          "status": "passed",
+          "durationMs": 1640
+        },
+        {
+          "title": "titelblatt project input preserves absent neighbours and reloads imported data",
+          "status": "passed",
+          "durationMs": 2376
+        },
+        {
+          "title": "lebenslauf project input preserves absent neighbours and reloads imported data",
+          "status": "passed",
+          "durationMs": 2565
+        },
+        {
+          "title": "anschreiben project input preserves absent neighbours and reloads imported data",
+          "status": "passed",
+          "durationMs": 3500
+        },
+        {
+          "title": "another tab holding the import lock delays mutation until the lock is released",
+          "status": "passed",
+          "durationMs": 2260
+        },
+        {
+          "title": "rollback restores cached photo, placement, typography and chrome as well as raw storage",
+          "status": "passed",
+          "durationMs": 1157
+        }
+      ]
+    },
+    {
+      "suite": "pdf-core",
+      "testedCommit": "1c504e453918eab88810f0e0df5273aae95555d8",
+      "stats": {
+        "startTime": "2026-10-28T08:43:56.934Z",
+        "duration": 381719.846,
+        "expected": 49,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "reportSha256": "1569331576ed00d4d0b1e8f8b7cb036a3ee1f57c30501449157bacbf7b913f6b",
+      "cases": [
+        {
+          "title": "missing fields, multi-page and fitting content share one safe dossier preflight",
+          "status": "passed",
+          "durationMs": 54311
+        },
+        {
+          "title": "inflated legacy scrollHeight does not block a visibly fitting A4 page or its PDF",
+          "status": "passed",
+          "durationMs": 7558
+        },
+        {
+          "title": "physical geometry authority rejects actual visible content outside A4",
+          "status": "passed",
+          "durationMs": 2273
+        },
+        {
+          "title": "fabricated consent cannot call the actual PDF API",
+          "status": "passed",
+          "durationMs": 2760
+        },
+        {
+          "title": "an identical replacement root needs its own consent even when signatures match",
+          "status": "passed",
+          "durationMs": 4534
+        },
+        {
+          "title": "a rejected cross-document attempt consumes the original letter consent",
+          "status": "passed",
+          "durationMs": 3878
+        },
+        {
+          "title": "consent expires after colour",
+          "status": "passed",
+          "durationMs": 3127
+        },
+        {
+          "title": "consent expires after margin",
+          "status": "passed",
+          "durationMs": 3291
+        },
+        {
+          "title": "consent expires after source-contract",
+          "status": "passed",
+          "durationMs": 3247
+        },
+        {
+          "title": "consent expires after unknown-warning",
+          "status": "passed",
+          "durationMs": 3213
+        },
+        {
+          "title": "a safe colour edit during actual raster generation invalidates consent before download",
+          "status": "passed",
+          "durationMs": 4338
+        },
+        {
+          "title": "an open normal menu follows a physical fault and its repair before actual download",
+          "status": "passed",
+          "durationMs": 14096
+        },
+        {
+          "title": "the explicit UI override downloads once without saving an override across reopen or reload",
+          "status": "passed",
+          "durationMs": 17327
+        },
+        {
+          "title": "negative text-beyond-page: UI and direct API block",
+          "status": "passed",
+          "durationMs": 6598
+        },
+        {
+          "title": "negative nested-clipping: UI and direct API block",
+          "status": "passed",
+          "durationMs": 6610
+        },
+        {
+          "title": "negative header-overlap: UI and direct API block",
+          "status": "passed",
+          "durationMs": 6737
+        },
+        {
+          "title": "negative hidden-required-text: UI and direct API block",
+          "status": "passed",
+          "durationMs": 6923
+        },
+        {
+          "title": "negative text-overlap: UI and direct API block",
+          "status": "passed",
+          "durationMs": 6518
+        },
+        {
+          "title": "negative invalid-a4: UI and direct API block",
+          "status": "passed",
+          "durationMs": 7135
+        },
+        {
+          "title": "negative pagination-pending: cannot consent or call the API",
+          "status": "passed",
+          "durationMs": 2345
+        },
+        {
+          "title": "negative missing-text: cannot consent or call the API",
+          "status": "passed",
+          "durationMs": 2998
+        },
+        {
+          "title": "negative invalid-page: cannot consent or call the API",
+          "status": "passed",
+          "durationMs": 3337
+        },
+        {
+          "title": "safe left image uses real production PDF",
+          "status": "passed",
+          "durationMs": 9457
+        },
+        {
+          "title": "safe free image uses real production PDF",
+          "status": "passed",
+          "durationMs": 8854
+        },
+        {
+          "title": "negative indivisible table row taller than the printable page",
+          "status": "passed",
+          "durationMs": 2386
+        },
+        {
+          "title": "pending and failed actual image loading remain unsafe",
+          "status": "passed",
+          "durationMs": 15587
+        },
+        {
+          "title": "pending required font blocks while unrelated font loading does not",
+          "status": "passed",
+          "durationMs": 10457
+        },
+        {
+          "title": "safe header gap 0 mm and 12pt/24mm margins",
+          "status": "passed",
+          "durationMs": 14367
+        },
+        {
+          "title": "safe header gap 40 mm and 12pt/24mm margins",
+          "status": "passed",
+          "durationMs": 16584
+        },
+        {
+          "title": "advisory requires explicit one-use consent and no saved override",
+          "status": "passed",
+          "durationMs": 10059
+        },
+        {
+          "title": "advisory cannot bypass subsequent typography",
+          "status": "passed",
+          "durationMs": 2999
+        },
+        {
+          "title": "advisory cannot bypass subsequent clipping",
+          "status": "passed",
+          "durationMs": 2935
+        },
+        {
+          "title": "advisory cannot bypass subsequent pending",
+          "status": "passed",
+          "durationMs": 2570
+        },
+        {
+          "title": "advisory cannot bypass subsequent missing",
+          "status": "passed",
+          "durationMs": 2902
+        },
+        {
+          "title": "combined advisory and hard CV clipping share the final policy",
+          "status": "passed",
+          "durationMs": 8446
+        },
+        {
+          "title": "negative mirrored free CV photo covers visible identity",
+          "status": "passed",
+          "durationMs": 6641
+        },
+        {
+          "title": "combined advisory cannot bypass cover text-outside",
+          "status": "passed",
+          "durationMs": 6848
+        },
+        {
+          "title": "combined advisory cannot bypass cover image-outside",
+          "status": "passed",
+          "durationMs": 6818
+        },
+        {
+          "title": "combined advisory cannot bypass cover image-overlap",
+          "status": "passed",
+          "durationMs": 6364
+        },
+        {
+          "title": "final guard catches edits during actual raster generation",
+          "status": "passed",
+          "durationMs": 3503
+        },
+        {
+          "title": "missing semantic Letter content blocks before consent and disables UI",
+          "status": "passed",
+          "durationMs": 12403
+        },
+        {
+          "title": "negative invisible semantic source-and-page-zero-opacity: cannot consent",
+          "status": "passed",
+          "durationMs": 6166
+        },
+        {
+          "title": "negative invisible semantic transparent-signature: cannot consent",
+          "status": "passed",
+          "durationMs": 6733
+        },
+        {
+          "title": "negative invisible semantic transparent-body-white-channel: cannot consent",
+          "status": "passed",
+          "durationMs": 7308
+        },
+        {
+          "title": "negative historical Ribbon transforms remain blocked after the cover repair",
+          "status": "passed",
+          "durationMs": 10609
+        },
+        {
+          "title": "negative invisible required image cannot receive advisory consent",
+          "status": "passed",
+          "durationMs": 7110
+        },
+        {
+          "title": "preflight rejects nested-clip",
+          "status": "passed",
+          "durationMs": 2169
+        },
+        {
+          "title": "preflight rejects footer-overlap",
+          "status": "passed",
+          "durationMs": 2088
+        },
+        {
+          "title": "preflight accepts an empty trailing box beyond the text area when every glyph fits",
+          "status": "passed",
+          "durationMs": 8335
+        }
+      ]
+    },
+    {
+      "suite": "pdf-raster",
+      "testedCommit": "1c504e453918eab88810f0e0df5273aae95555d8",
+      "stats": {
+        "startTime": "2026-10-28T08:42:59.694Z",
+        "duration": 56232.182,
+        "expected": 6,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "reportSha256": "67748810a11278c98eab37f8cbfa8d1150138cb5a452b142c6c98f0f8d50dbf2",
+      "cases": [
+        {
+          "title": "raster clone retains measured plain CV lines: brief boundary",
+          "status": "passed",
+          "durationMs": 10491
+        },
+        {
+          "title": "raster clone retains measured plain CV lines: brief blank-lines",
+          "status": "passed",
+          "durationMs": 4570
+        },
+        {
+          "title": "raster clone retains measured plain CV lines: studio one",
+          "status": "passed",
+          "durationMs": 4464
+        },
+        {
+          "title": "raster clone retains measured plain CV lines: monoLuxe font-inheritance",
+          "status": "passed",
+          "durationMs": 5103
+        },
+        {
+          "title": "raster clone retains measured plain CV lines: gallery timeline",
+          "status": "passed",
+          "durationMs": 13294
+        },
+        {
+          "title": "dark authored Letter paper uses its own automatic ink in the real PDF",
+          "status": "passed",
+          "durationMs": 10848
+        }
+      ]
+    }
+  ],
+  "finalHeadDifferenceFromPdfTestedSource": {
+    "onlyChangedSourceFile": "src/lib/dossier-import.ts",
+    "change": "keep valid empty v1 projects loadable; verified in the final 25-case native suite",
+    "pdfAndRasterSourceUnchanged": true
+  },
+  "fontRegression": {
+    "beforeFix": {
+      "before": {
+        "marker": "QANAME001",
+        "box": [16.993073047858942, 32.66206589492431, 78.79545812342569, 13.223508459483526],
+        "font": "43.2px",
+        "family": "Georgia, \"Times New Roman\", Times, serif"
+      },
+      "after": {
+        "marker": "QANAME001",
+        "box": [16.993073047858942, 32.65981408897937, 78.79545812342569, 13.946834533637055],
+        "font": "43.2px",
+        "family": "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif"
+      }
+    },
+    "afterFix": {
+      "before": {
+        "marker": "QANAME001",
+        "box": [16.993073047858942, 32.66206589492431, 78.79545812342569, 13.223508459483526],
+        "font": "43.2px",
+        "family": "Georgia, \"Times New Roman\", Times, serif"
+      },
+      "after": {
+        "marker": "QANAME001",
+        "box": [16.993073047858942, 32.65981408897937, 78.79545812342569, 13.420537444171583],
+        "font": "43.2px",
+        "family": "Georgia, \"Times New Roman\", Times, serif"
+      }
+    }
+  },
+  "pdfCheck": {
+    "pdfs": 14,
+    "a4Pages": 23,
+    "canonicalMarkerRectangles": 238,
+    "failures": 0,
+    "details": "reconstruction-28okt-pdf.json"
+  },
+  "limits": [
+    "Not all lost changes were reconstructed",
+    "No complete 78-template matrix rerun",
+    "No complete historical JSON/DOCX-after-import matrix rerun",
+    "2 MiB image-string backup tested; no new 12 MiB or unlimited-storage claim",
+    "Import serialization tested; simultaneous editing across multiple tabs is not a universal concurrency guarantee",
+    "Rare previous Modern/Sidebar clone refusal not reproduced or causally resolved",
+    "No desktop Word save/reopen and no push/merge/deploy"
+  ]
+}

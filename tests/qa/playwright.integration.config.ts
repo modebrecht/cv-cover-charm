@@ -11,6 +11,7 @@ export default defineConfig({
     "cv-flow-fragmentation.qa.ts",
     "letter-pdf-textlayer.qa.ts",
     "letter-flow-boundaries.qa.ts",
+    "template-visibility.qa.ts",
   ],
   reporter: [
     ["line"],

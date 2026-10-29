@@ -285,23 +285,33 @@ div[data-cv-template="studio3"][data-dossier-document="cv"]
   [data-cv-doc-title] {
   font-size: 9pt !important;
   letter-spacing: 0.115em !important;
-  color: rgb(255 255 255 / 0.68) !important;
   opacity: 1 !important;
 }
 
 div[data-cv-template="studio3"][data-dossier-document="cv"]
   :is([data-cv-header], [data-cv-band-header])
   [data-cv-name] {
-  color: #ffffff !important;
   font-size: 25pt !important;
   line-height: 0.98 !important;
   letter-spacing: -0.025em !important;
 }
 
 div[data-cv-template="studio3"][data-dossier-document="cv"]
-  :is([data-cv-header], [data-cv-band-header])
+  [data-cv-band-header]
   :is([data-cv-subtitle], [data-cv-body], [data-cv-muted]) {
   color: rgb(255 255 255 / 0.82) !important;
+}
+
+/* Flow headers use their authored paper colours. White text belongs only to
+ * an actual band header; the classic header can sit on the white sheet. */
+div[data-cv-template="studio3"][data-dossier-document="cv"]
+  [data-cv-band-header]
+  [data-cv-doc-title] {
+  color: rgb(255 255 255 / 0.68) !important;
+}
+
+div[data-cv-template="studio3"][data-dossier-document="cv"] [data-cv-band-header] [data-cv-name] {
+  color: #ffffff !important;
 }
 
 div[data-cv-template="studio3"][data-dossier-document="cv"] [data-cv-accent="header"],

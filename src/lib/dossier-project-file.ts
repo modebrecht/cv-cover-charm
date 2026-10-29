@@ -16,6 +16,15 @@ function stringField(value: unknown): string {
   return typeof value === "string" ? value.trim() : "";
 }
 
+/** Older individual editor JSON has no project kind, but still has object data. */
+export function parseLegacyDossierPart(value: unknown): Record<string, unknown> | null {
+  return isRecord(value) &&
+    !Object.prototype.hasOwnProperty.call(value, "kind") &&
+    isRecord(value.data)
+    ? value
+    : null;
+}
+
 function projectPersonName(project: DossierProject): string {
   const coverData = isRecord(project.cover?.data) ? project.cover.data : undefined;
   const cvData = isRecord(project.cv?.data) ? project.cv.data : undefined;

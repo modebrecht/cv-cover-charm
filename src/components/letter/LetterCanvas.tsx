@@ -354,6 +354,7 @@ export function LetterCanvas({
           fontFamily,
           backgroundColor: paperColor,
           "--dossier-motif-opacity": String(motifOpacity),
+          "--letter-content-top": `${geometry.content.top}mm`,
           "--letter-user-sender-font": senderTypography?.font
             ? FONT_STACKS[senderTypography.font]
             : undefined,

@@ -101,11 +101,9 @@ for (const [label, css] of [
     expect((await verdict(page)).status).toBe("blocked");
     expect(await directExportFailure(page)).not.toBe("UNSAFE SUCCESS");
     await page.getByRole("button", { name: "Download", exact: true }).click();
+    await expect(page.getByRole("menuitem", { name: "PDF", exact: true })).toBeDisabled();
     await expect(
-      page.getByRole("button", { name: /Nur Motivationsschreiben als PDF/ }),
-    ).toBeDisabled();
-    await expect(
-      page.getByRole("button", { name: "PDF trotzdem herunterladen", exact: true }),
+      page.getByRole("menuitem", { name: "PDF trotzdem herunterladen", exact: true }),
     ).toHaveCount(0);
   });
 }
@@ -204,6 +202,12 @@ test("pending and failed actual image loading remain unsafe", async ({ page }) =
   ];
   fixture.storage["anschreiben:v1"] = JSON.stringify(letter);
   await loadFixture(page, fixture, "letter");
+  await page.getByRole("button", { name: "Download", exact: true }).click();
+  const pdfAction = page.getByRole("menuitem", { name: "PDF", exact: true });
+  await expect(pdfAction).toBeEnabled();
+  const imageResponse = page.waitForResponse(
+    (response) => response.url().endsWith("/preflight-delayed.svg") && response.status() === 200,
+  );
   await page
     .locator(`${exportRoot} [data-letter-flow-image] img`)
     .first()
@@ -213,10 +217,23 @@ test("pending and failed actual image loading remain unsafe", async ({ page }) =
   try {
     expect((await verdict(page)).status).toBe("pending");
     expect(await directExportFailure(page)).toContain("geladen");
+    await expect(pdfAction).toBeDisabled();
+    await expect(
+      page.getByRole("menuitem", { name: "PDF trotzdem herunterladen", exact: true }),
+    ).toHaveCount(0);
   } finally {
     release();
+    await imageResponse;
   }
+  await page
+    .locator(`${exportRoot} [data-letter-flow-image] img`)
+    .first()
+    .evaluate(async (image: HTMLImageElement) => {
+      await image.decode();
+      await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    });
   await expect.poll(async () => (await verdict(page)).status).toBe("pass");
+  await expect(pdfAction).toBeEnabled();
   // Use the persisted source for the failure: a React pagination update can
   // replace an image whose src was changed only on the current DOM node.
   letter.data.images[0].src = "data:image/png;base64,invalid";
@@ -232,6 +249,11 @@ test("pending and failed actual image loading remain unsafe", async ({ page }) =
   const failedVerdict = await verdict(page);
   expect(failedVerdict.status, JSON.stringify(failedVerdict.issues)).toBe("blocked");
   expect(await directExportFailure(page)).toContain("Bild");
+  await page.getByRole("button", { name: "Download", exact: true }).click();
+  await expect(pdfAction).toBeDisabled();
+  await expect(
+    page.getByRole("menuitem", { name: "PDF trotzdem herunterladen", exact: true }),
+  ).toHaveCount(0);
 });
 
 test("pending required font blocks while unrelated font loading does not", async ({ page }) => {
@@ -244,6 +266,9 @@ test("pending required font blocks while unrelated font loading does not", async
     await route.fulfill({ status: 404, body: "missing test font" });
   });
   await loadFixture(page, paginationFixture("brief", { paragraphs: 2 }), "letter");
+  await page.getByRole("button", { name: "Download", exact: true }).click();
+  const pdfAction = page.getByRole("menuitem", { name: "PDF", exact: true });
+  await expect(pdfAction).toBeEnabled();
   await page.evaluate(() => {
     const font = new FontFace("PreflightDelayed", 'url("/preflight-font.woff2")');
     document.fonts.add(font);
@@ -251,14 +276,25 @@ test("pending required font blocks while unrelated font loading does not", async
   });
   try {
     expect((await verdict(page)).status).toBe("pass");
+    await expect(pdfAction).toBeEnabled();
     await page.addStyleTag({
       content: `${exportRoot} [data-letter-pdf-richtext="body"]{font-family:PreflightDelayed,sans-serif!important}`,
     });
     expect((await verdict(page)).status).toBe("pending");
     expect(await directExportFailure(page)).toContain("Schriften");
+    await expect(pdfAction).toBeDisabled();
+    await expect(
+      page.getByRole("menuitem", { name: "PDF trotzdem herunterladen", exact: true }),
+    ).toHaveCount(0);
   } finally {
     release();
   }
+  await expect.poll(async () => (await verdict(page)).status).toBe("blocked");
+  expect(
+    (await verdict(page)).issues.some((issue: PdfPreflightIssue) => issue.code === "font-missing"),
+  ).toBe(true);
+  expect(await directExportFailure(page)).toContain("Schrift");
+  await expect(pdfAction).toBeDisabled();
 });
 
 for (const gap of [0, 40]) {
@@ -297,12 +333,10 @@ test("advisory requires explicit one-use consent and no saved override", async (
   expect((await verdict(page)).status).toBe("advisory");
   expect(await directExportFailure(page)).toContain("Umbruchmessung");
   await page.getByRole("button", { name: "Download", exact: true }).click();
-  await expect(
-    page.getByRole("button", { name: /Nur Motivationsschreiben als PDF/ }),
-  ).toBeDisabled();
+  await expect(page.getByRole("menuitem", { name: "PDF", exact: true })).toBeDisabled();
   const before = await page.evaluate(() => localStorage.getItem("anschreiben:v1"));
   const download = page.waitForEvent("download", { timeout: 90000 });
-  await page.getByRole("button", { name: "PDF trotzdem herunterladen", exact: true }).click();
+  await page.getByRole("menuitem", { name: "PDF trotzdem herunterladen", exact: true }).click();
   await (await download).saveAs("artifacts/pdf-preflight/advisory-letter.pdf");
   expect(await page.evaluate(() => localStorage.getItem("anschreiben:v1"))).toBe(before);
   const replay = await page.locator(exportRoot).evaluate(async (root) => {
@@ -605,11 +639,9 @@ test("missing semantic Letter content blocks before consent and disables UI", as
     expect(item.exportError, item.role).not.toBe("");
   }
   await page.getByRole("button", { name: "Download", exact: true }).click();
+  await expect(page.getByRole("menuitem", { name: "PDF", exact: true })).toBeDisabled();
   await expect(
-    page.getByRole("button", { name: /Nur Motivationsschreiben als PDF/ }),
-  ).toBeDisabled();
-  await expect(
-    page.getByRole("button", { name: "PDF trotzdem herunterladen", exact: true }),
+    page.getByRole("menuitem", { name: "PDF trotzdem herunterladen", exact: true }),
   ).toHaveCount(0);
 });
 
@@ -678,16 +710,14 @@ for (const [condition, css, selector] of [
     expect(result.consentError).not.toBe("");
     expect(await directExportFailure(page)).not.toBe("UNSAFE SUCCESS");
     await page.getByRole("button", { name: "Download", exact: true }).click();
+    await expect(page.getByRole("menuitem", { name: "PDF", exact: true })).toBeDisabled();
     await expect(
-      page.getByRole("button", { name: /Nur Motivationsschreiben als PDF/ }),
-    ).toBeDisabled();
-    await expect(
-      page.getByRole("button", { name: "PDF trotzdem herunterladen", exact: true }),
+      page.getByRole("menuitem", { name: "PDF trotzdem herunterladen", exact: true }),
     ).toHaveCount(0);
   });
 }
 
-test("negative original Ribbon demo Cover has confirmed physical content loss", async ({
+test("negative historical Ribbon transforms remain blocked after the cover repair", async ({
   page,
 }) => {
   const saved = await seedCanonicalDossier(page);
@@ -701,28 +731,44 @@ test("negative original Ribbon demo Cover has confirmed physical content loss", 
     "true",
     { timeout: 30000 },
   );
-  const geometry = await root.locator('[data-dossier-document="cover"]').evaluate((sheet) => {
-    const page = sheet.getBoundingClientRect();
-    const items = ["ortDatum", "foto"].map((id) => {
-      const block = sheet.querySelector(`[data-block-id="${id}"]`)!;
-      const range = document.createRange();
-      range.selectNodeContents(block);
-      const r = range.getBoundingClientRect();
-      return {
-        id,
-        text: block.textContent,
-        transform: getComputedStyle(block).transform,
-        boxPx: { x: r.left - page.left, y: r.top - page.top, width: r.width, height: r.height },
-        boxMm: {
-          x: ((r.left - page.left) * 210) / page.width,
-          y: ((r.top - page.top) * 297) / page.height,
-          width: (r.width * 210) / page.width,
-          height: (r.height * 297) / page.height,
-        },
-      };
+  const measureCover = () =>
+    root.locator('[data-dossier-document="cover"]').evaluate((sheet) => {
+      const page = sheet.getBoundingClientRect();
+      const items = ["ortDatum", "foto"].map((id) => {
+        const block = sheet.querySelector(`[data-block-id="${id}"]`)!;
+        const range = document.createRange();
+        range.selectNodeContents(block);
+        const r = range.getBoundingClientRect();
+        return {
+          id,
+          text: block.textContent,
+          transform: getComputedStyle(block).transform,
+          boxPx: { x: r.left - page.left, y: r.top - page.top, width: r.width, height: r.height },
+          boxMm: {
+            x: ((r.left - page.left) * 210) / page.width,
+            y: ((r.top - page.top) * 297) / page.height,
+            width: (r.width * 210) / page.width,
+            height: (r.height * 297) / page.height,
+          },
+        };
+      });
+      return { pagePx: { width: page.width, height: page.height }, items };
     });
-    return { pagePx: { width: page.width, height: page.height }, items };
-  });
+  const repairedGeometry = await measureCover();
+  for (const item of repairedGeometry.items) {
+    expect(item.boxPx.x).toBeGreaterThanOrEqual(-1.5);
+    expect(item.boxPx.y).toBeGreaterThanOrEqual(-1.5);
+    expect(item.boxPx.x + item.boxPx.width).toBeLessThanOrEqual(
+      repairedGeometry.pagePx.width + 1.5,
+    );
+    expect(item.boxPx.y + item.boxPx.height).toBeLessThanOrEqual(
+      repairedGeometry.pagePx.height + 1.5,
+    );
+  }
+  const injectedCss =
+    '[data-dossier-pdf-canvas] [data-dossier-document="cover"] [data-block-id="foto"]{transform:translate(-57mm,-60mm) scale(.82)!important}[data-dossier-pdf-canvas] [data-dossier-document="cover"] [data-block-id="ortDatum"]{transform:translate(-45mm,26mm)!important}';
+  await page.addStyleTag({ content: injectedCss });
+  const geometry = await measureCover();
   expect(geometry.items[0].boxPx.x).toBeLessThan(-1.5);
   expect(geometry.items[0].boxPx.y + geometry.items[0].boxPx.height).toBeGreaterThan(
     geometry.pagePx.height + 1.5,
@@ -732,8 +778,12 @@ test("negative original Ribbon demo Cover has confirmed physical content loss", 
   const result = await verdict(page, "dossier");
   await mkdir(evidenceDir, { recursive: true });
   await writeFile(
-    join(evidenceDir, "ribbon-original-cover-unsafe.json"),
-    JSON.stringify({ ...runtimeProvenance(), saved, geometry, result }, null, 2),
+    join(evidenceDir, "ribbon-legacy-transforms-unsafe.json"),
+    JSON.stringify(
+      { ...runtimeProvenance(), saved, repairedGeometry, injectedCss, geometry, result },
+      null,
+      2,
+    ),
   );
   expect(result.status, JSON.stringify(result.issues)).toBe("blocked");
   expect(await directExportFailure(page, "dossier")).toContain("Titelblatt");
@@ -805,10 +855,8 @@ test("negative invisible required image cannot receive advisory consent", async 
   expect(result.consentError).not.toBe("");
   expect(await directExportFailure(page)).not.toBe("UNSAFE SUCCESS");
   await page.getByRole("button", { name: "Download", exact: true }).click();
+  await expect(page.getByRole("menuitem", { name: "PDF", exact: true })).toBeDisabled();
   await expect(
-    page.getByRole("button", { name: /Nur Motivationsschreiben als PDF/ }),
-  ).toBeDisabled();
-  await expect(
-    page.getByRole("button", { name: "PDF trotzdem herunterladen", exact: true }),
+    page.getByRole("menuitem", { name: "PDF trotzdem herunterladen", exact: true }),
   ).toHaveCount(0);
 });

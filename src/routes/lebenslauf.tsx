@@ -1,3 +1,5 @@
+import { importDossierProjectSafely } from "@/lib/dossier-import";
+import { parseLegacyDossierPart } from "@/lib/dossier-project-file";
 import { useDossierChromePalette } from "@/lib/dossier-chrome-palette.browser";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
@@ -129,7 +131,6 @@ import {
   createDossierProject,
   parseDossierProject,
   readStoredDossierPart,
-  storeDossierProject,
 } from "@/lib/dossier-project";
 import { DEFAULTS, PDF, PREVIEW, SHAPE } from "@/default-config";
 import {
@@ -830,32 +831,41 @@ function Lebenslauf() {
     if (!file) return;
     try {
       const parsed: unknown = JSON.parse(await file.text());
-      const project = parseDossierProject(parsed);
-      if (project) {
-        keepSnapshot("Vor dem Laden", true);
-        const loaded = storeDossierProject(project);
-        if (loaded.cv) loadFromStorage();
-        setCover(readCoverDraft());
-        if (loaded.cover) setStoredCoverDocument(coverPdfDocumentFromSaved(project.cover));
-        setSaveState("saved");
-        setStatus({
-          kind: "ok",
-          text:
-            loaded.cover && loaded.cv
-              ? "Dossier geladen: Titelblatt und Lebenslauf"
-              : loaded.cv
-                ? "Lebenslauf aus dem Dossier geladen"
-                : "Titelblatt gespeichert – öffne es über die Übersicht",
-        });
-        return;
+      let project = parseDossierProject(parsed);
+      if (!project) {
+        const legacy = parseLegacyDossierPart(parsed);
+        if (!legacy) throw new Error("kein Lebenslauf");
+        const saved = legacy as Partial<Saved>;
+        project = {
+          kind: "cv-cover-charm-dossier",
+          version: 1,
+          savedAt: new Date().toISOString(),
+          cv: {
+            version: SAVE_VERSION,
+            ...(legacy.portableState &&
+            typeof legacy.portableState === "object" &&
+            !Array.isArray(legacy.portableState)
+              ? { portableState: legacy.portableState }
+              : {}),
+            data: ensureFixedFamilySection({
+              ...emptyCv,
+              ...saved.data,
+              person: { ...emptyCv.person, ...saved.data?.person },
+            }),
+            design: saved.design ? migrateCvDesign(design, saved.design, saved.version) : design,
+            elements: Array.isArray(saved.elements) ? saved.elements : elements,
+            elementStyles: saved.elementStyles ?? elementStyles,
+            coverFingerprint:
+              typeof saved.coverFingerprint === "string"
+                ? saved.coverFingerprint
+                : coverDraftFingerprint(readCoverDraft()),
+          },
+        };
       }
-      const p = parsed as Partial<Saved>;
-      if (!p || typeof p !== "object" || !p.data) throw new Error("kein Lebenslauf");
-      keepSnapshot("Vor dem Laden", true);
-      applySaved(p);
-      setStatus({ kind: "ok", text: "Älteren Lebenslauf-Entwurf geladen" });
+      await importDossierProjectSafely(project);
+      window.location.reload();
     } catch {
-      setStatus({ kind: "error", text: "Datei konnte nicht gelesen werden." });
+      setStatus({ kind: "error", text: "Datei konnte nicht sicher geladen werden." });
     }
   };
 
@@ -1000,6 +1010,18 @@ function Lebenslauf() {
     },
     [],
   );
+
+  const applyMeasuredPageFit = useCallback(
+    (result: {
+      sectionLayouts: CvData["sectionLayouts"];
+      typography?: Pick<CvDesign, "titleScale" | "headingScale" | "bodyScale">;
+    }) => {
+      setData((current) => ({ ...current, sectionLayouts: result.sectionLayouts }));
+      if (result.typography) setDesign((current) => ({ ...current, ...result.typography }));
+    },
+    [],
+  );
+  const showPageFitNotice = useCallback((text: string) => setStatus({ kind: "error", text }), []);
 
   const sectionDisplayLabel = (key: CvLayoutSectionKey) => {
     if (key === "person") return "Persönliche Angaben";
@@ -1153,6 +1175,8 @@ function Lebenslauf() {
       onMoveElement={patchStyle}
       onSectionLayout={setSectionLayout}
       onPageFitDesign={applyPageFitDesign}
+      onMeasuredPageFit={applyMeasuredPageFit}
+      onPageFitNotice={showPageFitNotice}
       onLayoutWarnings={receiveLayoutWarnings}
       drawing={drawing}
       onDrawn={(points, page) => {

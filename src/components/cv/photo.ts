@@ -1,4 +1,8 @@
 import {
+  reportDossierStorageWriteFailure,
+  registerDossierStorageReset,
+} from "@/lib/dossier-storage-write";
+import {
   DEFAULT_DOSSIER_PHOTO_STYLE,
   normalizeDossierPhotoStyle,
   type DossierPhotoShape,
@@ -10,6 +14,10 @@ const LEGACY_SHAPE_KEY = "lebenslauf:photo-shape:v1";
 const EVENT = "lebenslauf-photo-change";
 
 let cached: DossierPhotoStyle | null = null;
+registerDossierStorageReset(() => {
+  cached = read();
+  apply(cached);
+});
 
 export function hasStoredCvPhotoStyle(): boolean {
   if (typeof window === "undefined") return false;
@@ -57,7 +65,8 @@ export function setCvPhotoStyle(patch: Partial<DossierPhotoStyle>) {
   if (typeof window !== "undefined") {
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-    } catch {
+    } catch (error) {
+      reportDossierStorageWriteFailure(error);
       // Die laufende Seite reagiert trotzdem über das Event.
     }
     apply(next);

@@ -136,6 +136,8 @@ type Props = {
   chromeContact: DossierChromeContact;
   chromeDocumentContent?: DossierChromeDocumentContent;
   exportMode?: boolean;
+  /** One-shot first-page Sidebar measurement for the smart-fit action. */
+  measurePageFitSidebar?: boolean;
   /** Abweichungen vom Vorgabestil je Element – Position, Farbe, Grösse. */
   elementStyles?: StyleOverrides;
   /** Bedienung der Elemente. Fehlt sie, wird nur gezeichnet. */
@@ -166,6 +168,7 @@ export function CvCanvas({
   chromeContact,
   chromeDocumentContent,
   exportMode = false,
+  measurePageFitSidebar = false,
   elementStyles = {},
   selected = null,
   onSelect,
@@ -1628,7 +1631,12 @@ export function CvCanvas({
       (design.useElements && elements.some((element) => element.page === 2))
         ? 2
         : 1;
-    setPages(paginateCvFlow(rows, heightFor, cvFlowMeasurer(box, rows, scale), requiredPages));
+    const measure = cvFlowMeasurer(box, rows, scale);
+    // Explicit one-page fitting uses these exact paginator measurements. A
+    // per-section map cannot represent grouped/Masonry rows reliably.
+    box.dataset.cvFlowHeightPx = String(rows.reduce((sum, row) => sum + measure(row), 0));
+    box.dataset.cvFlowCapacityPx = String(heightFor(0));
+    setPages(paginateCvFlow(rows, heightFor, measure, requiredPages));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     shape,
@@ -1781,13 +1789,13 @@ export function CvCanvas({
     );
   };
 
-  const sidePresence = (pageIndex: number) => {
+  const sidePresence = (pageIndex: number, measureAll = false) => {
     const onPage = (key: Exclude<CvPlacementKey, "kontakt">) => {
       const sectionLayout = cvSectionLayout(data, key);
       return (
         resolveCvPlacement(placements, key) === "side" &&
         sectionLayout.positioning === "flow" &&
-        sectionLayout.page - 1 === pageIndex
+        (measureAll || sectionLayout.page - 1 === pageIndex)
       );
     };
     const fixedOnPage = (key: CvSectionKey) => onPage(key) && !data.hidden[key];
@@ -1847,8 +1855,11 @@ export function CvCanvas({
     };
   };
 
-  const sideSectionStyle = (key: Exclude<CvLayoutSectionKey, "person">): React.CSSProperties => ({
-    gridColumn: cvSectionLayout(data, key).width === "half" ? "span 1" : "1 / -1",
+  const sideSectionStyle = (
+    key: Exclude<CvLayoutSectionKey, "person">,
+    measureAll = false,
+  ): React.CSSProperties => ({
+    gridColumn: !measureAll && cvSectionLayout(data, key).width === "half" ? "span 1" : "1 / -1",
     order: contentSectionKeys.indexOf(key) + 10,
     minWidth: 0,
     overflowWrap: "anywhere",
@@ -2593,7 +2604,7 @@ export function CvCanvas({
     };
   }, [elementBlocks, elements, exportMode, onLayoutWarnings, pages, shape]);
 
-  const modernSidebar = (pageIndex: number) => {
+  const modernSidebar = (pageIndex: number, measureAll = false) => {
     const sidebarPhoto = pageIndex === 0 && automaticPhotoInSidebar;
     const { rail } = cvSidebarGeometry(
       frame,
@@ -2616,7 +2627,7 @@ export function CvCanvas({
       customSideKeys,
       firstSideKey,
       firstSide,
-    } = sidePresence(pageIndex);
+    } = sidePresence(pageIndex, measureAll);
     const hasSideSections =
       hasContact ||
       hasSchool ||
@@ -2660,6 +2671,7 @@ export function CvCanvas({
           />
         )}
         <div
+          data-cv-sidebar-content
           style={{
             position: "relative",
             zIndex: 1,
@@ -2738,19 +2750,19 @@ export function CvCanvas({
                 </div>
               )}
               {hasSchool && (
-                <div style={sideSectionStyle("schule")}>
+                <div style={sideSectionStyle("schule", measureAll)}>
                   {sideHeading("schule", label(data, "schule"), firstSide === "school")}
                   {sideEntries("schule")}
                 </div>
               )}
               {hasExperience && (
-                <div style={sideSectionStyle("erfahrung")}>
+                <div style={sideSectionStyle("erfahrung", measureAll)}>
                   {sideHeading("erfahrung", label(data, "erfahrung"), firstSide === "experience")}
                   {sideEntries("erfahrung")}
                 </div>
               )}
               {hasLanguages && (
-                <div style={sideSectionStyle("sprachen")}>
+                <div style={sideSectionStyle("sprachen", measureAll)}>
                   {sideHeading("sprachen", label(data, "sprachen"), firstSide === "languages")}
                   {data.sprachen
                     .filter((s) => s.name.trim() || s.niveau.trim())
@@ -2796,7 +2808,7 @@ export function CvCanvas({
                 </div>
               )}
               {hasStrengths && (
-                <div style={sideSectionStyle("staerken")}>
+                <div style={sideSectionStyle("staerken", measureAll)}>
                   {sideHeading("staerken", label(data, "staerken"), firstSide === "strengths")}
                   {data.staerken
                     .map((text, index) => ({ text, index }))
@@ -2838,7 +2850,7 @@ export function CvCanvas({
                 </div>
               )}
               {hasHobbies && (
-                <div style={sideSectionStyle("hobbys")}>
+                <div style={sideSectionStyle("hobbys", measureAll)}>
                   {sideHeading("hobbys", label(data, "hobbys"), firstSide === "hobbies")}
                   {data.hobbys
                     .map((text, index) => ({ text, index }))
@@ -2866,7 +2878,7 @@ export function CvCanvas({
                 </div>
               )}
               {hasReferences && (
-                <div style={sideSectionStyle("referenzen")}>
+                <div style={sideSectionStyle("referenzen", measureAll)}>
                   {sideHeading("referenzen", label(data, "referenzen"), firstSide === "references")}
                   {data.referenzen.filter(referenceHasContent).map((r) => (
                     <div
@@ -2928,7 +2940,7 @@ export function CvCanvas({
                 const custom = customSectionForKey(data, key);
                 if (!custom) return null;
                 return (
-                  <div key={key} style={sideSectionStyle(key)}>
+                  <div key={key} style={sideSectionStyle(key, measureAll)}>
                     {sideHeading(key, custom.title.trim() || "Eigene Rubrik", firstSideKey === key)}
                     {sideCustomEntries(key)}
                   </div>
@@ -3198,6 +3210,25 @@ export function CvCanvas({
           </div>
         );
       })}
+      {measurePageFitSidebar && !exportMode && layout === "modern" && (
+        <div
+          aria-hidden
+          data-cv-measure-sidebar
+          data-cv-measure-page
+          style={{
+            position: "absolute",
+            left: "-10000px",
+            top: 0,
+            width: `${PAGE.WIDTH}px`,
+            height: `${PAGE.HEIGHT}px`,
+            visibility: "hidden",
+            pointerEvents: "none",
+            overflow: "hidden",
+          }}
+        >
+          {modernSidebar(0, true)}
+        </div>
+      )}
     </div>
   );
 }

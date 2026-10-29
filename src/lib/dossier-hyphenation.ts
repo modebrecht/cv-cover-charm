@@ -1,3 +1,4 @@
+import { reportDossierStorageWriteFailure } from "@/lib/dossier-storage-write";
 export type DossierHyphenationState = {
   version: 1;
   enabled: boolean;
@@ -31,7 +32,8 @@ function storeDisabled() {
   if (typeof window !== "undefined") {
     try {
       window.localStorage?.setItem(DOSSIER_HYPHENATION_STORAGE_KEY, JSON.stringify(next));
-    } catch {
+    } catch (error) {
+      reportDossierStorageWriteFailure(error);
       // The current tab still receives the in-memory state and event.
     }
     if (typeof window.dispatchEvent === "function" && typeof CustomEvent !== "undefined") {

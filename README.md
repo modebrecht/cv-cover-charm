@@ -1,26 +1,63 @@
-# Your CV Cover
+# CV Cover Charm
 
-Lebenslauf titelblatt generator -> nice pdf zum versenden / download pdf
+**Bewerbungsdossiers für Lehrstellen in der Schweiz erstellen und gestalten.**
 
-This project was built with [Lovable](https://lovable.dev).
+CV Cover Charm ist eine browserbasierte Anwendung für ein zusammenhängendes Bewerbungsdossier aus **Titelblatt, Motivationsschreiben und Lebenslauf**. Die Dokumente lassen sich in passenden Designs bearbeiten und einzeln oder gemeinsam exportieren.
 
-**Live app**: https://cv-cover-charm.lovable.app
+## Funktionen
 
-## Build with Lovable
+- Titelblatt, Motivationsschreiben und Lebenslauf mit aufeinander abgestimmter Gestaltung
+- Verschiedene Vorlagen sowie Anpassungen an Farben, Schriften, Abständen und Dokumentelementen
+- Bearbeitung von Texten, Kontaktdaten, Referenzen und Bildern
+- PDF-Export einzelner Dokumente und des gesamten Dossiers
+- Bearbeitbarer Word-Export (DOCX) einzelner Dokumente und des gesamten Dossiers
+- Dossier JSON zum Sichern und späteren Wiederherstellen des Arbeitsstands
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/52bd8fe7-fa0f-4ed2-8814-32cc09941767).
+Im Editor befinden sich die Downloadoptionen links neben dem Menü. Zur Auswahl stehen **PDF · DOCX · Dossier JSON · Dossier PDF · Dossier DOCX**.
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+## Word-Export: aktueller Stand
 
-## Development
+Alle sichtbaren DOCX-Downloads verwenden den neuen gemeinsamen **DOCX-Next-Exporter**. Der frühere Word-Exporter ist nicht mehr der Standard-Download.
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Der Word-Download ist derzeit noch auf vollständig gespeicherte Dossiers mit folgenden Einstellungen begrenzt:
 
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+- Vorlage **Modern** für Titelblatt, Motivationsschreiben und Lebenslauf
+- Lebenslauf mit **Sidebar**
+- Schrift **Sans** für Motivationsschreiben und Lebenslauf
+- Kontakt-Kopfzeilen und kompakte Fusszeilen für Motivationsschreiben und Lebenslauf
+
+Diese Voraussetzungen gelten aktuell **auch beim Download eines einzelnen DOCX-Dokuments**. Nicht unterstützte Einstellungen werden im Editor angezeigt. Der PDF-Export ist davon unabhängig.
+
+Der neue Browser-Downloadpfad ist implementiert; seine vollständige End-to-End-Abnahme im echten Browser steht noch aus. Die Word-Unterstützung aller Vorlagen ist noch nicht abgeschlossen.
+
+## Lokal entwickeln
+
+Voraussetzungen: Node.js und [Bun](https://bun.sh/).
+
+```bash
+git clone https://github.com/modebrecht/cv-cover-charm.git
+cd cv-cover-charm
+bun install
+bun run dev
 ```
+
+### Prüfungen
+
+```bash
+bun run test:unit
+bun run typecheck
+bun run lint
+bun run build
+```
+
+## Entwicklungsbranches
+
+- **`dev`** – aktive Entwicklung und Integration
+- **`render`** – Branch für die Browser-Abnahme; nicht automatisch per Vercel bereitgestellt
+- **`main`** – Veröffentlichungsbranch; automatisches Vercel-Deployment ist derzeit nur für `main` konfiguriert
+
+## Projektdateien und Datenschutz
+
+Der gespeicherte Bearbeitungsstand wird im Browser (`localStorage`) verwaltet. Über **Dossier JSON** lässt sich ein Projekt sichern und später wieder laden. Browserdaten können verloren gehen; wichtige Entwürfe deshalb zusätzlich als JSON sichern.
+
+Bewerbungsdaten, Fotografien und Exporte können personenbezogene Informationen enthalten. **Keine echten Bewerbungen, privaten JSON-Dateien, Fotos oder Word-/PDF-Exporte in dieses öffentliche Repository committen.**

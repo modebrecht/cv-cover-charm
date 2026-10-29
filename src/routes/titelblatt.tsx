@@ -1,3 +1,5 @@
+import { importDossierProjectSafely } from "@/lib/dossier-import";
+import { parseLegacyDossierPart } from "@/lib/dossier-project-file";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import {
@@ -59,7 +61,6 @@ import {
   createDossierProject,
   parseDossierProject,
   readStoredDossierPart,
-  storeDossierProject,
 } from "@/lib/dossier-project";
 import { readPhoto } from "@/lib/image";
 import { coverDraftFingerprint } from "@/lib/dossier";
@@ -932,62 +933,44 @@ function Titelblatt() {
     setStatus({ kind: "ok", text: "Bewerbungsdossier gespeichert" });
   };
 
-  const importJson = (file: File | undefined) => {
+  const importJson = async (file: File | undefined) => {
     if (!file) return;
-    const reader = new FileReader();
-    reader.onerror = () => setStatus({ kind: "error", text: "Datei konnte nicht gelesen werden." });
-    reader.onload = () => {
-      try {
-        const parsed: unknown = JSON.parse(String(reader.result));
-        const project = parseDossierProject(parsed);
-        if (project) {
-          keepSnapshot("Vor dem Laden", true);
-          const loaded = storeDossierProject(project);
-          if (loaded.cover) loadFromStorage();
-          if (loaded.cv) setStoredCvDocument(cvPdfDocumentFromSaved(project.cv));
-          setSaveState("saved");
-          setStatus({
-            kind: "ok",
-            text:
-              loaded.cover && loaded.cv
-                ? "Dossier geladen: Titelblatt und Lebenslauf"
-                : loaded.cover
-                  ? "Titelblatt aus dem Dossier geladen"
-                  : "Lebenslauf gespeichert – öffne ihn über die Übersicht",
-          });
-          return;
-        }
-        if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
-          throw new Error("kein Titelblatt-Entwurf");
-        }
-        const legacy = parsed as Record<string, unknown>;
-        if (!legacy.data || typeof legacy.data !== "object") {
-          throw new Error("kein Titelblatt-Entwurf");
-        }
-        keepSnapshot("Vor dem Laden", true);
-        setData(prefill({ ...emptyData, ...(legacy.data as Partial<CoverData>) }));
-        if (typeof legacy.template === "string") {
-          setTemplate(normalizeActiveTemplateId(legacy.template));
-        }
-        if (legacy.colors)
-          setColorsByTemplate((c) => ({
-            ...c,
-            ...(legacy.colors as Partial<Record<TemplateId, Record<string, string>>>),
-          }));
-        if (legacy.layout)
-          setLayoutByTemplate((l) => ({
-            ...l,
-            ...(legacy.layout as Partial<Record<TemplateId, StyleOverrides>>),
-          }));
-        setCustoms(sanitizeCustoms(legacy.customs));
-        if (typeof legacy.fontScale === "number") setFontScale(legacy.fontScale);
-        setDocumentFont(validFont(legacy.font));
-        setStatus({ kind: "ok", text: "Älteren Titelblatt-Entwurf geladen" });
-      } catch {
-        setStatus({ kind: "error", text: "Diese JSON-Datei ist kein gültiger Entwurf." });
+    try {
+      const parsed: unknown = JSON.parse(await file.text());
+      let project = parseDossierProject(parsed);
+      if (!project) {
+        const legacy = parseLegacyDossierPart(parsed);
+        if (!legacy) throw new Error("kein Titelblatt-Entwurf");
+        project = {
+          kind: "cv-cover-charm-dossier",
+          version: 1,
+          savedAt: new Date().toISOString(),
+          cover: {
+            ...snapshotPayload(),
+            data: prefill({ ...emptyData, ...(legacy.data as Partial<CoverData>) }),
+            template:
+              typeof legacy.template === "string"
+                ? normalizeActiveTemplateId(legacy.template)
+                : template,
+            colors: {
+              ...colorsByTemplate,
+              ...migrateStoredColors(legacy.colors, Number(legacy.version) || 0),
+            },
+            layout: {
+              ...layoutByTemplate,
+              ...(legacy.layout as Partial<Record<TemplateId, StyleOverrides>> | undefined),
+            },
+            customs: sanitizeCustoms(legacy.customs),
+            fontScale: typeof legacy.fontScale === "number" ? legacy.fontScale : fontScale,
+            font: validFont(legacy.font),
+          },
+        };
       }
-    };
-    reader.readAsText(file);
+      await importDossierProjectSafely(project);
+      window.location.reload();
+    } catch {
+      setStatus({ kind: "error", text: "Diese JSON-Datei konnte nicht sicher geladen werden." });
+    }
   };
 
   const personCount = filled([
