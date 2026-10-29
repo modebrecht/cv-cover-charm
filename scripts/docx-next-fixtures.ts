@@ -115,7 +115,7 @@ const SIDEBAR_PAGE_COUNTS: Record<string, number> = {
   "sidebar-photo-free-main": 2,
   "sidebar-photo-free-side": 1,
   "sidebar-photo-free-mirrored-side": 1,
-  "sidebar-photo-free-long": 10,
+  "sidebar-photo-free-long": 9,
   "sidebar-photo-free-side-long": 9,
   "sidebar-photo-free-low": 10,
   "sidebar-photo-free-portrait": 2,
@@ -366,14 +366,43 @@ try {
       async ({ source, moduleCode }: { source: string; moduleCode: string }) => {
         const mod = await import(`data:text/javascript;base64,${btoa(moduleCode)}`);
         const image = await mod.normalizeBrowserImage(source);
+        // Compare the actual decoded pixels, including alpha and EXIF orientation.
+        // A preview size budget must never shrink the editable Word photo.
+        const decode = (url: string) =>
+          new Promise<HTMLImageElement>((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => resolve(img);
+            img.onerror = reject;
+            img.src = url;
+          });
+        const original = await decode(source);
+        if (image.widthPx !== original.naturalWidth || image.heightPx !== original.naturalHeight)
+          throw new Error("Image normalization changed original dimensions");
+        const pngUrl = URL.createObjectURL(
+          new Blob([Uint8Array.from(image.bytes)], { type: "image/png" }),
+        );
+        const png = await decode(pngUrl);
+        URL.revokeObjectURL(pngUrl);
+        const pixels = (img: HTMLImageElement) => {
+          const canvas = document.createElement("canvas");
+          canvas.width = img.naturalWidth;
+          canvas.height = img.naturalHeight;
+          const context = canvas.getContext("2d", { colorSpace: "srgb" })!;
+          context.drawImage(img, 0, 0);
+          return context.getImageData(0, 0, canvas.width, canvas.height).data;
+        };
+        const before = pixels(original),
+          after = pixels(png);
+        if (before.length !== after.length || before.some((byte, i) => byte !== after[i]))
+          throw new Error("Image normalization changed decoded source pixels");
         return { ...image, bytes: Array.from(image.bytes) };
       },
       { source, moduleCode },
     );
     if (key === "exif-jpeg" && asset.widthPx <= asset.heightPx)
       throw new Error("EXIF orientation was not normalized");
-    if (key === "large-jpeg" && Math.max(asset.widthPx, asset.heightPx) > 1600)
-      throw new Error("Image size budget failed");
+    if (key === "large-jpeg" && (asset.widthPx !== 2400 || asset.heightPx !== 3600))
+      throw new Error("Original large-image resolution was not preserved");
     normalized.set(source, { ...asset, bytes: Uint8Array.from(asset.bytes) });
     await writeFile(path.join(out, `normalized-${key}.png`), Uint8Array.from(asset.bytes));
   }
@@ -1134,13 +1163,14 @@ try {
               ? [
                   {
                     id: zone.id,
-                    leftMm: trackLeft + zone.leftInsetMm + zone.image.frame!.borderWidthMm / 2,
+                    // Inline effectExtent reserves the full outline before the fill.
+                    leftMm: trackLeft + zone.leftInsetMm + zone.image.frame!.borderWidthMm,
                     topMm:
                       part.page.margins.top +
                       (block.leadingInsetMm ?? 0) +
                       (track.decoration?.paddingTopMm ?? track.decoration?.paddingYMm ?? 0) +
                       zone.topInsetMm +
-                      zone.image.frame!.borderWidthMm / 2,
+                      zone.image.frame!.borderWidthMm,
                     widthMm: zone.image.widthMm,
                     heightMm: zone.image.widthMm * zone.image.frame!.heightRatio,
                     frameColor: zone.image.frame!.borderColor,

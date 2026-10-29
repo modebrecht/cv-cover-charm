@@ -34,6 +34,16 @@ def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def check_source_controls(actual, fixture):
+    """Check the independently inventoried model, rather than a stale total."""
+    fields = fixture['sourceFields']
+    expected = {row['fieldId']: row['text'] for row in fields}
+    assert len(expected) == len(fields), 'Duplicate source model field identity'
+    assert list(actual) == list(expected) and actual == expected, 'Incomplete or changed serialized source control inventory'
+    cv_fields = [row['fieldId'] for row in fixture['nativeParagraphs']]
+    assert len(set(cv_fields)) == len(cv_fields) and set(key for key in actual if key.startswith('cv.')) == set(cv_fields), 'Incomplete CV paragraph identity'
+
+
 def native_environment(engine, binding):
     program = engine / 'usr/lib/libreoffice/program'
     env = os.environ.copy()
@@ -75,8 +85,7 @@ def audit(folder, engine, binding, require_no_empty=False):
             source = folder / (name + '.docx')
             assert sha(source) == fixture['sourceSha256']
             expected = controls(source)
-            required = 382 if name.endswith('both-long') else 129 if name.endswith('side-long') else 77
-            assert len(expected) == required, 'Incomplete serialized source control inventory'
+            check_source_controls(expected, fixture)
             assert len(fixture['mainText']) == (279 if name.endswith('both-long') else 26)
             assert len(fixture['sideText']) == (21 if name.endswith('-left') else 73)
             case = {'fixture': name, 'sourceSha256': sha(source), 'controls': len(expected),

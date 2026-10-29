@@ -6,6 +6,7 @@ import { renderDossierDocx } from "../src/lib/docx-next/renderer";
 import { readZipEntries } from "../src/lib/docx-next/zip";
 import { SIDEBAR_CARRIER_STORY_CASES } from "../tests/fixtures/docx-next/sidebar-carrier-story";
 import { sidebarEntryFlowFixture } from "../tests/fixtures/docx-next/sidebar-entry-flow";
+import { paragraphSignature } from "../tests/fixtures/docx-next/sidebar-floating";
 
 const directory = process.argv[2];
 const keepBodyBoundaryWithTable = process.argv[3] === "--keep-boundary";
@@ -41,10 +42,20 @@ for (const value of ordered) {
     if (original[i].name !== "word/document.xml")
       assert.deepEqual(candidate[i].bytes, original[i].bytes);
   const sourceSha256 = createHash("sha256").update(bytes).digest("hex");
+  const sourceFields = [model.cover, model.letter, model.cv].flatMap((part) =>
+    paragraphSignature(part.blocks).map((paragraph) => ({
+      fieldId: paragraph.id,
+      text: paragraph.runs
+        .map((run) => run.text)
+        .join("")
+        .replace(/\r/g, ""),
+    })),
+  );
+  assert.equal(new Set(sourceFields.map((field) => field.fieldId)).size, sourceFields.length);
   await writeFile(path.join(directory, fixture.fixture + ".docx"), bytes);
   await writeFile(
     path.join(directory, fixture.fixture + ".json"),
-    JSON.stringify({ ...fixture, sourceSha256 }, null, 2) + "\n",
+    JSON.stringify({ ...fixture, sourceSha256, sourceFields }, null, 2) + "\n",
   );
 }
 await writeFile(

@@ -1,6 +1,7 @@
 """Independent app-snapshot content and native Save/Reopen gate; no historical sampling dependency."""
 import argparse
 import hashlib
+import io
 import importlib.util
 import json
 import posixpath
@@ -14,6 +15,7 @@ from zipfile import ZipFile
 
 import fitz
 import numpy as np
+from PIL import Image
 from docx_next_story_qa import W, text_value, visible_story
 
 REPO = Path(__file__).resolve().parent.parent
@@ -26,6 +28,24 @@ NAMES = ['app-body-' + name for name in (
     'photo-free-low', 'photo-free-portrait', 'photo-free-chrome', 'contact-long',
     'chrome-continuation', 'chrome-leading')]
 MM = 72 / 25.4
+
+
+def image_pixel_digest(data):
+    with Image.open(io.BytesIO(data)) as image:
+        return hashlib.md5(image.convert('RGB').tobytes()).hexdigest()
+
+
+def package_image_digests(path):
+    """Classify declared photo assets separately from native page paint."""
+    photos, paint = set(), set()
+    with ZipFile(path) as archive:
+        for name in archive.namelist():
+            if not name.startswith('word/media/'): continue
+            target = photos if name.startswith('word/media/image-') else paint
+            assert name.startswith(('word/media/image-', 'word/media/paint-', 'word/media/decoration-')), 'Unknown source media asset'
+            target.add(image_pixel_digest(archive.read(name)))
+    assert not photos & paint, 'Ambiguous fixture photo and decorative pixels'
+    return photos, paint
 
 
 def package_controls(path):
@@ -56,7 +76,9 @@ def package_controls(path):
                 records = {}
                 for node in ET.fromstring(archive.read(name)).iter(W + 'sdt'):
                     tag = node.find(W + 'sdtPr/' + W + 'tag')
-                    assert tag is not None and tag.get(W + 'val') not in records
+                    assert tag is not None, f'{name}: missing authored field tag'
+                    identity = tag.get(W + 'val')
+                    assert identity and identity not in records, f'{name}: empty or duplicate authored field tag {identity}'
                     records[tag.get(W + 'val')] = text_value(node)
                 stories[name] = records
     # Header part filenames may change on save; canonical identities must not.
@@ -109,6 +131,8 @@ def audit(folder, engine, binding, replay_existing=False):
             source = folder / (name + '.docx')
             assert entry.sha(source) == fixture['sourceSha256']
             expected_body, expected_all = package_controls(source)
+            photo_digests, paint_digests = package_image_digests(source)
+            assert bool(photo_digests) == bool(fixture['pictures']), 'Source photo inventory changed'
             for paragraph in fixture['nativeParagraphs']:
                 assert expected_body[paragraph['fieldId']] == paragraph['text']
             case = {'fixture': name, 'sourceSha256': entry.sha(source), 'bodyControls': len(expected_body),
@@ -161,7 +185,7 @@ def audit(folder, engine, binding, replay_existing=False):
                 if not replay_case or not pdf_path.is_file(): convert(engine, Path(request['path']), pdf_path, 'pdf')
                 result['pdfSha256'] = entry.sha(pdf_path)
                 with fitz.open(pdf_path) as pdf:
-                    result.update(pdfPages=len(pdf), emptyCvPages=[], outOfBoundsWords=[], photos=[], imageFrames=[], chrome=[], bodyStarts=[])
+                    result.update(pdfPages=len(pdf), emptyCvPages=[], outOfBoundsWords=[], photos=[], imageFrames=[], paintFrames=[], chrome=[], bodyStarts=[])
                     m = fixture['margins']
                     for label in ('main', 'side'):
                         lane = fixture[label + 'Lane']
@@ -173,8 +197,15 @@ def audit(folder, engine, binding, replay_existing=False):
                     for page in pdf[2:]:
                         photo = photo_pixels(page) if fixture['pictures'] else None
                         if photo: result['photos'].append(photo)
-                        for image in page.get_image_info():
-                            result['imageFrames'].append({'page':page.number+1, 'bboxMm':[value/MM for value in image['bbox']]})
+                        for image in page.get_image_info(hashes=True):
+                            digest = image['digest'].hex()
+                            # PDF may re-encode a photo. Exclude only exact declared
+                            # paint pixels; every other image must satisfy the photo
+                            # count, complete visible content and frame geometry gates.
+                            if digest not in paint_digests:
+                                result['imageFrames'].append({'page':page.number+1, 'bboxMm':[value/MM for value in image['bbox']]})
+                            else:
+                                result['paintFrames'].append({'page':page.number+1, 'pixelDigest':digest})
                         if not page.get_text(clip=body).strip() and not photo: result['emptyCvPages'].append(page.number + 1)
                         starts = [word[1]/MM for word in page.get_text('words',clip=body)]
                         if photo: starts.append(photo['bboxMm'][1])

@@ -322,6 +322,7 @@ jobs:
           bun install --frozen-lockfile
           python -m pip install PyMuPDF==1.26.4 Pillow==11.3.0
           bun test tests/unit/docx-next-entry-flow.test.ts
+          python scripts/docx-next-entry-flow-test.py
       - name: Cache pinned engine packages and fonts
         uses: actions/cache@v4
         with:
@@ -380,6 +381,8 @@ jobs:
           bun test tests/unit/docx-next-first-footer.test.ts
           bun test tests/unit/docx-next-table-grid.test.ts
           python scripts/docx-next-sidebar-body-test.py
+          python scripts/docx-next-sidebar-body-media-test.py
+          bun test tests/unit/docx-next-qa-story-part.test.ts
           python scripts/docx-next-sidebar-save-geometry-test.py
       - name: Install canonical browser decoder
         timeout-minutes: 6

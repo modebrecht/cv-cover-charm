@@ -1,5 +1,7 @@
 """Structural and LibreOffice render checks. Does not certify Microsoft Word acceptance."""
 import argparse
+import base64
+import io
 import json
 import os
 from pathlib import Path
@@ -11,7 +13,7 @@ import unicodedata
 import xml.etree.ElementTree as ET
 from zipfile import ZipFile
 import fitz
-from PIL import Image, ImageChops
+from PIL import Image, ImageChops, ImageOps
 from docx_next_flow_qa import check_first_page_flow
 from docx_next_package_qa import check_package
 
@@ -346,9 +348,12 @@ def check_artwork(document, fixture):
             scoped_artwork = [paint for paint in artwork if paint.get('repeat') in (None, 'first' if relative_page == 0 else 'continuation')]
             if not scoped_artwork:
                 continue
-            pixmap = page.get_pixmap()
+            density = 4
+            pixmap = page.get_pixmap(matrix=fitz.Matrix(density, density))
             for target in scoped_artwork:
-                x, y = 1, target['yMm'] + target['heightMm'] / 2
+                # Sample inside this declared rectangle, including mirrored rails.
+                # Keep narrow edge strokes away from raster antialiasing at their boundary.
+                x, y = target['xMm'] + min(1, target['widthMm'] / 2), target['yMm'] + target['heightMm'] / 2
                 # A full-page paper layer may be covered by a declared edge rail.
                 # Probe exposed paper, while the separate shape guard checks every overlay.
                 if target['id'].endswith('.artwork.paper'):
@@ -374,7 +379,7 @@ def check_artwork(document, fixture):
                 rgb = lambda value: tuple(int(value[index:index + 2], 16) for index in (0, 2, 4))
                 first, last = rgb(fill['color']), rgb(fill.get('endColor', fill['color']))
                 expected = tuple(round(a + (b - a) * ratio) for a, b in zip(first, last))
-                actual = pixmap.pixel(round(x * scale), round(y * scale))[:3]
+                actual = pixmap.pixel(round(x * scale * density), round(y * scale * density))[:3]
                 assert max(abs(a - b) for a, b in zip(actual, expected)) <= 4, f'{fixture["fixture"]}: missing/incorrect {paint["id"]} on page {page.number + 1}: {actual} != {expected}'
         start += part['expectedPages']
 
@@ -663,7 +668,10 @@ if args.text_only:
     assert all(row['expectedImages'] == 0 for row in manifest), 'Text-only QA cannot contain image fixtures'
 for key in ([] if args.text_only else ['png', 'jpeg', 'icc-jpeg', 'cmyk-jpeg', 'exif-jpeg', 'large-jpeg']):
     with Image.open(args.directory / f'normalized-{key}.png') as image:
-        assert max(image.size) <= 1600, f'{key}: normalized image exceeds size budget'
+        sources = json.loads((args.directory / 'images.json').read_text())
+        with Image.open(io.BytesIO(base64.b64decode(sources[key].split(',', 1)[1]))) as source:
+            expected_size = ImageOps.exif_transpose(source).size
+        assert image.size == expected_size, f'{key}: original image dimensions changed: {image.size} != {expected_size}'
         rgba = image.convert('RGBA')
         red, green, blue, alpha = rgba.split()
         assert ImageChops.subtract(red, green).getextrema()[1] > 100, f'{key}: red fixture content lost'

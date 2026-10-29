@@ -12,6 +12,7 @@ import { readZipEntries } from "../src/lib/docx-next/zip";
 import type { NormalizedImage } from "../src/lib/docx-next/images";
 import { sidebarFixture, type SidebarFixture } from "../tests/fixtures/docx-next/sidebar";
 import { paragraphSignature } from "../tests/fixtures/docx-next/sidebar-floating";
+import { assertSameStoryPart } from "./docx-next-story-part-contract";
 
 export const APP_BODY_CASES: { kind: SidebarFixture; side?: "left" | "right" }[] = [
   { kind: "both-long" },
@@ -184,22 +185,34 @@ try {
     const addedFirstHeaderStories = [model.cover, model.letter, model.cv]
       .filter((part) => part.firstHeader && !original[part.id].firstHeader)
       .map((part) => `word/${part.id}-header-first.xml`);
+    const addedStories = [...addedFirstFooterStories, ...addedFirstHeaderStories];
+    const addedStoryRelationships = addedStories
+      .filter((name) =>
+        /r:(?:embed|id|link)="/.test(
+          new TextDecoder().decode(candidate.find((part) => part.name === name)!.bytes),
+        ),
+      )
+      .map((name) => `word/_rels/${path.basename(name)}.rels`);
     assert.deepEqual(
       candidate
         .filter((part) => !baseline.some((old) => old.name === part.name))
         .map((part) => part.name)
         .sort(),
-      [...addedFirstFooterStories, ...addedFirstHeaderStories].sort(),
+      [...addedStories, ...addedStoryRelationships].sort(),
     );
     const changed = new Set([
       "word/document.xml",
-      ...(addedFirstFooterStories.length
+      ...(addedFirstFooterStories.length || addedFirstHeaderStories.length
         ? ["[Content_Types].xml", "word/_rels/document.xml.rels"]
         : []),
     ]);
     for (const old of baseline)
-      if (!changed.has(old.name))
-        assert.deepEqual(candidate.find((part) => part.name === old.name)!.bytes, old.bytes);
+      if (!changed.has(old.name)) {
+        const current = candidate.find((part) => part.name === old.name)!;
+        if (/^word\/.+-(?:header|footer)(?:-first)?\.xml$/.test(old.name))
+          assertSameStoryPart(old.bytes, current.bytes, old.name);
+        else assert.deepEqual(current.bytes, old.bytes, old.name);
+      }
     const table = model.cv.blocks.find((block) => block.kind === "table") as TableBlock;
     assert(table?.id === "cv.sidebar" && table.rows.length === 1);
     const indexes = model.cv.layout.side === "left" ? { side: 0, main: 2 } : { main: 0, side: 2 };
@@ -246,6 +259,7 @@ try {
       existingStoryPartsUnchanged: true,
       addedFirstFooterStories,
       addedFirstHeaderStories,
+      addedStoryRelationships,
       sourceImageNormalizer: cacheDirectory ? "verified-browser-output-replay" : "fresh-browser",
       margins: model.cv.page.margins,
       page: model.cv.page,
