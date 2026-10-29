@@ -138,6 +138,7 @@ type Props = {
   exportMode?: boolean;
   /** One-shot first-page Sidebar measurement for the smart-fit action. */
   measurePageFitSidebar?: boolean;
+  measurePageFitSecondSidebar?: boolean;
   /** Abweichungen vom Vorgabestil je Element – Position, Farbe, Grösse. */
   elementStyles?: StyleOverrides;
   /** Bedienung der Elemente. Fehlt sie, wird nur gezeichnet. */
@@ -169,6 +170,7 @@ export function CvCanvas({
   chromeDocumentContent,
   exportMode = false,
   measurePageFitSidebar = false,
+  measurePageFitSecondSidebar = false,
   elementStyles = {},
   selected = null,
   onSelect,
@@ -1636,6 +1638,7 @@ export function CvCanvas({
     // per-section map cannot represent grouped/Masonry rows reliably.
     box.dataset.cvFlowHeightPx = String(rows.reduce((sum, row) => sum + measure(row), 0));
     box.dataset.cvFlowCapacityPx = String(heightFor(0));
+    box.dataset.cvFlowNextCapacityPx = String(heightFor(1));
     setPages(paginateCvFlow(rows, heightFor, measure, requiredPages));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
@@ -2750,19 +2753,25 @@ export function CvCanvas({
                 </div>
               )}
               {hasSchool && (
-                <div style={sideSectionStyle("schule", measureAll)}>
+                <div data-cv-fit-section="schule" style={sideSectionStyle("schule", measureAll)}>
                   {sideHeading("schule", label(data, "schule"), firstSide === "school")}
                   {sideEntries("schule")}
                 </div>
               )}
               {hasExperience && (
-                <div style={sideSectionStyle("erfahrung", measureAll)}>
+                <div
+                  data-cv-fit-section="erfahrung"
+                  style={sideSectionStyle("erfahrung", measureAll)}
+                >
                   {sideHeading("erfahrung", label(data, "erfahrung"), firstSide === "experience")}
                   {sideEntries("erfahrung")}
                 </div>
               )}
               {hasLanguages && (
-                <div style={sideSectionStyle("sprachen", measureAll)}>
+                <div
+                  data-cv-fit-section="sprachen"
+                  style={sideSectionStyle("sprachen", measureAll)}
+                >
                   {sideHeading("sprachen", label(data, "sprachen"), firstSide === "languages")}
                   {data.sprachen
                     .filter((s) => s.name.trim() || s.niveau.trim())
@@ -2808,7 +2817,10 @@ export function CvCanvas({
                 </div>
               )}
               {hasStrengths && (
-                <div style={sideSectionStyle("staerken", measureAll)}>
+                <div
+                  data-cv-fit-section="staerken"
+                  style={sideSectionStyle("staerken", measureAll)}
+                >
                   {sideHeading("staerken", label(data, "staerken"), firstSide === "strengths")}
                   {data.staerken
                     .map((text, index) => ({ text, index }))
@@ -2850,7 +2862,7 @@ export function CvCanvas({
                 </div>
               )}
               {hasHobbies && (
-                <div style={sideSectionStyle("hobbys", measureAll)}>
+                <div data-cv-fit-section="hobbys" style={sideSectionStyle("hobbys", measureAll)}>
                   {sideHeading("hobbys", label(data, "hobbys"), firstSide === "hobbies")}
                   {data.hobbys
                     .map((text, index) => ({ text, index }))
@@ -2878,7 +2890,10 @@ export function CvCanvas({
                 </div>
               )}
               {hasReferences && (
-                <div style={sideSectionStyle("referenzen", measureAll)}>
+                <div
+                  data-cv-fit-section="referenzen"
+                  style={sideSectionStyle("referenzen", measureAll)}
+                >
                   {sideHeading("referenzen", label(data, "referenzen"), firstSide === "references")}
                   {data.referenzen.filter(referenceHasContent).map((r) => (
                     <div
@@ -2940,7 +2955,11 @@ export function CvCanvas({
                 const custom = customSectionForKey(data, key);
                 if (!custom) return null;
                 return (
-                  <div key={key} style={sideSectionStyle(key, measureAll)}>
+                  <div
+                    key={key}
+                    data-cv-fit-section={key}
+                    style={sideSectionStyle(key, measureAll)}
+                  >
                     {sideHeading(key, custom.title.trim() || "Eigene Rubrik", firstSideKey === key)}
                     {sideCustomEntries(key)}
                   </div>
@@ -3210,25 +3229,30 @@ export function CvCanvas({
           </div>
         );
       })}
-      {measurePageFitSidebar && !exportMode && layout === "modern" && (
-        <div
-          aria-hidden
-          data-cv-measure-sidebar
-          data-cv-measure-page
-          style={{
-            position: "absolute",
-            left: "-10000px",
-            top: 0,
-            width: `${PAGE.WIDTH}px`,
-            height: `${PAGE.HEIGHT}px`,
-            visibility: "hidden",
-            pointerEvents: "none",
-            overflow: "hidden",
-          }}
-        >
-          {modernSidebar(0, true)}
-        </div>
-      )}
+      {measurePageFitSidebar &&
+        !exportMode &&
+        layout === "modern" &&
+        (measurePageFitSecondSidebar ? [0, 1] : [0]).map((pageIndex) => (
+          <div
+            aria-hidden
+            key={pageIndex}
+            data-cv-measure-sidebar
+            data-cv-measure-sidebar-page={pageIndex}
+            data-cv-measure-page
+            style={{
+              position: "absolute",
+              left: "-10000px",
+              top: 0,
+              width: `${PAGE.WIDTH}px`,
+              height: `${PAGE.HEIGHT}px`,
+              visibility: "hidden",
+              pointerEvents: "none",
+              overflow: "hidden",
+            }}
+          >
+            {modernSidebar(pageIndex, true)}
+          </div>
+        ))}
     </div>
   );
 }

@@ -1004,13 +1004,6 @@ function Lebenslauf() {
     if (key === selectedSection && nextPositioning !== "free") setSelectedSection(null);
   };
 
-  const applyPageFitDesign = useCallback(
-    (patch: Pick<CvDesign, "titleScale" | "headingScale" | "bodyScale">) => {
-      setDesign((current) => ({ ...current, ...patch }));
-    },
-    [],
-  );
-
   const applyMeasuredPageFit = useCallback(
     (result: {
       sectionLayouts: CvData["sectionLayouts"];
@@ -1174,7 +1167,6 @@ function Lebenslauf() {
       onSelectSection={setSelectedSection}
       onMoveElement={patchStyle}
       onSectionLayout={setSectionLayout}
-      onPageFitDesign={applyPageFitDesign}
       onMeasuredPageFit={applyMeasuredPageFit}
       onPageFitNotice={showPageFitNotice}
       onLayoutWarnings={receiveLayoutWarnings}

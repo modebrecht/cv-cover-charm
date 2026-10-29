@@ -12,6 +12,7 @@ CV Cover Charm ist eine browserbasierte Anwendung für ein zusammenhängendes Be
 - PDF-Export einzelner Dokumente und des gesamten Dossiers
 - Bearbeitbarer Word-Export (DOCX) einzelner Dokumente und des gesamten Dossiers
 - Dossier JSON zum Sichern und späteren Wiederherstellen des Arbeitsstands
+- Lebenslauf gemessen auf eine oder zwei Seiten verteilen, mit Erhalt eigener Schriftgrössen
 
 Im Editor befinden sich die Downloadoptionen links neben dem Menü. Zur Auswahl stehen **PDF · DOCX · Dossier JSON · Dossier PDF · Dossier DOCX**.
 
@@ -28,7 +29,9 @@ Der Word-Download ist derzeit noch auf vollständig gespeicherte Dossiers mit fo
 
 Diese Voraussetzungen gelten aktuell **auch beim Download eines einzelnen DOCX-Dokuments**. Nicht unterstützte Einstellungen werden im Editor angezeigt. Der PDF-Export ist davon unabhängig.
 
-Der neue Browser-Downloadpfad ist implementiert; seine vollständige End-to-End-Abnahme im echten Browser steht noch aus. Die Word-Unterstützung aller Vorlagen ist noch nicht abgeschlossen.
+Fest auf Seite 2 zugewiesene CV-Rubriken werden im Word-Download noch nicht unterstützt; die Anwendung verweist dafür auf den PDF-Download.
+
+Repräsentative Browser-Downloads der unterstützten Komposition sind geprüft. Die vollständige Word-Abnahme und die Word-Unterstützung aller Vorlagen sind noch nicht abgeschlossen.
 
 ## Lokal entwickeln
 

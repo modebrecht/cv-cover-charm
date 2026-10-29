@@ -3,6 +3,7 @@ import type { CellDecoration, DocBlock, DocumentPart, TableBlock } from "./model
 import { walkBlocks } from "./model";
 import { imageZoneExtent } from "./image-zone";
 import { compositeTextColor } from "./colors";
+import { DocxDownloadError } from "./download-error";
 
 /** Two complete native stories on the authored page grid. No browser pagination. */
 export function composeSharedCvSidebar(
@@ -140,12 +141,15 @@ export function composeSharedCvSidebar(
   }
   // Retain the existing independent-story behavior: paragraphs can split naturally.
   for (const block of walkBlocks([...side, ...main])) {
+    if ((block.kind === "section" || block.kind === "group") && block.startPage === 2)
+      throw new DocxDownloadError(
+        "Fest auf Seite 2 zugewiesene CV-Rubriken sind im Word-Download noch nicht unterstützt. Bitte verwende den PDF-Download.",
+      );
     if (
       block.kind === "column-flow" ||
       block.kind === "parallel-flow" ||
       block.kind === "page-break" ||
       block.kind === "decorative-shape" ||
-      ((block.kind === "section" || block.kind === "group") && block.startPage === 2) ||
       (block.kind === "image" && block.placement !== "inline" && block.nativeOwner !== "page-frame")
     )
       throw Error(`DOCX Next unsupported shared Sidebar content ${block.id} (${block.kind})`);

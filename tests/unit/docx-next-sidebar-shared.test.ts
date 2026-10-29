@@ -147,7 +147,7 @@ test("shared Sidebar retains the explicit page-start gate", () => {
     buildDossierDocModel(input, {
       cvSidebarComposition: "shared-body-stories",
     }),
-  ).toThrow(/unsupported shared Sidebar content cv.section.schule/);
+  ).toThrow(/Fest auf Seite 2 zugewiesene CV-Rubriken/);
 });
 
 test("page picture carriers never admit ordinary text ahead of the section-start table", () => {

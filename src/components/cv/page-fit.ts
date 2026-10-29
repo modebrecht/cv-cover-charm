@@ -2,6 +2,7 @@ import { reportDossierStorageWriteFailure } from "@/lib/dossier-storage-write";
 import { referenceHasContent } from "@/lib/dossier-semantic-fields";
 import {
   cvSectionOrder,
+  cvSectionLayout,
   customSectionForKey,
   entryFilled,
   isCustomSectionKey,
@@ -201,7 +202,8 @@ export function measureCvPageFitSectionHeights(
   let key: CvLayoutSectionKey = "person";
   for (const row of rows) {
     const id = row.dataset.cvContentRow;
-    if (id?.startsWith("h-")) key = id.slice(2) as CvLayoutSectionKey;
+    if (id === "h-kontakt" || id === "kontakt-main") key = "person";
+    else if (id?.startsWith("h-")) key = id.slice(2) as CvLayoutSectionKey;
     else if (id?.startsWith("layout-")) key = id.slice("layout-".length) as CvLayoutSectionKey;
     else if (id === "kopf" || id === "kopf-modern" || id === "person-layout") key = "person";
     const height = row.getBoundingClientRect().height;
@@ -335,6 +337,172 @@ export function measureCvOnePageDemand(canvas: HTMLElement | null): number | nul
   )
     return null;
   return Math.max(used / capacity, sidebarUsed / sidebarCapacity);
+}
+
+export type CvTwoPageMeasurement = {
+  main: Partial<Record<CvLayoutSectionKey, number>>;
+  sidebar: Partial<Record<CvLayoutSectionKey, number>>;
+  mainCapacity: [number, number];
+  sidebarCapacity: [number, number];
+  sidebarFixed: [number, number];
+};
+
+/** Read the normalized full-width trial, in the paginator's document pixels. */
+export function measureCvTwoPageFit(canvas: HTMLElement | null): CvTwoPageMeasurement | null {
+  const box = canvas?.querySelector<HTMLElement>("[data-cv-measure-page] [data-cv-main]");
+  if (!canvas || !box) return null;
+  const scale = box.getBoundingClientRect().width / box.offsetWidth;
+  const capacity: [number, number] = [
+    Number(box.dataset.cvFlowCapacityPx),
+    Number(box.dataset.cvFlowNextCapacityPx),
+  ];
+  const measured = measureCvPageFitSectionHeights(canvas);
+  if (
+    !measured ||
+    !Number.isFinite(scale) ||
+    scale <= 0 ||
+    capacity.some((n) => !Number.isFinite(n) || n <= 0)
+  )
+    return null;
+  const result: CvTwoPageMeasurement = {
+    main: Object.fromEntries(
+      Object.entries(measured).map(([key, height]) => [key, height! / scale]),
+    ),
+    sidebar: {},
+    mainCapacity: capacity,
+    sidebarCapacity: [1, 1],
+    sidebarFixed: [0, 0],
+  };
+  for (const index of [0, 1] as const) {
+    const rail = canvas.querySelector<HTMLElement>(
+      `[data-cv-measure-sidebar-page="${index}"] [data-cv-sidebar]`,
+    );
+    if (!rail) continue;
+    const content = rail.querySelector<HTMLElement>("[data-cv-sidebar-content]");
+    if (!content) return null;
+    const zoom = rail.getBoundingClientRect().height / rail.offsetHeight;
+    const style = getComputedStyle(rail);
+    result.sidebarCapacity[index] =
+      rail.getBoundingClientRect().height / zoom -
+      parseFloat(style.paddingTop) -
+      parseFloat(style.paddingBottom) -
+      2;
+    let flowing = 0;
+    for (const node of content.querySelectorAll<HTMLElement>("[data-cv-fit-section]")) {
+      const key = node.dataset.cvFitSection as CvLayoutSectionKey;
+      const height = node.getBoundingClientRect().height / zoom;
+      if (index === 0) result.sidebar[key] = height;
+      flowing += height;
+    }
+    result.sidebarFixed[index] = Math.max(
+      0,
+      content.getBoundingClientRect().height / zoom - flowing,
+    );
+    if (
+      !Number.isFinite(result.sidebarCapacity[index]) ||
+      result.sidebarCapacity[index] <= 0 ||
+      !Number.isFinite(result.sidebarFixed[index])
+    )
+      return null;
+  }
+  return result;
+}
+
+/** Both columns get their own split and actual first/continuation capacity.
+ * A global text-weight split cannot balance simultaneous Sidebar/main flow. */
+export function planCvMeasuredTwoPages(
+  data: CvData,
+  measurement: CvTwoPageMeasurement,
+  sidebarKeys: readonly CvLayoutSectionKey[] = [],
+): Partial<Record<CvLayoutSectionKey, 1 | 2>> | null {
+  const order = cvSectionOrder(data);
+  const active = order.filter(
+    (key) =>
+      key !== "person" &&
+      cvSectionLayout(data, key).positioning === "flow" &&
+      cvPageFitSectionWeight(data, key) > 0,
+  );
+  const sideSet = new Set(sidebarKeys);
+  const main = active.filter((key) => !sideSet.has(key));
+  const side = active.filter((key) => sideSet.has(key));
+  if (
+    [...measurement.mainCapacity, ...measurement.sidebarCapacity].some(
+      (n) => !Number.isFinite(n) || n <= 0,
+    ) ||
+    [measurement.main.person ?? 0, ...measurement.sidebarFixed].some(
+      (n) => !Number.isFinite(n) || n < 0,
+    ) ||
+    main.some((key) => !Number.isFinite(measurement.main[key]) || !(measurement.main[key]! > 0)) ||
+    side.some(
+      (key) => !Number.isFinite(measurement.sidebar[key]) || !(measurement.sidebar[key]! > 0),
+    )
+  )
+    return null;
+  const hasFixedSecondPage = order.some(
+    (key) =>
+      cvSectionLayout(data, key).positioning === "free" && cvSectionLayout(data, key).page === 2,
+  );
+  const demands = (
+    keys: CvLayoutSectionKey[],
+    heights: Partial<Record<CvLayoutSectionKey, number>>,
+    split: number,
+    fixed: [number, number],
+    capacity: [number, number],
+  ) => {
+    const one = fixed[0] + keys.slice(0, split).reduce((sum, key) => sum + heights[key]!, 0);
+    const two = fixed[1] + keys.slice(split).reduce((sum, key) => sum + heights[key]!, 0);
+    const fills = [one / capacity[0], two / capacity[1]];
+    return (
+      1000 * fills.reduce((sum, fill) => sum + Math.max(0, fill - 1), 0) +
+      Math.abs(0.45 * fills[0] - 0.55 * fills[1])
+    );
+  };
+  let best: [number, number] = [main.length, side.length];
+  let cost = Infinity;
+  for (let a = 0; a <= main.length; a++)
+    for (let b = 0; b <= side.length; b++) {
+      if (active.length && !hasFixedSecondPage && a === main.length && b === side.length) continue;
+      const next =
+        demands(
+          main,
+          measurement.main,
+          a,
+          [measurement.main.person ?? 0, 0],
+          measurement.mainCapacity,
+        ) +
+        (side.length
+          ? demands(
+              side,
+              measurement.sidebar,
+              b,
+              measurement.sidebarFixed,
+              measurement.sidebarCapacity,
+            )
+          : 0);
+      if (next < cost) {
+        cost = next;
+        best = [a, b];
+      }
+    }
+  return Object.fromEntries([
+    ...order
+      .filter((key) => cvSectionLayout(data, key).positioning === "flow")
+      .map((key) => [key, 1]),
+    ...main.map((key, index) => [key, index < best[0] ? 1 : 2]),
+    ...side.map((key, index) => [key, index < best[1] ? 1 : 2]),
+  ]);
+}
+
+/** Validate the rendered trial, rather than trusting an estimated section split. */
+export function cvTwoPageTrialFits(canvas: HTMLElement | null): boolean {
+  const pages = canvas?.querySelectorAll<HTMLElement>("[data-cv-page]");
+  if (!pages?.length || pages.length > 2) return false;
+  for (const page of pages) {
+    for (const node of page.querySelectorAll<HTMLElement>("[data-cv-main], [data-cv-sidebar]")) {
+      if (node.scrollHeight > node.clientHeight + 2) return false;
+    }
+  }
+  return true;
 }
 
 function twoPageScale(weight: number) {

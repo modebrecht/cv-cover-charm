@@ -148,7 +148,16 @@ for (const side of ["left", "right"]) {
     await expect(root.locator("[data-cv-page]")).toHaveCount(2);
     await autoFit(page);
     await expect(root.locator("[data-cv-page]")).toHaveCount(2);
-    await expect.poll(async () => (await saved(page)).data.sectionLayouts.sprachen.page).toBe(2);
+    // The measured two-column planner may keep languages on page one while
+    // moving later Sidebar rubrics. Verify both rendered pages and all content.
+    for (const selector of [documentRoots("cv").web, documentRoots("cv").canonical]) {
+      const output = await collectDocument(page, selector, "cv");
+      expect(output).toHaveLength(2);
+      expect(output.flatMap((p) => p.issues)).toEqual([]);
+      const text = output.map((p) => p.text).join(" ");
+      for (const row of data.sprachen) expect(text).toContain(row.name);
+      for (const hobby of data.hobbys) expect(text).toContain(hobby);
+    }
   });
 
   test(`smart fit ${side}: long main text still uses two pages`, async ({ page }) => {

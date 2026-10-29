@@ -16,8 +16,9 @@ import { resolveDossierChromeSnapshot } from "@/lib/dossier-resolved-chrome";
 import { DEFAULT_DOSSIER_CHROME_STATE } from "@/lib/dossier-chrome";
 import { captureDossierDocxNextSnapshot } from "./snapshot";
 import type { DossierAppSnapshot } from "./source";
+import { DocxDownloadError } from "./download-error";
 
-export class DocxDownloadError extends Error {}
+export { DocxDownloadError } from "./download-error";
 
 /** Keep implementation diagnostics out of the ordinary download interface. */
 export function docxDownloadErrorMessage(error: unknown): string {

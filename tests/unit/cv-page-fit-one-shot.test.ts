@@ -33,13 +33,12 @@ describe("CV page-fit one-shot action", () => {
   test("persists fitted typography before consuming the request", () => {
     const canvas = read("src/components/cv/CvCanvas.tsx");
     const route = read("src/routes/lebenslauf.tsx");
-    expect(canvas).toContain("props.onPageFitDesign?.({");
-    expect(canvas).toContain('pageFitMode !== "auto"');
-    expect(canvas).toContain('pageFitMode === "auto") return baseDesign');
+    expect(canvas).toContain("useMeasuredOnePageFit");
+    expect(canvas).toContain("useMeasuredTwoPageFit");
 
     expect(canvas).toContain("consumeCvPageFitMode(pageFitMode!)");
     expect(canvas).toContain("[pageFitLayout, pageFitMode, props.data, props.exportMode]");
-    expect(route).toContain("onPageFitDesign={applyPageFitDesign}");
+    expect(route).toContain("onMeasuredPageFit={applyMeasuredPageFit}");
   });
 
   test("keeps page-fit as button semantics and never writes the legacy mode", () => {
