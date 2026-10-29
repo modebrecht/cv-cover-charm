@@ -828,5 +828,5 @@ previous = json.loads(report_path.read_text()) if report_path.exists() else []
 current_fixtures = {row['fixture'] for row in manifest}
 combined = {row['fixture']: row for row in previous if row['fixture'] in current_fixtures}
 combined.update({row['fixture']: row for row in report})
-report_path.write_text(json.dumps(list(combined.values()), indent=2) + '\n')
+report_path.write_text(json.dumps([combined[row['fixture']] for row in manifest if row['fixture'] in combined], indent=2) + '\n')
 print(f'Passed {len(report)} fixtures. Microsoft Word acceptance and snapshot approval remain pending.', flush=True)

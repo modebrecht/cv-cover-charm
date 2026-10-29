@@ -785,6 +785,25 @@
     "experimentalLongMirroredSave": "app-body-both-long-right: deterministic local timeout at 60 seconds; independent direct save timed out at 70 seconds",
     "experimentalFreePicture": "app-body-photo-free-main: duplicate canonical field tag after save",
     "microsoftWord": "pending; no Desktop Word acceptance",
-    "githubCi": "pending on publication"
+    "githubCi": "initial native run confirms render/entry passes; followup summary/menu fixes require new run",
+    "verlaufHeroLong": "expected 5 dossier pages, rendered 6; left unchanged pending independent review"
+  },
+  "followup": {
+    "firstGithubRun": 40893618216,
+    "githubNativeSidebarRenders": {
+      "passed": 31,
+      "sourcePages": 252
+    },
+    "githubEntryFlow": "pass: 12 cases",
+    "supportedSummaryRegressionTests": 9,
+    "currentAppBrowserTests": 5,
+    "candidateStudio2EditorAndPdf": "pass",
+    "productSourceTree": "26b2d51668621b193c10e7ed9537f7d829e22fb0",
+    "paginationUpdate": {
+      "fixture": "sidebar-photo-free-long",
+      "historicalDossierPages": 12,
+      "currentDossierPages": 11
+    },
+    "partialRenderReportOrder": "manifest order preserved"
   }
 }

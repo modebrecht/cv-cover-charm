@@ -50,6 +50,21 @@ ist weiterhin nicht abgenommen. Maschinenlesbarer Nachweis:
 | Absatzfluss: sechs normale und sechs Randfälle                | 12/12, je zwei Save/Reopen-Zyklen   |
 | App-Typprüfung, geänderte TS-Lint-/Formatprüfung              | bestanden                           |
 
+Der erste GitHub-Lauf `40893618216` bestätigt ebenfalls alle 31 nativen
+Sidebar-Renderfälle und beide Absatzfluss-Matrizen. Seine anschliessende
+Sidebar-Zusammenfassung hielt noch an den alten 253 Seiten fest. Die nun
+versionierte Anpassung benennt ausschliesslich `sidebar-photo-free-long`
+(12 → 11 Dossierseiten); der historische Nachweis bleibt unangetastet.
+Neun Summary-Gegenprüfungen bestehen. Zusammengeführte lokale Teilberichte
+werden wieder in Manifest-Reihenfolge gespeichert.
+
+Auch die Kandidaten-Editorprüfung verwendet jetzt den aktuellen Menüpunkt
+«Dossier PDF». Der reale Ablauf für Studio 2 – Umbenennen, Neuladen,
+JSON-Wiederherstellung, eigenständiges natives Paket und tatsächlicher
+Gesamtdossier-PDF-Download – besteht lokal. Die fünf vorhandenen
+Word-Browserfälle bestehen nach Installation der zwölf hash-geprüften
+QA-Schriften ebenfalls, einschliesslich zweier echter Word-Downloads.
+
 Renderer: unverändertes, hash-geprüftes **LibreOffice 25.8.7.3 580(Build:3)**
 mit 50 geprüften Paketen und den vorhandenen festgelegten Schriften. Die
 Bildnormalisierung lief frisch in Chromium 141.0.7390.37 (Playwright 1.56.1).
@@ -74,6 +89,10 @@ Es wurde kein Word-Abnahmestatus daraus abgeleitet.
 3. **Desktop-Word:** Gespiegelte Fotoposition, Referenzumbruch und allgemeine
    Darstellung weiterhin offen. Ebenso die geplante Word-Unterstützung für
    formatierten Brieftext und feste CV-Zuweisungen auf Seite 2.
+4. **Nicht freigegebene Vorlage Verlauf:** Die native Stresskontrolle
+   `verlauf-hero-long` erzeugt im GitHub-Runner sechs statt der erwarteten fünf
+   Seiten. Noch keine neue Seitenerwartung übernommen: zuerst den Inhalt und
+   die zusätzliche Titelblattseite unabhängig prüfen.
 
 ## Reproduktion
 

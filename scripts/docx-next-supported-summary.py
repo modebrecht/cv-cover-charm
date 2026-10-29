@@ -5,6 +5,10 @@ import json
 import os
 from pathlib import Path
 
+# Versioned, independently rendered update. Preserve the historical baseline.
+# See docs/qa/native-docx-contracts-29okt.json: all text and both native renders pass.
+PAGINATION_UPDATES = {'sidebar-photo-free-long': {'before': 12, 'after': 11}}
+
 
 def summarize(directory):
     repository = Path(__file__).resolve().parent.parent
@@ -23,9 +27,15 @@ def summarize(directory):
     assert identities['fieldIdentityFailures'] == sum(row['fieldIdentity'] == 'fail' for row in identities['fixtures']), 'Inconsistent field identity summary'
     assert identities['tableIdentityFailures'] == sum(row['tableIdentity'] == 'fail' for row in identities['fixtures']), 'Inconsistent table identity summary'
     assert identities['missingOrChangedTaggedFields'] == sum(len(row['missingOrChangedTaggedFields']) for row in identities['fixtures']), 'Inconsistent lost field count'
-    assert sum(row['pages'] for row in renders) == baseline['dossierPageCount'] == 253, 'Changed supported pagination'
+    assert baseline['dossierPageCount'] == 253, 'Changed historical pagination baseline'
+    expected_pages = {row['fixture']: row['pages'] for row in baseline['fixtures']}
+    for name, update in PAGINATION_UPDATES.items():
+        assert expected_pages[name] == update['before'], 'Changed historical per-fixture pagination'
+        expected_pages[name] = update['after']
+    page_count = sum(expected_pages.values())
+    assert sum(row['pages'] for row in renders) == page_count, 'Changed supported pagination'
     for render, restored, previous in zip(renders, restorations['fixtures'], baseline['fixtures']):
-        assert render['pages'] == previous['pages'], 'Changed per-fixture pagination'
+        assert render['pages'] == expected_pages[previous['fixture']], 'Changed per-fixture pagination'
         assert render['libreOfficeVersion'].startswith('LibreOffice 25.8.7.3 '), 'Pinned stable engine required'
         assert render['libreOfficeInterface'] == 'LibreOfficeKit'
         assert all(render[key] == 'pass' for key in ('structural', 'libreoffice', 'libreofficeRoundtrip'))
@@ -34,7 +44,9 @@ def summarize(directory):
         assert digest == restored['docxSha256'], 'Restoration evidence does not match native source package'
     result = {
         'sourceDev': os.environ.get('GITHUB_SHA', 'local'),
-        'fixtureCount': 31, 'dossierPageCount': 253,
+        'fixtureCount': 31, 'dossierPageCount': page_count,
+        'historicalDossierPageCount': baseline['dossierPageCount'],
+        'versionedPaginationUpdates': PAGINATION_UPDATES,
         'browserImageNormalization': 'pass: six canonical browser inputs, EXIF/size/corrupt-source checks',
         'browserDecorationPixelChecks': 'pass: canonical fixture generator checks',
         'portableInputAndModelRestoration': 'pass: immutable source and byte-identical packages, including photos',

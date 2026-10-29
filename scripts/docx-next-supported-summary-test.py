@@ -20,6 +20,9 @@ class SupportedSummaryTests(unittest.TestCase):
         self.directory = Path(self.work.name)
         baseline = json.loads((root.parent / 'docs/docx-next/sidebar-supported-refresh-evidence.json').read_text())
         self.renders = copy.deepcopy(baseline['fixtures'])
+        for row in self.renders:
+            if row['fixture'] in module.PAGINATION_UPDATES:
+                row['pages'] = module.PAGINATION_UPDATES[row['fixture']]['after']
         self.restored = {'browserNormalizedInputs': 6, 'fixtures': []}
         for row in self.renders:
             row['libreOfficeVersion'] = 'LibreOffice 25.8.7.3 synthetic-test-build'
@@ -45,7 +48,8 @@ class SupportedSummaryTests(unittest.TestCase):
     def test_complete_synthetic_reports_remain_candidates(self):
         result = module.summarize(self.directory)
         self.assertEqual(result['fixtureCount'], 31)
-        self.assertEqual(result['dossierPageCount'], 253)
+        self.assertEqual(result['dossierPageCount'], 252)
+        self.assertEqual(result['historicalDossierPageCount'], 253)
         self.assertEqual(result['microsoftWord'], 'pending')
         self.assertEqual(result['snapshotApproval'], 'pending')
 
@@ -99,6 +103,12 @@ class SupportedSummaryTests(unittest.TestCase):
         self.identities['fixtures'][0]['completeNativeText'] = 'fail'
         self.write()
         with self.assertRaisesRegex(AssertionError, 'Incomplete saved native text'):
+            module.summarize(self.directory)
+
+    def test_old_photo_page_count_is_not_the_current_expected_layout(self):
+        next(row for row in self.renders if row['fixture'] == 'sidebar-photo-free-long')['pages'] = 12
+        self.write()
+        with self.assertRaisesRegex(AssertionError, 'Changed supported pagination'):
             module.summarize(self.directory)
 
 

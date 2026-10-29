@@ -297,11 +297,7 @@ try {
   );
   stage = "combined production PDF";
   await page.getByRole("button", { name: "Download", exact: true }).click();
-  await page
-    .locator(
-      'button[title="Titelblatt, Motivationsschreiben und alle CV-Seiten gemeinsam herunterladen"]',
-    )
-    .click();
+  await page.getByRole("menuitem", { name: /Dossier PDF/ }).click();
   const download = page.waitForEvent("download", { timeout: 120000 });
   await page
     .getByRole("dialog")
