@@ -111,7 +111,7 @@ jobs:
               tests/e2e/letter-adversarial-content.spec.ts
               tests/e2e/letter-pdf-richtext.spec.ts
               tests/e2e/letter-physical-preflight.spec.ts
-          - group: cv-pdf
+          - group: cv-pdf-core
             files: >-
               tests/e2e/dossier-native-print.spec.ts
               tests/e2e/native-print-physical-fitting.spec.ts
@@ -126,9 +126,12 @@ jobs:
               tests/e2e/cv-pdf-selection-geometry.spec.ts
               tests/e2e/cv-local-template-scope.spec.ts
               tests/e2e/cv-local-presentation.spec.ts
-              tests/e2e/cv-combined-parity.spec.ts
-              tests/e2e/cv-gallery-dom-parity.spec.ts
-              tests/e2e/cv-pdf-paint-parity.spec.ts
+          - group: cv-pdf-parity
+            files: tests/e2e/cv-combined-parity.spec.ts
+          - group: cv-pdf-dom
+            files: tests/e2e/cv-gallery-dom-parity.spec.ts
+          - group: cv-pdf-paint
+            files: tests/e2e/cv-pdf-paint-parity.spec.ts
           - group: cv-m9-pagination
             files: >-
               tests/e2e/cv-demo-pagination.spec.ts
