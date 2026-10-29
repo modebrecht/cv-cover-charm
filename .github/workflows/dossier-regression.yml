@@ -75,7 +75,8 @@ jobs:
 
   browser-regressions:
     needs: fast-checks
-    runs-on: ubuntu-latest
+    # Playwright 1.55 predates Ubuntu 26.04; ubuntu-latest now selects that image.
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     strategy:
       fail-fast: false
