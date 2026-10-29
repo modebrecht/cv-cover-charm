@@ -22,6 +22,7 @@ import {
 import { emptyCoverDraft } from "@/lib/dossier";
 import { DEFAULTS } from "@/default-config";
 import { normalizeDossierChromeDocumentContentSettings } from "@/lib/dossier-chrome-content";
+import { validDossierProjectPart } from "@/lib/dossier-project-validation";
 
 export type CoverPdfDocument = {
   template: TemplateId;
@@ -153,6 +154,9 @@ export function cvPdfHasContent(data: CvData): boolean {
 /** Baut die druckbare Titelblattansicht aus dem gespeicherten Projektteil. */
 export function coverPdfDocumentFromSaved(raw: unknown): CoverPdfDocument | null {
   if (!isRecord(raw) || !isRecord(raw.data)) return null;
+  // Validate consumed content without imposing the newer file format's colour
+  // container on older stored drafts (which can use a flat palette).
+  if (!validDossierProjectPart("cover", { data: raw.data, customs: raw.customs })) return null;
   const template = normalizeActiveTemplateId(raw.template);
   const definition = templateDefinition(template);
   const data = {
@@ -198,6 +202,7 @@ export function coverPdfDocumentFromSaved(raw: unknown): CoverPdfDocument | null
 /** Baut die druckbare Anschreibenansicht aus dem gespeicherten Projektteil. */
 export function letterPdfDocumentFromSaved(raw: unknown): LetterPdfDocument | null {
   if (!isRecord(raw) || !isRecord(raw.data)) return null;
+  if (!validDossierProjectPart("letter", { data: raw.data })) return null;
   const data: LetterData = { ...EMPTY_LETTER, ...(raw.data as Partial<LetterData>) };
   const design = normalizeLetterDesign(raw.design);
   return { data, design };

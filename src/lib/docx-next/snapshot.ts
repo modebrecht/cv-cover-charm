@@ -33,6 +33,7 @@ export function captureDossierDocxNextSnapshot(
   letter: LetterPdfDocument,
   cv: CvPdfDocument,
   bindings: Record<string, string> = {},
+  selectedPart?: "cv",
 ): DossierAppSnapshot {
   const typography = readPortableDossierFieldTypographyState() ?? {
     version: 1,
@@ -53,14 +54,17 @@ export function captureDossierDocxNextSnapshot(
   // Capture authored intent as the live Canvas does. A missing override must
   // not become the frozen Sidebar's old 10-mm default during export.
   const continuationTopMarginMm = getCvContinuationTopMarginOverrideMm();
-  const letterTops = [0, 1].map(
-    (pageIndex) =>
-      letterPageGeometry(letter.data, letter.design, {
-        pageIndex,
-        chromeOptions: resolvedChrome.letter.options,
-        pageMargins: margins.letter ?? null,
-      }).content.top,
-  );
+  const letterTops =
+    selectedPart === "cv"
+      ? undefined
+      : [0, 1].map(
+          (pageIndex) =>
+            letterPageGeometry(letter.data, letter.design, {
+              pageIndex,
+              chromeOptions: resolvedChrome.letter.options,
+              pageMargins: margins.letter ?? null,
+            }).content.top,
+        );
   const cvTops = frozenCvReadingLayout(layoutChoice)
     ? undefined
     : [0, 1].map(
@@ -80,7 +84,9 @@ export function captureDossierDocxNextSnapshot(
       chrome,
       margins,
       flowPageTops: {
-        letter: { firstMm: letterTops[0], continuationMm: letterTops[1] },
+        ...(letterTops
+          ? { letter: { firstMm: letterTops[0], continuationMm: letterTops[1] } }
+          : {}),
         ...(cvTops ? { cv: { firstMm: cvTops[0], continuationMm: cvTops[1] } } : {}),
       },
       cvLayout: cvWordLayout(layoutChoice),

@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { emptyCv } from "@/components/cv/types";
 import { EMPTY_LETTER } from "@/components/letter/types";
-import { resolveDossierContact } from "@/lib/dossier-contact";
+import { readDossierContact, resolveDossierContact } from "@/lib/dossier-contact";
 
 const cover = {
   meta: { title: "", author: "", subject: "", keywords: "" },
@@ -85,4 +85,34 @@ describe("shared dossier contact", () => {
       email: "",
     });
   });
+});
+
+test("an unreadable stored cover cannot crash the live CV contact or rewrite saved content", () => {
+  const raw = JSON.stringify({ template: "citrus", data: {}, customs: [null] });
+  const previous = Object.getOwnPropertyDescriptor(globalThis, "window");
+  let writes = 0;
+  Object.defineProperty(globalThis, "window", {
+    configurable: true,
+    value: {
+      localStorage: {
+        getItem: (key: string) => (key === "titelblatt:v3" ? raw : null),
+        setItem: () => {
+          writes += 1;
+        },
+      },
+    },
+  });
+  try {
+    const cv = {
+      ...structuredClone(emptyCv),
+      person: { ...emptyCv.person, vorname: "CV", nachname: "Person", email: "cv@example.ch" },
+    };
+    const contact = readDossierContact({ cv, letter: null });
+    expect(contact.name).toBe("CV Person");
+    expect(contact.email).toBe("cv@example.ch");
+    expect(writes).toBe(0);
+  } finally {
+    if (previous) Object.defineProperty(globalThis, "window", previous);
+    else Reflect.deleteProperty(globalThis, "window");
+  }
 });

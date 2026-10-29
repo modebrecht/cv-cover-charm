@@ -84,6 +84,8 @@ export type { DossierAppSnapshot } from "./source";
 const name = (first: string, last: string) => [first, last].filter(Boolean).join(" ");
 
 export type BuildModelOptions = {
+  /** Build only the reviewed CV; unrelated cover and letter stories remain empty. */
+  cvOnly?: true;
   /** Unaccepted bounded Modern/Sans plain-letter CSS-flow candidate. */
   letterFlowComposition?: "source-lines";
   /** Shared flowing-CV trial: native date/language rows and semantic lists. */
@@ -125,6 +127,9 @@ export function buildDossierDocModel(
   options: BuildModelOptions = {},
 ): DossierDocModel {
   const { cover, letter, cv, settings } = input;
+  if (options.cvOnly !== undefined && options.cvOnly !== true)
+    throw Error("DOCX Next invalid CV-only composition");
+  const cvOnly = options.cvOnly === true;
   const capturedInteriorMetrics = options.interiorTextMetrics;
   const capturedSidebarMetrics = options.cvSidebarTextMetrics;
   const personalMetrics = options.cvPersonalHeaderMetrics;
@@ -244,7 +249,7 @@ export function buildDossierDocModel(
     cvVariant === "sidebar"
       ? { ...DEFAULT_CV_PLACEMENTS, ...settings.placements }
       : settings.placements;
-  const template = nextTemplate(String(cover.template));
+  const template = nextTemplate(String(cvOnly ? cv.design.template : cover.template));
   if (
     options.coverComposition === "graphic-family-qa" &&
     template.cover.nativePhotoPlaceholder !== "editable-initials"
@@ -280,12 +285,15 @@ export function buildDossierDocModel(
     capturedSidebarMetrics?.contactHeaders &&
     (sourceCompactBands ||
       !capturedInteriorMetrics?.headers.cv ||
-      !capturedInteriorMetrics.headers.letter)
+      (!cvOnly && !capturedInteriorMetrics.headers.letter))
   )
     throw Error(
       "DOCX Next: Sidebar-Kontaktkopf benötigt frische Header-Messwerte für CV und Anschreiben.",
     );
-  if (String(letter.design.template) !== template.id || String(cv.design.template) !== template.id)
+  if (
+    !cvOnly &&
+    (String(letter.design.template) !== template.id || String(cv.design.template) !== template.id)
+  )
     throw new Error("DOCX Next requires matching dossier templates.");
   const fonts = createFontResolver(settings.fontPolicy);
   const wordFont = (key: Parameters<typeof fontForKey>[0], fallback: string) =>
@@ -302,14 +310,20 @@ export function buildDossierDocModel(
   const cvPalette =
     template.interiorPaletteSource === "dossier" ? resolveCvPalette(cv.design) : undefined;
   const letterFont = wordFont(
-    template.letter.fontSource === "standalone" ? letter.design.font : letter.design.fontOverride,
+    cvOnly
+      ? cv.design.font
+      : template.letter.fontSource === "standalone"
+        ? letter.design.font
+        : letter.design.fontOverride,
     theme.font,
   );
-  const issues: ModelIssue[] = (settings.unresolvedTypography ?? []).map((id) => ({
-    code: "unresolved-legacy-typography",
-    fieldId: id,
-    message: "Legacy field identity needs explicit semantic binding before migration.",
-  }));
+  const issues: ModelIssue[] = (settings.unresolvedTypography ?? [])
+    .filter((id) => !cvOnly || !id.startsWith("letter."))
+    .map((id) => ({
+      code: "unresolved-legacy-typography",
+      fieldId: id,
+      message: "Legacy field identity needs explicit semantic binding before migration.",
+    }));
   const style = (id: string, patch: Partial<TextStyle> = {}): TextStyle => {
     const result = {
       font: id.startsWith("letter.") ? letterFont : theme.font,
@@ -441,249 +455,253 @@ export function buildDossierDocModel(
     style,
     fieldStyles: settings.fieldStyles,
   });
-  coverPart.blocks =
-    options.coverComposition === "authored-frames" ||
-    options.coverComposition === "graphic-family-qa"
-      ? composeAuthoredCover(
-          cover,
-          coverPart.page,
-          elementContext(cover.colors, theme.font, cover.fontScale),
-          options.coverTextMetrics,
-          template.cover.hiddenDecorationIds,
-          options.coverBadgeComposition,
-          options.coverComposition === "graphic-family-qa",
-        )
-      : composeCover(
-          cover,
-          template,
-          coverPart.page,
-          elementContext(cover.colors, theme.font, cover.fontScale),
-          theme.accent,
-          color,
-          p("cover.fullName", name(cover.data.vorname, cover.data.nachname), {
-            sizePt: template.typography.namePt,
-            bold: true,
-          }),
-          options.nativeAvatarComposition,
-          options.coverPhotoPlacement,
-        );
+  if (!cvOnly) {
+    coverPart.blocks =
+      options.coverComposition === "authored-frames" ||
+      options.coverComposition === "graphic-family-qa"
+        ? composeAuthoredCover(
+            cover,
+            coverPart.page,
+            elementContext(cover.colors, theme.font, cover.fontScale),
+            options.coverTextMetrics,
+            template.cover.hiddenDecorationIds,
+            options.coverBadgeComposition,
+            options.coverComposition === "graphic-family-qa",
+          )
+        : composeCover(
+            cover,
+            template,
+            coverPart.page,
+            elementContext(cover.colors, theme.font, cover.fontScale),
+            theme.accent,
+            color,
+            p("cover.fullName", name(cover.data.vorname, cover.data.nachname), {
+              sizePt: template.typography.namePt,
+              bold: true,
+            }),
+            options.nativeAvatarComposition,
+            options.coverPhotoPlacement,
+          );
 
-  if (template.cover.decorationPlacement === "first-header") {
-    // composeAuthoredCover owns this generated identity; user shapes retain their
-    // existing header placement. Only the explicitly selected candidate changes story.
-    const bodyBadge = (block: DocBlock) =>
-      options.coverBadgePlacement === "body" &&
-      block.kind === "decorative-shape" &&
-      block.id.endsWith(".badge-paint");
-    coverPart.headerShapes = coverPart.blocks.flatMap((block) =>
-      block.kind === "decorative-shape" && !bodyBadge(block)
-        ? [{ ...block, repeat: "first" as const }]
-        : [],
-    );
-    coverPart.blocks = coverPart.blocks.filter(
-      (block) => block.kind !== "decorative-shape" || bodyBadge(block),
-    );
-    ensureFirstHeader(coverPart);
-  }
-  if (template.cover.motifs) {
-    coverPart.headerShapes = [
-      ...(coverPart.headerShapes ?? []),
-      ...templateMotifs(coverPart, template.cover.motifs, cover.colors, theme.accent),
-    ];
-    ensureFirstHeader(coverPart);
+    if (template.cover.decorationPlacement === "first-header") {
+      // composeAuthoredCover owns this generated identity; user shapes retain their
+      // existing header placement. Only the explicitly selected candidate changes story.
+      const bodyBadge = (block: DocBlock) =>
+        options.coverBadgePlacement === "body" &&
+        block.kind === "decorative-shape" &&
+        block.id.endsWith(".badge-paint");
+      coverPart.headerShapes = coverPart.blocks.flatMap((block) =>
+        block.kind === "decorative-shape" && !bodyBadge(block)
+          ? [{ ...block, repeat: "first" as const }]
+          : [],
+      );
+      coverPart.blocks = coverPart.blocks.filter(
+        (block) => block.kind !== "decorative-shape" || bodyBadge(block),
+      );
+      ensureFirstHeader(coverPart);
+    }
+    if (template.cover.motifs) {
+      coverPart.headerShapes = [
+        ...(coverPart.headerShapes ?? []),
+        ...templateMotifs(coverPart, template.cover.motifs, cover.colors, theme.accent),
+      ];
+      ensureFirstHeader(coverPart);
+    }
   }
   const ld = letter.data,
     design = letter.design;
   const letterInk = color(letterPalette?.ink ?? design.textColor ?? design.colors.ink, theme.ink);
   const letterAccent = color(letterPalette?.accent ?? design.colors.accent, theme.accent);
-  const role = (key: "sender" | "recipient" | "subject"): Partial<TextStyle> => {
-    const value = design[`${key}Typography`];
-    return {
-      color: letterInk,
-      ...(value
-        ? {
-            ...value,
-            font: wordFont(value.font, letterFont),
-            sizePt: value.fontSizePt ?? template.typography.bodyPt,
-          }
-        : {}),
-    };
-  };
-  const letterLines = (
-    prefix: string,
-    fields: Record<string, string>,
-    typography: Partial<TextStyle>,
-    alignment: Alignment = "left",
-  ) => {
-    const values = Object.entries(fields).filter(([, value]) => value.trim());
-    return values.map(([key, value], index) =>
-      p(`letter.${prefix}.${key}`, value, typography, {
-        align: alignment,
-        keepNext: index < values.length - 1,
-        afterMm: index === values.length - 1 ? 5 : 0.5,
-        ...(index === values.length - 1 &&
-        (prefix === "sender" ? design.ruleAfterSender : design.ruleAfterRecipient)
-          ? { ruleColor: letterAccent }
+  if (!cvOnly) {
+    const role = (key: "sender" | "recipient" | "subject"): Partial<TextStyle> => {
+      const value = design[`${key}Typography`];
+      return {
+        color: letterInk,
+        ...(value
+          ? {
+              ...value,
+              font: wordFont(value.font, letterFont),
+              sizePt: value.fontSizePt ?? template.typography.bodyPt,
+            }
           : {}),
-      }),
-    );
-  };
-  letterPart.blocks.push(
-    ...letterLines(
-      "sender",
-      {
-        name: ld.absenderName,
-        address: ld.absenderAdresse,
-        place: ld.absenderPlzOrt,
-        phone: ld.absenderTelefon,
-        email: ld.absenderEmail,
-      },
-      role("sender"),
-      design.senderAlign,
-    ),
-  );
-  letterPart.blocks.push(
-    ...letterLines(
-      "recipient",
-      {
-        company: ld.empfaengerFirma,
-        name: ld.empfaengerName,
-        address: ld.empfaengerAdresse,
-        place: ld.empfaengerPlzOrt,
-      },
-      role("recipient"),
-      design.recipientAlign,
-    ),
-  );
-  letterPart.blocks.push(
-    compound(
-      p(
-        "letter.date",
-        [ld.ort, ld.datum].filter(Boolean).join(", "),
-        {
-          color: letterInk,
-          font: wordFont(design.dateFont, letterFont),
-          sizePt: design.dateFontSizePt ?? 10.5,
-        },
-        { align: design.dateAlign ?? "right", afterMm: 5 },
-      ),
-      [
-        { id: "letter.date.place", text: ld.ort },
-        { id: "letter.date.value", text: ld.datum },
-      ],
-      ", ",
-    ),
-  );
-  if (ld.betreff)
-    letterPart.blocks.push(
-      p(
-        "letter.subject",
-        ld.betreff,
-        { bold: true, ...role("subject") },
-        {
-          role: "heading",
-          keepNext: true,
-          afterMm: 5,
-          ...(design.ruleAfterSubject ? { ruleColor: letterAccent } : {}),
-        },
-      ),
-    );
-  if (ld.anrede)
-    letterPart.blocks.push(
-      p(
-        "letter.salutation",
-        ld.anrede,
-        {
-          color: letterInk,
-          font: wordFont(design.salutationFont, letterFont),
-          sizePt: design.salutationFontSizePt ?? 10.5,
-        },
-        { keepNext: true, afterMm: 3 },
-      ),
-    );
-  const bodyStyle = style("letter.body", {
-    color: letterInk,
-    font: wordFont(design.bodyFont, letterFont),
-    sizePt: design.bodyFontSizePt ?? DOSSIER_LETTER_BODY_PT,
-  });
-  letterPart.blocks.push(
-    ...(ld.images ?? []).map((image) => ({
-      kind: "image" as const,
-      id: `letter.image:${image.id}`,
-      source: image.src,
-      alt: "Letter image",
-      widthMm: image.widthMm,
-      maxHeightMm: 120,
-      placement: image.xMm !== undefined ? ("free" as const) : image.side,
-      xMm: image.xMm ?? 0,
-      yMm: image.topMm,
-      gapMm: image.gapMm,
-    })),
-  );
-  const letterBody = richLetterBlocks(
-    ld.richTextHtml,
-    ld.text,
-    bodyStyle,
-    template.letter.paragraphSpaceMm,
-    template.letter.lineHeight,
-  );
-  letterPart.blocks.push(...letterBody);
-  if (ld.gruss)
-    letterPart.blocks.push(
-      p(
-        "letter.closing",
-        ld.gruss,
-        {
-          color: letterInk,
-          font: wordFont(design.closingFont, letterFont),
-          sizePt: design.closingFontSizePt ?? 10.5,
-        },
-        { beforeMm: ld.grussAbstandMm ?? 4, keepNext: true },
-      ),
-    );
-  if (ld.unterschrift)
-    letterPart.blocks.push(
-      p(
-        "letter.signature",
-        ld.unterschrift,
-        {
-          color: letterInk,
-          font: wordFont(design.signatureFont, letterFont),
-          sizePt: design.signatureFontSizePt ?? 10.5,
-        },
-        { beforeMm: ld.unterschriftAbstandMm ?? 1, afterMm: 5 },
-      ),
-    );
-  const visibleAttachments = (ld.beilagen ?? ["Lebenslauf", "Zeugnis"])
-    .map((text, index) => ({ text, index }))
-    .filter(({ text }) => text.trim());
-  if (ld.showBeilagen !== false && visibleAttachments.length) {
-    const attachmentStyle = {
-      color: letterInk,
-      font: wordFont(design.attachmentsFont, letterFont),
-      sizePt: design.attachmentsFontSizePt ?? 9,
+      };
+    };
+    const letterLines = (
+      prefix: string,
+      fields: Record<string, string>,
+      typography: Partial<TextStyle>,
+      alignment: Alignment = "left",
+    ) => {
+      const values = Object.entries(fields).filter(([, value]) => value.trim());
+      return values.map(([key, value], index) =>
+        p(`letter.${prefix}.${key}`, value, typography, {
+          align: alignment,
+          keepNext: index < values.length - 1,
+          afterMm: index === values.length - 1 ? 5 : 0.5,
+          ...(index === values.length - 1 &&
+          (prefix === "sender" ? design.ruleAfterSender : design.ruleAfterRecipient)
+            ? { ruleColor: letterAccent }
+            : {}),
+        }),
+      );
     };
     letterPart.blocks.push(
-      p(
-        "letter.attachments-heading",
-        "Beilagen",
-        { ...attachmentStyle, bold: true },
+      ...letterLines(
+        "sender",
         {
-          beforeMm: 1.8,
-          afterMm: 0.7,
-          keepNext: true,
+          name: ld.absenderName,
+          address: ld.absenderAdresse,
+          place: ld.absenderPlzOrt,
+          phone: ld.absenderTelefon,
+          email: ld.absenderEmail,
         },
+        role("sender"),
+        design.senderAlign,
       ),
     );
-    const ids = semanticListItemIds(
-      (ld.beilagen ?? ["Lebenslauf", "Zeugnis"]).length,
-      ld.attachmentIds,
+    letterPart.blocks.push(
+      ...letterLines(
+        "recipient",
+        {
+          company: ld.empfaengerFirma,
+          name: ld.empfaengerName,
+          address: ld.empfaengerAdresse,
+          place: ld.empfaengerPlzOrt,
+        },
+        role("recipient"),
+        design.recipientAlign,
+      ),
     );
-    for (const { text, index } of visibleAttachments)
-      letterPart.blocks.push(p(`letter.attachment:${ids[index]}`, text, attachmentStyle));
-  }
+    letterPart.blocks.push(
+      compound(
+        p(
+          "letter.date",
+          [ld.ort, ld.datum].filter(Boolean).join(", "),
+          {
+            color: letterInk,
+            font: wordFont(design.dateFont, letterFont),
+            sizePt: design.dateFontSizePt ?? 10.5,
+          },
+          { align: design.dateAlign ?? "right", afterMm: 5 },
+        ),
+        [
+          { id: "letter.date.place", text: ld.ort },
+          { id: "letter.date.value", text: ld.datum },
+        ],
+        ", ",
+      ),
+    );
+    if (ld.betreff)
+      letterPart.blocks.push(
+        p(
+          "letter.subject",
+          ld.betreff,
+          { bold: true, ...role("subject") },
+          {
+            role: "heading",
+            keepNext: true,
+            afterMm: 5,
+            ...(design.ruleAfterSubject ? { ruleColor: letterAccent } : {}),
+          },
+        ),
+      );
+    if (ld.anrede)
+      letterPart.blocks.push(
+        p(
+          "letter.salutation",
+          ld.anrede,
+          {
+            color: letterInk,
+            font: wordFont(design.salutationFont, letterFont),
+            sizePt: design.salutationFontSizePt ?? 10.5,
+          },
+          { keepNext: true, afterMm: 3 },
+        ),
+      );
+    const bodyStyle = style("letter.body", {
+      color: letterInk,
+      font: wordFont(design.bodyFont, letterFont),
+      sizePt: design.bodyFontSizePt ?? DOSSIER_LETTER_BODY_PT,
+    });
+    letterPart.blocks.push(
+      ...(ld.images ?? []).map((image) => ({
+        kind: "image" as const,
+        id: `letter.image:${image.id}`,
+        source: image.src,
+        alt: "Letter image",
+        widthMm: image.widthMm,
+        maxHeightMm: 120,
+        placement: image.xMm !== undefined ? ("free" as const) : image.side,
+        xMm: image.xMm ?? 0,
+        yMm: image.topMm,
+        gapMm: image.gapMm,
+      })),
+    );
+    const letterBody = richLetterBlocks(
+      ld.richTextHtml,
+      ld.text,
+      bodyStyle,
+      template.letter.paragraphSpaceMm,
+      template.letter.lineHeight,
+    );
+    letterPart.blocks.push(...letterBody);
+    if (ld.gruss)
+      letterPart.blocks.push(
+        p(
+          "letter.closing",
+          ld.gruss,
+          {
+            color: letterInk,
+            font: wordFont(design.closingFont, letterFont),
+            sizePt: design.closingFontSizePt ?? 10.5,
+          },
+          { beforeMm: ld.grussAbstandMm ?? 4, keepNext: true },
+        ),
+      );
+    if (ld.unterschrift)
+      letterPart.blocks.push(
+        p(
+          "letter.signature",
+          ld.unterschrift,
+          {
+            color: letterInk,
+            font: wordFont(design.signatureFont, letterFont),
+            sizePt: design.signatureFontSizePt ?? 10.5,
+          },
+          { beforeMm: ld.unterschriftAbstandMm ?? 1, afterMm: 5 },
+        ),
+      );
+    const visibleAttachments = (ld.beilagen ?? ["Lebenslauf", "Zeugnis"])
+      .map((text, index) => ({ text, index }))
+      .filter(({ text }) => text.trim());
+    if (ld.showBeilagen !== false && visibleAttachments.length) {
+      const attachmentStyle = {
+        color: letterInk,
+        font: wordFont(design.attachmentsFont, letterFont),
+        sizePt: design.attachmentsFontSizePt ?? 9,
+      };
+      letterPart.blocks.push(
+        p(
+          "letter.attachments-heading",
+          "Beilagen",
+          { ...attachmentStyle, bold: true },
+          {
+            beforeMm: 1.8,
+            afterMm: 0.7,
+            keepNext: true,
+          },
+        ),
+      );
+      const ids = semanticListItemIds(
+        (ld.beilagen ?? ["Lebenslauf", "Zeugnis"]).length,
+        ld.attachmentIds,
+      );
+      for (const { text, index } of visibleAttachments)
+        letterPart.blocks.push(p(`letter.attachment:${ids[index]}`, text, attachmentStyle));
+    }
 
-  if (template.letter.keepTailTogether) composeLetterTail(letterPart);
+    if (template.letter.keepTailTogether) composeLetterTail(letterPart);
+  }
   const data = cv.data,
     cd = cv.design,
     person = data.person;
@@ -1318,7 +1336,7 @@ export function buildDossierDocModel(
       : undefined);
   if (chromeState) {
     const resolved = resolveDossierChromeSnapshot({ cover, letter, cv }, chromeState);
-    for (const target of [letterPart, cvPart]) {
+    for (const target of cvOnly ? [cvPart] : [letterPart, cvPart]) {
       const scope = target.id as "letter" | "cv";
       const { options, contact, content } = resolved[scope];
       const bandPolicy = template.chrome.band;
@@ -1710,7 +1728,7 @@ export function buildDossierDocModel(
       }
     }
   }
-  for (const target of [letterPart, cvPart]) {
+  for (const target of cvOnly ? [cvPart] : [letterPart, cvPart]) {
     const tops = settings.flowPageTops?.[target.id as "letter" | "cv"];
     if (tops) {
       const measured = capturedInteriorMetrics?.headers[target.id as "letter" | "cv"];
@@ -1793,7 +1811,7 @@ export function buildDossierDocModel(
       options.cvSidebarComposition,
     );
   }
-  for (const target of [coverPart, letterPart, cvPart]) {
+  for (const target of cvOnly ? [cvPart] : [coverPart, letterPart, cvPart]) {
     const policies = template.pageMotifs?.[target.id];
     if (policies)
       composePageMotifs(
@@ -1816,7 +1834,7 @@ export function buildDossierDocModel(
         target.id === "cv" ? cv.design.bgOpacity : 1,
       );
   }
-  for (const target of [coverPart, letterPart, cvPart]) {
+  for (const target of cvOnly ? [cvPart] : [coverPart, letterPart, cvPart]) {
     const paper =
       target.id === "cover"
         ? theme.paper
@@ -1843,7 +1861,7 @@ export function buildDossierDocModel(
         heightMm: target.page.heightMm,
       });
   }
-  for (const target of [coverPart, letterPart, cvPart]) {
+  for (const target of cvOnly ? [cvPart] : [coverPart, letterPart, cvPart]) {
     for (const block of walkBlocks(target.blocks)) {
       if (block.kind === "image" && !block.source.trim())
         issues.push({
@@ -1861,7 +1879,7 @@ export function buildDossierDocModel(
     }
   }
   if (options.chromeFirstPageIdentity === "distinct-stories")
-    for (const target of [coverPart, letterPart, cvPart]) {
+    for (const target of cvOnly ? [cvPart] : [coverPart, letterPart, cvPart]) {
       if (!target.firstHeader && target.header.length)
         target.firstHeader = target.header.map((paragraph) => ({
           ...structuredClone(paragraph),
@@ -1914,7 +1932,7 @@ export function buildDossierDocModel(
     cvPart.blocks = scaleCvReadingFlow(cvPart, capturedInteriorMetrics.cvFlowScale);
   if (options.cvSidebarTextMetrics)
     applyCvSidebarTypography(cvPart, input, options.cvSidebarTextMetrics);
-  if (options.letterFlowComposition) {
+  if (options.letterFlowComposition && !cvOnly) {
     if (options.letterFlowComposition !== "source-lines")
       throw Error("DOCX Next invalid Letter flow composition");
     composeSourceLetterFlow(letterPart, input);
@@ -1925,11 +1943,19 @@ export function buildDossierDocModel(
   }
   return {
     version: 1,
-    metadata: {
-      ...cover.data.meta,
-      title: cover.data.meta.title || "Bewerbungsdossier",
-      author: cover.data.meta.author || name(cover.data.vorname, cover.data.nachname),
-    },
+    ...(cvOnly ? { exportPart: "cv" as const } : {}),
+    metadata: cvOnly
+      ? {
+          title: cv.data.titel || "Lebenslauf",
+          author: name(cv.data.person.vorname, cv.data.person.nachname),
+          subject: "",
+          keywords: "",
+        }
+      : {
+          ...cover.data.meta,
+          title: cover.data.meta.title || "Bewerbungsdossier",
+          author: cover.data.meta.author || name(cover.data.vorname, cover.data.nachname),
+        },
     templateId: template.id,
     theme,
     fonts: fonts.result(),

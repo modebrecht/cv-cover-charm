@@ -41,15 +41,28 @@ export function readDossierContact({
   cv?: CvData | null;
   letter?: LetterData | null;
 } = {}): DossierChromeContact {
+  // A broken optional stored part cannot take down the editor currently open.
+  // Keep its bytes intact and use contacts from the remaining valid documents.
+  const readContact = <T>(read: () => T): T | null => {
+    try {
+      return read();
+    } catch {
+      return null;
+    }
+  };
   const storedCover =
     cover === undefined
-      ? coverPdfDocumentFromSaved(readStoredDossierPart(COVER_STORAGE_KEY))?.data
+      ? readContact(() => coverPdfDocumentFromSaved(readStoredDossierPart(COVER_STORAGE_KEY))?.data)
       : cover;
   const storedCv =
-    cv === undefined ? cvPdfDocumentFromSaved(readStoredDossierPart(CV_STORAGE_KEY))?.data : cv;
+    cv === undefined
+      ? readContact(() => cvPdfDocumentFromSaved(readStoredDossierPart(CV_STORAGE_KEY))?.data)
+      : cv;
   const storedLetter =
     letter === undefined
-      ? letterPdfDocumentFromSaved(readStoredDossierPart(LETTER_STORAGE_KEY))?.data
+      ? readContact(
+          () => letterPdfDocumentFromSaved(readStoredDossierPart(LETTER_STORAGE_KEY))?.data,
+        )
       : letter;
   const stored = { cover: storedCover, cv: storedCv, letter: storedLetter };
   const fallback = resolveDossierContact(stored);

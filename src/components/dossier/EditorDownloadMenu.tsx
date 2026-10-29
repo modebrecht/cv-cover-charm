@@ -43,13 +43,16 @@ export function EditorDownloadMenu({
   children,
 }: Props) {
   const [word, setWord] = useState<{ available: boolean; reason: string } | null>(null);
+  const [partWord, setPartWord] = useState<{ available: boolean; reason: string } | null>(null);
   const [wordBusy, setWordBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   useEffect(() => {
     if (!open) return;
-    setWord(savedAppDocxNextAvailability());
+    const dossier = savedAppDocxNextAvailability();
+    setWord(dossier);
+    setPartWord(part === "cv" ? savedAppDocxNextAvailability(part) : dossier);
     setError(null);
-  }, [open]);
+  }, [open, part]);
   const downloading = busy || wordBusy;
   const downloadWord = async (documentPart?: DocumentPart["id"]) => {
     if (downloading) return;
@@ -66,6 +69,7 @@ export function EditorDownloadMenu({
     }
   };
   const wordDisabled = downloading || !word?.available;
+  const partWordDisabled = downloading || !partWord?.available;
   const itemClass = "min-h-11 cursor-pointer px-3 py-2";
   return (
     <DropdownMenu
@@ -102,8 +106,8 @@ export function EditorDownloadMenu({
         </DropdownMenuItem>
         <DropdownMenuItem
           className={itemClass}
-          disabled={wordDisabled}
-          title={word?.reason}
+          disabled={partWordDisabled}
+          title={partWord?.reason}
           onSelect={(event) => {
             event.preventDefault();
             void downloadWord(part);
@@ -140,8 +144,11 @@ export function EditorDownloadMenu({
         {dossierPdfDisabled && dossierPdfHint ? (
           <p className="px-3 py-2 text-xs text-muted-foreground">Dossier PDF: {dossierPdfHint}</p>
         ) : null}
-        {word && !word.available ? (
-          <p className="px-3 py-2 text-xs text-muted-foreground">DOCX: {word.reason}</p>
+        {partWord && !partWord.available ? (
+          <p className="px-3 py-2 text-xs text-muted-foreground">DOCX: {partWord.reason}</p>
+        ) : null}
+        {word && !word.available && (partWord?.available || word.reason !== partWord?.reason) ? (
+          <p className="px-3 py-2 text-xs text-muted-foreground">Dossier DOCX: {word.reason}</p>
         ) : null}
         {wordBusy ? (
           <p className="px-3 py-2 text-xs" role="status">

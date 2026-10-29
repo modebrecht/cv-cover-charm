@@ -67,8 +67,13 @@ export async function renderDossierDocx(
   model: DossierDocModel,
   options: RenderOptions = {},
 ): Promise<Blob> {
+  if (model.exportPart !== undefined && !["cover", "letter", "cv"].includes(model.exportPart))
+    throw new Error("DOCX Next invalid document export scope");
+  if (model.exportPart && options.part && model.exportPart !== options.part)
+    throw new Error("DOCX Next: Der Export enthält nur den ausgewählten Dossierteil.");
+  const selectedPart = options.part ?? model.exportPart;
   const parts = [model.cover, model.letter, model.cv].filter(
-    (part) => options.part === undefined || part.id === options.part,
+    (part) => selectedPart === undefined || part.id === selectedPart,
   );
   if (!parts.length) throw new Error("Unknown document part");
   if (model.issues.length && !options.allowUnacceptedModelIssues)

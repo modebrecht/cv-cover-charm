@@ -36,11 +36,11 @@ const rgb = (value: string) => {
 export async function captureInteriorTextMetrics(
   source: DossierAppSnapshot,
   profile: string,
-  capture: { headersOnly?: true } = {},
+  capture: { headersOnly?: true; scope?: "cv" } = {},
 ): Promise<InteriorTextMetrics> {
   if (
-    source.cover.template !== "modern" ||
-    source.letter.design.template !== "modern" ||
+    (capture.scope !== "cv" &&
+      (source.cover.template !== "modern" || source.letter.design.template !== "modern")) ||
     source.cv.design.template !== "modern"
   )
     throw Error("DOCX Next: Dieser Innenlayout-Test ist nur für Modern freigegeben.");
@@ -61,6 +61,7 @@ export async function captureInteriorTextMetrics(
       "DOCX Next: Abweichende CV-Kontaktdaten benötigen eine eigene Header-Prüfung; die gespeicherten Werte werden nicht überschrieben.",
     );
   if (
+    capture.scope !== "cv" &&
     [resolved.letter, resolved.cv].some((p) => p.options.headerMode === "contact") &&
     [resolved.letter, resolved.cv].some((p) => p.options.headerMode !== "contact")
   )
@@ -75,7 +76,7 @@ export async function captureInteriorTextMetrics(
   };
   const canvas = document.createElement("canvas").getContext("2d");
   if (!canvas) throw Error("DOCX Next: Header-Schriftmessung nicht verfügbar.");
-  for (const scope of ["letter", "cv"] as const) {
+  for (const scope of capture.scope === "cv" ? (["cv"] as const) : (["letter", "cv"] as const)) {
     const { options, contact, content } = resolved[scope];
     if (options.headerMode !== "contact") continue;
     if (

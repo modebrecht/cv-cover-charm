@@ -222,3 +222,113 @@ test("Word availability shares the existing source-letter layout gate", () => {
     expect(() => assertAppDocxNextSource(source)).toThrow("Brief-Einstellungen");
   }
 });
+
+test("CV-only model retains the reviewed CV when other document templates and typography are unsupported", () => {
+  const { source, measured } = setup();
+  const baseline = buildAppDocxNextModel(source, measured);
+  source.cover.template = "citrus";
+  source.letter.design.template = "warm";
+  source.letter.design.font = "serif";
+  source.letter.data.richTextHtml = "<p><strong>Only in the letter</strong></p>";
+  measured.sidebar.sourceKey = measured.interior.sourceKey = JSON.stringify(source);
+  delete measured.interior.headers.letter;
+  const before = structuredClone(source);
+  expect(() => assertAppDocxNextSource(source)).toThrow();
+  const result = buildAppDocxNextModel(
+    source,
+    { sidebar: measured.sidebar, interior: measured.interior },
+    "cv",
+  );
+  expect(result.cv).toEqual(baseline.cv);
+  expect(result.cover.blocks).toEqual([]);
+  expect(result.letter.blocks).toEqual([]);
+  expect(result.issues).toEqual([]);
+  expect(source).toEqual(before);
+});
+
+test("CV-only download keeps the CV's own unsupported template and font blocked", () => {
+  for (const change of [
+    (source: DossierAppSnapshot) => {
+      source.cv.design.template = "citrus";
+    },
+    (source: DossierAppSnapshot) => {
+      source.cv.design.font = "serif";
+    },
+    (source: DossierAppSnapshot) => {
+      source.settings.cvLayout = "classic";
+    },
+  ]) {
+    const { source } = setup();
+    change(source);
+    expect(() => assertAppDocxNextSource(source, "cv")).toThrow();
+  }
+});
+
+test("unresolved CV typography remains blocking in a CV-only model", () => {
+  const { source, measured } = setup();
+  source.settings.unresolvedTypography = ["cv.legacy-unknown"];
+  measured.sidebar.sourceKey = measured.interior.sourceKey = JSON.stringify(source);
+  expect(() => buildAppDocxNextModel(source, measured, "cv")).toThrow(/Layout-Einstellungen/);
+});
+
+test("unresolved letter typography does not block a CV-only model", () => {
+  const { source, measured } = setup();
+  source.settings.unresolvedTypography = ["letter.legacy-unknown"];
+  measured.sidebar.sourceKey = measured.interior.sourceKey = JSON.stringify(source);
+  expect(buildAppDocxNextModel(source, measured, "cv").issues).toEqual([]);
+  expect(() => buildAppDocxNextModel(source, measured)).toThrow(/Layout-Einstellungen/);
+});
+
+test("CV-only metadata uses the CV name and never unrelated cover metadata", () => {
+  const { source, measured } = setup();
+  source.cover.data.meta = {
+    title: "PRIVATE COVER TITLE",
+    author: "OTHER PERSON",
+    subject: "PRIVATE SUBJECT",
+    keywords: "PRIVATE KEYWORDS",
+  };
+  measured.sidebar.sourceKey = measured.interior.sourceKey = JSON.stringify(source);
+  const model = buildAppDocxNextModel(source, measured, "cv");
+  expect(model.metadata.author).toBe(
+    [source.cv.data.person.vorname, source.cv.data.person.nachname].filter(Boolean).join(" "),
+  );
+  expect(JSON.stringify(model.metadata)).not.toContain("PRIVATE");
+});
+
+test("a CV-only model exports one document by default and preserves that scope through JSON", async () => {
+  const { source, measured } = setup();
+  const model = buildAppDocxNextModel(source, measured, "cv");
+  const image = {
+    bytes: Uint8Array.from(
+      atob(
+        "iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAYAAAD0In+KAAAAEUlEQVR4nGP4z8Dwn4GBgQEADfsB/4fYjl4AAAAASUVORK5CYII=",
+      ),
+      (c) => c.charCodeAt(0),
+    ),
+    widthPx: 2,
+    heightPx: 1,
+    extension: "png" as const,
+    contentType: "image/png" as const,
+  };
+  const options = {
+    allowUnacceptedModelIssues: true,
+    normalizeImage: async () => image,
+    rasterizeDecoration: async () => image,
+  };
+  const bytes = new Uint8Array(await (await renderDossierDocx(model, options)).arrayBuffer());
+  const restored = new Uint8Array(
+    await (await renderDossierDocx(JSON.parse(JSON.stringify(model)), options)).arrayBuffer(),
+  );
+  expect(restored).toEqual(bytes);
+  const parts = readZipEntries(bytes);
+  const xml = new TextDecoder().decode(
+    parts.find((part) => part.name === "word/document.xml")!.bytes,
+  );
+  expect((xml.match(/<w:sectPr>/g) ?? []).length).toBe(1);
+  expect(xml).toContain("cv.person.name");
+  expect(xml).not.toContain("letter.");
+  expect(xml).not.toContain("cover.");
+  await expect(renderDossierDocx(model, { ...options, part: "cover" })).rejects.toThrow(
+    /ausgewählten Dossierteil/,
+  );
+});

@@ -353,6 +353,8 @@ export type DocumentPart = {
 };
 export type ModelIssue = { code: string; fieldId?: string; message: string };
 export type DossierDocModel = {
+  /** A partial model can export only the document that was built. */
+  exportPart?: DocumentPart["id"];
   version: 1;
   /** Unaccepted document-wide native floating-table continuation policy; diagnostic only. */
   floatingTableTextFlow?: "all-pages";

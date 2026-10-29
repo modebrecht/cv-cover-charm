@@ -1,0 +1,229 @@
+{
+  "date": "2026-10-29",
+  "baseCommit": "67ff6342574d00942cd927a1cbf34577c6d85322",
+  "scope": "Independent reviewed Modern Sidebar CV DOCX",
+  "unitTests": {
+    "passed": 1461,
+    "failed": 0,
+    "files": 280
+  },
+  "browserTests": {
+    "startTime": "2026-10-29T18:05:27.900Z",
+    "duration": 53697.417,
+    "expected": 12,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "newCvBrowserCases": 7,
+  "existingWordBrowserCases": 5,
+  "typecheck": "pass",
+  "format": "pass",
+  "lint": {
+    "errors": 0,
+    "existingWarnings": 21
+  },
+  "productionBuild": "pass",
+  "photoDownloads": [
+    {
+      "filename": "cv-mirrored-mobile.docx",
+      "photo": {
+        "pictureId": "cv.person.photo",
+        "alt": "CV portrait",
+        "story": "word/document.xml",
+        "representation": "picture",
+        "extentMm": [28.0, 35.0],
+        "crop": {
+          "l": 0,
+          "t": 8333,
+          "r": 0,
+          "b": 8333
+        },
+        "shape": "roundRect",
+        "borderMm": 0,
+        "borderColor": null,
+        "media": "word/media/image-1.png",
+        "widthPx": 120,
+        "heightPx": 180,
+        "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+      }
+    },
+    {
+      "filename": "cv-with-corrupt-other-parts.docx",
+      "photo": {
+        "pictureId": "cv.person.photo",
+        "alt": "CV portrait",
+        "story": "word/document.xml",
+        "representation": "picture",
+        "extentMm": [28.0, 35.0],
+        "crop": {
+          "l": 0,
+          "t": 8333,
+          "r": 0,
+          "b": 8333
+        },
+        "shape": "roundRect",
+        "borderMm": 0,
+        "borderColor": null,
+        "media": "word/media/image-1.png",
+        "widthPx": 120,
+        "heightPx": 180,
+        "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+      }
+    },
+    {
+      "filename": "cv-with-unreadable-other-structures.docx",
+      "photo": {
+        "pictureId": "cv.person.photo",
+        "alt": "CV portrait",
+        "story": "word/document.xml",
+        "representation": "picture",
+        "extentMm": [28.0, 35.0],
+        "crop": {
+          "l": 0,
+          "t": 8333,
+          "r": 0,
+          "b": 8333
+        },
+        "shape": "roundRect",
+        "borderMm": 0,
+        "borderColor": null,
+        "media": "word/media/image-1.png",
+        "widthPx": 120,
+        "heightPx": 180,
+        "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+      }
+    },
+    {
+      "filename": "cv-without-other-parts.docx",
+      "photo": {
+        "pictureId": "cv.person.photo",
+        "alt": "CV portrait",
+        "story": "word/document.xml",
+        "representation": "picture",
+        "extentMm": [28.0, 35.0],
+        "crop": {
+          "l": 0,
+          "t": 8333,
+          "r": 0,
+          "b": 8333
+        },
+        "shape": "roundRect",
+        "borderMm": 0,
+        "borderColor": null,
+        "media": "word/media/image-1.png",
+        "widthPx": 120,
+        "heightPx": 180,
+        "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+      }
+    },
+    {
+      "filename": "independent-cv.docx",
+      "photo": {
+        "pictureId": "cv.person.photo",
+        "alt": "CV portrait",
+        "story": "word/document.xml",
+        "representation": "picture",
+        "extentMm": [28.0, 35.0],
+        "crop": {
+          "l": 0,
+          "t": 8333,
+          "r": 0,
+          "b": 8333
+        },
+        "shape": "roundRect",
+        "borderMm": 0,
+        "borderColor": null,
+        "media": "word/media/image-1.png",
+        "widthPx": 120,
+        "heightPx": 180,
+        "rgbaSha256": "eb771f4581e88abe918af19b18a50b3503d3f70c0617f101f492c0ca55f40b90"
+      }
+    }
+  ],
+  "nativeRenderAndTwoSaves": [
+    {
+      "fixture": "independent-cv",
+      "pdfPages": 1,
+      "completeNativeFieldTextVisible": true,
+      "saveCycles": [
+        {
+          "cycle": 1,
+          "taggedFields": 43,
+          "matchingFields": 43,
+          "completeNativeText": "pass",
+          "fieldIdentity": "pass",
+          "missingFields": [],
+          "tableIdentity": "fail"
+        },
+        {
+          "cycle": 2,
+          "taggedFields": 43,
+          "matchingFields": 43,
+          "completeNativeText": "pass",
+          "fieldIdentity": "pass",
+          "missingFields": [],
+          "tableIdentity": "fail"
+        }
+      ]
+    },
+    {
+      "fixture": "cv-without-other-parts",
+      "pdfPages": 1,
+      "completeNativeFieldTextVisible": true,
+      "saveCycles": [
+        {
+          "cycle": 1,
+          "taggedFields": 43,
+          "matchingFields": 43,
+          "completeNativeText": "pass",
+          "fieldIdentity": "pass",
+          "missingFields": [],
+          "tableIdentity": "fail"
+        },
+        {
+          "cycle": 2,
+          "taggedFields": 43,
+          "matchingFields": 43,
+          "completeNativeText": "pass",
+          "fieldIdentity": "pass",
+          "missingFields": [],
+          "tableIdentity": "fail"
+        }
+      ]
+    },
+    {
+      "fixture": "cv-mirrored-mobile",
+      "pdfPages": 1,
+      "completeNativeFieldTextVisible": true,
+      "saveCycles": [
+        {
+          "cycle": 1,
+          "taggedFields": 43,
+          "matchingFields": 43,
+          "completeNativeText": "pass",
+          "fieldIdentity": "pass",
+          "missingFields": [],
+          "tableIdentity": "fail"
+        },
+        {
+          "cycle": 2,
+          "taggedFields": 43,
+          "matchingFields": 43,
+          "completeNativeText": "pass",
+          "fieldIdentity": "pass",
+          "missingFields": [],
+          "tableIdentity": "fail"
+        }
+      ]
+    }
+  ],
+  "desktopWordAcceptance": "pending",
+  "publishedBranchesPlanned": ["dev"],
+  "knownResearchCiFailuresRetained": [
+    "stable-comparison: historical package pin",
+    "picture-identity: historical picture structures",
+    "app-body-content: experimental long mirrored native Save",
+    "integrated verlauf: hero-long pagination"
+  ]
+}

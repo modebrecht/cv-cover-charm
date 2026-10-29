@@ -97,6 +97,7 @@ jobs:
               tests/e2e/devtools-keyboard.spec.ts
               tests/e2e/dossier-docx-reference.spec.ts
               tests/e2e/dossier-docx-alignment.spec.ts
+              tests/e2e/dossier-docx-cv-independent.spec.ts
               tests/e2e/dossier-docx-warm.spec.ts
               tests/e2e/dossier-docx-studio3.spec.ts
               tests/e2e/dossier-docx-family-gallery.spec.ts
@@ -220,6 +221,15 @@ jobs:
         with:
           name: dossier-docx-reference
           path: artifacts/dossier-docx-reference
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Upload independent CV DOCX references
+        if: matrix.group == 'dossier-flow' && always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dossier-docx-cv-independent
+          path: artifacts/dossier-docx-cv-independent
           if-no-files-found: warn
           retention-days: 14
 
