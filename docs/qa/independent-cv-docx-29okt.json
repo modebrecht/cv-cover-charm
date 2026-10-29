@@ -165,7 +165,9 @@
           "missingFields": [],
           "tableIdentity": "fail"
         }
-      ]
+      ],
+      "fieldInventoryScope": "word/document.xml main body; header field evidence follows separately",
+      "visibleTextScope": "source main-body field text"
     },
     {
       "fixture": "cv-without-other-parts",
@@ -190,7 +192,9 @@
           "missingFields": [],
           "tableIdentity": "fail"
         }
-      ]
+      ],
+      "fieldInventoryScope": "word/document.xml main body; header field evidence follows separately",
+      "visibleTextScope": "source main-body field text"
     },
     {
       "fixture": "cv-mirrored-mobile",
@@ -215,15 +219,367 @@
           "missingFields": [],
           "tableIdentity": "fail"
         }
-      ]
+      ],
+      "fieldInventoryScope": "word/document.xml main body; header field evidence follows separately",
+      "visibleTextScope": "source main-body field text"
     }
   ],
   "desktopWordAcceptance": "pending",
-  "publishedBranchesPlanned": ["dev"],
   "knownResearchCiFailuresRetained": [
     "stable-comparison: historical package pin",
     "picture-identity: historical picture structures",
     "app-body-content: experimental long mirrored native Save",
     "integrated verlauf: hero-long pagination"
-  ]
+  ],
+  "allStoryFieldIdentity": [
+    {
+      "fixture": "independent-cv",
+      "allSourceTaggedFields": 53,
+      "sourceControlOccurrences": 59,
+      "sourceLeafFields": 47,
+      "sourceGroupingFields": [
+        "cv.header.continuation.row:0",
+        "cv.header.continuation.row:1",
+        "cv.header.continuation.row:2",
+        "cv.header.first.row:0",
+        "cv.header.first.row:1",
+        "cv.header.first.row:2"
+      ],
+      "sourceStories": [
+        {
+          "part": "word/cv-header.xml",
+          "controlOccurrences": 8
+        },
+        {
+          "part": "word/cv-header-first.xml",
+          "controlOccurrences": 8
+        },
+        {
+          "part": "word/document.xml",
+          "controlOccurrences": 43
+        }
+      ],
+      "cycles": [
+        {
+          "cycle": 1,
+          "allSavedTaggedFields": 47,
+          "savedControlOccurrences": 63,
+          "matchingUniqueLeafFieldValues": 47,
+          "missingLeafFields": [],
+          "missingGroupingFields": [
+            "cv.header.continuation.row:0",
+            "cv.header.continuation.row:1",
+            "cv.header.continuation.row:2",
+            "cv.header.first.row:0",
+            "cv.header.first.row:1",
+            "cv.header.first.row:2"
+          ],
+          "stories": [
+            {
+              "part": "word/header3.xml",
+              "controlOccurrences": 10
+            },
+            {
+              "part": "word/header2.xml",
+              "controlOccurrences": 10
+            },
+            {
+              "part": "word/document.xml",
+              "controlOccurrences": 43
+            }
+          ]
+        },
+        {
+          "cycle": 2,
+          "allSavedTaggedFields": 47,
+          "savedControlOccurrences": 63,
+          "matchingUniqueLeafFieldValues": 47,
+          "missingLeafFields": [],
+          "missingGroupingFields": [
+            "cv.header.continuation.row:0",
+            "cv.header.continuation.row:1",
+            "cv.header.continuation.row:2",
+            "cv.header.first.row:0",
+            "cv.header.first.row:1",
+            "cv.header.first.row:2"
+          ],
+          "stories": [
+            {
+              "part": "word/header3.xml",
+              "controlOccurrences": 10
+            },
+            {
+              "part": "word/header2.xml",
+              "controlOccurrences": 10
+            },
+            {
+              "part": "word/document.xml",
+              "controlOccurrences": 43
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "fixture": "cv-without-other-parts",
+      "allSourceTaggedFields": 53,
+      "sourceControlOccurrences": 59,
+      "sourceLeafFields": 47,
+      "sourceGroupingFields": [
+        "cv.header.continuation.row:0",
+        "cv.header.continuation.row:1",
+        "cv.header.continuation.row:2",
+        "cv.header.first.row:0",
+        "cv.header.first.row:1",
+        "cv.header.first.row:2"
+      ],
+      "sourceStories": [
+        {
+          "part": "word/cv-header.xml",
+          "controlOccurrences": 8
+        },
+        {
+          "part": "word/cv-header-first.xml",
+          "controlOccurrences": 8
+        },
+        {
+          "part": "word/document.xml",
+          "controlOccurrences": 43
+        }
+      ],
+      "cycles": [
+        {
+          "cycle": 1,
+          "allSavedTaggedFields": 47,
+          "savedControlOccurrences": 63,
+          "matchingUniqueLeafFieldValues": 47,
+          "missingLeafFields": [],
+          "missingGroupingFields": [
+            "cv.header.continuation.row:0",
+            "cv.header.continuation.row:1",
+            "cv.header.continuation.row:2",
+            "cv.header.first.row:0",
+            "cv.header.first.row:1",
+            "cv.header.first.row:2"
+          ],
+          "stories": [
+            {
+              "part": "word/header3.xml",
+              "controlOccurrences": 10
+            },
+            {
+              "part": "word/header2.xml",
+              "controlOccurrences": 10
+            },
+            {
+              "part": "word/document.xml",
+              "controlOccurrences": 43
+            }
+          ]
+        },
+        {
+          "cycle": 2,
+          "allSavedTaggedFields": 47,
+          "savedControlOccurrences": 63,
+          "matchingUniqueLeafFieldValues": 47,
+          "missingLeafFields": [],
+          "missingGroupingFields": [
+            "cv.header.continuation.row:0",
+            "cv.header.continuation.row:1",
+            "cv.header.continuation.row:2",
+            "cv.header.first.row:0",
+            "cv.header.first.row:1",
+            "cv.header.first.row:2"
+          ],
+          "stories": [
+            {
+              "part": "word/header3.xml",
+              "controlOccurrences": 10
+            },
+            {
+              "part": "word/header2.xml",
+              "controlOccurrences": 10
+            },
+            {
+              "part": "word/document.xml",
+              "controlOccurrences": 43
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "fixture": "cv-mirrored-mobile",
+      "allSourceTaggedFields": 53,
+      "sourceControlOccurrences": 59,
+      "sourceLeafFields": 47,
+      "sourceGroupingFields": [
+        "cv.header.continuation.row:0",
+        "cv.header.continuation.row:1",
+        "cv.header.continuation.row:2",
+        "cv.header.first.row:0",
+        "cv.header.first.row:1",
+        "cv.header.first.row:2"
+      ],
+      "sourceStories": [
+        {
+          "part": "word/cv-header.xml",
+          "controlOccurrences": 8
+        },
+        {
+          "part": "word/cv-header-first.xml",
+          "controlOccurrences": 8
+        },
+        {
+          "part": "word/document.xml",
+          "controlOccurrences": 43
+        }
+      ],
+      "cycles": [
+        {
+          "cycle": 1,
+          "allSavedTaggedFields": 47,
+          "savedControlOccurrences": 63,
+          "matchingUniqueLeafFieldValues": 47,
+          "missingLeafFields": [],
+          "missingGroupingFields": [
+            "cv.header.continuation.row:0",
+            "cv.header.continuation.row:1",
+            "cv.header.continuation.row:2",
+            "cv.header.first.row:0",
+            "cv.header.first.row:1",
+            "cv.header.first.row:2"
+          ],
+          "stories": [
+            {
+              "part": "word/header3.xml",
+              "controlOccurrences": 10
+            },
+            {
+              "part": "word/header2.xml",
+              "controlOccurrences": 10
+            },
+            {
+              "part": "word/document.xml",
+              "controlOccurrences": 43
+            }
+          ]
+        },
+        {
+          "cycle": 2,
+          "allSavedTaggedFields": 47,
+          "savedControlOccurrences": 63,
+          "matchingUniqueLeafFieldValues": 47,
+          "missingLeafFields": [],
+          "missingGroupingFields": [
+            "cv.header.continuation.row:0",
+            "cv.header.continuation.row:1",
+            "cv.header.continuation.row:2",
+            "cv.header.first.row:0",
+            "cv.header.first.row:1",
+            "cv.header.first.row:2"
+          ],
+          "stories": [
+            {
+              "part": "word/header3.xml",
+              "controlOccurrences": 10
+            },
+            {
+              "part": "word/header2.xml",
+              "controlOccurrences": 10
+            },
+            {
+              "part": "word/document.xml",
+              "controlOccurrences": 43
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "allStoryFieldIdentityScope": "All word/*.xml parts. Unique leaf field IDs map to sets of visible text values; grouping SDTs are reported separately. Duplicate occurrences may change.",
+  "publishedBranches": ["dev"],
+  "validatedProductCommit": "da0adfa69c99daf26cd935494182a3311c46cf52",
+  "ci": {
+    "release": {
+      "runId": 40928354152,
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/40928354152",
+      "status": "success",
+      "unitPassed": 1461,
+      "dossierFlowPassed": 78,
+      "browserPassed": 194,
+      "browserFailed": 0,
+      "browserGroupsPassed": 11,
+      "combinedStatus": "M6 Release Candidate: success",
+      "browserGroups": [
+        {
+          "name": "dossier-flow",
+          "passed": 78
+        },
+        {
+          "name": "letter-m1-m5",
+          "passed": 13
+        },
+        {
+          "name": "letter-m8-edge",
+          "passed": 9
+        },
+        {
+          "name": "cv-pdf-core",
+          "passed": 33
+        },
+        {
+          "name": "cv-pdf-parity",
+          "passed": 11
+        },
+        {
+          "name": "cv-pdf-dom",
+          "passed": 1
+        },
+        {
+          "name": "cv-pdf-paint",
+          "passed": 1
+        },
+        {
+          "name": "cv-m9-pagination",
+          "passed": 3
+        },
+        {
+          "name": "m9-responsive",
+          "passed": 4
+        },
+        {
+          "name": "templates-layout",
+          "passed": 23
+        },
+        {
+          "name": "fresh-dossier-templates",
+          "passed": 18
+        }
+      ]
+    },
+    "fit": {
+      "runId": 40928354129,
+      "status": "success",
+      "passed": 35
+    },
+    "nativeResearch": {
+      "runId": 40928354133,
+      "passedGroups": 11,
+      "failedGroups": 4,
+      "failures": "Existing confirmed research failures; no baseline update"
+    },
+    "webGallery": {
+      "runId": 40928354305,
+      "status": "success"
+    },
+    "contactIntegrity": {
+      "runId": 40928354210,
+      "status": "success"
+    },
+    "pages": {
+      "runId": 40928352918,
+      "status": "success"
+    }
+  }
 }

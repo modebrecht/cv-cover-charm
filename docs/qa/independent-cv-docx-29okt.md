@@ -43,11 +43,15 @@ Fall erzeugt mit der Änderung eine echte CV-Datei.
 | Fotos in diesen fünf Dateien                  | Originalmasse und alle RGBA-Pixel erhalten                     |
 
 Drei heruntergeladene CVs wurden zusätzlich nativ gerendert und jeweils zweimal
-in LibreOffice gespeichert: je eine PDF-Seite, vollständiger sichtbarer Text und
-43/43 gleiche Feldkennungen in beiden gespeicherten Fassungen. Die bekannten
-internen Tabellenbeschriftungen gehen in Writer weiterhin verloren; daraus
-folgt keine vollständige Struktur- oder Desktop-Word-Abnahme. Maschinenlesbarer
-Nachweis: `independent-cv-docx-29okt.json`.
+in LibreOffice gespeichert: je eine PDF-Seite, vollständiger sichtbarer Haupttext und
+43/43 gleiche Feldkennungen im Haupttext in beiden gespeicherten Fassungen.
+Ein ergänzender Scan aller Word-XML-Dateien erfasst auch die anders benannten
+Kopfzeilen: Alle 47 eindeutigen Inhaltsfelder behalten ihre Kennungen und Werte.
+Writer entfernt sechs äussere Kopfzeilen-Gruppierungskennungen und wiederholt
+einzelne Kontaktfelder; die Anzahl der Steuerelement-Vorkommen steigt von 59
+auf 63. Die bekannten internen Tabellenbeschriftungen gehen weiterhin verloren.
+Daraus folgt keine vollständige Struktur- oder Desktop-Word-Abnahme.
+Maschinenlesbarer Nachweis: `independent-cv-docx-29okt.json`.
 
 Die Browserfälle umfassen gemischte Vorlagen, formatierten Brieftext, fehlende
 andere Teile, beschädigtes JSON, strukturell unlesbare andere Teile, die eigene
@@ -62,6 +66,17 @@ nach dieser Initialisierung und prüft, dass der Download sie nicht neu anlegt.
 Die sieben Fälle sind in der bestehenden CI-Gruppe `dossier-flow` aufgenommen.
 Ihre erzeugten Dateien werden als eigenes GitHub-Artefakt aufbewahrt. Der
 Release-Lauf umfasst damit 194 statt zuvor 187 Browserfälle.
+
+Auf dem veröffentlichten Produktcommit `da0adfa` ist die
+[Release-CI](https://github.com/modebrecht/cv-cover-charm/actions/runs/40928354152)
+vollständig grün: 1461 Unit-Tests und 194 Browserfälle in elf Gruppen;
+Gesamtstatus `M6 Release Candidate: success`. Die 78 Dossierfälle enthalten
+alle sieben neuen CV-Fälle. Zusätzlich bestanden alle 35
+[Fit-Prüfungen](https://github.com/modebrecht/cv-cover-charm/actions/runs/40928354129),
+Web-Galerie, Kontaktintegrität und Pages-Build. Die
+[native Forschungs-QA](https://github.com/modebrecht/cv-cover-charm/actions/runs/40928354133)
+bestätigt unverändert elf erfolgreiche und vier bekannte fehlschlagende Gruppen.
+Der nachfolgende Dokumentationscommit ändert keinen Produktcode.
 
 ## Weiterhin offen
 
