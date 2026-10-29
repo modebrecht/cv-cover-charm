@@ -15,11 +15,22 @@ async function waitEditorReady(page: Page) {
 
 async function loadDemo(page: Page) {
   await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
-  const download = await waitEditorReady(page);
-  await download.click();
+  await waitEditorReady(page);
+  const menu = page.getByRole("button", { name: "Menü", exact: true });
+  await menu.click();
   await page.getByRole("button", { name: "Beispieldaten übernehmen", exact: true }).click();
   await page.getByRole("button", { name: "Ja", exact: true }).click();
-  await expect(download).toHaveAttribute("aria-expanded", "false");
+  await expect(menu).toHaveAttribute("aria-expanded", "false");
+  // The next helper leaves the editor with a full navigation. Wait for its
+  // debounced demo payload to reach storage before editing the saved settings.
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () =>
+          JSON.parse(localStorage.getItem("lebenslauf:v1") ?? "null")?.data?.schule?.length ?? 0,
+      ),
+    )
+    .toBeGreaterThan(0);
 }
 
 async function applyTimGaussSidebarState(page: Page) {
