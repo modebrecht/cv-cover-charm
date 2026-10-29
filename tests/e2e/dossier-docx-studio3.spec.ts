@@ -1,8 +1,7 @@
 import { expect, test } from "@playwright/test";
-import { mkdir, readFile } from "node:fs/promises";
+import { expectUnreviewedDocxBlocked } from "./support/native-docx-fixture";
 
 const BASE_URL = "http://127.0.0.1:4173";
-const ARTIFACT_DIR = "artifacts/dossier-docx-reference";
 
 async function seedStudio3Dossier(page: import("@playwright/test").Page) {
   await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
@@ -181,29 +180,13 @@ async function openDocxOption(page: import("@playwright/test").Page) {
 }
 
 test.describe("Studio 3 DOCX reference download", () => {
-  test("complete Studio 3 dossier downloads a real DOCX package for render QA", async ({
+  test("complete Studio 3 dossier keeps the unreviewed Word composition blocked", async ({
     page,
   }) => {
     await seedStudio3Dossier(page);
 
-    const option = await openDocxOption(page);
-    await expect(option).toBeEnabled();
-    await expect(option).toContainText("Vorlage Studio 3");
-    await option.click();
-
-    const button = page.getByRole("button", { name: "DOCX herunterladen" });
-    await expect(button).toBeEnabled();
-    const [download] = await Promise.all([page.waitForEvent("download"), button.click()]);
-    expect(download.suggestedFilename()).toBe("Bewerbungsdossier-LeaMueller.docx");
-
-    const path = await download.path();
-    expect(path).not.toBeNull();
-    const bytes = await readFile(path!);
-    expect(bytes.length).toBeGreaterThan(3_000);
-    expect([...bytes.subarray(0, 4)]).toEqual([0x50, 0x4b, 0x03, 0x04]);
-
-    await mkdir(ARTIFACT_DIR, { recursive: true });
-    await download.saveAs(`${ARTIFACT_DIR}/studio3-reference.docx`);
+    await openDocxOption(page);
+    await expectUnreviewedDocxBlocked(page);
   });
 
   test("mixed Studio 3/Warm dossier is not offered as a coherent DOCX", async ({ page }) => {

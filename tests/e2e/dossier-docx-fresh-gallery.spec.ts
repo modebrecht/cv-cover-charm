@@ -1,9 +1,8 @@
 import { expect, test } from "@playwright/test";
-import { mkdir, readFile } from "node:fs/promises";
+import { expectUnreviewedDocxBlocked } from "./support/native-docx-fixture";
 import { FRESH_TEMPLATE_REGISTRY } from "../../src/components/cover/fresh-template-registry";
 
 const BASE_URL = "http://127.0.0.1:4173";
-const ARTIFACT_DIR = "artifacts/dossier-docx-fresh-gallery";
 
 const CASES = FRESH_TEMPLATE_REGISTRY.map(({ id, name, slots }) => ({
   id,
@@ -108,14 +107,12 @@ async function seedCompleteDossier(page: import("@playwright/test").Page) {
   });
 }
 
-test("real browser DOCX gallery covers every Fresh template", async ({ page }) => {
-  // This is a serial 21-template artifact gallery. A healthy run already takes
-  // roughly 24 seconds on GitHub-hosted runners, so the Playwright 30 s default
-  // is too tight and can fail mid-gallery under normal runner variance.
+test("every Fresh template keeps the unreviewed Word profile blocked", async ({ page }) => {
+  // Exercise the actual Word gate and PDF/JSON alternatives for all 21 Fresh
+  // templates. Serial reloads need more than the default 30 seconds in CI.
   test.setTimeout(90_000);
 
   await seedCompleteDossier(page);
-  await mkdir(ARTIFACT_DIR, { recursive: true });
 
   expect(CASES).toHaveLength(21);
 
@@ -141,19 +138,6 @@ test("real browser DOCX gallery covers every Fresh template", async ({ page }) =
     await expect(exportCard).toBeEnabled();
     await exportCard.click();
 
-    const docxOption = page.getByRole("radio", { name: /Bearbeitbares Dossier \(DOCX\)/ });
-    await expect(docxOption).toBeEnabled();
-    await expect(docxOption).toContainText(`Vorlage ${item.label}`);
-    await docxOption.click();
-
-    const downloadButton = page.getByRole("button", { name: "DOCX herunterladen" });
-    await expect(downloadButton).toBeEnabled();
-    const [download] = await Promise.all([page.waitForEvent("download"), downloadButton.click()]);
-    const path = await download.path();
-    expect(path).not.toBeNull();
-    const bytes = await readFile(path!);
-    expect(bytes.length).toBeGreaterThan(2_000);
-    expect([...bytes.subarray(0, 4)]).toEqual([0x50, 0x4b, 0x03, 0x04]);
-    await download.saveAs(`${ARTIFACT_DIR}/fresh-${item.id}.docx`);
+    await expectUnreviewedDocxBlocked(page);
   }
 });

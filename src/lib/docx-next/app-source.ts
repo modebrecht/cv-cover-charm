@@ -17,6 +17,7 @@ import { DEFAULT_DOSSIER_CHROME_STATE } from "@/lib/dossier-chrome";
 import { captureDossierDocxNextSnapshot } from "./snapshot";
 import type { DossierAppSnapshot } from "./source";
 import { DocxDownloadError } from "./download-error";
+import { sourceLetterFlowInputIssue } from "./letter-source-flow";
 
 export { DocxDownloadError } from "./download-error";
 
@@ -43,6 +44,13 @@ export function assertAppDocxNextSource(source: DossierAppSnapshot): void {
     (source.letter.design.fontOverride ?? source.letter.design.font) !== "sans"
   )
     throw new DocxDownloadError("Bitte in Brief und Lebenslauf die Schrift «Sans» wählen.");
+  const letterIssue = sourceLetterFlowInputIssue(source);
+  if (letterIssue)
+    throw new DocxDownloadError(
+      letterIssue === "rich-text"
+        ? "Der Word-Download unterstützt formatierten Brieftext noch nicht. Bitte verwende den PDF-Download."
+        : "Diese Brief-Einstellungen sind im Word-Download noch nicht unterstützt. Bitte verwende den PDF-Download.",
+    );
   const chrome = resolveDossierChromeSnapshot(
     source,
     source.settings.chrome ?? DEFAULT_DOSSIER_CHROME_STATE,

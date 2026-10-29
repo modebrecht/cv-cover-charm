@@ -22,7 +22,7 @@ concurrency:
 jobs:
   template-contact:
     name: Verify live contact across all 39 templates
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 12
 
     steps:
@@ -32,7 +32,7 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
-          bun-version: latest
+          bun-version: 1.3.13
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -43,10 +43,14 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Install browser test runner
-        run: npm install --no-save --no-package-lock @playwright/test@1.55.0
+        run: |
+          npm install --prefix .qa-tools --no-package-lock --no-audit --no-fund @playwright/test@1.56.1
+          ln -s ../.qa-tools/node_modules/@playwright node_modules/@playwright
+          ln -s ../../.qa-tools/node_modules/.bin/playwright node_modules/.bin/playwright
 
       - name: Install Chromium
-        run: npx playwright install --with-deps chromium
+        timeout-minutes: 6
+        run: bash scripts/qa-browser-setup.sh
 
       - name: Start application
         shell: bash

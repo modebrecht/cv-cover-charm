@@ -26,6 +26,7 @@ Der Word-Download ist derzeit noch auf vollständig gespeicherte Dossiers mit fo
 - Lebenslauf mit **Sidebar**
 - Schrift **Sans** für Motivationsschreiben und Lebenslauf
 - Kontakt-Kopfzeilen und kompakte Fusszeilen für Motivationsschreiben und Lebenslauf
+- Einfacher Brieftext ohne Rich-Text-Formatierung, eingefügte Briefbilder oder eigene Brief-Typografie/-Seitenränder
 
 Diese Voraussetzungen gelten aktuell **auch beim Download eines einzelnen DOCX-Dokuments**. Nicht unterstützte Einstellungen werden im Editor angezeigt. Der PDF-Export ist davon unabhängig.
 

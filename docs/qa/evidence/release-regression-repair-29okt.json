@@ -1,0 +1,128 @@
+{
+  "baselineCommit": "d7ddbb1131b9c6aec24a9d688e48e228421bcb01",
+  "sourceTree": "26b2d51668621b193c10e7ed9537f7d829e22fb0",
+  "scope": "local verification; hosted workflows checked separately",
+  "browserUnique": 104,
+  "suites": [
+    {
+      "report": "../evidence/core-final-results.json",
+      "stats": {
+        "startTime": "2026-10-29T12:55:35.284Z",
+        "duration": 158458.473,
+        "expected": 21,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "sha256": "f99c42aabb3e23f2e47cac029f19a643fe05115f732d4806e3870c8461b7672c"
+    },
+    {
+      "report": "../evidence/all-repaired-results.json",
+      "stats": {
+        "startTime": "2026-10-29T13:02:35.601Z",
+        "duration": 221265.79,
+        "expected": 25,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "sha256": "4710efe673472795fdd3cc3a573aac60581488f09476e967c4048f31e1775763"
+    },
+    {
+      "report": "../evidence/native-accepted-results.json",
+      "stats": {
+        "startTime": "2026-10-29T13:01:56.550Z",
+        "duration": 27662.803,
+        "expected": 5,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "sha256": "c9c6f168967877f40d38c8f24c32d140e9752f0d7b83c25817ab1fd19f457099"
+    },
+    {
+      "report": "../evidence/combined-final-results.json",
+      "stats": {
+        "startTime": "2026-10-29T12:59:54.490Z",
+        "duration": 316930.761,
+        "expected": 11,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "sha256": "63ca9e19bd1581d959b5e4b2cf38ebd90048ea3b76d28a2dee19957455e53754"
+    },
+    {
+      "report": "../evidence/letter-final-results.json",
+      "stats": {
+        "startTime": "2026-10-29T13:00:45.236Z",
+        "duration": 302768.90900000004,
+        "expected": 7,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "sha256": "d82986a94fe5a57dde2992fa57a26d3487ce737920496452bfb603ec83178806"
+    },
+    {
+      "report": "artifacts/two-page-fit/results.json",
+      "stats": {
+        "startTime": "2026-10-29T13:03:56.266Z",
+        "duration": 69186.40699999999,
+        "expected": 9,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "sha256": "52f8da470bda8d8f001f5c2ae23ae0ed7c56fc1a82b2284aedf37f0f13b47259"
+    },
+    {
+      "report": "artifacts/smart-fit-29okt/results.json",
+      "stats": {
+        "startTime": "2026-10-29T13:05:06.530Z",
+        "duration": 81608.01199999999,
+        "expected": 16,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "sha256": "738f459f5475be005003176aef4d075891a9bdfa233713df32dad258728a8fc0"
+    },
+    {
+      "report": "artifacts/one-page-fit/results.json",
+      "stats": {
+        "startTime": "2026-10-29T13:06:29.090Z",
+        "duration": 51906.667,
+        "expected": 10,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "sha256": "694ffae0a8d4fd68ed0a5466e0d39fb932ca35a622ad1ef422973ce2775f543b"
+    }
+  ],
+  "formattedPdfAdditionalRecheck": {
+    "startTime": "2026-10-29T13:06:13.486Z",
+    "duration": 17166.503,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "unit": {
+    "pass": 1445,
+    "fail": 0,
+    "files": 279,
+    "assertions": 27175
+  },
+  "checks": {
+    "appTypes": 0,
+    "qaTypes": 0,
+    "format": 0,
+    "lint": 0,
+    "build": 0,
+    "existingLintWarnings": 21
+  },
+  "nativeScope": "Modern Sidebar Sans / plain letter; old rich-text/layout gates retained; explicit page-2 DOCX remains unsupported",
+  "remainingNativeWorkflow": "DOCX Next Stable Sidebar: legacy image-size assertion and native part XML byte comparisons require separate triage"
+}

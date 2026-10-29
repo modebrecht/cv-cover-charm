@@ -20,11 +20,12 @@ async function waitEditorReady(page: Page) {
 
 async function loadDemo(page: Page) {
   await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
-  const download = await waitEditorReady(page);
-  await download.click();
+  await waitEditorReady(page);
+  const menu = page.getByRole("button", { name: "Menü", exact: true });
+  await menu.click();
   await page.getByRole("button", { name: "Beispieldaten übernehmen", exact: true }).click();
   await page.getByRole("button", { name: "Ja", exact: true }).click();
-  await expect(download).toHaveAttribute("aria-expanded", "false");
+  await expect(menu).toHaveAttribute("aria-expanded", "false");
   // Closing the menu precedes the editor's debounced autosave. Navigation in
   // applyTemplate must wait for the fixture to reach storage, especially in CI.
   await expect

@@ -4,17 +4,12 @@ import { nativeTextHeightMm } from "./layouts";
 import { resolveLetterPalette } from "@/components/letter/letter-paper";
 import { datedFlowAfterMm as tableFlowAfterMm, NATIVE_BOUNDARY_HEIGHT_MM } from "./flow-boundaries";
 
-/** Internal Modern/Sans plain-letter trial. All line heights remain growable.
- * CSS div lines have no paragraph margin; explicit blank lines own their space.
- * Limited deliberately: customised typography/spacing, rich structures, sender
- * blocks and missing role content need other contracts. Recipient height grows
- * through a native minimum-height row; no text-width/line-count guess is used.
- */
-export function composeSourceLetterFlow(part: DocumentPart, source: DossierAppSnapshot): void {
+/** The source-only part of the existing renderer gate also drives download availability. */
+export function sourceLetterFlowInputIssue(
+  source: DossierAppSnapshot,
+): "rich-text" | "layout" | null {
   const { data, design } = source.letter;
-  const fail = (): never => {
-    throw Error("DOCX Next: Source-Letter-Fluss unterstützt nur einfache Modern/Sans-Briefe.");
-  };
+  if (data.richTextHtml?.trim()) return "rich-text";
   const customised = [
     design.senderTypography,
     design.recipientTypography,
@@ -33,7 +28,6 @@ export function composeSourceLetterFlow(part: DocumentPart, source: DossierAppSn
     design.attachmentsFontSizePt,
   ].some((value) => value !== undefined && value !== null);
   if (
-    part.id !== "letter" ||
     design.template !== "modern" ||
     (design.fontOverride ?? design.font) !== "sans" ||
     customised ||
@@ -43,7 +37,6 @@ export function composeSourceLetterFlow(part: DocumentPart, source: DossierAppSn
     !data.gruss.trim() ||
     !data.unterschrift.trim() ||
     !(data.ort.trim() || data.datum.trim()) ||
-    data.richTextHtml?.trim() ||
     data.images?.length ||
     (data.grussAbstandMm !== undefined && data.grussAbstandMm !== 4) ||
     (data.unterschriftAbstandMm !== undefined && data.unterschriftAbstandMm !== 1) ||
@@ -51,7 +44,26 @@ export function composeSourceLetterFlow(part: DocumentPart, source: DossierAppSn
     design.ruleAfterRecipient ||
     design.ruleAfterSubject ||
     Object.keys(source.settings.fieldStyles ?? {}).some((id) => id.startsWith("letter.")) ||
-    source.settings.margins?.letter ||
+    source.settings.margins?.letter
+  )
+    return "layout";
+  return null;
+}
+
+/** Internal Modern/Sans plain-letter trial. All line heights remain growable.
+ * CSS div lines have no paragraph margin; explicit blank lines own their space.
+ * Limited deliberately: customised typography/spacing, rich structures, sender
+ * blocks and missing role content need other contracts. Recipient height grows
+ * through a native minimum-height row; no text-width/line-count guess is used.
+ */
+export function composeSourceLetterFlow(part: DocumentPart, source: DossierAppSnapshot): void {
+  const { data, design } = source.letter;
+  const fail = (): never => {
+    throw Error("DOCX Next: Source-Letter-Fluss unterstützt nur einfache Modern/Sans-Briefe.");
+  };
+  if (
+    part.id !== "letter" ||
+    sourceLetterFlowInputIssue(source) ||
     part.blocks.some(
       (b) =>
         b.kind !== "paragraph" &&

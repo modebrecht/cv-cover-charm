@@ -1,8 +1,7 @@
 import { expect, test } from "@playwright/test";
-import { mkdir, readFile } from "node:fs/promises";
+import { expectUnreviewedDocxBlocked } from "./support/native-docx-fixture";
 
 const BASE_URL = "http://127.0.0.1:4173";
-const ARTIFACT_DIR = "artifacts/dossier-docx-reference";
 
 const CASES = [
   {
@@ -139,9 +138,8 @@ async function seedCompleteDossier(page: import("@playwright/test").Page) {
   });
 }
 
-test("one real browser DOCX per geometry family", async ({ page }) => {
+test("unreviewed geometry family profiles stay blocked for Word", async ({ page }) => {
   await seedCompleteDossier(page);
-  await mkdir(ARTIFACT_DIR, { recursive: true });
 
   for (const item of CASES) {
     await page.evaluate(({ id, colors }) => {
@@ -165,19 +163,6 @@ test("one real browser DOCX per geometry family", async ({ page }) => {
     await expect(exportCard).toBeEnabled();
     await exportCard.click();
 
-    const docxOption = page.getByRole("radio", { name: /Bearbeitbares Dossier \(DOCX\)/ });
-    await expect(docxOption).toBeEnabled();
-    await expect(docxOption).toContainText(`Vorlage ${item.label}`);
-    await docxOption.click();
-
-    const button = page.getByRole("button", { name: "DOCX herunterladen" });
-    await expect(button).toBeEnabled();
-    const [download] = await Promise.all([page.waitForEvent("download"), button.click()]);
-    const path = await download.path();
-    expect(path).not.toBeNull();
-    const bytes = await readFile(path!);
-    expect(bytes.length).toBeGreaterThan(2_000);
-    expect([...bytes.subarray(0, 4)]).toEqual([0x50, 0x4b, 0x03, 0x04]);
-    await download.saveAs(`${ARTIFACT_DIR}/family-${item.id}.docx`);
+    await expectUnreviewedDocxBlocked(page);
   }
 });

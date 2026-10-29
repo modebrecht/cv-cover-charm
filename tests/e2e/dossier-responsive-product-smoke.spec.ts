@@ -212,8 +212,16 @@ test.describe("M9 responsive product smoke", () => {
           "[data-editor-download-menu]",
           `${viewport.name}/${route.name}/download-menu`,
         );
-        await download.click();
+        // A modal Radix menu makes the trigger inert to locator.click(). Real
+        // users can still dismiss it by pointing at that same screen position.
+        const triggerBox = await download.boundingBox();
+        expect(triggerBox).not.toBeNull();
+        await page.mouse.click(
+          triggerBox!.x + triggerBox!.width / 2,
+          triggerBox!.y + triggerBox!.height / 2,
+        );
         await expect(menu).toHaveCount(0);
+        await expect(download).toHaveAttribute("aria-expanded", "false");
         const editToggle = page.getByRole("button", { name: "Menü", exact: true });
         await expectInsideViewport(page, 'button[aria-label="Menü"]', `${route.name}/menu-button`);
         await editToggle.click();

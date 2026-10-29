@@ -95,10 +95,9 @@ async function setStoredTemplate(page: Page, template: string) {
   );
   await page.goto(`${BASE_URL}/anschreiben`, { waitUntil: "domcontentloaded" });
   await expect(page.locator('[data-editor-ready="true"]')).toBeVisible();
-  await expect(page.locator("main [data-letter-page]").first()).toHaveAttribute(
-    "data-letter-template",
-    template,
-  );
+  await expect(
+    page.locator("main [data-letter-document-pages] [data-letter-page]").first(),
+  ).toHaveAttribute("data-letter-template", template);
 }
 
 test.describe("M1/M2 compact letter header", () => {
@@ -109,8 +108,10 @@ test.describe("M1/M2 compact letter header", () => {
 
     const chrome = await openSection(page, /^Header & Footer$/);
     const select = chrome.locator("[data-letter-header-mode-control]");
-    const preview = page.locator("main [data-letter-page]");
-    const exportPage = page.locator("[data-letter-standalone-export] [data-letter-page]");
+    const preview = page.locator("main [data-letter-document-pages] [data-letter-page]");
+    const exportPage = page.locator(
+      "[data-letter-standalone-export] [data-letter-document-pages] [data-letter-page]",
+    );
 
     await expect(select).toHaveValue("compact");
     await expect(preview).toHaveAttribute("data-letter-header-mode", "compact");
@@ -118,9 +119,15 @@ test.describe("M1/M2 compact letter header", () => {
     await expect(exportPage).toHaveAttribute("data-letter-paper-color", "#fafafa");
     await expect(preview).toHaveCSS("background-color", "rgb(250, 250, 250)");
     await expect(preview.locator('[data-letter-section="sender"]')).toHaveCount(1);
+    const compactTop = await preview
+      .locator("[data-letter-text-layer]")
+      .evaluate((node) => parseFloat(node.style.top));
+    expect(compactTop).toBeGreaterThan(0);
     expect(
-      await preview.locator("[data-letter-text-layer]").evaluate((node) => node.style.top),
-    ).toBe("34mm");
+      await exportPage
+        .locator("[data-letter-text-layer]")
+        .evaluate((node) => parseFloat(node.style.top)),
+    ).toBe(compactTop);
 
     await select.selectOption("contact-stacked");
     await expect(preview).toHaveAttribute("data-letter-header-mode", "contact");
@@ -130,9 +137,15 @@ test.describe("M1/M2 compact letter header", () => {
       "+41 79 123 45 67",
     );
     await expect(preview.locator('[data-letter-section="sender"]')).toHaveCount(0);
+    const contactTop = await preview
+      .locator("[data-letter-text-layer]")
+      .evaluate((node) => parseFloat(node.style.top));
+    expect(contactTop).toBeGreaterThan(compactTop);
     expect(
-      await preview.locator("[data-letter-text-layer]").evaluate((node) => node.style.top),
-    ).toBe("53mm");
+      await exportPage
+        .locator("[data-letter-text-layer]")
+        .evaluate((node) => parseFloat(node.style.top)),
+    ).toBe(contactTop);
 
     const headerBox = await preview.locator("[data-letter-integrated-contact]").boundingBox();
     const recipientBox = await preview.locator('[data-letter-section="recipient"]').boundingBox();
@@ -170,9 +183,15 @@ test.describe("M1/M2 compact letter header", () => {
     await expect(preview).toHaveAttribute("data-letter-header-mode", "none");
     await expect(preview.locator("[data-letter-integrated-contact]")).toHaveCount(0);
     await expect(preview.locator('[data-letter-section="sender"]')).toHaveCount(1);
+    const plainTop = await preview
+      .locator("[data-letter-text-layer]")
+      .evaluate((node) => parseFloat(node.style.top));
+    expect(plainTop).toBeLessThan(compactTop);
     expect(
-      await preview.locator("[data-letter-text-layer]").evaluate((node) => node.style.top),
-    ).toBe("18mm");
+      await exportPage
+        .locator("[data-letter-text-layer]")
+        .evaluate((node) => parseFloat(node.style.top)),
+    ).toBe(plainTop);
 
     await expect
       .poll(async () => {
@@ -187,10 +206,9 @@ test.describe("M1/M2 compact letter header", () => {
     await expect(page.locator('[data-editor-ready="true"]')).toBeVisible();
     const reloadedChrome = await openSection(page, /^Header & Footer$/);
     await expect(reloadedChrome.locator("[data-letter-header-mode-control]")).toHaveValue("none");
-    await expect(page.locator("main [data-letter-page]")).toHaveAttribute(
-      "data-letter-header-mode",
-      "none",
-    );
+    await expect(
+      page.locator("main [data-letter-document-pages] [data-letter-page]"),
+    ).toHaveAttribute("data-letter-header-mode", "none");
   });
 
   test("long contact values wrap without horizontal clipping or touching the recipient block", async ({
@@ -204,7 +222,7 @@ test.describe("M1/M2 compact letter header", () => {
     payload.design.headerMode = "contact";
     await seedLetter(page, payload);
 
-    const preview = page.locator("main [data-letter-page]");
+    const preview = page.locator("main [data-letter-document-pages] [data-letter-page]");
     const contact = preview.locator("[data-letter-integrated-contact]");
     const recipient = preview.locator('[data-letter-section="recipient"]');
     await expect(contact).toContainText("Müller-Winterberger-Schneider");
@@ -232,8 +250,10 @@ test.describe("M3 compact letter footer", () => {
 
     const chrome = await openSection(page, /^Header & Footer$/);
     const select = chrome.locator("[data-letter-footer-mode-control]");
-    const preview = page.locator("main [data-letter-page]");
-    const exportPage = page.locator("[data-letter-standalone-export] [data-letter-page]");
+    const preview = page.locator("main [data-letter-document-pages] [data-letter-page]");
+    const exportPage = page.locator(
+      "[data-letter-standalone-export] [data-letter-document-pages] [data-letter-page]",
+    );
     const textLayer = preview.locator("[data-letter-text-layer]");
 
     await expect(select).toHaveValue("compact");
@@ -282,10 +302,9 @@ test.describe("M3 compact letter footer", () => {
     await expect(page.locator('[data-editor-ready="true"]')).toBeVisible();
     const reloadedChrome = await openSection(page, /^Header & Footer$/);
     await expect(reloadedChrome.locator("[data-letter-footer-mode-control]")).toHaveValue("none");
-    await expect(page.locator("main [data-letter-page]")).toHaveAttribute(
-      "data-letter-footer-mode",
-      "none",
-    );
+    await expect(
+      page.locator("main [data-letter-document-pages] [data-letter-page]"),
+    ).toHaveAttribute("data-letter-footer-mode", "none");
   });
 });
 
@@ -308,8 +327,10 @@ test.describe("M4 centralized letter layout", () => {
       const chrome = await openSection(page, /^Header & Footer$/);
       const headerSelect = chrome.locator("[data-letter-header-mode-control]");
       const footerSelect = chrome.locator("[data-letter-footer-mode-control]");
-      const preview = page.locator("main [data-letter-page]");
-      const exportPage = page.locator("[data-letter-standalone-export] [data-letter-page]");
+      const preview = page.locator("main [data-letter-document-pages] [data-letter-page]");
+      const exportPage = page.locator(
+        "[data-letter-standalone-export] [data-letter-document-pages] [data-letter-page]",
+      );
       const previewLayer = preview.locator("[data-letter-text-layer]");
       const exportLayer = exportPage.locator("[data-letter-text-layer]");
 

@@ -260,7 +260,7 @@ test.describe("letter image placement hardening", () => {
     // do not turn that unsafe layout into a successful PDF.
     const exportAction = page.getByRole("menuitem", { name: "PDF", exact: true });
     await expect(exportAction).toBeDisabled();
-    await expect(page.locator("[data-pdf-preflight-message]")).toContainText(
+    await expect(page.locator("[data-editor-download-menu]")).toContainText(
       /ausserhalb|abgeschnitten|überlappt|Seitenbereich/i,
     );
   });

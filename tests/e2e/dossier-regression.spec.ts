@@ -871,7 +871,7 @@ test.describe("M5.8 dossier regression", () => {
       "Bewerbung um eine Lehrstelle als Informatiker/in EFZ",
     );
 
-    const downloadToggle = page.getByRole("button", { name: "Download", exact: true });
+    const downloadToggle = page.locator('button[aria-label="Download"]');
     await expect(downloadToggle).toHaveAttribute("data-editor-ready", "true");
     await expect(downloadToggle).toHaveAttribute("aria-expanded", "false");
     await downloadToggle.click();
@@ -952,10 +952,11 @@ test.describe("M5.8 dossier regression", () => {
       delete stableElement.__previewStabilityObserver;
     });
 
-    const downloadToggle = page.getByRole("button", { name: "Download", exact: true });
+    const downloadToggle = page.locator('button[aria-label="Download"]');
     await downloadToggle.click();
     await expect(page.getByRole("menuitem", { name: "PDF", exact: true })).toBeEnabled();
 
+    await page.keyboard.press("Escape");
     await body.fill(
       "Ich interessiere mich sehr für die Lehrstelle und freue mich auf ein Gespräch.",
     );
@@ -1153,7 +1154,7 @@ test.describe("M5.8 dossier regression", () => {
     expect(saved).toContain("<td>");
   });
 
-  test("start screen keeps JSON available and unlocks finished dossier formats when complete", async ({
+  test("start screen keeps JSON available, unlocks complete PDF and retains the Word profile gate", async ({
     page,
   }) => {
     await seedCoreDossier(page);
@@ -1184,7 +1185,10 @@ test.describe("M5.8 dossier regression", () => {
     const readyPdfOption = dialog.getByRole("radio", { name: /Fertiges Dossier \(PDF\)/ });
     const readyDocxOption = dialog.getByRole("radio", { name: /Bearbeitbares Dossier \(DOCX\)/ });
     await expect(readyPdfOption).toBeEnabled();
-    await expect(readyDocxOption).toBeEnabled();
+    await expect(readyDocxOption).toBeDisabled();
+    await expect(dialog.locator("[data-dossier-export-check]")).toContainText(
+      "Vorlage «Modern» mit seitlicher Spalte",
+    );
 
     await expect
       .poll(() =>
@@ -1243,7 +1247,7 @@ test.describe("M5.8 dossier regression", () => {
 
     for (const item of cases) {
       await page.goto(`${BASE_URL}${item.path}`, { waitUntil: "domcontentloaded" });
-      const downloadToggle = page.getByRole("button", { name: "Download", exact: true });
+      const downloadToggle = page.locator('button[aria-label="Download"]');
       await expect(downloadToggle).toHaveAttribute("data-editor-ready", "true");
       await downloadToggle.click();
       const downloadMenu = page.locator("[data-editor-download-menu]");
@@ -1296,6 +1300,7 @@ test.describe("M5.8 dossier regression", () => {
       const cv = JSON.stringify({
         version: 1,
         data: { person: { vorname: "CV", nachname: "Pool" } },
+        design: { font: "freundlich" },
       });
       localStorage.setItem("titelblatt:v3", cover);
       localStorage.setItem("lebenslauf:v1", cv);
@@ -1333,7 +1338,7 @@ test.describe("M5.8 dossier regression", () => {
     });
     await page.reload({ waitUntil: "domcontentloaded" });
 
-    const downloadToggle = page.getByRole("button", { name: "Download", exact: true });
+    const downloadToggle = page.locator('button[aria-label="Download"]');
     await expect(downloadToggle).toHaveAttribute("data-editor-ready", "true");
     await expect(page.getByRole("textbox", { name: "Titel / Betreff", exact: true })).toHaveValue(
       "Aktueller Betreff",

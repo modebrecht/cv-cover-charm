@@ -38,7 +38,7 @@ async function openChromeControls(page: Page) {
 }
 
 async function activateDevTools(page: Page) {
-  const menuButton = page.locator('button[data-editor-ready="true"]').first();
+  const menuButton = page.getByRole("button", { name: "Menü", exact: true });
   await expect(menuButton).toBeVisible();
   await menuButton.click();
 

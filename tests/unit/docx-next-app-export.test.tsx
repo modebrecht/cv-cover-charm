@@ -196,3 +196,29 @@ test("normal export dialog offers one plainly labelled Word download without tec
     "Bitte Schrift wählen.",
   );
 });
+
+test("Word availability rejects formatted letter text before promising a download", () => {
+  const { source } = setup();
+  source.letter.data.richTextHtml = '<div data-align="left">Formatierter Brief</div>';
+  const before = structuredClone(source);
+  expect(() => assertAppDocxNextSource(source)).toThrow("formatierten Brieftext noch nicht");
+  expect(source).toEqual(before);
+});
+
+test("Word availability shares the existing source-letter layout gate", () => {
+  for (const customize of [
+    (source: DossierAppSnapshot) => {
+      source.letter.design.bodyFontSizePt = 13;
+    },
+    (source: DossierAppSnapshot) => {
+      source.letter.design.ruleAfterSubject = true;
+    },
+    (source: DossierAppSnapshot) => {
+      source.settings.margins = { letter: { top: 30, right: 20, bottom: 20, left: 20 } };
+    },
+  ]) {
+    const { source } = setup();
+    customize(source);
+    expect(() => assertAppDocxNextSource(source)).toThrow("Brief-Einstellungen");
+  }
+});

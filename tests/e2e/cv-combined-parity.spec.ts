@@ -214,11 +214,12 @@ for (const sidebar of [false, true]) {
     test.setTimeout(180_000);
     const storage = parityStorage("gallery", true, sidebar);
     if (sidebar) {
-      // Mirroring moves the free photo over the identity at y=24 mm. This
-      // parity fixture needs a fitting photo; the original overlap has its own
-      // hard-block regression in pdf-preflight-safety.qa.ts.
+      // Keep the free photo inside the otherwise empty lower Sidebar. The old
+      // x=150/y=4 placement overlapped the title after mirroring. That unsafe
+      // case is checked separately below and must stay blocked.
       const photo = JSON.parse(storage["lebenslauf:photo-place:v1"]);
-      photo.yMm = 4;
+      photo.xMm = 6;
+      photo.yMm = 220;
       storage["lebenslauf:photo-place:v1"] = JSON.stringify(photo);
     }
     await seed(page, storage);
@@ -276,3 +277,29 @@ for (const sidebar of [false, true]) {
     for (const target of targets) expect(combined.join(" ").split(target)).toHaveLength(2);
   });
 }
+
+test("a CV collision blocks PDF and identifies the CV instead of blaming the letter", async ({
+  page,
+}) => {
+  const storage = parityStorage("gallery", true, true);
+  const photo = JSON.parse(storage["lebenslauf:photo-place:v1"]);
+  photo.yMm = 4;
+  storage["lebenslauf:photo-place:v1"] = JSON.stringify(photo);
+  await seed(page, storage);
+  await page.goto(`${BASE}/`, { waitUntil: "networkidle" });
+  await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
+  const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
+  await expect(dialog.locator('[data-dossier-pdf-blocked-document="cv"]')).toHaveCount(1);
+  await expect(dialog.getByRole("radio", { name: /Fertiges Dossier/ })).toContainText(
+    "Lebenslauf prüfen",
+  );
+  await dialog.locator("[data-dossier-export-check] summary").click();
+  await expect(dialog.locator('[data-dossier-pdf-blocked-document="cv"]')).toContainText(
+    "Lebenslauf kann nicht sicher exportiert werden.",
+  );
+  await expect(dialog.locator("[data-dossier-letter-overflow]")).toHaveCount(0);
+  await expect(
+    dialog.getByRole("button", { name: "PDF herunterladen", exact: true }),
+  ).toBeDisabled();
+  await expect(dialog.getByRole("radio", { name: /Projektdatei/ })).toBeEnabled();
+});

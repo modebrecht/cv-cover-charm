@@ -1,8 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 import { readFile } from "node:fs/promises";
-import { readStoredDocxEntries } from "../../src/lib/dossier-docx-package";
-
-const BASE_URL = "http://127.0.0.1:4173";
+import { readZipEntries } from "../../src/lib/docx-next/zip";
+import { importNativeDossier } from "./support/native-docx-fixture";
 
 function paragraphContaining(xml: string, marker: string) {
   const index = xml.indexOf(marker);
@@ -21,108 +20,19 @@ function paragraphContaining(xml: string, marker: string) {
 }
 
 async function seedAlignedDossier(page: Page) {
-  await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
-  await page.evaluate(() => {
-    localStorage.clear();
-    localStorage.setItem(
-      "titelblatt:v3",
-      JSON.stringify({
-        version: 3,
-        template: "brief",
-        data: {
-          vorname: "Lea",
-          nachname: "Müller",
-          beruf: "Informatikerin EFZ",
-          lehrbeginn: "August 2027",
-          adresse: "Dorfstrasse 12",
-          plzOrt: "4535 Hubersdorf",
-          telefon: "+41 79 123 45 67",
-          email: "lea@example.ch",
-          lehrbetrieb: "Beispiel AG",
-          ansprechperson: "Herr Thomas Weber",
-          betriebAdresse: "Industriestrasse 8",
-          ort: "Hubersdorf",
-          datum: "16.09.2026",
-        },
-      }),
-    );
-    localStorage.setItem(
-      "anschreiben:v1",
-      JSON.stringify({
-        version: 1,
-        data: {
-          absenderName: "Lea Müller",
-          absenderAdresse: "Dorfstrasse 12",
-          absenderPlzOrt: "4535 Hubersdorf",
-          absenderTelefon: "+41 79 123 45 67",
-          absenderEmail: "lea@example.ch",
-          empfaengerFirma: "Beispiel AG",
-          empfaengerName: "Herr Thomas Weber",
-          empfaengerAdresse: "Industriestrasse 8",
-          empfaengerPlzOrt: "4500 Solothurn",
-          ort: "Hubersdorf",
-          datum: "16.09.2026",
-          betreff: "Bewerbung um eine Lehrstelle als Informatikerin EFZ",
-          anrede: "Guten Tag Herr Weber",
-          text: "LETTER-LEFT-DOCX\n\nLETTER-JUSTIFY-DOCX",
-          richTextHtml:
-            '<div data-align="left">LETTER-LEFT-DOCX</div><div><br></div><div data-align="justify">LETTER-JUSTIFY-DOCX</div>',
-          gruss: "Freundliche Grüsse",
-          unterschrift: "Lea Müller",
-          showBeilagen: false,
-          beilagen: [],
-        },
-        design: { template: "brief", font: "freundlich", colors: {} },
-      }),
-    );
-    localStorage.setItem(
-      "lebenslauf:v1",
-      JSON.stringify({
-        version: 6,
-        data: {
-          titel: "Lebenslauf",
-          person: {
-            vorname: "Lea",
-            nachname: "Müller",
-            adresse: "Dorfstrasse 12",
-            plzOrt: "4535 Hubersdorf",
-            telefon: "+41 79 123 45 67",
-            email: "lea@example.ch",
-            geburtsdatum: "14.03.2010",
-            nationalitaet: "Schweiz",
-            untertitel: "Schülerin, 3. Sek B",
-            foto: null,
-          },
-          schule: [
-            {
-              id: "schule-docx-align",
-              zeit: "2023 – heute",
-              titel: "Sekundarschule",
-              ort: "Hubersdorf",
-              beschreibung: "CV-JUSTIFY-DOCX",
-            },
-          ],
-          erfahrung: [],
-          sprachen: [],
-          hobbys: [],
-          staerken: [],
-          referenzen: [],
-          labels: {},
-          hidden: {},
-        },
-        design: { template: "brief", colors: {}, bgOpacity: 0.25, useElements: false },
-      }),
-    );
-    localStorage.setItem("lebenslauf:text-align:v1", "justify");
+  await importNativeDossier(page, (project) => {
+    project.letter.data.empfaengerFirma = "LETTER-LEFT-DOCX";
+    project.letter.data.text = "LETTER-JUSTIFY-DOCX";
+    project.letter.data.richTextHtml = "";
+    project.cv.data.schule[0].beschreibung = "CV-JUSTIFY-DOCX";
+    project.cv.portableState.textAlign = "justify";
   });
-  await page.reload({ waitUntil: "domcontentloaded" });
-  await page.waitForLoadState("networkidle");
 }
 
 test.describe("real DOCX body alignment parity", () => {
   test.setTimeout(120_000);
 
-  test("letter left/justify and CV justify survive the complete DOCX export pipeline", async ({
+  test("recipient left, plain letter justify and CV justify survive the native DOCX pipeline", async ({
     page,
   }) => {
     await seedAlignedDossier(page);
@@ -141,7 +51,7 @@ test.describe("real DOCX body alignment parity", () => {
     expect(path).not.toBeNull();
 
     const bytes = new Uint8Array(await readFile(path!));
-    const entries = readStoredDocxEntries(bytes, "Alignment-E2E");
+    const entries = readZipEntries(bytes, "Alignment-E2E");
     const documentXmlEntry = entries.find((entry) => entry.name === "word/document.xml");
     expect(documentXmlEntry).toBeTruthy();
     const xml = new TextDecoder().decode(documentXmlEntry!.bytes);
@@ -150,4 +60,33 @@ test.describe("real DOCX body alignment parity", () => {
     expect(paragraphContaining(xml, "LETTER-JUSTIFY-DOCX")).toContain('<w:jc w:val="both"/>');
     expect(paragraphContaining(xml, "CV-JUSTIFY-DOCX")).toContain('<w:jc w:val="both"/>');
   });
+});
+
+test("formatted letter keeps PDF available and explains why Word is unavailable", async ({
+  page,
+}) => {
+  const project = await importNativeDossier(page, (project) => {
+    project.letter.data.richTextHtml = '<div data-align="left">LETTER-FORMATTED-DOCX</div>';
+    project.letter.data.text = "LETTER-FORMATTED-DOCX";
+  });
+  await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
+  await expect(page.getByRole("radio", { name: /Bearbeitbares Dossier/ })).toBeDisabled();
+  await expect(page.getByRole("radio", { name: /Fertiges Dossier/ })).toBeEnabled();
+  await expect(page.locator("[data-dossier-export-check]")).toContainText(
+    "formatierten Brieftext noch nicht",
+  );
+  const pdfButton = page.getByRole("button", { name: "PDF herunterladen", exact: true });
+  await expect(pdfButton).toBeEnabled({ timeout: 20_000 });
+  const downloading = page.waitForEvent("download");
+  await pdfButton.click();
+  const pdf = await downloading;
+  expect(pdf.suggestedFilename()).toMatch(/\.pdf$/i);
+  const bytes = await readFile((await pdf.path())!);
+  expect(bytes.subarray(0, 4).toString()).toBe("%PDF");
+  expect(bytes.length).toBeGreaterThan(2_000);
+  expect(
+    await page.evaluate(
+      () => JSON.parse(localStorage.getItem("anschreiben:v1")!).data.richTextHtml,
+    ),
+  ).toBe(project.letter.data.richTextHtml);
 });

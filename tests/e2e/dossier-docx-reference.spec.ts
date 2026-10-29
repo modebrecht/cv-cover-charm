@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { mkdir, readFile } from "node:fs/promises";
+import { expectUnreviewedDocxBlocked, importNativeDossier } from "./support/native-docx-fixture";
 
 const BASE_URL = "http://127.0.0.1:4173";
 const ARTIFACT_DIR = "artifacts/dossier-docx-reference";
@@ -109,28 +110,6 @@ async function seedBriefDossier(page: import("@playwright/test").Page) {
   await page.waitForLoadState("networkidle");
 }
 
-async function setWholeDossierTemplate(page: import("@playwright/test").Page, template: string) {
-  await page.evaluate((nextTemplate) => {
-    const cover = JSON.parse(localStorage.getItem("titelblatt:v3") ?? "null");
-    const letter = JSON.parse(localStorage.getItem("anschreiben:v1") ?? "null");
-    const cv = JSON.parse(localStorage.getItem("lebenslauf:v1") ?? "null");
-    if (cover) {
-      cover.template = nextTemplate;
-      localStorage.setItem("titelblatt:v3", JSON.stringify(cover));
-    }
-    if (letter?.design) {
-      letter.design.template = nextTemplate;
-      localStorage.setItem("anschreiben:v1", JSON.stringify(letter));
-    }
-    if (cv?.design) {
-      cv.design.template = nextTemplate;
-      localStorage.setItem("lebenslauf:v1", JSON.stringify(cv));
-    }
-  }, template);
-  await page.reload({ waitUntil: "domcontentloaded" });
-  await page.waitForLoadState("networkidle");
-}
-
 async function openDocxOption(page: import("@playwright/test").Page) {
   const exportCard = page.getByRole("button", { name: /Gesamtdossier herunterladen/ });
   await expect(exportCard).toBeEnabled();
@@ -139,36 +118,19 @@ async function openDocxOption(page: import("@playwright/test").Page) {
 }
 
 test.describe("DOCX reference download", () => {
-  test("complete Brief dossier downloads a real DOCX package", async ({ page }) => {
+  test("complete Brief dossier keeps the unreviewed Word composition blocked", async ({ page }) => {
     await seedBriefDossier(page);
 
-    const option = await openDocxOption(page);
-    await expect(option).toBeEnabled();
-    await expect(option).toContainText("Vorlage Brief");
-    await option.click();
-
-    const button = page.getByRole("button", { name: "DOCX herunterladen" });
-    await expect(button).toBeEnabled();
-    const [download] = await Promise.all([page.waitForEvent("download"), button.click()]);
-    expect(download.suggestedFilename()).toBe("Bewerbungsdossier-LeaMueller.docx");
-
-    const path = await download.path();
-    expect(path).not.toBeNull();
-    const bytes = await readFile(path!);
-    expect(bytes.length).toBeGreaterThan(2_000);
-    expect([...bytes.subarray(0, 4)]).toEqual([0x50, 0x4b, 0x03, 0x04]);
-
-    await mkdir(ARTIFACT_DIR, { recursive: true });
-    await download.saveAs(`${ARTIFACT_DIR}/brief-reference.docx`);
+    await openDocxOption(page);
+    await expectUnreviewedDocxBlocked(page);
   });
 
-  test("Modern uses the generic family fallback and downloads a real DOCX", async ({ page }) => {
-    await seedBriefDossier(page);
-    await setWholeDossierTemplate(page, "modern");
+  test("reviewed Modern Sidebar downloads a native DOCX package", async ({ page }) => {
+    await importNativeDossier(page);
 
     const option = await openDocxOption(page);
     await expect(option).toBeEnabled();
-    await expect(option).toContainText("Vorlage Modern");
+    await expect(option).toContainText("Bereit");
     await option.click();
 
     const button = page.getByRole("button", { name: "DOCX herunterladen" });
@@ -179,6 +141,8 @@ test.describe("DOCX reference download", () => {
     const bytes = await readFile(path!);
     expect(bytes.length).toBeGreaterThan(2_000);
     expect([...bytes.subarray(0, 4)]).toEqual([0x50, 0x4b, 0x03, 0x04]);
+    await mkdir(ARTIFACT_DIR, { recursive: true });
+    await download.saveAs(`${ARTIFACT_DIR}/modern-native-reference.docx`);
   });
 
   test("DOCX stays disabled when dossier parts use different templates", async ({ page }) => {
@@ -202,7 +166,7 @@ test.describe("DOCX reference download", () => {
     await expect(option).toBeDisabled();
     const requirements = page.locator("[data-dossier-export-check]");
     await expect(requirements).toContainText(
-      "Titelblatt, Motivationsschreiben und Lebenslauf müssen dasselbe Design verwenden.",
+      "Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
     );
   });
 });

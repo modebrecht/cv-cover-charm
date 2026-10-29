@@ -331,7 +331,7 @@ async function uiDefaultScreenshot(page: Page) {
   await page.reload({ waitUntil: "domcontentloaded" });
   const download = page.getByRole("button", { name: "Download", exact: true });
   await expect(download).toHaveAttribute("data-editor-ready", "true");
-  await download.click();
+  await page.getByRole("button", { name: "Menü", exact: true }).click();
   await page.getByRole("button", { name: "Beispieldaten übernehmen", exact: true }).click();
   await page.getByRole("button", { name: "Ja", exact: true }).click();
   const preview = page.locator("main [data-letter-document-root] [data-letter-page]").first();

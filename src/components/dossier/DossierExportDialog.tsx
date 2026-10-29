@@ -107,8 +107,13 @@ export function DossierExportDialog({
       : preflight?.status === "pending" || !preflight
         ? null
         : false;
-  const letterPaginationError =
-    preflight?.issues.find((issue) => issue.severity === "blocked")?.message ?? null;
+  const blockingIssue = preflight?.issues.find((issue) => issue.severity === "blocked");
+  const blockedDocumentLabel = blockingIssue
+    ? { letter: "Motivationsschreiben", cv: "Lebenslauf", cover: "Titelblatt" }[
+        blockingIssue.documentKind
+      ]
+    : "Drucksatz";
+  const letterPaginationError = blockingIssue?.message ?? null;
   const formatSelectionEnabled = jsonAvailable !== undefined || pdfAvailable !== undefined;
   const canDownloadPdf = pdfAvailable ?? true;
   const canDownloadDocx = docxNext.available;
@@ -240,8 +245,8 @@ export function DossierExportDialog({
       ? missingFieldsCompact
       : letterOverflow === true
         ? letterPaginationError
-          ? "Briefinhalt prüfen"
-          : "Briefseite prüfen"
+          ? `${blockedDocumentLabel} prüfen`
+          : "Drucksatz prüfen"
         : layoutPending || !preflight || preflight.status === "pending"
           ? "Layout wird geprüft…"
           : preflight.status === "blocked"
@@ -399,9 +404,14 @@ export function DossierExportDialog({
                 </li>
               ) : null}
               {pdfOverflowIssue ? (
-                <li data-dossier-letter-overflow>
+                <li
+                  data-dossier-letter-overflow={
+                    blockingIssue?.documentKind === "letter" ? true : undefined
+                  }
+                  data-dossier-pdf-blocked-document={blockingIssue?.documentKind ?? "dossier"}
+                >
                   <span className="font-medium text-foreground">
-                    Motivationsschreiben kann nicht sicher exportiert werden.
+                    {blockedDocumentLabel} kann nicht sicher exportiert werden.
                   </span>{" "}
                   {letterPaginationError ??
                     "Mindestens eine erzeugte Briefseite läuft über den nutzbaren Seitenbereich."}
