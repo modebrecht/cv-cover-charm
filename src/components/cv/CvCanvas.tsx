@@ -39,6 +39,7 @@ import {
   measureCvPageFitSectionHeights,
   measureCvPageFitCapacityPx,
   measureCvPageFitSidebarFits,
+  measureCvOnePageDemand,
   chooseCvSmartPageFitMode,
   cvPageFitKeepsManualPosition,
   consumeCvPageFitMode,
@@ -51,6 +52,7 @@ import {
   CV_NAME_FONT_SIZE_MAX,
   CV_NAME_FONT_SIZE_MIN,
   cvSectionOrder,
+  cvSectionLayout,
   type CvData,
   type CvDesign,
   type CvLayoutSectionKey,
@@ -372,6 +374,18 @@ export function CvCanvas({
       return;
     }
     const heights = measureCvPageFitSectionHeights(geometryScopeRef.current);
+    // The paginator measures grouped rows as a whole. Keep authored compact
+    // widths/packing when using that complete demand instead of inventing
+    // separate rubric heights. Free content needs its own geometric contract.
+    const preserveClassicPacking =
+      pageFitLayout === "classic" &&
+      cvSectionOrder(props.data).some((key) => cvSectionLayout(props.data, key).width === "half");
+    const measuredCompactFlow =
+      preserveClassicPacking &&
+      !props.design.useElements &&
+      cvSectionOrder(props.data).every(
+        (key) => cvSectionLayout(props.data, key).positioning === "flow",
+      );
     const chosenMode =
       pageFitMode === "auto"
         ? chooseCvSmartPageFitMode(
@@ -389,7 +403,9 @@ export function CvCanvas({
                   sidebarFitsFirstPage:
                     measureCvPageFitSidebarFits(geometryScopeRef.current) === true,
                 }
-              : undefined,
+              : measuredCompactFlow
+                ? { measuredFlowDemand: measureCvOnePageDemand(geometryScopeRef.current) }
+                : undefined,
           )
         : pageFitPlan.mode;
     if (chosenMode === "two") {
@@ -419,9 +435,13 @@ export function CvCanvas({
       if (!page) continue;
       props.onSectionLayout(key, {
         page,
-        width: measuredPlan.widthBySection[key] ?? "full",
+        width: preserveClassicPacking
+          ? cvSectionLayout(props.data, key).width
+          : (measuredPlan.widthBySection[key] ?? "full"),
         positioning: "flow",
-        packing: measuredPlan.packingBySection[key] ?? "rows",
+        packing: preserveClassicPacking
+          ? cvSectionLayout(props.data, key).packing
+          : (measuredPlan.packingBySection[key] ?? "rows"),
         x: null,
         y: null,
         widthMm: null,
@@ -437,6 +457,7 @@ export function CvCanvas({
     pageFitRevision,
     presentation.placements,
     props.data,
+    props.design.useElements,
     props.exportMode,
     props.onSectionLayout,
     twoPageMode,

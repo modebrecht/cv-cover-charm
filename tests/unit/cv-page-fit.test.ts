@@ -316,3 +316,34 @@ describe("intelligent 1–2 page choice", () => {
     ).toBe("two");
   });
 });
+
+describe("automatic compact classic flow demand", () => {
+  test("complete paginator demand permits one page when grouped rows have no separate rubric heights", () => {
+    expect(
+      chooseCvSmartPageFitMode(DEMO_CV, { person: 100, erfahrung: 199 }, 695, false, {
+        measuredFlowDemand: 0.68,
+      }),
+    ).toBe("one");
+    expect(chooseCvSmartPageFitMode(DEMO_CV, null, null, false, { measuredFlowDemand: 0.68 })).toBe(
+      "one",
+    );
+  });
+  test("compact rows retain the ten-percent reserve and reject missing or invalid full demand", () => {
+    for (const demand of [0.91, 1.1, null, NaN, Infinity, 0, -1])
+      expect(
+        chooseCvSmartPageFitMode(DEMO_CV, { person: 1 }, 1000, true, {
+          measuredFlowDemand: demand,
+        }),
+      ).toBe("two");
+  });
+  test("a free second-page placement wins over a small complete flow demand", () => {
+    const data = structuredClone(DEMO_CV);
+    data.sectionLayouts = {
+      ...data.sectionLayouts,
+      referenzen: { page: 2, width: "full", positioning: "free", packing: "rows" },
+    };
+    expect(chooseCvSmartPageFitMode(data, null, null, false, { measuredFlowDemand: 0.2 })).toBe(
+      "two",
+    );
+  });
+});

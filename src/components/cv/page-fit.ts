@@ -228,6 +228,8 @@ export function chooseCvSmartPageFitMode(
   options: {
     mainSectionKeys?: readonly CvLayoutSectionKey[];
     sidebarFitsFirstPage?: boolean;
+    /** Complete paginator demand for an unchanged compact classic layout. */
+    measuredFlowDemand?: number | null;
   } = {},
 ): "one" | "two" {
   let active = cvSectionOrder(data).filter(
@@ -248,6 +250,12 @@ export function chooseCvSmartPageFitMode(
     active = active.filter((key) => mainSectionKeys.includes(key));
   }
   if (!active.length) return "one";
+  if (options.measuredFlowDemand !== undefined) {
+    const demand = options.measuredFlowDemand;
+    return typeof demand === "number" && Number.isFinite(demand) && demand > 0 && demand <= 0.9
+      ? "one"
+      : "two";
+  }
   if (!measured || !Number.isFinite(usableFirstPagePx) || (usableFirstPagePx ?? 0) <= 0)
     return "two";
   let sum = 0;

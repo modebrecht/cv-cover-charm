@@ -363,3 +363,124 @@ test("smart fit still consolidates a short standard CV without changing content 
   await expect.poll(async () => (await saved(page)).data.sectionLayouts.sprachen.page).toBe(1);
   expect((await saved(page)).design).toEqual(before.design);
 });
+
+function compactClassicFixture(packing: "rows" | "masonry" = "masonry") {
+  const data = splitFixture();
+  for (const key of ["sprachen", "hobbys", "staerken"] as const)
+    data.sectionLayouts![key] = { page: 2, width: "half", packing, positioning: "flow" };
+  return data;
+}
+
+for (const packing of ["rows", "masonry"] as const) {
+  for (const mobile of [false, true]) {
+    test(`smart fit compact classic ${packing} ${mobile ? "mobile" : "desktop"}: complete flow returns to one page without repacking`, async ({
+      page,
+    }) => {
+      if (mobile) await page.setViewportSize({ width: 390, height: 844 });
+      const root = await load(page, compactClassicFixture(packing), "classic");
+      await expect(page.locator('[role="status"][title="Automatisch gespeichert"]')).toBeVisible();
+      await expect(root.locator("[data-cv-page]")).toHaveCount(2);
+      const before = await saved(page);
+      await autoFit(page);
+      await expect(root.locator("[data-cv-page]")).toHaveCount(1);
+      const after = await saved(page);
+      expect(after.design).toEqual(before.design);
+      expect({ ...after.data, sectionLayouts: undefined }).toEqual({
+        ...before.data,
+        sectionLayouts: undefined,
+      });
+      for (const key of cvSectionOrder(before.data)) {
+        expect(after.data.sectionLayouts[key].page).toBe(1);
+        expect(after.data.sectionLayouts[key].width).toBe(before.data.sectionLayouts[key].width);
+        expect(after.data.sectionLayouts[key].packing).toBe(
+          before.data.sectionLayouts[key].packing,
+        );
+      }
+      for (const selector of [documentRoots("cv").web, documentRoots("cv").canonical]) {
+        const output = await collectDocument(page, selector, "cv");
+        expect(output).toHaveLength(1);
+        expect(output.flatMap((p) => p.issues)).toEqual([]);
+        for (const text of ["Französisch", "Volleyball im Verein", "Herr Thomas Weber"])
+          expect(output[0].text).toContain(text);
+      }
+      await autoFit(page);
+      await expect.poll(() => saved(page)).toEqual(after);
+      await page.reload();
+      await waitEditorReady(page);
+      await expect(root.locator("[data-cv-page]")).toHaveCount(1);
+      await expect.poll(() => saved(page)).toEqual(after);
+      if (!mobile) {
+        await page.getByRole("button", { name: "Download", exact: true }).click();
+        const downloading = page.waitForEvent("download");
+        await page.getByRole("menuitem", { name: "PDF", exact: true }).click();
+        const download = await downloading;
+        const filename = resolve(`artifacts/smart-fit-29okt/compact-classic-${packing}.pdf`);
+        await mkdir("artifacts/smart-fit-29okt", { recursive: true });
+        await download.saveAs(filename);
+        const { getDocument } = await import("pdfjs-dist/legacy/build/pdf.mjs");
+        const task = getDocument({
+          data: new Uint8Array(await readFile(filename)),
+          disableFontFace: true,
+        });
+        const pdf = await task.promise;
+        try {
+          expect(pdf.numPages).toBe(1);
+          const content = await (await pdf.getPage(1)).getTextContent();
+          const text = content.items.map((item) => ("str" in item ? item.str : "")).join(" ");
+          expect(text).toContain("Französisch");
+          expect(text).toContain("Volleyball im Verein");
+          expect(text.match(/Herr Thomas Weber/g)).toHaveLength(1);
+        } finally {
+          await task.destroy();
+        }
+      }
+    });
+  }
+}
+
+test("smart fit long compact classic content stays on two pages without shrinking", async ({
+  page,
+}) => {
+  const data = compactClassicFixture();
+  data.hobbys = Array.from(
+    { length: 15 },
+    (_, index) =>
+      `Vereinsprojekt ${index + 1}: Gemeinsam einen grösseren Anlass sorgfältig planen und umsetzen`,
+  );
+  const root = await load(page, data, "classic");
+  await expect(page.locator('[role="status"][title="Automatisch gespeichert"]')).toBeVisible();
+  const before = await saved(page);
+  await autoFit(page);
+  await expect(root.locator("[data-cv-page]")).toHaveCount(2);
+  expect((await saved(page)).design).toEqual(before.design);
+  expect((await saved(page)).data.hobbys).toEqual(before.data.hobbys);
+  for (const selector of [documentRoots("cv").web, documentRoots("cv").canonical]) {
+    const output = await collectDocument(page, selector, "cv");
+    expect(output).toHaveLength(2);
+    expect(output.flatMap((p) => p.issues)).toEqual([]);
+    for (const text of data.hobbys) expect(output.map((p) => p.text).join(" ")).toContain(text);
+  }
+});
+
+test("smart fit compact classic keeps a freely placed second-page reference", async ({ page }) => {
+  const data = compactClassicFixture();
+  data.sectionLayouts!.referenzen = {
+    page: 2,
+    width: "full",
+    packing: "rows",
+    positioning: "free",
+    x: 24,
+    y: 68,
+    widthMm: 150,
+    heightMm: 45,
+  };
+  const root = await load(page, data, "classic");
+  await expect(page.locator('[role="status"][title="Automatisch gespeichert"]')).toBeVisible();
+  const before = await saved(page);
+  await autoFit(page);
+  await expect(root.locator("[data-cv-page]")).toHaveCount(2);
+  expect((await saved(page)).data.sectionLayouts.referenzen).toEqual(
+    before.data.sectionLayouts.referenzen,
+  );
+  expect((await saved(page)).design).toEqual(before.design);
+});
