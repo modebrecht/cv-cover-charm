@@ -31,6 +31,9 @@ XML-Anker gegen die erklärte Eigenschaft. Der neue Modus verlangt ausdrücklich
 - 1487/1487 Unit-Tests bestanden; nach Rücknahme des Foto-Alternativversuchs
   die 13 betroffenen Tests nochmals bestanden.
 - App-Typprüfung, geänderte Format-/Lintprüfung bestanden.
+- Vier tatsächliche Exporte der normalen `shared-body-stories`-Komposition
+  (links/rechts, jeweils ohne/mit Foto) behalten gegenüber `c3e9f4f` ihr
+  vollständiges Modell und jedes DOCX-Paketbyte. Die Hashes stehen im JSON-Nachweis.
 - 11/11 Python-Vertragstests, darunter vier neue Gegenprüfungen der Ankerpolitik.
 - Die ersten 13 App-Fälle bestehen mit Quellzustand und zwei Save/Reopen-Zyklen,
   vollständigen nativen/sichtbaren Texten, Feldidentität, Reihenfolge, Kopf-/

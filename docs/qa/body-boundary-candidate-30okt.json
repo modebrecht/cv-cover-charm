@@ -626,5 +626,31 @@
     "fullUnitFailed": 3,
     "reason": "Typed picture control encloses a frame with two drawings, violating existing Word image ownership contracts",
     "presentInCandidate": false
-  }
+  },
+  "normalSharedCompositionParity": [
+    {
+      "kind": "left",
+      "modelIdentical": true,
+      "packageByteIdentical": true,
+      "sha256": "fa31bc01e6f0f340385521161502191bde3485d524d877a1b5ff5effec14a159"
+    },
+    {
+      "kind": "right",
+      "modelIdentical": true,
+      "packageByteIdentical": true,
+      "sha256": "a71bf24b6f9bd49d420f76f2d62ead02d4c79910841dc6eab56a2f9609b2610a"
+    },
+    {
+      "kind": "photo-left",
+      "modelIdentical": true,
+      "packageByteIdentical": true,
+      "sha256": "e2cd44e338b1737b8dcfec58abe0604639ce779b52e0ff4a529565f6b23226db"
+    },
+    {
+      "kind": "photo-right",
+      "modelIdentical": true,
+      "packageByteIdentical": true,
+      "sha256": "c99d55e7c87214853ef6b745a73a2e48f0aa8736b71653a2ccb82d31b2f0a635"
+    }
+  ]
 }
