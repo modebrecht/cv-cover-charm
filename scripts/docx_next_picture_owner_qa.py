@@ -12,6 +12,50 @@ A = '{http://schemas.openxmlformats.org/drawingml/2006/main}'
 R = '{http://schemas.openxmlformats.org/officeDocument/2006/relationships}'
 REL = '{http://schemas.openxmlformats.org/package/2006/relationships}'
 IMAGE_REL = R[1:-1] + '/image'
+MC = '{http://schemas.openxmlformats.org/markup-compatibility/2006}'
+WPS = 'http://schemas.microsoft.com/office/word/2010/wordprocessingShape'
+
+
+def effective_document(data):
+    """Project the generated Word-2010 shape Choice; never count its VML fallback too."""
+    scopes, stack, pending = {}, [], []
+    parser = ET.iterparse(io.BytesIO(data), events=('start-ns', 'start', 'end'))
+    for event, value in parser:
+        if event == 'start-ns':
+            pending.append(value)
+        elif event == 'start':
+            scope = dict(stack[-1]) if stack else {}
+            scope.update(pending)
+            pending.clear()
+            scopes[id(value)] = scope
+            stack.append(scope)
+        else:
+            stack.pop()
+    root = parser.root
+    def project(parent):
+        for node in list(parent):
+            if node.tag != MC + 'AlternateContent':
+                project(node)
+                continue
+            choices = [child for child in node if child.tag == MC + 'Choice']
+            fallbacks = [child for child in node if child.tag == MC + 'Fallback']
+            assert choices and len(fallbacks) <= 1 and len(choices) + len(fallbacks) == len(node), 'Invalid compatibility alternatives'
+            selected = None
+            for choice in choices:
+                required = choice.get('Requires', '').split()
+                assert required and all(prefix in scopes[id(choice)] for prefix in required), 'Unbound compatibility requirement'
+                if selected is None and all(scopes[id(choice)][prefix] in {WPS} for prefix in required):
+                    selected = choice
+            if selected is None:
+                assert len(fallbacks) == 1, 'No supported compatibility Choice or Fallback'
+                selected = fallbacks[0]
+            project(selected)
+            index = list(parent).index(node)
+            parent.remove(node)
+            for offset, child in enumerate(list(selected)):
+                parent.insert(index + offset, child)
+    project(root)
+    return root
 
 
 def picture_inventory(path, pictures):
@@ -19,7 +63,7 @@ def picture_inventory(path, pictures):
     expected = [picture['id'] for picture in pictures]
     assert len(expected) == len(set(expected)), 'Duplicate expected picture identity'
     with ZipFile(path) as archive:
-        document = ET.fromstring(archive.read('word/document.xml'))
+        document = effective_document(archive.read('word/document.xml'))
         relations = ET.fromstring(archive.read('word/_rels/document.xml.rels'))
         records = []
         for identity in expected:

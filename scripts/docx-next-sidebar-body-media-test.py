@@ -71,5 +71,14 @@ class BodyPackageTests(unittest.TestCase):
         with self.assertRaisesRegex(AssertionError, 'missing authored'):
             self.controls('<w:sdt><w:sdtPr/><w:sdtContent/></w:sdt>')
 
+    def test_inactive_shape_fallback_is_not_a_duplicate_authored_field(self):
+        field = '<w:sdt><w:sdtPr><w:tag w:val="cv.photo"/></w:sdtPr><w:sdtContent/></w:sdt>'
+        alternative = ('<mc:AlternateContent xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">'
+            '<mc:Choice xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" Requires="wps">'
+            + field + '</mc:Choice><mc:Fallback>' + field + '</mc:Fallback></mc:AlternateContent>')
+        self.assertEqual(self.controls(alternative), ({'cv.photo': ''}, {'cv.photo': ''}))
+        with self.assertRaisesRegex(AssertionError, 'duplicate.*cv.photo'):
+            self.controls(alternative + field)
+
 
 if __name__ == '__main__': unittest.main()

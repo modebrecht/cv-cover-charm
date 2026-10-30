@@ -8,9 +8,10 @@ import shutil
 import subprocess
 import tempfile
 from zipfile import ZipFile
+from xml.etree import ElementTree as ET
 
 import fitz
-from docx_next_picture_owner_qa import picture_inventory, compare_image_data
+from docx_next_picture_owner_qa import W, picture_inventory, compare_image_data
 
 
 def variants(document):
@@ -69,10 +70,16 @@ def probe(fixtures, target, engine):
     with ZipFile(source) as archive:
         parts = [(info, archive.read(info.filename)) for info in archive.infolist()]
         document = archive.read('word/document.xml').decode()
+    candidates = variants(document)
+    legacy = fixtures / 'legacy-frame.docx'
+    assert legacy.is_file(), 'Missing unchanged renderer frame counterprobe'
+    with ZipFile(legacy) as archive:
+        assert all(archive.read(info.filename) == data for info, data in parts if info.filename != 'word/document.xml')
+        candidates['legacy-frame-control'] = archive.read('word/document.xml').decode()
     target.mkdir(parents=True, exist_ok=True)
     report = {'sourceSha256': sha(source), 'productionAcceptance': 'blocked',
               'scope': 'One existing app free-photo counterexample; explicit diagnostic mutations only', 'cases': []}
-    for name, modified in variants(document).items():
+    for name, modified in candidates.items():
         row = {'variant': name, 'phases': [], 'collectionStatus': 'pending', 'productionAcceptance': 'blocked'}
         report['cases'].append(row)
         try:
@@ -93,9 +100,14 @@ def probe(fixtures, target, engine):
                     convert(engine, path, next_path, 'docx')
                     path = next_path
                 ownership = picture_inventory(path, fixture['pictures'])
+                with ZipFile(path) as archive:
+                    raw_document = ET.fromstring(archive.read('word/document.xml'))
+                raw_count = sum((tag := sdt.find(W+'sdtPr/'+W+'tag')) is not None and tag.get(W+'val') == 'cv.person.photo'
+                                for sdt in raw_document.iter(W+'sdt'))
                 pdf = target / (name + '-' + phase + '.pdf')
                 convert(engine, path, pdf, 'pdf')
                 row['phases'].append({'phase': phase, 'packageSha256': sha(path), 'pdfSha256': sha(pdf),
+                                      'rawPhotoControlCount': raw_count,
                                       'pictureOwnership': ownership, 'imageData': compare_image_data(before, ownership),
                                       'pdf': pdf_snapshot(pdf)})
             row['ownershipStable'] = all(p['pictureOwnership']['status'] == 'pass' for p in row['phases'])
@@ -103,6 +115,8 @@ def probe(fixtures, target, engine):
             row['sourceToSavedVisibleGeometryStable'] = row['phases'][0]['pdf'] == row['phases'][1]['pdf']
             row['savedToSaved2VisibleGeometryStable'] = row['phases'][1]['pdf'] == row['phases'][2]['pdf']
             row['collectionStatus'] = 'pass'
+            row['rawPhotoControlCounts'] = [phase['rawPhotoControlCount'] for phase in row['phases']]
+            row['activePhotoControlCounts'] = [phase['pictureOwnership']['pictures'][0]['ownerCount'] for phase in row['phases']]
         except Exception as error:
             row['collectionStatus'] = 'fail'
             row['failure'] = type(error).__name__ + ': ' + str(error)

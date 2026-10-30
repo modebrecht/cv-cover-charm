@@ -17,7 +17,7 @@ import fitz
 import numpy as np
 from PIL import Image
 from docx_next_story_qa import W, text_value, visible_story
-from docx_next_picture_owner_qa import picture_inventory, compare_image_data, require_picture_ownership
+from docx_next_picture_owner_qa import picture_inventory, compare_image_data, require_picture_ownership, effective_document
 
 REPO = Path(__file__).resolve().parent.parent
 spec = importlib.util.spec_from_file_location('entry_flow', Path(__file__).with_name('docx-next-entry-flow-qa.py'))
@@ -55,7 +55,7 @@ def package_controls(path):
         types = ET.fromstring(archive.read('[Content_Types].xml'))
         declared = {item.get('PartName').lstrip('/') for item in types
                     if item.get('ContentType', '').endswith(('.header+xml', '.footer+xml'))}
-        document = ET.fromstring(archive.read('word/document.xml'))
+        document = effective_document(archive.read('word/document.xml'))
         relations = {item.get('Id'):posixpath.normpath(posixpath.join('word',item.get('Target')))
                      for item in ET.fromstring(archive.read('word/_rels/document.xml.rels'))}
         settings = ET.fromstring(archive.read('word/settings.xml'))
@@ -75,7 +75,7 @@ def package_controls(path):
         for name in archive.namelist():
             if name in story_parts:
                 records = {}
-                for node in ET.fromstring(archive.read(name)).iter(W + 'sdt'):
+                for node in effective_document(archive.read(name)).iter(W + 'sdt'):
                     tag = node.find(W + 'sdtPr/' + W + 'tag')
                     assert tag is not None, f'{name}: missing authored field tag'
                     identity = tag.get(W + 'val')

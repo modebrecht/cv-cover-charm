@@ -262,6 +262,7 @@ jobs:
             ${{ env.QA_ROOT }}/native-grid-report.json
             ${{ env.QA_ROOT }}/native-boundary-report.json
             ${{ env.QA_ROOT }}/native-import-report.json
+            ${{ env.QA_ROOT }}/native-import-observation.json
             ${{ env.QA_ROOT }}/native-stack-report.json
             ${{ env.QA_ROOT }}/native-stack-diagnostics.json
             ${{ env.QA_ROOT }}/native-state-report.json
@@ -362,7 +363,9 @@ jobs:
     timeout-minutes: 30
     env:
       QA_ROOT: /tmp/docx-next-app-body
-      DIRECT_PICTURE_ARGS: ${{ github.ref == 'refs/heads/work/30okt-body-boundary-candidate' && '--direct-picture-ownership' || '' }}
+      # Keep typed inline picture ownership inside the existing free frame.
+      # The rejected direct anchor remains an isolated negative counterprobe below.
+      DIRECT_PICTURE_ARGS: ""
       DETACHED_CELL_ARGS: ${{ github.ref == 'refs/heads/work/30okt-body-boundary-candidate' && '--detached-cell-starts' || '' }}
     steps:
       - uses: actions/checkout@v4
@@ -411,7 +414,9 @@ jobs:
         id: picture_probes
         if: github.ref == 'refs/heads/work/30okt-body-boundary-candidate'
         timeout-minutes: 8
-        run: python scripts/docx-next-picture-owner-probe.py "$QA_ROOT/fixtures" "$QA_ROOT/picture-owner-probes" --engine "$QA_ROOT/setup/runtime"
+        run: |
+          bun scripts/docx-next-picture-owner-frame-probe.ts "$QA_ROOT/fixtures" "$QA_ROOT/picture-owner-probe-sources"
+          python scripts/docx-next-picture-owner-probe.py "$QA_ROOT/picture-owner-probe-sources" "$QA_ROOT/picture-owner-probes" --engine "$QA_ROOT/setup/runtime"
       - name: Require complete visible and native stories, chrome and photos through two Save/Reopen cycles
         id: app_content
         if: ${{ !cancelled() && (success() || steps.picture_probes.outcome == 'failure') }}
@@ -430,6 +435,7 @@ jobs:
           path: |
             ${{ env.QA_ROOT }}/fixtures/
             ${{ env.QA_ROOT }}/picture-owner-probes/
+            ${{ env.QA_ROOT }}/picture-owner-probe-sources/
             ${{ env.QA_ROOT }}/setup/runtime/runtime-record.json
             ${{ env.QA_ROOT }}/uno-binding/binding-record.json
 

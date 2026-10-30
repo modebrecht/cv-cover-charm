@@ -5,7 +5,7 @@ import unittest
 from zipfile import ZipFile
 
 from PIL import Image
-from docx_next_picture_owner_qa import (W, A, R, REL, IMAGE_REL, picture_inventory,
+from docx_next_picture_owner_qa import (W, A, R, REL, IMAGE_REL, WPS, picture_inventory,
                                        compare_image_data, require_picture_ownership)
 
 DRAWING = '<w:r><w:drawing><a:graphic><a:blip r:embed="image1"/></a:graphic></w:drawing></w:r>'
@@ -81,8 +81,39 @@ class PictureOwnershipTests(unittest.TestCase):
         self.assertEqual(self.inspect(media=b'not an image')['status'], 'fail')
 
     def test_writer_alternate_fallback_is_not_counted_as_two_drawings(self):
-        alternate = '<mc:AlternateContent xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"><mc:Choice Requires="wps">' + DRAWING + '</mc:Choice><mc:Fallback><w:pict/></mc:Fallback></mc:AlternateContent>'
+        alternate = f'<mc:AlternateContent xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"><mc:Choice xmlns:wps="{WPS}" Requires="wps">' + DRAWING + '</mc:Choice><mc:Fallback><w:pict/></mc:Fallback></mc:AlternateContent>'
         self.assertEqual(self.inspect(CONTROL.format(alternate))['status'], 'pass')
+
+    def alternate(self, choice, fallback, namespace=WPS):
+        return f'<mc:AlternateContent xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"><mc:Choice xmlns:feature="{namespace}" Requires="feature">{choice}</mc:Choice><mc:Fallback>{fallback}</mc:Fallback></mc:AlternateContent>'
+
+    def test_same_field_in_inactive_fallback_is_not_a_second_live_control(self):
+        field = CONTROL.format(DRAWING)
+        self.assertEqual(self.inspect(self.alternate(field, field))['status'], 'pass')
+
+    def test_real_duplicates_in_the_selected_choice_still_fail(self):
+        field = CONTROL.format(DRAWING)
+        self.assertEqual(self.inspect(self.alternate(field * 2, field))['status'], 'fail')
+
+    def test_unsupported_choice_uses_only_fallback(self):
+        good, bad = CONTROL.format(DRAWING), CONTROL.format('')
+        self.assertEqual(self.inspect(self.alternate(bad, good, 'urn:unsupported'))['status'], 'pass')
+        self.assertEqual(self.inspect(self.alternate(good, bad, 'urn:unsupported'))['status'], 'fail')
+
+    def test_unbound_compatibility_requirement_is_rejected(self):
+        body = self.alternate(CONTROL.format(DRAWING), '').replace('Requires="feature"', 'Requires="unbound"')
+        with self.assertRaisesRegex(AssertionError, 'Unbound'):
+            self.inspect(body)
+
+    def test_inner_namespace_shadowing_selects_its_own_fallback(self):
+        good, bad = CONTROL.format(DRAWING), CONTROL.format('')
+        inner = self.alternate(bad, good, 'urn:unsupported')
+        outer = self.alternate(inner, bad)
+        self.assertEqual(self.inspect(outer)['status'], 'pass')
+
+    def test_picture_outside_selected_control_cannot_be_borrowed_from_fallback(self):
+        good, bad = CONTROL.format(DRAWING), CONTROL.format('') + DRAWING
+        self.assertEqual(self.inspect(self.alternate(bad, good))['status'], 'fail')
 
     def test_empty_scope_passes_without_inventing_photos(self):
         stream = io.BytesIO()
