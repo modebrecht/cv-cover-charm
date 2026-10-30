@@ -400,7 +400,13 @@ export function validateDossierDocModel(model: DossierDocModel): void {
       if (
         block.kind === "image" &&
         block.nativeOwner === "page-picture" &&
-        (!part.blocks.includes(block) || block.wrapMode !== undefined || block.gapMm !== 0)
+        (!part.blocks.includes(block) ||
+          block.gapMm !== 0 ||
+          (block.wrapMode !== undefined &&
+            (block.wrapMode !== "none" ||
+              part.layout.side !== "right" ||
+              block.id !== "cv.person.photo" ||
+              block.xMm < part.page.widthMm / 2)))
       )
         throw Error(`DOCX Next ordinary picture must be outside cells and controls ${block.id}`);
       if (
