@@ -1,0 +1,62 @@
+{
+  "sourceChecks": [
+    {
+      "context": "body",
+      "sha256": "4bdb1b42d026a60c79534cc8540d3de8907884cd4d9cac9ed7a9c76067672b5d",
+      "oneTypedAnchoredDrawing": true,
+      "extentEmu": {
+        "cx": "1260000",
+        "cy": "1890000"
+      }
+    },
+    {
+      "context": "single",
+      "sha256": "773128da0798562dda8c0054a6d4efe386958295e2db0cbf3c73227799bef3a8",
+      "oneTypedAnchoredDrawing": true,
+      "extentEmu": {
+        "cx": "1260000",
+        "cy": "1890000"
+      }
+    },
+    {
+      "context": "left",
+      "sha256": "4c40c264bb593873254eec6446b3a48c51167fa01f63a837f04e2b567c6458e1",
+      "oneTypedAnchoredDrawing": true,
+      "extentEmu": {
+        "cx": "1260000",
+        "cy": "1890000"
+      }
+    },
+    {
+      "context": "right",
+      "sha256": "6833a7abf4607e27ca2897c805d0aaa3282f16d36d4744a286b57cbf31cd7b6c",
+      "oneTypedAnchoredDrawing": true,
+      "extentEmu": {
+        "cx": "1260000",
+        "cy": "1890000"
+      }
+    }
+  ],
+  "diagnosticGuardPassed": true,
+  "defaultFalseByteParityPassed": true,
+  "nonDocumentPartsByteParityPassed": true,
+  "modelUnchanged": true,
+  "deterministicPackages": true,
+  "nativeSaveReopenExecuted": false,
+  "fullUnitSuiteExecuted": true,
+  "fullAppMatrixExecuted": false,
+  "microsoftWordAccepted": false,
+  "linuxUnitTests": {
+    "passed": 1490,
+    "failed": 0,
+    "bunVersion": "1.3.13",
+    "logSha256": "9ccedc4aa10edd02954f21037db5dce7895cd445e1c490c37aea68976d1ae4be"
+  },
+  "focusedPictureTests": {
+    "passed": 7,
+    "failed": 0
+  },
+  "typecheck": "pass",
+  "changedLintAndFormat": "pass",
+  "nativeCI": "pending"
+}

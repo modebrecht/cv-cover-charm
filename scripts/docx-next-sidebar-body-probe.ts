@@ -39,10 +39,13 @@ export const APP_BODY_CASES: { kind: SidebarFixture; side?: "left" | "right" }[]
   { kind: "chrome-leading" },
 ];
 const directory = process.argv[2];
-const cacheDirectory = process.argv[3] === "--normalized-cache" ? process.argv[4] : undefined;
-if (!directory || !(process.argv.length === 3 || (cacheDirectory && process.argv.length === 5)))
+const args = process.argv.slice(3);
+const directPictureOwnership = args.includes("--direct-picture-ownership");
+if (directPictureOwnership) args.splice(args.indexOf("--direct-picture-ownership"), 1);
+const cacheDirectory = args[0] === "--normalized-cache" ? args[1] : undefined;
+if (!directory || !(args.length === 0 || (cacheDirectory && args.length === 2)))
   throw Error(
-    "Usage: bun scripts/docx-next-sidebar-body-probe.ts DIRECTORY [--normalized-cache VERIFIED_BROWSER_FIXTURES]",
+    "Usage: bun scripts/docx-next-sidebar-body-probe.ts DIRECTORY [--normalized-cache VERIFIED_BROWSER_FIXTURES] [--direct-picture-ownership]",
   );
 await mkdir(directory, { recursive: true });
 const hash = (bytes: Uint8Array | string) => createHash("sha256").update(bytes).digest("hex");
@@ -122,6 +125,7 @@ if (cacheDirectory) {
 try {
   const options: RenderOptions = {
     allowUnacceptedModelIssues: true,
+    directPictureOwnership,
     normalizeImage: async (source) => {
       const asset = normalized.get(source);
       assert(asset, "Unknown real image source");
@@ -242,6 +246,7 @@ try {
         .filter((block) => block.kind === "image")
         .map((image) => ({
           id: image.id,
+          placement: image.placement,
           story,
           widthMm: image.widthMm,
           heightMm: image.widthMm * (image.frame?.heightRatio ?? 1.5),
@@ -252,6 +257,7 @@ try {
       fixture: name,
       sourceSha256: hash(bytes),
       sharedSnapshotExport: true,
+      directPictureOwnership,
       sourceColumnRounding: table.columnRounding,
       bodyBoundaryKeepNext: table.bodyBoundaryKeepNext ?? true,
       bodyBoundaryLeadMm: table.bodyBoundaryLeadMm ?? 0,

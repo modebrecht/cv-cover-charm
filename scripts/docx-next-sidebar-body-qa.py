@@ -131,7 +131,7 @@ def check_cell_start_attachments(path, attached):
         assert flag is not None and flag.get(W + 'val') == ('1' if attached else '0'), 'Cell-start attachment differs from the declared experiment'
 
 
-def audit(folder, engine, binding, replay_existing=False, detached_cell_starts=False):
+def audit(folder, engine, binding, replay_existing=False, detached_cell_starts=False, direct_picture_ownership=False):
     report = {'scope': 'Shared application snapshot/model/export body composition', 'cases': [],
               'contentRoundtripAcceptance': 'pending', 'geometryAcceptance': 'unaccepted',
               'productionAcceptance': 'blocked', 'microsoftWordAccepted': 0,
@@ -144,10 +144,28 @@ def audit(folder, engine, binding, replay_existing=False, detached_cell_starts=F
         for name in NAMES:
             fixture = json.loads((folder / (name + '.json')).read_text())
             assert fixture['sharedSnapshotExport']
+            assert fixture.get('directPictureOwnership', False) is direct_picture_ownership, 'Unexpected picture ownership experiment'
             assert fixture['bodyBoundaryKeepNext'] is (not detached_cell_starts), 'Unexpected cell-start experiment'
             assert fixture['paragraphPoliciesUnchanged'] and fixture['existingStoryPartsUnchanged']
             source = folder / (name + '.docx')
             assert entry.sha(source) == fixture['sourceSha256']
+            if direct_picture_ownership:
+                with ZipFile(source) as archive:
+                    document = ET.fromstring(archive.read('word/document.xml'))
+                wp = '{http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing}'
+                pic = '{http://schemas.openxmlformats.org/drawingml/2006/picture}'
+                for picture in fixture['pictures']:
+                    owners = [sdt for sdt in document.iter(W+'sdt')
+                              if (tag := sdt.find(W+'sdtPr/'+W+'tag')) is not None
+                              and tag.get(W+'val') == picture['id']]
+                    assert len(owners) == 1, 'Direct picture must have exactly one owner'
+                    owner = owners[0]
+                    assert owner.find(W+'sdtPr/'+W+'picture') is not None, 'Missing typed picture owner'
+                    assert len(list(owner.iter(W+'drawing'))) == 1, 'Picture owner must contain one drawing'
+                    assert len(list(owner.iter(pic+'pic'))) == 1, 'Picture owner must contain one native picture'
+                    assert not list(owner.iter(W+'txbxContent')), 'Direct picture cannot own a text frame'
+                    positioning = wp + ('anchor' if picture['placement'] == 'free' else 'inline')
+                    assert len(list(owner.iter(positioning))) == 1, 'Unexpected direct picture positioning'
             check_cell_start_attachments(source, not detached_cell_starts)
             expected_body, expected_all = package_controls(source)
             photo_digests, paint_digests = package_image_digests(source)
@@ -276,6 +294,7 @@ if __name__ == '__main__':
     parser.add_argument('--binding', type=Path, required=True)
     parser.add_argument('--replay-existing', action='store_true', help='Read-only local re-audit of retained native observations and exports; CI always uses fresh execution')
     parser.add_argument('--detached-cell-starts', action='store_true', help='Explicit unaccepted experiment: verify detached empty cell-start anchors without changing semantic paragraphs')
+    parser.add_argument('--direct-picture-ownership', action='store_true', help='Explicit unaccepted experiment: verify a single native drawing per typed picture owner')
     args = parser.parse_args()
-    result = audit(args.directory.resolve(), args.engine.resolve(), (args.binding / 'binding').resolve(), args.replay_existing, args.detached_cell_starts)
+    result = audit(args.directory.resolve(), args.engine.resolve(), (args.binding / 'binding').resolve(), args.replay_existing, args.detached_cell_starts, args.direct_picture_ownership)
     print(json.dumps({'cases':len(result['cases']), 'contentRoundtripAcceptance':result['contentRoundtripAcceptance']}))

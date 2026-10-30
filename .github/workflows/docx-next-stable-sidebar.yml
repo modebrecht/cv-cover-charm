@@ -3,7 +3,7 @@ name: DOCX Next Stable Sidebar
 on:
   workflow_dispatch:
   push:
-    branches: [dev, docx-next/integrate-39-templates]
+    branches: [dev, docx-next/integrate-39-templates, work/30okt-body-boundary-candidate]
     paths:
       - package.json
       - bun.lock
@@ -66,7 +66,7 @@ concurrency:
 
 jobs:
   stable-comparison:
-    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates'
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates' || github.ref == 'refs/heads/work/30okt-body-boundary-candidate'
     runs-on: ubuntu-24.04
     timeout-minutes: 35
     env:
@@ -304,7 +304,7 @@ jobs:
             ${{ env.QA_ROOT }}/floating-anchor/*
 
   entry-flow-content:
-    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates'
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates' || github.ref == 'refs/heads/work/30okt-body-boundary-candidate'
     runs-on: ubuntu-24.04
     timeout-minutes: 18
     env:
@@ -356,11 +356,13 @@ jobs:
             ${{ env.QA_ROOT }}/uno-binding/binding-record.json
 
   app-body-content:
-    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates'
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates' || github.ref == 'refs/heads/work/30okt-body-boundary-candidate'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     env:
       QA_ROOT: /tmp/docx-next-app-body
+      DIRECT_PICTURE_ARGS: ${{ github.ref == 'refs/heads/work/30okt-body-boundary-candidate' && '--direct-picture-ownership' || '' }}
+      DETACHED_CELL_ARGS: ${{ github.ref == 'refs/heads/work/30okt-body-boundary-candidate' && '--detached-cell-starts' || '' }}
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -377,6 +379,7 @@ jobs:
           bun install --frozen-lockfile
           python -m pip install PyMuPDF==1.26.4 Pillow==11.3.0 numpy==2.2.6
           npm install --no-save --no-package-lock @playwright/test@1.55.0
+          bun test tests/unit/docx-next-direct-picture.test.ts
           bun test tests/unit/docx-next-sidebar-body.test.ts
           bun test tests/unit/docx-next-first-footer.test.ts
           bun test tests/unit/docx-next-table-grid.test.ts
@@ -401,10 +404,10 @@ jobs:
         run: |
           mkdir -p "$QA_ROOT/fixtures"
           python scripts/docx-next-fixture-images.py "$QA_ROOT/fixtures/images.json"
-          bun scripts/docx-next-sidebar-body-probe.ts "$QA_ROOT/fixtures"
+          bun scripts/docx-next-sidebar-body-probe.ts "$QA_ROOT/fixtures" $DIRECT_PICTURE_ARGS
       - name: Require complete visible and native stories, chrome and photos through two Save/Reopen cycles
         timeout-minutes: 10
-        run: python scripts/docx-next-sidebar-body-qa.py "$QA_ROOT/fixtures" --engine "$QA_ROOT/setup/runtime" --binding "$QA_ROOT/uno-binding"
+        run: python scripts/docx-next-sidebar-body-qa.py "$QA_ROOT/fixtures" --engine "$QA_ROOT/setup/runtime" --binding "$QA_ROOT/uno-binding" $DETACHED_CELL_ARGS $DIRECT_PICTURE_ARGS
       - name: Measure exact save geometry separately and retain every outstanding counterexample
         timeout-minutes: 5
         run: python scripts/docx-next-sidebar-save-geometry-qa.py "$QA_ROOT/fixtures" --engine "$QA_ROOT/setup/runtime" --binding "$QA_ROOT/uno-binding"
@@ -420,7 +423,7 @@ jobs:
             ${{ env.QA_ROOT }}/uno-binding/binding-record.json
 
   supported-sidebar:
-    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates'
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates' || github.ref == 'refs/heads/work/30okt-body-boundary-candidate'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     env:
@@ -477,7 +480,7 @@ jobs:
             ${{ env.QA_ROOT }}/fixtures/
 
   picture-identity:
-    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates'
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates' || github.ref == 'refs/heads/work/30okt-body-boundary-candidate'
     runs-on: ubuntu-24.04
     timeout-minutes: 18
     env:
@@ -573,7 +576,7 @@ jobs:
             ${{ env.QA_ROOT }}/sized-rectangles/
 
   integrated-template-qa:
-    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates'
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates' || github.ref == 'refs/heads/work/30okt-body-boundary-candidate'
     name: Integrated template - ${{ matrix.template }}
     runs-on: ubuntu-24.04
     timeout-minutes: 25

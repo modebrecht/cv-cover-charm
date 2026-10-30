@@ -59,6 +59,8 @@ export type RenderOptions = {
   part?: DocumentPart["id"];
   normalizeImage?: ImageNormalizer;
   allowUnacceptedModelIssues?: boolean;
+  /** Research only: one anchored picture instead of a picture inside a text frame. */
+  directPictureOwnership?: boolean;
   rasterizeDecoration?: DecorationRasterizer;
   onDecorationFailure?: (id: string, error: unknown) => void;
 };
@@ -67,6 +69,8 @@ export async function renderDossierDocx(
   model: DossierDocModel,
   options: RenderOptions = {},
 ): Promise<Blob> {
+  if (options.directPictureOwnership && !options.allowUnacceptedModelIssues)
+    throw new Error("DOCX Next direct picture ownership is unaccepted; diagnostic opt-in required");
   if (model.exportPart !== undefined && !["cover", "letter", "cv"].includes(model.exportPart))
     throw new Error("DOCX Next invalid document export scope");
   if (model.exportPart && options.part && model.exportPart !== options.part)
@@ -265,6 +269,7 @@ export async function renderDossierDocx(
     paintLayer?: number,
     authoredParagraphOffsets = false,
     noTextWrap = false,
+    exactFreeOffsets = false,
   ): string {
     if (
       paintLayer !== undefined &&
@@ -298,19 +303,21 @@ export async function renderDossierDocx(
       const pageOrigin = value.coordinateOrigin === "page";
       const originWidth = pageOrigin ? page.widthMm : widthMm;
       const inset = geometry.borderWidthMm / 2;
-      const x = authoredParagraphOffsets
-        ? value.xMm
-        : value.placement === "free"
-          ? Math.max(inset, Math.min(originWidth - finalWidth - inset, value.xMm))
-          : value.placement === "right"
-            ? widthMm - finalWidth
-            : 0;
-      const y = authoredParagraphOffsets
-        ? value.yMm
-        : Math.max(
-            pageOrigin ? inset : 0,
-            Math.min(page.heightMm - finalHeight - inset, value.yMm),
-          );
+      const x =
+        authoredParagraphOffsets || exactFreeOffsets
+          ? value.xMm
+          : value.placement === "free"
+            ? Math.max(inset, Math.min(originWidth - finalWidth - inset, value.xMm))
+            : value.placement === "right"
+              ? widthMm - finalWidth
+              : 0;
+      const y =
+        authoredParagraphOffsets || exactFreeOffsets
+          ? value.yMm
+          : Math.max(
+              pageOrigin ? inset : 0,
+              Math.min(page.heightMm - finalHeight - inset, value.yMm),
+            );
       drawing = `<wp:anchor ${distances} simplePos="0" relativeHeight="${paintLayer ?? id}" behindDoc="${behind ? 1 : 0}" locked="0" layoutInCell="${value.nativeOwner === "page-picture" ? 0 : 1}" allowOverlap="${behind || noTextWrap ? 1 : 0}"><wp:simplePos x="0" y="0"/><wp:positionH relativeFrom="${pageOrigin ? "page" : "column"}"><wp:posOffset>${emu(x)}</wp:posOffset></wp:positionH><wp:positionV relativeFrom="${value.verticalOrigin ?? (authoredParagraphOffsets ? "line" : pageOrigin ? "page" : "paragraph")}"><wp:posOffset>${emu(y)}</wp:posOffset></wp:positionV>${extent}${behind || noTextWrap ? "<wp:wrapNone/>" : '<wp:wrapSquare wrapText="bothSides"/>'}${properties}${picture}</wp:anchor>`;
     }
     return `<w:r><w:drawing>${drawing}</w:drawing></w:r>`;
@@ -342,6 +349,26 @@ export async function renderDossierDocx(
         media.asset,
         value.nativeOwner === "page-frame" ? value.widthMm : widthMm,
       );
+      if (options.directPictureOwnership) {
+        const direct = pictureRun(
+          value.nativeOwner === "page-frame"
+            ? { ...value, nativeOwner: "page-picture", coordinateOrigin: "page" }
+            : value,
+          media.rid,
+          geometry,
+          widthMm,
+          page,
+          false,
+          undefined,
+          false,
+          value.wrapMode === "none",
+          true,
+        );
+        const owned = pictureControl(value.id, direct, drawingId);
+        // Reserve the removed frame's instance number so later story drawings stay byte-identical.
+        ++drawingId;
+        return owned;
+      }
       const inline = pictureRun(
         { ...value, placement: "inline", gapMm: 0 },
         media.rid,

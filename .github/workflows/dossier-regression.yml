@@ -11,6 +11,7 @@ on:
       - fix/pdf-text-search-12okt
       - fix/pdf-export-readiness-14okt
       - docx-next/integrate-39-templates
+      - work/30okt-body-boundary-candidate
       - render
       - main
     paths-ignore:
