@@ -60,9 +60,16 @@ typisierte Word-Bildkontrolle umschliesst dann einen Textrahmen mit zwei Drawing
 statt eines einzelnen Bilds. Drei bestehende Bildstruktur-Tests schlagen an.
 Sie wurden nicht umgeschrieben. Dieser Ansatz gehört nicht zum Kandidaten.
 
-Nächster Schwerpunkt ist eine gültige einzelne Word-Bildkontrolle für das freie
-Bild ohne duplizierte native Kennung. Das sichtbare Foto allein reicht nicht
-als Identitätsnachweis. Details, Hashes und Gegenprüfungen stehen in
+Ein letzter, ausschliesslich als XML-Kontrolle ausgeführter Versuch ersetzt den
+umgebenden Textrahmen durch ein direkt verankertes Einzelbild mit eigener
+Bildkontrolle. Alle vier Besitzkontexte behalten dabei nach nativem Speichern
+genau eine Fotokennung und sämtliche Texte; die Quellkontrolle enthält genau
+ein Drawing. Diese Variante ist ebenfalls nicht im Kandidaten implementiert.
+Bildgeometrie, Pixel, vollständige App-Matrix und tatsächliches Word-Verhalten
+sind dafür noch nicht geprüft. Sie ist der nächste gezielte Ansatz, keine Freigabe.
+
+Das sichtbare Foto allein reicht nicht als Identitätsnachweis.
+Details, Hashes und Gegenprüfungen stehen in
 `body-boundary-candidate-30okt.json`.
 
 ## Reproduktion

@@ -652,5 +652,54 @@
       "packageByteIdentical": true,
       "sha256": "c99d55e7c87214853ef6b745a73a2e48f0aa8736b71653a2ccb82d31b2f0a635"
     }
-  ]
+  ],
+  "nextDirectPicturePrototype": {
+    "implementedInCandidate": false,
+    "fullAppMatrixVerified": false,
+    "geometryVerified": false,
+    "pixelsVerified": false,
+    "microsoftWordAccepted": false,
+    "controls": [
+      {
+        "owner": "body",
+        "diagnosticOnly": true,
+        "sourceOneDrawingPerPictureControl": true,
+        "saveReturnCode": 0,
+        "elapsedSeconds": 0.563,
+        "sourceSha256": "8e3b0b14e08ea998faf06d30142b2ce1d1e85967dd22b4a234b1af0ac64537b3",
+        "savedPhotoTags": 1,
+        "allTextPreserved": true
+      },
+      {
+        "owner": "single",
+        "diagnosticOnly": true,
+        "sourceOneDrawingPerPictureControl": true,
+        "saveReturnCode": 0,
+        "elapsedSeconds": 0.478,
+        "sourceSha256": "9086943d95aafec53e3404e8ac4d0436779d6e9bbe01a6e6bb759906a6f57ca0",
+        "savedPhotoTags": 1,
+        "allTextPreserved": true
+      },
+      {
+        "owner": "left",
+        "diagnosticOnly": true,
+        "sourceOneDrawingPerPictureControl": true,
+        "saveReturnCode": 0,
+        "elapsedSeconds": 0.523,
+        "sourceSha256": "4698c0762f99a3de88fae3c0c469e7cc38f4987061a3603fc417476f4323fbc8",
+        "savedPhotoTags": 1,
+        "allTextPreserved": true
+      },
+      {
+        "owner": "right",
+        "diagnosticOnly": true,
+        "sourceOneDrawingPerPictureControl": true,
+        "saveReturnCode": 0,
+        "elapsedSeconds": 0.585,
+        "sourceSha256": "d8134d7d38d7966abdaff1a4ef0365f7f6f8a87b9c0eb46912274e64a752e445",
+        "savedPhotoTags": 1,
+        "allTextPreserved": true
+      }
+    ]
+  }
 }
