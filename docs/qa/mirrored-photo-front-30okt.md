@@ -49,6 +49,14 @@ erhalten; es wird kein rendererabhängiger X-Versatz kompensiert.
   nicht die gesamte Vorlagenmatrix.
 
 Ausgangsbasis: `80877763df6e80124ba9d42305e595a4fe1b97ae`.
-Die Korrektur wird mit dem separat geprüften Seitenanpassungsfix für kompakte
-klassische CVs integriert. Gemeinsamer Abschlussprüfstand und CI stehen im
-Handoff vom 30. Oktober.
+Die Korrektur ist mit dem separat geprüften Seitenanpassungsfix für kompakte
+klassische CVs auf `dev` integriert: Produktcommit
+`ea4584c73692138ab99eca03a006c9f1ded97cb1`. Gemeinsam bestehen 1474/1474
+Unit-Tests und 41/41 Fit-Browserfälle sowie App-/QA-Typprüfung, Formatprüfung,
+Build und Lint ohne Fehler. Die
+[Release-CI](https://github.com/modebrecht/cv-cover-charm/actions/runs/41033496172)
+bestätigt 1474 Unit-Tests und 206 Browserfälle in elf Gruppen sowie
+`M6 Release Candidate: success`; die
+[Fit-CI](https://github.com/modebrecht/cv-cover-charm/actions/runs/41033497111)
+bestätigt 41/41 Browserfälle. Die vier bekannten nativen Forschungsfehler bleiben
+unverändert separat dokumentiert im Handoff vom 30. Oktober.

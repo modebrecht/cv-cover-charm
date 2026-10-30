@@ -7,13 +7,15 @@ gilt für die damalige Sicherung, nicht mehr für die jetzige Fortsetzung.
 
 - Repository: `modebrecht/cv-cover-charm`, veröffentlichter Branch `dev`.
 - Ausgangspunkt dieser Integration: `80877763df6e80124ba9d42305e595a4fe1b97ae`.
+- Neuer Produktcommit: `ea4584c73692138ab99eca03a006c9f1ded97cb1`;
+  Produktbaum: `02d65f7bbaf5b6484df31df57a2e6eb803c61291`.
 - Enthaltene Arbeitsbranches: `work/30okt-masonry-measurements` (`82cb02a`)
   und `work/30okt-word-photo-wrap` (`4fab404`). Beide Historien bleiben erhalten.
 - Der vorherige unabhängige DOCX-Produktstand `19f8fe2` bleibt enthalten.
 - `main` und `render` wurden in dieser Fortsetzung nicht aktualisiert.
 - Veröffentlichte Historie gemäss `AGENTS.md` nicht umschreiben.
 
-## Abgeschlossen
+## Bereits abgeschlossener unabhängiger DOCX-Export
 
 Alle drei Editor-DOCX-Downloads prüfen und bauen ihren eigenen Dossierteil.
 Titelblatt und Brief folgen jetzt dem bereits unabhängigen CV-Download.
@@ -61,10 +63,29 @@ mit zehn Prozent Reserve und behält vorhandene Breiten/Packungsarten. Freie
 Zweitseiten-Inhalte, lange CVs und Sidebar-Verhalten behalten ihre Schutzregeln.
 Details: `docs/qa/compact-classic-fit-30okt.md`.
 
-Gemeinsame lokale Integration: 1474/1474 Unit-Tests, App-/QA-Typprüfung,
-vollständige Formatprüfung und Build bestanden; keine Lintfehler und die
-21 bestehenden Warnungen. Die gemeinsame Fit-Suite und die neue Release-CI
-werden vor dem abschliessenden Nachweiskommit ergänzt.
+Gemeinsame lokale Integration: 1474/1474 Unit-Tests, 41/41 Fit-Browserfälle,
+App-/QA-Typprüfung, vollständige Formatprüfung und Build bestanden; keine
+Lintfehler und die 21 bestehenden Warnungen. Die neun Zwei-Seiten-, 22 automatischen
+und zehn Ein-Seiten-Fälle umfassen echte PDF-/DOCX-Downloads, Neuladen, lange
+Inhalte sowie den Schutz freier Zweitseiten-Positionen.
+
+## CI-Abschluss der gemeinsamen Integration
+
+Alle folgenden Läufe prüfen den Produktcommit `ea4584c73692138ab99eca03a006c9f1ded97cb1`.
+Ein nachfolgender Nachweiskommit ändert ausschliesslich Markdown-Dateien.
+
+- [Dossier Regression](https://github.com/modebrecht/cv-cover-charm/actions/runs/41033496172):
+  1474 Unit-Tests, Format, Typprüfung, Lint, Build und 206 Browserfälle in elf
+  Gruppen bestanden; `M6 Release Candidate: success`.
+- [CV measured page fit](https://github.com/modebrecht/cv-cover-charm/actions/runs/41033497111):
+  41/41 Browserfälle bestanden (9 + 22 + 10).
+- [Dossier Web Gallery](https://github.com/modebrecht/cv-cover-charm/actions/runs/41033496223):
+  alle 39 Vorlagensätze und Aggregation bestanden.
+- [Template Contact Integrity](https://github.com/modebrecht/cv-cover-charm/actions/runs/41033496266)
+  und [Pages](https://github.com/modebrecht/cv-cover-charm/actions/runs/41033495396) bestanden.
+- [Native Forschungs-CI](https://github.com/modebrecht/cv-cover-charm/actions/runs/41033496277):
+  unverändert 11/15 Gruppen bestanden; die vier bekannten Gegenbefunde unten
+  wurden anhand der aktuellen Joblogs einzeln bestätigt.
 
 ## Weiterhin offen
 
@@ -73,10 +94,11 @@ den gespeicherten Rückläufern. Sie gilt für die vier repräsentativen Dateien
 nicht automatisch für sämtliche Vorlagen.
 
 Die aktuelle Forschungs-CI bestätigt elf erfolgreiche und vier bekannte fehlschlagende Gruppen:
-`stable-comparison` und `picture-identity` mit historischen Paket-Prüfsummen,
-`app-body-content` mit experimentellem langem `body-stories`-Speichern sowie
-`verlauf-hero-long` mit sechs statt fünf Seiten. Diese Referenzen nicht blind ersetzen.
-Der aktuelle CI-Abschluss steht im verlinkten QA-Bericht.
+`stable-comparison` mit derselben Paket-Prüfsumme `09155d10…707b`,
+`picture-identity` mit derselben Paket-Prüfsumme `61444b40…1032`,
+`app-body-content` mit demselben 60-Sekunden-Speicherabbruch des experimentellen
+`app-body-both-long-right` (`body-stories`) sowie `verlauf-hero-long` mit sechs
+statt fünf Seiten. Diese Referenzen nicht blind ersetzen.
 
 Der seltene historische Modern-/Sidebar-PDF-Clone-Abbruch ist nicht kausal geklärt.
 

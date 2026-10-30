@@ -28,9 +28,17 @@ Lokaler Abschlussprüfstand:
 - Die vollständige Fit-Suite besteht mit 41/41 Browserfällen: neun explizite
   Zwei-Seiten-Fälle, 22 automatische Fälle und zehn Ein-Seiten-Fälle. Darin
   enthalten sind die sechs neuen kompakten Standard-CV-Fälle.
-- Die Release-CI für eine `dev`-Integration ist noch offen. Der geprüfte Stand
-  bleibt auf dem Arbeitsbranch gesichert; nichts auf `dev` veröffentlicht.
+- Gemeinsam mit dem vom Nutzer bestätigten Word-Fotofix auf `dev` integriert:
+  Produktcommit `ea4584c73692138ab99eca03a006c9f1ded97cb1`.
+- Auf diesem gemeinsamen Stand ebenfalls 1474/1474 Unit-Tests und 41/41
+  Fit-Browserfälle bestanden. App-/QA-Typprüfung, vollständige Formatprüfung,
+  Build und Lint ohne Fehler erneut bestätigt.
+- [Release-CI](https://github.com/modebrecht/cv-cover-charm/actions/runs/41033496172):
+  1474 Unit-Tests und 206 Browserfälle in elf Gruppen bestanden;
+  `M6 Release Candidate: success`.
+- [Fit-CI](https://github.com/modebrecht/cv-cover-charm/actions/runs/41033497111):
+  ebenfalls 41/41 Browserfälle bestanden.
 
 Ausgangsbasis ist `80877763df6e80124ba9d42305e595a4fe1b97ae`.
-Der neue Word-Befund wird separat bearbeitet; private Rückläufer werden nicht
-in dieses öffentliche Repository aufgenommen.
+Die Word-Abnahme ist in `mirrored-photo-front-30okt.md` dokumentiert;
+private Rückläufer werden nicht in dieses öffentliche Repository aufgenommen.
