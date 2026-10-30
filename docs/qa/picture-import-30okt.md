@@ -101,3 +101,19 @@ zwei Speicherzyklen in Desktop-Word pruefen. Ein quellgetreuer Fix fuer Writer
 muss die Importbehandlung von zugeschnittenen CustomShape-Bildern und die
 Kontroll-Ankergrenze beruecksichtigen; weitere DPI-Schalter oder das Beilegen
 eines unbenutzten Originalbildes liefern dafuer keinen Nachweis. Kein Merge.
+
+## Abschluss auf d98f5490
+
+Beide neuen Laeufe sind beendet, geprueft am 2026-10-30T21:51:44.018Z (UTC):
+
+- [Release-Regression](https://github.com/modebrecht/cv-cover-charm/actions/runs/41132330872): vollstaendig erfolgreich, 1490 Unit-Tests und elf Browsergruppen.
+- [Native Matrix](https://github.com/modebrecht/cv-cover-charm/actions/runs/41132330670): 12/15 Jobs erfolgreich. Die bekannten Fehler bleiben `app-body-content` (strenger Bildvertrag nach 22 bestandenen Inhaltsfaellen), `picture-identity` (historischer Paket-Pin) und `stable-comparison` (urspruengliche gotoRange-Auswahl nach drei begrenzten Importversuchen nicht beobachtet).
+- Neuer Importbeobachter in der CI: sechs Faelle vollstaendig gemessen. Acht neue Decoder-/Crop-Vertragstests bestanden; lokal insgesamt 52 gezielte Python-Vertragstests.
+
+Archiv `13013528300` wurde vollstaendig heruntergeladen und gegen SHA-256
+`362d5de01aef403365fac7767890a396158329de0b07099fe90cf4dd5b6eb7c1`
+geprueft. Alle sechs enthaltenen Quellen sind an ihre tatsaechlichen nativen
+Input-Hashes gebunden. Dekodierte Bitmapgroessen/-pixel, native Kontrollanzahlen
+und oeffentliche Bereichsvergleiche stimmen exakt mit dem lokalen Nachweis
+ueberein; Beobachtercode und native Bibliothek ebenfalls. Kein neuer Exportfix
+und keine Word-Abnahme. `dev`, `main` und `render` bleiben unveraendert.

@@ -682,8 +682,8 @@
             "changedWordPages": [],
             "changedPixelPages": [],
             "changedWords": 0,
-            "maxAbsDxMm": 0.0,
-            "maxAbsDyMm": 0.0,
+            "maxAbsDxMm": 0,
+            "maxAbsDyMm": 0,
             "renderScale": 2,
             "pdfMetadataCompared": false,
             "exactVisibleGeometry": true
@@ -755,7 +755,7 @@
               3
             ],
             "changedWords": 78,
-            "maxAbsDxMm": 0.0,
+            "maxAbsDxMm": 0,
             "maxAbsDyMm": 0.19404500325520832,
             "renderScale": 2,
             "pdfMetadataCompared": false,
@@ -767,8 +767,8 @@
             "changedWordPages": [],
             "changedPixelPages": [],
             "changedWords": 0,
-            "maxAbsDxMm": 0.0,
-            "maxAbsDyMm": 0.0,
+            "maxAbsDxMm": 0,
+            "maxAbsDyMm": 0,
             "renderScale": 2,
             "pdfMetadataCompared": false,
             "exactVisibleGeometry": true
@@ -820,8 +820,8 @@
             "changedWordPages": [],
             "changedPixelPages": [],
             "changedWords": 0,
-            "maxAbsDxMm": 0.0,
-            "maxAbsDyMm": 0.0,
+            "maxAbsDxMm": 0,
+            "maxAbsDyMm": 0,
             "renderScale": 2,
             "pdfMetadataCompared": false,
             "exactVisibleGeometry": true
@@ -836,7 +836,7 @@
               3
             ],
             "changedWords": 78,
-            "maxAbsDxMm": 0.0,
+            "maxAbsDxMm": 0,
             "maxAbsDyMm": 0.017656114366319444,
             "renderScale": 2,
             "pdfMetadataCompared": false,
@@ -1303,5 +1303,65 @@
     "browserGroupsPassed": 11,
     "status": "success"
   },
-  "currentCi": "pending publication"
+  "currentCi": {
+    "checkedAtUtc": "2026-10-30T21:51:44.018Z",
+    "codeCommit": "d98f549059cf9d1d2d2d01acf459cb0917033c8d",
+    "release": {
+      "id": 41132330872,
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "d98f549059cf9d1d2d2d01acf459cb0917033c8d"
+    },
+    "native": {
+      "id": 41132330670,
+      "status": "completed",
+      "conclusion": "failure",
+      "headSha": "d98f549059cf9d1d2d2d01acf459cb0917033c8d"
+    },
+    "localPythonContractChecks": 52,
+    "unitTestsPassed": 1490,
+    "browserGroupsPassed": 11,
+    "nativeJobsPassed": 12,
+    "nativeJobsTotal": 15,
+    "nativeFailures": [
+      {
+        "name": "picture-identity",
+        "reason": "Historical package pin remains failed; no new expected hash accepted"
+      },
+      {
+        "name": "stable-comparison",
+        "reason": "Completed original gotoRange selection unavailable after three bounded imports"
+      },
+      {
+        "name": "app-body-content",
+        "reason": "22 content cases pass; strict picture ownership and image-data contracts fail"
+      }
+    ],
+    "importEvidence": {
+      "artifactId": 13013528300,
+      "archiveSha256": "362d5de01aef403365fac7767890a396158329de0b07099fe90cf4dd5b6eb7c1",
+      "archiveBytesIndependentlyVerified": true,
+      "inputPackageBindingsVerified": 6,
+      "decodedBitmapAndControlSnapshotsMatchLocal": true,
+      "reportSha256": "1ff54e5000e15c45849311f9ddf6b0c0fd08023a386d1c9ca8594907982c2d3b",
+      "observerSha256": "9d3ad87cdd5b7ad1f7c37f23d764bf8ff6f91f5cecc48356c5c66386d09ddbf7",
+      "nativeLibrarySha256": "7b931192643c86a733f49c363357324e9bd93c7619561e81c073044515dcde59",
+      "cases": 6,
+      "sourceDocxSha256": "7dd758c90f92d5a490ef022923c738edff042c539aa578e451aa1909bcd81923"
+    },
+    "protectedRefs": [
+      {
+        "branch": "dev",
+        "sha": "c8e0a4e306e2e519d2b9392b43fb9759fb8c5078"
+      },
+      {
+        "branch": "main",
+        "sha": "44d7eb950b4fe972d6e890a72b6d3256ce365bc9"
+      },
+      {
+        "branch": "render",
+        "sha": "1fe6dbe59184a759d97f9c393353a8a3d9e1f89a"
+      }
+    ]
+  }
 }

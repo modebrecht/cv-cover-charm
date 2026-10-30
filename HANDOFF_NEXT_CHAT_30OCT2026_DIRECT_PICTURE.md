@@ -35,8 +35,13 @@ keine strikt innere Cursorposition erreicht wurde. Keine Reparatur freigegeben.
 Kein Produktionsfix integriert, kein Merge, keine neue Word-Abnahme.
 Desktop-Word bleibt der naechste fachliche Abgleich fuer den unveraenderten,
 textfreien Fotofall. Der Windows-Checkout wurde nicht erneut verbunden.
-Dieser Arbeitsblock laeuft isoliert unter Linux. Neue CI-Ergebnisse werden im
-Abschluss ergaenzt; vorherige Momentaufnahmen folgen unten.
+Dieser Arbeitsblock laeuft isoliert unter Linux. Abschluss auf `d98f5490`: Release `41132330872` vollstaendig erfolgreich mit
+1490 Unit-Tests und allen elf Browsergruppen. Native `41132330670`: 12/15;
+Bildvertrag, historischer Paket-Pin und dieselbe begrenzte gotoRange-Beobachtung
+bleiben fehlerhaft. Neuer Importbeobachter und acht neue Tests in der CI
+bestaetigt. Archiv `13013528300` heruntergeladen, Digest und alle sechs
+Quellbindungen geprueft: Bitmap-/Kontrollbeobachtungen exakt gleich wie lokal.
+`dev`, `main` und `render` unveraendert. Vorherige Momentaufnahmen folgen unten.
 
 ---
 
