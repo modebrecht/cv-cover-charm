@@ -144,7 +144,9 @@ const addedPageCounts: Record<
   verlauf: {
     cv: { "long-cv": 13, timeline: 17, magazin: 1 },
     letter: { "long-letter": 11, continuation: 9 },
-    cover: { "cover-long": 2, "contact-long": 3, "hero-long": 2 },
+    // The editable initials placeholder occupies its authored photo slot.
+    // Forty name lines plus the complete contact row require three cover pages.
+    cover: { "cover-long": 2, "contact-long": 3, "hero-long": 3 },
   },
   aurora: {
     cv: { "long-cv": 13, timeline: 17, magazin: 1 },

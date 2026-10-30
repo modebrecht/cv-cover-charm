@@ -1,0 +1,426 @@
+{
+  "date": "2026-10-30",
+  "baseCommit": "69f61be5fd17da0cf89aa6ecb629455c57dbd703",
+  "productSourceChanged": false,
+  "historicalPinsChanged": false,
+  "unitTests": {
+    "passed": 1486,
+    "failed": 0,
+    "files": 281,
+    "newHistoricalTests": 12
+  },
+  "sourceGeneration": {
+    "passed": 29,
+    "failed": 0,
+    "steps": [
+      {
+        "script": "scripts/docx-next-cell-ending-probe.ts",
+        "args": [],
+        "exitCode": 0
+      },
+      {
+        "script": "scripts/docx-next-body-attachment-probe.ts",
+        "args": [],
+        "exitCode": 0
+      },
+      {
+        "script": "scripts/docx-next-selective-row-probe.ts",
+        "args": [],
+        "exitCode": 0
+      },
+      {
+        "script": "scripts/docx-next-populated-row-probe.ts",
+        "args": [],
+        "exitCode": 0
+      },
+      {
+        "script": "scripts/docx-next-main-ending-probe.ts",
+        "args": [],
+        "exitCode": 0
+      },
+      {
+        "script": "scripts/docx-next-row-together-probe.ts",
+        "args": [],
+        "exitCode": 0
+      },
+      {
+        "script": "scripts/docx-next-side-terminal-probe.ts",
+        "args": [],
+        "exitCode": 0
+      },
+      {
+        "script": "scripts/docx-next-side-ending-probe.ts",
+        "args": [],
+        "exitCode": 0
+      },
+      {
+        "script": "scripts/docx-next-lead-together-probe.ts",
+        "args": [],
+        "exitCode": 0
+      },
+      {
+        "script": "scripts/docx-next-lead-padding-probe.ts",
+        "args": [],
+        "exitCode": 0
+      },
+      {
+        "script": "scripts/docx-next-lead-boundary-probe.ts",
+        "args": [],
+        "exitCode": 0
+      },
+      {
+        "script": "scripts/docx-next-lead-window-probe.ts",
+        "args": [],
+        "exitCode": 0
+      },
+      {
+        "script": "scripts/docx-next-description-owner-probe.ts",
+        "args": [],
+        "exitCode": 0
+      },
+      {
+        "script": "scripts/docx-next-split-description-owner-probe.ts",
+        "args": [],
+        "exitCode": 0
+      },
+      {
+        "script": "scripts/docx-next-nested-side-probe.ts",
+        "args": [],
+        "exitCode": 0
+      },
+      {
+        "script": "scripts/docx-next-container-identity-probe.ts",
+        "args": [],
+        "exitCode": 0
+      },
+      {
+        "script": "scripts/docx-next-container-span-probe.ts",
+        "args": [],
+        "exitCode": 0
+      },
+      {
+        "script": "scripts/docx-next-container-span-probe.ts",
+        "args": [
+          "--declared-grid"
+        ],
+        "exitCode": 0
+      },
+      {
+        "script": "scripts/docx-next-container-span-probe.ts",
+        "args": [
+          "--declared-width"
+        ],
+        "exitCode": 0
+      },
+      {
+        "script": "scripts/docx-next-lead-main-ending-probe.ts",
+        "args": [],
+        "exitCode": 0
+      },
+      {
+        "script": "scripts/docx-next-continuous-cell-probe.ts",
+        "args": [],
+        "exitCode": 0
+      },
+      {
+        "script": "scripts/docx-next-floating-continuation-probe.ts",
+        "args": [],
+        "exitCode": 0
+      },
+      {
+        "script": "scripts/docx-next-floating-anchor-probe.ts",
+        "args": [],
+        "exitCode": 0
+      },
+      {
+        "script": "scripts/docx-next-inline-story-probe.ts",
+        "args": [],
+        "exitCode": 0
+      },
+      {
+        "script": "scripts/docx-next-dual-story-probe.ts",
+        "args": [],
+        "exitCode": 0
+      },
+      {
+        "script": "scripts/docx-next-carrier-story-probe.ts",
+        "args": [],
+        "exitCode": 0
+      },
+      {
+        "script": "scripts/docx-next-owner-boundary-probe.ts",
+        "args": [],
+        "exitCode": 0
+      },
+      {
+        "script": "scripts/docx-next-control-placement-probe.ts",
+        "args": [],
+        "exitCode": 0
+      },
+      {
+        "script": "scripts/docx-next-body-carrier-probe.ts",
+        "args": [],
+        "exitCode": 0
+      }
+    ]
+  },
+  "verlauf": {
+    "fixtures": [
+      {
+        "fixture": "verlauf-normal",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 4,
+        "media": 3,
+        "bytes": 7671588,
+        "durationMs": 67720,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      {
+        "fixture": "verlauf-long-letter",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 14,
+        "media": 3,
+        "bytes": 7748327,
+        "durationMs": 622,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      {
+        "fixture": "verlauf-long-cv",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 15,
+        "media": 3,
+        "bytes": 7828693,
+        "durationMs": 704,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      {
+        "fixture": "verlauf-long-values",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 4,
+        "media": 3,
+        "bytes": 7673374,
+        "durationMs": 683,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      {
+        "fixture": "verlauf-images",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 4,
+        "media": 4,
+        "bytes": 7652260,
+        "durationMs": 22645,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      {
+        "fixture": "verlauf-custom",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 4,
+        "media": 3,
+        "bytes": 7678676,
+        "durationMs": 629,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      {
+        "fixture": "verlauf-compact",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 4,
+        "media": 3,
+        "bytes": 7667932,
+        "durationMs": 842,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      {
+        "fixture": "verlauf-none",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 4,
+        "media": 3,
+        "bytes": 7666844,
+        "durationMs": 584,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      {
+        "fixture": "verlauf-continuation",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 12,
+        "media": 3,
+        "bytes": 7693247,
+        "durationMs": 600,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      {
+        "fixture": "verlauf-timeline",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 19,
+        "media": 3,
+        "bytes": 7923088,
+        "durationMs": 645,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      {
+        "fixture": "verlauf-magazin",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 3,
+        "media": 3,
+        "bytes": 7654198,
+        "durationMs": 558,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      {
+        "fixture": "verlauf-no-motifs",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 4,
+        "media": 3,
+        "bytes": 7668466,
+        "durationMs": 533,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      {
+        "fixture": "verlauf-custom-colors",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 4,
+        "media": 3,
+        "bytes": 7383697,
+        "durationMs": 48515,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      {
+        "fixture": "verlauf-contact-long",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 6,
+        "media": 3,
+        "bytes": 7689950,
+        "durationMs": 693,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      {
+        "fixture": "verlauf-hero-long",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 6,
+        "media": 3,
+        "bytes": 7683792,
+        "durationMs": 582,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      },
+      {
+        "fixture": "verlauf-cover-long",
+        "libreOfficeVersion": "LibreOffice 25.8.7.3 580(Build:3)",
+        "libreOfficeInterface": "LibreOfficeKit",
+        "pages": 5,
+        "media": 3,
+        "bytes": 7691363,
+        "durationMs": 506,
+        "structural": "pass",
+        "libreoffice": "pass",
+        "libreofficeRoundtrip": "pass",
+        "microsoftWord": "pending",
+        "snapshot": "candidate"
+      }
+    ],
+    "sourcePages": 112,
+    "nativeRenderAndRoundtrip": "pass",
+    "packageComparison": {
+      "packagesByteIdentical": 16,
+      "manifestChanges": [
+        {
+          "fixture": "verlauf-hero-long",
+          "beforePages": 5,
+          "afterPages": 6,
+          "beforeImages": 5,
+          "afterImages": 6,
+          "beforeCover": 2,
+          "afterCover": 3
+        }
+      ]
+    },
+    "nativeIdentity": {
+      "fixtureCount": 16,
+      "completeNativeText": "pass",
+      "fieldIdentityFailures": 0,
+      "tableIdentityFailures": 16,
+      "missingOrChangedTaggedFields": 0,
+      "architectureAcceptance": "blocked: saved native identities lost; no export enablement"
+    }
+  },
+  "historicalFloatingReplay": {
+    "sourceCommit": "b874ade828b7c9393286e8051e4521fa5ae40eaf",
+    "fixture": "floating-continuation-right-left-all-pages",
+    "docxSha256": "c913c6514159e37c39aa9bfc125c76f8b5e3bf1bf53113ae5892b871d0008f29",
+    "historicalHashReproduced": true
+  },
+  "ci": "pending: see HANDOFF_NEXT_CHAT_30OCT2026.md"
+}

@@ -1,6 +1,7 @@
 /** Unaccepted native placement diagnostics, never application Sidebar composition. */
 import assert from "node:assert/strict";
 import { buildDossierDocModel } from "../../../src/lib/docx-next/build-model";
+import { historicalSidebarControlModel } from "./historical-sidebar-model";
 import { parallelFlowTable } from "../../../src/lib/docx-next/parallel-flow";
 import { semanticFlowUnits } from "../../../src/lib/docx-next/semantic-flow-units";
 import {
@@ -10,7 +11,6 @@ import {
   type ParallelFlowBlock,
   type TableBlock,
 } from "../../../src/lib/docx-next/model";
-import { briefFixture } from "./brief";
 import { sidebarFixture } from "./sidebar";
 import { sidebarBodyAttachmentFixture } from "./sidebar-body-attachment";
 
@@ -105,11 +105,27 @@ export function sidebarFloatingFixture(value: SidebarFloatingCase) {
     };
   }
   const source = buildDossierDocModel(sidebarFixture(value.kind));
+  // This historical ownership experiment predates the occupied-reference-row
+  // app fix. Keep its original two-column control (including the empty cell),
+  // so the existing whole-package pins remain meaningful native evidence.
+  const references = walkBlocks(source.cv.blocks).filter(
+    (block) => block.kind === "table" && block.id.startsWith("cv.section.referenzen.pair:"),
+  );
+  assert.equal(references.length, 1);
+  const reference = references[0];
+  assert(reference.kind === "table" && reference.decoration);
+  assert.deepEqual(reference.widths, [1]);
+  assert.equal(reference.rows.length, 1);
+  assert.equal(reference.rows[0].cells.length, 1);
+  reference.widths = [1, 1];
+  delete reference.columnWidthsMm;
+  reference.rows[0].cells.push([]);
+  reference.decoration.paddingXMm = 3;
   const flow = source.cv.blocks.find(
     (block): block is ParallelFlowBlock => block.kind === "parallel-flow",
   );
   assert(flow && flow.tracks.length === 2);
-  const model = buildDossierDocModel(briefFixture("normal"));
+  const model = historicalSidebarControlModel();
   const page = structuredClone(source.cv.page);
   const margins = structuredClone(page.margins);
   const grid = parallelFlowTable(flow, page.widthMm - margins.left - margins.right);

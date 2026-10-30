@@ -93,12 +93,40 @@ Desktop-Word ist hier nicht verfügbar; die Abnahme oben stammt vom Nutzer und
 den gespeicherten Rückläufern. Sie gilt für die vier repräsentativen Dateien,
 nicht automatisch für sämtliche Vorlagen.
 
-Die aktuelle Forschungs-CI bestätigt elf erfolgreiche und vier bekannte fehlschlagende Gruppen:
+Die Forschungs-CI vor dem nachfolgenden Nachtrag bestätigt elf erfolgreiche und vier bekannte fehlschlagende Gruppen:
 `stable-comparison` mit derselben Paket-Prüfsumme `09155d10…707b`,
 `picture-identity` mit derselben Paket-Prüfsumme `61444b40…1032`,
 `app-body-content` mit demselben 60-Sekunden-Speicherabbruch des experimentellen
 `app-body-both-long-right` (`body-stories`) sowie `verlauf-hero-long` mit sechs
 statt fünf Seiten. Diese Referenzen nicht blind ersetzen.
+
+## Nachtrag: historische native Prüfverträge
+
+Ausgangspunkt dieses Nachtrags ist `69f61be`. Die produktive Word-/PDF-Komposition
+bleibt vollständig gleich. Details und maschinenlesbarer Nachweis:
+`docs/qa/native-historical-contracts-30okt.md` und `.json`.
+
+- Historische Hilfsmodelle stellen den ursprünglichen Brief ohne die später
+  hinzugefügte Beilagenüberschrift und die ursprüngliche Referenzzeile der
+  Floating-Versuche wieder her. Die korrigierte aktuelle App-Referenzzeile
+  bleibt erhalten. Alle bisherigen Paket-Pins bleiben unverändert.
+- Zwölf neue Prüfungen reproduzieren vier Container- und sechs Floating-Pakete
+  gegen ihre unabhängig ausgeführten historischen Hashes und sichern die
+  weiterhin erkannte CV-Manipulation sowie die aktuelle App-Beilagenüberschrift.
+- Alle 29 Erzeugungsschritte des nativen Forschungsjobs bestehen lokal.
+- `verlauf-hero-long`: Der editierbare Initialen-Platzhalter benötigt seinen
+  Fotoplatz; mit 40 Namenszeilen braucht das Titelblatt drei Seiten. Entfernt
+  man nur diesen Platzhalter als Gegenversuch, ergeben sich wieder zwei.
+  Die korrigierte Erwartung ändert kein Exportpaket: alle 16 DOCX-Dateien sind
+  bytegleich. Die vollständige native Matrix besteht mit 112 Quellseiten und
+  Save/Reopen. Feldkennungen bleiben erhalten; Tabellenkennungen gehen weiterhin
+  verloren und begründen keine neue Word-/Architekturfreigabe.
+- 1486/1486 Unit-Tests, App-Typprüfung sowie geänderte Lint-/Formatprüfung bestehen.
+- Vollständige CI dieses Nachtrags ist nach Veröffentlichung zu ergänzen.
+
+Die Foto-Paket-Pins und das experimentelle `body-stories`-Speichern bleiben
+separat offen. Ein neuer tieferer Forschungsfehler darf nicht durch veränderte
+Referenzen oder erhöhte Geometrietoleranzen verdeckt werden.
 
 Der seltene historische Modern-/Sidebar-PDF-Clone-Abbruch ist nicht kausal geklärt.
 

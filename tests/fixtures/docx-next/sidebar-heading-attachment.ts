@@ -1,6 +1,7 @@
 /** Neutral native diagnostics; these never enable an application Sidebar export. */
 import assert from "node:assert/strict";
 import { buildDossierDocModel } from "../../../src/lib/docx-next/build-model";
+import { historicalSidebarControlModel } from "./historical-sidebar-model";
 import { parallelFlowTable } from "../../../src/lib/docx-next/parallel-flow";
 import { sectionHeadingPrefix } from "../../../src/lib/docx-next/heading-prefix";
 import { semanticFlowUnits } from "../../../src/lib/docx-next/semantic-flow-units";
@@ -10,7 +11,6 @@ import {
   type DocBlock,
   type Paragraph,
 } from "../../../src/lib/docx-next/model";
-import { briefFixture } from "./brief";
 import { sidebarFixture, sidebarOpeningFieldIds } from "./sidebar";
 
 export const SIDEBAR_HEADING_CASES = [
@@ -69,7 +69,7 @@ export function sidebarHeadingAttachmentFixture(value: SidebarHeadingCase, nativ
   const flow = source.cv.blocks.find(
     (block): block is ParallelFlowBlock => block.kind === "parallel-flow",
   )!;
-  const model = buildDossierDocModel(briefFixture("normal"));
+  const model = historicalSidebarControlModel();
   const width = model.cv.page.widthMm - model.cv.page.margins.left - model.cv.page.margins.right;
   let mainCell: number;
   let mainWidth: number;
