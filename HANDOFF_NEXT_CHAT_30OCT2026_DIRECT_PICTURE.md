@@ -31,8 +31,11 @@ QA-Nachtrag startet keine erneute volle Browsermatrix. Kein Produktfix integrier
 Die Desktop-Word-Abnahme der normalen textfreien Quelle bleibt offen.
 Die Fortsetzung lief isoliert unter Linux; der Windows-Checkout wurde nicht
 erneut verbunden oder synchronisiert (letzter bestaetigter Stand: `e395d4d6`).
-Aktuelle CI-Zwischenstaende stehen im neuen Bericht; ausstehende Jobs nicht als
-bestanden ausgeben. `dev`, `main` und `render` sind unveraendert.
+CI-Abschluss: native Matrix 12/15 erfolgreich; `app-body-content`,
+`picture-identity` und erneut `stable-comparison` (urspruengliche gotoRange-Auswahl)
+scheitern. Release: Fast-Checks mit 1490 Unit-Tests und zehn von elf Browsergruppen
+bestanden; `cv-pdf-core` noch offen. Vollstaendige Details und Zeitpunkt im neuen
+Bericht. `dev`, `main` und `render` sind unveraendert.
 Die folgenden Abschnitte dokumentieren den vorherigen Abschlussstand.
 
 ---

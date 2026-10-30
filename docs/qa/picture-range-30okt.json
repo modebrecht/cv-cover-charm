@@ -1,16 +1,18 @@
 {
   "schemaVersion": 1,
   "ciStatusAtClosure": {
-    "checkedAt": "2026-10-30T20:40:53.141Z",
+    "checkedAt": "2026-10-30T20:44:43.061Z",
     "codeCommit": "84df374944a78e0e0a7ede91a1083746462cb9d9",
     "native": {
       "runId": 41123950685,
+      "passed": 12,
+      "total": 15,
       "jobs": [
         {
           "name": "stable-comparison",
           "id": 124297504302,
-          "status": "in_progress",
-          "conclusion": null
+          "status": "completed",
+          "conclusion": "failure"
         },
         {
           "name": "supported-sidebar",
@@ -96,10 +98,32 @@
           "status": "completed",
           "conclusion": "success"
         }
+      ],
+      "failures": [
+        {
+          "name": "app-body-content",
+          "reason": "Strict picture contract rejected the unchanged app candidate after 22 content cases passed"
+        },
+        {
+          "name": "picture-identity",
+          "reason": "Historical picture-identity job remains failed; no replacement hash was accepted"
+        },
+        {
+          "name": "stable-comparison",
+          "reason": "Completed original gotoRange selection unavailable after three bounded imports in native-pop QA"
+        }
       ]
     },
     "release": {
       "runId": 41123950447,
+      "fastChecks": "success",
+      "unitTests": {
+        "passed": 1490,
+        "failed": 0,
+        "files": 282
+      },
+      "browserGroupsPassed": 10,
+      "browserGroupsTotal": 11,
       "jobs": [
         {
           "name": "fast-checks",
@@ -146,8 +170,8 @@
         {
           "name": "Browser smoke - dossier-flow",
           "id": 124297999811,
-          "status": "in_progress",
-          "conclusion": null
+          "status": "completed",
+          "conclusion": "success"
         },
         {
           "name": "Browser smoke - fresh-dossier-templates",
@@ -170,8 +194,8 @@
         {
           "name": "Browser smoke - templates-layout",
           "id": 124298000074,
-          "status": "in_progress",
-          "conclusion": null
+          "status": "completed",
+          "conclusion": "success"
         },
         {
           "name": "native-print-benchmark",
@@ -2448,8 +2472,8 @@
         "changedWordPages": [],
         "changedPixelPages": [],
         "changedWords": 0,
-        "maxAbsDxMm": 0.0,
-        "maxAbsDyMm": 0.0,
+        "maxAbsDxMm": 0,
+        "maxAbsDyMm": 0,
         "renderScale": 2,
         "pdfMetadataCompared": false,
         "exactVisibleGeometry": true
@@ -2462,8 +2486,8 @@
         "changedWordPages": [],
         "changedPixelPages": [],
         "changedWords": 0,
-        "maxAbsDxMm": 0.0,
-        "maxAbsDyMm": 0.0,
+        "maxAbsDxMm": 0,
+        "maxAbsDyMm": 0,
         "renderScale": 2,
         "pdfMetadataCompared": false,
         "exactVisibleGeometry": true
@@ -2476,8 +2500,8 @@
         "changedWordPages": [],
         "changedPixelPages": [],
         "changedWords": 0,
-        "maxAbsDxMm": 0.0,
-        "maxAbsDyMm": 0.0,
+        "maxAbsDxMm": 0,
+        "maxAbsDyMm": 0,
         "renderScale": 2,
         "pdfMetadataCompared": false,
         "exactVisibleGeometry": true
@@ -2518,5 +2542,6 @@
     "drawingPresentInAllPhases": true,
     "sourceMatchesBaselineVisibleGeometry": true
   },
-  "strictCheckerSha256": "77ac44830668a0a4d59ef036449e537ed8f175913afcf613a160e3376ba568eb"
+  "strictCheckerSha256": "77ac44830668a0a4d59ef036449e537ed8f175913afcf613a160e3376ba568eb",
+  "strictCheckerCodeCommit": "97868ee0e9d64c3c2e4909e1c8d76b4c6a124dec"
 }

@@ -107,12 +107,15 @@ Gelesene primaere Quellen, jeweils auf die CI-Version gebunden:
 
 ## CI-Stand beim Abschluss
 
-Stand 2026-10-30T20:40:53.141Z (UTC), Code `84df3749`:
-Native Matrix: zwoelf Jobs erfolgreich, `app-body-content` korrekt am strengen
-Bildvertrag gestoppt, historischer `picture-identity`-Pin weiterhin fehlerhaft;
-`stable-comparison` noch offen. Release: Fast-Checks mit 1490 Unit-Tests bestanden,
-acht von elf Browsergruppen erfolgreich; `dossier-flow`, `cv-pdf-core` und
-`templates-layout` noch offen. Keine abschliessende Gesamtfreigabe behaupten.
+Stand 2026-10-30T20:44:43.061Z (UTC), nativer Code `84df3749`, Textvertrag `97868ee0`:
+Native Matrix abgeschlossen: 12/15 Jobs erfolgreich. `app-body-content` stoppt
+korrekt am Bildvertrag; `picture-identity` bleibt fehlerhaft. `stable-comparison`
+scheitert erneut an der nicht beobachteten vollstaendigen urspruenglichen
+`gotoRange`-Auswahl nach drei begrenzten Importversuchen. Keine Lockerung.
+
+[Release-Regression](https://github.com/modebrecht/cv-cover-charm/actions/runs/41123950447):
+Fast-Checks mit 1490 Unit-Tests bestanden, zehn von elf Browsergruppen erfolgreich;
+nur `cv-pdf-core` noch offen. Keine abschliessende Release-Gesamtfreigabe behaupten.
 
 Die Fortsetzung lief in der isolierten Linux-Umgebung. Der Windows-Checkout
 wurde nicht erneut verbunden oder synchronisiert; sein letzter bestaetigter
