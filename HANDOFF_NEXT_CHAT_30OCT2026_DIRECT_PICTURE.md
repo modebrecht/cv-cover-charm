@@ -1,5 +1,29 @@
 # Übergabe: direkt verankertes Einzelbild, 30. Oktober 2026
 
+## Aktualisierung: bestehende CI vollstaendig ausgewertet
+
+Die unten dokumentierten laufenden Jobs sind inzwischen beendet. Verbindlicher
+neuer Befund: `docs/qa/direct-picture-ci-30okt.md` und `.json`.
+
+- Release-Regression erfolgreich: 1490 Unit-Tests und alle elf Browsergruppen.
+- Native Matrix: 14/15 Jobs erfolgreich, alle zehn Vorlagengruppen eingeschlossen.
+  Der bekannte `picture-identity`-Pinfehler bleibt unveraendert.
+- 22/22 Inhaltsfaelle bestanden, aber nur 18/22 exakt geometrisch stabil.
+  Vier rechte Sidebar-Faelle verlieren pro Speichern einen Twip in der linken
+  Spalte; zwei Fotopositionen verschieben sich, maximal 0.03526917 mm insgesamt.
+- Alle neun Fotos werden beim ersten Speichern von 120x180 Pixeln neu gerastert
+  (acht auf 96x96, Hochformat auf 73x91). Originale RGBA-Pixel bleiben nicht erhalten.
+- Bei allen vier wirklich direkt verankerten Fotos ist die Bildkontrolle nach
+  dem Speichern leer; Kennung und sichtbares Foto bleiben getrennt erhalten.
+  Dieser Besitzverlust wird vom bisherigen Inhaltsvertrag nicht erkannt.
+- Archiv-Digest und 66 DOCX-/66 PDF-Phasenbindungen geprueft. Nur vorhandene
+  Artefakte ausgewertet; keine neuen nativen Tests oder Exporte gestartet.
+
+**Keine Freigabe, kein Merge.** Naechster Schwerpunkt: Bildzuordnung nach
+Save/Reopen mit einem strengen Vertrag absichern und ihren Verlust beheben.
+Danach Bilddaten-Erhalt, rechte Rasterdrift und eigenstaendige Desktop-Word-Abnahme.
+Die folgenden Abschnitte halten den vorherigen Uebergabezeitpunkt fest.
+
 **Auf Nutzerwunsch gestoppt, committen und übergeben.** Keine weiteren lokalen
 Prüfungen starten. Die schon gestartete GitHub-CI darf fertiglaufen; zuerst deren
 Ergebnisse auswerten, keine erneute lokale Testumgebung aufbauen.

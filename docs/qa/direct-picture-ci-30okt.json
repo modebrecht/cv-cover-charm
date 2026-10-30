@@ -1,0 +1,4394 @@
+{
+  "schemaVersion": 1,
+  "codeCommit": "3972e87b2723dd9199b184ec1e0936c9e9c2617f",
+  "nativeRunId": 41080788805,
+  "releaseRunId": 41080788695,
+  "artifactId": 12989866764,
+  "artifactSha256": "f18a21fb52a7c92150df42c447c0c2f10dc42e01bbe503ca108126f0a83a4d73",
+  "contentReportSha256": "05e14a07f247e75d95d0bfbff55d681afe49e1cd758de2bb19097b2a5af4cdbf",
+  "geometryReportSha256": "c787a595bac1073bc40607666dbe23cd7d44bfb89ea616be3af2764e8442884a",
+  "artifactHashBindingsVerified": {
+    "packages": 66,
+    "pdfs": 66
+  },
+  "analysisOnly": true,
+  "newNativeRuns": 0,
+  "contentPassCases": 22,
+  "exactGeometryPassCases": 18,
+  "photoCases": 9,
+  "stablePhotoPositionCases": 7,
+  "productionAcceptance": "blocked",
+  "microsoftWordAccepted": 0,
+  "cases": [
+    {
+      "fixture": "app-body-both-long",
+      "content": "pass",
+      "exactVisibleGeometry": true,
+      "exactSerializedTables": true,
+      "exactPublicGrid": true,
+      "pageCountsUnchanged": true,
+      "wordSequenceUnchanged": true,
+      "maxWordDxMm": 0.0,
+      "maxWordDyMm": 0.0,
+      "gridsTwips": [
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ]
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ],
+      "mediaPayloadHashMultisetsUnchanged": true,
+      "mediaRgbaHashMultisetsUnchanged": true,
+      "decodedMedia": [
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ]
+      ]
+    },
+    {
+      "fixture": "app-body-both-long-right",
+      "content": "pass",
+      "exactVisibleGeometry": false,
+      "exactSerializedTables": false,
+      "exactPublicGrid": false,
+      "pageCountsUnchanged": true,
+      "wordSequenceUnchanged": true,
+      "maxWordDxMm": 0.017656114366319444,
+      "maxWordDyMm": 0.0,
+      "gridsTwips": [
+        [
+          6508,
+          341,
+          2789
+        ],
+        [
+          6507,
+          341,
+          2790
+        ],
+        [
+          6506,
+          341,
+          2791
+        ]
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "changedPixelPages": [
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            11
+          ],
+          "changedWords": 751,
+          "maxAbsDxMm": 0.017656114366319444,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": false,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": false,
+          "exactSerializedTables": false,
+          "exactPublicGrid": false
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "changedPixelPages": [
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "changedWords": 751,
+          "maxAbsDxMm": 0.017634582519531247,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": false,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": false,
+          "exactSerializedTables": false,
+          "exactPublicGrid": false
+        }
+      ],
+      "mediaPayloadHashMultisetsUnchanged": true,
+      "mediaRgbaHashMultisetsUnchanged": true,
+      "decodedMedia": [
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ]
+      ]
+    },
+    {
+      "fixture": "app-body-left",
+      "content": "pass",
+      "exactVisibleGeometry": true,
+      "exactSerializedTables": true,
+      "exactPublicGrid": true,
+      "pageCountsUnchanged": true,
+      "wordSequenceUnchanged": true,
+      "maxWordDxMm": 0.0,
+      "maxWordDyMm": 0.0,
+      "gridsTwips": [
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ]
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ],
+      "mediaPayloadHashMultisetsUnchanged": true,
+      "mediaRgbaHashMultisetsUnchanged": true,
+      "decodedMedia": [
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ]
+      ]
+    },
+    {
+      "fixture": "app-body-right",
+      "content": "pass",
+      "exactVisibleGeometry": false,
+      "exactSerializedTables": false,
+      "exactPublicGrid": false,
+      "pageCountsUnchanged": true,
+      "wordSequenceUnchanged": true,
+      "maxWordDxMm": 0.017656114366319444,
+      "maxWordDyMm": 0.0,
+      "gridsTwips": [
+        [
+          6508,
+          341,
+          2789
+        ],
+        [
+          6507,
+          341,
+          2790
+        ],
+        [
+          6506,
+          341,
+          2791
+        ]
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [
+            3
+          ],
+          "changedPixelPages": [
+            3
+          ],
+          "changedWords": 43,
+          "maxAbsDxMm": 0.017656114366319444,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": false,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": false,
+          "exactSerializedTables": false,
+          "exactPublicGrid": false
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [
+            3
+          ],
+          "changedPixelPages": [
+            3
+          ],
+          "changedWords": 43,
+          "maxAbsDxMm": 0.017634582519531247,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": false,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": false,
+          "exactSerializedTables": false,
+          "exactPublicGrid": false
+        }
+      ],
+      "mediaPayloadHashMultisetsUnchanged": true,
+      "mediaRgbaHashMultisetsUnchanged": true,
+      "decodedMedia": [
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ]
+      ]
+    },
+    {
+      "fixture": "app-body-paragraph-long",
+      "content": "pass",
+      "exactVisibleGeometry": true,
+      "exactSerializedTables": true,
+      "exactPublicGrid": true,
+      "pageCountsUnchanged": true,
+      "wordSequenceUnchanged": true,
+      "maxWordDxMm": 0.0,
+      "maxWordDyMm": 0.0,
+      "gridsTwips": [
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ]
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ],
+      "mediaPayloadHashMultisetsUnchanged": true,
+      "mediaRgbaHashMultisetsUnchanged": true,
+      "decodedMedia": [
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ]
+      ]
+    },
+    {
+      "fixture": "app-body-side-paragraph-long",
+      "content": "pass",
+      "exactVisibleGeometry": true,
+      "exactSerializedTables": true,
+      "exactPublicGrid": true,
+      "pageCountsUnchanged": true,
+      "wordSequenceUnchanged": true,
+      "maxWordDxMm": 0.0,
+      "maxWordDyMm": 0.0,
+      "gridsTwips": [
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ]
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ],
+      "mediaPayloadHashMultisetsUnchanged": true,
+      "mediaRgbaHashMultisetsUnchanged": true,
+      "decodedMedia": [
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ]
+      ]
+    },
+    {
+      "fixture": "app-body-side-entries-long",
+      "content": "pass",
+      "exactVisibleGeometry": true,
+      "exactSerializedTables": true,
+      "exactPublicGrid": true,
+      "pageCountsUnchanged": true,
+      "wordSequenceUnchanged": true,
+      "maxWordDxMm": 0.0,
+      "maxWordDyMm": 0.0,
+      "gridsTwips": [
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ]
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ],
+      "mediaPayloadHashMultisetsUnchanged": true,
+      "mediaRgbaHashMultisetsUnchanged": true,
+      "decodedMedia": [
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ]
+      ]
+    },
+    {
+      "fixture": "app-body-side-entries-smaller-body",
+      "content": "pass",
+      "exactVisibleGeometry": true,
+      "exactSerializedTables": true,
+      "exactPublicGrid": true,
+      "pageCountsUnchanged": true,
+      "wordSequenceUnchanged": true,
+      "maxWordDxMm": 0.0,
+      "maxWordDyMm": 0.0,
+      "gridsTwips": [
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ]
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ],
+      "mediaPayloadHashMultisetsUnchanged": true,
+      "mediaRgbaHashMultisetsUnchanged": true,
+      "decodedMedia": [
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ]
+      ]
+    },
+    {
+      "fixture": "app-body-placements",
+      "content": "pass",
+      "exactVisibleGeometry": true,
+      "exactSerializedTables": true,
+      "exactPublicGrid": true,
+      "pageCountsUnchanged": true,
+      "wordSequenceUnchanged": true,
+      "maxWordDxMm": 0.0,
+      "maxWordDyMm": 0.0,
+      "gridsTwips": [
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ]
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ],
+      "mediaPayloadHashMultisetsUnchanged": true,
+      "mediaRgbaHashMultisetsUnchanged": true,
+      "decodedMedia": [
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ]
+      ]
+    },
+    {
+      "fixture": "app-body-styled",
+      "content": "pass",
+      "exactVisibleGeometry": true,
+      "exactSerializedTables": true,
+      "exactPublicGrid": true,
+      "pageCountsUnchanged": true,
+      "wordSequenceUnchanged": true,
+      "maxWordDxMm": 0.0,
+      "maxWordDyMm": 0.0,
+      "gridsTwips": [
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ]
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ],
+      "mediaPayloadHashMultisetsUnchanged": true,
+      "mediaRgbaHashMultisetsUnchanged": true,
+      "decodedMedia": [
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ]
+      ]
+    },
+    {
+      "fixture": "app-body-photo-left",
+      "content": "pass",
+      "exactVisibleGeometry": true,
+      "exactSerializedTables": true,
+      "exactPublicGrid": true,
+      "pageCountsUnchanged": true,
+      "wordSequenceUnchanged": true,
+      "maxWordDxMm": 0.0,
+      "maxWordDyMm": 0.0,
+      "gridsTwips": [
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ]
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ],
+      "mediaPayloadHashMultisetsUnchanged": false,
+      "mediaRgbaHashMultisetsUnchanged": false,
+      "decodedMedia": [
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ],
+          [
+            [
+              120,
+              180
+            ],
+            "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ],
+          [
+            [
+              96,
+              96
+            ],
+            "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ],
+          [
+            [
+              96,
+              96
+            ],
+            "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+          ]
+        ]
+      ]
+    },
+    {
+      "fixture": "app-body-photo-right",
+      "content": "pass",
+      "exactVisibleGeometry": false,
+      "exactSerializedTables": false,
+      "exactPublicGrid": false,
+      "pageCountsUnchanged": true,
+      "wordSequenceUnchanged": true,
+      "maxWordDxMm": 0.017656114366319444,
+      "maxWordDyMm": 0.0,
+      "gridsTwips": [
+        [
+          6508,
+          341,
+          2789
+        ],
+        [
+          6507,
+          341,
+          2790
+        ],
+        [
+          6506,
+          341,
+          2791
+        ]
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [
+            3
+          ],
+          "changedPixelPages": [
+            3
+          ],
+          "changedWords": 43,
+          "maxAbsDxMm": 0.017656114366319444,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": false,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": false,
+          "exactSerializedTables": false,
+          "exactPublicGrid": false
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [
+            3
+          ],
+          "changedPixelPages": [
+            3
+          ],
+          "changedWords": 43,
+          "maxAbsDxMm": 0.017634582519531247,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": false,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": false,
+          "exactSerializedTables": false,
+          "exactPublicGrid": false
+        }
+      ],
+      "mediaPayloadHashMultisetsUnchanged": false,
+      "mediaRgbaHashMultisetsUnchanged": false,
+      "decodedMedia": [
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ],
+          [
+            [
+              120,
+              180
+            ],
+            "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ],
+          [
+            [
+              96,
+              96
+            ],
+            "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ],
+          [
+            [
+              96,
+              96
+            ],
+            "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+          ]
+        ]
+      ]
+    },
+    {
+      "fixture": "app-body-photo-main",
+      "content": "pass",
+      "exactVisibleGeometry": true,
+      "exactSerializedTables": true,
+      "exactPublicGrid": true,
+      "pageCountsUnchanged": true,
+      "wordSequenceUnchanged": true,
+      "maxWordDxMm": 0.0,
+      "maxWordDyMm": 0.0,
+      "gridsTwips": [
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ]
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ],
+      "mediaPayloadHashMultisetsUnchanged": false,
+      "mediaRgbaHashMultisetsUnchanged": false,
+      "decodedMedia": [
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ],
+          [
+            [
+              120,
+              180
+            ],
+            "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ],
+          [
+            [
+              96,
+              96
+            ],
+            "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ],
+          [
+            [
+              96,
+              96
+            ],
+            "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+          ]
+        ]
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-main",
+      "content": "pass",
+      "exactVisibleGeometry": true,
+      "exactSerializedTables": true,
+      "exactPublicGrid": true,
+      "pageCountsUnchanged": true,
+      "wordSequenceUnchanged": true,
+      "maxWordDxMm": 0.0,
+      "maxWordDyMm": 0.0,
+      "gridsTwips": [
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ]
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ],
+      "mediaPayloadHashMultisetsUnchanged": false,
+      "mediaRgbaHashMultisetsUnchanged": false,
+      "decodedMedia": [
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ],
+          [
+            [
+              120,
+              180
+            ],
+            "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ],
+          [
+            [
+              96,
+              96
+            ],
+            "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ],
+          [
+            [
+              96,
+              96
+            ],
+            "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+          ]
+        ]
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-side",
+      "content": "pass",
+      "exactVisibleGeometry": true,
+      "exactSerializedTables": true,
+      "exactPublicGrid": true,
+      "pageCountsUnchanged": true,
+      "wordSequenceUnchanged": true,
+      "maxWordDxMm": 0.0,
+      "maxWordDyMm": 0.0,
+      "gridsTwips": [
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ]
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ],
+      "mediaPayloadHashMultisetsUnchanged": false,
+      "mediaRgbaHashMultisetsUnchanged": false,
+      "decodedMedia": [
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ],
+          [
+            [
+              120,
+              180
+            ],
+            "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ],
+          [
+            [
+              96,
+              96
+            ],
+            "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ],
+          [
+            [
+              96,
+              96
+            ],
+            "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+          ]
+        ]
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-mirrored-side",
+      "content": "pass",
+      "exactVisibleGeometry": false,
+      "exactSerializedTables": false,
+      "exactPublicGrid": false,
+      "pageCountsUnchanged": true,
+      "wordSequenceUnchanged": true,
+      "maxWordDxMm": 0.017656114366319444,
+      "maxWordDyMm": 0.0,
+      "gridsTwips": [
+        [
+          6508,
+          341,
+          2789
+        ],
+        [
+          6507,
+          341,
+          2790
+        ],
+        [
+          6506,
+          341,
+          2791
+        ]
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [
+            3
+          ],
+          "changedPixelPages": [
+            3
+          ],
+          "changedWords": 43,
+          "maxAbsDxMm": 0.017656114366319444,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": false,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": false,
+          "exactSerializedTables": false,
+          "exactPublicGrid": false
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [
+            3
+          ],
+          "changedPixelPages": [
+            3
+          ],
+          "changedWords": 43,
+          "maxAbsDxMm": 0.017634582519531247,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": false,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": false,
+          "exactSerializedTables": false,
+          "exactPublicGrid": false
+        }
+      ],
+      "mediaPayloadHashMultisetsUnchanged": false,
+      "mediaRgbaHashMultisetsUnchanged": false,
+      "decodedMedia": [
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ],
+          [
+            [
+              120,
+              180
+            ],
+            "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ],
+          [
+            [
+              96,
+              96
+            ],
+            "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ],
+          [
+            [
+              96,
+              96
+            ],
+            "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+          ]
+        ]
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-low",
+      "content": "pass",
+      "exactVisibleGeometry": true,
+      "exactSerializedTables": true,
+      "exactPublicGrid": true,
+      "pageCountsUnchanged": true,
+      "wordSequenceUnchanged": true,
+      "maxWordDxMm": 0.0,
+      "maxWordDyMm": 0.0,
+      "gridsTwips": [
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ]
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ],
+      "mediaPayloadHashMultisetsUnchanged": false,
+      "mediaRgbaHashMultisetsUnchanged": false,
+      "decodedMedia": [
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ],
+          [
+            [
+              120,
+              180
+            ],
+            "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ],
+          [
+            [
+              96,
+              96
+            ],
+            "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ],
+          [
+            [
+              96,
+              96
+            ],
+            "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+          ]
+        ]
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-portrait",
+      "content": "pass",
+      "exactVisibleGeometry": true,
+      "exactSerializedTables": true,
+      "exactPublicGrid": true,
+      "pageCountsUnchanged": true,
+      "wordSequenceUnchanged": true,
+      "maxWordDxMm": 0.0,
+      "maxWordDyMm": 0.0,
+      "gridsTwips": [
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ]
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ],
+      "mediaPayloadHashMultisetsUnchanged": false,
+      "mediaRgbaHashMultisetsUnchanged": false,
+      "decodedMedia": [
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ],
+          [
+            [
+              120,
+              180
+            ],
+            "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ],
+          [
+            [
+              73,
+              91
+            ],
+            "d8b343abad7f7a010477d5d88f389fdc7ffc5bbde2241e37e7e1c85dd06fa0f0"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ],
+          [
+            [
+              73,
+              91
+            ],
+            "d8b343abad7f7a010477d5d88f389fdc7ffc5bbde2241e37e7e1c85dd06fa0f0"
+          ]
+        ]
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-chrome",
+      "content": "pass",
+      "exactVisibleGeometry": true,
+      "exactSerializedTables": true,
+      "exactPublicGrid": true,
+      "pageCountsUnchanged": true,
+      "wordSequenceUnchanged": true,
+      "maxWordDxMm": 0.0,
+      "maxWordDyMm": 0.0,
+      "gridsTwips": [
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ]
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ],
+      "mediaPayloadHashMultisetsUnchanged": false,
+      "mediaRgbaHashMultisetsUnchanged": false,
+      "decodedMedia": [
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ],
+          [
+            [
+              120,
+              180
+            ],
+            "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ],
+          [
+            [
+              96,
+              96
+            ],
+            "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ],
+          [
+            [
+              96,
+              96
+            ],
+            "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+          ]
+        ]
+      ]
+    },
+    {
+      "fixture": "app-body-contact-long",
+      "content": "pass",
+      "exactVisibleGeometry": true,
+      "exactSerializedTables": true,
+      "exactPublicGrid": true,
+      "pageCountsUnchanged": true,
+      "wordSequenceUnchanged": true,
+      "maxWordDxMm": 0.0,
+      "maxWordDyMm": 0.0,
+      "gridsTwips": [
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ]
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ],
+      "mediaPayloadHashMultisetsUnchanged": true,
+      "mediaRgbaHashMultisetsUnchanged": true,
+      "decodedMedia": [
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ]
+      ]
+    },
+    {
+      "fixture": "app-body-chrome-continuation",
+      "content": "pass",
+      "exactVisibleGeometry": true,
+      "exactSerializedTables": true,
+      "exactPublicGrid": true,
+      "pageCountsUnchanged": true,
+      "wordSequenceUnchanged": true,
+      "maxWordDxMm": 0.0,
+      "maxWordDyMm": 0.0,
+      "gridsTwips": [
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ]
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ],
+      "mediaPayloadHashMultisetsUnchanged": true,
+      "mediaRgbaHashMultisetsUnchanged": true,
+      "decodedMedia": [
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ]
+      ]
+    },
+    {
+      "fixture": "app-body-chrome-leading",
+      "content": "pass",
+      "exactVisibleGeometry": true,
+      "exactSerializedTables": true,
+      "exactPublicGrid": true,
+      "pageCountsUnchanged": true,
+      "wordSequenceUnchanged": true,
+      "maxWordDxMm": 0.0,
+      "maxWordDyMm": 0.0,
+      "gridsTwips": [
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ],
+        [
+          2789,
+          340,
+          6509
+        ]
+      ],
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "source",
+          "toPhase": "saved",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "exactVisibleGeometry": true,
+          "fromPhase": "saved",
+          "toPhase": "saved2",
+          "exactSerializedRoot": true,
+          "exactSerializedTables": true,
+          "exactPublicGrid": true
+        }
+      ],
+      "mediaPayloadHashMultisetsUnchanged": true,
+      "mediaRgbaHashMultisetsUnchanged": true,
+      "decodedMedia": [
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ],
+        [
+          [
+            [
+              1,
+              1
+            ],
+            "13b31952f48e102fd263fcec4997da232f9af48b3f3bb6a38413fa67a5c9d0ea"
+          ],
+          [
+            [
+              1,
+              1
+            ],
+            "59b74c1e08501cf26815edefd53a2b8973594161530928f4c63472c293f68c41"
+          ]
+        ]
+      ]
+    }
+  ],
+  "photos": [
+    {
+      "fixture": "app-body-photo-left",
+      "placement": "inline",
+      "sourceTypedPicture": true,
+      "sourceAnchorCount": 0,
+      "phases": [
+        {
+          "phase": "source",
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                27.58722114562988,
+                23.74220659467909,
+                61.59500215318467,
+                57.749984910753035
+              ]
+            }
+          ],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27697,
+              "bboxMm": [
+                27.86944444444444,
+                23.988888888888887,
+                61.383333333333326,
+                57.50277777777777
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "saved",
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                27.58722114562988,
+                23.74220659467909,
+                61.59500215318467,
+                57.749984910753035
+              ]
+            }
+          ],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27697,
+              "bboxMm": [
+                27.86944444444444,
+                23.988888888888887,
+                61.383333333333326,
+                57.50277777777777
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "saved2",
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                27.58722114562988,
+                23.74220659467909,
+                61.59500215318467,
+                57.749984910753035
+              ]
+            }
+          ],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27697,
+              "bboxMm": [
+                27.86944444444444,
+                23.988888888888887,
+                61.383333333333326,
+                57.50277777777777
+              ]
+            }
+          ]
+        }
+      ],
+      "sourceToSavedDeltaMm": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "savedToSaved2DeltaMm": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sourceToSaved2DeltaMm": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "imageFramePositionsUnchanged": true
+    },
+    {
+      "fixture": "app-body-photo-right",
+      "placement": "inline",
+      "sourceTypedPicture": true,
+      "sourceAnchorCount": 0,
+      "phases": [
+        {
+          "phase": "source",
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                148.39597006903753,
+                23.74220659467909,
+                182.4037456936306,
+                57.749984910753035
+              ]
+            }
+          ],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27691,
+              "bboxMm": [
+                148.69583333333333,
+                23.988888888888887,
+                182.2097222222222,
+                57.50277777777777
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "saved",
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                148.37833548651798,
+                23.74220659467909,
+                182.3861111111111,
+                57.749984910753035
+              ]
+            }
+          ],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27685,
+              "bboxMm": [
+                148.69583333333333,
+                23.988888888888887,
+                182.2097222222222,
+                57.50277777777777
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "saved2",
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                148.37833548651798,
+                23.74220659467909,
+                182.3861111111111,
+                57.749984910753035
+              ]
+            }
+          ],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27685,
+              "bboxMm": [
+                148.69583333333333,
+                23.988888888888887,
+                182.2097222222222,
+                57.50277777777777
+              ]
+            }
+          ]
+        }
+      ],
+      "sourceToSavedDeltaMm": [
+        -0.017634582519548303,
+        0.0,
+        -0.01763458251951988,
+        0.0
+      ],
+      "savedToSaved2DeltaMm": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sourceToSaved2DeltaMm": [
+        -0.017634582519548303,
+        0.0,
+        -0.01763458251951988,
+        0.0
+      ],
+      "imageFramePositionsUnchanged": false
+    },
+    {
+      "fixture": "app-body-photo-main",
+      "placement": "inline",
+      "sourceTypedPicture": true,
+      "sourceAnchorCount": 0,
+      "phases": [
+        {
+          "phase": "source",
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                115.5876367357042,
+                23.74220659467909,
+                149.5954123602973,
+                57.749984910753035
+              ]
+            }
+          ],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27691,
+              "bboxMm": [
+                115.88749999999999,
+                23.988888888888887,
+                149.40138888888887,
+                57.50277777777777
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "saved",
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                115.5876367357042,
+                23.74220659467909,
+                149.5954123602973,
+                57.749984910753035
+              ]
+            }
+          ],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27691,
+              "bboxMm": [
+                115.88749999999999,
+                23.988888888888887,
+                149.40138888888887,
+                57.50277777777777
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "saved2",
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                115.5876367357042,
+                23.74220659467909,
+                149.5954123602973,
+                57.749984910753035
+              ]
+            }
+          ],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27691,
+              "bboxMm": [
+                115.88749999999999,
+                23.988888888888887,
+                149.40138888888887,
+                57.50277777777777
+              ]
+            }
+          ]
+        }
+      ],
+      "sourceToSavedDeltaMm": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "savedToSaved2DeltaMm": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sourceToSaved2DeltaMm": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "imageFramePositionsUnchanged": true
+    },
+    {
+      "fixture": "app-body-photo-free-main",
+      "placement": "free",
+      "sourceTypedPicture": true,
+      "sourceAnchorCount": 1,
+      "phases": [
+        {
+          "phase": "source",
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                150.00111541748046,
+                23.74220659467909,
+                184.00890180799695,
+                57.749984910753035
+              ]
+            }
+          ],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27696,
+              "bboxMm": [
+                150.28333333333333,
+                23.988888888888887,
+                183.79722222222222,
+                57.50277777777777
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "saved",
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                150.00111541748046,
+                23.74220659467909,
+                184.00890180799695,
+                57.749984910753035
+              ]
+            }
+          ],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27696,
+              "bboxMm": [
+                150.28333333333333,
+                23.988888888888887,
+                183.79722222222222,
+                57.50277777777777
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "saved2",
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                150.00111541748046,
+                23.74220659467909,
+                184.00890180799695,
+                57.749984910753035
+              ]
+            }
+          ],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27696,
+              "bboxMm": [
+                150.28333333333333,
+                23.988888888888887,
+                183.79722222222222,
+                57.50277777777777
+              ]
+            }
+          ]
+        }
+      ],
+      "sourceToSavedDeltaMm": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "savedToSaved2DeltaMm": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sourceToSaved2DeltaMm": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "imageFramePositionsUnchanged": true
+    },
+    {
+      "fixture": "app-body-photo-free-side",
+      "placement": "inline",
+      "sourceTypedPicture": true,
+      "sourceAnchorCount": 0,
+      "phases": [
+        {
+          "phase": "source",
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                25.011944982740612,
+                23.74220659467909,
+                59.019723298814554,
+                57.749984910753035
+              ]
+            }
+          ],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27678,
+              "bboxMm": [
+                25.223611111111108,
+                23.988888888888887,
+                58.7375,
+                57.50277777777777
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "saved",
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                25.011944982740612,
+                23.74220659467909,
+                59.019723298814554,
+                57.749984910753035
+              ]
+            }
+          ],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27678,
+              "bboxMm": [
+                25.223611111111108,
+                23.988888888888887,
+                58.7375,
+                57.50277777777777
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "saved2",
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                25.011944982740612,
+                23.74220659467909,
+                59.019723298814554,
+                57.749984910753035
+              ]
+            }
+          ],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27678,
+              "bboxMm": [
+                25.223611111111108,
+                23.988888888888887,
+                58.7375,
+                57.50277777777777
+              ]
+            }
+          ]
+        }
+      ],
+      "sourceToSavedDeltaMm": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "savedToSaved2DeltaMm": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sourceToSaved2DeltaMm": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "imageFramePositionsUnchanged": true
+    },
+    {
+      "fixture": "app-body-photo-free-mirrored-side",
+      "placement": "inline",
+      "sourceTypedPicture": true,
+      "sourceAnchorCount": 0,
+      "phases": [
+        {
+          "phase": "source",
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                151.0065234714084,
+                23.74220659467909,
+                185.0143098619249,
+                57.749984910753035
+              ]
+            }
+          ],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27690,
+              "bboxMm": [
+                151.16527777777776,
+                23.988888888888887,
+                184.85555555555553,
+                57.50277777777777
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "saved",
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                150.98888888888888,
+                23.74220659467909,
+                184.99667527940537,
+                57.749984910753035
+              ]
+            }
+          ],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27686,
+              "bboxMm": [
+                151.16527777777776,
+                23.988888888888887,
+                184.85555555555553,
+                57.50277777777777
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "saved2",
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                150.97125430636933,
+                23.74220659467909,
+                184.97904069688582,
+                57.749984910753035
+              ]
+            }
+          ],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27687,
+              "bboxMm": [
+                151.16527777777776,
+                23.988888888888887,
+                184.85555555555553,
+                57.50277777777777
+              ]
+            }
+          ]
+        }
+      ],
+      "sourceToSavedDeltaMm": [
+        -0.01763458251951988,
+        0.0,
+        -0.01763458251951988,
+        0.0
+      ],
+      "savedToSaved2DeltaMm": [
+        -0.017634582519548303,
+        0.0,
+        -0.017634582519548303,
+        0.0
+      ],
+      "sourceToSaved2DeltaMm": [
+        -0.035269165039068184,
+        0.0,
+        -0.035269165039068184,
+        0.0
+      ],
+      "imageFramePositionsUnchanged": false
+    },
+    {
+      "fixture": "app-body-photo-free-low",
+      "placement": "free",
+      "sourceTypedPicture": true,
+      "sourceAnchorCount": 1,
+      "phases": [
+        {
+          "phase": "source",
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                150.00111541748046,
+                163.33638025919595,
+                184.00890180799695,
+                197.34415588378903
+              ]
+            }
+          ],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27690,
+              "bboxMm": [
+                150.28333333333333,
+                163.5125,
+                183.79722222222222,
+                197.20277777777775
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "saved",
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                150.00111541748046,
+                163.33638025919595,
+                184.00890180799695,
+                197.34415588378903
+              ]
+            }
+          ],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27690,
+              "bboxMm": [
+                150.28333333333333,
+                163.5125,
+                183.79722222222222,
+                197.20277777777775
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "saved2",
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                150.00111541748046,
+                163.33638025919595,
+                184.00890180799695,
+                197.34415588378903
+              ]
+            }
+          ],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27690,
+              "bboxMm": [
+                150.28333333333333,
+                163.5125,
+                183.79722222222222,
+                197.20277777777775
+              ]
+            }
+          ]
+        }
+      ],
+      "sourceToSavedDeltaMm": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "savedToSaved2DeltaMm": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sourceToSaved2DeltaMm": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "imageFramePositionsUnchanged": true
+    },
+    {
+      "fixture": "app-body-photo-free-portrait",
+      "placement": "free",
+      "sourceTypedPicture": true,
+      "sourceAnchorCount": 1,
+      "phases": [
+        {
+          "phase": "source",
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                150.00111541748046,
+                48.33081932067871,
+                184.00890180799695,
+                90.8229015774197
+              ]
+            }
+          ],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 48209,
+              "bboxMm": [
+                149.40138888888887,
+                47.80138888888889,
+                184.50277777777777,
+                91.36944444444444
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "saved",
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                150.00111541748046,
+                48.33081932067871,
+                184.00890180799695,
+                90.8229015774197
+              ]
+            }
+          ],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 48209,
+              "bboxMm": [
+                149.40138888888887,
+                47.80138888888889,
+                184.50277777777777,
+                91.36944444444444
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "saved2",
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                150.00111541748046,
+                48.33081932067871,
+                184.00890180799695,
+                90.8229015774197
+              ]
+            }
+          ],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 48209,
+              "bboxMm": [
+                149.40138888888887,
+                47.80138888888889,
+                184.50277777777777,
+                91.36944444444444
+              ]
+            }
+          ]
+        }
+      ],
+      "sourceToSavedDeltaMm": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "savedToSaved2DeltaMm": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sourceToSaved2DeltaMm": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "imageFramePositionsUnchanged": true
+    },
+    {
+      "fixture": "app-body-photo-free-chrome",
+      "placement": "free",
+      "sourceTypedPicture": true,
+      "sourceAnchorCount": 1,
+      "phases": [
+        {
+          "phase": "source",
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                150.00111541748046,
+                119.96235894097221,
+                184.00890180799695,
+                153.9701345655653
+              ]
+            }
+          ],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27688,
+              "bboxMm": [
+                150.28333333333333,
+                120.2972222222222,
+                183.79722222222222,
+                153.8111111111111
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "saved",
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                150.00111541748046,
+                119.96235894097221,
+                184.00890180799695,
+                153.9701345655653
+              ]
+            }
+          ],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27688,
+              "bboxMm": [
+                150.28333333333333,
+                120.2972222222222,
+                183.79722222222222,
+                153.8111111111111
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "saved2",
+          "imageFrames": [
+            {
+              "page": 3,
+              "bboxMm": [
+                150.00111541748046,
+                119.96235894097221,
+                184.00890180799695,
+                153.9701345655653
+              ]
+            }
+          ],
+          "photos": [
+            {
+              "page": 3,
+              "pixels": 27688,
+              "bboxMm": [
+                150.28333333333333,
+                120.2972222222222,
+                183.79722222222222,
+                153.8111111111111
+              ]
+            }
+          ]
+        }
+      ],
+      "sourceToSavedDeltaMm": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "savedToSaved2DeltaMm": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sourceToSaved2DeltaMm": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "imageFramePositionsUnchanged": true
+    }
+  ],
+  "photoMediaIdentity": [
+    {
+      "fixture": "app-body-photo-left",
+      "phases": [
+        {
+          "phase": "source",
+          "pictureControlContainsImage": true,
+          "pictureControlDrawingCount": 1,
+          "documentDrawingCount": 1,
+          "mediaSelection": "control relationship",
+          "format": "PNG",
+          "mode": "RGBA",
+          "size": [
+            120,
+            180
+          ],
+          "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+          "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+        },
+        {
+          "phase": "saved",
+          "pictureControlContainsImage": true,
+          "pictureControlDrawingCount": 1,
+          "documentDrawingCount": 1,
+          "mediaSelection": "control relationship",
+          "format": "PNG",
+          "mode": "RGBA",
+          "size": [
+            96,
+            96
+          ],
+          "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+          "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+        },
+        {
+          "phase": "saved2",
+          "pictureControlContainsImage": true,
+          "pictureControlDrawingCount": 1,
+          "documentDrawingCount": 1,
+          "mediaSelection": "control relationship",
+          "format": "PNG",
+          "mode": "RGBA",
+          "size": [
+            96,
+            96
+          ],
+          "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+          "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+        }
+      ],
+      "comparisons": [
+        {
+          "from": "source",
+          "to": "saved",
+          "dimensionsUnchanged": false,
+          "pixelEquality": false,
+          "pixelCountsCompared": false
+        },
+        {
+          "from": "saved",
+          "to": "saved2",
+          "dimensionsUnchanged": true,
+          "pixelCountsCompared": true,
+          "changedRgbaPixels": 0,
+          "changedRgbPixels": 0,
+          "changedAlphaPixels": 0,
+          "changedRgbPixelsWhereEitherVisible": 0
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-right",
+      "phases": [
+        {
+          "phase": "source",
+          "pictureControlContainsImage": true,
+          "pictureControlDrawingCount": 1,
+          "documentDrawingCount": 1,
+          "mediaSelection": "control relationship",
+          "format": "PNG",
+          "mode": "RGBA",
+          "size": [
+            120,
+            180
+          ],
+          "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+          "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+        },
+        {
+          "phase": "saved",
+          "pictureControlContainsImage": true,
+          "pictureControlDrawingCount": 1,
+          "documentDrawingCount": 1,
+          "mediaSelection": "control relationship",
+          "format": "PNG",
+          "mode": "RGBA",
+          "size": [
+            96,
+            96
+          ],
+          "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+          "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+        },
+        {
+          "phase": "saved2",
+          "pictureControlContainsImage": true,
+          "pictureControlDrawingCount": 1,
+          "documentDrawingCount": 1,
+          "mediaSelection": "control relationship",
+          "format": "PNG",
+          "mode": "RGBA",
+          "size": [
+            96,
+            96
+          ],
+          "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+          "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+        }
+      ],
+      "comparisons": [
+        {
+          "from": "source",
+          "to": "saved",
+          "dimensionsUnchanged": false,
+          "pixelEquality": false,
+          "pixelCountsCompared": false
+        },
+        {
+          "from": "saved",
+          "to": "saved2",
+          "dimensionsUnchanged": true,
+          "pixelCountsCompared": true,
+          "changedRgbaPixels": 0,
+          "changedRgbPixels": 0,
+          "changedAlphaPixels": 0,
+          "changedRgbPixelsWhereEitherVisible": 0
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-main",
+      "phases": [
+        {
+          "phase": "source",
+          "pictureControlContainsImage": true,
+          "pictureControlDrawingCount": 1,
+          "documentDrawingCount": 1,
+          "mediaSelection": "control relationship",
+          "format": "PNG",
+          "mode": "RGBA",
+          "size": [
+            120,
+            180
+          ],
+          "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+          "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+        },
+        {
+          "phase": "saved",
+          "pictureControlContainsImage": true,
+          "pictureControlDrawingCount": 1,
+          "documentDrawingCount": 1,
+          "mediaSelection": "control relationship",
+          "format": "PNG",
+          "mode": "RGBA",
+          "size": [
+            96,
+            96
+          ],
+          "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+          "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+        },
+        {
+          "phase": "saved2",
+          "pictureControlContainsImage": true,
+          "pictureControlDrawingCount": 1,
+          "documentDrawingCount": 1,
+          "mediaSelection": "control relationship",
+          "format": "PNG",
+          "mode": "RGBA",
+          "size": [
+            96,
+            96
+          ],
+          "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+          "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+        }
+      ],
+      "comparisons": [
+        {
+          "from": "source",
+          "to": "saved",
+          "dimensionsUnchanged": false,
+          "pixelEquality": false,
+          "pixelCountsCompared": false
+        },
+        {
+          "from": "saved",
+          "to": "saved2",
+          "dimensionsUnchanged": true,
+          "pixelCountsCompared": true,
+          "changedRgbaPixels": 0,
+          "changedRgbPixels": 0,
+          "changedAlphaPixels": 0,
+          "changedRgbPixelsWhereEitherVisible": 0
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-main",
+      "phases": [
+        {
+          "phase": "source",
+          "pictureControlContainsImage": true,
+          "pictureControlDrawingCount": 1,
+          "documentDrawingCount": 1,
+          "mediaSelection": "control relationship",
+          "format": "PNG",
+          "mode": "RGBA",
+          "size": [
+            120,
+            180
+          ],
+          "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+          "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+        },
+        {
+          "phase": "saved",
+          "pictureControlContainsImage": false,
+          "pictureControlDrawingCount": 0,
+          "documentDrawingCount": 1,
+          "mediaSelection": "sole non-paint asset; no ownership inferred",
+          "format": "PNG",
+          "mode": "RGBA",
+          "size": [
+            96,
+            96
+          ],
+          "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+          "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+        },
+        {
+          "phase": "saved2",
+          "pictureControlContainsImage": false,
+          "pictureControlDrawingCount": 0,
+          "documentDrawingCount": 1,
+          "mediaSelection": "sole non-paint asset; no ownership inferred",
+          "format": "PNG",
+          "mode": "RGBA",
+          "size": [
+            96,
+            96
+          ],
+          "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+          "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+        }
+      ],
+      "comparisons": [
+        {
+          "from": "source",
+          "to": "saved",
+          "dimensionsUnchanged": false,
+          "pixelEquality": false,
+          "pixelCountsCompared": false
+        },
+        {
+          "from": "saved",
+          "to": "saved2",
+          "dimensionsUnchanged": true,
+          "pixelCountsCompared": true,
+          "changedRgbaPixels": 0,
+          "changedRgbPixels": 0,
+          "changedAlphaPixels": 0,
+          "changedRgbPixelsWhereEitherVisible": 0
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-side",
+      "phases": [
+        {
+          "phase": "source",
+          "pictureControlContainsImage": true,
+          "pictureControlDrawingCount": 1,
+          "documentDrawingCount": 1,
+          "mediaSelection": "control relationship",
+          "format": "PNG",
+          "mode": "RGBA",
+          "size": [
+            120,
+            180
+          ],
+          "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+          "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+        },
+        {
+          "phase": "saved",
+          "pictureControlContainsImage": true,
+          "pictureControlDrawingCount": 1,
+          "documentDrawingCount": 1,
+          "mediaSelection": "control relationship",
+          "format": "PNG",
+          "mode": "RGBA",
+          "size": [
+            96,
+            96
+          ],
+          "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+          "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+        },
+        {
+          "phase": "saved2",
+          "pictureControlContainsImage": true,
+          "pictureControlDrawingCount": 1,
+          "documentDrawingCount": 1,
+          "mediaSelection": "control relationship",
+          "format": "PNG",
+          "mode": "RGBA",
+          "size": [
+            96,
+            96
+          ],
+          "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+          "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+        }
+      ],
+      "comparisons": [
+        {
+          "from": "source",
+          "to": "saved",
+          "dimensionsUnchanged": false,
+          "pixelEquality": false,
+          "pixelCountsCompared": false
+        },
+        {
+          "from": "saved",
+          "to": "saved2",
+          "dimensionsUnchanged": true,
+          "pixelCountsCompared": true,
+          "changedRgbaPixels": 0,
+          "changedRgbPixels": 0,
+          "changedAlphaPixels": 0,
+          "changedRgbPixelsWhereEitherVisible": 0
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-mirrored-side",
+      "phases": [
+        {
+          "phase": "source",
+          "pictureControlContainsImage": true,
+          "pictureControlDrawingCount": 1,
+          "documentDrawingCount": 1,
+          "mediaSelection": "control relationship",
+          "format": "PNG",
+          "mode": "RGBA",
+          "size": [
+            120,
+            180
+          ],
+          "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+          "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+        },
+        {
+          "phase": "saved",
+          "pictureControlContainsImage": true,
+          "pictureControlDrawingCount": 1,
+          "documentDrawingCount": 1,
+          "mediaSelection": "control relationship",
+          "format": "PNG",
+          "mode": "RGBA",
+          "size": [
+            96,
+            96
+          ],
+          "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+          "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+        },
+        {
+          "phase": "saved2",
+          "pictureControlContainsImage": true,
+          "pictureControlDrawingCount": 1,
+          "documentDrawingCount": 1,
+          "mediaSelection": "control relationship",
+          "format": "PNG",
+          "mode": "RGBA",
+          "size": [
+            96,
+            96
+          ],
+          "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+          "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+        }
+      ],
+      "comparisons": [
+        {
+          "from": "source",
+          "to": "saved",
+          "dimensionsUnchanged": false,
+          "pixelEquality": false,
+          "pixelCountsCompared": false
+        },
+        {
+          "from": "saved",
+          "to": "saved2",
+          "dimensionsUnchanged": true,
+          "pixelCountsCompared": true,
+          "changedRgbaPixels": 0,
+          "changedRgbPixels": 0,
+          "changedAlphaPixels": 0,
+          "changedRgbPixelsWhereEitherVisible": 0
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-low",
+      "phases": [
+        {
+          "phase": "source",
+          "pictureControlContainsImage": true,
+          "pictureControlDrawingCount": 1,
+          "documentDrawingCount": 1,
+          "mediaSelection": "control relationship",
+          "format": "PNG",
+          "mode": "RGBA",
+          "size": [
+            120,
+            180
+          ],
+          "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+          "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+        },
+        {
+          "phase": "saved",
+          "pictureControlContainsImage": false,
+          "pictureControlDrawingCount": 0,
+          "documentDrawingCount": 1,
+          "mediaSelection": "sole non-paint asset; no ownership inferred",
+          "format": "PNG",
+          "mode": "RGBA",
+          "size": [
+            96,
+            96
+          ],
+          "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+          "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+        },
+        {
+          "phase": "saved2",
+          "pictureControlContainsImage": false,
+          "pictureControlDrawingCount": 0,
+          "documentDrawingCount": 1,
+          "mediaSelection": "sole non-paint asset; no ownership inferred",
+          "format": "PNG",
+          "mode": "RGBA",
+          "size": [
+            96,
+            96
+          ],
+          "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+          "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+        }
+      ],
+      "comparisons": [
+        {
+          "from": "source",
+          "to": "saved",
+          "dimensionsUnchanged": false,
+          "pixelEquality": false,
+          "pixelCountsCompared": false
+        },
+        {
+          "from": "saved",
+          "to": "saved2",
+          "dimensionsUnchanged": true,
+          "pixelCountsCompared": true,
+          "changedRgbaPixels": 0,
+          "changedRgbPixels": 0,
+          "changedAlphaPixels": 0,
+          "changedRgbPixelsWhereEitherVisible": 0
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-portrait",
+      "phases": [
+        {
+          "phase": "source",
+          "pictureControlContainsImage": true,
+          "pictureControlDrawingCount": 1,
+          "documentDrawingCount": 1,
+          "mediaSelection": "control relationship",
+          "format": "PNG",
+          "mode": "RGBA",
+          "size": [
+            120,
+            180
+          ],
+          "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+          "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+        },
+        {
+          "phase": "saved",
+          "pictureControlContainsImage": false,
+          "pictureControlDrawingCount": 0,
+          "documentDrawingCount": 1,
+          "mediaSelection": "sole non-paint asset; no ownership inferred",
+          "format": "PNG",
+          "mode": "RGBA",
+          "size": [
+            73,
+            91
+          ],
+          "payloadSha256": "92b0a7d2bbb13fc85b09042d6c333f664294dba14ebfe6c8892473f4db143430",
+          "rgbaSha256": "d8b343abad7f7a010477d5d88f389fdc7ffc5bbde2241e37e7e1c85dd06fa0f0"
+        },
+        {
+          "phase": "saved2",
+          "pictureControlContainsImage": false,
+          "pictureControlDrawingCount": 0,
+          "documentDrawingCount": 1,
+          "mediaSelection": "sole non-paint asset; no ownership inferred",
+          "format": "PNG",
+          "mode": "RGBA",
+          "size": [
+            73,
+            91
+          ],
+          "payloadSha256": "92b0a7d2bbb13fc85b09042d6c333f664294dba14ebfe6c8892473f4db143430",
+          "rgbaSha256": "d8b343abad7f7a010477d5d88f389fdc7ffc5bbde2241e37e7e1c85dd06fa0f0"
+        }
+      ],
+      "comparisons": [
+        {
+          "from": "source",
+          "to": "saved",
+          "dimensionsUnchanged": false,
+          "pixelEquality": false,
+          "pixelCountsCompared": false
+        },
+        {
+          "from": "saved",
+          "to": "saved2",
+          "dimensionsUnchanged": true,
+          "pixelCountsCompared": true,
+          "changedRgbaPixels": 0,
+          "changedRgbPixels": 0,
+          "changedAlphaPixels": 0,
+          "changedRgbPixelsWhereEitherVisible": 0
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-chrome",
+      "phases": [
+        {
+          "phase": "source",
+          "pictureControlContainsImage": true,
+          "pictureControlDrawingCount": 1,
+          "documentDrawingCount": 1,
+          "mediaSelection": "control relationship",
+          "format": "PNG",
+          "mode": "RGBA",
+          "size": [
+            120,
+            180
+          ],
+          "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+          "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+        },
+        {
+          "phase": "saved",
+          "pictureControlContainsImage": false,
+          "pictureControlDrawingCount": 0,
+          "documentDrawingCount": 1,
+          "mediaSelection": "sole non-paint asset; no ownership inferred",
+          "format": "PNG",
+          "mode": "RGBA",
+          "size": [
+            96,
+            96
+          ],
+          "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+          "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+        },
+        {
+          "phase": "saved2",
+          "pictureControlContainsImage": false,
+          "pictureControlDrawingCount": 0,
+          "documentDrawingCount": 1,
+          "mediaSelection": "sole non-paint asset; no ownership inferred",
+          "format": "PNG",
+          "mode": "RGBA",
+          "size": [
+            96,
+            96
+          ],
+          "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+          "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+        }
+      ],
+      "comparisons": [
+        {
+          "from": "source",
+          "to": "saved",
+          "dimensionsUnchanged": false,
+          "pixelEquality": false,
+          "pixelCountsCompared": false
+        },
+        {
+          "from": "saved",
+          "to": "saved2",
+          "dimensionsUnchanged": true,
+          "pixelCountsCompared": true,
+          "changedRgbaPixels": 0,
+          "changedRgbPixels": 0,
+          "changedAlphaPixels": 0,
+          "changedRgbPixelsWhereEitherVisible": 0
+        }
+      ]
+    }
+  ]
+}
