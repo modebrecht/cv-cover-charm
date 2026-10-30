@@ -1,5 +1,28 @@
 # Übergabe: direkt verankertes Einzelbild, 30. Oktober 2026
 
+## Neueste Fortsetzung: begrenzter Bereichs-Gegenversuch
+
+Details: `docs/qa/picture-range-30okt.md` und `.json`.
+Das neue Archiv zu `e395d4d6` ist jetzt auch lokal byteweise gegen seinen
+veroeffentlichten Digest verifiziert; alle 66 DOCX-/PDF-Bindungen sind erneut
+bestaetigt. Die aktuelle Geometrie ist nachgezaehlt: weiterhin 18/22 exakt stabil.
+
+Ein neuer, rein diagnostischer Quellversuch umfasst das freie Drawing mit zwei
+nicht ausgeblendeten WORD JOINER-Zeichen. Auf der vorhandenen Entwicklungsengine
+bleibt dadurch die eigene Bildzuordnung ueber zwei Speicherzyklen erhalten;
+alle drei PDFs stimmen in sichtbarer Geometrie mit der unveraenderten Quelle
+ueberein. Die Originalpixel bleiben trotzdem veraendert. Ein Versuch mit
+Ausblendung wurde wegen unsichtbarem Foto verworfen. Die native CI soll denselben
+Gegenversuch auf der gepinnten Engine bestaetigen; Ergebnis noch offen.
+
+Kein Renderer-Fix integriert. Die zusaetzlichen Zeichen sind keine Word-Freigabe;
+Desktop-Word und die pixelgetreue runde Bildform bleiben zwingend offen.
+Der Pruefer vergleicht Varianten nun auch mit der unveraenderten Quellansicht,
+damit ein bereits unsichtbares Foto keinen scheinbaren Geometrieerfolg ergibt.
+Die folgenden Abschnitte dokumentieren den vorherigen Abschlussstand.
+
+---
+
 ## Aktueller Abschluss: strenge Bildzuordnung und sieben native Gegenversuche
 
 **Keine Freigabe, kein Merge.** Code-Commit:
