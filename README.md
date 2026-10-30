@@ -20,15 +20,22 @@ Im Editor befinden sich die Downloadoptionen links neben dem Menü. Zur Auswahl 
 
 Alle sichtbaren DOCX-Downloads verwenden den neuen gemeinsamen **DOCX-Next-Exporter**. Der frühere Word-Exporter ist nicht mehr der Standard-Download.
 
-Der Word-Download ist derzeit noch auf vollständig gespeicherte Dossiers mit folgenden Einstellungen begrenzt:
+Beim einzelnen **DOCX**-Download muss nur das ausgewählte Dokument ausgefüllt sein
+und sein unterstütztes Profil erfüllen. Andere Dossierteile dürfen fehlen oder andere
+Vorlagen und Formatierungen verwenden. Vorhandene gemeinsame Kontakt- und
+Farbeinstellungen bleiben berücksichtigt; der Download verändert die gespeicherten
+Dossierteile nicht.
 
-- Vorlage **Modern** für Titelblatt, Motivationsschreiben und Lebenslauf
-- Lebenslauf mit **Sidebar**
-- Schrift **Sans** für Motivationsschreiben und Lebenslauf
-- Kontakt-Kopfzeilen und kompakte Fusszeilen für Motivationsschreiben und Lebenslauf
-- Einfacher Brieftext ohne Rich-Text-Formatierung, eingefügte Briefbilder oder eigene Brief-Typografie/-Seitenränder
+| Dokument             | Unterstütztes Word-Profil                                                                                                                                                  |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Titelblatt           | Modern mit der geprüften Sans-Schrift                                                                                                                                      |
+| Motivationsschreiben | Modern, Sans, Kontakt-Kopfzeile und kompakte Fusszeile; einfacher Brieftext ohne Rich-Text-Formatierung, eingefügte Briefbilder oder eigene Brief-Typografie/-Seitenränder |
+| Lebenslauf           | Modern mit Sidebar, Sans, Kontakt-Kopfzeile und kompakte Fusszeile                                                                                                         |
 
-Diese Voraussetzungen gelten aktuell **auch beim Download eines einzelnen DOCX-Dokuments**. Nicht unterstützte Einstellungen werden im Editor angezeigt. Der PDF-Export ist davon unabhängig.
+**Dossier DOCX** setzt weiterhin ein vollständig gespeichertes Dossier voraus, in dem
+alle drei Teile ihre jeweiligen Word-Voraussetzungen erfüllen. Nicht unterstützte
+Einstellungen werden für Einzel- und Dossierdownload getrennt angezeigt. Der
+PDF-Export ist davon unabhängig.
 
 Fest auf Seite 2 zugewiesene CV-Rubriken werden im Word-Download noch nicht unterstützt; die Anwendung verweist dafür auf den PDF-Download.
 

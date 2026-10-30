@@ -393,8 +393,103 @@
   },
   "desktopWordAcceptance": "pending",
   "ci": {
-    "status": "pending-publication",
-    "expectedReleaseBrowserCases": 206
+    "release": {
+      "runId": 41014301912,
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/41014301912",
+      "status": "success",
+      "expectedBrowserCases": 206,
+      "unitPassed": 1470,
+      "browserPassed": 206,
+      "browserFailed": 0,
+      "browserGroupsPassed": 11,
+      "combinedStatus": "M6 Release Candidate: success",
+      "browserGroups": [
+        {
+          "name": "cv-pdf-parity",
+          "passed": 11,
+          "conclusion": "success"
+        },
+        {
+          "name": "cv-pdf-dom",
+          "passed": 1,
+          "conclusion": "success"
+        },
+        {
+          "name": "m9-responsive",
+          "passed": 4,
+          "conclusion": "success"
+        },
+        {
+          "name": "templates-layout",
+          "passed": 23,
+          "conclusion": "success"
+        },
+        {
+          "name": "cv-pdf-core",
+          "passed": 33,
+          "conclusion": "success"
+        },
+        {
+          "name": "letter-m1-m5",
+          "passed": 13,
+          "conclusion": "success"
+        },
+        {
+          "name": "fresh-dossier-templates",
+          "passed": 18,
+          "conclusion": "success"
+        },
+        {
+          "name": "cv-pdf-paint",
+          "passed": 1,
+          "conclusion": "success"
+        },
+        {
+          "name": "letter-m8-edge",
+          "passed": 9,
+          "conclusion": "success"
+        },
+        {
+          "name": "cv-m9-pagination",
+          "passed": 3,
+          "conclusion": "success"
+        },
+        {
+          "name": "dossier-flow",
+          "passed": 90,
+          "conclusion": "success"
+        }
+      ]
+    },
+    "fit": {
+      "runId": 41014301906,
+      "status": "success",
+      "passed": 35
+    },
+    "nativeResearch": {
+      "runId": 41014301932,
+      "passedGroups": 11,
+      "failedGroups": 4,
+      "failures": [
+        "stable-comparison: unchanged historical hash 09155d10f0e0ffb08e48e29170237036e73fefc9506b5b1d5a40e38c4cfa707b",
+        "picture-identity: unchanged historical hash 61444b4077529c8eff3ec14013f744c63066995947ec51f3613551e3dc821032",
+        "app-body-content: app-body-both-long-right Save timeout after 60 seconds",
+        "verlauf-hero-long: expected 5 pages, rendered 6"
+      ]
+    },
+    "webGallery": {
+      "runId": 41014301945,
+      "status": "success"
+    },
+    "contactIntegrity": {
+      "runId": 41014301956,
+      "status": "success"
+    },
+    "pages": {
+      "runId": 41014301728,
+      "status": "success"
+    }
   },
-  "publishedBranchesPlanned": ["dev"]
+  "validatedProductCommit": "19f8fe27b3b0526e341b78ba276eea22ec23d966",
+  "publishedBranches": ["dev"]
 }

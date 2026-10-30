@@ -88,3 +88,25 @@ Importhelfer wartet zudem gezielt auf die abgeschlossene initiale IndexedDB-
 Wiederherstellung; hierfür gilt derselbe 20-Sekunden-Rahmen wie für den Import-Reload.
 
 Maschinenlesbare Ergebnisse stehen in `independent-single-docx-29okt.json`.
+
+## GitHub-Abschluss vom 30. Oktober 2026
+
+Der veröffentlichte Produktcommit
+[`19f8fe2`](https://github.com/modebrecht/cv-cover-charm/commit/19f8fe27b3b0526e341b78ba276eea22ec23d966)
+hat die vollständige
+[Release-CI](https://github.com/modebrecht/cv-cover-charm/actions/runs/41014301912)
+bestanden: **1470 Unit-Tests und 206 Browserfälle in elf Gruppen**,
+Gesamtstatus `M6 Release Candidate: success`. Die Dossiergruppe enthält 90 Fälle,
+darunter alle zwölf neuen Einzelexport-Fälle; die acht erzeugten Word-Dateien
+werden als eigenes CI-Artefakt aufbewahrt.
+
+Zusätzlich bestanden alle 35
+[Fit-Prüfungen](https://github.com/modebrecht/cv-cover-charm/actions/runs/41014301906),
+Web-Galerie, Kontaktintegrität und Pages-Build. Die
+[native Forschungs-QA](https://github.com/modebrecht/cv-cover-charm/actions/runs/41014301932)
+bestätigt elf erfolgreiche und die vier bekannten fehlschlagenden Gruppen.
+Beide historischen Ist-Prüfsummen sind zum vorherigen Stand identisch;
+der experimentelle lange Speicherfall und `verlauf-hero-long` bleiben unverändert offen.
+
+Der nachfolgende Dokumentationscommit aktualisiert README, Handoff und diese
+Prüfnachweise. Er ändert keinen Produktcode. Veröffentlicht wurde nur auf `dev`.
