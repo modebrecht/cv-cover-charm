@@ -1,0 +1,1696 @@
+{
+  "scope": "Retained app package ownership and exact image data",
+  "collectionStatus": "pass",
+  "contentReportSha256": "05e14a07f247e75d95d0bfbff55d681afe49e1cd758de2bb19097b2a5af4cdbf",
+  "newNativeLoads": 0,
+  "newNativeExports": 0,
+  "pictureOwnershipAcceptance": "fail",
+  "imageDataAcceptance": "fail",
+  "productionAcceptance": "blocked",
+  "cases": [
+    {
+      "fixture": "app-body-both-long",
+      "phases": [
+        {
+          "phase": "source",
+          "packageSha256": "bedb59c5280b78405aa2268f91f6335c0a51e15c7f3913765c8434b84bc08759",
+          "pdfSha256": "0786dce7f94bbe16bc73abfe4fad39df51156234eec19f72c5fa838d65800a7d",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        },
+        {
+          "phase": "saved",
+          "packageSha256": "a8e2033ab6287d61ffaf19932d167cfb2bcdcd420cdf7a07520896353b7b65d7",
+          "pdfSha256": "15dc655161c12ed5efbf64d56a19a27110121b81f3b385fc3f2a0a7d5e691363",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        },
+        {
+          "phase": "saved2",
+          "packageSha256": "fc615531d2999ac41cbd6569f6eec155b39a1fffa116be9069ab672501a4ef64",
+          "pdfSha256": "4a775016e8bece0dd7d81eda0da7e9adf189086a3f06326062ec5063380dab9b",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-both-long-right",
+      "phases": [
+        {
+          "phase": "source",
+          "packageSha256": "a4aa884e25599c821154f7079a74afcc26d06a5e47f569c7049b3e17608dcd62",
+          "pdfSha256": "29201cf135288ea44921e5d9f600068384eabc7cd4be0df89136627484c5f7bd",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        },
+        {
+          "phase": "saved",
+          "packageSha256": "017df227e0ebdd469e6b19f097c57459ce13f427b8ccf4fbf49d198aa2d2c9a1",
+          "pdfSha256": "6fbcbebdaace64e08209af0b383248f2eef2321b41cd8589ca055d4d38dd947d",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        },
+        {
+          "phase": "saved2",
+          "packageSha256": "323694f5090632d43389cf3232e40860b776a4d169724e98c6a35886476036a4",
+          "pdfSha256": "2d8bf230c49be020e56ca4651016566833360fd3cde634f165bf924cac104245",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-left",
+      "phases": [
+        {
+          "phase": "source",
+          "packageSha256": "f71d164400134a94e9971ab04bdec5a5d3b1a79782e38c8da5324c8efa50950b",
+          "pdfSha256": "27de9c31011d2cf0c48852f3f7bc821a561e6f0b0c45644c3bfcb691c9e24957",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        },
+        {
+          "phase": "saved",
+          "packageSha256": "3ee9fdcc862e0e75addea49511cbf8aed5969ea39590ea4a268983e17d9adfdb",
+          "pdfSha256": "6a1bcab4b41e62b0c46c04cd28d1b41bec6d2d72cfb13e5d49ab5552429bab98",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        },
+        {
+          "phase": "saved2",
+          "packageSha256": "30f435b4217644a1f486fb6e62825e4bded5774e811c3fc20eeb2ee3b4b7611e",
+          "pdfSha256": "e55eddbaaffa7fda4c6a55af34ed500a90dabcfeeb934981b9575b7fc6b739fa",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-right",
+      "phases": [
+        {
+          "phase": "source",
+          "packageSha256": "778ee6d8731efac3cb16a93d9d33174f7c4f489ea9b3a76e9502e05a3c5ad186",
+          "pdfSha256": "496ac8f7566200759c385becf93af1c317208fcb1da98f3348e82f340d176e6e",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        },
+        {
+          "phase": "saved",
+          "packageSha256": "2c4d2b6c0654a031488a13bf4255497ba4d6418b3f4f4b3486d459e66e10f270",
+          "pdfSha256": "3f9bca29b7da6863e7f244b259689c5a7a3f38d8f81f495afb43c0271cc69e80",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        },
+        {
+          "phase": "saved2",
+          "packageSha256": "51d85b7247d56335286a06c8250b6d806ea5189d6179964f98bfbeba3a3f8904",
+          "pdfSha256": "3d8e442dbc11c0fe3bfd54a14b2f98b4dda79846838865eb669671607e21b13d",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-paragraph-long",
+      "phases": [
+        {
+          "phase": "source",
+          "packageSha256": "3c65f5b8df7a988d03d267afd4ac5c065ae43c0db40dd3f9b17416dbd8339d34",
+          "pdfSha256": "cba65e5160c860285ff7144ef328c4349b92aa4974be97126d1538536b7540c0",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        },
+        {
+          "phase": "saved",
+          "packageSha256": "2e33f506d368ee264f04ae6337b96f34a4d434544f6f50c0824b189c401b33ff",
+          "pdfSha256": "e405ccad4a9af0128531712dd629af66f15cde386e9bde1225ff2e7a77706543",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        },
+        {
+          "phase": "saved2",
+          "packageSha256": "5c246dc674cf51d36462aa24f6eff4a05504a4f65989f0c551d95be3093a76e5",
+          "pdfSha256": "3d6f63ee4a59c759777638e047cfcfcd48d869eeb2f1ac0b16eaca8f00ba8233",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-side-paragraph-long",
+      "phases": [
+        {
+          "phase": "source",
+          "packageSha256": "2c94eb9693a430a3c1fa4e929da925b1d97ce32f1d4482972b814e52e7daa727",
+          "pdfSha256": "8f4efce9ea33f0a13a60d5edb93c55e06ff834c36ab53a1c781bca451c24b44a",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        },
+        {
+          "phase": "saved",
+          "packageSha256": "1a9e62307bfd2d443ee8f979b1b44c2ebe345549a92bf110b1bb950dd5422486",
+          "pdfSha256": "b7e6cdb87dd4c508c2fb501c2a9c539df5984ab664685254922e973b8a52d051",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        },
+        {
+          "phase": "saved2",
+          "packageSha256": "d3968c7969c728d5a2e6e07458385703c168fc9e72e703bf9e682b3afd345ffd",
+          "pdfSha256": "e9769978ab0f058fbfeca5b25feb9da0c183244fe36a5a3a55f9755363e9fb7b",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-side-entries-long",
+      "phases": [
+        {
+          "phase": "source",
+          "packageSha256": "8f49b37377b0f80f2b581f039ce3ccbfefb489305807ee90434145874f56d683",
+          "pdfSha256": "24909430c83618da17c64aca071c6e411b5d93d69bbf51eb55f0adb5f4b4ed6a",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        },
+        {
+          "phase": "saved",
+          "packageSha256": "078e340352f806d26a9b660f748c99a937d1baba0ebda7d7c2515c1e74597e80",
+          "pdfSha256": "00775c4e5e89c7038762e8454e360ed3af82e87d04ccddecc65624fc49bc6a66",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        },
+        {
+          "phase": "saved2",
+          "packageSha256": "7255ddf9a8769deb60d7be4df4c9afce275f9573063fab39cbd31db81ce3edf7",
+          "pdfSha256": "916339186890b1a8670a08f68d3634cb4d41ee57eabd5d8e5b546418a98b13ab",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-side-entries-smaller-body",
+      "phases": [
+        {
+          "phase": "source",
+          "packageSha256": "eb7bb0fc5c69140bc131e33a9e6945a88ff57d6ee0227503c59e11f37d66672a",
+          "pdfSha256": "428de80c8d23461de91f4de8473e42037b652b3d44a230ff6fc1d255f7da56da",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        },
+        {
+          "phase": "saved",
+          "packageSha256": "91cc97ea229b13105f93b115a507e913c5a9319d17e3f8e02562a324071a8424",
+          "pdfSha256": "c7ac4d5d0ee38e6a520f5414ff80aad4605387d12e8d9e03048b48772cbc3050",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        },
+        {
+          "phase": "saved2",
+          "packageSha256": "8216921c434039b53e1eca13824794c13ab8b0dc880393cd1a420c1878eef25a",
+          "pdfSha256": "a0136360c45a2cd6be37e712cb464bc0be7f36b716bbe5d00e42399e1ff47b7c",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-placements",
+      "phases": [
+        {
+          "phase": "source",
+          "packageSha256": "8ecdfbe65e5d75b89086ef6f508804e9f4427a3074e7b0b4daa6cbc22e4ea35f",
+          "pdfSha256": "74a25ea29ad2ca5432a31675851730e7dddc43570f632684caaa421544c107f7",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        },
+        {
+          "phase": "saved",
+          "packageSha256": "d9687b1bb16561ac81176dae3a726f03f92cbf47e35d3142d30876416b434bfe",
+          "pdfSha256": "f185f35be23fdf922a9d6bb874fb78b1feca258e56a4b6e847aa37f632c2fcf5",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        },
+        {
+          "phase": "saved2",
+          "packageSha256": "86100d7cb5bd43f19a36c104d26eb2545cd4ee6e36ee671079d8516e8599731b",
+          "pdfSha256": "d6afc51bb9b5ba27fadaf54c1685abe2f2dfba773604e36922b76f816b99c1c5",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-styled",
+      "phases": [
+        {
+          "phase": "source",
+          "packageSha256": "ccbecc9be1b1991b6015f6fb7d6ec51761cdbfc273b338cb1330573716c935db",
+          "pdfSha256": "1b37e3a7f94ed61730b95473ab53631367ebd11a7f3195154fdf9c617543dfb1",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        },
+        {
+          "phase": "saved",
+          "packageSha256": "6255bc336d70b182de2bdd1ed92e1c44898648c991f597086cdfbeae13bc3a79",
+          "pdfSha256": "6c99a9d25f936e1b43f1fc10b71e848d3c71e3095acc782b26ad86d0972c5e32",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        },
+        {
+          "phase": "saved2",
+          "packageSha256": "389855fba4c38db3d4645a1a7c7b54a6ada338f4b24efd322f283e9e004080f9",
+          "pdfSha256": "c3b1750ef5e6be14244c3f8b6bc3bb23694570c93c86c7e59a91b3a5ae4a5582",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-left",
+      "phases": [
+        {
+          "phase": "source",
+          "packageSha256": "024327bba558887095df36336fd62614019096ac6e2ea196a2a300a54ec0fef2",
+          "pdfSha256": "f78bd0617c9e85d3fcf20e9bb082a0aa4c155f07f9beb600ee26ab3d49b0e724",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image-1.png",
+                  "sizePx": [
+                    120,
+                    180
+                  ],
+                  "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+                  "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+                }
+              }
+            ]
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": true,
+                "rgbaPixelsUnchanged": true,
+                "payloadBytesUnchanged": true
+              }
+            ]
+          }
+        },
+        {
+          "phase": "saved",
+          "packageSha256": "4b8ffdb1a7deebe46b9db569dc356fe30e0fd4dc893fb60b6a2e28fff3497119",
+          "pdfSha256": "70936fcfcb425c37ce15a9e176a5bf413ddd4d97808d7f1b1696efe9c4866b62",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [
+                    96,
+                    96
+                  ],
+                  "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+                  "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+                }
+              }
+            ]
+          },
+          "imageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          }
+        },
+        {
+          "phase": "saved2",
+          "packageSha256": "a65262723e90dd3dcd1bb44d1e8de99a813ba1f7ca842f58dfc57284191ec015",
+          "pdfSha256": "064cbb46c5cb62458f574b39a4b553d8f80a8b044c3f30a5de8821fe46549e8a",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [
+                    96,
+                    96
+                  ],
+                  "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+                  "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+                }
+              }
+            ]
+          },
+          "imageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-right",
+      "phases": [
+        {
+          "phase": "source",
+          "packageSha256": "98b5afb80bad5d0f9a01ab24fab7b6dd49edfc6a4580cb47bf5c49d0503dd654",
+          "pdfSha256": "0f904c332e23efd532fe56a7305f4c0d8d439568962a2f9c6aa5e7bd030e46cd",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image-1.png",
+                  "sizePx": [
+                    120,
+                    180
+                  ],
+                  "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+                  "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+                }
+              }
+            ]
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": true,
+                "rgbaPixelsUnchanged": true,
+                "payloadBytesUnchanged": true
+              }
+            ]
+          }
+        },
+        {
+          "phase": "saved",
+          "packageSha256": "2ce2cc67643f4317c63da5c32c0903058e93d7133c3bba8714f91eb1a7bb9ac9",
+          "pdfSha256": "704a5e85ae23877c5b7c0d17cbfa8bf36c0b766dea55c05c732a23d1595bad2b",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [
+                    96,
+                    96
+                  ],
+                  "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+                  "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+                }
+              }
+            ]
+          },
+          "imageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          }
+        },
+        {
+          "phase": "saved2",
+          "packageSha256": "2ec05134c22bb536b2e6982636cb3daa66255021c20c5f067a2e2fef2c8325fc",
+          "pdfSha256": "5d11f4d1ce5218a487853832fe6d14cb4c8f9e0116b539996c6eee0dc2bbbef4",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [
+                    96,
+                    96
+                  ],
+                  "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+                  "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+                }
+              }
+            ]
+          },
+          "imageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-main",
+      "phases": [
+        {
+          "phase": "source",
+          "packageSha256": "1f846723539cd8576d16e8dd74d9f9e5fbda565421a68e0e335e5ee7f0f0b5bc",
+          "pdfSha256": "b0077492f56aa6f73f9df7fd4d3fd759679d1f4a63c347231e14be1c13f98b0e",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image-1.png",
+                  "sizePx": [
+                    120,
+                    180
+                  ],
+                  "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+                  "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+                }
+              }
+            ]
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": true,
+                "rgbaPixelsUnchanged": true,
+                "payloadBytesUnchanged": true
+              }
+            ]
+          }
+        },
+        {
+          "phase": "saved",
+          "packageSha256": "bfad9ad3581bbe0407c92d1e13a4c8641fe180d9d8e26fcc92fe7e31f39fa3c3",
+          "pdfSha256": "132c931b86dea298614ceebea6deb4ee78150b2d9fefb7949865212d5b6dc3ef",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [
+                    96,
+                    96
+                  ],
+                  "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+                  "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+                }
+              }
+            ]
+          },
+          "imageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          }
+        },
+        {
+          "phase": "saved2",
+          "packageSha256": "15255e3add0aacb7516e7a3bf7fb507e561a664a4058b5d38ad9190fb74b3dc2",
+          "pdfSha256": "0296465cf160b8a7b61873a4a930027eedf7a933fc972e708034fa38ef74f435",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [
+                    96,
+                    96
+                  ],
+                  "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+                  "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+                }
+              }
+            ]
+          },
+          "imageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-main",
+      "phases": [
+        {
+          "phase": "source",
+          "packageSha256": "7dd758c90f92d5a490ef022923c738edff042c539aa578e451aa1909bcd81923",
+          "pdfSha256": "7a4bd7be23b2a3b31024b690af7818044172f8bad9cd41f52a38ad12cd324f73",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image-1.png",
+                  "sizePx": [
+                    120,
+                    180
+                  ],
+                  "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+                  "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+                }
+              }
+            ]
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": true,
+                "rgbaPixelsUnchanged": true,
+                "payloadBytesUnchanged": true
+              }
+            ]
+          }
+        },
+        {
+          "phase": "saved",
+          "packageSha256": "a3e6c965c4be4d054613a842d25fd71b4a658c8b107baf4699c174203965e75f",
+          "pdfSha256": "3e2997532148fed8084c47b2a7d33be0b232ee66b63e21a9343010e922ee6d9e",
+          "pictureOwnership": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "reasons": [
+                  "picture-control-must-own-one-drawing",
+                  "picture-control-must-own-one-image-reference"
+                ],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 0,
+                "imageReferenceCount": 0,
+                "image": null
+              }
+            ]
+          },
+          "imageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": false,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          }
+        },
+        {
+          "phase": "saved2",
+          "packageSha256": "223c4cfc49a16cc55adc8a5dc37501ab69cb1de8fc2368d4a3917e67e69ce4a0",
+          "pdfSha256": "9d0e7d7c45d780ee166ee86573fe5abe84955eb6d8e845923ee7d051780255ce",
+          "pictureOwnership": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "reasons": [
+                  "picture-control-must-own-one-drawing",
+                  "picture-control-must-own-one-image-reference"
+                ],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 0,
+                "imageReferenceCount": 0,
+                "image": null
+              }
+            ]
+          },
+          "imageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": false,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-side",
+      "phases": [
+        {
+          "phase": "source",
+          "packageSha256": "5aa438ff5cc880031ae4fa6c9239d1e361cad0f0352e37040553e1bad2f11c6c",
+          "pdfSha256": "b88015a5f4333aa3dcc675bd95a338631710cf9effafd5e50a7ae70d0422ab03",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image-1.png",
+                  "sizePx": [
+                    120,
+                    180
+                  ],
+                  "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+                  "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+                }
+              }
+            ]
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": true,
+                "rgbaPixelsUnchanged": true,
+                "payloadBytesUnchanged": true
+              }
+            ]
+          }
+        },
+        {
+          "phase": "saved",
+          "packageSha256": "d0819664555bf85f669d04a5dbde8e616d67515fb2e42244f6db22e1222256c9",
+          "pdfSha256": "87423839aaab33686f869bff1f1cebab09bd0b46ee9ba8b3a21c76dec9dba5c4",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [
+                    96,
+                    96
+                  ],
+                  "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+                  "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+                }
+              }
+            ]
+          },
+          "imageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          }
+        },
+        {
+          "phase": "saved2",
+          "packageSha256": "f5741c242a8f0f469aceae514ae3e0ca247c1353ddd7d2b3b622b183c4f0a1c4",
+          "pdfSha256": "40a0ed5a2f4f546b4b59c85cbbdbe89eaab028a98e11334ac6c177d0144d7fc2",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [
+                    96,
+                    96
+                  ],
+                  "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+                  "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+                }
+              }
+            ]
+          },
+          "imageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-mirrored-side",
+      "phases": [
+        {
+          "phase": "source",
+          "packageSha256": "73baa0e851860fa00e81a3e3bf6f38927c29a9f39e16d1d5c762603b379968e4",
+          "pdfSha256": "552bd4b8dbf7a0f3842e5feab91bd82431907731f29892c68db9c47ca75b33d9",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image-1.png",
+                  "sizePx": [
+                    120,
+                    180
+                  ],
+                  "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+                  "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+                }
+              }
+            ]
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": true,
+                "rgbaPixelsUnchanged": true,
+                "payloadBytesUnchanged": true
+              }
+            ]
+          }
+        },
+        {
+          "phase": "saved",
+          "packageSha256": "fc7d163f515cc21ff5bd5606621c63d141cd634981d2c3c1e525154608aa5cc4",
+          "pdfSha256": "fb3db48f9c80eeb9eeb2177bf7f24271033617c2c33c8db868e03b8febea5fc5",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [
+                    96,
+                    96
+                  ],
+                  "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+                  "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+                }
+              }
+            ]
+          },
+          "imageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          }
+        },
+        {
+          "phase": "saved2",
+          "packageSha256": "9e2888179ef3f52c1b3715ed3d5f3181a79c8baced5dbef15e74b5d78d88aa7a",
+          "pdfSha256": "c3846c08983752e277e33c946f37809057070666cc0f474b6e5d99e975f66a9d",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [
+                    96,
+                    96
+                  ],
+                  "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+                  "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+                }
+              }
+            ]
+          },
+          "imageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-low",
+      "phases": [
+        {
+          "phase": "source",
+          "packageSha256": "e0cff56f46c69d4b721f52b51e95f6797c5542cae8165cfbaa279f775237622c",
+          "pdfSha256": "bb30571909806ec3c80f22a44d0d30a105b95cd04d1e0c3283e8f51123c125d3",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image-1.png",
+                  "sizePx": [
+                    120,
+                    180
+                  ],
+                  "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+                  "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+                }
+              }
+            ]
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": true,
+                "rgbaPixelsUnchanged": true,
+                "payloadBytesUnchanged": true
+              }
+            ]
+          }
+        },
+        {
+          "phase": "saved",
+          "packageSha256": "f915e31f913febae723c2863e6fddd1170c3fe3292d16c39a1fbc1efe6b20820",
+          "pdfSha256": "a56ec8eb55daa0e9a0be4f2629e4a7e7363257fbad5cad99a8a9b98921403fcb",
+          "pictureOwnership": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "reasons": [
+                  "picture-control-must-own-one-drawing",
+                  "picture-control-must-own-one-image-reference"
+                ],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 0,
+                "imageReferenceCount": 0,
+                "image": null
+              }
+            ]
+          },
+          "imageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": false,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          }
+        },
+        {
+          "phase": "saved2",
+          "packageSha256": "b8d7064772d38d6824a7180d9a8bf150424b50b4099f7327e3fdeb7c4730ebb5",
+          "pdfSha256": "1176302e0327f5b383994869d49fd56b9b6ef60248767bfdbd101996d8d1fa32",
+          "pictureOwnership": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "reasons": [
+                  "picture-control-must-own-one-drawing",
+                  "picture-control-must-own-one-image-reference"
+                ],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 0,
+                "imageReferenceCount": 0,
+                "image": null
+              }
+            ]
+          },
+          "imageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": false,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-portrait",
+      "phases": [
+        {
+          "phase": "source",
+          "packageSha256": "eebd6665b1b0bc73ea333027ea985dfb7445aef8f8ee226c02abb7a2b0a23b89",
+          "pdfSha256": "2e3f56531d0d0c6c58c32dc950a411fa7e1ffcce24c636db4b7edbe4e12dd381",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image-1.png",
+                  "sizePx": [
+                    120,
+                    180
+                  ],
+                  "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+                  "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+                }
+              }
+            ]
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": true,
+                "rgbaPixelsUnchanged": true,
+                "payloadBytesUnchanged": true
+              }
+            ]
+          }
+        },
+        {
+          "phase": "saved",
+          "packageSha256": "683c4fc355e89ed8231330340ac3ef26f1bf7f8814122f0b6e1a9fc5287162f7",
+          "pdfSha256": "a85c261ada35ef30e3cdb346f118c5f1a85b05ce0e141608559e22b8c0bef494",
+          "pictureOwnership": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "reasons": [
+                  "picture-control-must-own-one-drawing",
+                  "picture-control-must-own-one-image-reference"
+                ],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 0,
+                "imageReferenceCount": 0,
+                "image": null
+              }
+            ]
+          },
+          "imageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": false,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          }
+        },
+        {
+          "phase": "saved2",
+          "packageSha256": "b2119ff00a039456b7412fe0f148ea10e1c5b58dc7ac8f744c2b42ec550eb507",
+          "pdfSha256": "26131d3aa5607935810a363e3521d01a2e1761d2e9c134b17978a7e1f2f4bdd1",
+          "pictureOwnership": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "reasons": [
+                  "picture-control-must-own-one-drawing",
+                  "picture-control-must-own-one-image-reference"
+                ],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 0,
+                "imageReferenceCount": 0,
+                "image": null
+              }
+            ]
+          },
+          "imageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": false,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-chrome",
+      "phases": [
+        {
+          "phase": "source",
+          "packageSha256": "647333a0d741f6a13402a7d4332e7d9b9262f55c9c435774502223d12605161b",
+          "pdfSha256": "de660fe07e67da0a965ff104fa0f0442134edd6706a9aa5d3f079bfc80169da2",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image-1.png",
+                  "sizePx": [
+                    120,
+                    180
+                  ],
+                  "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+                  "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+                }
+              }
+            ]
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": true,
+                "rgbaPixelsUnchanged": true,
+                "payloadBytesUnchanged": true
+              }
+            ]
+          }
+        },
+        {
+          "phase": "saved",
+          "packageSha256": "f04762c25f8a554493dfc13c3961803d89d6e9ab8dd5609420651e4da9664fb8",
+          "pdfSha256": "8f2e5bd517e8929b9be811f1ae2e07d1e3855158127b96899439d15110650305",
+          "pictureOwnership": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "reasons": [
+                  "picture-control-must-own-one-drawing",
+                  "picture-control-must-own-one-image-reference"
+                ],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 0,
+                "imageReferenceCount": 0,
+                "image": null
+              }
+            ]
+          },
+          "imageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": false,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          }
+        },
+        {
+          "phase": "saved2",
+          "packageSha256": "78ded08d314039eb8e7fa29ac12a259fd45f3c92aa2942302b43abd444d7ffaf",
+          "pdfSha256": "06fbc5d985dbce7da0fe9da9fce680d9e52ef8c2d164b943b4547173cfc89784",
+          "pictureOwnership": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "reasons": [
+                  "picture-control-must-own-one-drawing",
+                  "picture-control-must-own-one-image-reference"
+                ],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 0,
+                "imageReferenceCount": 0,
+                "image": null
+              }
+            ]
+          },
+          "imageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": false,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-contact-long",
+      "phases": [
+        {
+          "phase": "source",
+          "packageSha256": "c18fa7ac4553cbf4da678ee9d2cdad21cc08a88c8dfa41c3490ebfde5857c2d0",
+          "pdfSha256": "b887c4c156b935cad30e1e04d58ff329e6fd1115abfc59e33f17565eb799bdef",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        },
+        {
+          "phase": "saved",
+          "packageSha256": "af0d49e9c7380912f945a53b73212e725eba281223c942ec14b5301a83a61ef2",
+          "pdfSha256": "126904616d6c0cb3c415e242cd524cd77cef491ecf3965b8b8f51e18db688ef6",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        },
+        {
+          "phase": "saved2",
+          "packageSha256": "a4d8577b9b2856ea43bec649f081c5bb89d59e02c3ffa4a818b045f7f311f373",
+          "pdfSha256": "6a120426d5f864e1b306950467d93bd34a8b5dd40bcb7c31f8e3a42007b7f2fa",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-chrome-continuation",
+      "phases": [
+        {
+          "phase": "source",
+          "packageSha256": "9d91de8b45fce2fbfdfb867b90e1f456ea205b14c866544ba48f48d2dca24cf2",
+          "pdfSha256": "93e16f03af12a278cfa4086139780c1c8619d1a8d42919d9ed1407b44cd7e553",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        },
+        {
+          "phase": "saved",
+          "packageSha256": "52c2e675926054959a2a65d9f218d09274de0886ff227992baed6c2b339c93ef",
+          "pdfSha256": "44e45fc2df4cc8c7424220fa93612424abeef5e7b3df3386133b7d6049f6a653",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        },
+        {
+          "phase": "saved2",
+          "packageSha256": "e803b6750bf8acc3e97d40f3d6ccc933e8fb0cccfbd0ce5d092dad511c80a3bc",
+          "pdfSha256": "0d51c820bff3dc155513e949d0eb13c089ce46f24743921bedc4e78effceaa64",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-chrome-leading",
+      "phases": [
+        {
+          "phase": "source",
+          "packageSha256": "eed34f342e15b2d6df1554c6c5bf65b0cb7dd575960012e8fd80b5a13c3d2e44",
+          "pdfSha256": "806a4b55ae87be2683b9c8746512a3075ae87008659ec4c32b03372ecabf42fa",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        },
+        {
+          "phase": "saved",
+          "packageSha256": "a62dc1a2bee9d8406075504cb59759d06d16adf880fa4673285a52c6b62e91ff",
+          "pdfSha256": "66d32964559a4fd933112d1c47642825380ff10f02eba07591c44798beeb8f4a",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        },
+        {
+          "phase": "saved2",
+          "packageSha256": "943d60a733e01fe5f6f6988195912587c2c9fd325de153f0078a1a8d3e2ac648",
+          "pdfSha256": "40b67aef61b2dc0192e9b269cc6c5bfbe3339a4a863f69b8b9c8dd904d30bb3c",
+          "pictureOwnership": {
+            "status": "pass",
+            "pictures": []
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": []
+          }
+        }
+      ]
+    }
+  ]
+}

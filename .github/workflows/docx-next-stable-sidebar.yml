@@ -12,6 +12,7 @@ on:
       - scripts/docx_next_attachment_qa.py
       - scripts/docx_next_raster_qa.py
       - scripts/docx_next_story_qa.py
+      - scripts/docx_next_picture_owner_qa.py
       - scripts/docx-next-*.ts
       - scripts/docx-next-lo-kit.c
       - scripts/qa-browser-setup.sh
@@ -385,6 +386,7 @@ jobs:
           bun test tests/unit/docx-next-table-grid.test.ts
           python scripts/docx-next-sidebar-body-test.py
           python scripts/docx-next-sidebar-body-media-test.py
+            python scripts/docx-next-picture-owner-contract-test.py
           bun test tests/unit/docx-next-qa-story-part.test.ts
           python scripts/docx-next-sidebar-save-geometry-test.py
       - name: Install canonical browser decoder
@@ -405,10 +407,18 @@ jobs:
           mkdir -p "$QA_ROOT/fixtures"
           python scripts/docx-next-fixture-images.py "$QA_ROOT/fixtures/images.json"
           bun scripts/docx-next-sidebar-body-probe.ts "$QA_ROOT/fixtures" $DIRECT_PICTURE_ARGS
+      - name: Compare bounded picture ownership counterprobes on the isolated candidate
+        id: picture_probes
+        if: github.ref == 'refs/heads/work/30okt-body-boundary-candidate'
+        timeout-minutes: 8
+        run: python scripts/docx-next-picture-owner-probe.py "$QA_ROOT/fixtures" "$QA_ROOT/picture-owner-probes" --engine "$QA_ROOT/setup/runtime"
       - name: Require complete visible and native stories, chrome and photos through two Save/Reopen cycles
+        id: app_content
+        if: ${{ !cancelled() && (success() || steps.picture_probes.outcome == 'failure') }}
         timeout-minutes: 10
-        run: python scripts/docx-next-sidebar-body-qa.py "$QA_ROOT/fixtures" --engine "$QA_ROOT/setup/runtime" --binding "$QA_ROOT/uno-binding" $DETACHED_CELL_ARGS $DIRECT_PICTURE_ARGS
+        run: python scripts/docx-next-sidebar-body-qa.py "$QA_ROOT/fixtures" --engine "$QA_ROOT/setup/runtime" --binding "$QA_ROOT/uno-binding" $DETACHED_CELL_ARGS $DIRECT_PICTURE_ARGS --require-picture-ownership
       - name: Measure exact save geometry separately and retain every outstanding counterexample
+        if: ${{ !cancelled() && (steps.app_content.outcome == 'success' || steps.app_content.outcome == 'failure') }}
         timeout-minutes: 5
         run: python scripts/docx-next-sidebar-save-geometry-qa.py "$QA_ROOT/fixtures" --engine "$QA_ROOT/setup/runtime" --binding "$QA_ROOT/uno-binding"
       - name: Retain actual app composition and outstanding geometry evidence
@@ -419,6 +429,7 @@ jobs:
           retention-days: 30
           path: |
             ${{ env.QA_ROOT }}/fixtures/
+            ${{ env.QA_ROOT }}/picture-owner-probes/
             ${{ env.QA_ROOT }}/setup/runtime/runtime-record.json
             ${{ env.QA_ROOT }}/uno-binding/binding-record.json
 

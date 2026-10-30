@@ -17,6 +17,7 @@ import fitz
 import numpy as np
 from PIL import Image
 from docx_next_story_qa import W, text_value, visible_story
+from docx_next_picture_owner_qa import picture_inventory, compare_image_data, require_picture_ownership
 
 REPO = Path(__file__).resolve().parent.parent
 spec = importlib.util.spec_from_file_location('entry_flow', Path(__file__).with_name('docx-next-entry-flow-qa.py'))
@@ -134,6 +135,7 @@ def check_cell_start_attachments(path, attached):
 def audit(folder, engine, binding, replay_existing=False, detached_cell_starts=False, direct_picture_ownership=False):
     report = {'scope': 'Shared application snapshot/model/export body composition', 'cases': [],
               'contentRoundtripAcceptance': 'pending', 'geometryAcceptance': 'unaccepted',
+              'pictureOwnershipAcceptance': 'pending', 'imageDataAcceptance': 'pending',
               'productionAcceptance': 'blocked', 'microsoftWordAccepted': 0,
               'executionMode': 'read-only replay where retained inputs and native hashes match' if replay_existing else 'fresh native Save/Reopen, imports and PDF exports',
               'importObjectLifetime': 'unmeasured; final semantic identity checked'}
@@ -168,6 +170,8 @@ def audit(folder, engine, binding, replay_existing=False, detached_cell_starts=F
                     assert len(list(owner.iter(positioning))) == 1, 'Unexpected direct picture positioning'
             check_cell_start_attachments(source, not detached_cell_starts)
             expected_body, expected_all = package_controls(source)
+            source_pictures = picture_inventory(source, fixture['pictures'])
+            assert source_pictures['status'] == 'pass', 'Invalid source picture ownership'
             photo_digests, paint_digests = package_image_digests(source)
             assert bool(photo_digests) == bool(fixture['pictures']), 'Source photo inventory changed'
             for paragraph in fixture['nativeParagraphs']:
@@ -205,7 +209,10 @@ def audit(folder, engine, binding, replay_existing=False, detached_cell_starts=F
             (folder / (name + '-native.json')).write_text(json.dumps(observation, indent=2) + '\n')
             assert len(observation['cases']) == 3
             for request, native in zip(requests, observation['cases']):
-                result = {'phase': request['phase'], 'nativeStories': {}, 'visibleStories': {}}
+                owned_pictures = picture_inventory(Path(request['path']), fixture['pictures'])
+                result = {'phase': request['phase'], 'nativeStories': {}, 'visibleStories': {},
+                          'pictureOwnership': owned_pictures,
+                          'imageData': compare_image_data(source_pictures, owned_pictures)}
                 case['phases'].append(result); retain()
                 assert native['readOnly'] and not native['modified']
                 inventory = {row['tag']: row['text'] for row in native['finalControls']}
@@ -281,7 +288,12 @@ def audit(folder, engine, binding, replay_existing=False, detached_cell_starts=F
                     assert picture['heightMm']-border-.25 <= y1-y0 <= picture['heightMm']+border+.25, 'Visible photo height exceeds declared frame and stroke'
                 assert entry.sha(source) == fixture['sourceSha256']
             case['contentRoundtripAcceptance'] = 'pass'; retain()
-        report['contentRoundtripAcceptance'] = 'pass'; retain()
+        report['contentRoundtripAcceptance'] = 'pass'
+        report['pictureOwnershipAcceptance'] = 'pass' if all(
+            phase['pictureOwnership']['status'] == 'pass' for case in report['cases'] for phase in case['phases']) else 'fail'
+        report['imageDataAcceptance'] = 'pass' if all(
+            phase['imageData']['status'] == 'pass' for case in report['cases'] for phase in case['phases']) else 'fail'
+        retain()
         return report
     except Exception as error:
         report['contentRoundtripAcceptance'] = 'fail'; report['failure'] = type(error).__name__ + ': ' + str(error); retain()
@@ -295,6 +307,10 @@ if __name__ == '__main__':
     parser.add_argument('--replay-existing', action='store_true', help='Read-only local re-audit of retained native observations and exports; CI always uses fresh execution')
     parser.add_argument('--detached-cell-starts', action='store_true', help='Explicit unaccepted experiment: verify detached empty cell-start anchors without changing semantic paragraphs')
     parser.add_argument('--direct-picture-ownership', action='store_true', help='Explicit unaccepted experiment: verify a single native drawing per typed picture owner')
+    parser.add_argument('--require-picture-ownership', action='store_true', help='Reject empty or detached picture controls after collecting the full content matrix')
     args = parser.parse_args()
     result = audit(args.directory.resolve(), args.engine.resolve(), (args.binding / 'binding').resolve(), args.replay_existing, args.detached_cell_starts, args.direct_picture_ownership)
-    print(json.dumps({'cases':len(result['cases']), 'contentRoundtripAcceptance':result['contentRoundtripAcceptance']}))
+    print(json.dumps({'cases':len(result['cases']), 'contentRoundtripAcceptance':result['contentRoundtripAcceptance'],
+                      'pictureOwnershipAcceptance':result['pictureOwnershipAcceptance'], 'imageDataAcceptance':result['imageDataAcceptance']}))
+    if args.require_picture_ownership:
+        require_picture_ownership(result)

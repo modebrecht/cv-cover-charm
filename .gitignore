@@ -27,6 +27,9 @@ playwright-report/
 blob-report/
 .playwright/
 
+# Python QA bytecode
+__pycache__/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
