@@ -67,6 +67,17 @@ for (const name of [
     expect(ancestors).toContain("wp:anchor");
     expect(xml).toContain('layoutInCell="0"');
     expect(xml).toContain('name="cv.person.photo"');
+    const photoAnchor = xml
+      .match(/<wp:anchor\b[^>]*>[\s\S]*?<\/wp:anchor>/g)
+      ?.find((anchor) => anchor.includes('name="cv.person.photo"'));
+    expect(photoAnchor).toBeDefined();
+    const inFront = name === "photo-right" || name === "photo-free-mirrored-side";
+    expect(photoAnchor).toContain(
+      inFront ? "<wp:wrapNone/>" : '<wp:wrapSquare wrapText="bothSides"/>',
+    );
+    expect(photoAnchor).toContain('behindDoc="0"');
+    expect(photoAnchor).toContain(`allowOverlap="${inFront ? 1 : 0}"`);
+    if (inFront) expect(photoAnchor).not.toContain("<wp:wrapSquare");
     expect(xml).not.toContain('<w:tag w:val="cv.person.photo"');
     expect(xml).not.toContain("<wps:wsp>");
     expect(
@@ -96,4 +107,11 @@ test("ordinary photo cannot be reintroduced into a cell or an unrelated layout",
   expect(() =>
     buildDossierDocModel(sidebarFixture("photo-left"), { cvPhotoComposition: "ordinary-picture" }),
   ).toThrow(/requires shared/);
+});
+
+test("front wrapping stays restricted to the mirrored right-side ordinary photo", () => {
+  const model = buildDossierDocModel(sidebarFixture("photo-left"), options);
+  const image = model.cv.blocks.find((block) => block.kind === "image") as ImageBlock;
+  image.wrapMode = "none";
+  expect(() => validateDossierDocModel(model)).toThrow(/outside cells/);
 });

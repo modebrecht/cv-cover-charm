@@ -81,7 +81,9 @@ export function composeSharedCvSidebar(
           ...block,
           xMm,
           nativeOwner: ordinaryPicture ? "page-picture" : "page-frame",
-          ...(ordinaryPicture ? { gapMm: 0, wrapMode: undefined } : {}),
+          ...(ordinaryPicture
+            ? { gapMm: 0, wrapMode: sideRight && owner === rail ? ("none" as const) : undefined }
+            : {}),
           sourceLayout: {
             xMm: block.xMm,
             yMm: block.yMm,
@@ -118,6 +120,11 @@ export function composeSharedCvSidebar(
             xMm: area.leftMm + borderOutsetMm,
             yMm: 0,
             verticalOrigin: "paragraph",
+            // Word's square wrap can constrain the right photo to the main
+            // table column. Its existing reserved area owns text clearance.
+            ...(sideRight && target === side && block.id === "cv.person.photo"
+              ? { wrapMode: "none" as const }
+              : {}),
             sourceLayout: {
               xMm: area.leftMm,
               yMm: area.topMm,

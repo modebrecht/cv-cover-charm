@@ -39,7 +39,11 @@ PDF-Export ist davon unabhängig.
 
 Fest auf Seite 2 zugewiesene CV-Rubriken werden im Word-Download noch nicht unterstützt; die Anwendung verweist dafür auf den PDF-Download.
 
-Repräsentative Browser-Downloads der unterstützten Komposition sind geprüft. Die vollständige Word-Abnahme und die Word-Unterstützung aller Vorlagen sind noch nicht abgeschlossen.
+Die vier repräsentativen Dateien (Titelblatt mit Beilagen, Brief, normaler und
+gespiegelter Sidebar-CV) sind nach Bearbeiten und Speichern in Desktop-Word vom
+Nutzer bestätigt. Das rechte gespiegelte CV-Foto verwendet «Vor den Text» und
+lässt sich direkt verschieben. Die vollständige Word-Unterstützung aller Vorlagen
+ist damit noch nicht abgedeckt. Nachweis: `docs/qa/mirrored-photo-front-30okt.md`.
 
 ## Lokal entwickeln
 

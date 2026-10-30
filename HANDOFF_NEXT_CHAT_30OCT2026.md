@@ -6,9 +6,10 @@ gilt für die damalige Sicherung, nicht mehr für die jetzige Fortsetzung.
 ## Verbindlicher Produktstand
 
 - Repository: `modebrecht/cv-cover-charm`, veröffentlichter Branch `dev`.
-- Produktcommit: `19f8fe27b3b0526e341b78ba276eea22ec23d966`.
-- Produktbaum: `937d1ae35eb5638d81e9664bd2331627604dbb48`.
-- Nachfolgende Abschlussänderungen betreffen nur README und Prüfnachweise.
+- Ausgangspunkt dieser Integration: `80877763df6e80124ba9d42305e595a4fe1b97ae`.
+- Enthaltene Arbeitsbranches: `work/30okt-masonry-measurements` (`82cb02a`)
+  und `work/30okt-word-photo-wrap` (`4fab404`). Beide Historien bleiben erhalten.
+- Der vorherige unabhängige DOCX-Produktstand `19f8fe2` bleibt enthalten.
 - `main` und `render` wurden in dieser Fortsetzung nicht aktualisiert.
 - Veröffentlichte Historie gemäss `AGENTS.md` nicht umschreiben.
 
@@ -33,17 +34,43 @@ nach oben verschiebt. Die vollständige Dossier-Referenz bleibt bytegleich.
 - Acht echte Downloads entsprechen drei Paket-SHA-256. Je ein natives Rendering
   und zwei Speicher-/Wiederöffnungszyklen pro unterschiedlichem Paket geprüft.
 - Alle Inhaltsfeldwerte und Kennungen bleiben erhalten: Titelblatt 11, Brief 22.
-  Writer verändert weiterhin Brief-Gruppierungs-/Tabellenkennungen; Word bleibt offen.
+  Writer verändert weiterhin Brief-Gruppierungs-/Tabellenkennungen; dies ist
+  vom nachfolgenden tatsächlichen Word-Rücklauf zu unterscheiden.
 - Release-CI vollständig grün: 1470 Unit-Tests und 206 Browserfälle in elf Gruppen.
 - 35 Fit-Prüfungen, Web-Galerie, Kontaktintegrität und Pages-Build ebenfalls grün.
 - Details: `docs/qa/independent-single-docx-29okt.md` und zugehöriges JSON.
 - Früherer CV-Nachweis: `docs/qa/independent-cv-docx-29okt.md`.
 
+## Word-Abnahme und neue Korrekturen
+
+Der Nutzer hat alle vier angeforderten Dokumente in Desktop-Word geprüft.
+Titelblatt, Brief und normaler CV sind nach Änderung und Speichern bestätigt;
+die Rückläufer behalten 11/11, 28/28 und 53/53 eindeutige Feldkennungen.
+Das gespiegelte Foto war mit «Quadrat» im Hauptbereich gefangen. Nur das bekannte
+rechte Sidebar-Foto erhält jetzt «Vor den Text»; die normale Variante bleibt gleich.
+Die neue 04b ist vom Nutzer bestätigt. Ihr Word-Rücklauf behält den Bildumbruch,
+alle 53 Kennungen, alle Feldinhalte und die RGBA-Pixel aller neun Bilder; die
+Foto-Koordinaten wurden tatsächlich geändert und gespeichert.
+Private Word-Dateien und Screenshots dürfen nicht ins öffentliche Repository.
+Details: `docs/qa/mirrored-photo-front-30okt.md`.
+
+Der kurze klassische CV mit bestehenden Halbbreiten/Masonry wurde konkret als
+falsche Zwei-Seiten-Entscheidung reproduziert (rund 68 Prozent Höhenbedarf).
+Die automatische Entscheidung verwendet dort die vollständige Paginatormessung
+mit zehn Prozent Reserve und behält vorhandene Breiten/Packungsarten. Freie
+Zweitseiten-Inhalte, lange CVs und Sidebar-Verhalten behalten ihre Schutzregeln.
+Details: `docs/qa/compact-classic-fit-30okt.md`.
+
+Gemeinsame lokale Integration: 1474/1474 Unit-Tests, App-/QA-Typprüfung,
+vollständige Formatprüfung und Build bestanden; keine Lintfehler und die
+21 bestehenden Warnungen. Die gemeinsame Fit-Suite und die neue Release-CI
+werden vor dem abschliessenden Nachweiskommit ergänzt.
+
 ## Weiterhin offen
 
-Desktop-Word ist hier nicht verfügbar. Keine neue Foto-Umgehung oder allgemeine
-Word-Abnahme aus einem LibreOffice-Ergebnis ableiten. Die gespiegelte Fotoabnahme
-und die bekannten nativen Forschungsbefunde bleiben separat.
+Desktop-Word ist hier nicht verfügbar; die Abnahme oben stammt vom Nutzer und
+den gespeicherten Rückläufern. Sie gilt für die vier repräsentativen Dateien,
+nicht automatisch für sämtliche Vorlagen.
 
 Die aktuelle Forschungs-CI bestätigt elf erfolgreiche und vier bekannte fehlschlagende Gruppen:
 `stable-comparison` und `picture-identity` mit historischen Paket-Prüfsummen,
@@ -51,10 +78,6 @@ Die aktuelle Forschungs-CI bestätigt elf erfolgreiche und vier bekannte fehlsch
 `verlauf-hero-long` mit sechs statt fünf Seiten. Diese Referenzen nicht blind ersetzen.
 Der aktuelle CI-Abschluss steht im verlinkten QA-Bericht.
 
-Ein sinnvoller nächster lokaler Schwerpunkt bleibt ein **konkret reproduzierter**
-falscher Verteilungsfall bei bereits kompakten Standard-/Masonry-Rubriken:
-Deren Messzuordnung kann unvollständig sein und auf Quellgewichte zurückfallen.
-Zuerst Quelle und Fehlverteilung sichern; keine allgemeine Neugestaltung beginnen.
 Der seltene historische Modern-/Sidebar-PDF-Clone-Abbruch ist nicht kausal geklärt.
 
 Die Vorlagen-/Importmatrix vom 28. Oktober bleibt ein historischer Prüfstand;
