@@ -12,6 +12,8 @@ gilt für die damalige Sicherung, nicht mehr für die jetzige Fortsetzung.
 - Enthaltene Arbeitsbranches: `work/30okt-masonry-measurements` (`82cb02a`)
   und `work/30okt-word-photo-wrap` (`4fab404`). Beide Historien bleiben erhalten.
 - Der vorherige unabhängige DOCX-Produktstand `19f8fe2` bleibt enthalten.
+- Neuester geprüfter QA-Nachtrag: `c3e9f4f17b8493526a602efff1b7110622bb154c`;
+  danach folgen nur seine Abschlussnachweise. Der App-Produktcode bleibt `ea4584c`.
 - `main` und `render` wurden in dieser Fortsetzung nicht aktualisiert.
 - Veröffentlichte Historie gemäss `AGENTS.md` nicht umschreiben.
 
@@ -122,11 +124,50 @@ bleibt vollständig gleich. Details und maschinenlesbarer Nachweis:
   Save/Reopen. Feldkennungen bleiben erhalten; Tabellenkennungen gehen weiterhin
   verloren und begründen keine neue Word-/Architekturfreigabe.
 - 1486/1486 Unit-Tests, App-Typprüfung sowie geänderte Lint-/Formatprüfung bestehen.
-- Vollständige CI dieses Nachtrags ist nach Veröffentlichung zu ergänzen.
+- [Release-CI dieses Nachtrags](https://github.com/modebrecht/cv-cover-charm/actions/runs/41047739360):
+  1486 Unit-Tests und alle 206 Browserfälle in elf Gruppen bestanden;
+  `M6 Release Candidate: success`. Web-Galerie (39 Vorlagen) und Pages grün.
+- [Native Forschungs-CI](https://github.com/modebrecht/cv-cover-charm/actions/runs/41047739388):
+  **13/15 Gruppen bestanden**, zuvor 11/15. Historische Vergleiche und Verlauf
+  sind grün. `picture-identity` stoppt weiter am unveränderten historischen
+  Foto-Paket-Pin; `app-body-content` weiter beim bekannten 60-Sekunden-Speichern.
 
 Die Foto-Paket-Pins und das experimentelle `body-stories`-Speichern bleiben
 separat offen. Ein neuer tieferer Forschungsfehler darf nicht durch veränderte
 Referenzen oder erhöhte Geometrietoleranzen verdeckt werden.
+
+## Getrennt gesicherter Kandidat und nächster Schwerpunkt
+
+Branch `work/30okt-body-boundary-candidate`, Commit
+`3628412b811f784f01fdfd9571b676e3df032660`, Ausgangspunkt `c3e9f4f`.
+**Nicht in `dev` enthalten; keine neue Word-Freigabe.** Der Bericht liegt nur
+auf diesem Arbeitsbranch unter `docs/qa/body-boundary-candidate-30okt.{md,json}`.
+
+Der Speicherabbruch ist auf die Kopplung zweier leerer Zellanfänge eingegrenzt.
+Nur deren `keepNext=false` beendet den isolierten Speicherversuch in 0,822 Sekunden;
+alle 383 Feldkennungen, ihre Texte und Reihenfolge bleiben erhalten. Modell,
+Renderer und Validierung deklarieren diesen optisch/semantisch begrenzten
+Versuch. Die native QA verlangt den ausdrücklichen Parameter
+`--detached-cell-starts` und prüft seine tatsächlichen XML-Flags.
+
+Kandidat: 1487 Unit-Tests, 13 nachgeprüfte betroffene Tests, elf Python-Vertragstests,
+Typprüfung, Format/Lint bestanden. Die ersten 13 nativen App-Fälle bestehen
+mit jeweils zwei Speicherzyklen, inklusive des langen rechten CVs. Der nächste
+Fall `app-body-photo-free-main` stoppt korrekt an doppelten Fotokennungen.
+Nach diesem Stopp keine vollständige 22er-Abnahme behaupten.
+
+Vier kleine freie Rahmenfotos reproduzieren die Duplikation unabhängig von
+Sidebar und Tabellenposition: eine Fotokennung vor, zwei nach Save/Reopen.
+Inline-Fotos behalten ihre eine Kennung. Die Ursache liegt im freien Rahmen-
+Kontrollaufbau, nicht allein in der grossen App-Komposition.
+
+Eine äussere typisierte Bildkontrolle um den kompletten Rahmen wurde verworfen:
+22 native Inhaltsfälle bestehen damit zwar, aber drei bestehende Word-Bildstruktur-
+Tests schlagen an (zwei Drawings/Textrahmen innerhalb einer Einzelbildkontrolle).
+Diese Alternative ist zurückgenommen und nicht im Kandidaten enthalten.
+Die Tests nicht zum Verdecken dieses Fehlers umschreiben. Nächster Schwerpunkt:
+ein einzelnes gültiges Word-Bild pro Fotokontrolle bei freier Platzierung, ohne
+duplizierte native Kennung; danach den Kandidaten erneut vollständig prüfen.
 
 Der seltene historische Modern-/Sidebar-PDF-Clone-Abbruch ist nicht kausal geklärt.
 

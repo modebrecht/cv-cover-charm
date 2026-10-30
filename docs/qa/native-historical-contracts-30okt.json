@@ -422,5 +422,58 @@
     "docxSha256": "c913c6514159e37c39aa9bfc125c76f8b5e3bf1bf53113ae5892b871d0008f29",
     "historicalHashReproduced": true
   },
-  "ci": "pending: see HANDOFF_NEXT_CHAT_30OCT2026.md"
+  "ci": {
+    "sourceCommit": "c3e9f4f17b8493526a602efff1b7110622bb154c",
+    "release": {
+      "runId": 41047739360,
+      "conclusion": "success",
+      "unitTests": 1486,
+      "browserCases": 206,
+      "browserGroups": 11,
+      "statusContext": "M6 Release Candidate: success"
+    },
+    "nativeResearch": {
+      "runId": 41047739388,
+      "passedGroups": 13,
+      "failedGroups": 2,
+      "previousPassedGroups": 11,
+      "newlyPassing": [
+        "stable-comparison",
+        "Integrated template - verlauf"
+      ],
+      "remainingFailures": [
+        {
+          "group": "picture-identity",
+          "actualSha256": "61444b4077529c8eff3ec14013f744c63066995947ec51f3613551e3dc821032",
+          "unchanged": true
+        },
+        {
+          "group": "app-body-content",
+          "fixture": "app-body-both-long-right",
+          "phase": "native DOCX save",
+          "timeoutSeconds": 60,
+          "unchanged": true
+        }
+      ]
+    },
+    "webGallery": {
+      "runId": 41047739374,
+      "conclusion": "success",
+      "templates": 39
+    },
+    "pages": {
+      "runId": 41047739171,
+      "conclusion": "success"
+    }
+  },
+  "separateCandidate": {
+    "branch": "work/30okt-body-boundary-candidate",
+    "commit": "3628412b811f784f01fdfd9571b676e3df032660",
+    "mergedIntoDev": false,
+    "unitTests": 1487,
+    "pythonContractTests": 11,
+    "nativeAppCasesPassedBeforeNextFailure": 13,
+    "remainingFailure": "app-body-photo-free-main duplicates cv.person.photo during native save",
+    "wordAcceptanceExpanded": false
+  }
 }

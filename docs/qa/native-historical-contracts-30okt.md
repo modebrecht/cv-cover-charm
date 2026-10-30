@@ -59,8 +59,26 @@ in allen 16 Fällen; daraus folgt keine neue Architektur- oder Word-Freigabe.
 - 1486/1486 Unit-Tests bestanden, 281 Dateien.
 - App-Typprüfung, Lint der geänderten Testdateien und deren Formatprüfung bestanden.
 - 29/29 Erzeugungsschritte und 16/16 native Verlauf-Fälle bestanden.
-- Der CI-Abschluss wird im Handoff vom 30. Oktober ergänzt.
+- [Release-CI](https://github.com/modebrecht/cv-cover-charm/actions/runs/41047739360)
+  auf `c3e9f4f17b8493526a602efff1b7110622bb154c`: 1486 Unit-Tests und 206
+  Browserfälle in elf Gruppen bestanden; `M6 Release Candidate: success`.
+- [Native Forschungs-CI](https://github.com/modebrecht/cv-cover-charm/actions/runs/41047739388):
+  13/15 Gruppen bestanden, zuvor 11/15. `stable-comparison` und die vollständige
+  Verlauf-Gruppe sind jetzt grün. Die zwei verbleibenden Fehler stimmen mit
+  den bekannten Foto-Pins und dem 60-Sekunden-Speicherabbruch überein.
+- [Web-Galerie](https://github.com/modebrecht/cv-cover-charm/actions/runs/41047739374)
+  mit allen 39 Vorlagensätzen sowie
+  [Pages](https://github.com/modebrecht/cv-cover-charm/actions/runs/41047739171) bestanden.
 
 Die historischen Foto-Paket-Pins und der experimentelle native Speicherabbruch
 von `app-body-both-long-right` bleiben separat offen. Alte Forschungsnachweise
 werden weder überschrieben noch als neue Word-Abnahme ausgegeben.
+
+Für den Speicherabbruch existiert ein separat gesicherter Kandidat
+`3628412b811f784f01fdfd9571b676e3df032660` auf
+[`work/30okt-body-boundary-candidate`](https://github.com/modebrecht/cv-cover-charm/tree/work/30okt-body-boundary-candidate).
+Er behebt den Abbruch durch zwei entkoppelte leere Zellanfänge, besteht 1487
+Unit-Tests und 13 native App-Fälle mit zwei Speicherzyklen, stoppt aber weiterhin
+an der doppelten Fotokennung im freien Hauptfoto. Er ist nicht auf `dev`
+integriert. Sein eigener QA-Bericht dokumentiert auch den verworfenen
+Foto-Alternativversuch; dessen drei Bildstruktur-Tests wurden nicht abgeschwächt.
