@@ -58,5 +58,26 @@
   },
   "typecheck": "pass",
   "changedLintAndFormat": "pass",
-  "nativeCI": "pending"
+  "nativeCI": "pending",
+  "pythonContractTests": {
+    "bodyInventory": 11,
+    "media": 6,
+    "saveGeometry": 8,
+    "totalPassed": 25,
+    "failed": 0
+  },
+  "ciRuns": {
+    "testedCommit": "3972e87b2723dd9199b184ec1e0936c9e9c2617f",
+    "native": 41080788805,
+    "release": 41080788695,
+    "statusAtUserStop": "in_progress",
+    "releaseFastChecks": "success"
+  },
+  "wordAutomation": {
+    "attempted": true,
+    "status": "COM initialization failed",
+    "error": "0x80080005 CO_E_SERVER_EXEC_FAILURE",
+    "documentsOpened": 0,
+    "roundtripVerified": false
+  }
 }
