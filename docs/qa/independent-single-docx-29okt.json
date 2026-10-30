@@ -1,0 +1,400 @@
+{
+  "workDate": "2026-10-29",
+  "completionDate": "2026-10-30",
+  "baseCommit": "936ab766442b3b0dcb74077626ad872c40a2a5f6",
+  "scope": "Independent reviewed Modern cover and plain Modern letter DOCX downloads",
+  "unitTests": {
+    "passed": 1470,
+    "failed": 0,
+    "files": 280,
+    "newCases": 9
+  },
+  "browserTests": {
+    "startTime": "2026-10-29T21:14:02.906Z",
+    "duration": 168275.311,
+    "expected": 24,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "newCoverAndLetterCases": 12,
+  "existingCvAndDossierCases": 12,
+  "typecheck": "pass",
+  "format": "pass",
+  "lint": {
+    "errors": 0,
+    "existingWarnings": 21
+  },
+  "productionBuild": "pass",
+  "fullDossierReference": {
+    "unchanged": true,
+    "sha256": "baab4a6ec960037978e88998aa03658f79e135d5606430fde1da5cb1c80f33a6"
+  },
+  "nativeDownloads": {
+    "scope": "all word/*.xml; NFKC whitespace-compacted case-sensitive field identity; case-insensitive PDF visibility against original source; leaf and grouping controls reported separately",
+    "engine": "LibreOfficeKit 25.8.7.3",
+    "desktopWordAcceptance": "pending",
+    "fixtures": [
+      {
+        "fixture": "cover-corrupt-other-json",
+        "package": "pass",
+        "pdfPages": 1,
+        "completeSourceLeafFieldTextVisible": true,
+        "uniqueLeafFieldIds": 11,
+        "groupingFieldIds": 0,
+        "allTaggedIds": 11,
+        "controlOccurrences": 11,
+        "coverAttachmentHeadingGeometry": "pass",
+        "attachmentHeadingTopPt": 712.851,
+        "authoredHeadingTopPt": 712.5,
+        "saveCycles": [
+          {
+            "cycle": 1,
+            "matchingUniqueLeafFieldIds": 11,
+            "missingOrChangedLeafFieldIds": [],
+            "missingGroupingFieldIds": [],
+            "missingTableIds": [],
+            "savedControlOccurrences": 11,
+            "reopenedPdfPages": 1,
+            "sourceTextRetained": true,
+            "coverAttachmentHeadingGeometry": "pass"
+          },
+          {
+            "cycle": 2,
+            "matchingUniqueLeafFieldIds": 11,
+            "missingOrChangedLeafFieldIds": [],
+            "missingGroupingFieldIds": [],
+            "missingTableIds": [],
+            "savedControlOccurrences": 11,
+            "reopenedPdfPages": 1,
+            "sourceTextRetained": true,
+            "coverAttachmentHeadingGeometry": "pass"
+          }
+        ],
+        "sourceSha256": "fd55bc3b718ba0f20d9dce01d55f6f245388f643a2eeb31780f85bf93cf284f6"
+      },
+      {
+        "fixture": "cover-mixed-designs",
+        "package": "pass",
+        "pdfPages": 1,
+        "completeSourceLeafFieldTextVisible": true,
+        "uniqueLeafFieldIds": 11,
+        "groupingFieldIds": 0,
+        "allTaggedIds": 11,
+        "controlOccurrences": 11,
+        "coverAttachmentHeadingGeometry": "pass",
+        "attachmentHeadingTopPt": 712.851,
+        "authoredHeadingTopPt": 712.5,
+        "saveCycles": [
+          {
+            "cycle": 1,
+            "matchingUniqueLeafFieldIds": 11,
+            "missingOrChangedLeafFieldIds": [],
+            "missingGroupingFieldIds": [],
+            "missingTableIds": [],
+            "savedControlOccurrences": 11,
+            "reopenedPdfPages": 1,
+            "sourceTextRetained": true,
+            "coverAttachmentHeadingGeometry": "pass"
+          },
+          {
+            "cycle": 2,
+            "matchingUniqueLeafFieldIds": 11,
+            "missingOrChangedLeafFieldIds": [],
+            "missingGroupingFieldIds": [],
+            "missingTableIds": [],
+            "savedControlOccurrences": 11,
+            "reopenedPdfPages": 1,
+            "sourceTextRetained": true,
+            "coverAttachmentHeadingGeometry": "pass"
+          }
+        ],
+        "sourceSha256": "fd55bc3b718ba0f20d9dce01d55f6f245388f643a2eeb31780f85bf93cf284f6",
+        "sameByteEvidenceFrom": "cover-corrupt-other-json"
+      },
+      {
+        "fixture": "cover-unreadable-other-structures",
+        "package": "pass",
+        "pdfPages": 1,
+        "completeSourceLeafFieldTextVisible": true,
+        "uniqueLeafFieldIds": 11,
+        "groupingFieldIds": 0,
+        "allTaggedIds": 11,
+        "controlOccurrences": 11,
+        "coverAttachmentHeadingGeometry": "pass",
+        "attachmentHeadingTopPt": 712.851,
+        "authoredHeadingTopPt": 712.5,
+        "saveCycles": [
+          {
+            "cycle": 1,
+            "matchingUniqueLeafFieldIds": 11,
+            "missingOrChangedLeafFieldIds": [],
+            "missingGroupingFieldIds": [],
+            "missingTableIds": [],
+            "savedControlOccurrences": 11,
+            "reopenedPdfPages": 1,
+            "sourceTextRetained": true,
+            "coverAttachmentHeadingGeometry": "pass"
+          },
+          {
+            "cycle": 2,
+            "matchingUniqueLeafFieldIds": 11,
+            "missingOrChangedLeafFieldIds": [],
+            "missingGroupingFieldIds": [],
+            "missingTableIds": [],
+            "savedControlOccurrences": 11,
+            "reopenedPdfPages": 1,
+            "sourceTextRetained": true,
+            "coverAttachmentHeadingGeometry": "pass"
+          }
+        ],
+        "sourceSha256": "fd55bc3b718ba0f20d9dce01d55f6f245388f643a2eeb31780f85bf93cf284f6",
+        "sameByteEvidenceFrom": "cover-corrupt-other-json"
+      },
+      {
+        "fixture": "cover-without-other-parts",
+        "package": "pass",
+        "pdfPages": 1,
+        "completeSourceLeafFieldTextVisible": true,
+        "uniqueLeafFieldIds": 11,
+        "groupingFieldIds": 0,
+        "allTaggedIds": 11,
+        "controlOccurrences": 11,
+        "coverAttachmentHeadingGeometry": "pass",
+        "attachmentHeadingTopPt": 712.851,
+        "authoredHeadingTopPt": 712.5,
+        "saveCycles": [
+          {
+            "cycle": 1,
+            "matchingUniqueLeafFieldIds": 11,
+            "missingOrChangedLeafFieldIds": [],
+            "missingGroupingFieldIds": [],
+            "missingTableIds": [],
+            "savedControlOccurrences": 11,
+            "reopenedPdfPages": 1,
+            "sourceTextRetained": true,
+            "coverAttachmentHeadingGeometry": "pass"
+          },
+          {
+            "cycle": 2,
+            "matchingUniqueLeafFieldIds": 11,
+            "missingOrChangedLeafFieldIds": [],
+            "missingGroupingFieldIds": [],
+            "missingTableIds": [],
+            "savedControlOccurrences": 11,
+            "reopenedPdfPages": 1,
+            "sourceTextRetained": true,
+            "coverAttachmentHeadingGeometry": "pass"
+          }
+        ],
+        "sourceSha256": "fd55bc3b718ba0f20d9dce01d55f6f245388f643a2eeb31780f85bf93cf284f6",
+        "sameByteEvidenceFrom": "cover-corrupt-other-json"
+      },
+      {
+        "fixture": "letter-corrupt-other-json",
+        "package": "pass",
+        "pdfPages": 1,
+        "completeSourceLeafFieldTextVisible": true,
+        "uniqueLeafFieldIds": 22,
+        "groupingFieldIds": 6,
+        "allTaggedIds": 28,
+        "controlOccurrences": 33,
+        "saveCycles": [
+          {
+            "cycle": 1,
+            "matchingUniqueLeafFieldIds": 22,
+            "missingOrChangedLeafFieldIds": [],
+            "missingGroupingFieldIds": [
+              "letter.header.continuation.row:0",
+              "letter.header.continuation.row:1",
+              "letter.header.continuation.row:2",
+              "letter.header.first.row:0",
+              "letter.header.first.row:1",
+              "letter.header.first.row:2"
+            ],
+            "missingTableIds": ["letter.recipient.minimum-block"],
+            "savedControlOccurrences": 37,
+            "reopenedPdfPages": 1,
+            "sourceTextRetained": true
+          },
+          {
+            "cycle": 2,
+            "matchingUniqueLeafFieldIds": 22,
+            "missingOrChangedLeafFieldIds": [],
+            "missingGroupingFieldIds": [
+              "letter.header.continuation.row:0",
+              "letter.header.continuation.row:1",
+              "letter.header.continuation.row:2",
+              "letter.header.first.row:0",
+              "letter.header.first.row:1",
+              "letter.header.first.row:2"
+            ],
+            "missingTableIds": ["letter.recipient.minimum-block"],
+            "savedControlOccurrences": 37,
+            "reopenedPdfPages": 1,
+            "sourceTextRetained": true
+          }
+        ],
+        "sourceSha256": "7cc40aa4508b6906c6f63fff44b85e275ad00dbe5d911abfe816cdd45fadc702"
+      },
+      {
+        "fixture": "letter-mixed-designs",
+        "package": "pass",
+        "pdfPages": 1,
+        "completeSourceLeafFieldTextVisible": true,
+        "uniqueLeafFieldIds": 22,
+        "groupingFieldIds": 6,
+        "allTaggedIds": 28,
+        "controlOccurrences": 33,
+        "saveCycles": [
+          {
+            "cycle": 1,
+            "matchingUniqueLeafFieldIds": 22,
+            "missingOrChangedLeafFieldIds": [],
+            "missingGroupingFieldIds": [
+              "letter.header.continuation.row:0",
+              "letter.header.continuation.row:1",
+              "letter.header.continuation.row:2",
+              "letter.header.first.row:0",
+              "letter.header.first.row:1",
+              "letter.header.first.row:2"
+            ],
+            "missingTableIds": ["letter.recipient.minimum-block"],
+            "savedControlOccurrences": 37,
+            "reopenedPdfPages": 1,
+            "sourceTextRetained": true
+          },
+          {
+            "cycle": 2,
+            "matchingUniqueLeafFieldIds": 22,
+            "missingOrChangedLeafFieldIds": [],
+            "missingGroupingFieldIds": [
+              "letter.header.continuation.row:0",
+              "letter.header.continuation.row:1",
+              "letter.header.continuation.row:2",
+              "letter.header.first.row:0",
+              "letter.header.first.row:1",
+              "letter.header.first.row:2"
+            ],
+            "missingTableIds": ["letter.recipient.minimum-block"],
+            "savedControlOccurrences": 37,
+            "reopenedPdfPages": 1,
+            "sourceTextRetained": true
+          }
+        ],
+        "sourceSha256": "8e85eac0061f27a57566f92d5be4e461566d0a213c01fb83025793b8f521a659"
+      },
+      {
+        "fixture": "letter-unreadable-other-structures",
+        "package": "pass",
+        "pdfPages": 1,
+        "completeSourceLeafFieldTextVisible": true,
+        "uniqueLeafFieldIds": 22,
+        "groupingFieldIds": 6,
+        "allTaggedIds": 28,
+        "controlOccurrences": 33,
+        "saveCycles": [
+          {
+            "cycle": 1,
+            "matchingUniqueLeafFieldIds": 22,
+            "missingOrChangedLeafFieldIds": [],
+            "missingGroupingFieldIds": [
+              "letter.header.continuation.row:0",
+              "letter.header.continuation.row:1",
+              "letter.header.continuation.row:2",
+              "letter.header.first.row:0",
+              "letter.header.first.row:1",
+              "letter.header.first.row:2"
+            ],
+            "missingTableIds": ["letter.recipient.minimum-block"],
+            "savedControlOccurrences": 37,
+            "reopenedPdfPages": 1,
+            "sourceTextRetained": true
+          },
+          {
+            "cycle": 2,
+            "matchingUniqueLeafFieldIds": 22,
+            "missingOrChangedLeafFieldIds": [],
+            "missingGroupingFieldIds": [
+              "letter.header.continuation.row:0",
+              "letter.header.continuation.row:1",
+              "letter.header.continuation.row:2",
+              "letter.header.first.row:0",
+              "letter.header.first.row:1",
+              "letter.header.first.row:2"
+            ],
+            "missingTableIds": ["letter.recipient.minimum-block"],
+            "savedControlOccurrences": 37,
+            "reopenedPdfPages": 1,
+            "sourceTextRetained": true
+          }
+        ],
+        "sourceSha256": "7cc40aa4508b6906c6f63fff44b85e275ad00dbe5d911abfe816cdd45fadc702",
+        "sameByteEvidenceFrom": "letter-corrupt-other-json"
+      },
+      {
+        "fixture": "letter-without-other-parts",
+        "package": "pass",
+        "pdfPages": 1,
+        "completeSourceLeafFieldTextVisible": true,
+        "uniqueLeafFieldIds": 22,
+        "groupingFieldIds": 6,
+        "allTaggedIds": 28,
+        "controlOccurrences": 33,
+        "saveCycles": [
+          {
+            "cycle": 1,
+            "matchingUniqueLeafFieldIds": 22,
+            "missingOrChangedLeafFieldIds": [],
+            "missingGroupingFieldIds": [
+              "letter.header.continuation.row:0",
+              "letter.header.continuation.row:1",
+              "letter.header.continuation.row:2",
+              "letter.header.first.row:0",
+              "letter.header.first.row:1",
+              "letter.header.first.row:2"
+            ],
+            "missingTableIds": ["letter.recipient.minimum-block"],
+            "savedControlOccurrences": 37,
+            "reopenedPdfPages": 1,
+            "sourceTextRetained": true
+          },
+          {
+            "cycle": 2,
+            "matchingUniqueLeafFieldIds": 22,
+            "missingOrChangedLeafFieldIds": [],
+            "missingGroupingFieldIds": [
+              "letter.header.continuation.row:0",
+              "letter.header.continuation.row:1",
+              "letter.header.continuation.row:2",
+              "letter.header.first.row:0",
+              "letter.header.first.row:1",
+              "letter.header.first.row:2"
+            ],
+            "missingTableIds": ["letter.recipient.minimum-block"],
+            "savedControlOccurrences": 37,
+            "reopenedPdfPages": 1,
+            "sourceTextRetained": true
+          }
+        ],
+        "sourceSha256": "7cc40aa4508b6906c6f63fff44b85e275ad00dbe5d911abfe816cdd45fadc702",
+        "sameByteEvidenceFrom": "letter-corrupt-other-json"
+      }
+    ]
+  },
+  "nativeEvidenceReuse": {
+    "downloadedFiles": 8,
+    "distinctPackageSha256": 3,
+    "method": "Package structure checked for each download; render and two Save/reopen cycles performed for each distinct byte-identical package. sameByteEvidenceFrom identifies reuse."
+  },
+  "nativeRunNote": {
+    "earlierOverwriteAttempt": "One 60-second timeout for a byte-identical cover package with an existing destination; cause not established.",
+    "finalConversionIsolation": "Fresh temporary profile and fresh temporary output for each conversion; copy output only after successful conversion."
+  },
+  "desktopWordAcceptance": "pending",
+  "ci": {
+    "status": "pending-publication",
+    "expectedReleaseBrowserCases": 206
+  },
+  "publishedBranchesPlanned": ["dev"]
+}

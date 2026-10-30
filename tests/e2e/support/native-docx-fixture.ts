@@ -9,7 +9,10 @@ export async function importNativeDossier(
   const project = structuredClone(approvedProject);
   configure?.(project);
   await page.goto("http://127.0.0.1:4173/", { waitUntil: "domcontentloaded" });
-  await expect(page.getByRole("button", { name: "Dossier laden", exact: true })).toBeVisible();
+  // Initial IndexedDB recovery and lazy route hydration complete before import.
+  await expect(page.getByRole("button", { name: "Dossier laden", exact: true })).toBeVisible({
+    timeout: 20_000,
+  });
   page.once("dialog", (dialog) => void dialog.accept());
   const reloaded = page.waitForEvent("domcontentloaded", { timeout: 20_000 });
   await page.locator('input[type="file"][accept*="json"]').setInputFiles({
@@ -30,4 +33,11 @@ export async function expectUnreviewedDocxBlocked(page: Page) {
   // An unsupported Word profile must not prevent PDF or lossless project backup.
   await expect(page.getByRole("radio", { name: /Projektdatei \(JSON\)/ })).toBeEnabled();
   await expect(page.getByRole("radio", { name: /Fertiges Dossier \(PDF\)/ })).toBeEnabled();
+}
+
+/** Export isolation starts after the editor has persisted its load migrations. */
+export async function waitForNativeEditorSaved(page: Page) {
+  await expect(
+    page.getByRole("status").filter({ hasText: "Automatisch gespeichert" }),
+  ).toBeVisible();
 }

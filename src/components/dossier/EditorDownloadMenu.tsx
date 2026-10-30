@@ -50,7 +50,7 @@ export function EditorDownloadMenu({
     if (!open) return;
     const dossier = savedAppDocxNextAvailability();
     setWord(dossier);
-    setPartWord(part === "cv" ? savedAppDocxNextAvailability(part) : dossier);
+    setPartWord(savedAppDocxNextAvailability(part));
     setError(null);
   }, [open, part]);
   const downloading = busy || wordBusy;

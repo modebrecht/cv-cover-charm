@@ -1,3 +1,4 @@
+import { lineText } from "@/components/cover/types";
 import { letterReadiness } from "@/components/letter/preflight";
 import {
   coverPdfDocumentFromSaved,
@@ -34,95 +35,115 @@ export function assertAppDocxNextSource(
   source: DossierAppSnapshot,
   part?: DocumentPart["id"],
 ): void {
-  const cvOnly = part === "cv";
+  const includes = (id: DocumentPart["id"]) => !part || part === id;
   if (
-    (!cvOnly &&
-      (source.cover.template !== "modern" || source.letter.design.template !== "modern")) ||
-    source.cv.design.template !== "modern" ||
-    source.settings.cvLayout !== "sidebar"
+    (includes("cover") && source.cover.template !== "modern") ||
+    (includes("letter") && source.letter.design.template !== "modern") ||
+    (includes("cv") &&
+      (source.cv.design.template !== "modern" || source.settings.cvLayout !== "sidebar"))
   )
     throw new DocxDownloadError(
-      cvOnly
-        ? "Der CV-Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte."
-        : "Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      part === "cover"
+        ? "Der Titelblatt-Word-Download unterstützt momentan die Vorlage «Modern»."
+        : part === "letter"
+          ? "Der Brief-Word-Download unterstützt momentan die Vorlage «Modern»."
+          : part === "cv"
+            ? "Der CV-Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte."
+            : "Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
     );
   if (
-    source.cv.design.font !== "sans" ||
-    (!cvOnly && (source.letter.design.fontOverride ?? source.letter.design.font) !== "sans")
+    (includes("cv") && source.cv.design.font !== "sans") ||
+    (includes("letter") &&
+      (source.letter.design.fontOverride ?? source.letter.design.font) !== "sans")
   )
     throw new DocxDownloadError(
-      cvOnly
+      part === "cv"
         ? "Bitte im Lebenslauf die Schrift «Sans» wählen."
-        : "Bitte in Brief und Lebenslauf die Schrift «Sans» wählen.",
+        : part === "letter"
+          ? "Bitte im Brief die Schrift «Sans» wählen."
+          : "Bitte in Brief und Lebenslauf die Schrift «Sans» wählen.",
     );
-  const letterIssue = cvOnly ? null : sourceLetterFlowInputIssue(source);
+  if (
+    part === "cover" &&
+    source.cover.blocks.some(
+      (block) =>
+        !block.style.hidden &&
+        (!["empfaenger", "anTitel"].includes(block.id) ||
+          source.cover.data.showBetriebOnCover !== false) &&
+        (!["beilagen", "beilagenTitel"].includes(block.id) ||
+          source.cover.data.showBeilagenOnCover !== false) &&
+        ((block.kind === "text" && block.lines.some((line) => lineText(line).trim())) ||
+          (block.kind === "photo" && !source.cover.data.foto)) &&
+        block.style.font !== "sans",
+    )
+  )
+    throw new DocxDownloadError("Bitte auf dem Titelblatt die Schrift «Sans» wählen.");
+  const letterIssue = includes("letter") ? sourceLetterFlowInputIssue(source) : null;
   if (letterIssue)
     throw new DocxDownloadError(
       letterIssue === "rich-text"
         ? "Der Word-Download unterstützt formatierten Brieftext noch nicht. Bitte verwende den PDF-Download."
         : "Diese Brief-Einstellungen sind im Word-Download noch nicht unterstützt. Bitte verwende den PDF-Download.",
     );
+  if (part === "cover") return;
   const chrome = resolveDossierChromeSnapshot(
     source,
     source.settings.chrome ?? DEFAULT_DOSSIER_CHROME_STATE,
   );
   if (
-    (cvOnly ? [chrome.cv] : [chrome.letter, chrome.cv]).some(
+    (part ? [chrome[part]] : [chrome.letter, chrome.cv]).some(
       ({ options }) => options.headerMode !== "contact" || options.footerMode !== "compact",
     )
   )
     throw new DocxDownloadError(
-      cvOnly
+      part === "cv"
         ? "Bitte im Lebenslauf eine Kopfzeile mit Kontaktdaten und eine kompakte Fusszeile wählen."
-        : "Bitte in Brief und Lebenslauf eine Kopfzeile mit Kontaktdaten und eine kompakte Fusszeile wählen.",
+        : part === "letter"
+          ? "Bitte im Brief eine Kopfzeile mit Kontaktdaten und eine kompakte Fusszeile wählen."
+          : "Bitte in Brief und Lebenslauf eine Kopfzeile mit Kontaktdaten und eine kompakte Fusszeile wählen.",
     );
 }
 
 export function captureSavedAppDocxNextSource(part?: DocumentPart["id"]): DossierAppSnapshot {
-  const cv = cvPdfDocumentFromSaved(readStoredDossierPart(CV_STORAGE_KEY));
-  if (part === "cv" && (!cv || !cvPdfHasContent(cv.data)))
-    throw new DocxDownloadError("Bitte zuerst den Lebenslauf ausfüllen.");
-  // Empty containers carry no user content and are never rendered or saved.
-  // Available shared contact/colour settings remain part of the CV snapshot.
-  const readContext = <T>(read: () => T): T | null => {
+  // Optional documents can still supply the existing synchronized contact and
+  // palette intent. Unreadable unrelated content is never rendered or saved.
+  const read = <T>(id: DocumentPart["id"], capture: () => T): T | null => {
     try {
-      return read();
+      return capture();
     } catch (error) {
-      if (part === "cv") return null;
+      if (part && part !== id) return null;
       throw error;
     }
   };
-  const cover =
-    readContext(() => coverPdfDocumentFromSaved(readStoredDossierPart(COVER_STORAGE_KEY))) ??
-    (part === "cv"
-      ? coverPdfDocumentFromSaved({ template: cv!.design.template, data: {}, font: "sans" })
-      : null);
-  const letter =
-    readContext(() => letterPdfDocumentFromSaved(readStoredDossierPart(LETTER_STORAGE_KEY))) ??
-    (part === "cv"
-      ? letterPdfDocumentFromSaved({
-          data: {},
-          design: { template: cv!.design.template, font: "sans" },
-        })
-      : null);
-  if (
-    !cover ||
-    !letter ||
-    !cv ||
-    (part !== "cv" &&
-      (!coverPdfHasContent(cover.data) ||
-        !cvPdfHasContent(cv.data) ||
-        !letterReadiness(letter.data).readyToSend))
-  )
+  const cover = read("cover", () =>
+    coverPdfDocumentFromSaved(readStoredDossierPart(COVER_STORAGE_KEY)),
+  );
+  const letter = read("letter", () =>
+    letterPdfDocumentFromSaved(readStoredDossierPart(LETTER_STORAGE_KEY)),
+  );
+  const cv = read("cv", () => cvPdfDocumentFromSaved(readStoredDossierPart(CV_STORAGE_KEY)));
+  const ready = {
+    cover: !!cover && coverPdfHasContent(cover.data),
+    letter: !!letter && letterReadiness(letter.data).readyToSend,
+    cv: !!cv && cvPdfHasContent(cv.data),
+  };
+  if (part ? !ready[part] : !ready.cover || !ready.letter || !ready.cv)
     throw new DocxDownloadError(
-      "Bitte zuerst Titelblatt, Motivationsschreiben und Lebenslauf vollständig ausfüllen.",
+      part === "cover"
+        ? "Bitte zuerst das Titelblatt ausfüllen."
+        : part === "letter"
+          ? "Bitte zuerst das Motivationsschreiben vollständig ausfüllen."
+          : part === "cv"
+            ? "Bitte zuerst den Lebenslauf ausfüllen."
+            : "Bitte zuerst Titelblatt, Motivationsschreiben und Lebenslauf vollständig ausfüllen.",
     );
   const source = captureDossierDocxNextSnapshot(
-    cover,
-    letter,
-    cv,
+    cover ?? coverPdfDocumentFromSaved({ template: "modern", data: {}, font: "sans" })!,
+    letter ??
+      letterPdfDocumentFromSaved({ data: {}, design: { template: "modern", font: "sans" } })!,
+    cv ?? cvPdfDocumentFromSaved({ data: {}, design: { template: "modern", font: "sans" } })!,
     {},
-    part === "cv" ? "cv" : undefined,
+    part,
   );
   assertAppDocxNextSource(source, part);
   return source;

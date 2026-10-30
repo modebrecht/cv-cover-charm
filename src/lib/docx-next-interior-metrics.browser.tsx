@@ -36,22 +36,23 @@ const rgb = (value: string) => {
 export async function captureInteriorTextMetrics(
   source: DossierAppSnapshot,
   profile: string,
-  capture: { headersOnly?: true; scope?: "cv" } = {},
+  capture: { headersOnly?: true; scope?: "cv" | "letter" } = {},
 ): Promise<InteriorTextMetrics> {
   if (
-    (capture.scope !== "cv" &&
-      (source.cover.template !== "modern" || source.letter.design.template !== "modern")) ||
-    source.cv.design.template !== "modern"
+    (!capture.scope && source.cover.template !== "modern") ||
+    (capture.scope !== "cv" && source.letter.design.template !== "modern") ||
+    (capture.scope !== "letter" && source.cv.design.template !== "modern")
   )
     throw Error("DOCX Next: Dieser Innenlayout-Test ist nur für Modern freigegeben.");
   if (!source.settings.chrome)
     throw Error("DOCX Next: Gespeicherte Kopfzeileneinstellungen fehlen.");
-  if (source.cv.design.font !== "sans")
+  if (capture.scope !== "letter" && source.cv.design.font !== "sans")
     throw Error(
       "DOCX Next: Header-/Rubriktest unterstützt nur ausdrücklich gespeichertes Sans im Lebenslauf; Cabin wird nicht durch Arial ersetzt.",
     );
   const resolved = resolveDossierChromeSnapshot(source, source.settings.chrome);
   if (
+    capture.scope !== "letter" &&
     resolved.cv.options.headerMode === "contact" &&
     JSON.stringify(
       resolveCvChromeContact(dossierContactFromCv(source.cv.data), resolved.cv.contact),
@@ -61,7 +62,7 @@ export async function captureInteriorTextMetrics(
       "DOCX Next: Abweichende CV-Kontaktdaten benötigen eine eigene Header-Prüfung; die gespeicherten Werte werden nicht überschrieben.",
     );
   if (
-    capture.scope !== "cv" &&
+    !capture.scope &&
     [resolved.letter, resolved.cv].some((p) => p.options.headerMode === "contact") &&
     [resolved.letter, resolved.cv].some((p) => p.options.headerMode !== "contact")
   )
@@ -76,7 +77,7 @@ export async function captureInteriorTextMetrics(
   };
   const canvas = document.createElement("canvas").getContext("2d");
   if (!canvas) throw Error("DOCX Next: Header-Schriftmessung nicht verfügbar.");
-  for (const scope of capture.scope === "cv" ? (["cv"] as const) : (["letter", "cv"] as const)) {
+  for (const scope of capture.scope ? [capture.scope] : (["letter", "cv"] as const)) {
     const { options, contact, content } = resolved[scope];
     if (options.headerMode !== "contact") continue;
     if (
@@ -365,7 +366,7 @@ export async function captureInteriorTextMetrics(
     }
     result.headers[scope] = { first: measurements[0], continuation: measurements[1] };
   }
-  if (capture.headersOnly) return result;
+  if (capture.headersOnly || capture.scope === "letter") return result;
   {
     const hasPills = resolveCvRubricOptions(source.cv.design).pill;
     const host = document.createElement("div");

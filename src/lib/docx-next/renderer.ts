@@ -887,8 +887,18 @@ export async function renderDossierDocx(
           (planned.columns.count - 1) * planned.columns.gapMm) /
         planned.columns.count;
       const content = renderBlocks(planned.blocks, widthMm, part.page);
+      // A final cover made of positioned frames needs an ordinary closing
+      // paragraph. In a dossier the section-break paragraph already provides
+      // this boundary; without it Writer relocates the attachment heading.
+      const closingFrameBoundary =
+        index === physicalSections.length - 1 &&
+        part.id === "cover" &&
+        planned.blocks.at(-1)?.kind === "paragraph-frame"
+          ? emptyParagraph
+          : "";
       return (
         content +
+        closingFrameBoundary +
         (index < physicalSections.length - 1
           ? `<w:p><w:pPr>${section(part, planned)}</w:pPr></w:p>`
           : section(part, planned))

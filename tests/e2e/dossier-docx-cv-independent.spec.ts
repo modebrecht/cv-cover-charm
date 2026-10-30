@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { mkdir, readFile } from "node:fs/promises";
-import { importNativeDossier } from "./support/native-docx-fixture";
+import { importNativeDossier, waitForNativeEditorSaved } from "./support/native-docx-fixture";
 import { readZipEntries } from "../../src/lib/docx-next/zip";
 
 const OUT = process.env.DOCX_CV_INDEPENDENT_ARTIFACTS ?? "artifacts/dossier-docx-cv-independent";
@@ -16,6 +16,7 @@ test("CV Word download ignores unsupported cover and letter settings without cha
     project.letter.data.richTextHtml = "<p><strong>Nur im Brief formatiert</strong></p>";
   });
   await page.goto("http://127.0.0.1:4173/lebenslauf", { waitUntil: "networkidle" });
+  await waitForNativeEditorSaved(page);
   const before = await page.evaluate(() => ({
     cover: localStorage.getItem("titelblatt:v3"),
     letter: localStorage.getItem("anschreiben:v1"),
@@ -55,6 +56,7 @@ test("CV download works with absent cover and letter and does not recreate them"
   test.setTimeout(120000);
   await importNativeDossier(page);
   await page.goto("http://127.0.0.1:4173/lebenslauf", { waitUntil: "networkidle" });
+  await waitForNativeEditorSaved(page);
   // Isolate the export from the editor's existing font-sync initialization.
   await page.evaluate(() => {
     localStorage.removeItem("titelblatt:v3");
@@ -85,6 +87,7 @@ test("CV's own unsupported font remains blocked with a CV-specific explanation",
     project.cv.design.font = "serif";
   });
   await page.goto("http://127.0.0.1:4173/lebenslauf", { waitUntil: "networkidle" });
+  await waitForNativeEditorSaved(page);
   await page.getByRole("button", { name: "Download", exact: true }).click();
   const menu = page.locator("[data-editor-download-menu]");
   await expect(menu.getByRole("menuitem", { name: "DOCX", exact: true })).toBeDisabled();
@@ -94,6 +97,7 @@ test("CV's own unsupported font remains blocked with a CV-specific explanation",
 test("valid dossier keeps both CV and dossier Word downloads available", async ({ page }) => {
   await importNativeDossier(page);
   await page.goto("http://127.0.0.1:4173/lebenslauf", { waitUntil: "networkidle" });
+  await waitForNativeEditorSaved(page);
   await page.getByRole("button", { name: "Download", exact: true }).click();
   const menu = page.locator("[data-editor-download-menu]");
   await expect(menu.getByRole("menuitem", { name: "DOCX", exact: true })).toBeEnabled();
@@ -106,6 +110,7 @@ test("corrupt unrelated stored JSON cannot block or be overwritten by the CV dow
   test.setTimeout(120000);
   await importNativeDossier(page);
   await page.goto("http://127.0.0.1:4173/lebenslauf", { waitUntil: "networkidle" });
+  await waitForNativeEditorSaved(page);
   await page.evaluate(() => {
     localStorage.setItem("titelblatt:v3", "broken-cover-json");
     localStorage.setItem("anschreiben:v1", "{broken-letter-json");
@@ -139,6 +144,7 @@ test("mirrored mobile CV keeps its ordinary photo in the independent Word packag
     project.cv.portableState.mirrored = true;
   });
   await page.goto("http://127.0.0.1:4173/lebenslauf", { waitUntil: "networkidle" });
+  await waitForNativeEditorSaved(page);
   await page.getByRole("button", { name: "Download", exact: true }).click();
   const item = page
     .locator("[data-editor-download-menu]")
@@ -162,6 +168,7 @@ test("unreadable unrelated document structures remain untouched during CV export
   test.setTimeout(120000);
   await importNativeDossier(page);
   await page.goto("http://127.0.0.1:4173/lebenslauf", { waitUntil: "networkidle" });
+  await waitForNativeEditorSaved(page);
   const damaged = await page.evaluate(() => {
     const cover = JSON.stringify({ template: "citrus", data: {}, customs: [null] });
     const letter = JSON.stringify({

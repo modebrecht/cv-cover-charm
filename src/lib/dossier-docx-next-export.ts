@@ -1,3 +1,5 @@
+import { resolveDossierChromeSnapshot } from "./dossier-resolved-chrome";
+import { DEFAULT_DOSSIER_CHROME_STATE } from "./dossier-chrome";
 import { normalizedCoverLabels, coverTextPresentation } from "@/components/cover/presentation";
 import { captureCoverTextMetrics } from "@/components/cover/resolve";
 import { FONT_STACKS, lineText } from "@/components/cover/types";
@@ -24,32 +26,41 @@ export function buildAppDocxNextModel(
   source: DossierAppSnapshot,
   measured: {
     cover?: CoverTextMetrics;
-    sidebar: CvSidebarTextMetrics;
-    interior: InteriorTextMetrics;
+    sidebar?: CvSidebarTextMetrics;
+    interior?: InteriorTextMetrics;
   },
   part?: DocumentPart["id"],
 ): DossierDocModel {
-  const cvOnly = part === "cv";
+  const includeCover = !part || part === "cover",
+    includeLetter = !part || part === "letter",
+    includeCv = !part || part === "cv";
   assertAppDocxNextSource(source, part);
-  if (!cvOnly && !measured.cover) throw new Error("DOCX Next: Titelblatt-Schriftmesswerte fehlen.");
+  if (includeCover && !measured.cover)
+    throw new Error("DOCX Next: Titelblatt-Schriftmesswerte fehlen.");
+  if (includeCv && !measured.sidebar) throw new Error("DOCX Next: CV-Schriftmesswerte fehlen.");
+  if ((includeLetter || includeCv) && !measured.interior)
+    throw new Error("DOCX Next: Header-Schriftmesswerte fehlen.");
   const model = buildDossierDocModel(source, {
-    ...(cvOnly ? { cvOnly: true } : {}),
+    ...(part ? { exportPart: part } : {}),
     coverComposition: "authored-frames",
-    coverTextMetrics: measured.cover,
-    coverBadgePlacement: "body",
-    cvSidebarComposition: "shared-body-stories",
-    cvSidebarTextMetrics: measured.sidebar,
-    interiorTextMetrics: measured.interior,
+    ...(includeCover ? { coverTextMetrics: measured.cover, coverBadgePlacement: "body" } : {}),
+    ...(includeCv
+      ? {
+          cvSidebarComposition: "shared-body-stories",
+          cvSidebarTextMetrics: measured.sidebar,
+          cvPhotoComposition: "ordinary-picture",
+        }
+      : {}),
+    ...(includeLetter || includeCv ? { interiorTextMetrics: measured.interior } : {}),
     chromeFirstPageIdentity: "distinct-stories",
-    ...(cvOnly ? {} : { letterFlowComposition: "source-lines" }),
-    cvPhotoComposition: "ordinary-picture",
+    ...(includeLetter ? { letterFlowComposition: "source-lines" } : {}),
   });
   // The renderer's diagnostic switch also covers unrelated experiments. This
   // application entry admits exactly the composition above, never all issues.
   if (
-    (cvOnly
-      ? model.issues.length !== 0
-      : model.issues.length !== 1 || model.issues[0].code !== "letter-source-flow-unaccepted") ||
+    (includeLetter
+      ? model.issues.length !== 1 || model.issues[0].code !== "letter-source-flow-unaccepted"
+      : model.issues.length !== 0) ||
     model.floatingTableTextFlow !== undefined ||
     [model.cover, model.letter, model.cv].some((part) =>
       walkBlocks(part.blocks).some(
@@ -78,8 +89,12 @@ export async function createSavedDossierDocxNext(part?: DocumentPart["id"]) {
         "Der Entwurf wurde während des Exports geändert. Bitte erneut herunterladen.",
       );
   };
-  const blocks =
-    part === "cv" ? [] : normalizedCoverLabels(source.cover.blocks, source.cover.data.labelKontakt);
+  const includeCover = !part || part === "cover",
+    includeLetter = !part || part === "letter",
+    includeCv = !part || part === "cv";
+  const blocks = includeCover
+    ? normalizedCoverLabels(source.cover.blocks, source.cover.data.labelKontakt)
+    : [];
   const visible = blocks
     .filter(
       (b) =>
@@ -94,7 +109,7 @@ export async function createSavedDossierDocxNext(part?: DocumentPart["id"]) {
       style: coverTextPresentation(b, source.cover.template, source.cover.colors).style,
     }));
   const fonts = await prepareBriefFontProfile(
-    part === "cv"
+    !includeCover
       ? []
       : visible.flatMap((b) => {
           if (b.kind === "text") return [b];
@@ -117,10 +132,9 @@ export async function createSavedDossierDocxNext(part?: DocumentPart["id"]) {
   try {
     unchanged();
     fonts.verify();
-    const cover =
-      part === "cv"
-        ? undefined
-        : captureCoverTextMetrics(blocks, source.cover.fontScale, fonts.profile);
+    const cover = includeCover
+      ? captureCoverTextMetrics(blocks, source.cover.fontScale, fonts.profile)
+      : undefined;
     if (cover) captureCoverBadgeAdvances(blocks, "modern", source.cover.colors, cover);
     for (const block of (cover ? visible : []).filter(
       (b) => b.kind === "text" && b.lines.some((l) => lineText(l).trim()),
@@ -142,11 +156,16 @@ export async function createSavedDossierDocxNext(part?: DocumentPart["id"]) {
           `DOCX Next: Die Word-Schriftgrösse verändert den Umbruch in «${block.id}». Bitte Text oder Breite anpassen.`,
         );
     }
-    const interior = await captureInteriorTextMetrics(source, fonts.profile, {
-      headersOnly: true,
-      ...(part === "cv" ? { scope: "cv" } : {}),
-    });
-    const sidebar = await captureCvSidebarTextMetrics(source, fonts.profile);
+    const interior =
+      includeLetter || includeCv
+        ? await captureInteriorTextMetrics(source, fonts.profile, {
+            headersOnly: true,
+            ...(part === "cv" || part === "letter" ? { scope: part } : {}),
+          })
+        : undefined;
+    const sidebar = includeCv
+      ? await captureCvSidebarTextMetrics(source, fonts.profile)
+      : undefined;
     unchanged();
     fonts.verify();
     const model = buildAppDocxNextModel(source, { cover, interior, sidebar }, part);
@@ -170,7 +189,12 @@ export async function createSavedDossierDocxNext(part?: DocumentPart["id"]) {
 export async function downloadSavedDossierDocxNext(part?: DocumentPart["id"]) {
   const { blob, source } = await createSavedDossierDocxNext(part);
   const person = part === "cv" ? source.cv.data.person : source.cover.data;
-  const name = [person.vorname, person.nachname].filter(Boolean).join(" ");
+  const name =
+    part === "letter"
+      ? source.letter.data.absenderName ||
+        resolveDossierChromeSnapshot(source, source.settings.chrome ?? DEFAULT_DOSSIER_CHROME_STATE)
+          .letter.contact.name
+      : [person.vorname, person.nachname].filter(Boolean).join(" ");
   const label = part
     ? { cover: "Titelblatt", letter: "Motivationsschreiben", cv: "Lebenslauf" }[part]
     : "Bewerbungsdossier";

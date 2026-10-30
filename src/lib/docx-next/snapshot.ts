@@ -33,14 +33,23 @@ export function captureDossierDocxNextSnapshot(
   letter: LetterPdfDocument,
   cv: CvPdfDocument,
   bindings: Record<string, string> = {},
-  selectedPart?: "cv",
+  selectedPart?: "cover" | "letter" | "cv",
 ): DossierAppSnapshot {
   const typography = readPortableDossierFieldTypographyState() ?? {
     version: 1,
     cv: {},
     letter: {},
   };
-  const { fieldStyles, unresolvedTypography } = bindSavedTypography(typography, bindings);
+  const { fieldStyles, unresolvedTypography } = bindSavedTypography(
+    selectedPart
+      ? {
+          ...typography,
+          cv: selectedPart === "cv" ? typography.cv : {},
+          letter: selectedPart === "letter" ? typography.letter : {},
+        }
+      : typography,
+    bindings,
+  );
   const layoutChoice = getCvLayoutChoiceForTemplate(cv.design.template);
   const source = toDossierSource(cover, letter, cv);
   const sectionSize = cvSectionTitleFontSizePx(cv.design, layoutChoice);
@@ -55,7 +64,7 @@ export function captureDossierDocxNextSnapshot(
   // not become the frozen Sidebar's old 10-mm default during export.
   const continuationTopMarginMm = getCvContinuationTopMarginOverrideMm();
   const letterTops =
-    selectedPart === "cv"
+    selectedPart && selectedPart !== "letter"
       ? undefined
       : [0, 1].map(
           (pageIndex) =>
@@ -65,19 +74,20 @@ export function captureDossierDocxNextSnapshot(
               pageMargins: margins.letter ?? null,
             }).content.top,
         );
-  const cvTops = frozenCvReadingLayout(layoutChoice)
-    ? undefined
-    : [0, 1].map(
-        (pageIndex) =>
-          cvContentBox(
-            cvFrameFor(cv.design.template),
-            pageIndex,
-            "classic",
-            cv.design.sidebarPct,
-            resolvedChrome.cv.options,
-            { pageMargins: margins.cv ?? null, continuationTopMarginMm },
-          ).top,
-      );
+  const cvTops =
+    (selectedPart && selectedPart !== "cv") || frozenCvReadingLayout(layoutChoice)
+      ? undefined
+      : [0, 1].map(
+          (pageIndex) =>
+            cvContentBox(
+              cvFrameFor(cv.design.template),
+              pageIndex,
+              "classic",
+              cv.design.sidebarPct,
+              resolvedChrome.cv.options,
+              { pageMargins: margins.cv ?? null, continuationTopMarginMm },
+            ).top,
+        );
   return structuredClone({
     ...source,
     settings: {

@@ -84,7 +84,9 @@ export type { DossierAppSnapshot } from "./source";
 const name = (first: string, last: string) => [first, last].filter(Boolean).join(" ");
 
 export type BuildModelOptions = {
-  /** Build only the reviewed CV; unrelated cover and letter stories remain empty. */
+  /** Build one document only; unrelated stories remain empty. */
+  exportPart?: DocumentPart["id"];
+  /** Compatibility alias for the reviewed CV-only composition. */
   cvOnly?: true;
   /** Unaccepted bounded Modern/Sans plain-letter CSS-flow candidate. */
   letterFlowComposition?: "source-lines";
@@ -129,7 +131,16 @@ export function buildDossierDocModel(
   const { cover, letter, cv, settings } = input;
   if (options.cvOnly !== undefined && options.cvOnly !== true)
     throw Error("DOCX Next invalid CV-only composition");
-  const cvOnly = options.cvOnly === true;
+  const exportPart = options.exportPart ?? (options.cvOnly ? "cv" : undefined);
+  if (
+    (exportPart !== undefined && !["cover", "letter", "cv"].includes(exportPart)) ||
+    (options.cvOnly && exportPart !== "cv")
+  )
+    throw Error("DOCX Next invalid single-document composition");
+  const includes = (id: DocumentPart["id"]) => !exportPart || exportPart === id;
+  const includeCover = includes("cover"),
+    includeLetter = includes("letter"),
+    includeCv = includes("cv");
   const capturedInteriorMetrics = options.interiorTextMetrics;
   const capturedSidebarMetrics = options.cvSidebarTextMetrics;
   const personalMetrics = options.cvPersonalHeaderMetrics;
@@ -249,7 +260,15 @@ export function buildDossierDocModel(
     cvVariant === "sidebar"
       ? { ...DEFAULT_CV_PLACEMENTS, ...settings.placements }
       : settings.placements;
-  const template = nextTemplate(String(cvOnly ? cv.design.template : cover.template));
+  const template = nextTemplate(
+    String(
+      exportPart === "cv"
+        ? cv.design.template
+        : exportPart === "letter"
+          ? letter.design.template
+          : cover.template,
+    ),
+  );
   if (
     options.coverComposition === "graphic-family-qa" &&
     template.cover.nativePhotoPlaceholder !== "editable-initials"
@@ -285,13 +304,13 @@ export function buildDossierDocModel(
     capturedSidebarMetrics?.contactHeaders &&
     (sourceCompactBands ||
       !capturedInteriorMetrics?.headers.cv ||
-      (!cvOnly && !capturedInteriorMetrics.headers.letter))
+      (includeLetter && !capturedInteriorMetrics.headers.letter))
   )
     throw Error(
       "DOCX Next: Sidebar-Kontaktkopf benötigt frische Header-Messwerte für CV und Anschreiben.",
     );
   if (
-    !cvOnly &&
+    !exportPart &&
     (String(letter.design.template) !== template.id || String(cv.design.template) !== template.id)
   )
     throw new Error("DOCX Next requires matching dossier templates.");
@@ -299,7 +318,14 @@ export function buildDossierDocModel(
   const wordFont = (key: Parameters<typeof fontForKey>[0], fallback: string) =>
     fonts.resolve(fontForKey(key, fallback));
   const theme = {
-    font: wordFont(cv.design.font ?? letter.design.fontOverride, template.typography.font),
+    font: wordFont(
+      exportPart === "cover"
+        ? undefined
+        : exportPart === "letter"
+          ? (letter.design.fontOverride ?? letter.design.font)
+          : (cv.design.font ?? letter.design.fontOverride),
+      template.typography.font,
+    ),
     ink: color(cover.colors.ink, template.colors.ink),
     accent: color(cover.colors.accent ?? cover.colors.primary, template.colors.accent),
     paper: color(cover.colors.bg, template.colors.paper),
@@ -309,16 +335,22 @@ export function buildDossierDocModel(
     template.interiorPaletteSource === "dossier" ? resolveLetterPalette(letter.design) : undefined;
   const cvPalette =
     template.interiorPaletteSource === "dossier" ? resolveCvPalette(cv.design) : undefined;
-  const letterFont = wordFont(
-    cvOnly
-      ? cv.design.font
-      : template.letter.fontSource === "standalone"
-        ? letter.design.font
-        : letter.design.fontOverride,
-    theme.font,
-  );
+  const letterFont = includeLetter
+    ? wordFont(
+        template.letter.fontSource === "standalone"
+          ? letter.design.font
+          : letter.design.fontOverride,
+        theme.font,
+      )
+    : theme.font;
   const issues: ModelIssue[] = (settings.unresolvedTypography ?? [])
-    .filter((id) => !cvOnly || !id.startsWith("letter."))
+    .filter(
+      (id) =>
+        !exportPart ||
+        !["cover.", "letter.", "cv."].some(
+          (prefix) => id.startsWith(prefix) && prefix !== `${exportPart}.`,
+        ),
+    )
     .map((id) => ({
       code: "unresolved-legacy-typography",
       fieldId: id,
@@ -428,8 +460,8 @@ export function buildDossierDocModel(
     footer: [],
     chrome: { borderWidthMm: 0 },
     layout: {
-      mode: id === "cv" && cvVariant === "sidebar" ? "sidebar" : "classic",
-      ...(id === "cv" ? { variant: cvVariant } : {}),
+      mode: id === "cv" && includeCv && cvVariant === "sidebar" ? "sidebar" : "classic",
+      ...(id === "cv" ? { variant: includeCv ? cvVariant : ("classic" as const) } : {}),
       side: settings.sidebarSide ?? "left",
       sidebarFraction: cv.design.sidebarPct ?? template.cv.sidebarFraction,
     },
@@ -455,7 +487,7 @@ export function buildDossierDocModel(
     style,
     fieldStyles: settings.fieldStyles,
   });
-  if (!cvOnly) {
+  if (includeCover) {
     coverPart.blocks =
       options.coverComposition === "authored-frames" ||
       options.coverComposition === "graphic-family-qa"
@@ -512,7 +544,7 @@ export function buildDossierDocModel(
     design = letter.design;
   const letterInk = color(letterPalette?.ink ?? design.textColor ?? design.colors.ink, theme.ink);
   const letterAccent = color(letterPalette?.accent ?? design.colors.accent, theme.accent);
-  if (!cvOnly) {
+  if (includeLetter) {
     const role = (key: "sender" | "recipient" | "subject"): Partial<TextStyle> => {
       const value = design[`${key}Typography`];
       return {
@@ -707,619 +739,625 @@ export function buildDossierDocModel(
     person = data.person;
   const cvInk = color(cvPalette?.ink ?? cd.colors.ink, theme.ink),
     cvAccent = color(cvPalette?.accent ?? cd.colors.accent ?? cd.colors.primary, theme.accent);
-  const body = { sizePt: template.typography.bodyPt * (cd.bodyScale ?? 1), color: cvInk };
-  const rubric = resolveCvRubricOptions(cd, template.cv.headingBadge);
-  const sectionGapMm =
-    typeof settings.cvSectionGapMm === "number" && Number.isFinite(settings.cvSectionGapMm)
-      ? Math.max(0, Math.min(12, settings.cvSectionGapMm))
-      : (cvFlow.sectionGapMm ?? template.cv.sectionSpaceMm);
-  const heading = (id: string, text: string) =>
-    p(
-      id,
-      text,
-      {
-        sizePt:
-          (cd.sectionTitleFontSizePx !== undefined
-            ? cd.sectionTitleFontSizePx * 0.75
-            : template.typography.headingPt) * (cd.headingScale ?? 1),
-        color: color(cd.sectionTitleColor, cvAccent),
-        bold: cd.sectionTitleBold ?? true,
-        italic: cd.sectionTitleItalic ?? false,
-        underline: cd.sectionTitleUnderline ?? false,
-      },
-      {
-        role: "heading",
-        beforeMm: sectionGapMm,
-        // Match default-pagination-density.css in the shared classic reading flow.
-        // The old 7 px fallback added 1.35 mm per heading to Word. Keep an
-        // explicit user value (including zero); null in older JSON means unset.
-        afterMm:
-          cd.sectionTitleMarginBottomPx == null && readingRows
-            ? 0.5
-            : ((cd.sectionTitleMarginBottomPx ?? 7) * 25.4) / 96,
-        keepNext: true,
-        keepLines: true,
-        ...(cd.headingRule !== "none" && template.cv.headingRule ? { ruleColor: cvAccent } : {}),
-      },
-    );
-  if (cd.showDocumentTitle !== false && data.titel?.trim())
-    cvPart.blocks.push(
+  if (includeCv) {
+    const body = { sizePt: template.typography.bodyPt * (cd.bodyScale ?? 1), color: cvInk };
+    const rubric = resolveCvRubricOptions(cd, template.cv.headingBadge);
+    const sectionGapMm =
+      typeof settings.cvSectionGapMm === "number" && Number.isFinite(settings.cvSectionGapMm)
+        ? Math.max(0, Math.min(12, settings.cvSectionGapMm))
+        : (cvFlow.sectionGapMm ?? template.cv.sectionSpaceMm);
+    const heading = (id: string, text: string) =>
       p(
-        "cv.documentTitle",
-        data.titel,
+        id,
+        text,
         {
-          sizePt: (cd.docTitleFontSizePx ?? 18) * 0.75,
-          bold: cd.docTitleBold ?? true,
-          color: color(cd.docTitleColor, cvAccent),
-          italic: cd.docTitleItalic ?? false,
-          underline: cd.docTitleUnderline ?? false,
-        },
-        {
-          role: "title",
-          keepNext: true,
-          afterMm: ((cd.docTitleMarginBottomPx ?? 10) * 25.4) / 96,
-          indentMm: cvFlow.indentMm,
-        },
-      ),
-    );
-  cvPart.blocks.push(
-    compound(
-      p(
-        "cv.person.name",
-        name(person.vorname, person.nachname),
-        {
-          ...body,
-          bold: true,
-          sizePt: template.typography.namePt * (cd.titleScale ?? 1),
-          ...person.nameStyle,
-          font: wordFont(person.nameStyle?.font, theme.font),
-          ...(person.nameStyle?.fontSizePt !== undefined
-            ? { sizePt: person.nameStyle.fontSizePt }
-            : {}),
+          sizePt:
+            (cd.sectionTitleFontSizePx !== undefined
+              ? cd.sectionTitleFontSizePx * 0.75
+              : template.typography.headingPt) * (cd.headingScale ?? 1),
+          color: color(cd.sectionTitleColor, cvAccent),
+          bold: cd.sectionTitleBold ?? true,
+          italic: cd.sectionTitleItalic ?? false,
+          underline: cd.sectionTitleUnderline ?? false,
         },
         {
           role: "heading",
-          keepNext: !!person.untertitel,
-          indentMm: cvFlow.indentMm,
-          afterMm: person.untertitel ? 1.5 : cvFlow.headerGapMm,
+          beforeMm: sectionGapMm,
+          // Match default-pagination-density.css in the shared classic reading flow.
+          // The old 7 px fallback added 1.35 mm per heading to Word. Keep an
+          // explicit user value (including zero); null in older JSON means unset.
+          afterMm:
+            cd.sectionTitleMarginBottomPx == null && readingRows
+              ? 0.5
+              : ((cd.sectionTitleMarginBottomPx ?? 7) * 25.4) / 96,
+          keepNext: true,
+          keepLines: true,
+          ...(cd.headingRule !== "none" && template.cv.headingRule ? { ruleColor: cvAccent } : {}),
         },
-      ),
-      [
-        { id: CV_PERSON_FIELD_IDS.vorname, text: person.vorname },
-        { id: CV_PERSON_FIELD_IDS.nachname, text: person.nachname },
-      ],
-      " ",
-    ),
-  );
-  if (person.untertitel)
-    cvPart.blocks.push(
-      p("cv.person.subtitle", person.untertitel, body, {
-        indentMm: cvFlow.indentMm,
-        afterMm: cvFlow.headerGapMm,
-      }),
-    );
-  if (person.foto) {
-    const coverPhoto = cover.blocks.find((block) => block.kind === "photo");
-    const photoStyle = normalizeDossierPhotoStyle(
-      settings.cvPhotoStyle ?? dossierPhotoStyleFromBlockStyle(coverPhoto?.style),
-    );
-    const photoPlacement = normalizeCvPhotoPlacement(settings.cvPhotoPlacement);
-    const position = resolveCvPhotoPosition(photoPlacement, {
-      template: template.id,
-      layout: cvPart.layout.mode === "sidebar" ? "modern" : "classic",
-      legacyMirrored: settings.sidebarSide === "right",
-    });
-    cvPart.blocks.unshift({
-      kind: "image",
-      id: "cv.person.photo",
-      source: person.foto,
-      alt: "CV portrait",
-      widthMm: photoPlacement.widthMm,
-      maxHeightMm: cvPart.page.heightMm - cvPart.page.margins.top - cvPart.page.margins.bottom,
-      placement: position,
-      coordinateOrigin: position === "free" ? "page" : "content",
-      xMm: photoPlacement.xMm,
-      yMm: position === "free" ? photoPlacement.yMm : 0,
-      gapMm: 3,
-      frame: {
-        heightRatio: dossierPhotoRatio(photoStyle.shape),
-        radiusMm: photoStyle.shape === "circle" ? 999 : 1.5,
-        zoom: photoStyle.zoom,
-        xPct: photoStyle.x,
-        yPct: photoStyle.y,
-        borderWidthMm: photoStyle.borderWidth,
-        borderColor: color(photoPlacement.frameColor, cvAccent),
-      },
-    });
-  }
-  const entries = (values: CvEntry[], section: CvLayoutSectionKey): DocBlock[] =>
-    values.filter(entryFilled).map((entry) => {
-      const id = `cv.entry.${section}:${entry.id}`;
-      const fields = Object.entries({
-        date: entry.zeit,
-        title: entry.titel,
-        place: entry.ort,
-        description: entry.beschreibung,
-      }).filter(([, text]) => text.trim());
-      return {
-        kind: "entry",
-        id,
-        ...(cvVariant === "sidebar" ? { keepTogether: true } : {}),
-        blocks: datedEntryBlocks(
-          id,
-          fields.map(([key, text], index) =>
-            p(
-              `${id}.${key}`,
-              text,
-              { ...body, bold: key === "title", italic: key === "date" },
-              {
-                align:
-                  key === "description" || key === "place"
-                    ? (settings.cvAlignment ?? "left")
-                    : "left",
-                // Keep entry metadata with the start of its description. The final
-                // paragraph still has keepLines=false so long descriptions flow.
-                keepNext: index < fields.length - 1,
-                afterMm: index === fields.length - 1 ? cvFlow.entryGapMm : 0.5,
-              },
-            ),
-          ),
-          readingRows && cvSectionLayout(data, section).width === "half"
-            ? { ...cvFlow, dateRail: { ...cvFlow.dateRail!, textWidthMm: 20 } }
-            : cvFlow,
-          cvAccent,
-        ),
-      };
-    });
-  for (const key of cvSectionOrder(data)) {
-    let blocks: DocBlock[] = [],
-      title = "";
-    if (key === "person") {
-      title = data.labels.kontakt || "Kontakt";
-      blocks = Object.entries({
-        address: person.adresse,
-        place: person.plzOrt,
-        phone: person.telefon,
-        email: person.email,
-      })
-        .filter(([, text]) => text.trim())
-        .map(([field, text]) => p(`cv.person.${field}`, text, body));
-      blocks.push(
-        ...cvPersonalInfoRows(person).map((row) =>
-          p(
-            `cv.person.${row.key}`,
-            `${row.label}${cd.personalInfoColons === false ? " " : ": "}${row.value}`,
-            body,
-          ),
+      );
+    if (cd.showDocumentTitle !== false && data.titel?.trim())
+      cvPart.blocks.push(
+        p(
+          "cv.documentTitle",
+          data.titel,
+          {
+            sizePt: (cd.docTitleFontSizePx ?? 18) * 0.75,
+            bold: cd.docTitleBold ?? true,
+            color: color(cd.docTitleColor, cvAccent),
+            italic: cd.docTitleItalic ?? false,
+            underline: cd.docTitleUnderline ?? false,
+          },
+          {
+            role: "title",
+            keepNext: true,
+            afterMm: ((cd.docTitleMarginBottomPx ?? 10) * 25.4) / 96,
+            indentMm: cvFlow.indentMm,
+          },
         ),
       );
-      if (
-        cd.personalInfoAligned !== false &&
-        !(cvVariant === "sidebar" && placements?.kontakt === "side")
-      ) {
-        const contactPairs = [
-          ["address", "place"],
-          ["phone", "email"],
-        ]
-          .map((pair) =>
-            pair
-              .map((field) => blocks.find((block) => block.id === `cv.person.${field}`))
-              .map((block) => (block?.kind === "paragraph" ? [block] : [])),
-          )
-          .filter((cells) => cells.some((cell) => cell.length));
-        const details = cvPersonalInfoRows(person).map((row) => [
-          [
+    cvPart.blocks.push(
+      compound(
+        p(
+          "cv.person.name",
+          name(person.vorname, person.nachname),
+          {
+            ...body,
+            bold: true,
+            sizePt: template.typography.namePt * (cd.titleScale ?? 1),
+            ...person.nameStyle,
+            font: wordFont(person.nameStyle?.font, theme.font),
+            ...(person.nameStyle?.fontSizePt !== undefined
+              ? { sizePt: person.nameStyle.fontSizePt }
+              : {}),
+          },
+          {
+            role: "heading",
+            keepNext: !!person.untertitel,
+            indentMm: cvFlow.indentMm,
+            afterMm: person.untertitel ? 1.5 : cvFlow.headerGapMm,
+          },
+        ),
+        [
+          { id: CV_PERSON_FIELD_IDS.vorname, text: person.vorname },
+          { id: CV_PERSON_FIELD_IDS.nachname, text: person.nachname },
+        ],
+        " ",
+      ),
+    );
+    if (person.untertitel)
+      cvPart.blocks.push(
+        p("cv.person.subtitle", person.untertitel, body, {
+          indentMm: cvFlow.indentMm,
+          afterMm: cvFlow.headerGapMm,
+        }),
+      );
+    if (person.foto) {
+      const coverPhoto = cover.blocks.find((block) => block.kind === "photo");
+      const photoStyle = normalizeDossierPhotoStyle(
+        settings.cvPhotoStyle ?? dossierPhotoStyleFromBlockStyle(coverPhoto?.style),
+      );
+      const photoPlacement = normalizeCvPhotoPlacement(settings.cvPhotoPlacement);
+      const position = resolveCvPhotoPosition(photoPlacement, {
+        template: template.id,
+        layout: cvPart.layout.mode === "sidebar" ? "modern" : "classic",
+        legacyMirrored: settings.sidebarSide === "right",
+      });
+      cvPart.blocks.unshift({
+        kind: "image",
+        id: "cv.person.photo",
+        source: person.foto,
+        alt: "CV portrait",
+        widthMm: photoPlacement.widthMm,
+        maxHeightMm: cvPart.page.heightMm - cvPart.page.margins.top - cvPart.page.margins.bottom,
+        placement: position,
+        coordinateOrigin: position === "free" ? "page" : "content",
+        xMm: photoPlacement.xMm,
+        yMm: position === "free" ? photoPlacement.yMm : 0,
+        gapMm: 3,
+        frame: {
+          heightRatio: dossierPhotoRatio(photoStyle.shape),
+          radiusMm: photoStyle.shape === "circle" ? 999 : 1.5,
+          zoom: photoStyle.zoom,
+          xPct: photoStyle.x,
+          yPct: photoStyle.y,
+          borderWidthMm: photoStyle.borderWidth,
+          borderColor: color(photoPlacement.frameColor, cvAccent),
+        },
+      });
+    }
+    const entries = (values: CvEntry[], section: CvLayoutSectionKey): DocBlock[] =>
+      values.filter(entryFilled).map((entry) => {
+        const id = `cv.entry.${section}:${entry.id}`;
+        const fields = Object.entries({
+          date: entry.zeit,
+          title: entry.titel,
+          place: entry.ort,
+          description: entry.beschreibung,
+        }).filter(([, text]) => text.trim());
+        return {
+          kind: "entry",
+          id,
+          ...(cvVariant === "sidebar" ? { keepTogether: true } : {}),
+          blocks: datedEntryBlocks(
+            id,
+            fields.map(([key, text], index) =>
+              p(
+                `${id}.${key}`,
+                text,
+                { ...body, bold: key === "title", italic: key === "date" },
+                {
+                  align:
+                    key === "description" || key === "place"
+                      ? (settings.cvAlignment ?? "left")
+                      : "left",
+                  // Keep entry metadata with the start of its description. The final
+                  // paragraph still has keepLines=false so long descriptions flow.
+                  keepNext: index < fields.length - 1,
+                  afterMm: index === fields.length - 1 ? cvFlow.entryGapMm : 0.5,
+                },
+              ),
+            ),
+            readingRows && cvSectionLayout(data, section).width === "half"
+              ? { ...cvFlow, dateRail: { ...cvFlow.dateRail!, textWidthMm: 20 } }
+              : cvFlow,
+            cvAccent,
+          ),
+        };
+      });
+    for (const key of cvSectionOrder(data)) {
+      let blocks: DocBlock[] = [],
+        title = "";
+      if (key === "person") {
+        title = data.labels.kontakt || "Kontakt";
+        blocks = Object.entries({
+          address: person.adresse,
+          place: person.plzOrt,
+          phone: person.telefon,
+          email: person.email,
+        })
+          .filter(([, text]) => text.trim())
+          .map(([field, text]) => p(`cv.person.${field}`, text, body));
+        blocks.push(
+          ...cvPersonalInfoRows(person).map((row) =>
             p(
-              `cv.person.${row.key}.label`,
-              row.label + (cd.personalInfoColons === false ? "" : ":"),
+              `cv.person.${row.key}`,
+              `${row.label}${cd.personalInfoColons === false ? " " : ": "}${row.value}`,
               body,
             ),
-          ],
-          [p(`cv.person.${row.key}`, row.value, body)],
-        ]);
-        blocks = [
-          ...(contactPairs.length
-            ? [
-                {
-                  kind: "table" as const,
-                  id: "cv.person.contact",
-                  widths: [1, 1],
-                  rows: contactPairs.map((cells) => ({ cells, keepTogether: false })),
-                  decoration: {
-                    borderColor: cvAccent,
-                    borderWidthMm: 0,
-                    paddingXMm: 1.25,
-                    paddingYMm: 0,
-                  },
-                },
-              ]
-            : []),
-          ...(details.length
-            ? [
-                {
-                  kind: "table" as const,
-                  id: "cv.person.details",
-                  widths: [0.3, 0.7],
-                  rows: details.map((cells) => ({
-                    cells,
-                    keepTogether: false,
-                  })),
-                  decoration: {
-                    borderColor: cvAccent,
-                    borderWidthMm: 0,
-                    paddingXMm: 1.25,
-                    paddingYMm: 0,
-                  },
-                },
-              ]
-            : []),
-        ];
-        if (options.cvContactComposition === "compact-grid") {
-          const contactLayout = cvSectionLayout(data, "person");
-          if (contactLayout.width !== "full" || contactLayout.positioning !== "flow")
-            throw Error(
-              "DOCX Next: Der Kontaktblock muss für diesen Test die ganze Breite verwenden und im Textfluss liegen.",
-            );
-          const pairedRows = contactPairs.map(([left, right]) =>
-            left.length ? [left, right] : [right, []],
-          );
-          const rows = [...pairedRows, ...details].map((cells, index) => ({
-            cells: cells.map((cell) =>
-              cell.map((paragraph) => ({
-                ...paragraph,
-                beforeMm:
-                  index === contactPairs.length && contactPairs.length
-                    ? (personalMetrics?.personalGapMm ?? 1.35)
-                    : 0,
-                afterMm: personalMetrics ? 0 : 0.6,
-              })),
-            ),
-            keepTogether: false,
-          }));
-          // Fresh Web column geometry takes precedence when available. The
-          // independent native composition retains its conservative fallback.
-          // Rows always grow with text; no measured fixed row heights.
-          const padding = 1.25;
-          const columns = [0, 1].map((column) =>
-            Math.max(
-              10,
-              ...rows.flatMap((row) =>
-                row.cells[column].map((paragraph) => nativeTextWidthMm(paragraph) + 2 * padding),
+          ),
+        );
+        if (
+          cd.personalInfoAligned !== false &&
+          !(cvVariant === "sidebar" && placements?.kontakt === "side")
+        ) {
+          const contactPairs = [
+            ["address", "place"],
+            ["phone", "email"],
+          ]
+            .map((pair) =>
+              pair
+                .map((field) => blocks.find((block) => block.id === `cv.person.${field}`))
+                .map((block) => (block?.kind === "paragraph" ? [block] : [])),
+            )
+            .filter((cells) => cells.some((cell) => cell.length));
+          const details = cvPersonalInfoRows(person).map((row) => [
+            [
+              p(
+                `cv.person.${row.key}.label`,
+                row.label + (cd.personalInfoColons === false ? "" : ":"),
+                body,
               ),
-            ),
-          );
-          const contentWidth =
-            cvPart.page.widthMm -
-            cvPart.page.margins.left -
-            cvPart.page.margins.right -
-            cvFlow.indentMm;
-          if (personalMetrics && personalMetrics.valueOffsetMm >= contentWidth)
-            throw Error("DOCX Next: Die gemessene Kontaktspalte überschreitet den Textbereich.");
-          blocks = rows.length
-            ? [
-                {
-                  kind: "table",
-                  id: "cv.person.contact",
-                  widths: columns,
-                  widthMm: Math.min(contentWidth, columns[0] + columns[1]),
-                  ...(personalMetrics
-                    ? {
-                        widthMm: contentWidth,
-                        columnWidthsMm: [personalMetrics.valueOffsetMm, null],
-                      }
-                    : {}),
-                  rows,
-                  decoration: {
-                    borderColor: cvAccent,
-                    borderWidthMm: 0,
-                    paddingXMm: personalMetrics ? 0 : 1.25,
-                    paddingYMm: 0,
+            ],
+            [p(`cv.person.${row.key}`, row.value, body)],
+          ]);
+          blocks = [
+            ...(contactPairs.length
+              ? [
+                  {
+                    kind: "table" as const,
+                    id: "cv.person.contact",
+                    widths: [1, 1],
+                    rows: contactPairs.map((cells) => ({ cells, keepTogether: false })),
+                    decoration: {
+                      borderColor: cvAccent,
+                      borderWidthMm: 0,
+                      paddingXMm: 1.25,
+                      paddingYMm: 0,
+                    },
                   },
-                },
-              ]
-            : [];
+                ]
+              : []),
+            ...(details.length
+              ? [
+                  {
+                    kind: "table" as const,
+                    id: "cv.person.details",
+                    widths: [0.3, 0.7],
+                    rows: details.map((cells) => ({
+                      cells,
+                      keepTogether: false,
+                    })),
+                    decoration: {
+                      borderColor: cvAccent,
+                      borderWidthMm: 0,
+                      paddingXMm: 1.25,
+                      paddingYMm: 0,
+                    },
+                  },
+                ]
+              : []),
+          ];
+          if (options.cvContactComposition === "compact-grid") {
+            const contactLayout = cvSectionLayout(data, "person");
+            if (contactLayout.width !== "full" || contactLayout.positioning !== "flow")
+              throw Error(
+                "DOCX Next: Der Kontaktblock muss für diesen Test die ganze Breite verwenden und im Textfluss liegen.",
+              );
+            const pairedRows = contactPairs.map(([left, right]) =>
+              left.length ? [left, right] : [right, []],
+            );
+            const rows = [...pairedRows, ...details].map((cells, index) => ({
+              cells: cells.map((cell) =>
+                cell.map((paragraph) => ({
+                  ...paragraph,
+                  beforeMm:
+                    index === contactPairs.length && contactPairs.length
+                      ? (personalMetrics?.personalGapMm ?? 1.35)
+                      : 0,
+                  afterMm: personalMetrics ? 0 : 0.6,
+                })),
+              ),
+              keepTogether: false,
+            }));
+            // Fresh Web column geometry takes precedence when available. The
+            // independent native composition retains its conservative fallback.
+            // Rows always grow with text; no measured fixed row heights.
+            const padding = 1.25;
+            const columns = [0, 1].map((column) =>
+              Math.max(
+                10,
+                ...rows.flatMap((row) =>
+                  row.cells[column].map((paragraph) => nativeTextWidthMm(paragraph) + 2 * padding),
+                ),
+              ),
+            );
+            const contentWidth =
+              cvPart.page.widthMm -
+              cvPart.page.margins.left -
+              cvPart.page.margins.right -
+              cvFlow.indentMm;
+            if (personalMetrics && personalMetrics.valueOffsetMm >= contentWidth)
+              throw Error("DOCX Next: Die gemessene Kontaktspalte überschreitet den Textbereich.");
+            blocks = rows.length
+              ? [
+                  {
+                    kind: "table",
+                    id: "cv.person.contact",
+                    widths: columns,
+                    widthMm: Math.min(contentWidth, columns[0] + columns[1]),
+                    ...(personalMetrics
+                      ? {
+                          widthMm: contentWidth,
+                          columnWidthsMm: [personalMetrics.valueOffsetMm, null],
+                        }
+                      : {}),
+                    rows,
+                    decoration: {
+                      borderColor: cvAccent,
+                      borderWidthMm: 0,
+                      paddingXMm: personalMetrics ? 0 : 1.25,
+                      paddingYMm: 0,
+                    },
+                  },
+                ]
+              : [];
+          }
+        }
+      } else if (isCustomSectionKey(key)) {
+        const section = customSectionForKey(data, key);
+        if (!section) continue;
+        title = section.title || "Weitere Angaben";
+        blocks = entries(section.entries, key);
+      } else {
+        if (data.hidden[key]) continue;
+        title = data.labels[key] || CV_SECTION_LABELS[key];
+        if (key === "schule" || key === "erfahrung") blocks = entries(data[key], key);
+        if (key === "sprachen") {
+          blocks = data.sprachen
+            .filter((e) => e.name.trim() || e.niveau.trim())
+            .map((e) => ({
+              kind: "entry",
+              id: `cv.entry.sprachen:${e.id}`,
+              blocks: [
+                p(
+                  `cv.entry.sprachen:${e.id}.name`,
+                  e.name,
+                  { ...body, bold: true },
+                  {
+                    keepNext: !!e.niveau,
+                    ...(readingRows ? { afterMm: cvFlow.entryGapMm } : {}),
+                  },
+                ),
+                ...(e.niveau
+                  ? [
+                      p(`cv.entry.sprachen:${e.id}.level`, e.niveau, body, {
+                        ...(readingRows ? { afterMm: cvFlow.entryGapMm } : {}),
+                      }),
+                    ]
+                  : []),
+              ],
+            }));
+          if (readingRows)
+            blocks = blocks.map((entry) => {
+              if (entry.kind !== "entry") return entry;
+              const [language, level] = entry.blocks;
+              if (language?.kind !== "paragraph" || level?.kind !== "paragraph") return entry;
+              return {
+                ...entry,
+                blocks: [
+                  {
+                    kind: "table",
+                    id: `${entry.id}.languageRow`,
+                    widths: [1, 1],
+                    columnWidthsMm: [cvSectionLayout(data, key).width === "half" ? 24 : 27, null],
+                    rows: [
+                      {
+                        cells: [
+                          [{ ...language, keepNext: false }],
+                          [{ ...level, indentMm: 5, keepNext: false }],
+                        ],
+                        keepTogether: false,
+                      },
+                    ],
+                    decoration: {
+                      borderColor: cvAccent,
+                      borderWidthMm: 0,
+                      paddingXMm: 0,
+                      paddingYMm: 0,
+                    },
+                  },
+                ],
+              };
+            });
+        }
+        if (key === "hobbys" || key === "staerken")
+          blocks = data[key]
+            .map((text, index) => ({ text, index }))
+            .filter(({ text }) => text.trim())
+            .map(({ text, index }) =>
+              p(cvLineFieldId(key, index, data.lineIds?.[key]), text, body, {
+                ...(readingRows
+                  ? {
+                      list: "bullet",
+                      listGroupId: `cv.section.${key}.list`,
+                      afterMm: cvFlow.entryGapMm,
+                    }
+                  : {}),
+              }),
+            );
+        if (key === "referenzen")
+          blocks = data.referenzen.filter(referenceHasContent).map((e) => ({
+            kind: "entry",
+            id: `cv.entry.referenzen:${e.id}`,
+            blocks: Object.entries({
+              name: e.name,
+              role: e.funktion,
+              ...referenceContactFields(e),
+            })
+              .filter(([, text]) => text.trim())
+              .map(([field, text], index) =>
+                p(
+                  `cv.entry.referenzen:${e.id}.${field}`,
+                  text,
+                  { ...body, bold: field === "name" },
+                  { keepNext: index === 0, ...(readingRows ? { afterMm: 0.35 } : {}) },
+                ),
+              ),
+          }));
+      }
+      if (!blocks.length) continue;
+      const layout = cvSectionLayout(data, key);
+      if (
+        key === "referenzen" &&
+        data.referencesSideBySide !== false &&
+        layout.width === "full" &&
+        (cvVariant !== "sidebar" || placements?.referenzen === "main")
+      ) {
+        blocks = Array.from({ length: Math.ceil(blocks.length / 2) }, (_, index) => {
+          const pair = blocks.slice(index * 2, index * 2 + 2);
+          return {
+            kind: "table",
+            id: `cv.section.referenzen.pair:${pair.map((entry) => entry.id).join("|")}`,
+            // An unpaired reference owns the full row, just as in the preview.
+            widths: pair.length === 1 ? [1] : [1, 1, 1],
+            columnWidthsMm: pair.length === 1 ? [null] : [null, 6, null],
+            rows: [
+              {
+                cells: pair.length === 1 ? [pair] : [pair.slice(0, 1), [], pair.slice(1)],
+                keepTogether: false,
+              },
+            ],
+            decoration: { borderColor: cvAccent, borderWidthMm: 0, paddingXMm: 0, paddingYMm: 0 },
+          };
+        });
+      }
+      if (layout.positioning === "free")
+        issues.push({
+          code: "free-section-converted-to-flow",
+          fieldId: `cv.section.${key}`,
+          message:
+            "Word CV sections flow to preserve editing; absolute section positioning requires explicit acceptance.",
+        });
+      if (
+        cvVariant === "classic" &&
+        key !== "person" &&
+        layout.positioning === "flow" &&
+        layout.width === "half" &&
+        layout.packing === "masonry" &&
+        !readingRows
+      )
+        issues.push({
+          code: "masonry-section-converted-to-rows",
+          fieldId: `cv.section.${key}`,
+          message:
+            "Word half-width sections use paired rows; independent Masonry packing requires explicit acceptance.",
+        });
+      const sectionHeading = heading(`cv.section.${key}.heading`, title);
+      sectionHeading.indentMm =
+        cvFlow.indentMm +
+        (layout.width === "half" ? Math.max(0, rubric.horizontalMm) : rubric.horizontalMm);
+      if (rubric.pill && capturedInteriorMetrics?.rubrics) {
+        const measured = capturedInteriorMetrics.rubrics[sectionHeading.id];
+        // The generic native CV retains its contact metadata label. The Web
+        // personal header is not one of the user's rubric capsules.
+        if (!measured && key === "person") {
+          // Preserve the existing native label and all personal fields as-is.
+        } else {
+          if (
+            !measured ||
+            (!readingRows && layout.width !== "full") ||
+            layout.positioning !== "flow" ||
+            sectionHeading.runs
+              .map((r) => r.text)
+              .join("")
+              .toUpperCase() !== measured.text.toUpperCase()
+          )
+            throw Error(
+              `DOCX Next: Rubrik-Messwerte stimmen nicht mit der fliessenden Rubrik «${sectionHeading.id}» überein (${JSON.stringify(sectionHeading.runs.map((r) => r.text).join(""))} / ${JSON.stringify(measured?.text)}).`,
+            );
+          sectionHeading.runs = sectionHeading.runs.map((run) => ({
+            ...run,
+            style: { ...measured.style },
+          }));
+          sectionHeading.minimumLineHeightPt = measured.lineHeightPt;
+          sectionHeading.lineHeight = measured.lineHeightPt / measured.style.sizePt;
+          sectionHeading.flowSurface = {
+            ...structuredClone(measured.surface),
+            rowWidthMm:
+              cvPart.page.widthMm -
+              cvPart.page.margins.left -
+              cvPart.page.margins.right -
+              (sectionHeading.indentMm ?? 0),
+          };
+          delete sectionHeading.ruleColor;
+        }
+      } else if (rubric.pill) {
+        for (const run of sectionHeading.runs) {
+          const ink = run.style.color;
+          const paper = color(cd.paperColor, "FFFFFF");
+          run.style.backgroundColor = [0, 2, 4]
+            .map((offset) =>
+              Math.round(
+                parseInt(ink.slice(offset, offset + 2), 16) * 0.14 +
+                  parseInt(paper.slice(offset, offset + 2), 16) * 0.86,
+              )
+                .toString(16)
+                .padStart(2, "0"),
+            )
+            .join("")
+            .toUpperCase();
         }
       }
-    } else if (isCustomSectionKey(key)) {
-      const section = customSectionForKey(data, key);
-      if (!section) continue;
-      title = section.title || "Weitere Angaben";
-      blocks = entries(section.entries, key);
-    } else {
-      if (data.hidden[key]) continue;
-      title = data.labels[key] || CV_SECTION_LABELS[key];
-      if (key === "schule" || key === "erfahrung") blocks = entries(data[key], key);
-      if (key === "sprachen") {
-        blocks = data.sprachen
-          .filter((e) => e.name.trim() || e.niveau.trim())
-          .map((e) => ({
-            kind: "entry",
-            id: `cv.entry.sprachen:${e.id}`,
-            blocks: [
-              p(
-                `cv.entry.sprachen:${e.id}.name`,
-                e.name,
-                { ...body, bold: true },
-                {
-                  keepNext: !!e.niveau,
-                  ...(readingRows ? { afterMm: cvFlow.entryGapMm } : {}),
-                },
-              ),
-              ...(e.niveau
-                ? [
-                    p(`cv.entry.sprachen:${e.id}.level`, e.niveau, body, {
-                      ...(readingRows ? { afterMm: cvFlow.entryGapMm } : {}),
-                    }),
-                  ]
-                : []),
-            ],
-          }));
-        if (readingRows)
-          blocks = blocks.map((entry) => {
-            if (entry.kind !== "entry") return entry;
-            const [language, level] = entry.blocks;
-            if (language?.kind !== "paragraph" || level?.kind !== "paragraph") return entry;
-            return {
-              ...entry,
-              blocks: [
-                {
-                  kind: "table",
-                  id: `${entry.id}.languageRow`,
-                  widths: [1, 1],
-                  columnWidthsMm: [cvSectionLayout(data, key).width === "half" ? 24 : 27, null],
-                  rows: [
-                    {
-                      cells: [
-                        [{ ...language, keepNext: false }],
-                        [{ ...level, indentMm: 5, keepNext: false }],
-                      ],
-                      keepTogether: false,
-                    },
-                  ],
-                  decoration: {
-                    borderColor: cvAccent,
-                    borderWidthMm: 0,
-                    paddingXMm: 0,
-                    paddingYMm: 0,
-                  },
-                },
-              ],
-            };
-          });
-      }
-      if (key === "hobbys" || key === "staerken")
-        blocks = data[key]
-          .map((text, index) => ({ text, index }))
-          .filter(({ text }) => text.trim())
-          .map(({ text, index }) =>
-            p(cvLineFieldId(key, index, data.lineIds?.[key]), text, body, {
-              ...(readingRows
-                ? {
-                    list: "bullet",
-                    listGroupId: `cv.section.${key}.list`,
-                    afterMm: cvFlow.entryGapMm,
-                  }
-                : {}),
-            }),
-          );
-      if (key === "referenzen")
-        blocks = data.referenzen.filter(referenceHasContent).map((e) => ({
-          kind: "entry",
-          id: `cv.entry.referenzen:${e.id}`,
-          blocks: Object.entries({
-            name: e.name,
-            role: e.funktion,
-            ...referenceContactFields(e),
-          })
-            .filter(([, text]) => text.trim())
-            .map(([field, text], index) =>
-              p(
-                `cv.entry.referenzen:${e.id}.${field}`,
-                text,
-                { ...body, bold: field === "name" },
-                { keepNext: index === 0, ...(readingRows ? { afterMm: 0.35 } : {}) },
-              ),
-            ),
-        }));
-    }
-    if (!blocks.length) continue;
-    const layout = cvSectionLayout(data, key);
-    if (
-      key === "referenzen" &&
-      data.referencesSideBySide !== false &&
-      layout.width === "full" &&
-      (cvVariant !== "sidebar" || placements?.referenzen === "main")
-    ) {
-      blocks = Array.from({ length: Math.ceil(blocks.length / 2) }, (_, index) => {
-        const pair = blocks.slice(index * 2, index * 2 + 2);
-        return {
-          kind: "table",
-          id: `cv.section.referenzen.pair:${pair.map((entry) => entry.id).join("|")}`,
-          // An unpaired reference owns the full row, just as in the preview.
-          widths: pair.length === 1 ? [1] : [1, 1, 1],
-          columnWidthsMm: pair.length === 1 ? [null] : [null, 6, null],
-          rows: [
-            {
-              cells: pair.length === 1 ? [pair] : [pair.slice(0, 1), [], pair.slice(1)],
-              keepTogether: false,
-            },
-          ],
-          decoration: { borderColor: cvAccent, borderWidthMm: 0, paddingXMm: 0, paddingYMm: 0 },
-        };
-      });
-    }
-    if (layout.positioning === "free")
-      issues.push({
-        code: "free-section-converted-to-flow",
-        fieldId: `cv.section.${key}`,
-        message:
-          "Word CV sections flow to preserve editing; absolute section positioning requires explicit acceptance.",
-      });
-    if (
-      cvVariant === "classic" &&
-      key !== "person" &&
-      layout.positioning === "flow" &&
-      layout.width === "half" &&
-      layout.packing === "masonry" &&
-      !readingRows
-    )
-      issues.push({
-        code: "masonry-section-converted-to-rows",
-        fieldId: `cv.section.${key}`,
-        message:
-          "Word half-width sections use paired rows; independent Masonry packing requires explicit acceptance.",
-      });
-    const sectionHeading = heading(`cv.section.${key}.heading`, title);
-    sectionHeading.indentMm =
-      cvFlow.indentMm +
-      (layout.width === "half" ? Math.max(0, rubric.horizontalMm) : rubric.horizontalMm);
-    if (rubric.pill && capturedInteriorMetrics?.rubrics) {
-      const measured = capturedInteriorMetrics.rubrics[sectionHeading.id];
-      // The generic native CV retains its contact metadata label. The Web
-      // personal header is not one of the user's rubric capsules.
-      if (!measured && key === "person") {
-        // Preserve the existing native label and all personal fields as-is.
-      } else {
-        if (
-          !measured ||
-          (!readingRows && layout.width !== "full") ||
-          layout.positioning !== "flow" ||
-          sectionHeading.runs
-            .map((r) => r.text)
-            .join("")
-            .toUpperCase() !== measured.text.toUpperCase()
-        )
-          throw Error(
-            `DOCX Next: Rubrik-Messwerte stimmen nicht mit der fliessenden Rubrik «${sectionHeading.id}» überein (${JSON.stringify(sectionHeading.runs.map((r) => r.text).join(""))} / ${JSON.stringify(measured?.text)}).`,
-          );
-        sectionHeading.runs = sectionHeading.runs.map((run) => ({
-          ...run,
-          style: { ...measured.style },
-        }));
-        sectionHeading.minimumLineHeightPt = measured.lineHeightPt;
-        sectionHeading.lineHeight = measured.lineHeightPt / measured.style.sizePt;
-        sectionHeading.flowSurface = {
-          ...structuredClone(measured.surface),
-          rowWidthMm:
-            cvPart.page.widthMm -
-            cvPart.page.margins.left -
-            cvPart.page.margins.right -
-            (sectionHeading.indentMm ?? 0),
-        };
+      if (cd.headingRule === "short" && !sectionHeading.flowSurface) {
+        const afterMm = sectionHeading.afterMm;
+        sectionHeading.afterMm = 0;
         delete sectionHeading.ruleColor;
+        blocks.unshift({
+          kind: "rule",
+          id: `${sectionHeading.id}.rule`,
+          color: cvAccent,
+          lengthMm: 18,
+          afterMm,
+          keepNext: true,
+          indentMm: (sectionHeading.indentMm ?? 0) - cvFlow.indentMm - rubric.contentIndentMm,
+        });
       }
-    } else if (rubric.pill) {
-      for (const run of sectionHeading.runs) {
-        const ink = run.style.color;
-        const paper = color(cd.paperColor, "FFFFFF");
-        run.style.backgroundColor = [0, 2, 4]
-          .map((offset) =>
-            Math.round(
-              parseInt(ink.slice(offset, offset + 2), 16) * 0.14 +
-                parseInt(paper.slice(offset, offset + 2), 16) * 0.86,
-            )
-              .toString(16)
-              .padStart(2, "0"),
-          )
-          .join("")
-          .toUpperCase();
-      }
-    }
-    if (cd.headingRule === "short" && !sectionHeading.flowSurface) {
-      const afterMm = sectionHeading.afterMm;
-      sectionHeading.afterMm = 0;
-      delete sectionHeading.ruleColor;
-      blocks.unshift({
-        kind: "rule",
-        id: `${sectionHeading.id}.rule`,
-        color: cvAccent,
-        lengthMm: 18,
-        afterMm,
-        keepNext: true,
-        indentMm: (sectionHeading.indentMm ?? 0) - cvFlow.indentMm - rubric.contentIndentMm,
+      cvPart.blocks.push({
+        kind: "section",
+        id: `cv.section.${key}`,
+        ...((readingRows || personalMetrics) && key === "person"
+          ? {}
+          : { heading: sectionHeading }),
+        blocks,
+        placement: placements?.[key === "person" ? "kontakt" : key] ?? "main",
+        width: layout.width,
+        startPage: layout.page,
+        // Rubric content indentation belongs to the CV sections, not the
+        // personal header. Its compact contact grid shares the name's origin.
+        contentIndentMm:
+          cvFlow.indentMm +
+          (key === "person" && options.cvContactComposition === "compact-grid"
+            ? 0
+            : rubric.contentIndentMm),
       });
     }
-    cvPart.blocks.push({
-      kind: "section",
-      id: `cv.section.${key}`,
-      ...((readingRows || personalMetrics) && key === "person" ? {} : { heading: sectionHeading }),
-      blocks,
-      placement: placements?.[key === "person" ? "kontakt" : key] ?? "main",
-      width: layout.width,
-      startPage: layout.page,
-      // Rubric content indentation belongs to the CV sections, not the
-      // personal header. Its compact contact grid shares the name's origin.
-      contentIndentMm:
-        cvFlow.indentMm +
-        (key === "person" && options.cvContactComposition === "compact-grid"
-          ? 0
-          : rubric.contentIndentMm),
-    });
-  }
-  if (cv.design.useElements) {
-    const slots = coverTemplateSlots(cv.design.template);
-    const customBlocks = buildCustomBlocks(
-      cv.design.template,
-      cv.elements,
-      cv.elementStyles,
-      slots,
-    );
-    const context = elementContext(
-      cv.design.colors,
-      wordFont(cv.design.font, theme.font),
-      1,
-      color(cv.design.paperColor, theme.paper),
-    );
-    const firstPage: DocBlock[] = [],
-      secondPage: DocBlock[] = [],
-      firstArtwork: DocBlock[] = [],
-      secondArtwork: DocBlock[] = [];
-    const pages = new Map(cv.elements.map((element) => [element.id, element.page ?? 1]));
-    for (const original of customBlocks) {
-      if (original.style.hidden) continue;
-      const block =
-        cv.design.font && !cv.elementStyles[original.id]?.font
-          ? { ...original, style: { ...original.style, font: cv.design.font } }
-          : original;
-      const id = dossierElementFieldId("cv", block.id);
-      const target = pages.get(block.id) === 2 ? secondPage : firstPage;
-      if (block.kind === "shape") {
-        (target === firstPage ? firstArtwork : secondArtwork).push(
-          shapeElement(block, id, context),
-        );
-      } else if (block.kind === "image") {
-        const image = imageElement(block, id, context.colors, color, theme.accent);
-        if (image) target.push(image);
-      } else {
-        target.push(
-          ...flowingElementBox(block, id, textElement(block, id, context), context, cvPart.page),
-        );
-      }
-    }
-    const firstSection = cvPart.blocks.findIndex((block) => block.kind === "section");
-    const sourceY = (block: DocBlock) =>
-      block.kind === "table" || block.kind === "image" ? (block.sourceLayout?.yMm ?? 0) : 0;
-    firstPage.sort((a, b) => sourceY(a) - sourceY(b));
-    secondPage.sort((a, b) => sourceY(a) - sourceY(b));
-    if (firstPage.length)
-      cvPart.blocks.splice(firstSection < 0 ? cvPart.blocks.length : firstSection, 0, {
-        kind: "group",
-        id: "cv.elements.page:1",
-        blocks: firstPage,
-      });
-    cvPart.blocks.unshift(...firstArtwork);
-    if (secondPage.length || secondArtwork.length) {
-      const nextPage = cvPart.blocks.findIndex(
-        (block) => block.kind === "section" && block.startPage === 2,
+    if (cv.design.useElements) {
+      const slots = coverTemplateSlots(cv.design.template);
+      const customBlocks = buildCustomBlocks(
+        cv.design.template,
+        cv.elements,
+        cv.elementStyles,
+        slots,
       );
-      cvPart.blocks.splice(nextPage < 0 ? cvPart.blocks.length : nextPage, 0, {
-        kind: "group",
-        id: "cv.elements.page:2",
-        blocks: [...secondArtwork, ...secondPage],
-        startPage: 2,
-      });
+      const context = elementContext(
+        cv.design.colors,
+        wordFont(cv.design.font, theme.font),
+        1,
+        color(cv.design.paperColor, theme.paper),
+      );
+      const firstPage: DocBlock[] = [],
+        secondPage: DocBlock[] = [],
+        firstArtwork: DocBlock[] = [],
+        secondArtwork: DocBlock[] = [];
+      const pages = new Map(cv.elements.map((element) => [element.id, element.page ?? 1]));
+      for (const original of customBlocks) {
+        if (original.style.hidden) continue;
+        const block =
+          cv.design.font && !cv.elementStyles[original.id]?.font
+            ? { ...original, style: { ...original.style, font: cv.design.font } }
+            : original;
+        const id = dossierElementFieldId("cv", block.id);
+        const target = pages.get(block.id) === 2 ? secondPage : firstPage;
+        if (block.kind === "shape") {
+          (target === firstPage ? firstArtwork : secondArtwork).push(
+            shapeElement(block, id, context),
+          );
+        } else if (block.kind === "image") {
+          const image = imageElement(block, id, context.colors, color, theme.accent);
+          if (image) target.push(image);
+        } else {
+          target.push(
+            ...flowingElementBox(block, id, textElement(block, id, context), context, cvPart.page),
+          );
+        }
+      }
+      const firstSection = cvPart.blocks.findIndex((block) => block.kind === "section");
+      const sourceY = (block: DocBlock) =>
+        block.kind === "table" || block.kind === "image" ? (block.sourceLayout?.yMm ?? 0) : 0;
+      firstPage.sort((a, b) => sourceY(a) - sourceY(b));
+      secondPage.sort((a, b) => sourceY(a) - sourceY(b));
+      if (firstPage.length)
+        cvPart.blocks.splice(firstSection < 0 ? cvPart.blocks.length : firstSection, 0, {
+          kind: "group",
+          id: "cv.elements.page:1",
+          blocks: firstPage,
+        });
+      cvPart.blocks.unshift(...firstArtwork);
+      if (secondPage.length || secondArtwork.length) {
+        const nextPage = cvPart.blocks.findIndex(
+          (block) => block.kind === "section" && block.startPage === 2,
+        );
+        cvPart.blocks.splice(nextPage < 0 ? cvPart.blocks.length : nextPage, 0, {
+          kind: "group",
+          id: "cv.elements.page:2",
+          blocks: [...secondArtwork, ...secondPage],
+          startPage: 2,
+        });
+      }
     }
   }
+  const activeParts = [coverPart, letterPart, cvPart].filter((target) => includes(target.id));
+  const interiorParts = [letterPart, cvPart].filter((target) => includes(target.id));
   const defaultChrome = template.chrome.defaultContact;
   const chromeState =
     settings.chrome ??
@@ -1336,7 +1374,7 @@ export function buildDossierDocModel(
       : undefined);
   if (chromeState) {
     const resolved = resolveDossierChromeSnapshot({ cover, letter, cv }, chromeState);
-    for (const target of cvOnly ? [cvPart] : [letterPart, cvPart]) {
+    for (const target of interiorParts) {
       const scope = target.id as "letter" | "cv";
       const { options, contact, content } = resolved[scope];
       const bandPolicy = template.chrome.band;
@@ -1728,7 +1766,7 @@ export function buildDossierDocModel(
       }
     }
   }
-  for (const target of cvOnly ? [cvPart] : [letterPart, cvPart]) {
+  for (const target of interiorParts) {
     const tops = settings.flowPageTops?.[target.id as "letter" | "cv"];
     if (tops) {
       const measured = capturedInteriorMetrics?.headers[target.id as "letter" | "cv"];
@@ -1743,7 +1781,7 @@ export function buildDossierDocModel(
       applyFlowPageTops(target, tops);
     }
   }
-  if (!settings.flowPageTops?.cv && !capturedInteriorMetrics?.headers.cv)
+  if (includeCv && !settings.flowPageTops?.cv && !capturedInteriorMetrics?.headers.cv)
     issues.push(
       ...applyContinuationMargin(
         cvPart,
@@ -1753,65 +1791,70 @@ export function buildDossierDocModel(
         cvMinimumFirstTopMm,
       ),
     );
-  if (options.cvSidebarComposition === "shared-body-stories") {
-    const chrome = resolveDossierChromeSnapshot(
-      { cover, letter, cv },
-      chromeState ?? DEFAULT_DOSSIER_CHROME_STATE,
-    );
-    const personLayout = cvSectionLayout(cv.data, "person");
-    const personCustomized =
-      cvSectionOrder(cv.data)[0] !== "person" ||
-      personLayout.page !== 1 ||
-      personLayout.width !== "full" ||
-      personLayout.positioning !== "flow" ||
-      personLayout.packing !== "rows";
-    const photoSide = resolveCvPhotoPosition(normalizeCvPhotoPlacement(settings.cvPhotoPlacement), {
-      template: cv.design.template,
-      layout: "modern",
-      legacyMirrored: cvPart.layout.side === "right",
-    });
-    const sidebarPhoto =
-      !!cv.data.person.foto && !personCustomized && photoSide === cvPart.layout.side;
-    const geometry = (pageIndex: number) =>
-      cvSidebarGeometry(
-        cvFrameFor(cv.design.template),
-        pageIndex,
-        cv.design.sidebarPct,
-        chrome.cv.options,
-        {
-          pageMargins: settings.margins?.cv ?? null,
-          continuationTopMarginMm: settings.cvContinuationTopMarginMm ?? null,
-        },
-        cvPart.layout.side,
-        pageIndex === 0 && sidebarPhoto,
-        personCustomized,
+  if (includeCv) {
+    if (options.cvSidebarComposition === "shared-body-stories") {
+      const chrome = resolveDossierChromeSnapshot(
+        { cover, letter, cv },
+        chromeState ?? DEFAULT_DOSSIER_CHROME_STATE,
       );
-    composeSharedCvSidebar(
-      cvPart,
-      geometry(0),
-      geometry(1),
-      cvAccent,
-      color(cv.design.paperColor, color(cvPalette?.paper, theme.paper)),
-      cv.design.bgOpacity,
-      sidebarPhoto
-        ? cvSidebarPhotoWidthMm(
-            cvFrameFor(cv.design.template),
-            cv.design.sidebarPct,
-            sidebarPlan(cv.data).veryCompact,
-          )
-        : undefined,
-      options.cvPhotoComposition === "ordinary-picture",
-    );
-  } else {
-    composeCvSidebar(
-      cvPart,
-      cvAccent,
-      color(cv.design.paperColor, color(cvPalette?.paper, theme.paper)),
-      cv.design.bgOpacity,
-      options.cvSidebarComposition,
-    );
+      const personLayout = cvSectionLayout(cv.data, "person");
+      const personCustomized =
+        cvSectionOrder(cv.data)[0] !== "person" ||
+        personLayout.page !== 1 ||
+        personLayout.width !== "full" ||
+        personLayout.positioning !== "flow" ||
+        personLayout.packing !== "rows";
+      const photoSide = resolveCvPhotoPosition(
+        normalizeCvPhotoPlacement(settings.cvPhotoPlacement),
+        {
+          template: cv.design.template,
+          layout: "modern",
+          legacyMirrored: cvPart.layout.side === "right",
+        },
+      );
+      const sidebarPhoto =
+        !!cv.data.person.foto && !personCustomized && photoSide === cvPart.layout.side;
+      const geometry = (pageIndex: number) =>
+        cvSidebarGeometry(
+          cvFrameFor(cv.design.template),
+          pageIndex,
+          cv.design.sidebarPct,
+          chrome.cv.options,
+          {
+            pageMargins: settings.margins?.cv ?? null,
+            continuationTopMarginMm: settings.cvContinuationTopMarginMm ?? null,
+          },
+          cvPart.layout.side,
+          pageIndex === 0 && sidebarPhoto,
+          personCustomized,
+        );
+      composeSharedCvSidebar(
+        cvPart,
+        geometry(0),
+        geometry(1),
+        cvAccent,
+        color(cv.design.paperColor, color(cvPalette?.paper, theme.paper)),
+        cv.design.bgOpacity,
+        sidebarPhoto
+          ? cvSidebarPhotoWidthMm(
+              cvFrameFor(cv.design.template),
+              cv.design.sidebarPct,
+              sidebarPlan(cv.data).veryCompact,
+            )
+          : undefined,
+        options.cvPhotoComposition === "ordinary-picture",
+      );
+    } else {
+      composeCvSidebar(
+        cvPart,
+        cvAccent,
+        color(cv.design.paperColor, color(cvPalette?.paper, theme.paper)),
+        cv.design.bgOpacity,
+        options.cvSidebarComposition,
+      );
+    }
   }
-  for (const target of cvOnly ? [cvPart] : [coverPart, letterPart, cvPart]) {
+  for (const target of activeParts) {
     const policies = template.pageMotifs?.[target.id];
     if (policies)
       composePageMotifs(
@@ -1834,7 +1877,7 @@ export function buildDossierDocModel(
         target.id === "cv" ? cv.design.bgOpacity : 1,
       );
   }
-  for (const target of cvOnly ? [cvPart] : [coverPart, letterPart, cvPart]) {
+  for (const target of activeParts) {
     const paper =
       target.id === "cover"
         ? theme.paper
@@ -1861,7 +1904,7 @@ export function buildDossierDocModel(
         heightMm: target.page.heightMm,
       });
   }
-  for (const target of cvOnly ? [cvPart] : [coverPart, letterPart, cvPart]) {
+  for (const target of activeParts) {
     for (const block of walkBlocks(target.blocks)) {
       if (block.kind === "image" && !block.source.trim())
         issues.push({
@@ -1879,7 +1922,7 @@ export function buildDossierDocModel(
     }
   }
   if (options.chromeFirstPageIdentity === "distinct-stories")
-    for (const target of cvOnly ? [cvPart] : [coverPart, letterPart, cvPart]) {
+    for (const target of activeParts) {
       if (!target.firstHeader && target.header.length)
         target.firstHeader = target.header.map((paragraph) => ({
           ...structuredClone(paragraph),
@@ -1899,7 +1942,7 @@ export function buildDossierDocModel(
           })),
         }));
     }
-  if (options.cvRubricSpacing) {
+  if (includeCv && options.cvRubricSpacing) {
     if (
       template.id !== "modern" ||
       options.coverComposition !== "authored-frames" ||
@@ -1908,7 +1951,7 @@ export function buildDossierDocModel(
       throw Error("DOCX Next: Rubrik-Abstandstest benötigt Modern und frische Messwerte.");
     if (readingRows) composeCvReadingColumns(cvPart, data);
     ownFlowSurfaceSpacing(cvPart, { readingColumns: readingRows });
-  } else if (readingRows) composeCvReadingColumns(cvPart, data);
+  } else if (includeCv && readingRows) composeCvReadingColumns(cvPart, data);
   // Only use measured roles for complete, matching editable paragraphs.
   // Compound rows with distinct field styles and measured pills keep their own
   // native composition; letter, cover, Sidebar and saved input are untouched.
@@ -1930,9 +1973,9 @@ export function buildDossierDocModel(
   }
   if (readingRows && capturedInteriorMetrics?.cvFlowScale !== undefined)
     cvPart.blocks = scaleCvReadingFlow(cvPart, capturedInteriorMetrics.cvFlowScale);
-  if (options.cvSidebarTextMetrics)
+  if (includeCv && options.cvSidebarTextMetrics)
     applyCvSidebarTypography(cvPart, input, options.cvSidebarTextMetrics);
-  if (options.letterFlowComposition && !cvOnly) {
+  if (options.letterFlowComposition && includeLetter) {
     if (options.letterFlowComposition !== "source-lines")
       throw Error("DOCX Next invalid Letter flow composition");
     composeSourceLetterFlow(letterPart, input);
@@ -1943,19 +1986,32 @@ export function buildDossierDocModel(
   }
   return {
     version: 1,
-    ...(cvOnly ? { exportPart: "cv" as const } : {}),
-    metadata: cvOnly
-      ? {
-          title: cv.data.titel || "Lebenslauf",
-          author: name(cv.data.person.vorname, cv.data.person.nachname),
-          subject: "",
-          keywords: "",
-        }
-      : {
-          ...cover.data.meta,
-          title: cover.data.meta.title || "Bewerbungsdossier",
-          author: cover.data.meta.author || name(cover.data.vorname, cover.data.nachname),
-        },
+    ...(exportPart ? { exportPart } : {}),
+    metadata:
+      exportPart === "cv"
+        ? {
+            title: cv.data.titel || "Lebenslauf",
+            author: name(cv.data.person.vorname, cv.data.person.nachname),
+            subject: "",
+            keywords: "",
+          }
+        : exportPart === "letter"
+          ? {
+              title: "Motivationsschreiben",
+              author:
+                letter.data.absenderName ||
+                resolveDossierChromeSnapshot(input, chromeState ?? DEFAULT_DOSSIER_CHROME_STATE)
+                  .letter.contact.name,
+              subject: letter.data.betreff,
+              keywords: "",
+            }
+          : {
+              ...cover.data.meta,
+              title:
+                cover.data.meta.title ||
+                (exportPart === "cover" ? "Titelblatt" : "Bewerbungsdossier"),
+              author: cover.data.meta.author || name(cover.data.vorname, cover.data.nachname),
+            },
     templateId: template.id,
     theme,
     fonts: fonts.result(),

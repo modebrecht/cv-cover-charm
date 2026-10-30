@@ -332,3 +332,135 @@ test("a CV-only model exports one document by default and preserves that scope t
     /ausgewählten Dossierteil/,
   );
 });
+
+for (const part of ["cover", "letter"] as const) {
+  test(`${part}-only builds the reviewed document without unrelated templates, fonts or measurements`, () => {
+    const { source, measured } = setup();
+    const baseline = buildAppDocxNextModel(source, measured);
+    source.cv.design.template = "citrus";
+    source.cv.design.font = "serif";
+    source.settings.cvLayout = "classic";
+    source.settings.chrome!.sync = false;
+    source.settings.chrome!.cv.headerMode = "compact";
+    if (part === "cover") {
+      source.letter.design.template = "warm";
+      source.letter.design.font = "serif";
+      source.letter.data.richTextHtml = "<p><strong>Unrelated</strong></p>";
+    } else {
+      source.cover.template = "citrus";
+      delete measured.interior.headers.cv;
+    }
+    measured.interior.sourceKey = JSON.stringify(source);
+    const before = structuredClone(source);
+    const result = buildAppDocxNextModel(
+      source,
+      part === "cover" ? { cover: measured.cover } : { interior: measured.interior },
+      part,
+    );
+    expect(result[part].blocks).toEqual(baseline[part].blocks);
+    expect(result[part].headerFrames).toEqual(baseline[part].headerFrames);
+    expect(result[part].artwork).toEqual(baseline[part].artwork);
+    for (const other of ["cover", "letter", "cv"] as const)
+      if (other !== part) {
+        expect(result[other].blocks).toEqual([]);
+        expect(result[other].header).toEqual([]);
+        expect(result[other].artwork).toEqual([]);
+      }
+    expect(result.exportPart).toBe(part);
+    expect(source).toEqual(before);
+    expect(() => assertAppDocxNextSource(source)).toThrow();
+  });
+
+  test(`${part}-only retains its own unsupported template and typography gates`, () => {
+    const { source } = setup();
+    if (part === "cover") source.cover.template = "citrus";
+    else source.letter.design.template = "warm";
+    expect(() => assertAppDocxNextSource(source, part)).toThrow(/Vorlage/);
+    const font = setup().source;
+    if (part === "cover")
+      font.cover.blocks.find((block) => block.kind === "text" && !block.style.hidden)!.style.font =
+        "serif";
+    else font.letter.design.fontOverride = "serif";
+    expect(() => assertAppDocxNextSource(font, part)).toThrow(/Sans/);
+  });
+
+  test(`${part}-only excludes known unrelated legacy typography but retains unresolved own or ambiguous fields`, () => {
+    const { source, measured } = setup();
+    source.settings.unresolvedTypography = [
+      "cv.unknown",
+      ...(part === "cover" ? ["letter.unknown"] : ["cover.unknown"]),
+    ];
+    measured.interior.sourceKey = JSON.stringify(source);
+    expect(() => buildAppDocxNextModel(source, measured, part)).not.toThrow();
+    for (const field of [`${part}.unknown`, "ambiguous-legacy-field"]) {
+      source.settings.unresolvedTypography = [field];
+      measured.interior.sourceKey = JSON.stringify(source);
+      expect(() => buildAppDocxNextModel(source, measured, part)).toThrow(/Layout-Einstellungen/);
+    }
+  });
+
+  test(`${part}-only exports a single section by default and retains scope after JSON restore`, async () => {
+    const { source, measured } = setup();
+    const model = buildAppDocxNextModel(source, measured, part);
+    const image = {
+      bytes: Uint8Array.from(
+        atob(
+          "iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAYAAAD0In+KAAAAEUlEQVR4nGP4z8Dwn4GBgQEADfsB/4fYjl4AAAAASUVORK5CYII=",
+        ),
+        (c) => c.charCodeAt(0),
+      ),
+      widthPx: 2,
+      heightPx: 1,
+      extension: "png" as const,
+      contentType: "image/png" as const,
+    };
+    const options = {
+      allowUnacceptedModelIssues: true,
+      normalizeImage: async () => image,
+      rasterizeDecoration: async () => image,
+    };
+    const bytes = new Uint8Array(await (await renderDossierDocx(model, options)).arrayBuffer());
+    const restored = new Uint8Array(
+      await (await renderDossierDocx(JSON.parse(JSON.stringify(model)), options)).arrayBuffer(),
+    );
+    expect(restored).toEqual(bytes);
+    const pkg = readZipEntries(bytes);
+    const xml = new TextDecoder().decode(pkg.find((p) => p.name === "word/document.xml")!.bytes);
+    expect((xml.match(/<w:sectPr>/g) ?? []).length).toBe(1);
+    expect(xml).toContain(`${part}.`);
+    if (part === "cover") {
+      const sectionStart = xml.indexOf("<w:sectPr>");
+      const closingParagraph = xml.slice(xml.lastIndexOf("<w:p>", sectionStart), sectionStart);
+      expect(closingParagraph).toContain("</w:p>");
+      expect(closingParagraph).not.toContain("<w:framePr");
+      expect(closingParagraph).not.toContain("<w:sdt");
+    }
+    for (const other of ["cover", "letter", "cv"].filter((id) => id !== part)) {
+      expect(xml).not.toContain(`${other}.`);
+      expect(pkg.some((entry) => entry.name.startsWith(`word/${other}-header`))).toBe(false);
+    }
+    await expect(renderDossierDocx(model, { ...options, part: "cv" })).rejects.toThrow(
+      /ausgewählten Dossierteil/,
+    );
+  });
+}
+
+test("standalone letter still blocks rich text and metadata comes from its own subject and sender", () => {
+  const { source, measured } = setup();
+  source.cover.data.meta = {
+    title: "UNRELATED TITLE",
+    author: "UNRELATED AUTHOR",
+    subject: "UNRELATED SUBJECT",
+    keywords: "UNRELATED KEYWORDS",
+  };
+  measured.interior.sourceKey = JSON.stringify(source);
+  const model = buildAppDocxNextModel(source, measured, "letter");
+  expect(model.metadata).toEqual({
+    title: "Motivationsschreiben",
+    author: [source.cover.data.vorname, source.cover.data.nachname].filter(Boolean).join(" "),
+    subject: source.letter.data.betreff,
+    keywords: "",
+  });
+  source.letter.data.richTextHtml = "<p><strong>Formatted</strong></p>";
+  expect(() => assertAppDocxNextSource(source, "letter")).toThrow(/formatierten Brieftext/);
+});

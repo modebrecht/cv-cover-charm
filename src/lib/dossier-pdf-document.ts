@@ -211,6 +211,14 @@ export function letterPdfDocumentFromSaved(raw: unknown): LetterPdfDocument | nu
 /** Baut die druckbare CV-Ansicht aus dem gespeicherten Projektteil. */
 export function cvPdfDocumentFromSaved(raw: unknown): CvPdfDocument | null {
   if (!isRecord(raw) || !isRecord(raw.data)) return null;
+  if (
+    !validDossierProjectPart("cv", {
+      data: raw.data,
+      elements: raw.elements,
+      elementStyles: raw.elementStyles,
+    })
+  )
+    return null;
   const draft = emptyCoverDraft();
   const incomingData = raw.data as Partial<CvData>;
   const data: CvData = {
