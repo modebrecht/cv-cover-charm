@@ -96,7 +96,7 @@ Screenshots gehören weiterhin nicht ins öffentliche Repository.
    exakte Commitbindung prüfen. Keine gleichen Läufe ohne neuen Grund starten.
 2. `app-body-report.json` prüfen: alle 22 Fälle mit Quellzustand und zwei
    Save/Reopen-Zyklen, Feldidentität/-reihenfolge, Texte, Bilder und Pixel.
-3. `app-body-save-geometry-report.json` und PDF-Fotokoordinaten vergleichen.
+3. `app-save-geometry-report.json` und PDF-Fotokoordinaten vergleichen.
    Ein erfolgreicher Sammellauf ist nicht automatisch exakte Geometriefreigabe.
    Bildpositionen pro Foto und Speicherphase konkret beziffern; keine Toleranzen
    vergrössern. Eine Positions-/Layoutverschiebung verhindert eine Freigabe.
