@@ -389,7 +389,8 @@ jobs:
           bun test tests/unit/docx-next-table-grid.test.ts
           python scripts/docx-next-sidebar-body-test.py
           python scripts/docx-next-sidebar-body-media-test.py
-            python scripts/docx-next-picture-owner-contract-test.py
+          python scripts/docx-next-picture-owner-contract-test.py
+          python scripts/docx-next-picture-import-test.py
           bun test tests/unit/docx-next-qa-story-part.test.ts
           python scripts/docx-next-sidebar-save-geometry-test.py
       - name: Install canonical browser decoder
@@ -426,6 +427,12 @@ jobs:
         if: ${{ !cancelled() && (steps.app_content.outcome == 'success' || steps.app_content.outcome == 'failure') }}
         timeout-minutes: 5
         run: python scripts/docx-next-sidebar-save-geometry-qa.py "$QA_ROOT/fixtures" --engine "$QA_ROOT/setup/runtime" --binding "$QA_ROOT/uno-binding"
+      - name: Observe active bitmap after immutable original import without saving
+        # The immutable synthetic fixture isolates import-time pixels from
+        # mutable application-source hashes and later save measurements.
+        if: ${{ !cancelled() && (steps.app_content.outcome == 'success' || steps.app_content.outcome == 'failure') }}
+        timeout-minutes: 2
+        run: python scripts/docx-next-picture-import-qa.py tests/fixtures/docx-next/picture-import "$QA_ROOT/picture-import" --engine "$QA_ROOT/setup/runtime" --binding "$QA_ROOT/uno-binding/binding"
       - name: Retain actual app composition and outstanding geometry evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -436,6 +443,7 @@ jobs:
             ${{ env.QA_ROOT }}/fixtures/
             ${{ env.QA_ROOT }}/picture-owner-probes/
             ${{ env.QA_ROOT }}/picture-owner-probe-sources/
+            ${{ env.QA_ROOT }}/picture-import/
             ${{ env.QA_ROOT }}/setup/runtime/runtime-record.json
             ${{ env.QA_ROOT }}/uno-binding/binding-record.json
 

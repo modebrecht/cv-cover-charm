@@ -1,0 +1,1307 @@
+{
+  "schemaVersion": 1,
+  "codeBaseCommit": "ca858487e6a67509aafb8d76785a8adb3ff3c900",
+  "productionAcceptance": "blocked",
+  "microsoftWordAccepted": 0,
+  "readOnlyNativeImport": {
+    "scope": "Bounded opaque source: shape/crop controls after original load, no document saves",
+    "collectionStatus": "pass",
+    "productionAcceptance": "blocked",
+    "microsoftWordAccepted": 0,
+    "sourceDocxSha256": "7dd758c90f92d5a490ef022923c738edff042c539aa578e451aa1909bcd81923",
+    "sourcePhotoPayloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+    "sourcePhotoOpaque": true,
+    "activeBitmapAlphaMaskMeasured": false,
+    "engine": {
+      "interface": "LibreOfficeKit",
+      "version": {
+        "ProductName": "LibreOffice",
+        "ProductVersion": "25.8",
+        "ProductExtension": ".7.3",
+        "BuildId": "580(Build:3)"
+      },
+      "packageManifestSha256": "5de56f5f319a2aea970f41bfdbc955a3be7cc00650a38bd8a4c202cbb6102a4c",
+      "fontManifestSha256": "765840c4534617d8adb0172cf770e5ae1f1ba28b948e965e0873ac9ff92f9822",
+      "adapterSha256": "269419f0800c8f251dd07ade244a24cf14caa4a5921ddd45f15156a33b4cde33",
+      "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+      "host": "Linux x86_64",
+      "packagesVerified": 50
+    },
+    "binding": {
+      "interface": "Public LibreOfficeKit initialization and public in-process UNO",
+      "bindingManifestSha256": "dca8fc128f78804e608a6a1a0bdb8698ba344ae3d17fa39448c063fe0d69cfbe",
+      "packageSha256": "77dd1d628d2d0b9a37477167e0f205378d86a549bca19cb2349afa29bd5b0331",
+      "nativeFiles": {
+        "pyuno.so": "ccc7a97969c2f4a68c42780186237b2837161b767ff5edff0cf18c2416a3979e",
+        "libpyuno.so": "27fa3a583c03492d79383f6a099c49af3f34f11d84b23f5b920a765c330e2562"
+      },
+      "pythonMajorMinor": [
+        3,
+        12
+      ],
+      "packagedUnoSourceSha256": "43a28876b535e604344f454711673f917aa64301cceae986428cff5db62716fc",
+      "bootstrapRelocation": "Two installed paths only; native binaries unchanged",
+      "workerSha256": "a7bc2a1f6d45744809794f215a17013d5c304ded1364520393ef60351d671f35",
+      "engine": {
+        "interface": "LibreOfficeKit",
+        "version": {
+          "ProductName": "LibreOffice",
+          "ProductVersion": "25.8",
+          "ProductExtension": ".7.3",
+          "BuildId": "580(Build:3)"
+        },
+        "packageManifestSha256": "5de56f5f319a2aea970f41bfdbc955a3be7cc00650a38bd8a4c202cbb6102a4c",
+        "fontManifestSha256": "765840c4534617d8adb0172cf770e5ae1f1ba28b948e965e0873ac9ff92f9822",
+        "adapterSha256": "269419f0800c8f251dd07ade244a24cf14caa4a5921ddd45f15156a33b4cde33",
+        "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+        "host": "Linux x86_64",
+        "packagesVerified": 50
+      }
+    },
+    "observerSha256": "9d3ad87cdd5b7ad1f7c37f23d764bf8ff6f91f5cecc48356c5c66386d09ddbf7",
+    "nativeLibrarySha256": "7b931192643c86a733f49c363357324e9bd93c7619561e81c073044515dcde59",
+    "newReadonlyNativeLoads": 6,
+    "newNativeExports": 0,
+    "originalPackagesModified": 0,
+    "newPreparedDiagnosticSources": 5,
+    "countercontrolsAreProductCandidates": false,
+    "cases": [
+      {
+        "name": "ellipse-crop-anchored",
+        "sourcePixels": {
+          "sizePx": [
+            120,
+            180
+          ],
+          "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+        },
+        "sourceCrop": {
+          "l": 8400,
+          "t": 24400,
+          "r": 11600,
+          "b": 22267
+        },
+        "integerCropBoxPx": [
+          10,
+          44,
+          106,
+          140
+        ],
+        "expectedIntegerCrop": {
+          "sizePx": [
+            96,
+            96
+          ],
+          "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+        },
+        "inputSha256": "7dd758c90f92d5a490ef022923c738edff042c539aa578e451aa1909bcd81923",
+        "shape": {
+          "name": "cv.person.photo",
+          "shapeType": "com.sun.star.drawing.CustomShape",
+          "bitmapProperty": "FillBitmap",
+          "bitmap": {
+            "sizePx": [
+              96,
+              96
+            ],
+            "dibSha256": "74184bcf5e57a85939f571d8fd3581c142fd63465d40e09f8dca52ee15f2c6aa",
+            "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+          },
+          "properties": {
+            "GraphicCrop": {
+              "Left": 267,
+              "Top": 1162,
+              "Right": 368,
+              "Bottom": 1060
+            },
+            "FillBitmapSizeX": 0,
+            "FillBitmapSizeY": 0,
+            "FillBitmapOffsetX": 0,
+            "FillBitmapOffsetY": 0,
+            "FillBitmapStretch": true,
+            "FillBitmapTile": false,
+            "AnchorType": "<Enum instance com.sun.star.text.TextContentAnchorType ('AT_CHARACTER')>",
+            "HoriOrientPosition": 7481,
+            "VertOrientPosition": 41
+          }
+        },
+        "pictureControls": [
+          {
+            "tag": "cv.person.photo",
+            "picture": true,
+            "textLength": 0,
+            "textCodepoints": [],
+            "sameNativeTextObject": true,
+            "controlStartVsEnd": 1,
+            "shapeStartVsControlStart": 0,
+            "shapeEndVsControlEnd": 1,
+            "onePublicCursorStepMoved": true,
+            "onePublicStepVsControlEnd": 0
+          }
+        ],
+        "readOnly": true,
+        "modified": false,
+        "sourcePixelsPreserved": false,
+        "matchesExpectedIntegerCrop": true,
+        "croppedPixelsAlreadyActiveBeforeSave": true,
+        "nativePictureControlCount": 1
+      },
+      {
+        "name": "rect-crop-anchored",
+        "sourcePixels": {
+          "sizePx": [
+            120,
+            180
+          ],
+          "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+        },
+        "sourceCrop": {
+          "l": 8400,
+          "t": 24400,
+          "r": 11600,
+          "b": 22267
+        },
+        "integerCropBoxPx": [
+          10,
+          44,
+          106,
+          140
+        ],
+        "expectedIntegerCrop": {
+          "sizePx": [
+            96,
+            96
+          ],
+          "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+        },
+        "inputSha256": "db088df415a7f0e904f6008d4d6acebcf18711a390b00dc673471219920be92f",
+        "shape": {
+          "name": "cv.person.photo",
+          "shapeType": "FrameShape",
+          "bitmapProperty": "Graphic",
+          "bitmap": {
+            "sizePx": [
+              120,
+              180
+            ],
+            "dibSha256": "e96fd9eeac7fbb468641b25c88500800373d2e06a7fe4acba4576d689ff5447a",
+            "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+          },
+          "properties": {
+            "GraphicCrop": {
+              "Left": 266,
+              "Top": 1162,
+              "Right": 369,
+              "Bottom": 1060
+            },
+            "FillBitmapSizeX": 0,
+            "FillBitmapSizeY": 0,
+            "FillBitmapOffsetX": 0,
+            "FillBitmapOffsetY": 0,
+            "FillBitmapStretch": false,
+            "FillBitmapTile": true,
+            "AnchorType": "<Enum instance com.sun.star.text.TextContentAnchorType ('AT_CHARACTER')>",
+            "HoriOrientPosition": 7481,
+            "VertOrientPosition": 41
+          }
+        },
+        "pictureControls": [
+          {
+            "tag": "cv.person.photo",
+            "picture": true,
+            "textLength": 0,
+            "textCodepoints": [],
+            "sameNativeTextObject": true,
+            "controlStartVsEnd": 1,
+            "shapeStartVsControlStart": 0,
+            "shapeEndVsControlEnd": 1,
+            "onePublicCursorStepMoved": true,
+            "onePublicStepVsControlEnd": 0
+          }
+        ],
+        "readOnly": true,
+        "modified": false,
+        "sourcePixelsPreserved": true,
+        "matchesExpectedIntegerCrop": false,
+        "croppedPixelsAlreadyActiveBeforeSave": false,
+        "nativePictureControlCount": 1
+      },
+      {
+        "name": "ellipse-zero-anchored",
+        "sourcePixels": {
+          "sizePx": [
+            120,
+            180
+          ],
+          "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+        },
+        "sourceCrop": {
+          "l": 0,
+          "t": 0,
+          "r": 0,
+          "b": 0
+        },
+        "integerCropBoxPx": [
+          0,
+          0,
+          120,
+          180
+        ],
+        "expectedIntegerCrop": {
+          "sizePx": [
+            120,
+            180
+          ],
+          "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+        },
+        "inputSha256": "e56a410383d84f9356322619049912593e1c829aaee0b44315e67fb42ce0f5f1",
+        "shape": {
+          "name": "cv.person.photo",
+          "shapeType": "com.sun.star.drawing.CustomShape",
+          "bitmapProperty": "FillBitmap",
+          "bitmap": {
+            "sizePx": [
+              120,
+              180
+            ],
+            "dibSha256": "e96fd9eeac7fbb468641b25c88500800373d2e06a7fe4acba4576d689ff5447a",
+            "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+          },
+          "properties": {
+            "GraphicCrop": {
+              "Left": 0,
+              "Top": 0,
+              "Right": 0,
+              "Bottom": 0
+            },
+            "FillBitmapSizeX": 0,
+            "FillBitmapSizeY": 0,
+            "FillBitmapOffsetX": 0,
+            "FillBitmapOffsetY": 0,
+            "FillBitmapStretch": true,
+            "FillBitmapTile": false,
+            "AnchorType": "<Enum instance com.sun.star.text.TextContentAnchorType ('AT_CHARACTER')>",
+            "HoriOrientPosition": 7481,
+            "VertOrientPosition": 41
+          }
+        },
+        "pictureControls": [
+          {
+            "tag": "cv.person.photo",
+            "picture": true,
+            "textLength": 0,
+            "textCodepoints": [],
+            "sameNativeTextObject": true,
+            "controlStartVsEnd": 1,
+            "shapeStartVsControlStart": 0,
+            "shapeEndVsControlEnd": 1,
+            "onePublicCursorStepMoved": true,
+            "onePublicStepVsControlEnd": 0
+          }
+        ],
+        "readOnly": true,
+        "modified": false,
+        "sourcePixelsPreserved": true,
+        "matchesExpectedIntegerCrop": true,
+        "croppedPixelsAlreadyActiveBeforeSave": false,
+        "nativePictureControlCount": 1
+      },
+      {
+        "name": "rect-zero-anchored",
+        "sourcePixels": {
+          "sizePx": [
+            120,
+            180
+          ],
+          "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+        },
+        "sourceCrop": {
+          "l": 0,
+          "t": 0,
+          "r": 0,
+          "b": 0
+        },
+        "integerCropBoxPx": [
+          0,
+          0,
+          120,
+          180
+        ],
+        "expectedIntegerCrop": {
+          "sizePx": [
+            120,
+            180
+          ],
+          "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+        },
+        "inputSha256": "a6958b7c1d2e449cce525bf57d1c200755486df4d133ab9d83a7115aa077da98",
+        "shape": {
+          "name": "cv.person.photo",
+          "shapeType": "FrameShape",
+          "bitmapProperty": "Graphic",
+          "bitmap": {
+            "sizePx": [
+              120,
+              180
+            ],
+            "dibSha256": "e96fd9eeac7fbb468641b25c88500800373d2e06a7fe4acba4576d689ff5447a",
+            "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+          },
+          "properties": {
+            "GraphicCrop": {
+              "Left": 0,
+              "Top": 0,
+              "Right": 0,
+              "Bottom": 0
+            },
+            "FillBitmapSizeX": 0,
+            "FillBitmapSizeY": 0,
+            "FillBitmapOffsetX": 0,
+            "FillBitmapOffsetY": 0,
+            "FillBitmapStretch": false,
+            "FillBitmapTile": true,
+            "AnchorType": "<Enum instance com.sun.star.text.TextContentAnchorType ('AT_CHARACTER')>",
+            "HoriOrientPosition": 7481,
+            "VertOrientPosition": 41
+          }
+        },
+        "pictureControls": [
+          {
+            "tag": "cv.person.photo",
+            "picture": true,
+            "textLength": 0,
+            "textCodepoints": [],
+            "sameNativeTextObject": true,
+            "controlStartVsEnd": 1,
+            "shapeStartVsControlStart": 0,
+            "shapeEndVsControlEnd": 1,
+            "onePublicCursorStepMoved": true,
+            "onePublicStepVsControlEnd": 0
+          }
+        ],
+        "readOnly": true,
+        "modified": false,
+        "sourcePixelsPreserved": true,
+        "matchesExpectedIntegerCrop": true,
+        "croppedPixelsAlreadyActiveBeforeSave": false,
+        "nativePictureControlCount": 1
+      },
+      {
+        "name": "ellipse-crop-inline",
+        "sourcePixels": {
+          "sizePx": [
+            120,
+            180
+          ],
+          "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+        },
+        "sourceCrop": {
+          "l": 8400,
+          "t": 24400,
+          "r": 11600,
+          "b": 22267
+        },
+        "integerCropBoxPx": [
+          10,
+          44,
+          106,
+          140
+        ],
+        "expectedIntegerCrop": {
+          "sizePx": [
+            96,
+            96
+          ],
+          "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+        },
+        "inputSha256": "e6bbd16c2ea95e37fcc385f462e43770eb215dade9f3a8b7a6700a9ee4fdcf69",
+        "shape": {
+          "name": "cv.person.photo",
+          "shapeType": "com.sun.star.drawing.CustomShape",
+          "bitmapProperty": "FillBitmap",
+          "bitmap": {
+            "sizePx": [
+              96,
+              96
+            ],
+            "dibSha256": "74184bcf5e57a85939f571d8fd3581c142fd63465d40e09f8dca52ee15f2c6aa",
+            "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+          },
+          "properties": {
+            "GraphicCrop": {
+              "Left": 267,
+              "Top": 1162,
+              "Right": 368,
+              "Bottom": 1060
+            },
+            "FillBitmapSizeX": 0,
+            "FillBitmapSizeY": 0,
+            "FillBitmapOffsetX": 0,
+            "FillBitmapOffsetY": 0,
+            "FillBitmapStretch": true,
+            "FillBitmapTile": false,
+            "AnchorType": "<Enum instance com.sun.star.text.TextContentAnchorType ('AS_CHARACTER')>",
+            "HoriOrientPosition": 0,
+            "VertOrientPosition": -3484
+          }
+        },
+        "pictureControls": [
+          {
+            "tag": "cv.person.photo",
+            "picture": true,
+            "textLength": 0,
+            "textCodepoints": [],
+            "sameNativeTextObject": true,
+            "controlStartVsEnd": 1,
+            "shapeStartVsControlStart": -1,
+            "shapeEndVsControlEnd": 1,
+            "onePublicCursorStepMoved": true,
+            "onePublicStepVsControlEnd": 1
+          }
+        ],
+        "readOnly": true,
+        "modified": false,
+        "sourcePixelsPreserved": false,
+        "matchesExpectedIntegerCrop": true,
+        "croppedPixelsAlreadyActiveBeforeSave": true,
+        "nativePictureControlCount": 1
+      },
+      {
+        "name": "ellipse-crop-block-zero",
+        "sourcePixels": {
+          "sizePx": [
+            120,
+            180
+          ],
+          "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+        },
+        "sourceCrop": {
+          "l": 8400,
+          "t": 24400,
+          "r": 11600,
+          "b": 22267
+        },
+        "integerCropBoxPx": [
+          10,
+          44,
+          106,
+          140
+        ],
+        "expectedIntegerCrop": {
+          "sizePx": [
+            96,
+            96
+          ],
+          "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+        },
+        "inputSha256": "cd7b7b475124c0524aeb8e2d1942be13fb43fdf4df3d64b104f6fd3e816c3796",
+        "shape": {
+          "name": "cv.person.photo",
+          "shapeType": "com.sun.star.drawing.CustomShape",
+          "bitmapProperty": "FillBitmap",
+          "bitmap": {
+            "sizePx": [
+              96,
+              96
+            ],
+            "dibSha256": "74184bcf5e57a85939f571d8fd3581c142fd63465d40e09f8dca52ee15f2c6aa",
+            "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+          },
+          "properties": {
+            "GraphicCrop": {
+              "Left": 267,
+              "Top": 1162,
+              "Right": 368,
+              "Bottom": 1060
+            },
+            "FillBitmapSizeX": 0,
+            "FillBitmapSizeY": 0,
+            "FillBitmapOffsetX": 0,
+            "FillBitmapOffsetY": 0,
+            "FillBitmapStretch": true,
+            "FillBitmapTile": false,
+            "AnchorType": "<Enum instance com.sun.star.text.TextContentAnchorType ('AT_CHARACTER')>",
+            "HoriOrientPosition": 7481,
+            "VertOrientPosition": 41
+          }
+        },
+        "pictureControls": [],
+        "readOnly": true,
+        "modified": false,
+        "sourcePixelsPreserved": false,
+        "matchesExpectedIntegerCrop": true,
+        "croppedPixelsAlreadyActiveBeforeSave": true,
+        "nativePictureControlCount": 0
+      }
+    ]
+  },
+  "sourceImplementationReview": [
+    {
+      "url": "https://github.com/LibreOffice/core/blob/libreoffice-25.8.7.3/oox/source/drawingml/fillproperties.cxx",
+      "sha256": "2678293f0b30356198e8ce5db8b233079fc48dc5ce7c59ddefe33105666b25e0",
+      "functions": [
+        "GraphicProperties::pushToPropMap",
+        "lclCropGraphic"
+      ],
+      "internalRuntimeBreakpointObserved": false
+    },
+    {
+      "url": "https://github.com/LibreOffice/core/blob/libreoffice-25.8.7.3/sw/source/core/unocore/unodraw.cxx",
+      "sha256": "33ff1915c1d0edf333b19a0676a69672ffbb5be30f607ae7e9fa49942b99fc0f",
+      "functions": [
+        "SwXShape::setPropertyValue",
+        "SwXShape::attach"
+      ],
+      "internalRuntimeBreakpointObserved": false
+    }
+  ],
+  "additionalSourceExperiments": {
+    "blockStable": {
+      "engine": {
+        "interface": "LibreOfficeKit",
+        "version": {
+          "ProductName": "LibreOffice",
+          "ProductVersion": "25.8",
+          "ProductExtension": ".7.3",
+          "BuildId": "580(Build:3)"
+        },
+        "packageManifestSha256": "5de56f5f319a2aea970f41bfdbc955a3be7cc00650a38bd8a4c202cbb6102a4c",
+        "fontManifestSha256": "765840c4534617d8adb0172cf770e5ae1f1ba28b948e965e0873ac9ff92f9822",
+        "adapterSha256": "269419f0800c8f251dd07ade244a24cf14caa4a5921ddd45f15156a33b4cde33",
+        "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+        "host": "Linux x86_64",
+        "packagesVerified": 50
+      },
+      "productionAcceptance": "blocked",
+      "cases": [
+        {
+          "variant": "baseline",
+          "collectionStatus": "pass",
+          "productionAcceptance": "blocked",
+          "sourcePictureContract": "pass",
+          "ownershipStable": false,
+          "singleDrawingAndImagePresentInEveryPhase": false,
+          "imageDataStable": false,
+          "sourceToSavedVisibleGeometryStable": true,
+          "savedToSaved2VisibleGeometryStable": true,
+          "sourceMatchesBaselineVisibleGeometry": true,
+          "photoFrameCountsMatchBaseline": true,
+          "rawPhotoControlCounts": [
+            1,
+            1,
+            1
+          ],
+          "activePhotoControlCounts": [
+            1,
+            1,
+            1
+          ],
+          "ownershipFailures": [
+            {
+              "phase": "saved",
+              "reasons": [
+                "picture-control-must-own-one-drawing",
+                "picture-control-must-own-one-image-reference"
+              ],
+              "typedPicture": true,
+              "drawingCount": 0,
+              "imageReferenceCount": 0
+            },
+            {
+              "phase": "saved2",
+              "reasons": [
+                "picture-control-must-own-one-drawing",
+                "picture-control-must-own-one-image-reference"
+              ],
+              "typedPicture": true,
+              "drawingCount": 0,
+              "imageReferenceCount": 0
+            }
+          ],
+          "phases": [
+            {
+              "phase": "source",
+              "packageSha256": "7dd758c90f92d5a490ef022923c738edff042c539aa578e451aa1909bcd81923",
+              "pdfSha256": "e4a373025be090dafb44c7d7c927da2a5a44db6d0e043a65a2be33f7802fdd9c"
+            },
+            {
+              "phase": "saved",
+              "packageSha256": "30bfcb9ef641c6e15392080424955c128936fa24314864a4c796f9b0a4c5d23d",
+              "pdfSha256": "815615f08ffbe1f9b36df7224f4a5193421bcc3f5c8cfd74633c78282198c8c3"
+            },
+            {
+              "phase": "saved2",
+              "packageSha256": "e0da27baa7370928150736238536636f739065fd5a674aea6740f98bcd279bc9",
+              "pdfSha256": "62f96d5cd4b806ef2ecc5c1cafd433b17f7caa82e1ec310184b2589b4b7b664a"
+            }
+          ]
+        },
+        {
+          "variant": "block-picture-default-line",
+          "collectionStatus": "pass",
+          "productionAcceptance": "blocked",
+          "sourcePictureContract": "pass",
+          "ownershipStable": true,
+          "singleDrawingAndImagePresentInEveryPhase": true,
+          "imageDataStable": false,
+          "sourceToSavedVisibleGeometryStable": true,
+          "savedToSaved2VisibleGeometryStable": true,
+          "sourceMatchesBaselineVisibleGeometry": false,
+          "photoFrameCountsMatchBaseline": true,
+          "rawPhotoControlCounts": [
+            1,
+            1,
+            1
+          ],
+          "activePhotoControlCounts": [
+            1,
+            1,
+            1
+          ],
+          "ownershipFailures": [],
+          "phases": [
+            {
+              "phase": "source",
+              "packageSha256": "aaf715afb87ed60a2772b098553a2a6b886ea5c2b01557d6f5e9eb667c8e989f",
+              "pdfSha256": "37e38b7f14d92bef6d0be9c85ef51911cc4474c67b8a4be0c4d884ef119ceb1d"
+            },
+            {
+              "phase": "saved",
+              "packageSha256": "628ef3c608a9d2638ad39b6a33b5fa7ac4308189e838e495f7bb409314569395",
+              "pdfSha256": "aecbadf0b69f3458f4bcb6c49d8e2af7672bd7f46bf65f6bc2cd3aa31b95d768"
+            },
+            {
+              "phase": "saved2",
+              "packageSha256": "ac736062cd155f9f79a9d75c2dcba7e8ac285705bac9e7ee8202628a4bee7974",
+              "pdfSha256": "bbd06fbd01918697eb179bac21921aa5ad808a823372e7806da4b9fdbab0104f"
+            }
+          ],
+          "sourceToSavedGeometry": {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true
+          },
+          "sourceVsBaselineGeometry": {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [
+              3
+            ],
+            "changedPixelPages": [
+              3
+            ],
+            "changedWords": 78,
+            "maxAbsDxMm": 65.99350090026854,
+            "maxAbsDyMm": 6.526394271850585,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": false
+          }
+        },
+        {
+          "variant": "block-picture-zero-line",
+          "collectionStatus": "pass",
+          "productionAcceptance": "blocked",
+          "sourcePictureContract": "pass",
+          "ownershipStable": true,
+          "singleDrawingAndImagePresentInEveryPhase": true,
+          "imageDataStable": false,
+          "sourceToSavedVisibleGeometryStable": false,
+          "savedToSaved2VisibleGeometryStable": true,
+          "sourceMatchesBaselineVisibleGeometry": true,
+          "photoFrameCountsMatchBaseline": true,
+          "rawPhotoControlCounts": [
+            1,
+            1,
+            1
+          ],
+          "activePhotoControlCounts": [
+            1,
+            1,
+            1
+          ],
+          "ownershipFailures": [],
+          "phases": [
+            {
+              "phase": "source",
+              "packageSha256": "cd7b7b475124c0524aeb8e2d1942be13fb43fdf4df3d64b104f6fd3e816c3796",
+              "pdfSha256": "b2c751244c6e826087ff5a31978e43fcc8ce080f74756e1e9676060ef3c968d3"
+            },
+            {
+              "phase": "saved",
+              "packageSha256": "8948d0420724ae3075341e1679fbb821768d7f80aca8b26db32280768e7b2b51",
+              "pdfSha256": "fcf519731c79813a592ea3786a3629be2aa6fa68c12b5cf4584006eaadb75b8e"
+            },
+            {
+              "phase": "saved2",
+              "packageSha256": "2fd61cedd4741c7439faa96b48ff7704a77d15a7312d7168f2acab8b60a46e18",
+              "pdfSha256": "7b95e2109c78ca2b2b53e10ce06b79fed875a0ea3e2b0dfa4527644bd9307fa7"
+            }
+          ],
+          "sourceToSavedGeometry": {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [
+              3
+            ],
+            "changedPixelPages": [
+              3
+            ],
+            "changedWords": 78,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.19404500325520832,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": false
+          },
+          "sourceVsBaselineGeometry": {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true
+          }
+        },
+        {
+          "variant": "block-picture-one-twip-line",
+          "collectionStatus": "pass",
+          "productionAcceptance": "blocked",
+          "sourcePictureContract": "pass",
+          "ownershipStable": true,
+          "singleDrawingAndImagePresentInEveryPhase": true,
+          "imageDataStable": false,
+          "sourceToSavedVisibleGeometryStable": true,
+          "savedToSaved2VisibleGeometryStable": true,
+          "sourceMatchesBaselineVisibleGeometry": false,
+          "photoFrameCountsMatchBaseline": true,
+          "rawPhotoControlCounts": [
+            1,
+            1,
+            1
+          ],
+          "activePhotoControlCounts": [
+            1,
+            1,
+            1
+          ],
+          "ownershipFailures": [],
+          "phases": [
+            {
+              "phase": "source",
+              "packageSha256": "12f001ea7b4c60627da7ed2c3a646c9ceaa9adc5175a2edd25818d128fc85b40",
+              "pdfSha256": "66f0993bda383d10774babb694d4a32c5a6a9a739fda018fca77db8295fe1751"
+            },
+            {
+              "phase": "saved",
+              "packageSha256": "ef7dcb37212269956a9b18d8172da4e4111c38e3dfa575781f26405bd0ebc83d",
+              "pdfSha256": "49096d24790930f66414c7cc23593005c6bc134378bfce3925ae170b904bb953"
+            },
+            {
+              "phase": "saved2",
+              "packageSha256": "56eb107191f48f869352c9b948835c8563edc017da3229dfa5248479e29823bc",
+              "pdfSha256": "bdd96d4abb0d689368d7e14e8dcc8f8de1f2b11198aaf1d67db02b21df6c3b5f"
+            }
+          ],
+          "sourceToSavedGeometry": {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [],
+            "changedPixelPages": [],
+            "changedWords": 0,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.0,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": true
+          },
+          "sourceVsBaselineGeometry": {
+            "pageCountsUnchanged": true,
+            "wordSequenceUnchanged": true,
+            "changedWordPages": [
+              3
+            ],
+            "changedPixelPages": [
+              3
+            ],
+            "changedWords": 78,
+            "maxAbsDxMm": 0.0,
+            "maxAbsDyMm": 0.017656114366319444,
+            "renderScale": 2,
+            "pdfMetadataCompared": false,
+            "exactVisibleGeometry": false
+          }
+        }
+      ]
+    },
+    "fillRectDevelopment": {
+      "engine": {
+        "scope": "Development engine only",
+        "version": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+        "microsoftWordAccepted": 0
+      },
+      "productionAcceptance": "blocked",
+      "cases": [
+        {
+          "variant": "baseline",
+          "collectionStatus": "pass",
+          "productionAcceptance": "blocked",
+          "sourcePictureContract": "pass",
+          "ownershipStable": false,
+          "singleDrawingAndImagePresentInEveryPhase": false,
+          "imageDataStable": false,
+          "sourceToSavedVisibleGeometryStable": true,
+          "savedToSaved2VisibleGeometryStable": true,
+          "sourceMatchesBaselineVisibleGeometry": true,
+          "photoFrameCountsMatchBaseline": true,
+          "rawPhotoControlCounts": [
+            1,
+            1,
+            1
+          ],
+          "activePhotoControlCounts": [
+            1,
+            1,
+            1
+          ],
+          "ownershipFailures": [
+            {
+              "phase": "saved",
+              "reasons": [
+                "picture-control-must-own-one-drawing",
+                "picture-control-must-own-one-image-reference"
+              ],
+              "typedPicture": true,
+              "drawingCount": 0,
+              "imageReferenceCount": 0
+            },
+            {
+              "phase": "saved2",
+              "reasons": [
+                "picture-control-must-own-one-drawing",
+                "picture-control-must-own-one-image-reference"
+              ],
+              "typedPicture": true,
+              "drawingCount": 0,
+              "imageReferenceCount": 0
+            }
+          ],
+          "phases": [
+            {
+              "phase": "source",
+              "packageSha256": "7dd758c90f92d5a490ef022923c738edff042c539aa578e451aa1909bcd81923",
+              "pdfSha256": "2f942cfc8fee5e82d1daa84dd9acfa717eccad0a00813bac76e9a899ea0f2e74"
+            },
+            {
+              "phase": "saved",
+              "packageSha256": "88d1a85956e399ab0f56a3a8ed7c3f0ee7f79f7be631e102a50f30b54898368b",
+              "pdfSha256": "492c2c42025e82c5bd5d729b40d0c13a5da552a12e040641ea7f1ee7fec54e48"
+            },
+            {
+              "phase": "saved2",
+              "packageSha256": "04ade041d76a3a8ff409f5952d3a043015b3b03b2e64853c1df583cf07ad04b4",
+              "pdfSha256": "3f558bf9138e332231e4201432feebbf5c2627d6ea33d3f31df70507c1886ca5"
+            }
+          ]
+        },
+        {
+          "variant": "stretch-crop-anchor",
+          "collectionStatus": "pass",
+          "productionAcceptance": "blocked",
+          "sourcePictureContract": "pass",
+          "ownershipStable": false,
+          "singleDrawingAndImagePresentInEveryPhase": false,
+          "imageDataStable": false,
+          "sourceToSavedVisibleGeometryStable": true,
+          "savedToSaved2VisibleGeometryStable": true,
+          "sourceMatchesBaselineVisibleGeometry": false,
+          "photoFrameCountsMatchBaseline": true,
+          "rawPhotoControlCounts": [
+            1,
+            1,
+            1
+          ],
+          "activePhotoControlCounts": [
+            1,
+            1,
+            1
+          ],
+          "ownershipFailures": [
+            {
+              "phase": "saved",
+              "reasons": [
+                "picture-control-must-own-one-drawing",
+                "picture-control-must-own-one-image-reference"
+              ],
+              "typedPicture": true,
+              "drawingCount": 0,
+              "imageReferenceCount": 0
+            },
+            {
+              "phase": "saved2",
+              "reasons": [
+                "picture-control-must-own-one-drawing",
+                "picture-control-must-own-one-image-reference"
+              ],
+              "typedPicture": true,
+              "drawingCount": 0,
+              "imageReferenceCount": 0
+            }
+          ],
+          "phases": [
+            {
+              "phase": "source",
+              "packageSha256": "e538979fa7b7c0a99fcbb06729e3a3441db29d9e6bf05d984ee3ee9cee1c6172",
+              "pdfSha256": "b3aa68498009b732ade28e999d4c99d47e518f67c77e0678ab15d6d35c98ccc1"
+            },
+            {
+              "phase": "saved",
+              "packageSha256": "908d24839cbbce91e81c633deba9366c0a2ca0d56f884e9ec18b090b115a7e9d",
+              "pdfSha256": "930c6eeafa6f1fa9f8d0c91ba3f6541cac8bb32036ba751b6b05105f0d4da0fb"
+            },
+            {
+              "phase": "saved2",
+              "packageSha256": "753cadd4bddecc92cf7971b7429d4423c268129695565bbadefceb210f2d5100",
+              "pdfSha256": "db361c450dfbeda6dd2a4fe1723372fea8ed153e5c8e10a5e9017517d6c712b8"
+            }
+          ]
+        },
+        {
+          "variant": "ellipse-inline-control",
+          "collectionStatus": "pass",
+          "productionAcceptance": "blocked",
+          "sourcePictureContract": "pass",
+          "ownershipStable": true,
+          "singleDrawingAndImagePresentInEveryPhase": true,
+          "imageDataStable": false,
+          "sourceToSavedVisibleGeometryStable": true,
+          "savedToSaved2VisibleGeometryStable": true,
+          "sourceMatchesBaselineVisibleGeometry": false,
+          "photoFrameCountsMatchBaseline": true,
+          "rawPhotoControlCounts": [
+            1,
+            1,
+            1
+          ],
+          "activePhotoControlCounts": [
+            1,
+            1,
+            1
+          ],
+          "ownershipFailures": [],
+          "phases": [
+            {
+              "phase": "source",
+              "packageSha256": "e6bbd16c2ea95e37fcc385f462e43770eb215dade9f3a8b7a6700a9ee4fdcf69",
+              "pdfSha256": "dc0b9c4d152af76c4e2869bbf5d41d4c4550836e8cfc098910f18e6dab731571"
+            },
+            {
+              "phase": "saved",
+              "packageSha256": "0f7e02be184227cc264e77ac5ea9122c49de4374e21f0a346f5e18d82093e77c",
+              "pdfSha256": "8b8974b5c722ebcbe0b698b9adb4ca25fb9af78e354d5b2558ee6135ba5a1015"
+            },
+            {
+              "phase": "saved2",
+              "packageSha256": "e90c7f61cc976b919a4fa089646e5fd6f4815c4cf7a05f617b195e8e429be4db",
+              "pdfSha256": "6f38d4e1c5f2f2c25597f4dbe0a27f3350af3cb13cf0961b822ec950a2d48aff"
+            }
+          ]
+        },
+        {
+          "variant": "stretch-crop-inline",
+          "collectionStatus": "pass",
+          "productionAcceptance": "blocked",
+          "sourcePictureContract": "pass",
+          "ownershipStable": true,
+          "singleDrawingAndImagePresentInEveryPhase": true,
+          "imageDataStable": true,
+          "sourceToSavedVisibleGeometryStable": true,
+          "savedToSaved2VisibleGeometryStable": true,
+          "sourceMatchesBaselineVisibleGeometry": false,
+          "photoFrameCountsMatchBaseline": true,
+          "rawPhotoControlCounts": [
+            1,
+            1,
+            1
+          ],
+          "activePhotoControlCounts": [
+            1,
+            1,
+            1
+          ],
+          "ownershipFailures": [],
+          "phases": [
+            {
+              "phase": "source",
+              "packageSha256": "e88ba1870accbccf48b6dc3df94c73ddf41c54dd52ef9c275ba2fac7be59abbe",
+              "pdfSha256": "7a285a557809158cc8aeada8efe5d9a06a6cc9959db0564e727dd73e5ff7493b"
+            },
+            {
+              "phase": "saved",
+              "packageSha256": "9d8a03e533b31d0f675285411a44f2d29ec292a64aea3fb00c8d4f767a2ec36b",
+              "pdfSha256": "1d656bf45ae1a8284fabf413f0837176c320d560e7e5d108bbeea1cdc34a2014"
+            },
+            {
+              "phase": "saved2",
+              "packageSha256": "876f8202710c13b99542fbb99e02a5c52cf04459efca2f3c273acae01ebeed5e",
+              "pdfSha256": "955ebbd6c62dab8e047c87c5de2dc83ab2560a18800a7682c11403c44b627e52"
+            }
+          ]
+        }
+      ]
+    },
+    "tileStable": {
+      "engine": {
+        "interface": "LibreOfficeKit",
+        "version": {
+          "ProductName": "LibreOffice",
+          "ProductVersion": "25.8",
+          "ProductExtension": ".7.3",
+          "BuildId": "580(Build:3)"
+        },
+        "packageManifestSha256": "5de56f5f319a2aea970f41bfdbc955a3be7cc00650a38bd8a4c202cbb6102a4c",
+        "fontManifestSha256": "765840c4534617d8adb0172cf770e5ae1f1ba28b948e965e0873ac9ff92f9822",
+        "adapterSha256": "269419f0800c8f251dd07ade244a24cf14caa4a5921ddd45f15156a33b4cde33",
+        "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+        "host": "Linux x86_64",
+        "packagesVerified": 50
+      },
+      "productionAcceptance": "blocked",
+      "cases": [
+        {
+          "variant": "baseline",
+          "collectionStatus": "pass",
+          "productionAcceptance": "blocked",
+          "sourcePictureContract": "pass",
+          "ownershipStable": false,
+          "singleDrawingAndImagePresentInEveryPhase": false,
+          "imageDataStable": false,
+          "sourceToSavedVisibleGeometryStable": true,
+          "savedToSaved2VisibleGeometryStable": true,
+          "sourceMatchesBaselineVisibleGeometry": true,
+          "photoFrameCountsMatchBaseline": true,
+          "rawPhotoControlCounts": [
+            1,
+            1,
+            1
+          ],
+          "activePhotoControlCounts": [
+            1,
+            1,
+            1
+          ],
+          "ownershipFailures": [
+            {
+              "phase": "saved",
+              "reasons": [
+                "picture-control-must-own-one-drawing",
+                "picture-control-must-own-one-image-reference"
+              ],
+              "typedPicture": true,
+              "drawingCount": 0,
+              "imageReferenceCount": 0
+            },
+            {
+              "phase": "saved2",
+              "reasons": [
+                "picture-control-must-own-one-drawing",
+                "picture-control-must-own-one-image-reference"
+              ],
+              "typedPicture": true,
+              "drawingCount": 0,
+              "imageReferenceCount": 0
+            }
+          ],
+          "phases": [
+            {
+              "phase": "source",
+              "packageSha256": "7dd758c90f92d5a490ef022923c738edff042c539aa578e451aa1909bcd81923",
+              "pdfSha256": "0595525092ae7625ff242bb664f0f65c53dc28c12fb4d069908be6d417997559"
+            },
+            {
+              "phase": "saved",
+              "packageSha256": "7d8baa54f64a691ec570110d47a02d6e3eae0532aacb6205c709417348be1e91",
+              "pdfSha256": "3f8983a722aa4ab3f51c70eecfa03b9abd4c72abc0ef4e08114c48e98164e9fa"
+            },
+            {
+              "phase": "saved2",
+              "packageSha256": "ca57bdfa6e0cc546ed3a8366b0512c66c71c0f637a29e05c125c6137004dfcce",
+              "pdfSha256": "377df599cd9c8f9726f3bf8f6c5fb929506d8ac3dd5335eb84f9908087db1aac"
+            }
+          ]
+        },
+        {
+          "variant": "ellipse-inline-control",
+          "collectionStatus": "pass",
+          "productionAcceptance": "blocked",
+          "sourcePictureContract": "pass",
+          "ownershipStable": true,
+          "singleDrawingAndImagePresentInEveryPhase": true,
+          "imageDataStable": false,
+          "sourceToSavedVisibleGeometryStable": true,
+          "savedToSaved2VisibleGeometryStable": true,
+          "sourceMatchesBaselineVisibleGeometry": false,
+          "photoFrameCountsMatchBaseline": true,
+          "rawPhotoControlCounts": [
+            1,
+            1,
+            1
+          ],
+          "activePhotoControlCounts": [
+            1,
+            1,
+            1
+          ],
+          "ownershipFailures": [],
+          "phases": [
+            {
+              "phase": "source",
+              "packageSha256": "e6bbd16c2ea95e37fcc385f462e43770eb215dade9f3a8b7a6700a9ee4fdcf69",
+              "pdfSha256": "922e539a32ec196fdd7d189d98a5e554cfdd0db4b743813210909dfb33771267"
+            },
+            {
+              "phase": "saved",
+              "packageSha256": "5f240847193df352abed82f49f7a75e2a1a08509a80f0dff56cefcdb35ded706",
+              "pdfSha256": "09815678b66ca3192364fc1b6585b01e488a74134793fc37bb3348bfd9795a0d"
+            },
+            {
+              "phase": "saved2",
+              "packageSha256": "5628e55c2cf90a123b5da5e5c2cef7c53a9e0be47b2c743d36fdaaf99469d546",
+              "pdfSha256": "262998696a69cf58fda1ddb2f8607336383617ad47c14943c3d542e4f37e650b"
+            }
+          ]
+        },
+        {
+          "variant": "tile-crop-anchor",
+          "collectionStatus": "pass",
+          "productionAcceptance": "blocked",
+          "sourcePictureContract": "pass",
+          "ownershipStable": false,
+          "singleDrawingAndImagePresentInEveryPhase": false,
+          "imageDataStable": false,
+          "sourceToSavedVisibleGeometryStable": true,
+          "savedToSaved2VisibleGeometryStable": true,
+          "sourceMatchesBaselineVisibleGeometry": false,
+          "photoFrameCountsMatchBaseline": true,
+          "rawPhotoControlCounts": [
+            1,
+            1,
+            1
+          ],
+          "activePhotoControlCounts": [
+            1,
+            1,
+            1
+          ],
+          "ownershipFailures": [
+            {
+              "phase": "saved",
+              "reasons": [
+                "picture-control-must-own-one-drawing",
+                "picture-control-must-own-one-image-reference"
+              ],
+              "typedPicture": true,
+              "drawingCount": 0,
+              "imageReferenceCount": 0
+            },
+            {
+              "phase": "saved2",
+              "reasons": [
+                "picture-control-must-own-one-drawing",
+                "picture-control-must-own-one-image-reference"
+              ],
+              "typedPicture": true,
+              "drawingCount": 0,
+              "imageReferenceCount": 0
+            }
+          ],
+          "phases": [
+            {
+              "phase": "source",
+              "packageSha256": "7b44112460d194ddb0f09becda7a4879b6540ca2a8b2f69861d0a98dbbb06945",
+              "pdfSha256": "bf74bd2a2e80b069cbe1aa89ed396e162f26e902ec85c36d3e805404e2f080e1"
+            },
+            {
+              "phase": "saved",
+              "packageSha256": "382089813c03a792008da07f54cfc7009226e264e31d396d9dd236090a77d83e",
+              "pdfSha256": "90729c42345ba851ae44e1d0f2a151c02a037bdc7379fbd2a37319b664d3ed77"
+            },
+            {
+              "phase": "saved2",
+              "packageSha256": "8a0b7e68ded88087035e5835aa3074995f43829a556741b615a69d102d5744af",
+              "pdfSha256": "c92a10a856a56dc80d0e0f358e03e191a2ed32bb7b4a44e838e5398444748b4f"
+            }
+          ]
+        },
+        {
+          "variant": "tile-crop-inline",
+          "collectionStatus": "pass",
+          "productionAcceptance": "blocked",
+          "sourcePictureContract": "pass",
+          "ownershipStable": true,
+          "singleDrawingAndImagePresentInEveryPhase": true,
+          "imageDataStable": true,
+          "sourceToSavedVisibleGeometryStable": true,
+          "savedToSaved2VisibleGeometryStable": true,
+          "sourceMatchesBaselineVisibleGeometry": false,
+          "photoFrameCountsMatchBaseline": true,
+          "rawPhotoControlCounts": [
+            1,
+            1,
+            1
+          ],
+          "activePhotoControlCounts": [
+            1,
+            1,
+            1
+          ],
+          "ownershipFailures": [],
+          "phases": [
+            {
+              "phase": "source",
+              "packageSha256": "f612e2fb9a4ab3d3933382fcdfa89e9121176ddf974508ab175ee74b1d85e037",
+              "pdfSha256": "28d1bbaab4232e078b354b15907a0ac2ee0f947921944ae832d20643152e7131"
+            },
+            {
+              "phase": "saved",
+              "packageSha256": "c7634a1859dc5d90a010dcd0d21412af0a177fbfc9aef269ce78e5e3648a74d9",
+              "pdfSha256": "8800fb470dc93634d658d0b92d04da6b123c50477cf6c3c52ec6ded2c1776157"
+            },
+            {
+              "phase": "saved2",
+              "packageSha256": "d9949b7cb772f5a485b0fe55561bd14eb2a4fffa37d74e62b09b65ceae5ca96b",
+              "pdfSha256": "11cf59841ebcadefafabc4493bdfe8f83eec3a46b3e8000be1092f6ec12f6928"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "anchorIntervention": {
+    "status": "aborted-before-setting-anchor",
+    "reason": "A single public cursor step did not yield a strict interior point. No native anchor mutation was applied.",
+    "newMutableDiagnosticLoads": 2,
+    "newNativeExports": 1,
+    "appliedNativeEdits": 0,
+    "originalPackagesModified": 0
+  },
+  "previousRelease": {
+    "codeCommit": "84df374944a78e0e0a7ede91a1083746462cb9d9",
+    "runId": 41123950447,
+    "unitTestsPassed": 1490,
+    "browserGroupsPassed": 11,
+    "status": "success"
+  },
+  "currentCi": "pending publication"
+}

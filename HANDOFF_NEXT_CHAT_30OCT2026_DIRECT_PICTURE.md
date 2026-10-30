@@ -1,5 +1,45 @@
 # Übergabe: direkt verankertes Einzelbild, 30. Oktober 2026
 
+## Neuester Arbeitsblock: aktive Bilddaten direkt nach Originalimport
+
+Neue verbindliche Berichte: `docs/qa/picture-import-30okt.md` und `.json`.
+Der vorherige Release-Lauf `41123950447` ist jetzt vollstaendig gruen:
+1490 Unit-Tests und alle elf Browsergruppen. Native Matrix weiterhin 12/15.
+
+Der Pixelverlust liegt bereits vor dem ersten Speichern in der aktiven nativen
+Fuellbitmap. Sechs frische, lesende Originalimporte auf hashgepruefter
+LibreOfficeKit 25.8.7.3 vergleichen Form und Zuschnitt bei identischen Bildbytes.
+Nur die zugeschnittene Ellipse zeigt 96x96 statt 120x180 Pixeln; Rechteck und
+Nullzuschnitt behalten das Original. Der 96x96-Bitmaphash ist exakt der
+Integer-Ausschnitt `[10,44,106,140)` des Originals. Keine DPI-Hypothese daraus
+machen: Die gemessenen Pixel passen ohne Resampling zum Zuschneideaufruf in
+`GraphicProperties::pushToPropMap` / `lclCropGraphic`, versionsgebundene Quelle
+`oox/source/drawingml/fillproperties.cxx`. Kein interner Breakpoint gesetzt.
+
+Der neue reine Lese-Beobachter ist reproduzierbar und in der CI nach der
+regulaeren App-Matrix eingebunden. Eine unveraenderte synthetische rot-blaue
+Quellfixture ist dauerhaft im Repository gebunden; keine Nutzerfotografie.
+Acht neue Decoder-/Crop-Vertragstests bestehen, insgesamt 52 gezielte Python-
+Pruefungen. Der Nachweis umfasst sechs neue lesende Importe und null Exporte;
+andere getrennte Geometrie-Gegenversuche haben eigene Speicher-/PDF-Laeufe.
+
+Bildzuordnung bleibt ein zweiter Fehler: Freier Anker auf der nativen
+Kontroll-Startgrenze, Inline-Anker danach. Leere sichtbare Control-Zeichenketten
+allein unterscheiden beide nicht. Die Block-Bildkontrolle ist schon beim
+Originalimport im nativen ContentControl-Supplier nicht vorhanden; ihre
+Nullhoehenvariante verschiebt den Text nach Save/Reopen um 0.194045 mm.
+Alternative Fill-/Tile-Zuschnitte behalten zwar Pixel, aber nicht die Ansicht.
+Ein geplanter Ein-Schritt-Ankerversuch wurde vor dem Setzen abgebrochen, weil
+keine strikt innere Cursorposition erreicht wurde. Keine Reparatur freigegeben.
+
+Kein Produktionsfix integriert, kein Merge, keine neue Word-Abnahme.
+Desktop-Word bleibt der naechste fachliche Abgleich fuer den unveraenderten,
+textfreien Fotofall. Der Windows-Checkout wurde nicht erneut verbunden.
+Dieser Arbeitsblock laeuft isoliert unter Linux. Neue CI-Ergebnisse werden im
+Abschluss ergaenzt; vorherige Momentaufnahmen folgen unten.
+
+---
+
 ## Neueste Fortsetzung: Bereichs-Workaround verworfen, Textvertrag verschaerft
 
 Details: `docs/qa/picture-range-30okt.md` und `.json`.

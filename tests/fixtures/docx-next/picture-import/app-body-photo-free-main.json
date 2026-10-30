@@ -1,0 +1,18 @@
+{
+  "testOnly": true,
+  "synthetic": true,
+  "description": "Immutable public application fixture with an opaque synthetic red/blue pattern, not a user photograph.",
+  "sourceSha256": "7dd758c90f92d5a490ef022923c738edff042c539aa578e451aa1909bcd81923",
+  "pictures": [
+    {
+      "id": "cv.person.photo"
+    }
+  ],
+  "origin": {
+    "codeCommit": "e395d4d662ebbc7cf59b231efb3dcbf9bd10604f",
+    "artifactId": 13010975631,
+    "sourceModel": "tests/fixtures/docx-next/sidebar.ts",
+    "sourceGenerator": "scripts/docx-next-sidebar-body-probe.ts",
+    "photoPayloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42"
+  }
+}
