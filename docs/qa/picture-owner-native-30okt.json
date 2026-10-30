@@ -1,0 +1,446 @@
+{
+  "schemaVersion": 1,
+  "codeCommit": "e395d4d662ebbc7cf59b231efb3dcbf9bd10604f",
+  "evidenceSource": "Completed GitHub app-body-content job log; artifact metadata. New artifact bytes were not locally materialized.",
+  "nativeRunId": 41093747738,
+  "appJobId": 124194019544,
+  "releaseRunId": 41093747710,
+  "artifact": {
+    "id": 12994854230,
+    "node_id": "MDg6QXJ0aWZhY3QxMjk5NDg1NDIzMA==",
+    "name": "docx-next-app-body-e395d4d662ebbc7cf59b231efb3dcbf9bd10604f",
+    "size_in_bytes": 7959966,
+    "url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/12994854230",
+    "archive_download_url": "https://api.github.com/repos/modebrecht/cv-cover-charm/actions/artifacts/12994854230/zip",
+    "expired": false,
+    "digest": "sha256:1dbf1bc61c10f81991735dc6f4c2958cbc3dcbf590f5d059fa9e6012e3ca8c6e",
+    "created_at": "2026-10-30T16:55:35Z",
+    "updated_at": "2026-10-30T16:55:35Z",
+    "expires_at": "2026-11-29T16:55:34Z",
+    "workflow_run": {
+      "id": 41093747738,
+      "repository_id": 1332423254,
+      "head_repository_id": 1332423254,
+      "head_branch": "work/30okt-body-boundary-candidate",
+      "head_sha": "e395d4d662ebbc7cf59b231efb3dcbf9bd10604f"
+    }
+  },
+  "unitTests": {
+    "passed": 1490,
+    "failed": 0,
+    "files": 282
+  },
+  "localPictureContractTests": {
+    "passed": 23,
+    "failed": 0
+  },
+  "localExistingImportTests": {
+    "passed": 10,
+    "failed": 0
+  },
+  "app": {
+    "cases": 22,
+    "contentRoundtripAcceptance": "pass",
+    "pictureOwnershipAcceptance": "fail",
+    "imageDataAcceptance": "fail"
+  },
+  "geometry": {
+    "collectionStatus": "pass",
+    "sourceGridConsistencyAcceptance": "pass",
+    "exactVisibleGeometryAcceptance": "fail",
+    "exactSerializedGeometryAcceptance": "fail",
+    "exactPublicGridStabilityAcceptance": "fail",
+    "geometryAcceptance": "unaccepted",
+    "casePassCount": "not independently re-counted from the new artifact"
+  },
+  "measuredSourceHashes": {
+    "direct": "7dd758c90f92d5a490ef022923c738edff042c539aa578e451aa1909bcd81923",
+    "framed": "097ee7f74bbbf9571a46c1840a97814725c61c19864d2c79f888eb9378a0eb95",
+    "appSourceByteIdentity": true
+  },
+  "counterprobes": [
+    {
+      "variant": "baseline",
+      "collectionStatus": "pass",
+      "productionAcceptance": "blocked",
+      "ownershipStable": false,
+      "imageDataStable": false,
+      "sourceToSavedVisibleGeometryStable": true,
+      "savedToSaved2VisibleGeometryStable": true,
+      "rawPhotoControlCounts": [
+        1,
+        1,
+        1
+      ],
+      "activePhotoControlCounts": [
+        1,
+        1,
+        1
+      ],
+      "ownershipFailures": [
+        {
+          "phase": "saved",
+          "reasons": [
+            "picture-control-must-own-one-drawing",
+            "picture-control-must-own-one-image-reference"
+          ],
+          "typedPicture": true,
+          "drawingCount": 0,
+          "imageReferenceCount": 0
+        },
+        {
+          "phase": "saved2",
+          "reasons": [
+            "picture-control-must-own-one-drawing",
+            "picture-control-must-own-one-image-reference"
+          ],
+          "typedPicture": true,
+          "drawingCount": 0,
+          "imageReferenceCount": 0
+        }
+      ]
+    },
+    {
+      "variant": "rectangle-anchor",
+      "collectionStatus": "pass",
+      "productionAcceptance": "blocked",
+      "ownershipStable": false,
+      "imageDataStable": false,
+      "sourceToSavedVisibleGeometryStable": true,
+      "savedToSaved2VisibleGeometryStable": true,
+      "rawPhotoControlCounts": [
+        1,
+        1,
+        1
+      ],
+      "activePhotoControlCounts": [
+        1,
+        1,
+        1
+      ],
+      "ownershipFailures": [
+        {
+          "phase": "saved",
+          "reasons": [
+            "picture-control-must-own-one-drawing",
+            "picture-control-must-own-one-image-reference"
+          ],
+          "typedPicture": true,
+          "drawingCount": 0,
+          "imageReferenceCount": 0
+        },
+        {
+          "phase": "saved2",
+          "reasons": [
+            "picture-control-must-own-one-drawing",
+            "picture-control-must-own-one-image-reference"
+          ],
+          "typedPicture": true,
+          "drawingCount": 0,
+          "imageReferenceCount": 0
+        }
+      ]
+    },
+    {
+      "variant": "rectangle-anchor-no-crop",
+      "collectionStatus": "pass",
+      "productionAcceptance": "blocked",
+      "ownershipStable": false,
+      "imageDataStable": false,
+      "sourceToSavedVisibleGeometryStable": true,
+      "savedToSaved2VisibleGeometryStable": true,
+      "rawPhotoControlCounts": [
+        1,
+        1,
+        1
+      ],
+      "activePhotoControlCounts": [
+        1,
+        1,
+        1
+      ],
+      "ownershipFailures": [
+        {
+          "phase": "saved",
+          "reasons": [
+            "picture-control-must-own-one-drawing",
+            "picture-control-must-own-one-image-reference"
+          ],
+          "typedPicture": true,
+          "drawingCount": 0,
+          "imageReferenceCount": 0
+        },
+        {
+          "phase": "saved2",
+          "reasons": [
+            "picture-control-must-own-one-drawing",
+            "picture-control-must-own-one-image-reference"
+          ],
+          "typedPicture": true,
+          "drawingCount": 0,
+          "imageReferenceCount": 0
+        }
+      ]
+    },
+    {
+      "variant": "ellipse-inline-control",
+      "collectionStatus": "pass",
+      "productionAcceptance": "blocked",
+      "ownershipStable": true,
+      "imageDataStable": false,
+      "sourceToSavedVisibleGeometryStable": true,
+      "savedToSaved2VisibleGeometryStable": true,
+      "rawPhotoControlCounts": [
+        1,
+        1,
+        1
+      ],
+      "activePhotoControlCounts": [
+        1,
+        1,
+        1
+      ],
+      "ownershipFailures": []
+    },
+    {
+      "variant": "rectangle-inline-control",
+      "collectionStatus": "pass",
+      "productionAcceptance": "blocked",
+      "ownershipStable": true,
+      "imageDataStable": true,
+      "sourceToSavedVisibleGeometryStable": true,
+      "savedToSaved2VisibleGeometryStable": true,
+      "rawPhotoControlCounts": [
+        1,
+        1,
+        1
+      ],
+      "activePhotoControlCounts": [
+        1,
+        1,
+        1
+      ],
+      "ownershipFailures": []
+    },
+    {
+      "variant": "character-relative-anchor",
+      "collectionStatus": "pass",
+      "productionAcceptance": "blocked",
+      "ownershipStable": false,
+      "imageDataStable": false,
+      "sourceToSavedVisibleGeometryStable": true,
+      "savedToSaved2VisibleGeometryStable": true,
+      "rawPhotoControlCounts": [
+        1,
+        1,
+        1
+      ],
+      "activePhotoControlCounts": [
+        1,
+        1,
+        1
+      ],
+      "ownershipFailures": [
+        {
+          "phase": "saved",
+          "reasons": [
+            "picture-control-must-own-one-drawing",
+            "picture-control-must-own-one-image-reference"
+          ],
+          "typedPicture": true,
+          "drawingCount": 0,
+          "imageReferenceCount": 0
+        },
+        {
+          "phase": "saved2",
+          "reasons": [
+            "picture-control-must-own-one-drawing",
+            "picture-control-must-own-one-image-reference"
+          ],
+          "typedPicture": true,
+          "drawingCount": 0,
+          "imageReferenceCount": 0
+        }
+      ]
+    },
+    {
+      "variant": "legacy-frame-control",
+      "collectionStatus": "pass",
+      "productionAcceptance": "blocked",
+      "ownershipStable": false,
+      "imageDataStable": false,
+      "sourceToSavedVisibleGeometryStable": false,
+      "savedToSaved2VisibleGeometryStable": false,
+      "rawPhotoControlCounts": [
+        1,
+        2,
+        2
+      ],
+      "activePhotoControlCounts": [
+        1,
+        1,
+        1
+      ],
+      "ownershipFailures": [
+        {
+          "phase": "saved",
+          "reasons": [
+            "picture-control-must-own-one-drawing",
+            "picture-control-must-own-one-image-reference"
+          ],
+          "typedPicture": true,
+          "drawingCount": 0,
+          "imageReferenceCount": 0
+        },
+        {
+          "phase": "saved2",
+          "reasons": [
+            "picture-control-must-own-one-drawing",
+            "picture-control-must-own-one-image-reference"
+          ],
+          "typedPicture": true,
+          "drawingCount": 0,
+          "imageReferenceCount": 0
+        }
+      ]
+    }
+  ],
+  "productionAcceptance": "blocked",
+  "desktopWordAccepted": 0,
+  "productRendererChangedInThisLoop": false,
+  "localConnection": "became unavailable after code commit e395d4d6; closing documentation is saved through GitHub",
+  "nativeJobs": {
+    "passed": 12,
+    "total": 15,
+    "failures": [
+      {
+        "name": "app-body-content",
+        "reason": "Strict picture ownership rejected the candidate after 22 passing content cases"
+      },
+      {
+        "name": "picture-identity",
+        "reason": "Unchanged historical precision package hash pin mismatch"
+      },
+      {
+        "name": "stable-comparison",
+        "reason": "Completed original gotoRange selection unavailable after three bounded imports in docx-next-native-pop-qa.py"
+      }
+    ]
+  },
+  "protectedRefs": [
+    {
+      "branch": "dev",
+      "sha": "c8e0a4e306e2e519d2b9392b43fb9759fb8c5078"
+    },
+    {
+      "branch": "main",
+      "sha": "44d7eb950b4fe972d6e890a72b6d3256ce365bc9"
+    },
+    {
+      "branch": "render",
+      "sha": "1fe6dbe59184a759d97f9c393353a8a3d9e1f89a"
+    }
+  ],
+  "checkedAt": "2026-10-30T17:10:20.998Z",
+  "release": {
+    "checkedAt": "2026-10-30T17:10:20.998Z",
+    "headSha": "e395d4d662ebbc7cf59b231efb3dcbf9bd10604f",
+    "fastChecks": "success",
+    "browserGroups": {
+      "passed": 11,
+      "total": 11,
+      "pending": [],
+      "failed": []
+    },
+    "jobs": [
+      {
+        "id": 124194432910,
+        "name": "fast-checks",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 124194991176,
+        "name": "Browser smoke - letter-m8-edge",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 124194991185,
+        "name": "Browser smoke - templates-layout",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 124194991188,
+        "name": "Browser smoke - dossier-flow",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 124194991208,
+        "name": "Browser smoke - cv-m9-pagination",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 124194991223,
+        "name": "Browser smoke - fresh-dossier-templates",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 124194991240,
+        "name": "Browser smoke - letter-m1-m5",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 124194991274,
+        "name": "Browser smoke - cv-pdf-parity",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 124194991281,
+        "name": "Browser smoke - cv-pdf-core",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 124194991326,
+        "name": "Browser smoke - cv-pdf-dom",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 124194991410,
+        "name": "Browser smoke - m9-responsive",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 124194991468,
+        "name": "Browser smoke - cv-pdf-paint",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 124194994210,
+        "name": "native-print-benchmark",
+        "status": "completed",
+        "conclusion": "skipped"
+      },
+      {
+        "id": 124203083169,
+        "name": "publish-regression-status",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ],
+    "workflow": {
+      "status": "completed",
+      "conclusion": "success"
+    }
+  }
+}

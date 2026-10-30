@@ -55,8 +55,8 @@ und zwei Speicherzyklen. Jede Variante bleibt eine Diagnose ohne Freigabe.
 | Direkt verankertes Rechteck ohne Crop | nein | nicht nachgewiesen, Zuordnung fehlt | stabil |
 | Inline-Ellipse | ja | nein | stabil |
 | Inline-Rechteck ohne Rand | ja | ja | stabil |
-| Zeichenbezogene freie Verankerung | nein | nein | stabil |
-| Urspruenglicher freier Bildrahmen | nein | nein | instabil |
+| Zeichenbezogene freie Verankerung | nein | nicht nachgewiesen, Zuordnung fehlt | stabil |
+| Urspruenglicher freier Bildrahmen | nein | nicht nachgewiesen, Zuordnung fehlt | instabil |
 
 Das Rechteck-Inline-Ergebnis ist eine positive technische Kontrolle. Form,
 Rand und Positionierungsverhalten unterscheiden sich von der benoetigten freien
@@ -114,3 +114,41 @@ bei freien Objekten beziehungsweise aendert ihre native Feldreihenfolge; runde
 Bildformen werden neu gerastert. Die rechte Tabellenrasterdrift bleibt ebenfalls
 offen. Keine nachtraegliche Reparatur gespeicherter Pakete und keine Lockerung
 der bestehenden Grenzen wurden als Erfolg gewertet.
+
+
+## Abschluss des direkten Kandidaten
+
+Code-Stand: `e395d4d662ebbc7cf59b231efb3dcbf9bd10604f`.
+[Abschliessende native Matrix](https://github.com/modebrecht/cv-cover-charm/actions/runs/41093747738):
+12/15 Jobs erfolgreich, einschliesslich aller zehn Vorlagengruppen sowie
+`entry-flow-content` und `supported-sidebar`. Die 22 Inhaltsfaelle bestehen;
+Bildzuordnung und Bilddatenvertrag scheitern weiterhin. Die genaue Geometrie
+wurde vollstaendig gesammelt und bleibt unakzeptiert. Eine neue Einzelzaehlung
+geometrisch bestandener Faelle aus diesem Archiv wurde nicht lokal durchgefuehrt.
+
+Alle sieben Gegenversuche sind gesammelt. Auch beim urspruenglichen Rahmen
+besitzt die aktive typisierte Kontrolle nach beiden Speicherzyklen **0 Drawings
+und 0 Bildbeziehungen**. Die Alternativen-Auswertung beseitigt die falsche
+Doppelzaehlung, nicht diesen tatsaechlichen Besitzverlust.
+
+`stable-comparison` stoppt diesmal bei `docx-next-native-pop-qa.py`: Die vollstaendige
+urspruengliche `gotoRange`-Auswahl konnte in drei begrenzten Importen nicht
+beobachtet werden. Der vorausgehende Import-Callback-Vertrag bleibt unveraendert;
+seine Rohmessung wird nun auch bei Abweichungen erhalten. Diese weitere
+Messgrenze wird getrennt vom Bildfehler gefuehrt und begruendet keinen Erfolg.
+
+Die kompakte maschinenlesbare Sammlung der tatsaechlich ausgegebenen
+CI-Befunde steht in `picture-owner-native-30okt.json`. Deren neue Archivdaten
+sind durch den veroeffentlichten GitHub-Digest referenziert; das Archiv selbst
+wurde nach Verbindungsabbruch nicht lokal materialisiert oder erneut gehasht.
+
+Die Verbindung zum lokalen Rechner ist nach dem gesicherten Code-Commit
+ausgefallen. Dieser Abschluss wird direkt auf dem Arbeitsbranch gespeichert.
+Der lokale Checkout wurde zuletzt bei `e395d4d6` sauber bestaetigt; dieser
+Dokumentationsnachtrag muss vor lokaler Fortsetzung per Fast-forward uebernommen
+werden. `dev`, `main` und `render` entsprechen weiterhin den urspruenglichen SHAs.
+
+## Release-Status beim Abschluss
+
+[Release-Regression](https://github.com/modebrecht/cv-cover-charm/actions/runs/41093747710):
+Der gesamte Release-Lauf ist erfolgreich abgeschlossen: Fast-Checks einschliesslich 1490 Unit-Tests sowie alle elf Browsergruppen bestanden.

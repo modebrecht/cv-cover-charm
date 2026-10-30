@@ -1,5 +1,113 @@
 # Übergabe: direkt verankertes Einzelbild, 30. Oktober 2026
 
+## Aktueller Abschluss: strenge Bildzuordnung und sieben native Gegenversuche
+
+**Keine Freigabe, kein Merge.** Code-Commit:
+`e395d4d662ebbc7cf59b231efb3dcbf9bd10604f`, Branch
+`work/30okt-body-boundary-candidate`. Die normale App-Komposition und alle
+bestehenden Bildstrukturtests bleiben unveraendert. Geaendert wurden QA,
+Diagnoseerzeugung und CI; die Produktdateien unter `src/` wurden in diesem
+Arbeitsblock nicht veraendert.
+
+Verbindliche neue Berichte:
+`docs/qa/picture-owner-contract-30okt.md`,
+`docs/qa/picture-owner-contract-30okt.json` (lesende Bindungspruefung der
+alten 66 Phasen) und `docs/qa/picture-owner-native-30okt.json`
+(neue tatsaechliche CI-Befunde aus den abgeschlossenen Joblogs).
+
+### Was konkret behoben ist
+
+- Der bisherige Inhaltsvertrag konnte eine erhaltene Fotokennung und ein
+  daneben sichtbares Foto als Erfolg behandeln. Die zusaetzliche strenge
+  Bildpruefung verlangt jetzt eine typisierte aktive Kontrolle mit einem
+  eigenen Drawing und einer eigenen gueltigen eingebetteten Bildbeziehung.
+- Leere Kontrollen, fremde Nachbarbilder, verschachtelte Rahmen und falsche
+  Beziehungen werden abgelehnt. Originale RGBA-Pixel und Abmessungen werden
+  separat geprueft. Die vorhandenen Grenzwerte wurden nicht gelockert.
+- Die durch diesen Renderer erzeugten `mc:AlternateContent`-Zweige werden
+  anhand lokal gebundener `wps`-Anforderungen ausgewertet. Ein inaktiver
+  VML-Fallback ist keine zweite aktive Kontrolle; echte Duplikate im aktiven
+  Zweig bleiben Fehler. Die vier leeren direkten Kontrollen bleiben Fehler.
+- 23 lokale adversarielle Bild-Vertragstests, 10 bestehende Import-Vertragstests,
+  Format-/Diff-Pruefung und App-Typpruefung bestanden. Linux-CI bestaetigt auch
+  die aktualisierten dateibasierten Pakettests; deren lokaler Windows-Tempfehler
+  wurde nicht als Erfolg gewertet.
+
+### Gemessener Bildbefund
+
+Der direkte Kandidat besteht erneut alle 22 Inhaltsfaelle, scheitert aber
+korrekt an `pictureOwnershipAcceptance` und `imageDataAcceptance`.
+Die Geometriesammlung ist vollstaendig und meldet weiterhin alle drei exakten
+Geometrie-Gates als fehlgeschlagen. Die fruehere detaillierte 18/22-Zaehlung
+stammt aus dem Bericht zu `3972e87b`; fuer das neue Archiv wurde sie nach
+Verbindungsabbruch nicht lokal erneut gezaehlt.
+
+Sieben begrenzte Gegenversuche wurden frisch mit zwei Speicherzyklen ausgefuehrt:
+direkte Ellipse, direkte Rechtecke mit/ohne Crop, Inline-Ellipse,
+Inline-Rechteck ohne Rand, zeichenbezogene Verankerung und der unveraenderte
+urspruengliche freie Bildrahmen. Nur die beiden reinen Inline-Kontrollen behalten
+ihre Bildzuordnung. Nur die rechteckige Inline-Kontrolle besteht zusaetzlich den
+Originalpixelvertrag; sie hat ein anderes Form-/Positionierungsverhalten und
+ist kein gleichwertiger Produktfix.
+
+Beim urspruenglichen freien Rahmen ergibt sich roh `1,2,2`, aktiv `1,1,1`
+Foto-Kontrollen. Auch seine aktive typisierte Kontrolle besitzt nach Speichern
+**0 Drawings und 0 Bildbeziehungen**. Die Alternativen-Korrektur loest diesen
+tatsaechlichen Besitzverlust nicht. Sein App-Versuch scheitert zudem an nativer
+Feldreihenfolge. Er wurde nicht als neue Loesung integriert. Der direkte
+Diagnosemodus ist wiederhergestellt und wird korrekt streng zurueckgewiesen.
+
+### CI-Abschluss und Restfehler
+
+Native Matrix:
+https://github.com/modebrecht/cv-cover-charm/actions/runs/41093747738
+
+12/15 Jobs erfolgreich, einschliesslich aller zehn Vorlagengruppen,
+`entry-flow-content` und `supported-sidebar`. Drei getrennte Fehler:
+
+1. `app-body-content`: strenger Bildbesitzvertrag nach 22 bestandenen Inhaltsfaellen.
+2. `picture-identity`: unveraenderter historischer Paket-Pin `61444b40...`
+   statt `8dfabf25...`. Kein neuer Hash wurde akzeptiert.
+3. `stable-comparison`: `native-pop-qa` konnte die vollstaendige urspruengliche
+   `gotoRange`-Auswahl in drei begrenzten Importversuchen nicht messen.
+   Keine Lockerung; dieser Befund bleibt offen. Der vorausgehende
+   Import-Callback-Vertrag wurde nicht geaendert. Dessen Rohdaten werden nun vor
+   der Validierung aufbewahrt, damit kuenftige Abweichungen belegbar bleiben.
+
+Aktuelle Release-Regression:
+https://github.com/modebrecht/cv-cover-charm/actions/runs/41093747710
+Der gesamte Release-Lauf ist erfolgreich abgeschlossen: Fast-Checks einschliesslich 1490 Unit-Tests sowie alle elf Browsergruppen bestanden.
+
+### Lokaler Zustand und sinnvoller naechster Schritt
+
+Die Rechnerverbindung wurde nach gesichertem Code-Commit `e395d4d6`
+unverfuegbar. Der lokale Checkout wurde zuletzt bei diesem Commit sauber
+bestaetigt. Dieser Abschlussnachtrag wurde danach direkt auf GitHub geschrieben;
+vor lokaler Fortsetzung die aktuelle Branchspitze per Fast-forward uebernehmen.
+Kein neues Klonen und kein Umschreiben veroeffentlichter Historie erforderlich.
+
+Word wurde ueber die UI gestartet, aber kein Testdokument erfolgreich geoeffnet
+oder gespeichert. **Keine neue Desktop-Word-Abnahme.** Auf dem Rechner liegt
+die synthetische Kopie
+`artifacts/word-owner-30okt/word-free-main-source.docx`
+(SHA `7dd758c9...1923`). Die aelteren Nutzerfreigaben 01–04b gelten nicht
+automatisch fuer diesen Versuch.
+
+Naechster begrenzter Schwerpunkt: genau diesen freien Fotofall in Desktop-Word
+oeffnen, unter getrennten Namen zweimal speichern/wiederoeffnen und die eigenen
+Bildbeziehungen, Originalpixel, Feldidentitaet und PDF-Positionen kontrollieren.
+Erst dieser Nachweis trennt einen Writer-spezifischen Grenzfall von einem
+ungeeigneten Word-Quellmodell. Die gespeicherten Pakete nicht nachtraeglich
+reparieren und fehlende Bildzuordnung nicht als Sichtbarkeitsfreigabe ersetzen.
+
+`dev`, `main` und `render` wurden gegen die urspruenglichen SHAs geprueft
+und bleiben unveraendert. Die folgenden Abschnitte sind historische
+Momentaufnahmen; der damalige lokale Pruefstopp lag vor diesem ausdruecklich
+beauftragten Arbeitsblock.
+
+---
+
+
 ## Aktualisierung: bestehende CI vollstaendig ausgewertet
 
 Die unten dokumentierten laufenden Jobs sind inzwischen beendet. Verbindlicher
