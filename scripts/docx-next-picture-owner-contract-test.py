@@ -48,6 +48,24 @@ class PictureOwnershipTests(unittest.TestCase):
     def test_untyped_control_fails(self):
         self.assertEqual(self.inspect(CONTROL.format(DRAWING).replace('<w:picture/>', ''))['status'], 'fail')
 
+    def test_caption_text_does_not_belong_inside_a_picture_control(self):
+        record = self.inspect(CONTROL.format(DRAWING + '<w:r><w:t>Caption</w:t></w:r>'))
+        self.assertEqual(record['status'], 'fail')
+        self.assertEqual(record['pictures'][0]['reasons'], ['non-picture-text-in-picture-control'])
+
+    def test_zero_width_range_markers_cannot_substitute_for_conformance(self):
+        marker = '<w:r><w:t>\u2060</w:t></w:r>'
+        record = self.inspect(CONTROL.format(marker + DRAWING + marker))
+        self.assertEqual(record['status'], 'fail')
+        self.assertEqual(record['pictures'][0]['drawingCount'], 1)
+        self.assertIsNotNone(record['pictures'][0]['image'])
+        self.assertEqual(compare_image_data(self.inspect(), record)['status'], 'fail')
+
+    def test_hidden_or_field_text_is_not_a_picture(self):
+        for text in ['<w:r><w:rPr><w:vanish/></w:rPr><w:t>\u2060</w:t></w:r>',
+                     '<w:r><w:instrText>NOT A PICTURE</w:instrText></w:r>']:
+            self.assertEqual(self.inspect(CONTROL.format(DRAWING + text))['status'], 'fail')
+
     def test_two_drawings_or_image_references_fail(self):
         for content in [DRAWING * 2, DRAWING.replace('<a:blip r:embed="image1"/>', '<a:blip r:embed="image1"/>' * 2)]:
             self.assertEqual(self.inspect(CONTROL.format(content))['status'], 'fail')

@@ -1,5 +1,208 @@
 {
   "schemaVersion": 1,
+  "ciStatusAtClosure": {
+    "checkedAt": "2026-10-30T20:40:53.141Z",
+    "codeCommit": "84df374944a78e0e0a7ede91a1083746462cb9d9",
+    "native": {
+      "runId": 41123950685,
+      "jobs": [
+        {
+          "name": "stable-comparison",
+          "id": 124297504302,
+          "status": "in_progress",
+          "conclusion": null
+        },
+        {
+          "name": "supported-sidebar",
+          "id": 124297504706,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Integrated template - citrus",
+          "id": 124297504739,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "entry-flow-content",
+          "id": 124297504758,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "app-body-content",
+          "id": 124297504776,
+          "status": "completed",
+          "conclusion": "failure"
+        },
+        {
+          "name": "Integrated template - studio",
+          "id": 124297504791,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Integrated template - verlauf",
+          "id": 124297504804,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Integrated template - studio2",
+          "id": 124297504834,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "picture-identity",
+          "id": 124297504848,
+          "status": "completed",
+          "conclusion": "failure"
+        },
+        {
+          "name": "Integrated template - edge",
+          "id": 124297504870,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Integrated template - gallery",
+          "id": 124297504900,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Integrated template - neon",
+          "id": 124297504920,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Integrated template - aurora",
+          "id": 124297504977,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Integrated template - terracotta",
+          "id": 124297505006,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Integrated template - edelDark",
+          "id": 124297505178,
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "release": {
+      "runId": 41123950447,
+      "jobs": [
+        {
+          "name": "fast-checks",
+          "id": 124297504339,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Browser smoke - cv-m9-pagination",
+          "id": 124297999626,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Browser smoke - cv-pdf-paint",
+          "id": 124297999674,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Browser smoke - cv-pdf-dom",
+          "id": 124297999716,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Browser smoke - cv-pdf-parity",
+          "id": 124297999741,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Browser smoke - letter-m1-m5",
+          "id": 124297999800,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Browser smoke - m9-responsive",
+          "id": 124297999806,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Browser smoke - dossier-flow",
+          "id": 124297999811,
+          "status": "in_progress",
+          "conclusion": null
+        },
+        {
+          "name": "Browser smoke - fresh-dossier-templates",
+          "id": 124297999832,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Browser smoke - cv-pdf-core",
+          "id": 124297999844,
+          "status": "in_progress",
+          "conclusion": null
+        },
+        {
+          "name": "Browser smoke - letter-m8-edge",
+          "id": 124297999869,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Browser smoke - templates-layout",
+          "id": 124298000074,
+          "status": "in_progress",
+          "conclusion": null
+        },
+        {
+          "name": "native-print-benchmark",
+          "id": 124298001725,
+          "status": "completed",
+          "conclusion": "skipped"
+        }
+      ]
+    }
+  },
+  "protectedRefsVerified": [
+    {
+      "ref": "refs/heads/dev",
+      "sha": "c8e0a4e306e2e519d2b9392b43fb9759fb8c5078"
+    },
+    {
+      "ref": "refs/heads/main",
+      "sha": "44d7eb950b4fe972d6e890a72b6d3256ce365bc9"
+    },
+    {
+      "ref": "refs/heads/render",
+      "sha": "1fe6dbe59184a759d97f9c393353a8a3d9e1f89a"
+    }
+  ],
+  "localContractChecks": {
+    "picture": 26,
+    "body": 11,
+    "media": 7,
+    "failed": 0
+  },
+  "windowsCheckout": "not reconnected or synchronized during this continuation; last confirmed e395d4d6",
   "productionAcceptance": "blocked",
   "microsoftWordAccepted": 0,
   "sourceArtifact": {
@@ -21,7 +224,8 @@
       "app-body-photo-free-chrome"
     ],
     "newNativeLoads": 0,
-    "newNativeExports": 0
+    "newNativeExports": 0,
+    "recheckedWithStrictTextConstraint": true
   },
   "retainedGeometry": {
     "cases": 22,
@@ -232,13 +436,17 @@
               }
             ]
           }
-        ]
+        ],
+        "sourcePictureContract": "pass",
+        "singleDrawingAndImagePresentInEveryPhase": false,
+        "sourceMatchesBaselineVisibleGeometry": true,
+        "photoFrameCountsMatchBaseline": true
       },
       {
         "variant": "nonempty-picture-range-control",
         "collectionStatus": "pass",
         "productionAcceptance": "blocked",
-        "ownershipStable": true,
+        "ownershipStable": false,
         "imageDataStable": false,
         "sourceToSavedVisibleGeometryStable": true,
         "savedToSaved2VisibleGeometryStable": true,
@@ -259,12 +467,14 @@
             "packageSha256": "f44c9dd969a7f4e2e8e412966d34f03b16b254a57a0eac925084ec4b78609164",
             "pdfSha256": "b7c484e9aa6f4ef56997279883d15e50534862bdb4d0067beb38ae8b7d31398a",
             "pictureOwnership": {
-              "status": "pass",
+              "status": "fail",
               "pictures": [
                 {
                   "id": "cv.person.photo",
-                  "status": "pass",
-                  "reasons": [],
+                  "status": "fail",
+                  "reasons": [
+                    "non-picture-text-in-picture-control"
+                  ],
                   "ownerCount": 1,
                   "typedPicture": true,
                   "drawingCount": 1,
@@ -282,15 +492,15 @@
               ]
             },
             "imageData": {
-              "status": "pass",
+              "status": "fail",
               "pictures": [
                 {
                   "id": "cv.person.photo",
-                  "status": "pass",
-                  "ownershipVerified": true,
-                  "dimensionsUnchanged": true,
-                  "rgbaPixelsUnchanged": true,
-                  "payloadBytesUnchanged": true
+                  "status": "fail",
+                  "ownershipVerified": false,
+                  "dimensionsUnchanged": false,
+                  "rgbaPixelsUnchanged": false,
+                  "payloadBytesUnchanged": false
                 }
               ]
             },
@@ -301,12 +511,14 @@
             "packageSha256": "ee54056ea0c3fa225fd2fa29ea76229bd55c36a9b158be57006eb01aee82e698",
             "pdfSha256": "327310b313bcdc929fb1b1fc2609054f29d111b5a743fb2f4b16305cf2addc9e",
             "pictureOwnership": {
-              "status": "pass",
+              "status": "fail",
               "pictures": [
                 {
                   "id": "cv.person.photo",
-                  "status": "pass",
-                  "reasons": [],
+                  "status": "fail",
+                  "reasons": [
+                    "non-picture-text-in-picture-control"
+                  ],
                   "ownerCount": 1,
                   "typedPicture": true,
                   "drawingCount": 1,
@@ -329,7 +541,7 @@
                 {
                   "id": "cv.person.photo",
                   "status": "fail",
-                  "ownershipVerified": true,
+                  "ownershipVerified": false,
                   "dimensionsUnchanged": false,
                   "rgbaPixelsUnchanged": false,
                   "payloadBytesUnchanged": false
@@ -343,12 +555,14 @@
             "packageSha256": "5e05550edb30c1f1f1e74069fcc9815c5b30bde4f33d1fc10e1797b626c754a7",
             "pdfSha256": "a713fd419132cd0fb9f874216e8fdd7abb7c9437453ec384eaff943515b254cb",
             "pictureOwnership": {
-              "status": "pass",
+              "status": "fail",
               "pictures": [
                 {
                   "id": "cv.person.photo",
-                  "status": "pass",
-                  "reasons": [],
+                  "status": "fail",
+                  "reasons": [
+                    "non-picture-text-in-picture-control"
+                  ],
                   "ownerCount": 1,
                   "typedPicture": true,
                   "drawingCount": 1,
@@ -371,7 +585,7 @@
                 {
                   "id": "cv.person.photo",
                   "status": "fail",
-                  "ownershipVerified": true,
+                  "ownershipVerified": false,
                   "dimensionsUnchanged": false,
                   "rgbaPixelsUnchanged": false,
                   "payloadBytesUnchanged": false
@@ -380,9 +594,14 @@
             },
             "photoFrames": []
           }
-        ]
+        ],
+        "sourcePictureContract": "fail",
+        "singleDrawingAndImagePresentInEveryPhase": true,
+        "sourceMatchesBaselineVisibleGeometry": false,
+        "photoFrameCountsMatchBaseline": false
       }
-    ]
+    ],
+    "strictTextConstraintRecheckedWithoutNewExports": true
   },
   "visibleRangeDevelopmentProbe": {
     "engine": {
@@ -581,13 +800,15 @@
               }
             ]
           }
-        ]
+        ],
+        "sourcePictureContract": "pass",
+        "singleDrawingAndImagePresentInEveryPhase": false
       },
       {
         "variant": "nonempty-picture-range-control",
         "collectionStatus": "pass",
         "productionAcceptance": "blocked",
-        "ownershipStable": true,
+        "ownershipStable": false,
         "imageDataStable": false,
         "sourceToSavedVisibleGeometryStable": true,
         "savedToSaved2VisibleGeometryStable": true,
@@ -610,12 +831,14 @@
             "packageSha256": "aa531ca367f2c341306a88b124f0f433f41f9ebc49a905765a7f0cc828fc9f4d",
             "pdfSha256": "d98c8b8706dc230bc659c29dc9fba79a65fb4565d8a4bb608a056cbc18d2b68a",
             "pictureOwnership": {
-              "status": "pass",
+              "status": "fail",
               "pictures": [
                 {
                   "id": "cv.person.photo",
-                  "status": "pass",
-                  "reasons": [],
+                  "status": "fail",
+                  "reasons": [
+                    "non-picture-text-in-picture-control"
+                  ],
                   "ownerCount": 1,
                   "typedPicture": true,
                   "drawingCount": 1,
@@ -633,15 +856,15 @@
               ]
             },
             "imageData": {
-              "status": "pass",
+              "status": "fail",
               "pictures": [
                 {
                   "id": "cv.person.photo",
-                  "status": "pass",
-                  "ownershipVerified": true,
-                  "dimensionsUnchanged": true,
-                  "rgbaPixelsUnchanged": true,
-                  "payloadBytesUnchanged": true
+                  "status": "fail",
+                  "ownershipVerified": false,
+                  "dimensionsUnchanged": false,
+                  "rgbaPixelsUnchanged": false,
+                  "payloadBytesUnchanged": false
                 }
               ]
             },
@@ -662,12 +885,14 @@
             "packageSha256": "958092eb365962fa1c6d6f026cab8ac29e48a0a829a7325c719a627d2e1dc396",
             "pdfSha256": "b5163dc1fb3c5e5a8fbe3fdc792a8f3b1186e87151f58ab8c31adece9b419fb9",
             "pictureOwnership": {
-              "status": "pass",
+              "status": "fail",
               "pictures": [
                 {
                   "id": "cv.person.photo",
-                  "status": "pass",
-                  "reasons": [],
+                  "status": "fail",
+                  "reasons": [
+                    "non-picture-text-in-picture-control"
+                  ],
                   "ownerCount": 1,
                   "typedPicture": true,
                   "drawingCount": 1,
@@ -690,7 +915,7 @@
                 {
                   "id": "cv.person.photo",
                   "status": "fail",
-                  "ownershipVerified": true,
+                  "ownershipVerified": false,
                   "dimensionsUnchanged": false,
                   "rgbaPixelsUnchanged": false,
                   "payloadBytesUnchanged": false
@@ -714,12 +939,14 @@
             "packageSha256": "5a4187ae1aeee1fb6be869dbc4bc5ac4de33a71d2d35c955b517216afd27aefb",
             "pdfSha256": "b6a162a90d46a968a7bf860debfa41e67644fa7c23e196b181381cb1885e7d49",
             "pictureOwnership": {
-              "status": "pass",
+              "status": "fail",
               "pictures": [
                 {
                   "id": "cv.person.photo",
-                  "status": "pass",
-                  "reasons": [],
+                  "status": "fail",
+                  "reasons": [
+                    "non-picture-text-in-picture-control"
+                  ],
                   "ownerCount": 1,
                   "typedPicture": true,
                   "drawingCount": 1,
@@ -742,7 +969,7 @@
                 {
                   "id": "cv.person.photo",
                   "status": "fail",
-                  "ownershipVerified": true,
+                  "ownershipVerified": false,
                   "dimensionsUnchanged": false,
                   "rgbaPixelsUnchanged": false,
                   "payloadBytesUnchanged": false
@@ -761,13 +988,1501 @@
               }
             ]
           }
-        ]
+        ],
+        "sourcePictureContract": "fail",
+        "singleDrawingAndImagePresentInEveryPhase": true
       }
-    ]
+    ],
+    "strictTextConstraintRecheckedWithoutNewExports": true
   },
   "pinnedEngineProbe": {
-    "status": "pending",
-    "reason": "New source diagnostic is queued for the existing pinned CI; development results are not a stable-engine or Word acceptance."
+    "status": "collected-and-strictly-rechecked",
+    "codeCommit": "84df374944a78e0e0a7ede91a1083746462cb9d9",
+    "runId": 41123950685,
+    "appJobId": 124297504776,
+    "artifactId": 13010975631,
+    "archiveSha256": "10d4781439a08eb9fb55c34fbfb6baaa3c48b5655819a6ed3c2d473bd599d607",
+    "archiveBytesIndependentlyVerified": true,
+    "newNativeLoadsDuringRecheck": 0,
+    "newNativeExportsDuringRecheck": 0,
+    "engine": {
+      "interface": "LibreOfficeKit",
+      "version": {
+        "ProductName": "LibreOffice",
+        "ProductVersion": "25.8",
+        "ProductExtension": ".7.3",
+        "BuildId": "580(Build:3)"
+      },
+      "packageManifestSha256": "5de56f5f319a2aea970f41bfdbc955a3be7cc00650a38bd8a4c202cbb6102a4c",
+      "fontManifestSha256": "765840c4534617d8adb0172cf770e5ae1f1ba28b948e965e0873ac9ff92f9822",
+      "adapterSha256": "269419f0800c8f251dd07ade244a24cf14caa4a5921ddd45f15156a33b4cde33",
+      "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+      "host": "Linux x86_64",
+      "packagesVerified": 50
+    },
+    "cases": [
+      {
+        "variant": "baseline",
+        "collectionStatus": "pass",
+        "productionAcceptance": "blocked",
+        "sourceToSavedVisibleGeometryStable": true,
+        "savedToSaved2VisibleGeometryStable": true,
+        "sourceMatchesBaselineVisibleGeometry": true,
+        "photoFrameCountsMatchBaseline": true,
+        "rawPhotoControlCounts": [
+          1,
+          1,
+          1
+        ],
+        "activePhotoControlCounts": [
+          1,
+          1,
+          1
+        ],
+        "strictSourcePictureContract": "pass",
+        "strictPictureContractStable": false,
+        "singleDrawingAndImagePresentInEveryPhase": false,
+        "strictImageDataStable": false,
+        "phases": [
+          {
+            "phase": "source",
+            "packageSha256": "7dd758c90f92d5a490ef022923c738edff042c539aa578e451aa1909bcd81923",
+            "pdfSha256": "0f19938da5e2700c0f5ff9fc0ee3750d3ace396a637d87023379e854d3d02266",
+            "pictureOwnership": {
+              "status": "pass",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "pass",
+                  "reasons": [],
+                  "ownerCount": 1,
+                  "typedPicture": true,
+                  "drawingCount": 1,
+                  "imageReferenceCount": 1,
+                  "image": {
+                    "part": "word/media/image-1.png",
+                    "sizePx": [
+                      120,
+                      180
+                    ],
+                    "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+                    "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+                  }
+                }
+              ]
+            },
+            "photoFrames": [
+              {
+                "page": 3,
+                "bboxMm": [
+                  150.00111541748046,
+                  23.74220659467909,
+                  184.00890180799695,
+                  57.74998491075304
+                ]
+              }
+            ],
+            "imageData": {
+              "status": "pass",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "pass",
+                  "ownershipVerified": true,
+                  "dimensionsUnchanged": true,
+                  "rgbaPixelsUnchanged": true,
+                  "payloadBytesUnchanged": true
+                }
+              ]
+            }
+          },
+          {
+            "phase": "saved",
+            "packageSha256": "ed4f248d75dc58aee81ff89ffdfb28122a8c2c69d9a14742622bfc82f7902d0f",
+            "pdfSha256": "ce765bfa66f4859bc0ea9400b7392a550495a15a01067c3a79b87a67f982cb0b",
+            "pictureOwnership": {
+              "status": "fail",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "fail",
+                  "reasons": [
+                    "picture-control-must-own-one-drawing",
+                    "picture-control-must-own-one-image-reference"
+                  ],
+                  "ownerCount": 1,
+                  "typedPicture": true,
+                  "drawingCount": 0,
+                  "imageReferenceCount": 0,
+                  "image": null
+                }
+              ]
+            },
+            "photoFrames": [
+              {
+                "page": 3,
+                "bboxMm": [
+                  150.00111541748046,
+                  23.74220659467909,
+                  184.00890180799695,
+                  57.74998491075304
+                ]
+              }
+            ],
+            "imageData": {
+              "status": "fail",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "fail",
+                  "ownershipVerified": false,
+                  "dimensionsUnchanged": false,
+                  "rgbaPixelsUnchanged": false,
+                  "payloadBytesUnchanged": false
+                }
+              ]
+            }
+          },
+          {
+            "phase": "saved2",
+            "packageSha256": "4b7b3b2f49b3841fac3c8c774ecad6248e412720df5d9112dfbba225c359c2f6",
+            "pdfSha256": "d14791bcebe2beadae5fe7368b602060bcbe7a6a28fc1fd77f00ae2eccb94805",
+            "pictureOwnership": {
+              "status": "fail",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "fail",
+                  "reasons": [
+                    "picture-control-must-own-one-drawing",
+                    "picture-control-must-own-one-image-reference"
+                  ],
+                  "ownerCount": 1,
+                  "typedPicture": true,
+                  "drawingCount": 0,
+                  "imageReferenceCount": 0,
+                  "image": null
+                }
+              ]
+            },
+            "photoFrames": [
+              {
+                "page": 3,
+                "bboxMm": [
+                  150.00111541748046,
+                  23.74220659467909,
+                  184.00890180799695,
+                  57.74998491075304
+                ]
+              }
+            ],
+            "imageData": {
+              "status": "fail",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "fail",
+                  "ownershipVerified": false,
+                  "dimensionsUnchanged": false,
+                  "rgbaPixelsUnchanged": false,
+                  "payloadBytesUnchanged": false
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "variant": "rectangle-anchor",
+        "collectionStatus": "pass",
+        "productionAcceptance": "blocked",
+        "sourceToSavedVisibleGeometryStable": true,
+        "savedToSaved2VisibleGeometryStable": true,
+        "sourceMatchesBaselineVisibleGeometry": false,
+        "photoFrameCountsMatchBaseline": true,
+        "rawPhotoControlCounts": [
+          1,
+          1,
+          1
+        ],
+        "activePhotoControlCounts": [
+          1,
+          1,
+          1
+        ],
+        "strictSourcePictureContract": "pass",
+        "strictPictureContractStable": false,
+        "singleDrawingAndImagePresentInEveryPhase": false,
+        "strictImageDataStable": false,
+        "phases": [
+          {
+            "phase": "source",
+            "packageSha256": "8080777c0a6abb767dae4db0412e3aa1f0d4ae7d3207277611dd5cd41101b9fb",
+            "pdfSha256": "7f930cbbb293cc9bb38ade71d91ffeb93f497e71c3290635a9a5e470d2872bb3",
+            "pictureOwnership": {
+              "status": "pass",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "pass",
+                  "reasons": [],
+                  "ownerCount": 1,
+                  "typedPicture": true,
+                  "drawingCount": 1,
+                  "imageReferenceCount": 1,
+                  "image": {
+                    "part": "word/media/image-1.png",
+                    "sizePx": [
+                      120,
+                      180
+                    ],
+                    "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+                    "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+                  }
+                }
+              ]
+            },
+            "photoFrames": [
+              {
+                "page": 3,
+                "bboxMm": [
+                  146.43805770874022,
+                  8.184712515936958,
+                  188.94776916503906,
+                  71.93165588378906
+                ]
+              }
+            ],
+            "imageData": {
+              "status": "pass",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "pass",
+                  "ownershipVerified": true,
+                  "dimensionsUnchanged": true,
+                  "rgbaPixelsUnchanged": true,
+                  "payloadBytesUnchanged": true
+                }
+              ]
+            }
+          },
+          {
+            "phase": "saved",
+            "packageSha256": "358d15977dd231893e3d91ea19d526c15d27ce2648ed75293a2ede2ed58ba259",
+            "pdfSha256": "fdd618e274579d67481b477de8496b44eaecd196bb9233ca6102579e49217d74",
+            "pictureOwnership": {
+              "status": "fail",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "fail",
+                  "reasons": [
+                    "picture-control-must-own-one-drawing",
+                    "picture-control-must-own-one-image-reference"
+                  ],
+                  "ownerCount": 1,
+                  "typedPicture": true,
+                  "drawingCount": 0,
+                  "imageReferenceCount": 0,
+                  "image": null
+                }
+              ]
+            },
+            "photoFrames": [
+              {
+                "page": 3,
+                "bboxMm": [
+                  146.43805770874022,
+                  8.184712515936958,
+                  188.94776916503906,
+                  71.93165588378906
+                ]
+              }
+            ],
+            "imageData": {
+              "status": "fail",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "fail",
+                  "ownershipVerified": false,
+                  "dimensionsUnchanged": false,
+                  "rgbaPixelsUnchanged": false,
+                  "payloadBytesUnchanged": false
+                }
+              ]
+            }
+          },
+          {
+            "phase": "saved2",
+            "packageSha256": "e926dfb48d50746dce9199fde42bdf5b68b859343d6fd2526f9add63005da1f1",
+            "pdfSha256": "bd784622ac717fa395c90936df4729451069024bb16f54344f067530c9d27663",
+            "pictureOwnership": {
+              "status": "fail",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "fail",
+                  "reasons": [
+                    "picture-control-must-own-one-drawing",
+                    "picture-control-must-own-one-image-reference"
+                  ],
+                  "ownerCount": 1,
+                  "typedPicture": true,
+                  "drawingCount": 0,
+                  "imageReferenceCount": 0,
+                  "image": null
+                }
+              ]
+            },
+            "photoFrames": [
+              {
+                "page": 3,
+                "bboxMm": [
+                  146.43805770874022,
+                  8.184712515936958,
+                  188.94776916503906,
+                  71.93165588378906
+                ]
+              }
+            ],
+            "imageData": {
+              "status": "fail",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "fail",
+                  "ownershipVerified": false,
+                  "dimensionsUnchanged": false,
+                  "rgbaPixelsUnchanged": false,
+                  "payloadBytesUnchanged": false
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "variant": "rectangle-anchor-no-crop",
+        "collectionStatus": "pass",
+        "productionAcceptance": "blocked",
+        "sourceToSavedVisibleGeometryStable": true,
+        "savedToSaved2VisibleGeometryStable": true,
+        "sourceMatchesBaselineVisibleGeometry": false,
+        "photoFrameCountsMatchBaseline": true,
+        "rawPhotoControlCounts": [
+          1,
+          1,
+          1
+        ],
+        "activePhotoControlCounts": [
+          1,
+          1,
+          1
+        ],
+        "strictSourcePictureContract": "pass",
+        "strictPictureContractStable": false,
+        "singleDrawingAndImagePresentInEveryPhase": false,
+        "strictImageDataStable": false,
+        "phases": [
+          {
+            "phase": "source",
+            "packageSha256": "a8b6af7db7071f06108cdbe5d349928ce46f8c737a7b8fa08396f481e049601a",
+            "pdfSha256": "67ead7c4ff437067ddfaee1697c8ce432e55f176fdfda3910af28093a7f4820b",
+            "pictureOwnership": {
+              "status": "pass",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "pass",
+                  "reasons": [],
+                  "ownerCount": 1,
+                  "typedPicture": true,
+                  "drawingCount": 1,
+                  "imageReferenceCount": 1,
+                  "image": {
+                    "part": "word/media/image-1.png",
+                    "sizePx": [
+                      120,
+                      180
+                    ],
+                    "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+                    "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+                  }
+                }
+              ]
+            },
+            "photoFrames": [
+              {
+                "page": 3,
+                "bboxMm": [
+                  150.00111541748046,
+                  23.74220659467909,
+                  184.00890180799695,
+                  57.74998491075304
+                ]
+              }
+            ],
+            "imageData": {
+              "status": "pass",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "pass",
+                  "ownershipVerified": true,
+                  "dimensionsUnchanged": true,
+                  "rgbaPixelsUnchanged": true,
+                  "payloadBytesUnchanged": true
+                }
+              ]
+            }
+          },
+          {
+            "phase": "saved",
+            "packageSha256": "56ad81c0ff8c9d5c71def2f81ca90d102bb3a39005a0ebd69ba70ecf432e1586",
+            "pdfSha256": "d35c8867a3b37df6557bb7ff0ef1fe2fa554e5928cde6c42b0a7e84a829de735",
+            "pictureOwnership": {
+              "status": "fail",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "fail",
+                  "reasons": [
+                    "picture-control-must-own-one-drawing",
+                    "picture-control-must-own-one-image-reference"
+                  ],
+                  "ownerCount": 1,
+                  "typedPicture": true,
+                  "drawingCount": 0,
+                  "imageReferenceCount": 0,
+                  "image": null
+                }
+              ]
+            },
+            "photoFrames": [
+              {
+                "page": 3,
+                "bboxMm": [
+                  150.00111541748046,
+                  23.74220659467909,
+                  184.00890180799695,
+                  57.74998491075304
+                ]
+              }
+            ],
+            "imageData": {
+              "status": "fail",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "fail",
+                  "ownershipVerified": false,
+                  "dimensionsUnchanged": false,
+                  "rgbaPixelsUnchanged": false,
+                  "payloadBytesUnchanged": false
+                }
+              ]
+            }
+          },
+          {
+            "phase": "saved2",
+            "packageSha256": "d036701eb4b18235d8d426eee30d62a1faaf11f0c79ad390882d933bb2a2976b",
+            "pdfSha256": "89af64aa589065b4b2684e6c5e2210be469177dcc75374090601de370d69f3a4",
+            "pictureOwnership": {
+              "status": "fail",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "fail",
+                  "reasons": [
+                    "picture-control-must-own-one-drawing",
+                    "picture-control-must-own-one-image-reference"
+                  ],
+                  "ownerCount": 1,
+                  "typedPicture": true,
+                  "drawingCount": 0,
+                  "imageReferenceCount": 0,
+                  "image": null
+                }
+              ]
+            },
+            "photoFrames": [
+              {
+                "page": 3,
+                "bboxMm": [
+                  150.00111541748046,
+                  23.74220659467909,
+                  184.00890180799695,
+                  57.74998491075304
+                ]
+              }
+            ],
+            "imageData": {
+              "status": "fail",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "fail",
+                  "ownershipVerified": false,
+                  "dimensionsUnchanged": false,
+                  "rgbaPixelsUnchanged": false,
+                  "payloadBytesUnchanged": false
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "variant": "ellipse-inline-control",
+        "collectionStatus": "pass",
+        "productionAcceptance": "blocked",
+        "sourceToSavedVisibleGeometryStable": true,
+        "savedToSaved2VisibleGeometryStable": true,
+        "sourceMatchesBaselineVisibleGeometry": false,
+        "photoFrameCountsMatchBaseline": true,
+        "rawPhotoControlCounts": [
+          1,
+          1,
+          1
+        ],
+        "activePhotoControlCounts": [
+          1,
+          1,
+          1
+        ],
+        "strictSourcePictureContract": "pass",
+        "strictPictureContractStable": true,
+        "singleDrawingAndImagePresentInEveryPhase": true,
+        "strictImageDataStable": false,
+        "phases": [
+          {
+            "phase": "source",
+            "packageSha256": "e6bbd16c2ea95e37fcc385f462e43770eb215dade9f3a8b7a6700a9ee4fdcf69",
+            "pdfSha256": "db2b7511c76e5d49b476f647adbb35a0f9ca0336711131000b813744ab6332a4",
+            "pictureOwnership": {
+              "status": "pass",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "pass",
+                  "reasons": [],
+                  "ownerCount": 1,
+                  "typedPicture": true,
+                  "drawingCount": 1,
+                  "imageReferenceCount": 1,
+                  "image": {
+                    "part": "word/media/image-1.png",
+                    "sizePx": [
+                      120,
+                      180
+                    ],
+                    "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+                    "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+                  }
+                }
+              ]
+            },
+            "photoFrames": [
+              {
+                "page": 3,
+                "bboxMm": [
+                  75.60027885437012,
+                  23.74220659467909,
+                  109.60805986192491,
+                  57.74998491075304
+                ]
+              }
+            ],
+            "imageData": {
+              "status": "pass",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "pass",
+                  "ownershipVerified": true,
+                  "dimensionsUnchanged": true,
+                  "rgbaPixelsUnchanged": true,
+                  "payloadBytesUnchanged": true
+                }
+              ]
+            }
+          },
+          {
+            "phase": "saved",
+            "packageSha256": "f6b4deb6888919a41addb27c34c3d4521ddd2d318b572f2dbd1ef35d9b3f7b44",
+            "pdfSha256": "e5921fd8d787b62776dacc370c20f53708806fcc136bbe28644adb4f07597faf",
+            "pictureOwnership": {
+              "status": "pass",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "pass",
+                  "reasons": [],
+                  "ownerCount": 1,
+                  "typedPicture": true,
+                  "drawingCount": 1,
+                  "imageReferenceCount": 1,
+                  "image": {
+                    "part": "word/media/image1.png",
+                    "sizePx": [
+                      96,
+                      96
+                    ],
+                    "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+                    "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+                  }
+                }
+              ]
+            },
+            "photoFrames": [
+              {
+                "page": 3,
+                "bboxMm": [
+                  75.60027885437012,
+                  23.74220659467909,
+                  109.60805986192491,
+                  57.74998491075304
+                ]
+              }
+            ],
+            "imageData": {
+              "status": "fail",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "fail",
+                  "ownershipVerified": true,
+                  "dimensionsUnchanged": false,
+                  "rgbaPixelsUnchanged": false,
+                  "payloadBytesUnchanged": false
+                }
+              ]
+            }
+          },
+          {
+            "phase": "saved2",
+            "packageSha256": "7620e022f8273a3944ebc28e9457142fc6d3cf1ada8ee74010d9d7b394432b3f",
+            "pdfSha256": "4ee486acfadbc85b552f627659448f84cfe25ea9c3cb87cd7fabdf209b272ab4",
+            "pictureOwnership": {
+              "status": "pass",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "pass",
+                  "reasons": [],
+                  "ownerCount": 1,
+                  "typedPicture": true,
+                  "drawingCount": 1,
+                  "imageReferenceCount": 1,
+                  "image": {
+                    "part": "word/media/image1.png",
+                    "sizePx": [
+                      96,
+                      96
+                    ],
+                    "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+                    "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+                  }
+                }
+              ]
+            },
+            "photoFrames": [
+              {
+                "page": 3,
+                "bboxMm": [
+                  75.60027885437012,
+                  23.74220659467909,
+                  109.60805986192491,
+                  57.74998491075304
+                ]
+              }
+            ],
+            "imageData": {
+              "status": "fail",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "fail",
+                  "ownershipVerified": true,
+                  "dimensionsUnchanged": false,
+                  "rgbaPixelsUnchanged": false,
+                  "payloadBytesUnchanged": false
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "variant": "rectangle-inline-control",
+        "collectionStatus": "pass",
+        "productionAcceptance": "blocked",
+        "sourceToSavedVisibleGeometryStable": true,
+        "savedToSaved2VisibleGeometryStable": true,
+        "sourceMatchesBaselineVisibleGeometry": false,
+        "photoFrameCountsMatchBaseline": true,
+        "rawPhotoControlCounts": [
+          1,
+          1,
+          1
+        ],
+        "activePhotoControlCounts": [
+          1,
+          1,
+          1
+        ],
+        "strictSourcePictureContract": "pass",
+        "strictPictureContractStable": true,
+        "singleDrawingAndImagePresentInEveryPhase": true,
+        "strictImageDataStable": true,
+        "phases": [
+          {
+            "phase": "source",
+            "packageSha256": "d1e1702318ab7f02c4136c63938407dd65ec949b87d2740abe4b98a6ceba7492",
+            "pdfSha256": "d26602085528e83e651c4150a99669e30cc90a838a608bd8ce21db28946a6bce",
+            "pictureOwnership": {
+              "status": "pass",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "pass",
+                  "reasons": [],
+                  "ownerCount": 1,
+                  "typedPicture": true,
+                  "drawingCount": 1,
+                  "imageReferenceCount": 1,
+                  "image": {
+                    "part": "word/media/image-1.png",
+                    "sizePx": [
+                      120,
+                      180
+                    ],
+                    "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+                    "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+                  }
+                }
+              ]
+            },
+            "photoFrames": [
+              {
+                "page": 3,
+                "bboxMm": [
+                  71.63152885437012,
+                  7.779030990600585,
+                  114.14124569363064,
+                  71.52597435845269
+                ]
+              }
+            ],
+            "imageData": {
+              "status": "pass",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "pass",
+                  "ownershipVerified": true,
+                  "dimensionsUnchanged": true,
+                  "rgbaPixelsUnchanged": true,
+                  "payloadBytesUnchanged": true
+                }
+              ]
+            }
+          },
+          {
+            "phase": "saved",
+            "packageSha256": "47e6ab4ccd18fadcf06fd6d5933b19c81b44176c2559fd068e4ce06329dcc479",
+            "pdfSha256": "9935bc3e0a275820aca86a6e112db9a6a2e238f684adc426e5ab3f09f19fd473",
+            "pictureOwnership": {
+              "status": "pass",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "pass",
+                  "reasons": [],
+                  "ownerCount": 1,
+                  "typedPicture": true,
+                  "drawingCount": 1,
+                  "imageReferenceCount": 1,
+                  "image": {
+                    "part": "word/media/image1.png",
+                    "sizePx": [
+                      120,
+                      180
+                    ],
+                    "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+                    "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+                  }
+                }
+              ]
+            },
+            "photoFrames": [
+              {
+                "page": 3,
+                "bboxMm": [
+                  71.63152885437012,
+                  7.779030990600585,
+                  114.14124569363064,
+                  71.52597435845269
+                ]
+              }
+            ],
+            "imageData": {
+              "status": "pass",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "pass",
+                  "ownershipVerified": true,
+                  "dimensionsUnchanged": true,
+                  "rgbaPixelsUnchanged": true,
+                  "payloadBytesUnchanged": true
+                }
+              ]
+            }
+          },
+          {
+            "phase": "saved2",
+            "packageSha256": "8fdc3dbab14cc23295a14f56062ebbcb11cf684080259b5146a2e09ece56d0ca",
+            "pdfSha256": "56d94dcf9940d17597e6b4ad5f4098f9dd9ab378453f07d20c2c064f92b4d736",
+            "pictureOwnership": {
+              "status": "pass",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "pass",
+                  "reasons": [],
+                  "ownerCount": 1,
+                  "typedPicture": true,
+                  "drawingCount": 1,
+                  "imageReferenceCount": 1,
+                  "image": {
+                    "part": "word/media/image1.png",
+                    "sizePx": [
+                      120,
+                      180
+                    ],
+                    "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+                    "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+                  }
+                }
+              ]
+            },
+            "photoFrames": [
+              {
+                "page": 3,
+                "bboxMm": [
+                  71.63152885437012,
+                  7.779030990600585,
+                  114.14124569363064,
+                  71.52597435845269
+                ]
+              }
+            ],
+            "imageData": {
+              "status": "pass",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "pass",
+                  "ownershipVerified": true,
+                  "dimensionsUnchanged": true,
+                  "rgbaPixelsUnchanged": true,
+                  "payloadBytesUnchanged": true
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "variant": "nonempty-picture-range-control",
+        "collectionStatus": "pass",
+        "productionAcceptance": "blocked",
+        "sourceToSavedVisibleGeometryStable": true,
+        "savedToSaved2VisibleGeometryStable": true,
+        "sourceMatchesBaselineVisibleGeometry": true,
+        "photoFrameCountsMatchBaseline": true,
+        "rawPhotoControlCounts": [
+          1,
+          1,
+          1
+        ],
+        "activePhotoControlCounts": [
+          1,
+          1,
+          1
+        ],
+        "strictSourcePictureContract": "fail",
+        "strictPictureContractStable": false,
+        "singleDrawingAndImagePresentInEveryPhase": true,
+        "strictImageDataStable": false,
+        "phases": [
+          {
+            "phase": "source",
+            "packageSha256": "aa531ca367f2c341306a88b124f0f433f41f9ebc49a905765a7f0cc828fc9f4d",
+            "pdfSha256": "78c989bc1c1c221ea4eca4ca7fc18efe2ce6bcfc0767324237b50bf5f9739e0d",
+            "pictureOwnership": {
+              "status": "fail",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "fail",
+                  "reasons": [
+                    "non-picture-text-in-picture-control"
+                  ],
+                  "ownerCount": 1,
+                  "typedPicture": true,
+                  "drawingCount": 1,
+                  "imageReferenceCount": 1,
+                  "image": {
+                    "part": "word/media/image-1.png",
+                    "sizePx": [
+                      120,
+                      180
+                    ],
+                    "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+                    "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+                  }
+                }
+              ]
+            },
+            "photoFrames": [
+              {
+                "page": 3,
+                "bboxMm": [
+                  150.00111541748046,
+                  23.74220659467909,
+                  184.00890180799695,
+                  57.74998491075304
+                ]
+              }
+            ],
+            "imageData": {
+              "status": "fail",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "fail",
+                  "ownershipVerified": false,
+                  "dimensionsUnchanged": false,
+                  "rgbaPixelsUnchanged": false,
+                  "payloadBytesUnchanged": false
+                }
+              ]
+            }
+          },
+          {
+            "phase": "saved",
+            "packageSha256": "ce893e38859ac07eac426fcbd2d8a7f3309849c634cc5e25d6cf58ec63ee5c75",
+            "pdfSha256": "50764bcc0f6227c556c8e7e70107b404465052d657a133fc66c2e92883063b73",
+            "pictureOwnership": {
+              "status": "fail",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "fail",
+                  "reasons": [
+                    "non-picture-text-in-picture-control"
+                  ],
+                  "ownerCount": 1,
+                  "typedPicture": true,
+                  "drawingCount": 1,
+                  "imageReferenceCount": 1,
+                  "image": {
+                    "part": "word/media/image1.png",
+                    "sizePx": [
+                      96,
+                      96
+                    ],
+                    "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+                    "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+                  }
+                }
+              ]
+            },
+            "photoFrames": [
+              {
+                "page": 3,
+                "bboxMm": [
+                  150.00111541748046,
+                  23.74220659467909,
+                  184.00890180799695,
+                  57.74998491075304
+                ]
+              }
+            ],
+            "imageData": {
+              "status": "fail",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "fail",
+                  "ownershipVerified": false,
+                  "dimensionsUnchanged": false,
+                  "rgbaPixelsUnchanged": false,
+                  "payloadBytesUnchanged": false
+                }
+              ]
+            }
+          },
+          {
+            "phase": "saved2",
+            "packageSha256": "bd8df9f27589b09b8616d677e3f599c44a602b6cb01afe61d605f48b8666dd14",
+            "pdfSha256": "fe4c502da921142b84ec5f628884b1b2fa8d11ce41acd5e2af902eebac5ba65d",
+            "pictureOwnership": {
+              "status": "fail",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "fail",
+                  "reasons": [
+                    "non-picture-text-in-picture-control"
+                  ],
+                  "ownerCount": 1,
+                  "typedPicture": true,
+                  "drawingCount": 1,
+                  "imageReferenceCount": 1,
+                  "image": {
+                    "part": "word/media/image1.png",
+                    "sizePx": [
+                      96,
+                      96
+                    ],
+                    "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+                    "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+                  }
+                }
+              ]
+            },
+            "photoFrames": [
+              {
+                "page": 3,
+                "bboxMm": [
+                  150.00111541748046,
+                  23.74220659467909,
+                  184.00890180799695,
+                  57.74998491075304
+                ]
+              }
+            ],
+            "imageData": {
+              "status": "fail",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "fail",
+                  "ownershipVerified": false,
+                  "dimensionsUnchanged": false,
+                  "rgbaPixelsUnchanged": false,
+                  "payloadBytesUnchanged": false
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "variant": "character-relative-anchor",
+        "collectionStatus": "pass",
+        "productionAcceptance": "blocked",
+        "sourceToSavedVisibleGeometryStable": true,
+        "savedToSaved2VisibleGeometryStable": true,
+        "sourceMatchesBaselineVisibleGeometry": true,
+        "photoFrameCountsMatchBaseline": true,
+        "rawPhotoControlCounts": [
+          1,
+          1,
+          1
+        ],
+        "activePhotoControlCounts": [
+          1,
+          1,
+          1
+        ],
+        "strictSourcePictureContract": "pass",
+        "strictPictureContractStable": false,
+        "singleDrawingAndImagePresentInEveryPhase": false,
+        "strictImageDataStable": false,
+        "phases": [
+          {
+            "phase": "source",
+            "packageSha256": "0363828b8ac804c068b8a522561111411cc70d1f2b4c70af996f5670f07112a7",
+            "pdfSha256": "f1f324fedbe57e4639309757e0ecc5dd22d2755031fab8f0546d9203efe5d8f4",
+            "pictureOwnership": {
+              "status": "pass",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "pass",
+                  "reasons": [],
+                  "ownerCount": 1,
+                  "typedPicture": true,
+                  "drawingCount": 1,
+                  "imageReferenceCount": 1,
+                  "image": {
+                    "part": "word/media/image-1.png",
+                    "sizePx": [
+                      120,
+                      180
+                    ],
+                    "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+                    "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+                  }
+                }
+              ]
+            },
+            "photoFrames": [
+              {
+                "page": 3,
+                "bboxMm": [
+                  150.00111541748046,
+                  23.74220659467909,
+                  184.00890180799695,
+                  57.74998491075304
+                ]
+              }
+            ],
+            "imageData": {
+              "status": "pass",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "pass",
+                  "ownershipVerified": true,
+                  "dimensionsUnchanged": true,
+                  "rgbaPixelsUnchanged": true,
+                  "payloadBytesUnchanged": true
+                }
+              ]
+            }
+          },
+          {
+            "phase": "saved",
+            "packageSha256": "fab7e5283af8bdf7c61966ded132d20906c337f1dd33125ce6af2944caeb567d",
+            "pdfSha256": "2c03c2bd02d482b3a2e25457307e4f28e36d6d90af227cc6b7087e9a5b67a44f",
+            "pictureOwnership": {
+              "status": "fail",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "fail",
+                  "reasons": [
+                    "picture-control-must-own-one-drawing",
+                    "picture-control-must-own-one-image-reference"
+                  ],
+                  "ownerCount": 1,
+                  "typedPicture": true,
+                  "drawingCount": 0,
+                  "imageReferenceCount": 0,
+                  "image": null
+                }
+              ]
+            },
+            "photoFrames": [
+              {
+                "page": 3,
+                "bboxMm": [
+                  150.00111541748046,
+                  23.74220659467909,
+                  184.00890180799695,
+                  57.74998491075304
+                ]
+              }
+            ],
+            "imageData": {
+              "status": "fail",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "fail",
+                  "ownershipVerified": false,
+                  "dimensionsUnchanged": false,
+                  "rgbaPixelsUnchanged": false,
+                  "payloadBytesUnchanged": false
+                }
+              ]
+            }
+          },
+          {
+            "phase": "saved2",
+            "packageSha256": "8990db36be20409073e0f99750e45818636f6d93697c40b24f72c0b7c1b8c671",
+            "pdfSha256": "d028e182db50627ff23f77ac99a4f8f35cda6f146917c5c09be717a2981caa3d",
+            "pictureOwnership": {
+              "status": "fail",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "fail",
+                  "reasons": [
+                    "picture-control-must-own-one-drawing",
+                    "picture-control-must-own-one-image-reference"
+                  ],
+                  "ownerCount": 1,
+                  "typedPicture": true,
+                  "drawingCount": 0,
+                  "imageReferenceCount": 0,
+                  "image": null
+                }
+              ]
+            },
+            "photoFrames": [
+              {
+                "page": 3,
+                "bboxMm": [
+                  150.00111541748046,
+                  23.74220659467909,
+                  184.00890180799695,
+                  57.74998491075304
+                ]
+              }
+            ],
+            "imageData": {
+              "status": "fail",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "fail",
+                  "ownershipVerified": false,
+                  "dimensionsUnchanged": false,
+                  "rgbaPixelsUnchanged": false,
+                  "payloadBytesUnchanged": false
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "variant": "legacy-frame-control",
+        "collectionStatus": "pass",
+        "productionAcceptance": "blocked",
+        "sourceToSavedVisibleGeometryStable": false,
+        "savedToSaved2VisibleGeometryStable": false,
+        "sourceMatchesBaselineVisibleGeometry": true,
+        "photoFrameCountsMatchBaseline": true,
+        "rawPhotoControlCounts": [
+          1,
+          2,
+          2
+        ],
+        "activePhotoControlCounts": [
+          1,
+          1,
+          1
+        ],
+        "strictSourcePictureContract": "pass",
+        "strictPictureContractStable": false,
+        "singleDrawingAndImagePresentInEveryPhase": false,
+        "strictImageDataStable": false,
+        "phases": [
+          {
+            "phase": "source",
+            "packageSha256": "38338f5404bab1d0b1772724bb4f45ef24d6c96b45dfdf5b277200f14deee13b",
+            "pdfSha256": "a7a67443cfb6cdfeaf28f1e576fa820f2f491678e964308e69a2bc98b2f7fa2e",
+            "pictureOwnership": {
+              "status": "pass",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "pass",
+                  "reasons": [],
+                  "ownerCount": 1,
+                  "typedPicture": true,
+                  "drawingCount": 1,
+                  "imageReferenceCount": 1,
+                  "image": {
+                    "part": "word/media/image-1.png",
+                    "sizePx": [
+                      120,
+                      180
+                    ],
+                    "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+                    "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+                  }
+                }
+              ]
+            },
+            "photoFrames": [
+              {
+                "page": 3,
+                "bboxMm": [
+                  150.00111541748046,
+                  23.74220659467909,
+                  184.00890180799695,
+                  57.74998491075304
+                ]
+              }
+            ],
+            "imageData": {
+              "status": "pass",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "pass",
+                  "ownershipVerified": true,
+                  "dimensionsUnchanged": true,
+                  "rgbaPixelsUnchanged": true,
+                  "payloadBytesUnchanged": true
+                }
+              ]
+            }
+          },
+          {
+            "phase": "saved",
+            "packageSha256": "ab858cfe8f44100952d937fddd81fa4f72dca6a3c4312271ab0fa0b65c3b0f49",
+            "pdfSha256": "b3af8f9ae07a618535f341266df0cfa7a12cdeb155cdc56797c02c25f6fca24d",
+            "pictureOwnership": {
+              "status": "fail",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "fail",
+                  "reasons": [
+                    "picture-control-must-own-one-drawing",
+                    "picture-control-must-own-one-image-reference"
+                  ],
+                  "ownerCount": 1,
+                  "typedPicture": true,
+                  "drawingCount": 0,
+                  "imageReferenceCount": 0,
+                  "image": null
+                }
+              ]
+            },
+            "photoFrames": [
+              {
+                "page": 3,
+                "bboxMm": [
+                  149.61305770874023,
+                  23.354165034823946,
+                  183.6031987508138,
+                  57.344303385416666
+                ]
+              }
+            ],
+            "imageData": {
+              "status": "fail",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "fail",
+                  "ownershipVerified": false,
+                  "dimensionsUnchanged": false,
+                  "rgbaPixelsUnchanged": false,
+                  "payloadBytesUnchanged": false
+                }
+              ]
+            }
+          },
+          {
+            "phase": "saved2",
+            "packageSha256": "e52adf29378113e9f6e064357a75f3ae8dca9ef5fc8aa4a5dad3a27d091a8e1b",
+            "pdfSha256": "5f6b6497a6fb63cc3464e0261f9dfc8c5602e7495ba32d92ae73e9c0e0491182",
+            "pictureOwnership": {
+              "status": "fail",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "fail",
+                  "reasons": [
+                    "picture-control-must-own-one-drawing",
+                    "picture-control-must-own-one-image-reference"
+                  ],
+                  "ownerCount": 1,
+                  "typedPicture": true,
+                  "drawingCount": 0,
+                  "imageReferenceCount": 0,
+                  "image": null
+                }
+              ]
+            },
+            "photoFrames": [
+              {
+                "page": 3,
+                "bboxMm": [
+                  149.61305770874023,
+                  23.336530452304416,
+                  183.6031987508138,
+                  57.32666880289714
+                ]
+              }
+            ],
+            "imageData": {
+              "status": "fail",
+              "pictures": [
+                {
+                  "id": "cv.person.photo",
+                  "status": "fail",
+                  "ownershipVerified": false,
+                  "dimensionsUnchanged": false,
+                  "rgbaPixelsUnchanged": false,
+                  "payloadBytesUnchanged": false
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "appMatrixStrictRecheck": {
+      "cases": 22,
+      "phases": 66,
+      "contentReportSha256": "356ecdc2aad586bd077f134f56df32b76f1a4f15b52f6a71e840872e2457edd2",
+      "pictureOwnershipAcceptance": "fail",
+      "imageDataAcceptance": "fail",
+      "failedOwnershipCases": [
+        "app-body-photo-free-main",
+        "app-body-photo-free-low",
+        "app-body-photo-free-portrait",
+        "app-body-photo-free-chrome"
+      ]
+    },
+    "independentPdfComparisons": [
+      {
+        "before": "baseline-source.pdf",
+        "after": "nonempty-picture-range-control-source.pdf",
+        "pageCountsUnchanged": true,
+        "wordSequenceUnchanged": true,
+        "changedWordPages": [],
+        "changedPixelPages": [],
+        "changedWords": 0,
+        "maxAbsDxMm": 0.0,
+        "maxAbsDyMm": 0.0,
+        "renderScale": 2,
+        "pdfMetadataCompared": false,
+        "exactVisibleGeometry": true
+      },
+      {
+        "before": "nonempty-picture-range-control-source.pdf",
+        "after": "nonempty-picture-range-control-saved.pdf",
+        "pageCountsUnchanged": true,
+        "wordSequenceUnchanged": true,
+        "changedWordPages": [],
+        "changedPixelPages": [],
+        "changedWords": 0,
+        "maxAbsDxMm": 0.0,
+        "maxAbsDyMm": 0.0,
+        "renderScale": 2,
+        "pdfMetadataCompared": false,
+        "exactVisibleGeometry": true
+      },
+      {
+        "before": "nonempty-picture-range-control-saved.pdf",
+        "after": "nonempty-picture-range-control-saved2.pdf",
+        "pageCountsUnchanged": true,
+        "wordSequenceUnchanged": true,
+        "changedWordPages": [],
+        "changedPixelPages": [],
+        "changedWords": 0,
+        "maxAbsDxMm": 0.0,
+        "maxAbsDyMm": 0.0,
+        "renderScale": 2,
+        "pdfMetadataCompared": false,
+        "exactVisibleGeometry": true
+      }
+    ]
   },
   "upstreamSources": [
     {
@@ -787,5 +2502,21 @@
         "WriteContentControlStart"
       ]
     }
-  ]
+  ],
+  "sourceTextConstraint": {
+    "status": "enforced",
+    "contractTestsPassed": 26,
+    "rangeWorkaroundProductionAcceptance": "rejected",
+    "reason": "A picture SDT permits only a single DrawingML picture; U+2060 text is still text.",
+    "source": "https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.wordprocessing.sdtcontentpicture?view=openxml-3.0.1"
+  },
+  "strictCollectorDevelopmentReplay": {
+    "status": "pass",
+    "newNativeLoads": 0,
+    "newNativeExports": 0,
+    "sourcePictureContract": "fail",
+    "drawingPresentInAllPhases": true,
+    "sourceMatchesBaselineVisibleGeometry": true
+  },
+  "strictCheckerSha256": "77ac44830668a0a4d59ef036449e537ed8f175913afcf613a160e3376ba568eb"
 }

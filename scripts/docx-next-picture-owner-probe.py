@@ -104,7 +104,15 @@ def probe(fixtures, target, engine, selected_variants=None):
             with ZipFile(path) as archive:
                 assert all(archive.read(info.filename) == data for info, data in parts if info.filename != 'word/document.xml')
             before = picture_inventory(path, fixture['pictures'])
-            assert before['status'] == 'pass', 'Source ownership must remain explicit'
+            if name == 'nonempty-picture-range-control':
+                # This deliberately nonconforming control tests the range
+                # mechanism only; it must fail the strict picture contract.
+                assert before['status'] == 'fail' and all(
+                    picture['reasons'] == ['non-picture-text-in-picture-control']
+                    for picture in before['pictures']), 'Unexpected diagnostic source defect'
+            else:
+                assert before['status'] == 'pass', 'Source ownership must remain explicit'
+            row['sourcePictureContract'] = before['status']
             for phase in ('source', 'saved', 'saved2'):
                 if phase != 'source':
                     next_path = target / (name + '-' + phase + '.docx')
@@ -122,6 +130,11 @@ def probe(fixtures, target, engine, selected_variants=None):
                                       'pictureOwnership': ownership, 'imageData': compare_image_data(before, ownership),
                                       'pdf': pdf_snapshot(pdf)})
             row['ownershipStable'] = all(p['pictureOwnership']['status'] == 'pass' for p in row['phases'])
+            row['singleDrawingAndImagePresentInEveryPhase'] = all(
+                picture['ownerCount'] == 1 and picture['typedPicture']
+                and picture['drawingCount'] == picture['imageReferenceCount'] == 1
+                and picture['image'] is not None
+                for phase in row['phases'] for picture in phase['pictureOwnership']['pictures'])
             row['imageDataStable'] = all(p['imageData']['status'] == 'pass' for p in row['phases'])
             row['sourceToSavedVisibleGeometryStable'] = row['phases'][0]['pdf'] == row['phases'][1]['pdf']
             row['savedToSaved2VisibleGeometryStable'] = row['phases'][1]['pdf'] == row['phases'][2]['pdf']

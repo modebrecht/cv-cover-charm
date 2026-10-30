@@ -1,24 +1,38 @@
 # Übergabe: direkt verankertes Einzelbild, 30. Oktober 2026
 
-## Neueste Fortsetzung: begrenzter Bereichs-Gegenversuch
+## Neueste Fortsetzung: Bereichs-Workaround verworfen, Textvertrag verschaerft
 
 Details: `docs/qa/picture-range-30okt.md` und `.json`.
-Das neue Archiv zu `e395d4d6` ist jetzt auch lokal byteweise gegen seinen
-veroeffentlichten Digest verifiziert; alle 66 DOCX-/PDF-Bindungen sind erneut
-bestaetigt. Die aktuelle Geometrie ist nachgezaehlt: weiterhin 18/22 exakt stabil.
+Das Archiv zu `e395d4d6` ist jetzt auch lokal byteweise gegen seinen
+veroeffentlichten Digest verifiziert; alle 66 DOCX-/PDF-Bindungen und alle 44
+PDF-Vergleiche sind erneut bestaetigt. Weiterhin 18/22 Faelle exakt stabil.
 
-Ein neuer, rein diagnostischer Quellversuch umfasst das freie Drawing mit zwei
-nicht ausgeblendeten WORD JOINER-Zeichen. Auf der vorhandenen Entwicklungsengine
-bleibt dadurch die eigene Bildzuordnung ueber zwei Speicherzyklen erhalten;
-alle drei PDFs stimmen in sichtbarer Geometrie mit der unveraenderten Quelle
-ueberein. Die Originalpixel bleiben trotzdem veraendert. Ein Versuch mit
-Ausblendung wurde wegen unsichtbarem Foto verworfen. Die native CI soll denselben
-Gegenversuch auf der gepinnten Engine bestaetigen; Ergebnis noch offen.
+Zwei WORD JOINER-Zeichen um das freie Drawing erhalten auf der Entwicklungsengine
+physisch die Bildzuordnung und die exakte sichtbare Ausgangsgeometrie ueber zwei
+Speicherzyklen. Dieser Ansatz ist trotzdem verworfen: Die ISO-Regel fuer eine
+typisierte Bildkontrolle erlaubt nur das einzelne Bild, keine Zusatztexte.
+Ein Versuch mit Ausblendung liess ausserdem das Foto verschwinden und ist
+separat verworfen. Die Pixelneubildung runder Fotos bleibt bestehen.
 
-Kein Renderer-Fix integriert. Die zusaetzlichen Zeichen sind keine Word-Freigabe;
-Desktop-Word und die pixelgetreue runde Bildform bleiben zwingend offen.
-Der Pruefer vergleicht Varianten nun auch mit der unveraenderten Quellansicht,
-damit ein bereits unsichtbares Foto keinen scheinbaren Geometrieerfolg ergibt.
+Der strenge Pruefer lehnt zusaetzlichen Text in Bildkontrollen jetzt explizit ab;
+26 Vertragstests bestehen. Alle alten 66 Phasen wurden damit erneut geprueft:
+dieselben vier Zuordnungsfehler, keine neue pauschale Freigabe. Der Bereichs-
+Gegenversuch muss bereits an seiner nicht konformen Quelle scheitern und bleibt
+nur als ausdruecklich ungueltige Mechanismus-Diagnose messbar.
+
+Native CI auf `84df3749`: Lauf `41123950685`, alle acht Gegenversuche gesammelt.
+Die gepinnte Engine bestaetigt den physischen Bereichseffekt bei gleicher
+sichtbarer Geometrie. Archiv `13010975631` heruntergeladen, Digest verifiziert,
+alle 24 Probenbindungen und 66 App-Phasen mit dem neuen Textvertrag erneut
+geprueft: Der Bereichsversuch faellt in allen Phasen durch. Der vorherige
+CI-Pruefer kannte diese Beschraenkung noch nicht. Ein hashgebundener Replay des
+neuen Sammlers und alle 44 lokalen Bild-/Inhalts-/Medientests bestehen. Dieser
+QA-Nachtrag startet keine erneute volle Browsermatrix. Kein Produktfix integriert.
+Die Desktop-Word-Abnahme der normalen textfreien Quelle bleibt offen.
+Die Fortsetzung lief isoliert unter Linux; der Windows-Checkout wurde nicht
+erneut verbunden oder synchronisiert (letzter bestaetigter Stand: `e395d4d6`).
+Aktuelle CI-Zwischenstaende stehen im neuen Bericht; ausstehende Jobs nicht als
+bestanden ausgeben. `dev`, `main` und `render` sind unveraendert.
 Die folgenden Abschnitte dokumentieren den vorherigen Abschlussstand.
 
 ---

@@ -84,6 +84,12 @@ def picture_inventory(path, pictures):
             if content is None:
                 row['reasons'].append('missing-control-content')
                 continue
+            # ISO/IEC 29500: a picture SDT may contain only its single picture.
+            # Zero-width/hidden text can preserve Writer's range, but is not a
+            # conforming repair and must not make the strict contract pass.
+            if any(node.text for tag in ('t', 'delText', 'instrText', 'delInstrText')
+                   for node in content.iter(W + tag)):
+                row['reasons'].append('non-picture-text-in-picture-control')
             drawings = list(content.iter(W + 'drawing'))
             row['drawingCount'] = len(drawings)
             blips = list(drawings[0].iter(A + 'blip')) if len(drawings) == 1 else []
