@@ -363,9 +363,9 @@ jobs:
     timeout-minutes: 30
     env:
       QA_ROOT: /tmp/docx-next-app-body
-      # Keep typed inline picture ownership inside the existing free frame.
-      # The rejected direct anchor remains an isolated negative counterprobe below.
-      DIRECT_PICTURE_ARGS: ""
+      # Isolated diagnostic candidate; strict ownership must still reject detached pictures.
+      # The original framed renderer remains an independently measured counterprobe below.
+      DIRECT_PICTURE_ARGS: ${{ github.ref == 'refs/heads/work/30okt-body-boundary-candidate' && '--direct-picture-ownership' || '' }}
       DETACHED_CELL_ARGS: ${{ github.ref == 'refs/heads/work/30okt-body-boundary-candidate' && '--detached-cell-starts' || '' }}
     steps:
       - uses: actions/checkout@v4

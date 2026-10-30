@@ -218,7 +218,12 @@ def audit(folder, engine, binding, replay_existing=False, detached_cell_starts=F
                 inventory = {row['tag']: row['text'] for row in native['finalControls']}
                 assert len(inventory) == len(native['finalControls']), 'Duplicate native tag'
                 assert set(inventory) == set(expected_all), 'Native story fields missing or added'
-                assert [key for key in inventory if key in expected_body] == list(expected_body), 'Native body field order changed'
+                actual_order = [key for key in inventory if key in expected_body]
+                expected_order = list(expected_body)
+                assert actual_order == expected_order, (
+                    f"Native body field order changed: {name}/{request['phase']}; "
+                    f"expectedPhotoIndex={expected_order.index('cv.person.photo') if 'cv.person.photo' in expected_order else None}, "
+                    f"actualPhotoIndex={actual_order.index('cv.person.photo') if 'cv.person.photo' in actual_order else None}")
                 assert all(value.replace('\n', '').replace('\t', '') == inventory[tag].replace('\n', '').replace('\t', '')
                            for tag, value in expected_all.items()), 'Native field text changed'
                 result['nativeControls'] = len(inventory)

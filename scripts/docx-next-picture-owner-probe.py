@@ -117,6 +117,11 @@ def probe(fixtures, target, engine):
             row['collectionStatus'] = 'pass'
             row['rawPhotoControlCounts'] = [phase['rawPhotoControlCount'] for phase in row['phases']]
             row['activePhotoControlCounts'] = [phase['pictureOwnership']['pictures'][0]['ownerCount'] for phase in row['phases']]
+            row['ownershipFailures'] = [{'phase': phase['phase'], 'reasons': picture['reasons'],
+                                         'typedPicture': picture['typedPicture'], 'drawingCount': picture['drawingCount'],
+                                         'imageReferenceCount': picture['imageReferenceCount']}
+                                        for phase in row['phases'] for picture in phase['pictureOwnership']['pictures']
+                                        if picture['status'] != 'pass']
         except Exception as error:
             row['collectionStatus'] = 'fail'
             row['failure'] = type(error).__name__ + ': ' + str(error)
