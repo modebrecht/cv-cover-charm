@@ -114,7 +114,24 @@ def photo_pixels(page):
                        float((x.max() + 1) / (2 * MM)), float((y.max() + 1) / (2 * MM))]}
 
 
-def audit(folder, engine, binding, replay_existing=False):
+def check_cell_start_attachments(path, attached):
+    with ZipFile(path) as archive:
+        root = ET.fromstring(archive.read('word/document.xml'))
+    body = root.find(W + 'body')
+    tables = [table for table in body.findall(W + 'tbl')
+              if table.find(W + 'tblPr/' + W + 'tblCaption') is not None and
+              table.find(W + 'tblPr/' + W + 'tblCaption').get(W + 'val') == 'cv.sidebar']
+    assert len(tables) == 1, 'Missing or duplicate body-story table'
+    cells = tables[0].findall(W + 'tr/' + W + 'tc')
+    assert len(cells) == 3, 'Changed body-story column count'
+    for index in [0, 2]:
+        paragraph = cells[index].find(W + 'p')
+        assert paragraph is not None, 'Missing structural cell-start paragraph'
+        flag = paragraph.find(W + 'pPr/' + W + 'keepNext')
+        assert flag is not None and flag.get(W + 'val') == ('1' if attached else '0'), 'Cell-start attachment differs from the declared experiment'
+
+
+def audit(folder, engine, binding, replay_existing=False, detached_cell_starts=False):
     report = {'scope': 'Shared application snapshot/model/export body composition', 'cases': [],
               'contentRoundtripAcceptance': 'pending', 'geometryAcceptance': 'unaccepted',
               'productionAcceptance': 'blocked', 'microsoftWordAccepted': 0,
@@ -126,10 +143,12 @@ def audit(folder, engine, binding, replay_existing=False):
         assert json.loads((folder / 'manifest.json').read_text()) == NAMES, 'Incomplete app matrix'
         for name in NAMES:
             fixture = json.loads((folder / (name + '.json')).read_text())
-            assert fixture['sharedSnapshotExport'] and fixture['bodyBoundaryKeepNext']
+            assert fixture['sharedSnapshotExport']
+            assert fixture['bodyBoundaryKeepNext'] is (not detached_cell_starts), 'Unexpected cell-start experiment'
             assert fixture['paragraphPoliciesUnchanged'] and fixture['existingStoryPartsUnchanged']
             source = folder / (name + '.docx')
             assert entry.sha(source) == fixture['sourceSha256']
+            check_cell_start_attachments(source, not detached_cell_starts)
             expected_body, expected_all = package_controls(source)
             photo_digests, paint_digests = package_image_digests(source)
             assert bool(photo_digests) == bool(fixture['pictures']), 'Source photo inventory changed'
@@ -256,6 +275,7 @@ if __name__ == '__main__':
     parser.add_argument('directory', type=Path); parser.add_argument('--engine', type=Path, required=True)
     parser.add_argument('--binding', type=Path, required=True)
     parser.add_argument('--replay-existing', action='store_true', help='Read-only local re-audit of retained native observations and exports; CI always uses fresh execution')
+    parser.add_argument('--detached-cell-starts', action='store_true', help='Explicit unaccepted experiment: verify detached empty cell-start anchors without changing semantic paragraphs')
     args = parser.parse_args()
-    result = audit(args.directory.resolve(), args.engine.resolve(), (args.binding / 'binding').resolve(), args.replay_existing)
+    result = audit(args.directory.resolve(), args.engine.resolve(), (args.binding / 'binding').resolve(), args.replay_existing, args.detached_cell_starts)
     print(json.dumps({'cases':len(result['cases']), 'contentRoundtripAcceptance':result['contentRoundtripAcceptance']}))

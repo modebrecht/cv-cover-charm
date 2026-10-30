@@ -253,7 +253,7 @@ try {
       sourceSha256: hash(bytes),
       sharedSnapshotExport: true,
       sourceColumnRounding: table.columnRounding,
-      bodyBoundaryKeepNext: true,
+      bodyBoundaryKeepNext: table.bodyBoundaryKeepNext ?? true,
       bodyBoundaryLeadMm: table.bodyBoundaryLeadMm ?? 0,
       paragraphPoliciesUnchanged: true,
       existingStoryPartsUnchanged: true,

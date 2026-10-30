@@ -513,7 +513,7 @@ export async function renderDossierDocx(
                       index === row.cells.findIndex((content) => content.length > 0)
                         ? openingDrawings
                         : "",
-                      true,
+                      value.bodyBoundaryKeepNext ?? true,
                       20 +
                         twips(
                           value.bodyBoundaryLeadByCellMm?.[index] ?? value.bodyBoundaryLeadMm ?? 0,

@@ -27,7 +27,7 @@ test("shared sidebar lowering preserves authored paragraphs, physical tracks and
     const flow = old.cv.blocks.find((block) => block.kind === "parallel-flow")!;
     const table = model.cv.blocks.find((block) => block.kind === "table") as TableBlock;
     expect(table.bodyBoundary).toBe("section-start");
-    expect(table.bodyBoundaryKeepNext).toBeUndefined();
+    expect(table.bodyBoundaryKeepNext).toBe(false);
     expect(table.position).toBeUndefined();
     expect(table.rows).toHaveLength(1);
     expect(table.rows[0].keepTogether).toBe(false);
@@ -160,7 +160,7 @@ test("a malformed body table cannot bypass the sidebar structure gate", async ()
       delete table.bodyBoundary;
     },
     (table: TableBlock) => {
-      table.bodyBoundaryKeepNext = false;
+      table.bodyBoundaryKeepNext = true;
     },
     (table: TableBlock) => {
       table.position = { xMm: 20, yMm: 20 };
@@ -186,5 +186,31 @@ test("a malformed body table cannot bypass the sidebar structure gate", async ()
     await expect(renderDossierDocx(model, { allowUnacceptedModelIssues: true })).rejects.toThrow(
       "requires native parallel flow",
     );
+  }
+});
+
+test("independent stories change only the two empty cell-start attachment flags", async () => {
+  const input = sidebarFixture("both-long");
+  input.settings.sidebarSide = "right";
+  const model = buildDossierDocModel(input, diagnostic);
+  const legacy = structuredClone(model);
+  const table = legacy.cv.blocks.find((block) => block.kind === "table") as TableBlock;
+  delete table.bodyBoundaryKeepNext;
+  const options = { allowUnacceptedModelIssues: true };
+  const read = async (value: typeof model) =>
+    readZipEntries(new Uint8Array(await (await renderDossierDocx(value, options)).arrayBuffer()));
+  const oldParts = await read(legacy),
+    newParts = await read(model);
+  expect(newParts.map((part) => part.name)).toEqual(oldParts.map((part) => part.name));
+  const oldAnchor =
+    '<w:p><w:pPr><w:keepNext w:val="1"/><w:spacing w:after="0" w:line="20" w:lineRule="exact"/></w:pPr>';
+  const newAnchor = oldAnchor.replace('w:val="1"', 'w:val="0"');
+  for (const [index, part] of newParts.entries()) {
+    if (part.name === "word/document.xml") {
+      const before = new TextDecoder().decode(oldParts[index].bytes);
+      const after = new TextDecoder().decode(part.bytes);
+      expect(before.split(oldAnchor)).toHaveLength(3);
+      expect(after).toBe(before.replaceAll(oldAnchor, newAnchor));
+    } else expect(part.bytes).toEqual(oldParts[index].bytes);
   }
 });

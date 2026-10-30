@@ -1,0 +1,630 @@
+{
+  "date": "2026-10-30",
+  "baseCommit": "c3e9f4f17b8493526a602efff1b7110622bb154c",
+  "candidateOnly": true,
+  "mergedIntoDev": false,
+  "normalWordExportChanged": false,
+  "unitTests": {
+    "passed": 1487,
+    "failed": 0,
+    "files": 281,
+    "affectedAfterRevert": 13
+  },
+  "pythonContractTests": {
+    "passed": 11,
+    "new": 4
+  },
+  "isolation": {
+    "controlRemoval": [
+      {
+        "scope": "cv-body",
+        "diagnosticOnly": true,
+        "removedControls": {
+          "word/document.xml": 352
+        },
+        "allTextPreserved": true,
+        "sourceSha256": "89d2b7f0a366f5b5cef3d353a3f1c0fbd736f8fedd8740fe962fe0a5044016e6",
+        "variantSha256": "a56131c3b759585d2e1aaecdcacdb5391d4d5867a345e2e8075a154a7361bde4",
+        "save": "timeout",
+        "timeoutSeconds": 20,
+        "elapsedSeconds": 20.049
+      },
+      {
+        "scope": "all-stories",
+        "diagnosticOnly": true,
+        "removedControls": {
+          "word/document.xml": 383
+        },
+        "allTextPreserved": true,
+        "sourceSha256": "89d2b7f0a366f5b5cef3d353a3f1c0fbd736f8fedd8740fe962fe0a5044016e6",
+        "variantSha256": "e32517fcf72959d0850828587f421343b355d7413a724c5fea712cf8c7c7ac56",
+        "save": "timeout",
+        "timeoutSeconds": 20,
+        "elapsedSeconds": 20.121
+      }
+    ],
+    "layout": [
+      {
+        "scope": "no-keep-next",
+        "diagnosticOnly": true,
+        "changedItems": 217,
+        "tableGeometryPreserved": true,
+        "allTextPreserved": true,
+        "variantSha256": "23b5a95ef2a17f5a8d741bba6abca5d78ae828c81f3bc2b3a3474249e0de2f37",
+        "save": "completed",
+        "returnCode": 0,
+        "stderr": "Allowlisted languages: de-DE en-US \n",
+        "elapsedSeconds": 0.765
+      },
+      {
+        "scope": "main-only",
+        "diagnosticOnly": true,
+        "changedItems": 73,
+        "tableGeometryPreserved": true,
+        "allTextPreserved": false,
+        "variantSha256": "72786d20f7d7518da0ea31cae83a6a028ac3057967e98bdd8a64405add64eac8",
+        "save": "completed",
+        "returnCode": 0,
+        "stderr": "Allowlisted languages: de-DE en-US \n",
+        "elapsedSeconds": 0.75
+      },
+      {
+        "scope": "side-only",
+        "diagnosticOnly": true,
+        "changedItems": 279,
+        "tableGeometryPreserved": true,
+        "allTextPreserved": false,
+        "variantSha256": "a9ecbc4c33de08f01cc227abfc9511d799325704836f51368521050a13512d83",
+        "save": "completed",
+        "returnCode": 0,
+        "stderr": "Allowlisted languages: de-DE en-US \n",
+        "elapsedSeconds": 0.711
+      }
+    ],
+    "attachment": [
+      {
+        "scope": "no-structural-keep-next",
+        "diagnosticOnly": true,
+        "changedItems": 2,
+        "tableGeometryPreserved": true,
+        "allTextPreserved": true,
+        "variantSha256": "37fb6d4be56cccc2fab5a7cb385b5713bcb36f7725b274490e5c1431fd536dc0",
+        "save": "completed",
+        "returnCode": 0,
+        "stderr": "Allowlisted languages: de-DE en-US \n",
+        "elapsedSeconds": 0.822
+      },
+      {
+        "scope": "no-main-keep-next",
+        "diagnosticOnly": true,
+        "changedItems": 209,
+        "tableGeometryPreserved": true,
+        "allTextPreserved": true,
+        "variantSha256": "7553c65738e233214bfa7699d99aa3024ec380e813221b9f74001a604200cdc2",
+        "save": "completed",
+        "returnCode": 0,
+        "stderr": "Allowlisted languages: de-DE en-US \n",
+        "elapsedSeconds": 0.715
+      },
+      {
+        "scope": "no-side-keep-next",
+        "diagnosticOnly": true,
+        "changedItems": 8,
+        "tableGeometryPreserved": true,
+        "allTextPreserved": true,
+        "variantSha256": "fc6ecdad780b6701a997b0ba67d2c01d8a18ed37abe6904acf245343c8cc23bc",
+        "save": "timeout",
+        "timeoutSeconds": 20,
+        "elapsedSeconds": 20.028
+      }
+    ],
+    "savedFields": {
+      "sourceBodyFields": 383,
+      "savedBodyFields": 383,
+      "sourceAllStoryFields": 383,
+      "savedAllStoryFields": 383,
+      "bodyIdsTextOrderSame": true,
+      "allStoryIdsTextSame": true
+    }
+  },
+  "nativeAppMatrix": {
+    "contentRoundtripAcceptance": "fail",
+    "completedCases": 13,
+    "failure": "AssertionError: word/document.xml: empty or duplicate authored field tag cv.person.photo",
+    "executionMode": "read-only replay where retained inputs and native hashes match",
+    "cases": [
+      {
+        "fixture": "app-body-both-long",
+        "sourceSha256": "bedb59c5280b78405aa2268f91f6335c0a51e15c7f3913765c8434b84bc08759",
+        "acceptance": "pass",
+        "phases": [
+          {
+            "phase": "source",
+            "pdfPages": 11
+          },
+          {
+            "phase": "saved",
+            "pdfPages": 11
+          },
+          {
+            "phase": "saved2",
+            "pdfPages": 11
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-both-long-right",
+        "sourceSha256": "a4aa884e25599c821154f7079a74afcc26d06a5e47f569c7049b3e17608dcd62",
+        "acceptance": "pass",
+        "phases": [
+          {
+            "phase": "source",
+            "pdfPages": 11
+          },
+          {
+            "phase": "saved",
+            "pdfPages": 11
+          },
+          {
+            "phase": "saved2",
+            "pdfPages": 11
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-left",
+        "sourceSha256": "f71d164400134a94e9971ab04bdec5a5d3b1a79782e38c8da5324c8efa50950b",
+        "acceptance": "pass",
+        "phases": [
+          {
+            "phase": "source",
+            "pdfPages": 3
+          },
+          {
+            "phase": "saved",
+            "pdfPages": 3
+          },
+          {
+            "phase": "saved2",
+            "pdfPages": 3
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-right",
+        "sourceSha256": "778ee6d8731efac3cb16a93d9d33174f7c4f489ea9b3a76e9502e05a3c5ad186",
+        "acceptance": "pass",
+        "phases": [
+          {
+            "phase": "source",
+            "pdfPages": 3
+          },
+          {
+            "phase": "saved",
+            "pdfPages": 3
+          },
+          {
+            "phase": "saved2",
+            "pdfPages": 3
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-paragraph-long",
+        "sourceSha256": "3c65f5b8df7a988d03d267afd4ac5c065ae43c0db40dd3f9b17416dbd8339d34",
+        "acceptance": "pass",
+        "phases": [
+          {
+            "phase": "source",
+            "pdfPages": 10
+          },
+          {
+            "phase": "saved",
+            "pdfPages": 10
+          },
+          {
+            "phase": "saved2",
+            "pdfPages": 10
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-side-paragraph-long",
+        "sourceSha256": "2c94eb9693a430a3c1fa4e929da925b1d97ce32f1d4482972b814e52e7daa727",
+        "acceptance": "pass",
+        "phases": [
+          {
+            "phase": "source",
+            "pdfPages": 22
+          },
+          {
+            "phase": "saved",
+            "pdfPages": 22
+          },
+          {
+            "phase": "saved2",
+            "pdfPages": 22
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-side-entries-long",
+        "sourceSha256": "8f49b37377b0f80f2b581f039ce3ccbfefb489305807ee90434145874f56d683",
+        "acceptance": "pass",
+        "phases": [
+          {
+            "phase": "source",
+            "pdfPages": 16
+          },
+          {
+            "phase": "saved",
+            "pdfPages": 16
+          },
+          {
+            "phase": "saved2",
+            "pdfPages": 16
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-side-entries-smaller-body",
+        "sourceSha256": "eb7bb0fc5c69140bc131e33a9e6945a88ff57d6ee0227503c59e11f37d66672a",
+        "acceptance": "pass",
+        "phases": [
+          {
+            "phase": "source",
+            "pdfPages": 19
+          },
+          {
+            "phase": "saved",
+            "pdfPages": 19
+          },
+          {
+            "phase": "saved2",
+            "pdfPages": 19
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-placements",
+        "sourceSha256": "8ecdfbe65e5d75b89086ef6f508804e9f4427a3074e7b0b4daa6cbc22e4ea35f",
+        "acceptance": "pass",
+        "phases": [
+          {
+            "phase": "source",
+            "pdfPages": 3
+          },
+          {
+            "phase": "saved",
+            "pdfPages": 3
+          },
+          {
+            "phase": "saved2",
+            "pdfPages": 3
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-styled",
+        "sourceSha256": "ccbecc9be1b1991b6015f6fb7d6ec51761cdbfc273b338cb1330573716c935db",
+        "acceptance": "pass",
+        "phases": [
+          {
+            "phase": "source",
+            "pdfPages": 3
+          },
+          {
+            "phase": "saved",
+            "pdfPages": 3
+          },
+          {
+            "phase": "saved2",
+            "pdfPages": 3
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-photo-left",
+        "sourceSha256": "024327bba558887095df36336fd62614019096ac6e2ea196a2a300a54ec0fef2",
+        "acceptance": "pass",
+        "phases": [
+          {
+            "phase": "source",
+            "pdfPages": 3
+          },
+          {
+            "phase": "saved",
+            "pdfPages": 3
+          },
+          {
+            "phase": "saved2",
+            "pdfPages": 3
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-photo-right",
+        "sourceSha256": "98b5afb80bad5d0f9a01ab24fab7b6dd49edfc6a4580cb47bf5c49d0503dd654",
+        "acceptance": "pass",
+        "phases": [
+          {
+            "phase": "source",
+            "pdfPages": 3
+          },
+          {
+            "phase": "saved",
+            "pdfPages": 3
+          },
+          {
+            "phase": "saved2",
+            "pdfPages": 3
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-photo-main",
+        "sourceSha256": "1f846723539cd8576d16e8dd74d9f9e5fbda565421a68e0e335e5ee7f0f0b5bc",
+        "acceptance": "pass",
+        "phases": [
+          {
+            "phase": "source",
+            "pdfPages": 3
+          },
+          {
+            "phase": "saved",
+            "pdfPages": 3
+          },
+          {
+            "phase": "saved2",
+            "pdfPages": 3
+          }
+        ]
+      },
+      {
+        "fixture": "app-body-photo-free-main",
+        "sourceSha256": "097ee7f74bbbf9571a46c1840a97814725c61c19864d2c79f888eb9378a0eb95",
+        "acceptance": "stopped",
+        "phases": []
+      }
+    ]
+  },
+  "minimalPhotoControls": {
+    "inlineAndUntaggedFree": [
+      {
+        "name": "minimal-body-inline",
+        "owner": "body",
+        "placement": "inline",
+        "sourceSha256": "dc641904f7ea5e77ddad10d8a4eefeb1542dd5fabbc7cba7d741c0e7f9401db8",
+        "diagnosticOnly": true,
+        "save": "completed",
+        "elapsedSeconds": 0.506,
+        "sourcePhotoTags": 1,
+        "savedPhotoTags": 1,
+        "tagCountsPreserved": true,
+        "allTextPreserved": true,
+        "excessTags": {},
+        "savedSha256": "4672b3c0d1081063904408d7487b0018e360c3b45f9ddc072c212404bad3e020"
+      },
+      {
+        "name": "minimal-body-free",
+        "owner": "body",
+        "placement": "free",
+        "sourceSha256": "188c289bd5feee3de370434cd7ea4637368e80b1e5c19f092ba5148e2e40f64c",
+        "diagnosticOnly": true,
+        "save": "completed",
+        "elapsedSeconds": 0.66,
+        "sourcePhotoTags": 0,
+        "savedPhotoTags": 0,
+        "tagCountsPreserved": true,
+        "allTextPreserved": true,
+        "excessTags": {},
+        "savedSha256": "12c0dc00ad06eebdeb6eb1887115f0658873c6391c62269f0295d74b569c763c"
+      },
+      {
+        "name": "minimal-single-inline",
+        "owner": "single",
+        "placement": "inline",
+        "sourceSha256": "b3b3ea0887f2e3d859b79fba35e70dc03576208f66b81d66a0d81686966006a8",
+        "diagnosticOnly": true,
+        "save": "completed",
+        "elapsedSeconds": 0.557,
+        "sourcePhotoTags": 1,
+        "savedPhotoTags": 1,
+        "tagCountsPreserved": true,
+        "allTextPreserved": true,
+        "excessTags": {},
+        "savedSha256": "0c266128be5bf2bc35ffa132cedba95882c443b2f9d538821c67e0eb9b60bb4c"
+      },
+      {
+        "name": "minimal-single-free",
+        "owner": "single",
+        "placement": "free",
+        "sourceSha256": "06c550c76864fdce896ce2dfccd5f777ff92e9194affb9c697d2e04e1255b042",
+        "diagnosticOnly": true,
+        "save": "completed",
+        "elapsedSeconds": 0.537,
+        "sourcePhotoTags": 0,
+        "savedPhotoTags": 0,
+        "tagCountsPreserved": true,
+        "allTextPreserved": true,
+        "excessTags": {},
+        "savedSha256": "5a55732096b57596fe473c618b34f5e8cd837dec7f2b19753b1d5b085d9cde25"
+      },
+      {
+        "name": "minimal-left-inline",
+        "owner": "left",
+        "placement": "inline",
+        "sourceSha256": "ebaad52da8d4e10e7da511368a6fbd790c55bfc75c364d82fbba126ba3a27a55",
+        "diagnosticOnly": true,
+        "save": "completed",
+        "elapsedSeconds": 0.537,
+        "sourcePhotoTags": 1,
+        "savedPhotoTags": 1,
+        "tagCountsPreserved": true,
+        "allTextPreserved": true,
+        "excessTags": {},
+        "savedSha256": "7a229047b1408bea402b5f7e714bb0e2a0bc6ca045462301f5a9fca5dff47a1b"
+      },
+      {
+        "name": "minimal-left-free",
+        "owner": "left",
+        "placement": "free",
+        "sourceSha256": "b76ded33313d41bd9233ef3c3daba9cede8cb757b4e644325f540f61e8a26141",
+        "diagnosticOnly": true,
+        "save": "completed",
+        "elapsedSeconds": 0.599,
+        "sourcePhotoTags": 0,
+        "savedPhotoTags": 0,
+        "tagCountsPreserved": true,
+        "allTextPreserved": true,
+        "excessTags": {},
+        "savedSha256": "93d502737732def22b990731aeb77b4e2c2f606dbbffc8993f6cd437f19a3a97"
+      },
+      {
+        "name": "minimal-right-inline",
+        "owner": "right",
+        "placement": "inline",
+        "sourceSha256": "680e792c41f8cfc9ba71a858f642be426fb96db2b7776b1ebd11c1b99ea61571",
+        "diagnosticOnly": true,
+        "save": "completed",
+        "elapsedSeconds": 0.595,
+        "sourcePhotoTags": 1,
+        "savedPhotoTags": 1,
+        "tagCountsPreserved": true,
+        "allTextPreserved": true,
+        "excessTags": {},
+        "savedSha256": "7613e23ed8bb012a975bec731890784f7234bb90540cb0b5a23cb9071b226412"
+      },
+      {
+        "name": "minimal-right-free",
+        "owner": "right",
+        "placement": "free",
+        "sourceSha256": "fc7ebc512fe65574e68c90033280c280eac94a7345adff1fe6be86519c176801",
+        "diagnosticOnly": true,
+        "save": "completed",
+        "elapsedSeconds": 0.669,
+        "sourcePhotoTags": 0,
+        "savedPhotoTags": 0,
+        "tagCountsPreserved": true,
+        "allTextPreserved": true,
+        "excessTags": {},
+        "savedSha256": "26d4d302bcc2c40980be8357ffe1846e61637a1012af6c474cf81e65ca58344e"
+      }
+    ],
+    "framedFree": [
+      {
+        "name": "minimal-body-framed-free",
+        "owner": "body",
+        "placement": "framed-free",
+        "sourceSha256": "9e049b2bd29077f41a3369f365604904c7b42a605598f282ff5e5aaeddf6cba5",
+        "diagnosticOnly": true,
+        "save": "completed",
+        "elapsedSeconds": 0.5,
+        "sourcePhotoTags": 1,
+        "savedPhotoTags": 2,
+        "tagCountsPreserved": false,
+        "allTextPreserved": true,
+        "excessTags": {
+          "cv.person.photo": 1
+        },
+        "savedSha256": "0a485c218c24a63d66186e5d035a9eccc4c41cffa27e23679407f2f5703b80a1"
+      },
+      {
+        "name": "minimal-single-framed-free",
+        "owner": "single",
+        "placement": "framed-free",
+        "sourceSha256": "07ee3491ef02879e961d3c4580bc31f60683a63b7b81ba7ff58acc9544e3f65e",
+        "diagnosticOnly": true,
+        "save": "completed",
+        "elapsedSeconds": 0.6,
+        "sourcePhotoTags": 1,
+        "savedPhotoTags": 2,
+        "tagCountsPreserved": false,
+        "allTextPreserved": true,
+        "excessTags": {
+          "cv.person.photo": 1
+        },
+        "savedSha256": "7b0c6b9e5b3a7ccb1f2f6f8d3222282b6661df046eef7a6f795c623b6dfc95d5"
+      },
+      {
+        "name": "minimal-left-framed-free",
+        "owner": "left",
+        "placement": "framed-free",
+        "sourceSha256": "3cd967de5fde2a613d669a6d4b6d02f0333a5aa51ebacc879c0e4939f4f6f7ea",
+        "diagnosticOnly": true,
+        "save": "completed",
+        "elapsedSeconds": 0.586,
+        "sourcePhotoTags": 1,
+        "savedPhotoTags": 2,
+        "tagCountsPreserved": false,
+        "allTextPreserved": true,
+        "excessTags": {
+          "cv.person.photo": 1
+        },
+        "savedSha256": "e8ce4da74201bd2d5c4905a752f20c0c748397dbb58597927f9c4d1df7d08e64"
+      },
+      {
+        "name": "minimal-right-framed-free",
+        "owner": "right",
+        "placement": "framed-free",
+        "sourceSha256": "a0da8a85006b288293f1158fe977f329d181f62f31fc852f8f938027b339a584",
+        "diagnosticOnly": true,
+        "save": "completed",
+        "elapsedSeconds": 0.57,
+        "sourcePhotoTags": 1,
+        "savedPhotoTags": 2,
+        "tagCountsPreserved": false,
+        "allTextPreserved": true,
+        "excessTags": {
+          "cv.person.photo": 1
+        },
+        "savedSha256": "9bc8de3ec279cb2f4dee6c0543e4c30302608cba2e998ed274318e7dd1030f8a"
+      }
+    ],
+    "rejectedOuterControl": [
+      {
+        "owner": "body",
+        "diagnosticOnly": true,
+        "saveReturnCode": 0,
+        "elapsedSeconds": 0.663,
+        "variantSha256": "515938527b25126e0c598233d9873828ab7a053cce7d29e41f7589cf196531bd",
+        "photoTags": 1,
+        "allTextPreserved": true
+      },
+      {
+        "owner": "single",
+        "diagnosticOnly": true,
+        "saveReturnCode": 0,
+        "elapsedSeconds": 0.795,
+        "variantSha256": "9c5f9dce7e226cd0372e096cb6d9a4082821219d3125d4c88e496833749a3952",
+        "photoTags": 1,
+        "allTextPreserved": true
+      },
+      {
+        "owner": "left",
+        "diagnosticOnly": true,
+        "saveReturnCode": 0,
+        "elapsedSeconds": 0.639,
+        "variantSha256": "db25921ed1fe13f886d84013da1bdba9a1cc76d6ab8275e78ad46de9643c189b",
+        "photoTags": 1,
+        "allTextPreserved": true
+      },
+      {
+        "owner": "right",
+        "diagnosticOnly": true,
+        "saveReturnCode": 0,
+        "elapsedSeconds": 0.703,
+        "variantSha256": "d34f5313d5818d37bddb7a930f8a7c244ec45d45008709979a288092ec0d568f",
+        "photoTags": 1,
+        "allTextPreserved": true
+      }
+    ]
+  },
+  "rejectedAlternative": {
+    "nativeCasesPassed": 22,
+    "fullUnitPassed": 1484,
+    "fullUnitFailed": 3,
+    "reason": "Typed picture control encloses a frame with two drawings, violating existing Word image ownership contracts",
+    "presentInCandidate": false
+  }
+}

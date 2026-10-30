@@ -173,7 +173,7 @@ export type TableBlock = {
   afterMm?: number;
   /** Guarded body start: legacy preceding paragraph or a table directly at section start. */
   bodyBoundary?: "paragraph" | "section-start";
-  /** Guarded native attachment of the real boundary paragraph to the following table. */
+  /** Guarded preceding-paragraph attachment; false detaches section-start cell anchors. */
   bodyBoundaryKeepNext?: boolean;
   /** First-page inset on the body paragraph or the first cell-start paragraphs. */
   bodyBoundaryLeadMm?: number;

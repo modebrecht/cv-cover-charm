@@ -41,6 +41,9 @@ export function sidebarBodyTable(
   // Start the section with its table. A separate preceding paragraph can strand
   // itself on a blank page when the following independent row spans many pages.
   table.bodyBoundary = "section-start";
+  // These empty cell-start anchors must not couple independent long stories.
+  // All semantic paragraph attachment policies remain unchanged.
+  table.bodyBoundaryKeepNext = false;
   if (leadingInsetMm) table.bodyBoundaryLeadMm = leadingInsetMm;
   return table;
 }
