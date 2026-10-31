@@ -9,6 +9,14 @@ name: Dossier Visual Parity x39
 # while low SSIM is reported and ranked without blocking release by itself.
 on:
   workflow_dispatch:
+    inputs:
+      mode:
+        description: Full x39 gallery or isolated three-file ONLYOFFICE experiment
+        type: choice
+        default: full
+        options:
+          - full
+          - onlyoffice-poc
   push:
     branches:
       - render
@@ -17,11 +25,12 @@ permissions:
   contents: read
 
 concurrency:
-  group: dossier-visual-parity-${{ github.sha }}
+  group: dossier-visual-parity-${{ github.sha }}-${{ inputs.mode || 'full' }}
   cancel-in-progress: true
 
 jobs:
   source-batch:
+    if: ${{ github.event_name != 'workflow_dispatch' || inputs.mode != 'onlyoffice-poc' }}
     name: Visual parity source batch ${{ matrix.batch }}
     runs-on: ubuntu-24.04
     timeout-minutes: 25
@@ -87,6 +96,7 @@ jobs:
           if [ -f /tmp/cv-cover-charm.pid ]; then kill "$(cat /tmp/cv-cover-charm.pid)" || true; fi
 
   compare:
+    if: ${{ github.event_name != 'workflow_dispatch' || inputs.mode != 'onlyoffice-poc' }}
     name: Compare Website vs PDF vs DOCX — 39 templates
     needs:
       - source-batch
@@ -182,5 +192,74 @@ jobs:
         with:
           name: dossier-visual-parity-39
           path: artifacts/dossier-visual-parity-39
+          if-no-files-found: error
+          retention-days: 14
+
+  onlyoffice-poc:
+    name: ONLYOFFICE DOCX Next — three real files
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.mode == 'onlyoffice-poc' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Install source and existing parity dependencies
+        run: |
+          bun install --frozen-lockfile
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libreoffice-writer fonts-cabin fontconfig python3-venv
+          python3 -m venv .parity-venv
+          .parity-venv/bin/pip install --disable-pip-version-check \
+            pillow==11.3.0 numpy==2.2.6 scikit-image==0.25.2 pymupdf==1.26.4
+          libreoffice --version
+          fc-match Arial
+
+      - name: Prepare pinned ONLYOFFICE Document Builder without system installation
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/onlyoffice-poc/runtime
+          curl --fail --location --retry 3 \
+            https://github.com/ONLYOFFICE/DocumentBuilder/releases/download/v10.0.0/onlyoffice-documentbuilder-linux-x86_64.tar.xz \
+            -o artifacts/onlyoffice-poc/onlyoffice-v10.0.0.tar.xz
+          echo '194f348429239fbcee4d1c29861550127885facdbb700706c7bb1429a21b33e4  artifacts/onlyoffice-poc/onlyoffice-v10.0.0.tar.xz' | sha256sum --check --strict
+          tar -xJf artifacts/onlyoffice-poc/onlyoffice-v10.0.0.tar.xz -C artifacts/onlyoffice-poc/runtime
+
+      - name: Generate exactly three real DOCX Next sources
+        run: bun scripts/docx-next-onlyoffice-sources.ts artifacts/onlyoffice-poc/sources
+
+      - name: Check evidence guards and shared PyMuPDF/SSIM controls
+        run: .parity-venv/bin/python -m unittest discover -s scripts -p test_docx_next_onlyoffice_poc.py -v
+
+      - name: Compare native ONLYOFFICE source and two saves using existing parity functions
+        run: |
+          .parity-venv/bin/python scripts/docx_next_onlyoffice_poc.py \
+            --sources artifacts/onlyoffice-poc/sources \
+            --out artifacts/onlyoffice-poc/report \
+            --onlyoffice artifacts/onlyoffice-poc/runtime/opt/onlyoffice/documentbuilder/docbuilder \
+            --archive artifacts/onlyoffice-poc/onlyoffice-v10.0.0.tar.xz
+
+      - name: Publish experimental result
+        if: always()
+        shell: bash
+        run: |
+          if [ -f artifacts/onlyoffice-poc/report/SUMMARY.md ]; then
+            cat artifacts/onlyoffice-poc/report/SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo 'ONLYOFFICE PoC did not complete; inspect job logs.' >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload three-file converter evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dossier-visual-parity-onlyoffice-poc
+          path: |
+            artifacts/onlyoffice-poc/sources
+            artifacts/onlyoffice-poc/report
+            !artifacts/onlyoffice-poc/report/**/temp/**
+            !artifacts/onlyoffice-poc/report/**/png/**
           if-no-files-found: error
           retention-days: 14
