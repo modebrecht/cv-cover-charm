@@ -53,6 +53,15 @@ PoC-Job. `mode=full` bleibt Standard; die vorhandenen x39-Quell-/Vergleichsschri
 bleiben erhalten. Der render-Push führt weiterhin den x39-Lauf aus.
 Die Nebenläufigkeit ist pro Modus getrennt. Kein zweiter Workflow wurde angelegt.
 
+Gezielter Start auf dem Arbeitsbranch (mit bereits authentifizierter GitHub-CLI):
+
+```text
+gh workflow run dossier-visual-parity.yml --repo modebrecht/cv-cover-charm --ref work/word-verified-onlyoffice-poc-31okt -f mode=onlyoffice-poc
+```
+
+Der Workflow liegt bereits im Repository; dieser Aufruf nutzt die Definition
+auf dem Arbeitsbranch und benötigt keinen Merge nach dev/render/main.
+
 Das Ergebnis-Artefakt `dossier-visual-parity-onlyoffice-poc` enthält Quellen,
 SHA-Bindungen, PDFs, DOCX-Saves, Metriken und Vergleichsbilder. Die Spalten der
 Vergleichsbilder sind links LibreOffice, mittig ONLYOFFICE Quelle und rechts
@@ -79,7 +88,47 @@ PDF-Gegenbeleg: Ein fehlendes Foto kann trotz Gesamt-SSIM über 0,98 vorliegen.
 Sie täuschen keine native Konvertierung vor. Die native Dreiermatrix wird
 gesondert ausgeführt und im Ergebnisbericht dokumentiert.
 
-## Grenzen und nächste Schritte
+## Verifizierter lokaler Abschlusslauf
+
+Code-/Quellstand: `3ac893f8082929ac8f9a8889ad6917c4c331e4a3`. Die Quellen wurden
+frisch unter Linux erzeugt und sind bytegleich zur vorherigen Windows-Erzeugung.
+Alle drei Fälle wurden vollständig konvertiert: sechs DOCX-Saves und zwölf PDFs
+mit 36 Seiten. Alle 18 nativen Ausgabedateien sind erneut per SHA-256 geprüft.
+Die Quellen blieben unverändert. Laufzeit: ONLYOFFICE 10.0.0; lokale Referenz ist
+die vorhandene LibreOfficeKit-25.8.7.3-Bibliothek mit SHA-256 beginnend `7b931192`.
+CI verwendet dagegen die im vorhandenen Workflow installierte LibreOffice-CLI;
+dieser CI-Lauf ist noch nicht erfolgt.
+
+| Fall               | Foto in Quelle / Save 1 / Save 2 | RGB-SSIM LO ↔ OO, Mittel | RGB-SSIM OO-Quelle ↔ Save 2, Mittel |
+| ------------------ | -------------------------------- | -----------------------: | ----------------------------------: |
+| 01-normal          | kein Foto vorgesehen             |                 0,773449 |                            0,999312 |
+| 02-inline-photo    | sichtbar / sichtbar / sichtbar   |                 0,772699 |                            0,999312 |
+| 03-word-free-photo | sichtbar / sichtbar / sichtbar   |                 0,774682 |                            0,999322 |
+
+Zwischen Save 1 und Save 2 liegt der mittlere SSIM bei allen drei Fällen etwa
+bei 0,99994. Das ist weitgehend stabil, aber ausdrücklich nicht pixelidentisch.
+Die Vergleichsbilder zeigen die erhaltenen Fotoflächen, ein großes
+„Unregistered Version“-Wasserzeichen und sichtbare Schrift-/Umbruchunterschiede
+gegen LibreOffice. Der niedrige engineübergreifende SSIM lässt sich deshalb
+nicht allein einer DOCX-Layoutursache zuordnen und rechtfertigt keine Änderung
+des Produktexports. Auch das Wasserzeichen in den Save-Rückläufen wurde nicht
+entfernt.
+
+Sieben neue Python-Prüfungen bestehen unter Windows und Linux. Actionlint
+1.7.12, TypeScript-Lint, Prettier und Whitespaceprüfung sind bestanden. Die
+beiden ursprünglichen x39-Jobdefinitionen sind nach Entfernen der neuen
+Modusbedingungen strukturell exakt gleich zum bisherigen Workflow.
+Der bestehende Nachweis von 1495 Unit-Tests wurde im Word-Abschluss verifiziert;
+nach den ausschließlich Diagnose-/Workflow-/Dokumentationsänderungen wurde
+keine identische vollständige Unit-Suite erneut gestartet.
+
+Rohdaten: `artifacts/onlyoffice-poc-31okt/run-final/`. Der kleine versionierte
+Ergebnisbericht `onlyoffice-poc-results-31okt.json` enthält Quellen-SHAs,
+Enginebindungen, Einzelmetriken, Fotokontrollen und Log-Digests. Die nativen
+Rohdokumente und SDK-Dateien bleiben ignoriert. Abschlussreview und PoC-Code
+sind auf dem separaten Arbeitsbranch gesichert; kein Merge nach dev/render/main.
+
+## Noch offen
 
 Der PoC prüft ONLYOFFICEs eigene Darstellung und eigene Saves. Er hat die neuen
 ONLYOFFICE-Rückläufe noch nicht in Desktop Word abgenommen. Als Nächstes sind der

@@ -1,0 +1,292 @@
+{
+  "scope": "Verified local three-file ONLYOFFICE proof of concept; no product exporter change",
+  "reviewCommit": "3b92f94f0938f3f66c0505ac08a42a0ffa9b11d9",
+  "pocCodeCommit": "3ac893f8082929ac8f9a8889ad6917c4c331e4a3",
+  "workingBranch": "work/word-verified-onlyoffice-poc-31okt",
+  "nativeResult": {
+    "file": "artifacts/onlyoffice-poc-31okt/run-final/report.json",
+    "sha256": "b2f857afc26890348a42021c72c05d8c599ed048019d42d3478e44b123427d4a"
+  },
+  "sourceManifest": {
+    "file": "artifacts/onlyoffice-poc-31okt/sources-final/manifest.json",
+    "sha256": "817f145718ea0398879a6d6791d5683765b8179d97b4b59976c437f163711980"
+  },
+  "nativeArtifactsHashVerified": 18,
+  "sourceFilesByteIdenticalAcrossWindowsAndLinuxGeneration": true,
+  "counts": {
+    "cases": 3,
+    "nativeOnlyofficeDocxSaves": 6,
+    "pdfExportsIncludingLibreofficeControl": 12,
+    "pdfPages": 36
+  },
+  "onlyoffice": {
+    "version": "10.0.0",
+    "releaseArchiveSha256": "194f348429239fbcee4d1c29861550127885facdbb700706c7bb1429a21b33e4",
+    "componentBindings": [
+      {
+        "file": "/mnt/c/Users/gsu/Documents/ChatGPT/ib2026/cv-cover-charm/artifacts/onlyoffice-poc-31okt/runtime/opt/onlyoffice/documentbuilder/docbuilder",
+        "sha256": "9fb7ce042052f03c665f63a6ac69acb6722a6acd4cb4eea7eaf1fc8f7609f0b4"
+      },
+      {
+        "file": "/mnt/c/Users/gsu/Documents/ChatGPT/ib2026/cv-cover-charm/artifacts/onlyoffice-poc-31okt/runtime/opt/onlyoffice/documentbuilder/libdoctrenderer.so",
+        "sha256": "a02b4efa181a51d5dc411b956622554af897865681d7662df273418ab5dbadcf"
+      },
+      {
+        "file": "/mnt/c/Users/gsu/Documents/ChatGPT/ib2026/cv-cover-charm/artifacts/onlyoffice-poc-31okt/runtime/opt/onlyoffice/documentbuilder/x2t",
+        "sha256": "28264a893ab7cea7695270a280c7a144b2d72884f01b5d8f6a5e88ea8c460ebb"
+      }
+    ],
+    "unregisteredVersionWatermarkVisible": true,
+    "watermarkMasked": false
+  },
+  "referenceEngine": {
+    "kind": "existing isolated LibreOfficeKit",
+    "adapter": {
+      "file": "/tmp/codex-word-picture-31okt-runtime/lo-kit",
+      "sha256": "7b5191e4b6be20fec10c0297d88be42654fc27defca0868749c1621f5cc79902"
+    },
+    "library": {
+      "file": "/tmp/codex-word-picture-31okt-runtime/usr/lib/libreoffice/program/libmergedlo.so",
+      "sha256": "7b931192643c86a733f49c363357324e9bd93c7619561e81c073044515dcde59"
+    }
+  },
+  "runtimeVersions": {
+    "python": "3.12.3 (main, Nov  6 2024, 18:32:19) [GCC 13.2.0]",
+    "pymupdf": "1.26.4",
+    "numpy": "2.2.6",
+    "pillow": "11.3.0",
+    "scikitImage": "0.25.2"
+  },
+  "testResults": {
+    "existingUnitEvidence": "1495 passed, 0 failed; original c685bf43 Linux log hashes reverified in word-commit-review-31okt.json",
+    "newPythonGuardsWindows": {
+      "passed": 7,
+      "failed": 0,
+      "log": {
+        "file": "artifacts/onlyoffice-poc-31okt/guard-tests.log",
+        "sha256": "0873d9eba09f74593e8f5f75650a042f9ac70cb335c346416d4cbb2b5d304c93"
+      }
+    },
+    "newPythonGuardsLinux": {
+      "passed": 7,
+      "failed": 0,
+      "log": {
+        "file": "artifacts/onlyoffice-poc-31okt/guard-linux-final.log",
+        "sha256": "f1cceaca939497f9234cc742950e1a6f3b92318ddef30bcc8b1794c569961971"
+      }
+    },
+    "actionlint": {
+      "version": "1.7.12",
+      "exitCode": 0,
+      "log": {
+        "file": "artifacts/onlyoffice-poc-31okt/actionlint.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "changedTypeScriptLint": "passed",
+    "changedTypeScriptAndWorkflowPrettier": "passed",
+    "originalX39JobsIdenticalExceptModeGuards": true
+  },
+  "cases": [
+    {
+      "id": "01-normal",
+      "sourceSha256": "2e7bb0e8e0613f8b2663f7832838547680e563eb93395f766ab024bd80359960",
+      "diagnosticSource": false,
+      "completed": true,
+      "expectedPhoto": false,
+      "photoPreservedAllOnlyofficePhases": null,
+      "meanLibreofficeVsOnlyoffice": 0.7734493673454867,
+      "meanOnlyofficeSourceVsSave1": 0.9996260310941603,
+      "meanOnlyofficeSave1VsSave2": 0.9999391732405276,
+      "meanOnlyofficeSourceVsSave2": 0.9993122415360768,
+      "pageMetrics": [
+        {
+          "page": "cover",
+          "libreoffice_vs_onlyoffice": 0.8443820394028166,
+          "libreoffice_vs_onlyoffice_saved2": 0.8424632141974948,
+          "onlyoffice_source_vs_saved2": 0.9990779667056023,
+          "onlyoffice_source_vs_saved1": 0.9994981076230781,
+          "onlyoffice_saved1_vs_saved2": 0.9999187829296762,
+          "onlyoffice_layout_source_vs_saved2": 0.9990779667056023
+        },
+        {
+          "page": "letter",
+          "libreoffice_vs_onlyoffice": 0.7549091212887692,
+          "libreoffice_vs_onlyoffice_saved2": 0.7538928338512284,
+          "onlyoffice_source_vs_saved2": 0.9992787939409752,
+          "onlyoffice_source_vs_saved1": 0.9996092306573847,
+          "onlyoffice_saved1_vs_saved2": 0.9999357694384331,
+          "onlyoffice_layout_source_vs_saved2": 0.9992787939409753
+        },
+        {
+          "page": "cv",
+          "libreoffice_vs_onlyoffice": 0.7210569413448745,
+          "libreoffice_vs_onlyoffice_saved2": 0.7203362309660774,
+          "onlyoffice_source_vs_saved2": 0.999579963961653,
+          "onlyoffice_source_vs_saved1": 0.9997707550020182,
+          "onlyoffice_saved1_vs_saved2": 0.9999629673534735,
+          "onlyoffice_layout_source_vs_saved2": 0.999581456346234
+        }
+      ],
+      "photoControls": {
+        "libreoffice": {
+          "redPixelsCv": 0,
+          "bluePixelsCv": 710,
+          "knownPhotoVisible": false
+        },
+        "source": {
+          "redPixelsCv": 0,
+          "bluePixelsCv": 33,
+          "knownPhotoVisible": false
+        },
+        "saved1": {
+          "redPixelsCv": 0,
+          "bluePixelsCv": 33,
+          "knownPhotoVisible": false
+        },
+        "saved2": {
+          "redPixelsCv": 0,
+          "bluePixelsCv": 33,
+          "knownPhotoVisible": false
+        }
+      }
+    },
+    {
+      "id": "02-inline-photo",
+      "sourceSha256": "6a8e3e5cf25f61e7b930bf383018447947f21467401eebda396797094062affe",
+      "diagnosticSource": false,
+      "completed": true,
+      "expectedPhoto": true,
+      "photoPreservedAllOnlyofficePhases": true,
+      "meanLibreofficeVsOnlyoffice": 0.7726986417623412,
+      "meanOnlyofficeSourceVsSave1": 0.9996259633708374,
+      "meanOnlyofficeSave1VsSave2": 0.9999391428766046,
+      "meanOnlyofficeSourceVsSave2": 0.9993121072316287,
+      "pageMetrics": [
+        {
+          "page": "cover",
+          "libreoffice_vs_onlyoffice": 0.8443882524634928,
+          "libreoffice_vs_onlyoffice_saved2": 0.8424694822739828,
+          "onlyoffice_source_vs_saved2": 0.9990779667056023,
+          "onlyoffice_source_vs_saved1": 0.9994981076230781,
+          "onlyoffice_saved1_vs_saved2": 0.9999187829296762,
+          "onlyoffice_layout_source_vs_saved2": 0.9990779667056023
+        },
+        {
+          "page": "letter",
+          "libreoffice_vs_onlyoffice": 0.7549186563464555,
+          "libreoffice_vs_onlyoffice_saved2": 0.7539025950556136,
+          "onlyoffice_source_vs_saved2": 0.9992787939409752,
+          "onlyoffice_source_vs_saved1": 0.9996092306573847,
+          "onlyoffice_saved1_vs_saved2": 0.9999357694384331,
+          "onlyoffice_layout_source_vs_saved2": 0.9992787939409753
+        },
+        {
+          "page": "cv",
+          "libreoffice_vs_onlyoffice": 0.7187890164770754,
+          "libreoffice_vs_onlyoffice_saved2": 0.7180664137526968,
+          "onlyoffice_source_vs_saved2": 0.9995795610483084,
+          "onlyoffice_source_vs_saved1": 0.9997705518320495,
+          "onlyoffice_saved1_vs_saved2": 0.9999628762617041,
+          "onlyoffice_layout_source_vs_saved2": 0.9995810707754971
+        }
+      ],
+      "photoControls": {
+        "libreoffice": {
+          "redPixelsCv": 15025,
+          "bluePixelsCv": 14213,
+          "knownPhotoVisible": true
+        },
+        "source": {
+          "redPixelsCv": 14988,
+          "bluePixelsCv": 13516,
+          "knownPhotoVisible": true
+        },
+        "saved1": {
+          "redPixelsCv": 14988,
+          "bluePixelsCv": 13516,
+          "knownPhotoVisible": true
+        },
+        "saved2": {
+          "redPixelsCv": 14988,
+          "bluePixelsCv": 13516,
+          "knownPhotoVisible": true
+        }
+      }
+    },
+    {
+      "id": "03-word-free-photo",
+      "sourceSha256": "e70655fa11c22b457dceb1c7dd1b27479b5b4ac2881007e7cd92d09f6d63fae4",
+      "diagnosticSource": true,
+      "completed": true,
+      "expectedPhoto": true,
+      "photoPreservedAllOnlyofficePhases": true,
+      "meanLibreofficeVsOnlyoffice": 0.7746824083696611,
+      "meanOnlyofficeSourceVsSave1": 0.9996320363120752,
+      "meanOnlyofficeSave1VsSave2": 0.9999398317937603,
+      "meanOnlyofficeSourceVsSave2": 0.9993222957582799,
+      "pageMetrics": [
+        {
+          "page": "cover",
+          "libreoffice_vs_onlyoffice": 0.8443882524634928,
+          "libreoffice_vs_onlyoffice_saved2": 0.8424694822739828,
+          "onlyoffice_source_vs_saved2": 0.9990779667056023,
+          "onlyoffice_source_vs_saved1": 0.9994981076230781,
+          "onlyoffice_saved1_vs_saved2": 0.9999187829296762,
+          "onlyoffice_layout_source_vs_saved2": 0.9990779667056023
+        },
+        {
+          "page": "letter",
+          "libreoffice_vs_onlyoffice": 0.7549186563464555,
+          "libreoffice_vs_onlyoffice_saved2": 0.7539025950556136,
+          "onlyoffice_source_vs_saved2": 0.9992787939409752,
+          "onlyoffice_source_vs_saved1": 0.9996092306573847,
+          "onlyoffice_saved1_vs_saved2": 0.9999357694384331,
+          "onlyoffice_layout_source_vs_saved2": 0.9992787939409753
+        },
+        {
+          "page": "cv",
+          "libreoffice_vs_onlyoffice": 0.7247403162990351,
+          "libreoffice_vs_onlyoffice_saved2": 0.7240954671910241,
+          "onlyoffice_source_vs_saved2": 0.9996101266282623,
+          "onlyoffice_source_vs_saved1": 0.9997887706557629,
+          "onlyoffice_saved1_vs_saved2": 0.9999649430131715,
+          "onlyoffice_layout_source_vs_saved2": 0.999611122414125
+        }
+      ],
+      "photoControls": {
+        "libreoffice": {
+          "redPixelsCv": 15025,
+          "bluePixelsCv": 14209,
+          "knownPhotoVisible": true
+        },
+        "source": {
+          "redPixelsCv": 15008,
+          "bluePixelsCv": 13494,
+          "knownPhotoVisible": true
+        },
+        "saved1": {
+          "redPixelsCv": 15008,
+          "bluePixelsCv": 13494,
+          "knownPhotoVisible": true
+        },
+        "saved2": {
+          "redPixelsCv": 15008,
+          "bluePixelsCv": 13494,
+          "knownPhotoVisible": true
+        }
+      }
+    }
+  ],
+  "githubActionsRunPerformed": false,
+  "onlyofficeReturnsOpenedInDesktopWord": false,
+  "normalProductSourceChangedSinceC685bf43": false,
+  "secondWorkflowCreated": false,
+  "sharedPyMuPdfSsimImplementationChanged": false,
+  "mergePerformed": false,
+  "nextSteps": [
+    "Dispatch existing dossier-visual-parity.yml with mode=onlyoffice-poc on this work branch",
+    "Check saved2 DOCX from both photo cases in Desktop Word with save/reopen and repair/photo inspection",
+    "Separate watermark and font/layout effects before drawing converter-quality conclusions"
+  ]
+}
