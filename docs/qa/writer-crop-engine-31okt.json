@@ -1,0 +1,1889 @@
+{
+  "scope": "Bounded local engine investigation; no accepted engine correction",
+  "checkout": "94d9021956734b39045c4aa3891c08fe6ae0e116",
+  "productionAcceptance": "blocked",
+  "referenceEngineChanged": false,
+  "productRendererChangedThisRound": false,
+  "commitPushMergePerformed": false,
+  "nativeCounts": {
+    "docxSaves": 16,
+    "pdfExports": 24,
+    "pdfPages": 24
+  },
+  "referenceLibrarySha256": "7b931192643c86a733f49c363357324e9bd93c7619561e81c073044515dcde59",
+  "counterfactual": {
+    "scope": "Negative control: globally disabled BitmapEx::Crop in an isolated binary copy; not a source fix or accepted engine",
+    "baselineLibrary": "/tmp/codex-word-picture-31okt-runtime/usr/lib/libreoffice/program/libmergedlo.so",
+    "baselineSha256": "7b931192643c86a733f49c363357324e9bd93c7619561e81c073044515dcde59",
+    "candidateLibrary": "/mnt/c/Users/gsu/Documents/ChatGPT/ib2026/cv-cover-charm/artifacts/writer-crop-engine-31okt/diagnostic-library/libmergedlo.so",
+    "candidateSha256": "b8b17c5f5b357e5a1be65f0edf48aa85e5032e9b54502e65262b5063d675d9f9",
+    "virtualAddressHex": "0x4584e50",
+    "fileOffsetHex": "0x4584e50",
+    "originalEntryHex": "f30f1efa554889e5415541544531e453",
+    "replacementEntryHex": "f30f1efa31c0c3",
+    "referenceLibraryUnchanged": true,
+    "runtime": "/tmp/codex-writer-crop-engine-31okt-counterfactual",
+    "wrapper": "/mnt/c/Users/gsu/Documents/ChatGPT/ib2026/cv-cover-charm/artifacts/writer-crop-engine-31okt/counterfactual-lo-kit"
+  },
+  "counterfactualFullRuntime": {
+    "scope": "Complete isolated runtime copy for binary negative control; no source fix",
+    "runtime": "/tmp/codex-writer-crop-engine-31okt-counterfactual-full",
+    "librarySha256": "b8b17c5f5b357e5a1be65f0edf48aa85e5032e9b54502e65262b5063d675d9f9",
+    "baselineLibrarySha256": "7b931192643c86a733f49c363357324e9bd93c7619561e81c073044515dcde59"
+  },
+  "baselineCases": [
+    {
+      "name": "crop-repro-rect-full",
+      "phases": [
+        {
+          "phase": "source",
+          "docx": "crop-repro-rect-full-source.docx",
+          "docxSha256": "fe8a93eb057be44fe968601806357648ac735b8b85ec81fc5a9e464696a67938",
+          "pdf": "crop-repro-rect-full-source.pdf",
+          "pdfSha256": "14fa55c7ae78f63b1914555bc41208b68c7247818dacb3361d0675e1a9244563",
+          "ownership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "nativePicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/calibration.png",
+                  "sizePx": [120, 180],
+                  "payloadSha256": "4ad3541363665973ae0f89c1d3ca86f73f23c2a12e51449087104ca4adef3003",
+                  "rgbaSha256": "279ff1e58af95c44afb4c4975fb7a807ee2eff6ba08eba58a3e7e1b01fea502c"
+                }
+              }
+            ]
+          },
+          "originalImageData": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": true,
+                "rgbaPixelsUnchanged": true,
+                "decodedPixelsEqual": true,
+                "payloadBytesUnchanged": true
+              }
+            ]
+          },
+          "photo8xSha256": "18e1829eb63657bc271d7fbce78743404cb5278c8ec22fdd1a701cf85321b5b6"
+        },
+        {
+          "phase": "saved1",
+          "docx": "crop-repro-rect-full-saved1.docx",
+          "docxSha256": "2ec497430d7e6141374197133d4bf4d928ee089cfc591b43ba9e20450c0f30fd",
+          "pdf": "crop-repro-rect-full-saved1.pdf",
+          "pdfSha256": "ac7261be6b6e3d9e51c115521df2b6f3286636cbfb6bc4600ba0e022c08a8221",
+          "ownership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "nativePicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [120, 180],
+                  "payloadSha256": "4ad3541363665973ae0f89c1d3ca86f73f23c2a12e51449087104ca4adef3003",
+                  "rgbaSha256": "279ff1e58af95c44afb4c4975fb7a807ee2eff6ba08eba58a3e7e1b01fea502c"
+                }
+              }
+            ]
+          },
+          "originalImageData": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": true,
+                "rgbaPixelsUnchanged": true,
+                "decodedPixelsEqual": true,
+                "payloadBytesUnchanged": true
+              }
+            ]
+          },
+          "photo8xSha256": "18e1829eb63657bc271d7fbce78743404cb5278c8ec22fdd1a701cf85321b5b6"
+        },
+        {
+          "phase": "saved2",
+          "docx": "crop-repro-rect-full-saved2.docx",
+          "docxSha256": "0f215a2280d3d8f386b25b711941f75c9a6ad1b34182e4f3501e98a6a99d2086",
+          "pdf": "crop-repro-rect-full-saved2.pdf",
+          "pdfSha256": "9e30d115ac601af570b290e937ebb38995478c345da9ea29fa51d5b7e1dbbb7a",
+          "ownership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "nativePicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [120, 180],
+                  "payloadSha256": "4ad3541363665973ae0f89c1d3ca86f73f23c2a12e51449087104ca4adef3003",
+                  "rgbaSha256": "279ff1e58af95c44afb4c4975fb7a807ee2eff6ba08eba58a3e7e1b01fea502c"
+                }
+              }
+            ]
+          },
+          "originalImageData": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": true,
+                "rgbaPixelsUnchanged": true,
+                "decodedPixelsEqual": true,
+                "payloadBytesUnchanged": true
+              }
+            ]
+          },
+          "photo8xSha256": "18e1829eb63657bc271d7fbce78743404cb5278c8ec22fdd1a701cf85321b5b6"
+        }
+      ],
+      "saveGeometry": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedPageSizePages": [],
+          "changedImageGeometryPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "comparisonContractVersion": 2,
+          "exactVisibleGeometry": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedPageSizePages": [],
+          "changedImageGeometryPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "comparisonContractVersion": 2,
+          "exactVisibleGeometry": true
+        }
+      ],
+      "sourceFidelity": {
+        "pageCountsUnchanged": true,
+        "wordSequenceUnchanged": true,
+        "changedWordPages": [],
+        "changedPixelPages": [],
+        "changedPageSizePages": [],
+        "changedImageGeometryPages": [],
+        "changedWords": 0,
+        "maxAbsDxMm": 0.0,
+        "maxAbsDyMm": 0.0,
+        "renderScale": 2,
+        "pdfMetadataCompared": false,
+        "comparisonContractVersion": 2,
+        "exactVisibleGeometry": true
+      },
+      "sourcePhoto8xUnchanged": true,
+      "gates": {
+        "typedOwnImage": true,
+        "originalPixels": true,
+        "sourceFidelity": true,
+        "saveStability": true
+      },
+      "acceptance": "pass"
+    },
+    {
+      "name": "crop-repro-rect-crop",
+      "phases": [
+        {
+          "phase": "source",
+          "docx": "crop-repro-rect-crop-source.docx",
+          "docxSha256": "1f198e9cc43a09beeb32c37e44652ccd96e1fa7ed66aa1ee84f595d35c0dee23",
+          "pdf": "crop-repro-rect-crop-source.pdf",
+          "pdfSha256": "9f93273a085a0d8f713bf404ef400f423860201082b536372d71099e73f6474e",
+          "ownership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "nativePicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/calibration.png",
+                  "sizePx": [120, 180],
+                  "payloadSha256": "4ad3541363665973ae0f89c1d3ca86f73f23c2a12e51449087104ca4adef3003",
+                  "rgbaSha256": "279ff1e58af95c44afb4c4975fb7a807ee2eff6ba08eba58a3e7e1b01fea502c"
+                }
+              }
+            ]
+          },
+          "originalImageData": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": true,
+                "rgbaPixelsUnchanged": true,
+                "decodedPixelsEqual": true,
+                "payloadBytesUnchanged": true
+              }
+            ]
+          },
+          "photo8xSha256": "aaa79434cd87c97205b214a785ecd6ebedee60a98ce5cfba7c6a1c54c02f4cfc"
+        },
+        {
+          "phase": "saved1",
+          "docx": "crop-repro-rect-crop-saved1.docx",
+          "docxSha256": "fe39bd5fa2956626f96dec951a0239eddc9ff1694bd083b6b274ec50cff74b8e",
+          "pdf": "crop-repro-rect-crop-saved1.pdf",
+          "pdfSha256": "8199fdef8b2baa847a947a3394ccfc2b44ccc02573c8ff1475a5b12be7c81879",
+          "ownership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "nativePicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [120, 180],
+                  "payloadSha256": "4ad3541363665973ae0f89c1d3ca86f73f23c2a12e51449087104ca4adef3003",
+                  "rgbaSha256": "279ff1e58af95c44afb4c4975fb7a807ee2eff6ba08eba58a3e7e1b01fea502c"
+                }
+              }
+            ]
+          },
+          "originalImageData": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": true,
+                "rgbaPixelsUnchanged": true,
+                "decodedPixelsEqual": true,
+                "payloadBytesUnchanged": true
+              }
+            ]
+          },
+          "photo8xSha256": "aaa79434cd87c97205b214a785ecd6ebedee60a98ce5cfba7c6a1c54c02f4cfc"
+        },
+        {
+          "phase": "saved2",
+          "docx": "crop-repro-rect-crop-saved2.docx",
+          "docxSha256": "646e765cdc52c22dd4c894b14018a166d17ef23977d2874565568c2bf5aad0fd",
+          "pdf": "crop-repro-rect-crop-saved2.pdf",
+          "pdfSha256": "9995a497d32ed0971aada44123b48840b57cd58c1f4bbd43e99c42226993a2fb",
+          "ownership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "nativePicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [120, 180],
+                  "payloadSha256": "4ad3541363665973ae0f89c1d3ca86f73f23c2a12e51449087104ca4adef3003",
+                  "rgbaSha256": "279ff1e58af95c44afb4c4975fb7a807ee2eff6ba08eba58a3e7e1b01fea502c"
+                }
+              }
+            ]
+          },
+          "originalImageData": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": true,
+                "rgbaPixelsUnchanged": true,
+                "decodedPixelsEqual": true,
+                "payloadBytesUnchanged": true
+              }
+            ]
+          },
+          "photo8xSha256": "aaa79434cd87c97205b214a785ecd6ebedee60a98ce5cfba7c6a1c54c02f4cfc"
+        }
+      ],
+      "saveGeometry": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedPageSizePages": [],
+          "changedImageGeometryPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "comparisonContractVersion": 2,
+          "exactVisibleGeometry": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedPageSizePages": [],
+          "changedImageGeometryPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "comparisonContractVersion": 2,
+          "exactVisibleGeometry": true
+        }
+      ],
+      "sourceFidelity": {
+        "pageCountsUnchanged": true,
+        "wordSequenceUnchanged": true,
+        "changedWordPages": [],
+        "changedPixelPages": [],
+        "changedPageSizePages": [],
+        "changedImageGeometryPages": [],
+        "changedWords": 0,
+        "maxAbsDxMm": 0.0,
+        "maxAbsDyMm": 0.0,
+        "renderScale": 2,
+        "pdfMetadataCompared": false,
+        "comparisonContractVersion": 2,
+        "exactVisibleGeometry": true
+      },
+      "sourcePhoto8xUnchanged": true,
+      "gates": {
+        "typedOwnImage": true,
+        "originalPixels": true,
+        "sourceFidelity": true,
+        "saveStability": true
+      },
+      "acceptance": "pass"
+    },
+    {
+      "name": "crop-repro-ellipse-full",
+      "phases": [
+        {
+          "phase": "source",
+          "docx": "crop-repro-ellipse-full-source.docx",
+          "docxSha256": "b5e072b1b6fd7e4299d41021fc76816e0fdce4d5c1fe81fce6e027a1b34f3ed3",
+          "pdf": "crop-repro-ellipse-full-source.pdf",
+          "pdfSha256": "b89d6202384ed9e777e7b56b249628e2211cd003dc5d1ef857f9eaef9d08efe7",
+          "ownership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "nativePicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/calibration.png",
+                  "sizePx": [120, 180],
+                  "payloadSha256": "4ad3541363665973ae0f89c1d3ca86f73f23c2a12e51449087104ca4adef3003",
+                  "rgbaSha256": "279ff1e58af95c44afb4c4975fb7a807ee2eff6ba08eba58a3e7e1b01fea502c"
+                }
+              }
+            ]
+          },
+          "originalImageData": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": true,
+                "rgbaPixelsUnchanged": true,
+                "decodedPixelsEqual": true,
+                "payloadBytesUnchanged": true
+              }
+            ]
+          },
+          "photo8xSha256": "d8daa45186d8015f1a6fc2fc2ddbe2a4fb8684c2b2424ea775dd85d86125fbc9"
+        },
+        {
+          "phase": "saved1",
+          "docx": "crop-repro-ellipse-full-saved1.docx",
+          "docxSha256": "495d2982e7dc4aaea96925bfa88cc89d4298c85e662382fb3ac0b8ee11e695b4",
+          "pdf": "crop-repro-ellipse-full-saved1.pdf",
+          "pdfSha256": "57f3d6b4f866903abeeef9d8bedafd3362702c2ea4b6440f4b7766fbe65ddba2",
+          "ownership": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "reasons": ["picture-control-must-own-native-picture"],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "nativePicture": false,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [120, 180],
+                  "payloadSha256": "4ad3541363665973ae0f89c1d3ca86f73f23c2a12e51449087104ca4adef3003",
+                  "rgbaSha256": "279ff1e58af95c44afb4c4975fb7a807ee2eff6ba08eba58a3e7e1b01fea502c"
+                }
+              }
+            ]
+          },
+          "originalImageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": false,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "decodedPixelsEqual": true,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          },
+          "photo8xSha256": "d8daa45186d8015f1a6fc2fc2ddbe2a4fb8684c2b2424ea775dd85d86125fbc9"
+        },
+        {
+          "phase": "saved2",
+          "docx": "crop-repro-ellipse-full-saved2.docx",
+          "docxSha256": "566140d7ef21abc4be289804f44e1b2f301955e63a557ba4fcb435eabfaae7ea",
+          "pdf": "crop-repro-ellipse-full-saved2.pdf",
+          "pdfSha256": "68171e3d2f1545355f3aee80fad8e6cbab8bf8e87d6713c4515ca028f11ceccb",
+          "ownership": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "reasons": ["picture-control-must-own-native-picture"],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "nativePicture": false,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [120, 180],
+                  "payloadSha256": "4ad3541363665973ae0f89c1d3ca86f73f23c2a12e51449087104ca4adef3003",
+                  "rgbaSha256": "279ff1e58af95c44afb4c4975fb7a807ee2eff6ba08eba58a3e7e1b01fea502c"
+                }
+              }
+            ]
+          },
+          "originalImageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": false,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "decodedPixelsEqual": true,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          },
+          "photo8xSha256": "d8daa45186d8015f1a6fc2fc2ddbe2a4fb8684c2b2424ea775dd85d86125fbc9"
+        }
+      ],
+      "saveGeometry": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedPageSizePages": [],
+          "changedImageGeometryPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "comparisonContractVersion": 2,
+          "exactVisibleGeometry": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedPageSizePages": [],
+          "changedImageGeometryPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "comparisonContractVersion": 2,
+          "exactVisibleGeometry": true
+        }
+      ],
+      "sourceFidelity": {
+        "pageCountsUnchanged": true,
+        "wordSequenceUnchanged": true,
+        "changedWordPages": [],
+        "changedPixelPages": [],
+        "changedPageSizePages": [],
+        "changedImageGeometryPages": [],
+        "changedWords": 0,
+        "maxAbsDxMm": 0.0,
+        "maxAbsDyMm": 0.0,
+        "renderScale": 2,
+        "pdfMetadataCompared": false,
+        "comparisonContractVersion": 2,
+        "exactVisibleGeometry": true
+      },
+      "sourcePhoto8xUnchanged": true,
+      "gates": {
+        "typedOwnImage": false,
+        "originalPixels": true,
+        "sourceFidelity": true,
+        "saveStability": true
+      },
+      "acceptance": "fail"
+    },
+    {
+      "name": "crop-repro-ellipse-crop",
+      "phases": [
+        {
+          "phase": "source",
+          "docx": "crop-repro-ellipse-crop-source.docx",
+          "docxSha256": "7222c022c43160b4c17211bda5b09b843f50454059ba00616393726d00b5a1ac",
+          "pdf": "crop-repro-ellipse-crop-source.pdf",
+          "pdfSha256": "5104bdd47f0a7c8e2fa38511c0f9c0377b3bee3e95d386d9769dbb5dac15cc41",
+          "ownership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "nativePicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/calibration.png",
+                  "sizePx": [120, 180],
+                  "payloadSha256": "4ad3541363665973ae0f89c1d3ca86f73f23c2a12e51449087104ca4adef3003",
+                  "rgbaSha256": "279ff1e58af95c44afb4c4975fb7a807ee2eff6ba08eba58a3e7e1b01fea502c"
+                }
+              }
+            ]
+          },
+          "originalImageData": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": true,
+                "rgbaPixelsUnchanged": true,
+                "decodedPixelsEqual": true,
+                "payloadBytesUnchanged": true
+              }
+            ]
+          },
+          "photo8xSha256": "35890b032a2ef4aad58f1f7af5b0bfd03ee12adc9528348dc44ae79642cff7b3"
+        },
+        {
+          "phase": "saved1",
+          "docx": "crop-repro-ellipse-crop-saved1.docx",
+          "docxSha256": "2ee69027037cb2b0c7979c9b8b5ee0161646077fc5666371dbcddfabca451dc4",
+          "pdf": "crop-repro-ellipse-crop-saved1.pdf",
+          "pdfSha256": "3196116640317a173bc357430e108d4f6e94c65292767edf99aa2a7db0a67c9c",
+          "ownership": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "reasons": ["picture-control-must-own-native-picture"],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "nativePicture": false,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [96, 96],
+                  "payloadSha256": "413c103ee281073d26e76051dbb9ac8d9897323c174cbc6e056cddaa00672794",
+                  "rgbaSha256": "2c9d6c8ff3721969384ee4f0bf1eef8a91259bdd37b4242c09666bd6c3a98946"
+                }
+              }
+            ]
+          },
+          "originalImageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": false,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "decodedPixelsEqual": false,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          },
+          "photo8xSha256": "35890b032a2ef4aad58f1f7af5b0bfd03ee12adc9528348dc44ae79642cff7b3"
+        },
+        {
+          "phase": "saved2",
+          "docx": "crop-repro-ellipse-crop-saved2.docx",
+          "docxSha256": "fbf5617d140fecde6096d859d55648ff5784cca4a5f5a055754029b06c9a8781",
+          "pdf": "crop-repro-ellipse-crop-saved2.pdf",
+          "pdfSha256": "632cdf75f9af51133e972cb885aae1a6f4a6f178d0d3899c1eb419567d4ec51f",
+          "ownership": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "reasons": ["picture-control-must-own-native-picture"],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "nativePicture": false,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [96, 96],
+                  "payloadSha256": "413c103ee281073d26e76051dbb9ac8d9897323c174cbc6e056cddaa00672794",
+                  "rgbaSha256": "2c9d6c8ff3721969384ee4f0bf1eef8a91259bdd37b4242c09666bd6c3a98946"
+                }
+              }
+            ]
+          },
+          "originalImageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": false,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "decodedPixelsEqual": false,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          },
+          "photo8xSha256": "35890b032a2ef4aad58f1f7af5b0bfd03ee12adc9528348dc44ae79642cff7b3"
+        }
+      ],
+      "saveGeometry": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedPageSizePages": [],
+          "changedImageGeometryPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "comparisonContractVersion": 2,
+          "exactVisibleGeometry": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedPageSizePages": [],
+          "changedImageGeometryPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "comparisonContractVersion": 2,
+          "exactVisibleGeometry": true
+        }
+      ],
+      "sourceFidelity": {
+        "pageCountsUnchanged": true,
+        "wordSequenceUnchanged": true,
+        "changedWordPages": [],
+        "changedPixelPages": [],
+        "changedPageSizePages": [],
+        "changedImageGeometryPages": [],
+        "changedWords": 0,
+        "maxAbsDxMm": 0.0,
+        "maxAbsDyMm": 0.0,
+        "renderScale": 2,
+        "pdfMetadataCompared": false,
+        "comparisonContractVersion": 2,
+        "exactVisibleGeometry": true
+      },
+      "sourcePhoto8xUnchanged": true,
+      "gates": {
+        "typedOwnImage": false,
+        "originalPixels": false,
+        "sourceFidelity": true,
+        "saveStability": true
+      },
+      "acceptance": "fail"
+    }
+  ],
+  "counterfactualCases": [
+    {
+      "name": "crop-repro-rect-full",
+      "phases": [
+        {
+          "phase": "source",
+          "docx": "crop-repro-rect-full-source.docx",
+          "docxSha256": "fe8a93eb057be44fe968601806357648ac735b8b85ec81fc5a9e464696a67938",
+          "pdf": "crop-repro-rect-full-source.pdf",
+          "pdfSha256": "3683943573313d8f8925a529f3fb8e31de52ddb98fcd508f57b629456959a730",
+          "ownership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "nativePicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/calibration.png",
+                  "sizePx": [120, 180],
+                  "payloadSha256": "4ad3541363665973ae0f89c1d3ca86f73f23c2a12e51449087104ca4adef3003",
+                  "rgbaSha256": "279ff1e58af95c44afb4c4975fb7a807ee2eff6ba08eba58a3e7e1b01fea502c"
+                }
+              }
+            ]
+          },
+          "originalImageData": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": true,
+                "rgbaPixelsUnchanged": true,
+                "decodedPixelsEqual": true,
+                "payloadBytesUnchanged": true
+              }
+            ]
+          },
+          "photo8xSha256": "18e1829eb63657bc271d7fbce78743404cb5278c8ec22fdd1a701cf85321b5b6"
+        },
+        {
+          "phase": "saved1",
+          "docx": "crop-repro-rect-full-saved1.docx",
+          "docxSha256": "a0b02c38a29b10dba6ef94cd39b3f85506ce538e500f0ef72fcc3ebdf86f3e75",
+          "pdf": "crop-repro-rect-full-saved1.pdf",
+          "pdfSha256": "ac1dacbeeb6c024e9cf291b48bd21eaa81db25d02fd2a3a075cfd7b698660ed2",
+          "ownership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "nativePicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [120, 180],
+                  "payloadSha256": "4ad3541363665973ae0f89c1d3ca86f73f23c2a12e51449087104ca4adef3003",
+                  "rgbaSha256": "279ff1e58af95c44afb4c4975fb7a807ee2eff6ba08eba58a3e7e1b01fea502c"
+                }
+              }
+            ]
+          },
+          "originalImageData": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": true,
+                "rgbaPixelsUnchanged": true,
+                "decodedPixelsEqual": true,
+                "payloadBytesUnchanged": true
+              }
+            ]
+          },
+          "photo8xSha256": "18e1829eb63657bc271d7fbce78743404cb5278c8ec22fdd1a701cf85321b5b6"
+        },
+        {
+          "phase": "saved2",
+          "docx": "crop-repro-rect-full-saved2.docx",
+          "docxSha256": "1417ba384c7fcf9b4eccb5c781ca313194d74e0ace403ca55e34b4b9e2348f90",
+          "pdf": "crop-repro-rect-full-saved2.pdf",
+          "pdfSha256": "2267c39c5b412a3849ad2b31f639bdd851f71ef852ccd3216190d3825ae47c26",
+          "ownership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "nativePicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [120, 180],
+                  "payloadSha256": "4ad3541363665973ae0f89c1d3ca86f73f23c2a12e51449087104ca4adef3003",
+                  "rgbaSha256": "279ff1e58af95c44afb4c4975fb7a807ee2eff6ba08eba58a3e7e1b01fea502c"
+                }
+              }
+            ]
+          },
+          "originalImageData": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": true,
+                "rgbaPixelsUnchanged": true,
+                "decodedPixelsEqual": true,
+                "payloadBytesUnchanged": true
+              }
+            ]
+          },
+          "photo8xSha256": "18e1829eb63657bc271d7fbce78743404cb5278c8ec22fdd1a701cf85321b5b6"
+        }
+      ],
+      "saveGeometry": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedPageSizePages": [],
+          "changedImageGeometryPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "comparisonContractVersion": 2,
+          "exactVisibleGeometry": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedPageSizePages": [],
+          "changedImageGeometryPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "comparisonContractVersion": 2,
+          "exactVisibleGeometry": true
+        }
+      ],
+      "sourceFidelity": {
+        "pageCountsUnchanged": true,
+        "wordSequenceUnchanged": true,
+        "changedWordPages": [],
+        "changedPixelPages": [],
+        "changedPageSizePages": [],
+        "changedImageGeometryPages": [],
+        "changedWords": 0,
+        "maxAbsDxMm": 0.0,
+        "maxAbsDyMm": 0.0,
+        "renderScale": 2,
+        "pdfMetadataCompared": false,
+        "comparisonContractVersion": 2,
+        "exactVisibleGeometry": true
+      },
+      "sourcePhoto8xUnchanged": true,
+      "gates": {
+        "typedOwnImage": true,
+        "originalPixels": true,
+        "sourceFidelity": true,
+        "saveStability": true
+      },
+      "acceptance": "pass"
+    },
+    {
+      "name": "crop-repro-rect-crop",
+      "phases": [
+        {
+          "phase": "source",
+          "docx": "crop-repro-rect-crop-source.docx",
+          "docxSha256": "1f198e9cc43a09beeb32c37e44652ccd96e1fa7ed66aa1ee84f595d35c0dee23",
+          "pdf": "crop-repro-rect-crop-source.pdf",
+          "pdfSha256": "2eb777ef4f8eea57edad65431d53cd0dcd83085b118169da4997a6dddeafaaee",
+          "ownership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "nativePicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/calibration.png",
+                  "sizePx": [120, 180],
+                  "payloadSha256": "4ad3541363665973ae0f89c1d3ca86f73f23c2a12e51449087104ca4adef3003",
+                  "rgbaSha256": "279ff1e58af95c44afb4c4975fb7a807ee2eff6ba08eba58a3e7e1b01fea502c"
+                }
+              }
+            ]
+          },
+          "originalImageData": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": true,
+                "rgbaPixelsUnchanged": true,
+                "decodedPixelsEqual": true,
+                "payloadBytesUnchanged": true
+              }
+            ]
+          },
+          "photo8xSha256": "aaa79434cd87c97205b214a785ecd6ebedee60a98ce5cfba7c6a1c54c02f4cfc"
+        },
+        {
+          "phase": "saved1",
+          "docx": "crop-repro-rect-crop-saved1.docx",
+          "docxSha256": "1349b55fe938218981a3093d6dfdc9ad50d0bb4c30258f7a13ebd477d186f891",
+          "pdf": "crop-repro-rect-crop-saved1.pdf",
+          "pdfSha256": "439f6e7c815c0097dfb1e7d5693d4fcc66226b63586aa78fdc054506bc8793b5",
+          "ownership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "nativePicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [120, 180],
+                  "payloadSha256": "4ad3541363665973ae0f89c1d3ca86f73f23c2a12e51449087104ca4adef3003",
+                  "rgbaSha256": "279ff1e58af95c44afb4c4975fb7a807ee2eff6ba08eba58a3e7e1b01fea502c"
+                }
+              }
+            ]
+          },
+          "originalImageData": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": true,
+                "rgbaPixelsUnchanged": true,
+                "decodedPixelsEqual": true,
+                "payloadBytesUnchanged": true
+              }
+            ]
+          },
+          "photo8xSha256": "aaa79434cd87c97205b214a785ecd6ebedee60a98ce5cfba7c6a1c54c02f4cfc"
+        },
+        {
+          "phase": "saved2",
+          "docx": "crop-repro-rect-crop-saved2.docx",
+          "docxSha256": "b6e511339760de8f7d57fed3d4ad98d6dbcdf6f9ad6d39b3290e433c3f8f405e",
+          "pdf": "crop-repro-rect-crop-saved2.pdf",
+          "pdfSha256": "4d865452535f3dd6337a2817189733dfe7bc59ad9d038aa691b9373323b24e38",
+          "ownership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "nativePicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [120, 180],
+                  "payloadSha256": "4ad3541363665973ae0f89c1d3ca86f73f23c2a12e51449087104ca4adef3003",
+                  "rgbaSha256": "279ff1e58af95c44afb4c4975fb7a807ee2eff6ba08eba58a3e7e1b01fea502c"
+                }
+              }
+            ]
+          },
+          "originalImageData": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": true,
+                "rgbaPixelsUnchanged": true,
+                "decodedPixelsEqual": true,
+                "payloadBytesUnchanged": true
+              }
+            ]
+          },
+          "photo8xSha256": "aaa79434cd87c97205b214a785ecd6ebedee60a98ce5cfba7c6a1c54c02f4cfc"
+        }
+      ],
+      "saveGeometry": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedPageSizePages": [],
+          "changedImageGeometryPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "comparisonContractVersion": 2,
+          "exactVisibleGeometry": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedPageSizePages": [],
+          "changedImageGeometryPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "comparisonContractVersion": 2,
+          "exactVisibleGeometry": true
+        }
+      ],
+      "sourceFidelity": {
+        "pageCountsUnchanged": true,
+        "wordSequenceUnchanged": true,
+        "changedWordPages": [],
+        "changedPixelPages": [],
+        "changedPageSizePages": [],
+        "changedImageGeometryPages": [],
+        "changedWords": 0,
+        "maxAbsDxMm": 0.0,
+        "maxAbsDyMm": 0.0,
+        "renderScale": 2,
+        "pdfMetadataCompared": false,
+        "comparisonContractVersion": 2,
+        "exactVisibleGeometry": true
+      },
+      "sourcePhoto8xUnchanged": true,
+      "gates": {
+        "typedOwnImage": true,
+        "originalPixels": true,
+        "sourceFidelity": true,
+        "saveStability": true
+      },
+      "acceptance": "pass"
+    },
+    {
+      "name": "crop-repro-ellipse-full",
+      "phases": [
+        {
+          "phase": "source",
+          "docx": "crop-repro-ellipse-full-source.docx",
+          "docxSha256": "b5e072b1b6fd7e4299d41021fc76816e0fdce4d5c1fe81fce6e027a1b34f3ed3",
+          "pdf": "crop-repro-ellipse-full-source.pdf",
+          "pdfSha256": "1e84e33ae654c6bc0227c0b30e2926c5b6916641ff379403eba265ec6317ec30",
+          "ownership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "nativePicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/calibration.png",
+                  "sizePx": [120, 180],
+                  "payloadSha256": "4ad3541363665973ae0f89c1d3ca86f73f23c2a12e51449087104ca4adef3003",
+                  "rgbaSha256": "279ff1e58af95c44afb4c4975fb7a807ee2eff6ba08eba58a3e7e1b01fea502c"
+                }
+              }
+            ]
+          },
+          "originalImageData": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": true,
+                "rgbaPixelsUnchanged": true,
+                "decodedPixelsEqual": true,
+                "payloadBytesUnchanged": true
+              }
+            ]
+          },
+          "photo8xSha256": "d8daa45186d8015f1a6fc2fc2ddbe2a4fb8684c2b2424ea775dd85d86125fbc9"
+        },
+        {
+          "phase": "saved1",
+          "docx": "crop-repro-ellipse-full-saved1.docx",
+          "docxSha256": "0865276058888b7ab712c43c782066d87c7fbd5c0c0de733e5e039bf32e30cc0",
+          "pdf": "crop-repro-ellipse-full-saved1.pdf",
+          "pdfSha256": "45dd89e6a6bd73cc9ebb18eb1e5142f3ab01f7f8ab9dfc28bc0718a132de5e29",
+          "ownership": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "reasons": ["picture-control-must-own-native-picture"],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "nativePicture": false,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [120, 180],
+                  "payloadSha256": "4ad3541363665973ae0f89c1d3ca86f73f23c2a12e51449087104ca4adef3003",
+                  "rgbaSha256": "279ff1e58af95c44afb4c4975fb7a807ee2eff6ba08eba58a3e7e1b01fea502c"
+                }
+              }
+            ]
+          },
+          "originalImageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": false,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "decodedPixelsEqual": true,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          },
+          "photo8xSha256": "d8daa45186d8015f1a6fc2fc2ddbe2a4fb8684c2b2424ea775dd85d86125fbc9"
+        },
+        {
+          "phase": "saved2",
+          "docx": "crop-repro-ellipse-full-saved2.docx",
+          "docxSha256": "f9e85c59eee678759f831f8ad3064ad23671a0649751b752e780fc657bcad5fe",
+          "pdf": "crop-repro-ellipse-full-saved2.pdf",
+          "pdfSha256": "fe5658a0488b688abf9d5dc1011ce977877725f2ac4d0d6050565beab47b2dc5",
+          "ownership": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "reasons": ["picture-control-must-own-native-picture"],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "nativePicture": false,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [120, 180],
+                  "payloadSha256": "4ad3541363665973ae0f89c1d3ca86f73f23c2a12e51449087104ca4adef3003",
+                  "rgbaSha256": "279ff1e58af95c44afb4c4975fb7a807ee2eff6ba08eba58a3e7e1b01fea502c"
+                }
+              }
+            ]
+          },
+          "originalImageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": false,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "decodedPixelsEqual": true,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          },
+          "photo8xSha256": "d8daa45186d8015f1a6fc2fc2ddbe2a4fb8684c2b2424ea775dd85d86125fbc9"
+        }
+      ],
+      "saveGeometry": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedPageSizePages": [],
+          "changedImageGeometryPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "comparisonContractVersion": 2,
+          "exactVisibleGeometry": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedPageSizePages": [],
+          "changedImageGeometryPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "comparisonContractVersion": 2,
+          "exactVisibleGeometry": true
+        }
+      ],
+      "sourceFidelity": {
+        "pageCountsUnchanged": true,
+        "wordSequenceUnchanged": true,
+        "changedWordPages": [],
+        "changedPixelPages": [],
+        "changedPageSizePages": [],
+        "changedImageGeometryPages": [],
+        "changedWords": 0,
+        "maxAbsDxMm": 0.0,
+        "maxAbsDyMm": 0.0,
+        "renderScale": 2,
+        "pdfMetadataCompared": false,
+        "comparisonContractVersion": 2,
+        "exactVisibleGeometry": true
+      },
+      "sourcePhoto8xUnchanged": true,
+      "gates": {
+        "typedOwnImage": false,
+        "originalPixels": true,
+        "sourceFidelity": true,
+        "saveStability": true
+      },
+      "acceptance": "fail"
+    },
+    {
+      "name": "crop-repro-ellipse-crop",
+      "phases": [
+        {
+          "phase": "source",
+          "docx": "crop-repro-ellipse-crop-source.docx",
+          "docxSha256": "7222c022c43160b4c17211bda5b09b843f50454059ba00616393726d00b5a1ac",
+          "pdf": "crop-repro-ellipse-crop-source.pdf",
+          "pdfSha256": "c087cf67e8d341ea9e853629929cc9819ec74a62fc3f4b00cdfa017cae90047f",
+          "ownership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "nativePicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/calibration.png",
+                  "sizePx": [120, 180],
+                  "payloadSha256": "4ad3541363665973ae0f89c1d3ca86f73f23c2a12e51449087104ca4adef3003",
+                  "rgbaSha256": "279ff1e58af95c44afb4c4975fb7a807ee2eff6ba08eba58a3e7e1b01fea502c"
+                }
+              }
+            ]
+          },
+          "originalImageData": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": true,
+                "rgbaPixelsUnchanged": true,
+                "decodedPixelsEqual": true,
+                "payloadBytesUnchanged": true
+              }
+            ]
+          },
+          "photo8xSha256": "d8daa45186d8015f1a6fc2fc2ddbe2a4fb8684c2b2424ea775dd85d86125fbc9"
+        },
+        {
+          "phase": "saved1",
+          "docx": "crop-repro-ellipse-crop-saved1.docx",
+          "docxSha256": "c7f19a1bcff4ba3c23cac4dfbe9bd5fe459da0fb6193c30f345ea036e01808f3",
+          "pdf": "crop-repro-ellipse-crop-saved1.pdf",
+          "pdfSha256": "e49161588dc77789482a7304136809d3bc05fe4164a2544c4f55117755995ad6",
+          "ownership": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "reasons": ["picture-control-must-own-native-picture"],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "nativePicture": false,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [120, 180],
+                  "payloadSha256": "02dd149cee725dcb3516856b49879e6ba4e668a47d7c97824456989354e46307",
+                  "rgbaSha256": "279ff1e58af95c44afb4c4975fb7a807ee2eff6ba08eba58a3e7e1b01fea502c"
+                }
+              }
+            ]
+          },
+          "originalImageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": false,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "decodedPixelsEqual": true,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          },
+          "photo8xSha256": "d8daa45186d8015f1a6fc2fc2ddbe2a4fb8684c2b2424ea775dd85d86125fbc9"
+        },
+        {
+          "phase": "saved2",
+          "docx": "crop-repro-ellipse-crop-saved2.docx",
+          "docxSha256": "241ca45bbf81d8a52445fba72295d08804293c9c22311b254a90cebce6fad600",
+          "pdf": "crop-repro-ellipse-crop-saved2.pdf",
+          "pdfSha256": "60795f51bf83119250828d6553041956606fa4fa204a16dfa740cf560ec429c2",
+          "ownership": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "reasons": ["picture-control-must-own-native-picture"],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "nativePicture": false,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [120, 180],
+                  "payloadSha256": "02dd149cee725dcb3516856b49879e6ba4e668a47d7c97824456989354e46307",
+                  "rgbaSha256": "279ff1e58af95c44afb4c4975fb7a807ee2eff6ba08eba58a3e7e1b01fea502c"
+                }
+              }
+            ]
+          },
+          "originalImageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": false,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "decodedPixelsEqual": true,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          },
+          "photo8xSha256": "d8daa45186d8015f1a6fc2fc2ddbe2a4fb8684c2b2424ea775dd85d86125fbc9"
+        }
+      ],
+      "saveGeometry": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedPageSizePages": [],
+          "changedImageGeometryPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "comparisonContractVersion": 2,
+          "exactVisibleGeometry": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedPageSizePages": [],
+          "changedImageGeometryPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "comparisonContractVersion": 2,
+          "exactVisibleGeometry": true
+        }
+      ],
+      "sourceFidelity": {
+        "pageCountsUnchanged": true,
+        "wordSequenceUnchanged": true,
+        "changedWordPages": [],
+        "changedPixelPages": [1],
+        "changedPageSizePages": [],
+        "changedImageGeometryPages": [1],
+        "changedWords": 0,
+        "maxAbsDxMm": 0.0,
+        "maxAbsDyMm": 0.0,
+        "renderScale": 2,
+        "pdfMetadataCompared": false,
+        "comparisonContractVersion": 2,
+        "exactVisibleGeometry": false
+      },
+      "sourcePhoto8xUnchanged": false,
+      "gates": {
+        "typedOwnImage": false,
+        "originalPixels": true,
+        "sourceFidelity": false,
+        "saveStability": true
+      },
+      "acceptance": "fail"
+    }
+  ],
+  "pictureOwnershipContractVersion": 2,
+  "checks": {
+    "python": {
+      "suites": [
+        {
+          "file": "scripts\\docx-next-word-acceptance-test.py",
+          "sha256": "682817e8e38525297f1499da0ec447d8c45bd81449ef834d829a08f3ce9be647",
+          "exitCode": 0,
+          "tests": 51,
+          "elapsedSeconds": 4.19,
+          "log": "artifacts\\writer-crop-engine-31okt\\focused-tests\\docx-next-word-acceptance-test.py.log"
+        },
+        {
+          "file": "scripts\\docx-next-picture-word-return-test.py",
+          "sha256": "73b84b18c7280256c0c94ba054a5f3e7519b8ff01a1016feb9d0ce7aa1aced3a",
+          "exitCode": 0,
+          "tests": 12,
+          "elapsedSeconds": 6.2,
+          "log": "artifacts\\writer-crop-engine-31okt\\focused-tests\\docx-next-picture-word-return-test.py.log"
+        },
+        {
+          "file": "scripts\\docx-next-picture-import-test.py",
+          "sha256": "b8bfe1f246a0f50b487adab60038aa6d4c16531c0665aedf9e1cf1cc85fc122b",
+          "exitCode": 0,
+          "tests": 8,
+          "elapsedSeconds": 0.82,
+          "log": "artifacts\\writer-crop-engine-31okt\\focused-tests\\docx-next-picture-import-test.py.log"
+        },
+        {
+          "file": "scripts\\docx-next-picture-owner-contract-test.py",
+          "sha256": "13e28ee2208c97e0376225b268771aee549ee207c66c287f459ab567b1ef5ed3",
+          "exitCode": 0,
+          "tests": 29,
+          "elapsedSeconds": 0.84,
+          "log": "artifacts\\writer-crop-engine-31okt\\focused-tests\\docx-next-picture-owner-contract-test.py.log"
+        },
+        {
+          "file": "scripts\\docx-next-sidebar-body-test.py",
+          "sha256": "58c040afdf6c61e45e1472c3f57f4deb0d5047be507d73f6389ad5d17cac017f",
+          "exitCode": 0,
+          "tests": 11,
+          "elapsedSeconds": 1.52,
+          "log": "artifacts\\writer-crop-engine-31okt\\focused-tests\\docx-next-sidebar-body-test.py.log"
+        },
+        {
+          "file": "scripts\\docx-next-sidebar-body-media-test.py",
+          "sha256": "7cbdb03e2ac9302f4dec40b0dd7f9834ff614deab9729445f55a35315c409671",
+          "exitCode": 0,
+          "tests": 7,
+          "elapsedSeconds": 1.3,
+          "log": "artifacts\\writer-crop-engine-31okt\\focused-tests\\docx-next-sidebar-body-media-test.py.log"
+        },
+        {
+          "file": "scripts\\docx-next-sidebar-save-geometry-test.py",
+          "sha256": "edcb60264f021606ae0a6894c8fe5906771c0f9cd709506a8940c6363e8ed740",
+          "exitCode": 0,
+          "tests": 12,
+          "elapsedSeconds": 1.76,
+          "log": "artifacts\\writer-crop-engine-31okt\\focused-tests\\docx-next-sidebar-save-geometry-test.py.log"
+        },
+        {
+          "file": "scripts\\docx-next-pdf-picture-test.py",
+          "sha256": "489a3be21887c55292fff68a8129ecbfbeeae31c44df03cb5317aa8a79f60732",
+          "exitCode": 0,
+          "tests": 8,
+          "elapsedSeconds": 1.11,
+          "log": "artifacts\\writer-crop-engine-31okt\\focused-tests\\docx-next-pdf-picture-test.py.log"
+        },
+        {
+          "file": "scripts\\docx-next-picture-crop-engine-test.py",
+          "sha256": "f365768f3164e9504e5d47928da525f556da929e426d3a8c4d1efcbf9ad979ef",
+          "exitCode": 0,
+          "tests": 10,
+          "elapsedSeconds": 1.81,
+          "log": "artifacts\\writer-crop-engine-31okt\\focused-tests\\docx-next-picture-crop-engine-test.py.log"
+        }
+      ],
+      "passed": 148,
+      "failedSuites": 0
+    },
+    "upstreamPatchContextCheck": "pass against exact upstream Git blobs",
+    "cppBuild": "NOT RUN",
+    "cppUnitTests": "NOT RUN",
+    "fullProductTests": "NOT RUN"
+  },
+  "sources": [
+    {
+      "file": "include/drawinglayer/attribute/sdrfillgraphicattribute.hxx",
+      "gitBlob": "4a39313d10aae2caefabd66e801672429158434b",
+      "url": "https://github.com/LibreOffice/core/blob/libreoffice-25.8.7.3/include/drawinglayer/attribute/sdrfillgraphicattribute.hxx",
+      "localSha256": "2deb623a39876b711a7780c6e66bfb1407f39da4b3c97f4ff1db4dea0f2ff7e3"
+    },
+    {
+      "file": "drawinglayer/source/attribute/sdrfillgraphicattribute.cxx",
+      "gitBlob": "b78f3e322c3868f0aa90b300cef0d1daa152873c",
+      "url": "https://github.com/LibreOffice/core/blob/libreoffice-25.8.7.3/drawinglayer/source/attribute/sdrfillgraphicattribute.cxx",
+      "localSha256": "697412a3aafb53252b45823b74971d5971e31962b39d6916c5407ca2c8637ea3"
+    },
+    {
+      "file": "svx/qa/unit/svdraw.cxx",
+      "gitBlob": "b3262e588e94d04f2281f5fd7c8f570c6e74bcd3",
+      "url": "https://github.com/LibreOffice/core/blob/libreoffice-25.8.7.3/svx/qa/unit/svdraw.cxx",
+      "localSha256": "c50102681cd7f5a2e30729ef9e2c60f3eb82cd98408902e4f040f4a8756113bd"
+    },
+    {
+      "file": "sw/qa/extras/ooxmlexport/ooxmlexport18.cxx",
+      "gitBlob": "a84ad54ac5b4d4344cd323ddc3e9eb286ca7aaef",
+      "url": "https://github.com/LibreOffice/core/blob/libreoffice-25.8.7.3/sw/qa/extras/ooxmlexport/ooxmlexport18.cxx",
+      "localSha256": "fc06e5a431cdd8b05b5c6b6c38f595d29bfac8bc5be3e8d1026020b7afff1155"
+    },
+    {
+      "file": "svx/CppunitTest_svx_unit.mk",
+      "gitBlob": "0cad5af02c26111b8557bd601d65f99f966cabbd",
+      "url": "https://github.com/LibreOffice/core/blob/libreoffice-25.8.7.3/svx/CppunitTest_svx_unit.mk",
+      "localSha256": "159c096fb8514d4af1700576492f9091c40d9bfeda3500fc6d95286017833085"
+    },
+    {
+      "file": "oox/source/drawingml/fillproperties.cxx",
+      "gitBlob": "fc734b743a4616e44a98907cb0539bf95ac8b02e",
+      "url": "https://github.com/LibreOffice/core/blob/libreoffice-25.8.7.3/oox/source/drawingml/fillproperties.cxx",
+      "localSha256": "2678293f0b30356198e8ce5db8b233079fc48dc5ce7c59ddefe33105666b25e0"
+    },
+    {
+      "file": "oox/source/export/drawingml.cxx",
+      "gitBlob": "7e119c3852a41dfd8ed8579f7b795a148cdd3263",
+      "url": "https://github.com/LibreOffice/core/blob/libreoffice-25.8.7.3/oox/source/export/drawingml.cxx",
+      "localSha256": "01ababf7fa27ea2c1be09b3818ab44a5279e4fd383af83a4f8004dbcaf8c7c08"
+    }
+  ],
+  "wordObservations": [
+    {
+      "file": "crop-repro-ellipse-full-saved1.docx",
+      "status": "repair-warning",
+      "text": "\t\t\t\t\t412 Text Von Word wurde nicht lesbarer Inhalt in crop-repro-ellipse-full-saved1.docx gefunden. Möchten Sie den Inhalt des Dokuments wiederherstellen? Klicken Sie auf 'Ja', wenn Sie der Dokumentquelle vertrauen. ID: 4001\n\t\t\t\t\t412 Text Von Word wurde nicht lesbarer Inhalt in crop-repro-ellipse-full-saved1.docx gefunden. Möchten Sie den Inhalt des Dokuments wiederherstellen? Klicken Sie auf 'Ja', wenn Sie der Dokumentquelle vertrauen. ID: 4001",
+      "inputFile": "artifacts\\word-picture-crop-31okt\\minimal\\native\\crop-repro-ellipse-full-saved1.docx",
+      "sha256": "1a75ceaa038b7c7c87e1c55d61433741b2ccc9cb3d381996ca6de3fc137390fe"
+    },
+    {
+      "file": "crop-repro-rect-crop-saved1.docx",
+      "status": "opened-no-repair",
+      "window": "crop-repro-rect-crop-saved1.docx  -  Kompatibilitätsmodus - Word",
+      "pictureControl": "\t\t\t\t\t\t\t138 Bild-Inhaltssteuerelement cv.person.photo\n\t\t\t\t\t\t\t\t139 bild (selectable) Synthetic crop calibration",
+      "inputFile": "artifacts\\word-picture-crop-31okt\\minimal\\native\\crop-repro-rect-crop-saved1.docx",
+      "sha256": "050f61a6bb42125a2bab973a8c21592ed92281db76aa9593f003be4cf6f3088b"
+    },
+    {
+      "file": "crop-repro-ellipse-full.docx",
+      "status": "opened-no-repair",
+      "window": "crop-repro-ellipse-full.docx  -  Kompatibilitätsmodus - Word",
+      "pictureControl": "\t\t\t\t\t\t\t138 Bild-Inhaltssteuerelement cv.person.photo\n\t\t\t\t\t\t\t\t139 bild (selectable) Synthetic crop calibration",
+      "inputFile": "artifacts\\word-picture-crop-31okt\\minimal\\crop-repro-ellipse-full.docx",
+      "sha256": "b5e072b1b6fd7e4299d41021fc76816e0fdce4d5c1fe81fce6e027a1b34f3ed3"
+    }
+  ],
+  "schemaObservations": {
+    "scope": "Schema is separate from actual Word behavior; six errors are shared by both Writer controls",
+    "files": [
+      {
+        "file": "artifacts\\writer-crop-engine-31okt\\word-open-schema-input-copies\\0-crop-repro-rect-crop-saved1.docx",
+        "errors": [
+          {
+            "Id": "Sch_AttributeValueDataTypeDetailed",
+            "Description": "The attribute 'http://schemas.openxmlformats.org/wordprocessingml/2006/main:charSpace' has invalid value '4294963199'. The string '4294963199' is not a valid 'Int32' value.",
+            "Part": "/word/document.xml",
+            "Path": "/w:document[1]/w:body[1]/w:sectPr[1]/w:docGrid[1]"
+          },
+          {
+            "Id": "Sch_AttributeValueDataTypeDetailed",
+            "Description": "The attribute 'http://schemas.openxmlformats.org/wordprocessingml/2006/main:characterSet' has invalid value 'utf-8'. The Enumeration constraint failed.",
+            "Part": "/word/fontTable.xml",
+            "Path": "/w:fonts[1]/w:font[6]/w:charset[1]"
+          },
+          {
+            "Id": "Sch_AttributeValueDataTypeDetailed",
+            "Description": "The attribute 'http://schemas.openxmlformats.org/wordprocessingml/2006/main:characterSet' has invalid value 'utf-8'. The Enumeration constraint failed.",
+            "Part": "/word/fontTable.xml",
+            "Path": "/w:fonts[1]/w:font[5]/w:charset[1]"
+          },
+          {
+            "Id": "Sch_AttributeValueDataTypeDetailed",
+            "Description": "The attribute 'http://schemas.openxmlformats.org/wordprocessingml/2006/main:characterSet' has invalid value 'utf-8'. The Enumeration constraint failed.",
+            "Part": "/word/fontTable.xml",
+            "Path": "/w:fonts[1]/w:font[4]/w:charset[1]"
+          },
+          {
+            "Id": "Sch_AttributeValueDataTypeDetailed",
+            "Description": "The attribute 'http://schemas.openxmlformats.org/wordprocessingml/2006/main:characterSet' has invalid value 'windows-1252'. The Enumeration constraint failed.",
+            "Part": "/word/fontTable.xml",
+            "Path": "/w:fonts[1]/w:font[3]/w:charset[1]"
+          },
+          {
+            "Id": "Sch_AttributeValueDataTypeDetailed",
+            "Description": "The attribute 'http://schemas.openxmlformats.org/wordprocessingml/2006/main:characterSet' has invalid value 'windows-1252'. The Enumeration constraint failed.",
+            "Part": "/word/fontTable.xml",
+            "Path": "/w:fonts[1]/w:font[1]/w:charset[1]"
+          }
+        ],
+        "originalFile": "artifacts\\word-picture-crop-31okt\\minimal\\native\\crop-repro-rect-crop-saved1.docx",
+        "sha256": "050f61a6bb42125a2bab973a8c21592ed92281db76aa9593f003be4cf6f3088b"
+      },
+      {
+        "file": "artifacts\\writer-crop-engine-31okt\\word-open-schema-input-copies\\1-crop-repro-ellipse-full-saved1.docx",
+        "errors": [
+          {
+            "Id": "Sch_AttributeValueDataTypeDetailed",
+            "Description": "The attribute 'http://schemas.openxmlformats.org/wordprocessingml/2006/main:charSpace' has invalid value '4294963199'. The string '4294963199' is not a valid 'Int32' value.",
+            "Part": "/word/document.xml",
+            "Path": "/w:document[1]/w:body[1]/w:sectPr[1]/w:docGrid[1]"
+          },
+          {
+            "Id": "Sch_AttributeValueDataTypeDetailed",
+            "Description": "The attribute 'http://schemas.openxmlformats.org/wordprocessingml/2006/main:characterSet' has invalid value 'utf-8'. The Enumeration constraint failed.",
+            "Part": "/word/fontTable.xml",
+            "Path": "/w:fonts[1]/w:font[6]/w:charset[1]"
+          },
+          {
+            "Id": "Sch_AttributeValueDataTypeDetailed",
+            "Description": "The attribute 'http://schemas.openxmlformats.org/wordprocessingml/2006/main:characterSet' has invalid value 'utf-8'. The Enumeration constraint failed.",
+            "Part": "/word/fontTable.xml",
+            "Path": "/w:fonts[1]/w:font[5]/w:charset[1]"
+          },
+          {
+            "Id": "Sch_AttributeValueDataTypeDetailed",
+            "Description": "The attribute 'http://schemas.openxmlformats.org/wordprocessingml/2006/main:characterSet' has invalid value 'utf-8'. The Enumeration constraint failed.",
+            "Part": "/word/fontTable.xml",
+            "Path": "/w:fonts[1]/w:font[4]/w:charset[1]"
+          },
+          {
+            "Id": "Sch_AttributeValueDataTypeDetailed",
+            "Description": "The attribute 'http://schemas.openxmlformats.org/wordprocessingml/2006/main:characterSet' has invalid value 'windows-1252'. The Enumeration constraint failed.",
+            "Part": "/word/fontTable.xml",
+            "Path": "/w:fonts[1]/w:font[3]/w:charset[1]"
+          },
+          {
+            "Id": "Sch_AttributeValueDataTypeDetailed",
+            "Description": "The attribute 'http://schemas.openxmlformats.org/wordprocessingml/2006/main:characterSet' has invalid value 'windows-1252'. The Enumeration constraint failed.",
+            "Part": "/word/fontTable.xml",
+            "Path": "/w:fonts[1]/w:font[1]/w:charset[1]"
+          }
+        ],
+        "originalFile": "artifacts\\word-picture-crop-31okt\\minimal\\native\\crop-repro-ellipse-full-saved1.docx",
+        "sha256": "1a75ceaa038b7c7c87e1c55d61433741b2ccc9cb3d381996ca6de3fc137390fe"
+      },
+      {
+        "file": "artifacts\\writer-crop-engine-31okt\\word-open-schema-input-copies\\2-floating-table-custom-wps.docx",
+        "errors": [],
+        "originalFile": "artifacts\\word-native-model-31okt\\floating-table-custom-wps.docx",
+        "sha256": "b921bea75787685e8b3915e8961652283a8386cc6ae6b48eeb586bfbdfea8ac7"
+      },
+      {
+        "file": "artifacts\\writer-crop-engine-31okt\\word-open-schema-input-copies\\3-crop-repro-ellipse-full.docx",
+        "errors": [],
+        "originalFile": "artifacts\\word-picture-crop-31okt\\minimal\\crop-repro-ellipse-full.docx",
+        "sha256": "b5e072b1b6fd7e4299d41021fc76816e0fdce4d5c1fe81fce6e027a1b34f3ed3"
+      }
+    ]
+  },
+  "buildCapabilities": {
+    "wsl": "No C++ compiler/make/ninja found in the existing isolated test environment; no configured LibreOffice source build",
+    "windows": "CMake found; vswhere reports Visual Studio 2022 Community with VC.Tools.x86.x64. No configured LibreOffice development build used."
+  },
+  "limits": [
+    "Global Crop suppression is a deliberately rejected binary counterfactual, not a source fix or fallback.",
+    "The source-window support patch is unbuilt and is not wired into import/export.",
+    "The CppUnit regression patch is unbuilt; copied generated fixtures are required.",
+    "Shared schema defects prevent attributing every Word repair warning solely to the picture-kind conversion.",
+    "Historical picture-ownership results used contract 1 and do not grant contract-2 acceptance.",
+    "The earlier matched-printer Word PDF comparison and full 22-case acceptance remain open."
+  ],
+  "evidence": [
+    {
+      "file": "artifacts/writer-crop-engine-31okt/baseline-current/phases.json",
+      "sha256": "3ae295a341a3acc32e90135992a557a29480d7f2951babfc2f249a38049e12cb"
+    },
+    {
+      "file": "artifacts/writer-crop-engine-31okt/counterfactual-full/phases.json",
+      "sha256": "8511dc8046745d4c3cea9c42a3854bf61f6f3081b9e3b358eb9becf54916d883"
+    },
+    {
+      "file": "artifacts/writer-crop-engine-31okt/baseline-current-audit-v2.json",
+      "sha256": "b9ea06fa743b89ddcc6ed6a62954dc86a408a0c45d09bdbd3a21c25883c15190"
+    },
+    {
+      "file": "artifacts/writer-crop-engine-31okt/counterfactual-audit-v2.json",
+      "sha256": "913aa76a2851adc67b4c7bc4a740dfdb556b9d3befe21db21119700995ae10a7"
+    },
+    {
+      "file": "artifacts/writer-crop-engine-31okt/word-observations.json",
+      "sha256": "46f68a43ac19f0fecb7511ace28493fbcfd864529a93cd835673627769ad0b84"
+    },
+    {
+      "file": "artifacts/writer-crop-engine-31okt/word-open-schema-observations.json",
+      "sha256": "c3d94934be91440d8bcbd3c6d97de4e27a1297b8bbe682860a69932451fbacd6"
+    },
+    {
+      "file": "artifacts/writer-crop-engine-31okt/focused-test-results.json",
+      "sha256": "c3a363a31dc5de2d52c104f0c02bbe8d0cb66427f57683af4e7d2f5a40bdf2b1"
+    },
+    {
+      "file": "artifacts/writer-crop-engine-31okt/source-bindings.json",
+      "sha256": "bbcc1d2bbab7a4da603cf0b51b1f6a68216cfae382501d22fbc93a3ef979908b"
+    },
+    {
+      "file": "artifacts/writer-crop-engine-31okt/prepare-counterfactual.py",
+      "sha256": "787d7c5692d7f16d39c615a31d34e1fa524fd0c87c7dbf948185cdca94e8233a"
+    },
+    {
+      "file": "artifacts/writer-crop-engine-31okt/prepare-counterfactual-full.py",
+      "sha256": "f4037b7e7d62570840be164e74e7d083bfb401919476657944812095b80f1c61"
+    },
+    {
+      "file": "artifacts/writer-crop-engine-31okt/run-counterfactual-full.py",
+      "sha256": "ec4c619e8c2289de738017d2ff3aef7c26a3fd30caee3da9adc246788a96a662"
+    },
+    {
+      "file": "scripts/docx_next_picture_owner_qa.py",
+      "sha256": "fca3f7999ce6897937e2b8ee6651ebe221f586ee7963f3f3e575b7a3683decff"
+    },
+    {
+      "file": "scripts/docx-next-picture-owner-contract-test.py",
+      "sha256": "13e28ee2208c97e0376225b268771aee549ee207c66c287f459ab567b1ef5ed3"
+    },
+    {
+      "file": "scripts/docx-next-picture-crop-engine-qa.py",
+      "sha256": "e5e80cfd60d975c48773dbd751254fb43bf5b2111e87c181d99fa3bab726d03c"
+    },
+    {
+      "file": "scripts/docx-next-picture-crop-engine-test.py",
+      "sha256": "f365768f3164e9504e5d47928da525f556da929e426d3a8c4d1efcbf9ad979ef"
+    },
+    {
+      "file": "docs/qa/patches/lo-bitmap-source-window-support-unbuilt.patch",
+      "sha256": "013631efba2d2061512696bf0500c1b9a4b661d6be988f82dce2d7c72f081110"
+    },
+    {
+      "file": "docs/qa/patches/lo-crop-pixel-and-kind-regression-unbuilt.patch",
+      "sha256": "93c241f176d77cd9a64d0b71ee75d30da849011e9f050a25d404f2126ca4a0d6"
+    }
+  ]
+}

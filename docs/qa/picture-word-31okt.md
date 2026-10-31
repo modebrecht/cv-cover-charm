@@ -1,10 +1,21 @@
 # Word-Pruefung des unveraenderten runden Fotoausschnitts
 
+Neuere lokale Untersuchung: [typisierter Bildbesitz in schwebender Tabelle](word-floating-picture-31okt.md). Teilfortschritt, weiterhin keine Produktfreigabe.
+
+**Lokale Fortsetzung:** Desktop-Word wurde inzwischen ausgefuehrt. Die
+unveraenderte Quelle und ihre erste gespeicherte Reparaturdatei verlangen
+Wiederherstellung. Es gibt keine reparaturfreie Abnahme dieser Quelle.
+Aktuelle Ergebnisse und getrennte Ersatzvarianten stehen in
+[word-direct-picture-31okt.md](word-direct-picture-31okt.md) und
+[word-tile-precision-31okt.md](word-tile-precision-31okt.md).
+Die folgenden Abschnitte dokumentieren Vorbereitung und damaligen CI-Stand;
+die dort noch offenen bestehenden Laeufe sind im neuen Bericht abgeschlossen.
+
 31. Oktober 2026. Branch `work/30okt-body-boundary-candidate`.
-**Vorbereitet; Desktop-Word wurde in dieser Fortsetzung nicht ausgefuehrt.**
-Diese Linux-Umgebung hat keinen Zugriff auf die Windows-Word-Instanz.
-Der zuletzt bestaetigte Windows-Checkout bleibt `e395d4d6`.
-Kein Produktionsfix, keine Office-Abnahme, kein Merge.
+    **Vorbereitet; Desktop-Word wurde in dieser Fortsetzung nicht ausgefuehrt.**
+    Diese Linux-Umgebung hat keinen Zugriff auf die Windows-Word-Instanz.
+    Der zuletzt bestaetigte Windows-Checkout bleibt `e395d4d6`.
+    Kein Produktionsfix, keine Office-Abnahme, kein Merge.
 
 ## Genau eine Quelle
 

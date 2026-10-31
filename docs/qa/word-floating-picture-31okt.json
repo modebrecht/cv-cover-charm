@@ -1,0 +1,4286 @@
+{
+  "scope": "One-hour local investigation, 2026-10-31 15:15-16:15 UTC",
+  "checkout": "94d9021956734b39045c4aa3891c08fe6ae0e116",
+  "productionAcceptance": "blocked",
+  "rendererChangedThisHour": false,
+  "commitPushMergePerformed": false,
+  "nativeRuntime": {
+    "version": {
+      "ProductName": "LibreOffice",
+      "ProductVersion": "25.8",
+      "ProductExtension": ".7.3",
+      "BuildId": "580(Build:3)"
+    },
+    "interface": "LibreOfficeKit",
+    "compiler": "isolated Ubuntu tcc with explicit CRT, same adapter source",
+    "adapterSha256": "269419f0800c8f251dd07ade244a24cf14caa4a5921ddd45f15156a33b4cde33",
+    "packageManifestSha256": "5de56f5f319a2aea970f41bfdbc955a3be7cc00650a38bd8a4c202cbb6102a4c",
+    "fontManifestSha256": "765840c4534617d8adb0172cf770e5ae1f1ba28b948e965e0873ac9ff92f9822"
+  },
+  "wordBuild": "16.0.20527.20112",
+  "windowsVersion": "10.0.22631.0",
+  "evidence": [
+    {
+      "path": "artifacts/word-native-model-31okt/native-audit.json",
+      "sha256": "79c0c8c437cce87588fe124d77d109b5d7809f5c87da66d71a02fb3943ebfd6b"
+    },
+    {
+      "path": "artifacts/word-native-model-31okt/renderer-table-four/native-audit.json",
+      "sha256": "cfb4cb0faf281fb8cbb111d89a9ee9305b6d43a19f5e2ec157ebeac83032f5fb"
+    },
+    {
+      "path": "artifacts/word-native-model-31okt/renderer-table-four/word-main-audit.json",
+      "sha256": "779dc0cf1d83904e8ebd16cc541a63bcea544f294ec0ee35972663df384d5226"
+    },
+    {
+      "path": "artifacts/word-native-model-31okt/word-table-pic-package-audit.json",
+      "sha256": "87b6657a13b49c16363df24ae23951d9ac866482cae18b6314ee40e0643525f5"
+    },
+    {
+      "path": "artifacts/word-native-model-31okt/word-table-pic-pdf-audit.json",
+      "sha256": "0394029e4cf0546fa6cf81c13dca933a286d9a9b66fb3cb1d8304c22b089a621"
+    },
+    {
+      "path": "artifacts/word-desktop-31okt/native-runtime-record.json",
+      "sha256": "7559936a265989317279cb249d3d411ebc58929a584176e29adb3d26416e9c3f"
+    },
+    {
+      "path": "artifacts/word-native-model-31okt/native/phases.json",
+      "sha256": "403ac520538d733599efb4f3347f21bd6926dff2532ca6baea44212174b0f6e1"
+    },
+    {
+      "path": "artifacts/word-native-model-31okt/native-custom-v2/phases.json",
+      "sha256": "025eb54bd92c42e094a1198b8eb863ac6d71f9f26ab75c5229d0bebe1b34c979"
+    },
+    {
+      "path": "artifacts/word-native-model-31okt/native-alternatives/phases.json",
+      "sha256": "5bb55be2d8feb613f2e09d1d4a03e298a3379046292c27268c75d0640b9c54ac"
+    },
+    {
+      "path": "artifacts/word-native-model-31okt/native-combined/phases.json",
+      "sha256": "342a1774b5ba6a992387176a191d7dd00217e92bd9b6b75579728da30ab80918"
+    },
+    {
+      "path": "artifacts/word-native-model-31okt/native-border-box/phases.json",
+      "sha256": "4217251550c34d758deccf2c8d8c75cdd02a0358a59ff8c000d528f659c48a59"
+    },
+    {
+      "path": "artifacts/word-native-model-31okt/renderer-table-four/native/phases.json",
+      "sha256": "e759f7ea372173b7cd707765c6dd09ade7b703a2efedd4a9283cb53ff564c54f"
+    },
+    {
+      "path": "artifacts/word-native-model-31okt/producer-before-extent.py",
+      "sha256": "4f09fc9f136fba96945fd8fa5aab9a3e89412d687f62319339d266e717de6638",
+      "note": "Archived exact producer version for the historical first-hour collection; extent correction is documented separately."
+    },
+    {
+      "path": "artifacts/word-native-model-31okt/renderer-table-four/floating-picture-manifest.json",
+      "sha256": "1a62a47b4ef3a1866b0e8419d59a486ccfd872d58d670ad5d8f805f23f30e947"
+    },
+    {
+      "path": "artifacts/word-native-model-31okt/renderer-table-four/word-writer-table-fidelity.png",
+      "sha256": "d8cca762c8c9a96fe1aa07a422e7df67cadadf50906751d4e5136b71bb6845e6"
+    }
+  ],
+  "nativeCounts": {
+    "docxSaves": 42,
+    "pdfExports": 63,
+    "pdfPages": 243
+  },
+  "fourCases": [
+    {
+      "fixture": "main",
+      "phases": [
+        {
+          "phase": "source",
+          "docx": "floating-table-main-source.docx",
+          "docxSha256": "30349c712d016acdd330372b5d9a9daa628825561b1cc055a43c6002fd142d4c",
+          "pdf": "floating-table-main-source.pdf",
+          "pdfSha256": "48fc58f23c6da912c7bd1aa6da52d0a18421f991ad576d577e80cafd9e94b302",
+          "ownership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image-1.png",
+                  "sizePx": [120, 180],
+                  "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+                  "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+                }
+              }
+            ]
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": true,
+                "rgbaPixelsUnchanged": true,
+                "payloadBytesUnchanged": true
+              }
+            ]
+          },
+          "serializedGridsUnchanged": true
+        },
+        {
+          "phase": "saved1",
+          "docx": "floating-table-main-saved1.docx",
+          "docxSha256": "a9c94850c55b56e1da52105fe8dff27bbb5bc88d03e2421783db69435315aad3",
+          "pdf": "floating-table-main-saved1.pdf",
+          "pdfSha256": "a7ab05a03810329694e12a8421b5465576467247eb55186a0ad38c84601215b6",
+          "ownership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [96, 96],
+                  "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+                  "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+                }
+              }
+            ]
+          },
+          "imageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          },
+          "serializedGridsUnchanged": true
+        },
+        {
+          "phase": "saved2",
+          "docx": "floating-table-main-saved2.docx",
+          "docxSha256": "c20fb6da956610f267cde7c2e4172715793622158224c1d3222b62c7791d5c2e",
+          "pdf": "floating-table-main-saved2.pdf",
+          "pdfSha256": "e9a1cc60a3dfe9282980d1580e646a741993689dff132d06c582834e83c67f22",
+          "ownership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [96, 96],
+                  "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+                  "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+                }
+              }
+            ]
+          },
+          "imageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          },
+          "serializedGridsUnchanged": true
+        }
+      ],
+      "sourcePdfFidelity": {
+        "pageCountsUnchanged": true,
+        "wordSequenceUnchanged": true,
+        "changedWordPages": [],
+        "changedPixelPages": [],
+        "changedPageSizePages": [],
+        "changedImageGeometryPages": [],
+        "changedWords": 0,
+        "maxAbsDxMm": 0.0,
+        "maxAbsDyMm": 0.0,
+        "renderScale": 2,
+        "pdfMetadataCompared": false,
+        "comparisonContractVersion": 2,
+        "exactVisibleGeometry": true
+      },
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedPageSizePages": [],
+          "changedImageGeometryPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "comparisonContractVersion": 2,
+          "exactVisibleGeometry": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedPageSizePages": [],
+          "changedImageGeometryPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "comparisonContractVersion": 2,
+          "exactVisibleGeometry": true
+        }
+      ],
+      "baselineSourcePdfSha256": "7a4bd7be23b2a3b31024b690af7818044172f8bad9cd41f52a38ad12cd324f73",
+      "photo8xAudit": {
+        "sourcePage": 3,
+        "sourceClipPt": [
+          423.20001220703125, 65.30074310302734, 523.6000366210938, 165.70074462890625
+        ],
+        "positions": [
+          [2, [425.20001220703125, 67.30074310302734, 521.6000366210938, 163.70074462890625]],
+          [2, [425.20001220703125, 67.30074310302734, 521.6000366210938, 163.70074462890625]],
+          [2, [425.20001220703125, 67.30074310302734, 521.6000366210938, 163.70074462890625]]
+        ],
+        "hashes": [
+          "23e818c1d1a4b5e86e2768fc4800ce6699e2ada0874d9cb062d5b9350a2431a6",
+          "23e818c1d1a4b5e86e2768fc4800ce6699e2ada0874d9cb062d5b9350a2431a6",
+          "23e818c1d1a4b5e86e2768fc4800ce6699e2ada0874d9cb062d5b9350a2431a6",
+          "23e818c1d1a4b5e86e2768fc4800ce6699e2ada0874d9cb062d5b9350a2431a6"
+        ],
+        "baselineSourceFidelity": true,
+        "allSavePhasesUnchanged": true
+      }
+    },
+    {
+      "fixture": "low",
+      "phases": [
+        {
+          "phase": "source",
+          "docx": "floating-table-low-source.docx",
+          "docxSha256": "4bc7fb4f5bef71d1db865db338eeb076135b8af643aff46dc3d1c19dd3f64b2e",
+          "pdf": "floating-table-low-source.pdf",
+          "pdfSha256": "ee1251fcb422ee627f0949511dc30358d8112e91ade117736cf0dbc326505ee8",
+          "ownership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image-1.png",
+                  "sizePx": [120, 180],
+                  "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+                  "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+                }
+              }
+            ]
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": true,
+                "rgbaPixelsUnchanged": true,
+                "payloadBytesUnchanged": true
+              }
+            ]
+          },
+          "serializedGridsUnchanged": true
+        },
+        {
+          "phase": "saved1",
+          "docx": "floating-table-low-saved1.docx",
+          "docxSha256": "dc53a1a5aa1e9f603649b6b76fa40ca3bb0c11c90eda8b580c3880215070f870",
+          "pdf": "floating-table-low-saved1.pdf",
+          "pdfSha256": "08406290bee7d1f1948b8804a619532ec90ade210eadd4b507c733f1a697f096",
+          "ownership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [96, 96],
+                  "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+                  "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+                }
+              }
+            ]
+          },
+          "imageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          },
+          "serializedGridsUnchanged": true
+        },
+        {
+          "phase": "saved2",
+          "docx": "floating-table-low-saved2.docx",
+          "docxSha256": "4827289eb7e588753ecc570137ee234719921df85dbe9a6a2863b01117ed2c84",
+          "pdf": "floating-table-low-saved2.pdf",
+          "pdfSha256": "5f3595cf5a51bcab02849d608c9dad03c6bdb9d863e5291f2ee32c3d6063325c",
+          "ownership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [96, 96],
+                  "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+                  "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+                }
+              }
+            ]
+          },
+          "imageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          },
+          "serializedGridsUnchanged": true
+        }
+      ],
+      "sourcePdfFidelity": {
+        "pageCountsUnchanged": true,
+        "wordSequenceUnchanged": true,
+        "changedWordPages": [],
+        "changedPixelPages": [],
+        "changedPageSizePages": [],
+        "changedImageGeometryPages": [],
+        "changedWords": 0,
+        "maxAbsDxMm": 0.0,
+        "maxAbsDyMm": 0.0,
+        "renderScale": 2,
+        "pdfMetadataCompared": false,
+        "comparisonContractVersion": 2,
+        "exactVisibleGeometry": true
+      },
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedPageSizePages": [],
+          "changedImageGeometryPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "comparisonContractVersion": 2,
+          "exactVisibleGeometry": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedPageSizePages": [],
+          "changedImageGeometryPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "comparisonContractVersion": 2,
+          "exactVisibleGeometry": true
+        }
+      ],
+      "baselineSourcePdfSha256": "bb30571909806ec3c80f22a44d0d30a105b95cd04d1e0c3283e8f51123c125d3",
+      "photo8xAudit": {
+        "sourcePage": 3,
+        "sourceClipPt": [
+          423.20001220703125, 461.0007629394531, 523.6000366210938, 561.4007568359375
+        ],
+        "positions": [
+          [2, [425.20001220703125, 463.0007629394531, 521.6000366210938, 559.4007568359375]],
+          [2, [425.20001220703125, 463.0007629394531, 521.6000366210938, 559.4007568359375]],
+          [2, [425.20001220703125, 463.0007629394531, 521.6000366210938, 559.4007568359375]]
+        ],
+        "hashes": [
+          "bd5439cd0584ffb1b89bceb7d909b00bda6c8ac4ea7263b72a0ffd0a27fe8e72",
+          "bd5439cd0584ffb1b89bceb7d909b00bda6c8ac4ea7263b72a0ffd0a27fe8e72",
+          "bd5439cd0584ffb1b89bceb7d909b00bda6c8ac4ea7263b72a0ffd0a27fe8e72",
+          "bd5439cd0584ffb1b89bceb7d909b00bda6c8ac4ea7263b72a0ffd0a27fe8e72"
+        ],
+        "baselineSourceFidelity": true,
+        "allSavePhasesUnchanged": true
+      }
+    },
+    {
+      "fixture": "portrait",
+      "phases": [
+        {
+          "phase": "source",
+          "docx": "floating-table-portrait-source.docx",
+          "docxSha256": "565de2ae311ddd5a58142a961d1f61ce2865008abb44c5ab2c6b0a2a8843c6c1",
+          "pdf": "floating-table-portrait-source.pdf",
+          "pdfSha256": "a8057d48f03650c737bfc728a777c9ea84ffcb58872d4ddfd42f4157b961f8bb",
+          "ownership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image-1.png",
+                  "sizePx": [120, 180],
+                  "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+                  "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+                }
+              }
+            ]
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": true,
+                "rgbaPixelsUnchanged": true,
+                "payloadBytesUnchanged": true
+              }
+            ]
+          },
+          "serializedGridsUnchanged": true
+        },
+        {
+          "phase": "saved1",
+          "docx": "floating-table-portrait-saved1.docx",
+          "docxSha256": "0726291e52d40126400f2d8630ccbab12724d7d95ac169d3afe0ab493cad2d96",
+          "pdf": "floating-table-portrait-saved1.pdf",
+          "pdfSha256": "9d728ef141bc9879a93c69f09d07816466db739eec2ce3baecc475a267679c27",
+          "ownership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [73, 91],
+                  "payloadSha256": "92b0a7d2bbb13fc85b09042d6c333f664294dba14ebfe6c8892473f4db143430",
+                  "rgbaSha256": "d8b343abad7f7a010477d5d88f389fdc7ffc5bbde2241e37e7e1c85dd06fa0f0"
+                }
+              }
+            ]
+          },
+          "imageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          },
+          "serializedGridsUnchanged": true
+        },
+        {
+          "phase": "saved2",
+          "docx": "floating-table-portrait-saved2.docx",
+          "docxSha256": "b5048a94fa3d725a3773dce5162ff0dd5b42cbb6ad8a9128d6bf759482c606d0",
+          "pdf": "floating-table-portrait-saved2.pdf",
+          "pdfSha256": "9632f7a01a60a207f21fd0d7a9efb3d7e5d2dd76f57891d8c9d3f62bdd0e4688",
+          "ownership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [73, 91],
+                  "payloadSha256": "92b0a7d2bbb13fc85b09042d6c333f664294dba14ebfe6c8892473f4db143430",
+                  "rgbaSha256": "d8b343abad7f7a010477d5d88f389fdc7ffc5bbde2241e37e7e1c85dd06fa0f0"
+                }
+              }
+            ]
+          },
+          "imageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          },
+          "serializedGridsUnchanged": true
+        }
+      ],
+      "sourcePdfFidelity": {
+        "pageCountsUnchanged": true,
+        "wordSequenceUnchanged": true,
+        "changedWordPages": [],
+        "changedPixelPages": [],
+        "changedPageSizePages": [],
+        "changedImageGeometryPages": [],
+        "changedWords": 0,
+        "maxAbsDxMm": 0.0,
+        "maxAbsDyMm": 0.0,
+        "renderScale": 2,
+        "pdfMetadataCompared": false,
+        "comparisonContractVersion": 2,
+        "exactVisibleGeometry": true
+      },
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedPageSizePages": [],
+          "changedImageGeometryPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "comparisonContractVersion": 2,
+          "exactVisibleGeometry": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedPageSizePages": [],
+          "changedImageGeometryPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "comparisonContractVersion": 2,
+          "exactVisibleGeometry": true
+        }
+      ],
+      "baselineSourcePdfSha256": "2e3f56531d0d0c6c58c32dc950a411fa7e1ffcce24c636db4b7edbe4e12dd381",
+      "photo8xAudit": {
+        "sourcePage": 3,
+        "sourceClipPt": [
+          423.20001220703125, 135.00074768066406, 523.6000366210938, 259.45074462890625
+        ],
+        "positions": [
+          [2, [425.20001220703125, 137.00074768066406, 521.6000366210938, 257.45074462890625]],
+          [2, [425.20001220703125, 137.00074768066406, 521.6000366210938, 257.45074462890625]],
+          [2, [425.20001220703125, 137.00074768066406, 521.6000366210938, 257.45074462890625]]
+        ],
+        "hashes": [
+          "e6fc334d6c21b0e9a545236573502e191ebfe9b62d022af08638e221f95262e7",
+          "e6fc334d6c21b0e9a545236573502e191ebfe9b62d022af08638e221f95262e7",
+          "e6fc334d6c21b0e9a545236573502e191ebfe9b62d022af08638e221f95262e7",
+          "e6fc334d6c21b0e9a545236573502e191ebfe9b62d022af08638e221f95262e7"
+        ],
+        "baselineSourceFidelity": true,
+        "allSavePhasesUnchanged": true
+      }
+    },
+    {
+      "fixture": "chrome",
+      "phases": [
+        {
+          "phase": "source",
+          "docx": "floating-table-chrome-source.docx",
+          "docxSha256": "499498fdc4ed948fef160e48ea4e3c7fc38f641351752ce6067c7c34748b53c2",
+          "pdf": "floating-table-chrome-source.pdf",
+          "pdfSha256": "f2951e9ed78377d5bae852da8180e798141c68df7bd2acc2d61c0938ccf757ef",
+          "ownership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image-1.png",
+                  "sizePx": [120, 180],
+                  "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+                  "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+                }
+              }
+            ]
+          },
+          "imageData": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": true,
+                "rgbaPixelsUnchanged": true,
+                "payloadBytesUnchanged": true
+              }
+            ]
+          },
+          "serializedGridsUnchanged": true
+        },
+        {
+          "phase": "saved1",
+          "docx": "floating-table-chrome-saved1.docx",
+          "docxSha256": "f02ad3d08937e1a830bef07141cbdf4998dfac54d9988807069e9ffd19e140b4",
+          "pdf": "floating-table-chrome-saved1.pdf",
+          "pdfSha256": "d6dd30c18b6c7f766ec4a65456ddbca5563dbaa348cf745d1e95e65ef9da465e",
+          "ownership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [96, 96],
+                  "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+                  "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+                }
+              }
+            ]
+          },
+          "imageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          },
+          "serializedGridsUnchanged": true
+        },
+        {
+          "phase": "saved2",
+          "docx": "floating-table-chrome-saved2.docx",
+          "docxSha256": "f0b2c9c710487f95f1cbccfb0031141f65a6c1b5153c4957792c8857474d7ef2",
+          "pdf": "floating-table-chrome-saved2.pdf",
+          "pdfSha256": "76c9107af2b6cee7637cb5de4e667ac89e384006caa1d6a48edd6cc54a6cd5d7",
+          "ownership": {
+            "status": "pass",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "pass",
+                "reasons": [],
+                "ownerCount": 1,
+                "typedPicture": true,
+                "drawingCount": 1,
+                "imageReferenceCount": 1,
+                "image": {
+                  "part": "word/media/image1.png",
+                  "sizePx": [96, 96],
+                  "payloadSha256": "7c69b940f2bf7545c06660ebeceb4a96f3de558b6d07e0392f5c36f6d98f881b",
+                  "rgbaSha256": "76485387d2173fe1f8aec1cd93ce77e38d3a894d919915e2eb7fa6c7acf5ef19"
+                }
+              }
+            ]
+          },
+          "imageData": {
+            "status": "fail",
+            "pictures": [
+              {
+                "id": "cv.person.photo",
+                "status": "fail",
+                "ownershipVerified": true,
+                "dimensionsUnchanged": false,
+                "rgbaPixelsUnchanged": false,
+                "payloadBytesUnchanged": false
+              }
+            ]
+          },
+          "serializedGridsUnchanged": true
+        }
+      ],
+      "sourcePdfFidelity": {
+        "pageCountsUnchanged": true,
+        "wordSequenceUnchanged": true,
+        "changedWordPages": [],
+        "changedPixelPages": [],
+        "changedPageSizePages": [],
+        "changedImageGeometryPages": [],
+        "changedWords": 0,
+        "maxAbsDxMm": 0.0,
+        "maxAbsDyMm": 0.0,
+        "renderScale": 2,
+        "pdfMetadataCompared": false,
+        "comparisonContractVersion": 2,
+        "exactVisibleGeometry": true
+      },
+      "comparisons": [
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedPageSizePages": [],
+          "changedImageGeometryPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "comparisonContractVersion": 2,
+          "exactVisibleGeometry": true
+        },
+        {
+          "pageCountsUnchanged": true,
+          "wordSequenceUnchanged": true,
+          "changedWordPages": [],
+          "changedPixelPages": [],
+          "changedPageSizePages": [],
+          "changedImageGeometryPages": [],
+          "changedWords": 0,
+          "maxAbsDxMm": 0.0,
+          "maxAbsDyMm": 0.0,
+          "renderScale": 2,
+          "pdfMetadataCompared": false,
+          "comparisonContractVersion": 2,
+          "exactVisibleGeometry": true
+        }
+      ],
+      "baselineSourcePdfSha256": "de660fe07e67da0a965ff104fa0f0442134edd6706a9aa5d3f079bfc80169da2",
+      "photo8xAudit": {
+        "sourcePage": 3,
+        "sourceClipPt": [423.20001220703125, 338.05078125, 523.6000366210938, 438.4507751464844],
+        "positions": [
+          [2, [425.20001220703125, 340.05078125, 521.6000366210938, 436.4507751464844]],
+          [2, [425.20001220703125, 340.05078125, 521.6000366210938, 436.4507751464844]],
+          [2, [425.20001220703125, 340.05078125, 521.6000366210938, 436.4507751464844]]
+        ],
+        "hashes": [
+          "9521c60c38bd1e3c11296c9a21a5c798c28780f03fa0a22140c8c194e0d2ca88",
+          "9521c60c38bd1e3c11296c9a21a5c798c28780f03fa0a22140c8c194e0d2ca88",
+          "9521c60c38bd1e3c11296c9a21a5c798c28780f03fa0a22140c8c194e0d2ca88",
+          "9521c60c38bd1e3c11296c9a21a5c798c28780f03fa0a22140c8c194e0d2ca88"
+        ],
+        "baselineSourceFidelity": true,
+        "allSavePhasesUnchanged": true
+      }
+    }
+  ],
+  "wordMain": {
+    "scope": "Observed real Word open, save, close and reopen once; not two cycles or four-case Word acceptance",
+    "files": [
+      {
+        "file": "artifacts\\word-native-model-31okt\\renderer-table-four\\floating-table-main.docx",
+        "sha256": "30349c712d016acdd330372b5d9a9daa628825561b1cc055a43c6002fd142d4c"
+      },
+      {
+        "file": "artifacts\\word-native-model-31okt\\renderer-table-four\\table-main-word-saved1.docx",
+        "sha256": "2b8c47d5f3c4571f51c85c05a8fee1fbbf596fb63cb3a94be95d93fb2192ad84"
+      },
+      {
+        "file": "artifacts\\word-native-model-31okt\\renderer-table-four\\floating-table-main.pdf",
+        "sha256": "9e880b602d96b27982f20c5d79adeb9efa873e9e4911e629a93069734ce1bc84"
+      },
+      {
+        "file": "artifacts\\word-native-model-31okt\\renderer-table-four\\table-main-word-saved1.pdf",
+        "sha256": "2c5bfefc85b1f36ce6c2b0b3e7a7bfbb63903753aed2365c0182b2d1d618ab0a"
+      },
+      {
+        "file": "artifacts\\word-desktop-31okt\\app-body-photo-free-main-rich.pdf",
+        "sha256": "a16f51a695ec49785ee5ebe3b1cd8467c28d47b5c7d8916ffbdf22506dead1cc"
+      }
+    ],
+    "package": {
+      "exactPackageContract": "pass",
+      "checks": {
+        "canonicalFields": true,
+        "pictureOwnership": true,
+        "originalImageData": true,
+        "exactCropMarkup": true,
+        "sectionAndRevisionContract": true
+      },
+      "pictureInventory": {
+        "status": "pass",
+        "pictures": [
+          {
+            "id": "cv.person.photo",
+            "status": "pass",
+            "reasons": [],
+            "ownerCount": 1,
+            "typedPicture": true,
+            "drawingCount": 1,
+            "imageReferenceCount": 1,
+            "image": {
+              "part": "word/media/image1.png",
+              "sizePx": [120, 180],
+              "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+              "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+            }
+          }
+        ]
+      },
+      "imageData": {
+        "status": "pass",
+        "pictures": [
+          {
+            "id": "cv.person.photo",
+            "status": "pass",
+            "ownershipVerified": true,
+            "dimensionsUnchanged": true,
+            "rgbaPixelsUnchanged": true,
+            "payloadBytesUnchanged": true
+          }
+        ]
+      },
+      "comparison": {
+        "sourceSha256": "30349c712d016acdd330372b5d9a9daa628825561b1cc055a43c6002fd142d4c",
+        "savedSha256": "2b8c47d5f3c4571f51c85c05a8fee1fbbf596fb63cb3a94be95d93fb2192ad84",
+        "declaredApplications": {
+          "source": null,
+          "saved": "Microsoft Office Word"
+        },
+        "duplicates": {
+          "source": [],
+          "saved": []
+        },
+        "trackedRevisionMarkupCount": {
+          "source": 0,
+          "saved": 0
+        },
+        "sourceFields": 79,
+        "savedFields": 79,
+        "sectionCounts": {
+          "source": 3,
+          "saved": 3
+        },
+        "duplicateNativeSdtIds": {
+          "source": [],
+          "saved": []
+        },
+        "invalidNativeSdtIds": {
+          "source": [],
+          "saved": []
+        },
+        "addedFieldIds": [],
+        "fields": [
+          {
+            "field": "cover.eyebrow",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "63d587f5ee82680228b15be42659fa51a2f25daf19d0ead58fc81f801bf33dbb",
+            "savedTextSha256": "63d587f5ee82680228b15be42659fa51a2f25daf19d0ead58fc81f801bf33dbb",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "604319642"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cover.profession",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "257f7d1912791d9b35440940cb4ef785eb9ce8516d5b095afe333619be86dfe9",
+            "savedTextSha256": "257f7d1912791d9b35440940cb4ef785eb9ce8516d5b095afe333619be86dfe9",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1871100238"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cover.fullName",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "65763a9ac39c9352991c026513fd67d0f306ae651513e47604b721c14a3126fc",
+            "savedTextSha256": "65763a9ac39c9352991c026513fd67d0f306ae651513e47604b721c14a3126fc",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1283769943"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cover.lehrbeginn",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "2b44d157bce91c30a42328592d9e50772c1bb7f69e0cd099417ecfdaf45e0ccb",
+            "savedTextSha256": "2b44d157bce91c30a42328592d9e50772c1bb7f69e0cd099417ecfdaf45e0ccb",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1782447751"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cover.kontaktTitel",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "325eecf9d30156c2e6f261e611c40f571de28ad8924b6b2167b2aa78a3d9dadb",
+            "savedTextSha256": "325eecf9d30156c2e6f261e611c40f571de28ad8924b6b2167b2aa78a3d9dadb",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "7264340"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cover.kontakt",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "c12acf64c70ea9bebc0bdd68c31badada72c20ac17d14c6088f32466e55560ba",
+            "savedTextSha256": "c12acf64c70ea9bebc0bdd68c31badada72c20ac17d14c6088f32466e55560ba",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1702053207"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cover.beilagenTitel",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "6d39991ee15d7f59d8eb3ae3263db69efbe9729430ae5e850f10cbc28cad4fd0",
+            "savedTextSha256": "6d39991ee15d7f59d8eb3ae3263db69efbe9729430ae5e850f10cbc28cad4fd0",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "2027831379"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cover.beilagen",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "47a78de25d4b131adc16390c85ca09af90a10c37b218d761078bf8b9eee9d265",
+            "savedTextSha256": "47a78de25d4b131adc16390c85ca09af90a10c37b218d761078bf8b9eee9d265",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "190657288"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cover.ortDatum",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "cce28d8a88c69255140259ccf6b9933cadba5cf9f8920654aa90ad95aeb21b30",
+            "savedTextSha256": "cce28d8a88c69255140259ccf6b9933cadba5cf9f8920654aa90ad95aeb21b30",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "300506110"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.sender.name",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "65763a9ac39c9352991c026513fd67d0f306ae651513e47604b721c14a3126fc",
+            "savedTextSha256": "65763a9ac39c9352991c026513fd67d0f306ae651513e47604b721c14a3126fc",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1355147363"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.sender.address",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "6922c381bd3f88353c717689e0f04a42830c6155ffa8d069cb5c2c51d6e35153",
+            "savedTextSha256": "6922c381bd3f88353c717689e0f04a42830c6155ffa8d069cb5c2c51d6e35153",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-1988704031"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.sender.place",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "75826ab6e594911a4b208d2e8347d4f0b1db1b9fab8e61f98597ff3893ad5025",
+            "savedTextSha256": "75826ab6e594911a4b208d2e8347d4f0b1db1b9fab8e61f98597ff3893ad5025",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-1166473255"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.sender.phone",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "c05caaab6badaa17a00dee1428463b6808c7fe15e8bf6792ac58d544c6b4e9e7",
+            "savedTextSha256": "c05caaab6badaa17a00dee1428463b6808c7fe15e8bf6792ac58d544c6b4e9e7",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1656873507"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.sender.email",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "9e51ec82f355f80c78977f8495ef390dd1fd63314b916cc49e3895aa723c51de",
+            "savedTextSha256": "9e51ec82f355f80c78977f8495ef390dd1fd63314b916cc49e3895aa723c51de",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-691540549"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.recipient.company",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "e269488ee66580a6f3446ed3df03e954a366c33b61ea2f124e48e4c446e7395c",
+            "savedTextSha256": "e269488ee66580a6f3446ed3df03e954a366c33b61ea2f124e48e4c446e7395c",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-1953619183"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.recipient.name",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "19039d6fb1cae043690265e3773ebf19396c18fa4d25a751c7a277d5a1feafde",
+            "savedTextSha256": "19039d6fb1cae043690265e3773ebf19396c18fa4d25a751c7a277d5a1feafde",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-1756427000"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.recipient.address",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "efc4e89b44ff3b32a1e0a2a7449bbf4b78c94fc5a82828e9070a74795a055d09",
+            "savedTextSha256": "efc4e89b44ff3b32a1e0a2a7449bbf4b78c94fc5a82828e9070a74795a055d09",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "794956318"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.recipient.place",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "75826ab6e594911a4b208d2e8347d4f0b1db1b9fab8e61f98597ff3893ad5025",
+            "savedTextSha256": "75826ab6e594911a4b208d2e8347d4f0b1db1b9fab8e61f98597ff3893ad5025",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1716160108"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.date",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "cce28d8a88c69255140259ccf6b9933cadba5cf9f8920654aa90ad95aeb21b30",
+            "savedTextSha256": "cce28d8a88c69255140259ccf6b9933cadba5cf9f8920654aa90ad95aeb21b30",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1264272330"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.subject",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "da70b4972bfd52d86bf65cee1c83150ba0ad442f05264d6317fd3c66b337f1bf",
+            "savedTextSha256": "da70b4972bfd52d86bf65cee1c83150ba0ad442f05264d6317fd3c66b337f1bf",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-432897187"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.salutation",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "5da420fa0125528f9807dc106ce272b2382cd6ce70b16aac3662adc6e987be01",
+            "savedTextSha256": "5da420fa0125528f9807dc106ce272b2382cd6ce70b16aac3662adc6e987be01",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-370083798"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.body.paragraph:0",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "4b987237b74170918414fa78159b643dd9addad90b50b2248ef67555d147a1c8",
+            "savedTextSha256": "4b987237b74170918414fa78159b643dd9addad90b50b2248ef67555d147a1c8",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-1002741740"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.body.paragraph:1",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": null,
+            "sourceTextSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "savedTextSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1036472834"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.body.paragraph:2",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "e844a3e4bb742e6f4303d46ed86cb9e0b542fc644f1563b322e14f741765bdad",
+            "savedTextSha256": "e844a3e4bb742e6f4303d46ed86cb9e0b542fc644f1563b322e14f741765bdad",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1666598197"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.body.paragraph:3",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": null,
+            "sourceTextSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "savedTextSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1210846681"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.body.paragraph:4",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "a79e093e0127610f694ccc0bd471fc6ef8a6c5645e394f03edbe13a653f496de",
+            "savedTextSha256": "a79e093e0127610f694ccc0bd471fc6ef8a6c5645e394f03edbe13a653f496de",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-1801908464"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.closing",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "06ac23b6a92c1b285b1e44267e17779221ab09661da06b8ea7851a774b2438c4",
+            "savedTextSha256": "06ac23b6a92c1b285b1e44267e17779221ab09661da06b8ea7851a774b2438c4",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "527759095"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.signature",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "65763a9ac39c9352991c026513fd67d0f306ae651513e47604b721c14a3126fc",
+            "savedTextSha256": "65763a9ac39c9352991c026513fd67d0f306ae651513e47604b721c14a3126fc",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-869688144"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.attachments-heading",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "3058a2c72789ebcec264ba29b91e22dab92ba6c9e899d28738b72f0fa6a2ad50",
+            "savedTextSha256": "3058a2c72789ebcec264ba29b91e22dab92ba6c9e899d28738b72f0fa6a2ad50",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1652863088"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.attachment:0",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "e3b4327857f62441535598f90be89221e3fda56a5007a3b64e2902da5d384f35",
+            "savedTextSha256": "e3b4327857f62441535598f90be89221e3fda56a5007a3b64e2902da5d384f35",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "646714426"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.attachment:1",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "d625ceac32afc6b9fd28eacd84dfee4e730277a8545818e40227fc8730da3bd4",
+            "savedTextSha256": "d625ceac32afc6b9fd28eacd84dfee4e730277a8545818e40227fc8730da3bd4",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "828482669"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.section.person.heading",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "325eecf9d30156c2e6f261e611c40f571de28ad8924b6b2167b2aa78a3d9dadb",
+            "savedTextSha256": "325eecf9d30156c2e6f261e611c40f571de28ad8924b6b2167b2aa78a3d9dadb",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1037321725"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.person.address",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "6922c381bd3f88353c717689e0f04a42830c6155ffa8d069cb5c2c51d6e35153",
+            "savedTextSha256": "6922c381bd3f88353c717689e0f04a42830c6155ffa8d069cb5c2c51d6e35153",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1369260852"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.person.place",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "75826ab6e594911a4b208d2e8347d4f0b1db1b9fab8e61f98597ff3893ad5025",
+            "savedTextSha256": "75826ab6e594911a4b208d2e8347d4f0b1db1b9fab8e61f98597ff3893ad5025",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-2052220746"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.person.phone",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "c05caaab6badaa17a00dee1428463b6808c7fe15e8bf6792ac58d544c6b4e9e7",
+            "savedTextSha256": "c05caaab6badaa17a00dee1428463b6808c7fe15e8bf6792ac58d544c6b4e9e7",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-752357761"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.person.email",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "9e51ec82f355f80c78977f8495ef390dd1fd63314b916cc49e3895aa723c51de",
+            "savedTextSha256": "9e51ec82f355f80c78977f8495ef390dd1fd63314b916cc49e3895aa723c51de",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-148745794"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.person.geburtsdatum",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "7aaa95c79ed289863d5bcd06d01a646e1ad42177cbf078ee271676b613747a45",
+            "savedTextSha256": "7aaa95c79ed289863d5bcd06d01a646e1ad42177cbf078ee271676b613747a45",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1149869454"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.section.sprachen.heading",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "17d630275f4395eb9d565a326f186f5915c4c90742f481b6c83b53a00b183c00",
+            "savedTextSha256": "17d630275f4395eb9d565a326f186f5915c4c90742f481b6c83b53a00b183c00",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-1495487765"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.sprachen:demo-l1.name",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "801cfe0fa1182664d16f4aaf7856cc73412f79ef508a866eebc2e5ccf125ff0a",
+            "savedTextSha256": "801cfe0fa1182664d16f4aaf7856cc73412f79ef508a866eebc2e5ccf125ff0a",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1644929360"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.sprachen:demo-l1.level",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "62a7cd7a4ccd9abd84a3c80eea663a6973f0d743a681409c437448142e27ec35",
+            "savedTextSha256": "62a7cd7a4ccd9abd84a3c80eea663a6973f0d743a681409c437448142e27ec35",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-344484519"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.sprachen:demo-l2.name",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "983ea57f2212eb74c09837138f8672bb7c59d1248afd6ef68eb5a9c33d91f508",
+            "savedTextSha256": "983ea57f2212eb74c09837138f8672bb7c59d1248afd6ef68eb5a9c33d91f508",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-448622525"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.sprachen:demo-l2.level",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "61620c0efb9bf9c7acd6cdfd9e91708204fe788a1937932588586bcaa472cc8b",
+            "savedTextSha256": "61620c0efb9bf9c7acd6cdfd9e91708204fe788a1937932588586bcaa472cc8b",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-1283421657"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.sprachen:demo-l3.name",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "be9fb855d369b99f5343feb50b1b76d1f0cef0e1e3aae545a51ff7003f4c43cd",
+            "savedTextSha256": "be9fb855d369b99f5343feb50b1b76d1f0cef0e1e3aae545a51ff7003f4c43cd",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1481193515"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.sprachen:demo-l3.level",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "6730b4f1a913daf523701b62edba45eab5f0e67d3e9df4fb4d35478d9535065f",
+            "savedTextSha256": "6730b4f1a913daf523701b62edba45eab5f0e67d3e9df4fb4d35478d9535065f",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "304510765"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.section.hobbys.heading",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "a1357b3256f4ab704529888df5c44ef1ed5ddf769f18c7ae536a11f637e1faa8",
+            "savedTextSha256": "a1357b3256f4ab704529888df5c44ef1ed5ddf769f18c7ae536a11f637e1faa8",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1097751177"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.hobbys:0",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "256832e9a7253f3027fe98bcaef2b8be192e42bd5accbafe72d63e8c02dc13f4",
+            "savedTextSha256": "256832e9a7253f3027fe98bcaef2b8be192e42bd5accbafe72d63e8c02dc13f4",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-2126459234"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.hobbys:1",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "8874fa90c73cd1a1d614af8e2621ad12804c209d243ae644d0e1b62601c666da",
+            "savedTextSha256": "8874fa90c73cd1a1d614af8e2621ad12804c209d243ae644d0e1b62601c666da",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-126857098"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.hobbys:2",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "6a24eef779616ad0e1efeba49ddf9a3060d36271795cca58d8468cee4c8680bc",
+            "savedTextSha256": "6a24eef779616ad0e1efeba49ddf9a3060d36271795cca58d8468cee4c8680bc",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "390550787"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.section.staerken.heading",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "607f1e731017b265dfa645aa5b92e07b2ef40ddf68b6cbf088b29c8701f3d1e1",
+            "savedTextSha256": "607f1e731017b265dfa645aa5b92e07b2ef40ddf68b6cbf088b29c8701f3d1e1",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-1742324914"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.staerken:0",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "811fb98cbc026d573412305a8bfbbaa567266331af95d10cccdd1a03c4d41717",
+            "savedTextSha256": "811fb98cbc026d573412305a8bfbbaa567266331af95d10cccdd1a03c4d41717",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1762724904"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.staerken:1",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "51b14bac3e0a70c02a76c0ae99fb91ab9d206ec013461f45fa8a8f704cff0d6d",
+            "savedTextSha256": "51b14bac3e0a70c02a76c0ae99fb91ab9d206ec013461f45fa8a8f704cff0d6d",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-1585288321"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.staerken:2",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "443fb709e905c3dcb5796b39c1a4913c32d1581f41a43483eb14fb6631ff7f1f",
+            "savedTextSha256": "443fb709e905c3dcb5796b39c1a4913c32d1581f41a43483eb14fb6631ff7f1f",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "924300491"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.person.photo",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": null,
+            "sourceTextSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "savedTextSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": "1",
+              "saved": "1"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.documentTitle",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "e3b4327857f62441535598f90be89221e3fda56a5007a3b64e2902da5d384f35",
+            "savedTextSha256": "e3b4327857f62441535598f90be89221e3fda56a5007a3b64e2902da5d384f35",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "618576239"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.person.name",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "65763a9ac39c9352991c026513fd67d0f306ae651513e47604b721c14a3126fc",
+            "savedTextSha256": "65763a9ac39c9352991c026513fd67d0f306ae651513e47604b721c14a3126fc",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1304125554"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.section.custom:familie.heading",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "47324fe12daaecf94d8a7812825097a523c609fbb509b090fbffa461851ccd60",
+            "savedTextSha256": "47324fe12daaecf94d8a7812825097a523c609fbb509b090fbffa461851ccd60",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1333567379"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.custom:familie:demo-familie.place",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "e8e73edaf7926f772d8115ed59fa163a14de66dbde846700f532842a4f782dae",
+            "savedTextSha256": "e8e73edaf7926f772d8115ed59fa163a14de66dbde846700f532842a4f782dae",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "817384132"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.custom:familie:demo-familie.description",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "14454130af3130ec84684fac7297869de04e1b0ba95eb5c94494cc01c3536c4a",
+            "savedTextSha256": "14454130af3130ec84684fac7297869de04e1b0ba95eb5c94494cc01c3536c4a",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-1994871275"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.section.schule.heading",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "a343c1c554164e8c668a5286c1af2ee0ec5ce57a5811717011039ad676d22dc6",
+            "savedTextSha256": "a343c1c554164e8c668a5286c1af2ee0ec5ce57a5811717011039ad676d22dc6",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-973900575"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.schule:demo-s1.date",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "3846ceeeaf13f136de3ebc3c53db44c4de14ee6a0f3f759ad098ba90f0081188",
+            "savedTextSha256": "3846ceeeaf13f136de3ebc3c53db44c4de14ee6a0f3f759ad098ba90f0081188",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "996605379"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.schule:demo-s1.title",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "e89a33cd26361c4b7eb8a1f0b2e7bc783f62e7fbba6792dbf753854e381a228d",
+            "savedTextSha256": "e89a33cd26361c4b7eb8a1f0b2e7bc783f62e7fbba6792dbf753854e381a228d",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-2073418617"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.schule:demo-s1.place",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "86800186344f72fd4db06eed39640c6c5d6039323e7edd7dd2de5a9387d57e5c",
+            "savedTextSha256": "86800186344f72fd4db06eed39640c6c5d6039323e7edd7dd2de5a9387d57e5c",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-1614826081"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.schule:demo-s1.description",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "2725f19d267f13adecd9834b8549b340fa6178d2eab4049a73723ddb3e9d8431",
+            "savedTextSha256": "2725f19d267f13adecd9834b8549b340fa6178d2eab4049a73723ddb3e9d8431",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-159858380"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.schule:demo-s2.date",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "857917d3a9532b119da02cf6625aacaec4c71d4dc987c22280179d54a3d72ab6",
+            "savedTextSha256": "857917d3a9532b119da02cf6625aacaec4c71d4dc987c22280179d54a3d72ab6",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1444421019"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.schule:demo-s2.title",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "45f0d14e3310394ff97ae4ee82c3f11d712a6b0099394edeb0f1ad3784cbbaa7",
+            "savedTextSha256": "45f0d14e3310394ff97ae4ee82c3f11d712a6b0099394edeb0f1ad3784cbbaa7",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "356550190"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.schule:demo-s2.place",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "10b1d3e5fc235578b131f76b0a6efdc19342f1992846e72d8199e2c410ecfa7e",
+            "savedTextSha256": "10b1d3e5fc235578b131f76b0a6efdc19342f1992846e72d8199e2c410ecfa7e",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "29777743"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.section.erfahrung.heading",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "4a797fb1bdf9fb3d60a131d738f19c325aead78b8c96d18f1395c631b5fada94",
+            "savedTextSha256": "4a797fb1bdf9fb3d60a131d738f19c325aead78b8c96d18f1395c631b5fada94",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-1039506888"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.erfahrung:demo-p1.date",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "af8091364ff52829dc4fbe62b920d4b9f92e0d27b1c5aedc5612c36bc4e2578a",
+            "savedTextSha256": "af8091364ff52829dc4fbe62b920d4b9f92e0d27b1c5aedc5612c36bc4e2578a",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1213546271"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.erfahrung:demo-p1.title",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "1294c7f5179c6f09c0ea5cb0587df908d4eccbb8cf555fa96b4399517c8fdbf2",
+            "savedTextSha256": "1294c7f5179c6f09c0ea5cb0587df908d4eccbb8cf555fa96b4399517c8fdbf2",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-581527310"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.erfahrung:demo-p1.place",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "90e83335e29e9b230e3a028eef391e225d3df1bf97242567d5bc61640fc0f55c",
+            "savedTextSha256": "90e83335e29e9b230e3a028eef391e225d3df1bf97242567d5bc61640fc0f55c",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-599026797"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.erfahrung:demo-p1.description",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "33fe53e6ea95af21cb68cb645dfcab5c8d116d23f26e3e338212963c3ffd1fad",
+            "savedTextSha256": "33fe53e6ea95af21cb68cb645dfcab5c8d116d23f26e3e338212963c3ffd1fad",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-615676199"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.erfahrung:demo-p2.date",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "75521a5fc3c8112d34068f44db77bab36634f2a411e810cca0505cf2b54f24cf",
+            "savedTextSha256": "75521a5fc3c8112d34068f44db77bab36634f2a411e810cca0505cf2b54f24cf",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-1598708703"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.erfahrung:demo-p2.title",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "b2b209cc0470467050a655589310619e0ee140adbe0bfc02d71567dc5f7a3b23",
+            "savedTextSha256": "b2b209cc0470467050a655589310619e0ee140adbe0bfc02d71567dc5f7a3b23",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-249515231"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.erfahrung:demo-p2.place",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "4cef6fed17d95c8f85d61ad5158f97e15b067f97e5653d5d17304e65d23e3438",
+            "savedTextSha256": "4cef6fed17d95c8f85d61ad5158f97e15b067f97e5653d5d17304e65d23e3438",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1594131260"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.erfahrung:demo-p2.description",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "0cc51a8a1259eac5a8cc4627d9cb3f55a56c977e6b36d7fb68aabeedae08a527",
+            "savedTextSha256": "0cc51a8a1259eac5a8cc4627d9cb3f55a56c977e6b36d7fb68aabeedae08a527",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-376704393"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.section.referenzen.heading",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "d9825991644fde40e065758354a99e8d2fb8fd71a74cf6ced59b8bc8e0df2c3b",
+            "savedTextSha256": "d9825991644fde40e065758354a99e8d2fb8fd71a74cf6ced59b8bc8e0df2c3b",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "647398704"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.referenzen:demo-r1.name",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "19039d6fb1cae043690265e3773ebf19396c18fa4d25a751c7a277d5a1feafde",
+            "savedTextSha256": "19039d6fb1cae043690265e3773ebf19396c18fa4d25a751c7a277d5a1feafde",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-648903262"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.referenzen:demo-r1.role",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "186bb16cd624f8f796916f7837cd8f1b15ff809d90b6b51f9b4846b6dddd90ed",
+            "savedTextSha256": "186bb16cd624f8f796916f7837cd8f1b15ff809d90b6b51f9b4846b6dddd90ed",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-369842903"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.referenzen:demo-r1.contact",
+            "sourceCount": 1,
+            "savedCount": 1,
+            "canonicalIdUnique": true,
+            "fieldTokensUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "sourceTextSha256": "b8c2ccfe577199c36b5771694446964f37ca1f9e9073921f715930b954dbd091",
+            "savedTextSha256": "b8c2ccfe577199c36b5771694446964f37ca1f9e9073921f715930b954dbd091",
+            "storyUnchanged": true,
+            "controlNestingUnchanged": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "2052413342"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          }
+        ],
+        "instances": [
+          {
+            "field": "cover.eyebrow",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:1/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:1/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "604319642"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cover.profession",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:1/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:1/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1871100238"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cover.fullName",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:1/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:1/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1283769943"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cover.lehrbeginn",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:1/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:1/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1782447751"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cover.kontaktTitel",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:1/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:1/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "7264340"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cover.kontakt",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:1/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:1/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1702053207"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cover.beilagenTitel",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:1/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:1/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "2027831379"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cover.beilagen",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:1/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:1/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "190657288"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cover.ortDatum",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:1/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:1/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "300506110"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.sender.name",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:2/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:2/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1355147363"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.sender.address",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:2/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:2/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-1988704031"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.sender.place",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:2/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:2/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-1166473255"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.sender.phone",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:2/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:2/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1656873507"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.sender.email",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:2/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:2/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-691540549"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.recipient.company",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:2/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:2/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-1953619183"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.recipient.name",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:2/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:2/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-1756427000"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.recipient.address",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:2/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:2/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "794956318"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.recipient.place",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:2/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:2/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1716160108"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.date",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:2/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:2/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1264272330"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.subject",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:2/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:2/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-432897187"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.salutation",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:2/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:2/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-370083798"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.body.paragraph:0",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:2/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:2/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-1002741740"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.body.paragraph:1",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:2/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:2/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": null,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1036472834"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.body.paragraph:2",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:2/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:2/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1666598197"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.body.paragraph:3",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:2/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:2/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": null,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1210846681"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.body.paragraph:4",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:2/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:2/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-1801908464"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.closing",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:2/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:2/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "527759095"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.signature",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:2/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:2/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-869688144"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.attachments-heading",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:2/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:2/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1652863088"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.attachment:0",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:2/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:2/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "646714426"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "letter.attachment:1",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:2/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:2/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "828482669"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.section.person.heading",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1037321725"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.person.address",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1369260852"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.person.place",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-2052220746"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.person.phone",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-752357761"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.person.email",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-148745794"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.person.geburtsdatum",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1149869454"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.section.sprachen.heading",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-1495487765"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.sprachen:demo-l1.name",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1644929360"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.sprachen:demo-l1.level",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-344484519"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.sprachen:demo-l2.name",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-448622525"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.sprachen:demo-l2.level",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-1283421657"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.sprachen:demo-l3.name",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1481193515"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.sprachen:demo-l3.level",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "304510765"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.section.hobbys.heading",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1097751177"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.hobbys:0",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-2126459234"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.hobbys:1",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-126857098"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.hobbys:2",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "390550787"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.section.staerken.heading",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-1742324914"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.staerken:0",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1762724904"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.staerken:1",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-1585288321"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.staerken:2",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "924300491"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.person.photo",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": null,
+            "nativeSdtId": {
+              "source": "1",
+              "saved": "1"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.documentTitle",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "618576239"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.person.name",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1304125554"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.section.custom:familie.heading",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1333567379"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.custom:familie:demo-familie.place",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "817384132"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.custom:familie:demo-familie.description",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-1994871275"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.section.schule.heading",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-973900575"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.schule:demo-s1.date",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "996605379"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.schule:demo-s1.title",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-2073418617"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.schule:demo-s1.place",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-1614826081"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.schule:demo-s1.description",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-159858380"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.schule:demo-s2.date",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1444421019"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.schule:demo-s2.title",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "356550190"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.schule:demo-s2.place",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "29777743"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.section.erfahrung.heading",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-1039506888"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.erfahrung:demo-p1.date",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1213546271"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.erfahrung:demo-p1.title",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-581527310"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.erfahrung:demo-p1.place",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-599026797"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.erfahrung:demo-p1.description",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-615676199"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.erfahrung:demo-p2.date",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-1598708703"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.erfahrung:demo-p2.title",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-249515231"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.erfahrung:demo-p2.place",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "1594131260"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.erfahrung:demo-p2.description",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-376704393"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.section.referenzen.heading",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "647398704"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.referenzen:demo-r1.name",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-648903262"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.referenzen:demo-r1.role",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "-369842903"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          },
+          {
+            "field": "cv.entry.referenzen:demo-r1.contact",
+            "sourceOccurrence": 1,
+            "sourceStory": "word/document.xml",
+            "sourceStoryRoles": ["section:3/body"],
+            "matchStatus": "MATCHED",
+            "matchingBasis": "CANONICAL_TAG_AND_SECTION_STORY_ROLE",
+            "savedOccurrence": 1,
+            "savedStory": "word/document.xml",
+            "savedStoryRoles": ["section:3/body"],
+            "fieldTokensUnchanged": true,
+            "canonicalStoryRolesUnchanged": true,
+            "physicalPartNameUnchanged": true,
+            "controlNestingUnchanged": true,
+            "sourceTextPresentSomewhereInSavedXml": true,
+            "nativeSdtId": {
+              "source": null,
+              "saved": "2052413342"
+            },
+            "persistedParagraphIdComparison": "NOT_ASSESSABLE_SOURCE_HAS_NO_PARAGRAPH_IDS"
+          }
+        ],
+        "pictures": [
+          {
+            "source": {
+              "owners": ["cv.person.photo"],
+              "representation": "DrawingML",
+              "ownerOccurrences": [
+                {
+                  "field": "cv.person.photo",
+                  "occurrence": 1
+                }
+              ],
+              "imageRelationshipStatus": "RESOLVED_EMBEDDED_IMAGE",
+              "story": "word/document.xml",
+              "storyRoles": ["section:3/body"],
+              "container": "native-picture",
+              "pixels": {
+                "width": 120,
+                "height": 180,
+                "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+              },
+              "embeddedFileSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+              "cropMarkup": {
+                "l": "8400",
+                "t": "24400",
+                "r": "11600",
+                "b": "22267"
+              },
+              "cropFractions": ["0.084", "0.244", "0.116", "0.22267"],
+              "fillRectMarkup": {}
+            },
+            "savedOwnedPictureCount": 1,
+            "canonicalOwnerMatchStatus": "MATCHED",
+            "canonicalOwnerRoleCounts": {
+              "source": 1,
+              "saved": 1
+            },
+            "savedPhotoControlOccurrence": 1,
+            "typedPictureControlSurvives": true,
+            "originalPixelsInsideCanonicalControl": true,
+            "originalPixelsInAnyActivePicture": true,
+            "originalPixelsSomewhereInPackage": true,
+            "exactCropMarkupUnchanged": true,
+            "encodedCropFractionsUnchanged": true,
+            "originalPixelWindowUnchanged": true,
+            "canonicalOwnerStoryRolesUnchanged": true,
+            "saved": {
+              "owners": ["cv.person.photo"],
+              "representation": "DrawingML",
+              "ownerOccurrences": [
+                {
+                  "field": "cv.person.photo",
+                  "occurrence": 1
+                }
+              ],
+              "imageRelationshipStatus": "RESOLVED_EMBEDDED_IMAGE",
+              "story": "word/document.xml",
+              "storyRoles": ["section:3/body"],
+              "container": "native-picture",
+              "pixels": {
+                "width": 120,
+                "height": 180,
+                "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+              },
+              "embeddedFileSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+              "cropMarkup": {
+                "l": "8400",
+                "t": "24400",
+                "r": "11600",
+                "b": "22267"
+              },
+              "cropFractions": ["0.084", "0.244", "0.116", "0.22267"],
+              "fillRectMarkup": {}
+            }
+          }
+        ],
+        "wordAcceptance": "UNVERIFIED",
+        "saveReopenPerformedByThisTool": false,
+        "limits": [
+          "XML text presence is not visible rendering or pagination.",
+          "Global canonical-tag uniqueness is separate from repeated source occurrences in different stories.",
+          "Section/reference roles tolerate part renames but do not prove native object identity or edit synchronization.",
+          "Unreferenced stories and same-tag copies within a role cannot pass by text-value or ordinal matching.",
+          "Picture ownership follows the matched control occurrence; orphan stories and non-image relationships cannot rescue active original pixels.",
+          "Package presence scans directly decodable image parts at any OPC path; nested containers or arbitrary base64 XML payloads are not a forensic archive search.",
+          "VML fill viewports without explicit crop fractions are not numerically comparable.",
+          "Changed structure or numeric SDT IDs alone do not establish lost canonical ownership.",
+          "Exact crop markup is separate from visible crop equivalence.",
+          "Original-image crop windows cannot be compared after the original pixels change.",
+          "w14:paraId equality is persisted metadata, not proof of native importer object identity.",
+          "When tracked revisions exist, counts include revision markup and require revision-aware review.",
+          "Intentional editing changes must be assessed separately from untouched Save/Reopen.",
+          "Application metadata alone cannot prove which program performed Save/Reopen."
+        ]
+      }
+    },
+    "withinWordPdf": {
+      "pageCountsUnchanged": true,
+      "wordSequenceUnchanged": true,
+      "changedWordPages": [],
+      "changedPixelPages": [],
+      "changedPageSizePages": [],
+      "changedImageGeometryPages": [],
+      "changedWords": 0,
+      "maxAbsDxMm": 0.0,
+      "maxAbsDyMm": 0.0,
+      "renderScale": 2,
+      "pdfMetadataCompared": false,
+      "comparisonContractVersion": 2,
+      "exactVisibleGeometry": true
+    },
+    "wordSourceFidelityAgainstPreviousRichControl": {
+      "pageCountsUnchanged": true,
+      "wordSequenceUnchanged": true,
+      "changedWordPages": [],
+      "changedPixelPages": [3],
+      "changedPageSizePages": [],
+      "changedImageGeometryPages": [3],
+      "changedWords": 0,
+      "maxAbsDxMm": 0.0,
+      "maxAbsDyMm": 0.0,
+      "renderScale": 2,
+      "pdfMetadataCompared": false,
+      "comparisonContractVersion": 2,
+      "exactVisibleGeometry": false
+    },
+    "visiblePhotoLocations": [
+      {
+        "view": "Previous Word view",
+        "photos": [
+          [
+            2,
+            {
+              "number": 50,
+              "bbox": [425.1499938964844, 67.3000259399414, 521.5, 163.6500244140625],
+              "transform": [
+                96.3499984741211, 0.0, -0.0, 96.3499984741211, 425.1499938964844, 67.3000259399414
+              ],
+              "width": 96,
+              "height": 96,
+              "colorspace": 3,
+              "cs-name": "DeviceRGB",
+              "xres": 96,
+              "yres": 96,
+              "bpc": 8,
+              "size": 1081,
+              "has-mask": false
+            }
+          ]
+        ]
+      },
+      {
+        "view": "Floating table Word",
+        "photos": [
+          [
+            2,
+            {
+              "number": 52,
+              "bbox": [425.1000061035156, 67.3000259399414, 521.4500122070312, 163.6500244140625],
+              "transform": [
+                96.3499984741211, 0.0, -0.0, 96.3499984741211, 425.1000061035156, 67.3000259399414
+              ],
+              "width": 96,
+              "height": 96,
+              "colorspace": 3,
+              "cs-name": "DeviceRGB",
+              "xres": 96,
+              "yres": 96,
+              "bpc": 8,
+              "size": 1081,
+              "has-mask": false
+            }
+          ]
+        ]
+      },
+      {
+        "view": "Floating table Writer",
+        "photos": [
+          [
+            2,
+            {
+              "number": 48,
+              "bbox": [
+                425.20001220703125, 67.30074310302734, 521.6000366210938, 163.70074462890625
+              ],
+              "transform": [
+                96.4000015258789, 0.0, -0.0, 96.4000015258789, 425.20001220703125, 67.30074310302734
+              ],
+              "width": 96,
+              "height": 96,
+              "colorspace": 3,
+              "cs-name": "DeviceRGB",
+              "xres": 96,
+              "yres": 96,
+              "bpc": 8,
+              "size": 1146,
+              "has-mask": true
+            }
+          ]
+        ]
+      }
+    ],
+    "wordPhoto8x": {
+      "page": 3,
+      "fixedClipPt": [423, 65, 524, 166],
+      "sha256": [
+        "88213c1f650ee919419fb2a6cb5214c230b7982b199913aa56d01f60c15fd685",
+        "88213c1f650ee919419fb2a6cb5214c230b7982b199913aa56d01f60c15fd685"
+      ],
+      "unchanged": true
+    }
+  },
+  "rejectedCustomPicWordPackage": {
+    "files": [
+      {
+        "name": "floating-table-custom-pic.docx",
+        "sha256": "25c1969b2890795540570a96469ad993921953ac5c0fb56a4f9727b2573dcca0"
+      },
+      {
+        "name": "floating-table-custom-pic-word-saved1.docx",
+        "sha256": "59eff52cade7c09d5dfea74e67c61d85d4e2e45ea9dadcfd6e8f18210d6a02d8"
+      },
+      {
+        "name": "floating-table-custom-pic-word-saved2.docx",
+        "sha256": "fbe0cc842691f736fe7db95ba33df5de03769f04d223399af859326dd880a797"
+      }
+    ],
+    "comparisons": [
+      {
+        "from": 0,
+        "to": 1,
+        "checks": {
+          "canonicalFields": true,
+          "pictureOwnership": true,
+          "originalImageData": true,
+          "exactCropMarkup": true,
+          "sectionAndRevisionContract": true
+        },
+        "contract": "pass"
+      },
+      {
+        "from": 0,
+        "to": 2,
+        "checks": {
+          "canonicalFields": true,
+          "pictureOwnership": true,
+          "originalImageData": true,
+          "exactCropMarkup": true,
+          "sectionAndRevisionContract": true
+        },
+        "contract": "pass"
+      },
+      {
+        "from": 1,
+        "to": 2,
+        "checks": {
+          "canonicalFields": true,
+          "pictureOwnership": true,
+          "originalImageData": true,
+          "exactCropMarkup": true,
+          "sectionAndRevisionContract": true
+        },
+        "contract": "pass"
+      }
+    ],
+    "nativeRepairFreeSaveReopenCyclesObserved": 2,
+    "productionAcceptance": "blocked"
+  },
+  "rejectedCustomPicWordPdf": {
+    "scope": "Real Word source PDF versus after two separately saved and reopened returns",
+    "files": [
+      {
+        "file": "floating-table-custom-pic.pdf",
+        "sha256": "27d1d6789c8820a87cbf025a54ee1ec5eb303e5c7dd8a2b335b982464c8e4e8f"
+      },
+      {
+        "file": "floating-table-custom-pic-word-saved2.pdf",
+        "sha256": "603bac197821f44a639dfc21763a9c4aeead0d71cc3ad297a13f1b2f48ef2e66"
+      }
+    ],
+    "pdfComparison": {
+      "pageCountsUnchanged": true,
+      "wordSequenceUnchanged": true,
+      "changedWordPages": [],
+      "changedPixelPages": [],
+      "changedPageSizePages": [],
+      "changedImageGeometryPages": [],
+      "changedWords": 0,
+      "maxAbsDxMm": 0.0,
+      "maxAbsDyMm": 0.0,
+      "renderScale": 2,
+      "pdfMetadataCompared": false,
+      "comparisonContractVersion": 2,
+      "exactVisibleGeometry": true
+    },
+    "photoClip8xPixelsUnchanged": true,
+    "productionAcceptance": "blocked"
+  },
+  "limits": [
+    "Only one Word save/close/reopen cycle for the normal floating-table main case; not four-case Word acceptance.",
+    "The custom PIC case completed two Word cycles but fails visible source fidelity.",
+    "No full 22-case collection was rerun.",
+    "Writer original pixel loss and Word source contour/position differences remain blocking."
+  ],
+  "verification": {
+    "pythonCompile": "pass",
+    "adversarialOwnershipTests": 26,
+    "fourCaseDeterministicRegeneration": "pass",
+    "existingOutputRejection": "pass",
+    "changedPinnedSourceRejection": "pass",
+    "geometryTests": 12,
+    "wordReturnTests": 12,
+    "schemaValidationFourSources": "zero errors each",
+    "temporaryFileAccessRetry": "Initial restricted-run permission errors; both suites passed with normal filesystem access"
+  }
+}

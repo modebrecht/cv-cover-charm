@@ -1,0 +1,181 @@
+--- a/include/drawinglayer/attribute/sdrfillgraphicattribute.hxx
++++ b/include/drawinglayer/attribute/sdrfillgraphicattribute.hxx
+@@ -60,6 +60,19 @@
+                 bool bTiling,
+                 bool bStretch,
+                 bool bLogSize);
++            /** Explicit source window for a stretched, non-tiled fill. The image
++                stays intact; the containing polygon supplies the visible mask. */
++            SdrFillGraphicAttribute(
++                const Graphic& rFillGraphic,
++                const basegfx::B2DVector& rGraphicLogicSize,
++                const basegfx::B2DVector& rSize,
++                const basegfx::B2DVector& rOffset,
++                const basegfx::B2DVector& rOffsetPosition,
++                const basegfx::B2DVector& rRectPoint,
++                bool bTiling,
++                bool bStretch,
++                bool bLogSize,
++                const basegfx::B2DRange& rGraphicSourceRange);
+             SdrFillGraphicAttribute();
+             SdrFillGraphicAttribute(const SdrFillGraphicAttribute&);
+             SdrFillGraphicAttribute(SdrFillGraphicAttribute&&);
+@@ -81,6 +94,7 @@
+             const basegfx::B2DVector& getOffsetPosition() const;
+             const basegfx::B2DVector& getRectPoint() const;
+             bool getTiling() const;
++            const basegfx::B2DRange& getGraphicSourceRange() const;
+ 
+             // FillGraphicAttribute generator
+             FillGraphicAttribute createFillGraphicAttribute(const basegfx::B2DRange& rRange) const;
+--- a/drawinglayer/source/attribute/sdrfillgraphicattribute.cxx
++++ b/drawinglayer/source/attribute/sdrfillgraphicattribute.cxx
+@@ -20,6 +20,8 @@
+ #include <sal/config.h>
+ 
+ #include <algorithm>
++#include <cmath>
++#include <basegfx/range/b2drange.hxx>
+ 
+ #include <drawinglayer/attribute/sdrfillgraphicattribute.hxx>
+ #include <drawinglayer/attribute/fillgraphicattribute.hxx>
+@@ -39,6 +41,7 @@
+             basegfx::B2DVector                      maOffset;
+             basegfx::B2DVector                      maOffsetPosition;
+             basegfx::B2DVector                      maRectPoint;
++            basegfx::B2DRange                       maGraphicSourceRange{ 0.0, 0.0, 1.0, 1.0 };
+ 
+             bool                                    mbTiling : 1;
+             bool                                    mbStretch : 1;
+@@ -91,6 +94,7 @@
+                     && getOffset() == rCandidate.getOffset()
+                     && getOffsetPosition() == rCandidate.getOffsetPosition()
+                     && getRectPoint() == rCandidate.getRectPoint()
++                    && maGraphicSourceRange == rCandidate.maGraphicSourceRange
+                     && getTiling() == rCandidate.getTiling()
+                     && getStretch() == rCandidate.getStretch()
+                     && mbLogSize == rCandidate.mbLogSize);
+@@ -130,6 +134,28 @@
+         {
+         }
+ 
++        SdrFillGraphicAttribute::SdrFillGraphicAttribute(
++            const Graphic& rFillGraphic,
++            const basegfx::B2DVector& rGraphicLogicSize,
++            const basegfx::B2DVector& rSize,
++            const basegfx::B2DVector& rOffset,
++            const basegfx::B2DVector& rOffsetPosition,
++            const basegfx::B2DVector& rRectPoint,
++            bool bTiling,
++            bool bStretch,
++            bool bLogSize,
++            const basegfx::B2DRange& rGraphicSourceRange)
++        : SdrFillGraphicAttribute(rFillGraphic, rGraphicLogicSize, rSize, rOffset,
++                                  rOffsetPosition, rRectPoint, bTiling, bStretch, bLogSize)
++        {
++            mpSdrFillGraphicAttribute->maGraphicSourceRange = rGraphicSourceRange;
++        }
++
++        const basegfx::B2DRange& SdrFillGraphicAttribute::getGraphicSourceRange() const
++        {
++            return mpSdrFillGraphicAttribute->maGraphicSourceRange;
++        }
++
+         SdrFillGraphicAttribute::SdrFillGraphicAttribute()
+         :   mpSdrFillGraphicAttribute(theGlobalDefault())
+         {
+@@ -287,6 +313,30 @@
+                 aBitmapSize.setY(aBitmapSize.getY() / fRangeHeight);
+             }
+ 
++            // A source window changes texture coordinates, not the stored bitmap.
++            // Existing constructor callers keep the unit source window unchanged.
++            if (!getTiling() && mpSdrFillGraphicAttribute->getStretch()
++                && !(getGraphicSourceRange() == basegfx::B2DRange(0.0, 0.0, 1.0, 1.0)))
++            {
++                const basegfx::B2DRange& rSource = getGraphicSourceRange();
++                const double fWidth = rSource.getWidth();
++                const double fHeight = rSource.getHeight();
++                if (rSource.isEmpty() || !std::isfinite(rSource.getMinX())
++                    || !std::isfinite(rSource.getMinY()) || !std::isfinite(fWidth)
++                    || !std::isfinite(fHeight) || fWidth <= 0.0 || fHeight <= 0.0)
++                {
++                    return FillGraphicAttribute();
++                }
++                aBitmapTopLeft = basegfx::B2DVector(-rSource.getMinX() / fWidth,
++                                                   -rSource.getMinY() / fHeight);
++                aBitmapSize = basegfx::B2DPoint(1.0 / fWidth, 1.0 / fHeight);
++                if (!std::isfinite(aBitmapTopLeft.getX()) || !std::isfinite(aBitmapTopLeft.getY())
++                    || !std::isfinite(aBitmapSize.getX()) || !std::isfinite(aBitmapSize.getY()))
++                {
++                    return FillGraphicAttribute();
++                }
++            }
++
+             // get offset in percent
+             const double fOffsetX(std::clamp(getOffset().getX() * 0.01, 0.0, 1.0));
+             const double fOffsetY(std::clamp(getOffset().getY() * 0.01, 0.0, 1.0));
+--- a/svx/qa/unit/svdraw.cxx
++++ b/svx/qa/unit/svdraw.cxx
+@@ -8,6 +8,13 @@
+  */
+ 
+ #include <test/unoapixml_test.hxx>
++#include <drawinglayer/attribute/sdrfillgraphicattribute.hxx>
++#include <drawinglayer/attribute/fillgraphicattribute.hxx>
++#include <basegfx/range/b2drange.hxx>
++#include <basegfx/vector/b2dvector.hxx>
++#include <vcl/bitmap.hxx>
++#include <vcl/bitmapex.hxx>
++#include <vcl/graph.hxx>
+ 
+ #include <com/sun/star/beans/XPropertySet.hpp>
+ #include <com/sun/star/drawing/XDrawPagesSupplier.hpp>
+@@ -110,6 +117,47 @@
+     xmlDocUniquePtr pXmlDoc = aDumper.dumpAndParse(xPrimitiveSequence);
+     CPPUNIT_ASSERT(pXmlDoc);
+     return pXmlDoc;
++}
++
++CPPUNIT_TEST_FIXTURE(SvdrawTest, testBitmapFillSourceWindow)
++{
++    using drawinglayer::attribute::SdrFillGraphicAttribute;
++    Bitmap aBitmap(Size(120, 180), vcl::PixelFormat::N24_BPP);
++    aBitmap.Erase(COL_LIGHTBLUE);
++    const BitmapEx aOriginal(aBitmap);
++    const Graphic aGraphic(aOriginal);
++    const basegfx::B2DVector aLogicSize(3175.0, 4763.0);
++    const basegfx::B2DVector aZero(0.0, 0.0);
++    const basegfx::B2DRange aTarget(0.0, 0.0, 3400.0, 3400.0);
++    const basegfx::B2DRange aUnit(0.0, 0.0, 1.0, 1.0);
++    const SdrFillGraphicAttribute aLegacy(aGraphic, aLogicSize, aZero, aZero, aZero,
++                                         aZero, false, true, true);
++    CPPUNIT_ASSERT(aLegacy.createFillGraphicAttribute(aTarget).getGraphicRange() == aUnit);
++
++    auto makeFill = [&](const basegfx::B2DRange& rSource) {
++        return SdrFillGraphicAttribute(aGraphic, aLogicSize, aZero, aZero, aZero,
++                                       aZero, false, true, true, rSource);
++    };
++    const auto aCropped = makeFill(basegfx::B2DRange(0.084, 0.244, 0.884, 0.77733));
++    const auto aFill = aCropped.createFillGraphicAttribute(aTarget);
++    CPPUNIT_ASSERT(aFill.getGraphic().GetBitmapEx() == aOriginal);
++    CPPUNIT_ASSERT(aFill.getGraphic().GetBitmapEx().GetSizePixel() == Size(120, 180));
++    CPPUNIT_ASSERT_DOUBLES_EQUAL(-0.105, aFill.getGraphicRange().getMinX(), 1e-12);
++    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.25, aFill.getGraphicRange().getWidth(), 1e-12);
++    CPPUNIT_ASSERT_DOUBLES_EQUAL(-0.244 / 0.53333, aFill.getGraphicRange().getMinY(), 1e-12);
++    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0 / 0.53333, aFill.getGraphicRange().getHeight(), 1e-12);
++
++    // Source-window changes must invalidate cached fill attributes.
++    CPPUNIT_ASSERT(aCropped == makeFill(basegfx::B2DRange(0.084, 0.244, 0.884, 0.77733)));
++    CPPUNIT_ASSERT(!(aCropped == aLegacy));
++    CPPUNIT_ASSERT(!(aCropped == makeFill(basegfx::B2DRange(0.1, 0.2, 0.9, 0.8))));
++    CPPUNIT_ASSERT(makeFill(basegfx::B2DRange()).createFillGraphicAttribute(aTarget).isDefault());
++
++    const auto aPadded = makeFill(basegfx::B2DRange(-0.1, -0.2, 1.3, 1.4))
++                             .createFillGraphicAttribute(aTarget);
++    CPPUNIT_ASSERT(aPadded.getGraphic().GetBitmapEx() == aOriginal);
++    CPPUNIT_ASSERT_DOUBLES_EQUAL(0.1 / 1.4, aPadded.getGraphicRange().getMinX(), 1e-12);
++    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0 / 1.4, aPadded.getGraphicRange().getWidth(), 1e-12);
+ }
+ 
+ CPPUNIT_TEST_FIXTURE(SvdrawTest, testSemiTransparentText)

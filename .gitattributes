@@ -1,1 +1,3 @@
 docs/qa/docx-next-shared-settings-18okt/*.pdf binary
+# Unified patches need LF and retain the single-space prefix on empty context lines.
+docs/qa/patches/*.patch text eol=lf whitespace=-blank-at-eol

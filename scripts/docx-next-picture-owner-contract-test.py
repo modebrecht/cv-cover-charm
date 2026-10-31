@@ -5,10 +5,12 @@ import unittest
 from zipfile import ZipFile
 
 from PIL import Image
-from docx_next_picture_owner_qa import (W, A, R, REL, IMAGE_REL, WPS, picture_inventory,
+from docx_next_picture_owner_qa import (W, A, R, REL, IMAGE_REL, WPS, PIC, picture_inventory,
                                        compare_image_data, require_picture_ownership)
 
-DRAWING = '<w:r><w:drawing><a:graphic><a:blip r:embed="image1"/></a:graphic></w:drawing></w:r>'
+DRAWING = ('<w:r><w:drawing><a:graphic><a:graphicData uri="' + PIC + '">'
+           '<pic:pic><pic:blipFill><a:blip r:embed="image1"/></pic:blipFill></pic:pic>'
+           '</a:graphicData></a:graphic></w:drawing></w:r>')
 CONTROL = '<w:sdt><w:sdtPr><w:tag w:val="cv.person.photo"/><w:picture/></w:sdtPr><w:sdtContent>{}</w:sdtContent></w:sdt>'
 PICTURES = [{'id': 'cv.person.photo'}]
 
@@ -23,7 +25,7 @@ class PictureOwnershipTests(unittest.TestCase):
         stream = io.BytesIO()
         with ZipFile(stream, 'w') as archive:
             archive.writestr('word/document.xml',
-                f'<w:document xmlns:w="{W[1:-1]}" xmlns:a="{A[1:-1]}" xmlns:r="{R[1:-1]}"><w:body>'
+                f'<w:document xmlns:w="{W[1:-1]}" xmlns:a="{A[1:-1]}" xmlns:r="{R[1:-1]}" xmlns:pic="{PIC}"><w:body>'
                 + (CONTROL.format(DRAWING) if body is None else body) + '</w:body></w:document>')
             archive.writestr('word/_rels/document.xml.rels', f'<Relationships xmlns="{REL[1:-1]}">'
                 + (f'<Relationship Id="image1" Type="{IMAGE_REL}" Target="media/photo.png"/>' if relations is None else relations)
@@ -34,6 +36,26 @@ class PictureOwnershipTests(unittest.TestCase):
 
     def test_embedded_drawing_inside_typed_control_passes(self):
         self.assertEqual(self.inspect()['status'], 'pass')
+
+    def test_bitmap_filled_shape_is_not_a_native_picture(self):
+        shape = ('<w:r><w:drawing><a:graphic><a:graphicData uri="' + WPS + '">'
+                 '<wps:wsp xmlns:wps="' + WPS + '"><wps:spPr><a:blipFill>'
+                 '<a:blip r:embed="image1"/></a:blipFill></wps:spPr></wps:wsp>'
+                 '</a:graphicData></a:graphic></w:drawing></w:r>')
+        actual = self.inspect(CONTROL.format(shape))
+        self.assertEqual(actual['status'], 'fail')
+        self.assertEqual(actual['pictures'][0]['reasons'], ['picture-control-must-own-native-picture'])
+        comparison = compare_image_data(self.inspect(), actual)
+        self.assertEqual(comparison['status'], 'fail')
+        self.assertTrue(comparison['pictures'][0]['decodedPixelsEqual'])
+
+    def test_picture_namespace_alone_cannot_disguise_a_shape_payload(self):
+        fake = DRAWING.replace('<pic:pic>', '<pic:notPicture>').replace('</pic:pic>', '</pic:notPicture>')
+        self.assertEqual(self.inspect(CONTROL.format(fake))['status'], 'fail')
+
+    def test_native_picture_cannot_borrow_a_different_graphic_namespace(self):
+        fake = DRAWING.replace('uri="' + PIC + '"', 'uri="' + WPS + '"')
+        self.assertEqual(self.inspect(CONTROL.format(fake))['status'], 'fail')
 
     def test_retained_tag_and_visible_orphan_do_not_prove_ownership(self):
         record = self.inspect(CONTROL.format('<w:r/><w:r/>') + DRAWING)

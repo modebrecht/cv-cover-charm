@@ -34,6 +34,7 @@ import { planPartSections, type PlannedSection } from "./section-plan";
 import { tableColumnWidths } from "./layouts";
 import { nativeTextShapeRun } from "./native-text-shape";
 import { nativePictureFrameRun } from "./native-picture-frame";
+import { nativePictureTileGraphic, PICTURE_RANGE_MARKER } from "./native-picture-fill";
 import { nativeVMLAvatarRun } from "./native-vml-avatar";
 import { flowSurfacePaint } from "./flow-surface";
 import { parallelFlowTable } from "./parallel-flow";
@@ -48,6 +49,7 @@ import {
 import {
   control,
   pictureControl,
+  richTextPictureControl,
   paragraph,
   emptyParagraph,
   emptyParagraphWithRuns,
@@ -61,6 +63,8 @@ export type RenderOptions = {
   allowUnacceptedModelIssues?: boolean;
   /** Research only: one anchored picture instead of a picture inside a text frame. */
   directPictureOwnership?: boolean;
+  /** Research only: rich-text keeps the picture; rich-text-tile uses a filled shape and hidden range marker. */
+  directPictureVariant?: "picture" | "rich-text" | "rich-text-tile";
   rasterizeDecoration?: DecorationRasterizer;
   onDecorationFailure?: (id: string, error: unknown) => void;
 };
@@ -71,6 +75,13 @@ export async function renderDossierDocx(
 ): Promise<Blob> {
   if (options.directPictureOwnership && !options.allowUnacceptedModelIssues)
     throw new Error("DOCX Next direct picture ownership is unaccepted; diagnostic opt-in required");
+  if (options.directPictureVariant !== undefined && !options.directPictureOwnership)
+    throw new Error("DOCX Next direct picture variant requires direct picture ownership");
+  if (
+    options.directPictureVariant !== undefined &&
+    !["picture", "rich-text", "rich-text-tile"].includes(options.directPictureVariant)
+  )
+    throw new Error("DOCX Next invalid direct picture variant");
   if (model.exportPart !== undefined && !["cover", "letter", "cv"].includes(model.exportPart))
     throw new Error("DOCX Next invalid document export scope");
   if (model.exportPart && options.part && model.exportPart !== options.part)
@@ -270,6 +281,7 @@ export async function renderDossierDocx(
     authoredParagraphOffsets = false,
     noTextWrap = false,
     exactFreeOffsets = false,
+    tileSource?: { widthPx: number; heightPx: number },
   ): string {
     if (
       paintLayer !== undefined &&
@@ -289,7 +301,9 @@ export async function renderDossierDocx(
       geometry.shape === "roundRect"
         ? `<a:gd name="adj" fmla="val ${geometry.cornerAdjustment}"/>`
         : "";
-    const picture = `<a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic><pic:nvPicPr><pic:cNvPr id="${id}" name="${xml(value.id)}"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="${rid}"/><a:srcRect l="${crop.left}" t="${crop.top}" r="${crop.right}" b="${crop.bottom}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm><a:prstGeom prst="${geometry.shape}"><a:avLst>${corners}</a:avLst></a:prstGeom>${outline}</pic:spPr></pic:pic></a:graphicData></a:graphic>`;
+    const picture = tileSource
+      ? nativePictureTileGraphic(geometry, tileSource, rid)
+      : `<a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic><pic:nvPicPr><pic:cNvPr id="${id}" name="${xml(value.id)}"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="${rid}"/><a:srcRect l="${crop.left}" t="${crop.top}" r="${crop.right}" b="${crop.bottom}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm><a:prstGeom prst="${geometry.shape}"><a:avLst>${corners}</a:avLst></a:prstGeom>${outline}</pic:spPr></pic:pic></a:graphicData></a:graphic>`;
     // Word paints picture outlines outside the image's fill bounds. Reserve the
     // complete stroke on each edge so an inline line box cannot clip its paint.
     const paintExtent = emu(geometry.borderWidthMm);
@@ -363,8 +377,16 @@ export async function renderDossierDocx(
           false,
           value.wrapMode === "none",
           true,
+          options.directPictureVariant === "rich-text-tile" ? media.asset : undefined,
         );
-        const owned = pictureControl(value.id, direct, drawingId);
+        const owner = options.directPictureVariant?.startsWith("rich-text")
+          ? richTextPictureControl
+          : pictureControl;
+        const owned = owner(
+          value.id,
+          (options.directPictureVariant === "rich-text-tile" ? PICTURE_RANGE_MARKER : "") + direct,
+          drawingId,
+        );
         // Reserve the removed frame's instance number so later story drawings stay byte-identical.
         ++drawingId;
         return owned;

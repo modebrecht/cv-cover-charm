@@ -1,0 +1,75 @@
+--- a/sw/qa/extras/ooxmlexport/ooxmlexport18.cxx
++++ b/sw/qa/extras/ooxmlexport/ooxmlexport18.cxx
+@@ -12,6 +12,8 @@
+ #include <queue>
+ 
+ #include <com/sun/star/awt/FontStrikeout.hpp>
++#include <com/sun/star/awt/XBitmap.hpp>
++#include <com/sun/star/beans/XPropertySetInfo.hpp>
+ #include <com/sun/star/beans/NamedValue.hpp>
+ #include <com/sun/star/document/XEmbeddedObjectSupplier.hpp>
+ #include <com/sun/star/drawing/XShapes.hpp>
+@@ -42,6 +44,63 @@
+ public:
+     Test() : SwModelTestBase(u"/sw/qa/extras/ooxmlexport/data/"_ustr, u"Office Open XML Text"_ustr) {}
+ };
++
++CPPUNIT_TEST_FIXTURE(Test, testPictureKindSurvivesPictureSdt)
++{
++    createSwDoc("crop-repro-ellipse-full.docx");
++    saveAndReload(u"Office Open XML Text"_ustr);
++    xmlDocUniquePtr pXml = parseExport(u"word/document.xml"_ustr);
++    const OString aOwner = "//w:sdt[w:sdtPr/w:tag[@w:val='cv.person.photo']]";
++    assertXPath(pXml, aOwner + "/w:sdtPr/w:picture", 1);
++    assertXPath(pXml, aOwner + "/w:sdtContent//a:graphicData"
++        "[@uri='http://schemas.openxmlformats.org/drawingml/2006/picture']/pic:pic", 1);
++}
++
++CPPUNIT_TEST_FIXTURE(Test, testPictureShapeCropKeepsOriginalPixels)
++{
++    // These four minimal fixtures contain identical RGB calibration PNGs.
++    // Only preset geometry and the presence of a:srcRect differ.
++    auto getBitmap = [this]() {
++        CPPUNIT_ASSERT_EQUAL(1, getShapes());
++        uno::Reference<beans::XPropertySet> xProps(getShape(1), uno::UNO_QUERY_THROW);
++        const OUString aName
++            = xProps->getPropertySetInfo()->hasPropertyByName(u"Graphic"_ustr)
++                  ? u"Graphic"_ustr : u"FillBitmap"_ustr;
++        return uno::Reference<awt::XBitmap>(xProps->getPropertyValue(aName), uno::UNO_QUERY_THROW);
++    };
++
++    createSwDoc("crop-repro-rect-full.docx");
++    const auto xOriginal = getBitmap();
++    const auto aOriginalDIB = xOriginal->getDIB();
++    const auto aOriginalMask = xOriginal->getMaskDIB();
++    const char* const aCases[] = { "crop-repro-rect-full.docx", "crop-repro-rect-crop.docx",
++                                 "crop-repro-ellipse-full.docx", "crop-repro-ellipse-crop.docx" };
++    for (const char* pCase : aCases)
++    {
++        createSwDoc(pCase);
++        for (int nPhase = 0; nPhase < 3; ++nPhase)
++        {
++            const auto xBitmap = getBitmap();
++            const awt::Size aSize = xBitmap->getSize();
++            CPPUNIT_ASSERT_EQUAL_MESSAGE(pCase, sal_Int32(120), aSize.Width);
++            CPPUNIT_ASSERT_EQUAL_MESSAGE(pCase, sal_Int32(180), aSize.Height);
++            CPPUNIT_ASSERT_MESSAGE(pCase, aOriginalDIB == xBitmap->getDIB());
++            CPPUNIT_ASSERT_MESSAGE(pCase, aOriginalMask == xBitmap->getMaskDIB());
++            if (nPhase != 0)
++            {
++                xmlDocUniquePtr pXml = parseExport(u"word/document.xml"_ustr);
++                const OString aOwner = "//w:sdt[w:sdtPr/w:tag[@w:val='cv.person.photo']]";
++                assertXPath(pXml, aOwner, 1);
++                assertXPath(pXml, aOwner + "/w:sdtPr/w:picture", 1);
++                assertXPath(pXml, aOwner + "/w:sdtContent//w:drawing", 1);
++                assertXPath(pXml, aOwner + "/w:sdtContent//a:blip", 1);
++                assertXPath(pXml, aOwner + "/w:sdtContent//w:t", 0);
++            }
++            if (nPhase < 2)
++                saveAndReload(u"Office Open XML Text"_ustr);
++        }
++    }
++}
+ 
+ CPPUNIT_TEST_FIXTURE(Test, testTdf150197_predefinedNumbering)
+ {

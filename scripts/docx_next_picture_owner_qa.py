@@ -14,6 +14,8 @@ REL = '{http://schemas.openxmlformats.org/package/2006/relationships}'
 IMAGE_REL = R[1:-1] + '/image'
 MC = '{http://schemas.openxmlformats.org/markup-compatibility/2006}'
 WPS = 'http://schemas.microsoft.com/office/word/2010/wordprocessingShape'
+PIC = 'http://schemas.openxmlformats.org/drawingml/2006/picture'
+PICTURE_OWNERSHIP_CONTRACT_VERSION = 2
 
 
 def effective_document(data):
@@ -71,7 +73,8 @@ def picture_inventory(path, pictures):
                       if (tag := node.find(W + 'sdtPr/' + W + 'tag')) is not None
                       and tag.get(W + 'val') == identity]
             row = {'id': identity, 'status': 'fail', 'reasons': [], 'ownerCount': len(owners),
-                   'typedPicture': False, 'drawingCount': 0, 'imageReferenceCount': 0, 'image': None}
+                   'typedPicture': False, 'nativePicture': False,
+                   'drawingCount': 0, 'imageReferenceCount': 0, 'image': None}
             records.append(row)
             if len(owners) != 1:
                 row['reasons'].append('missing-or-duplicate-picture-control')
@@ -98,6 +101,14 @@ def picture_inventory(path, pictures):
                 row['reasons'].append('image-reference-is-not-inside-the-single-owned-drawing')
             if row['drawingCount'] != 1:
                 row['reasons'].append('picture-control-must-own-one-drawing')
+            # A bitmap-filled WPS shape is not the single native picture that a
+            # picture SDT permits. Real Writer-produced minimal WPS returns ask
+            # Word for repair even with an intact bitmap and preserved tag.
+            data = list(drawings[0].iter(A + 'graphicData')) if len(drawings) == 1 else []
+            row['nativePicture'] = (len(data) == 1 and data[0].get('uri') == PIC
+                                    and len(data[0]) == 1 and data[0][0].tag == '{' + PIC + '}pic')
+            if not row['nativePicture']:
+                row['reasons'].append('picture-control-must-own-native-picture')
             if list(content.iter(W + 'txbxContent')) or list(content.iter(W + 'sdt')):
                 row['reasons'].append('nested-frame-or-control-is-not-single-picture-ownership')
             if len(blips) != 1:
@@ -149,9 +160,13 @@ def compare_image_data(source, actual):
         owned = expected['status'] == after[identity]['status'] == 'pass'
         dimensions = bool(owned and original and observed and original['sizePx'] == observed['sizePx'])
         pixels = bool(dimensions and original['rgbaSha256'] == observed['rgbaSha256'])
+        decoded_equal = bool(original and observed and original['sizePx'] == observed['sizePx']
+                             and original['rgbaSha256'] == observed['rgbaSha256'])
         records.append({'id': identity, 'status': 'pass' if pixels else 'fail',
                         'ownershipVerified': owned, 'dimensionsUnchanged': dimensions,
                         'rgbaPixelsUnchanged': pixels,
+                        # Observational only; this never rescues failed ownership.
+                        'decodedPixelsEqual': decoded_equal,
                         'payloadBytesUnchanged': bool(owned and original and observed and
                                                      original['payloadSha256'] == observed['payloadSha256'])})
     return {'status': 'pass' if all(row['status'] == 'pass' for row in records) else 'fail',

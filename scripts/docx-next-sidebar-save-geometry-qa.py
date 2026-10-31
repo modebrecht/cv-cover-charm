@@ -60,14 +60,26 @@ def nested_grids(table):
 
 
 def compare_pdf(before_path, after_path):
+    def image_geometry(page):
+        return [{key: image[key] for key in ('bbox', 'transform', 'width', 'height')}
+                for image in page.get_image_info()]
+
     with fitz.open(before_path) as before, fitz.open(after_path) as after:
         result = {'pageCountsUnchanged': len(before) == len(after),
                   'wordSequenceUnchanged': True, 'changedWordPages': [], 'changedPixelPages': [],
+                  'changedPageSizePages': [], 'changedImageGeometryPages': [],
                   'changedWords': 0, 'maxAbsDxMm': 0.0, 'maxAbsDyMm': 0.0,
-                  'renderScale': 2, 'pdfMetadataCompared': False}
+                  'renderScale': 2, 'pdfMetadataCompared': False, 'comparisonContractVersion': 2}
         if len(before) != len(after):
             result['wordSequenceUnchanged'] = False
         for index, (a, b) in enumerate(zip(before, after)):
+            if a.rect != b.rect:
+                result['changedPageSizePages'].append(index + 1)
+            # Flat photos can keep identical 2x pixels while their native tile
+            # transform drifts. Compare every painted image, including repeated
+            # tiles; PDF object IDs and compression are not geometry.
+            if image_geometry(a) != image_geometry(b):
+                result['changedImageGeometryPages'].append(index + 1)
             aw, bw = a.get_text('words', sort=False), b.get_text('words', sort=False)
             same_text = [row[4] for row in aw] == [row[4] for row in bw]
             result['wordSequenceUnchanged'] &= same_text
@@ -86,7 +98,8 @@ def compare_pdf(before_path, after_path):
                     bp.width, bp.height, bp.n, hashlib.sha256(bp.samples).digest()):
                 result['changedPixelPages'].append(index + 1)
         result['exactVisibleGeometry'] = (result['pageCountsUnchanged'] and result['wordSequenceUnchanged'] and
-                                          not result['changedWordPages'] and not result['changedPixelPages'])
+                                          not result['changedWordPages'] and not result['changedPixelPages'] and
+                                          not result['changedPageSizePages'] and not result['changedImageGeometryPages'])
         return result
 
 
@@ -128,6 +141,7 @@ def audit(folder, engine, binding):
     assert json.loads((folder / 'manifest.json').read_text()) == app.NAMES, 'Incomplete matrix'
     assert [row['fixture'] for row in content['cases']] == app.NAMES, 'Incomplete content report'
     report = {'scope': 'Exact source→saved→saved2 geometry on the actual shared application artifacts',
+              'pdfComparisonContractVersion': 2,
               'contentReportSha256': sha(content_path), 'nativeWorkerSha256': sha(REPO / 'scripts/docx-next-native-grid-worker.py'),
               'newReadonlyNativeLoads': 0, 'newPreparedSources': 0, 'newNativeExports': 0,
               'completeCanonicalOwnersRequired': True, 'twipGeometryInferredFromPublicWidth': False,

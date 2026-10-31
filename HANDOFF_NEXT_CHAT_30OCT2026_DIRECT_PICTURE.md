@@ -1,5 +1,130 @@
 # Übergabe: direkt verankertes Einzelbild, 30. Oktober 2026
 
+## Abschluss nach Nutzerentscheidung: Word-Datei praktisch abgenommen
+
+Neu maßgeblich: `docs/qa/word-practical-acceptance-31okt.md` samt JSON.
+Der Nutzer akzeptiert die sichtbare Darstellung, sofern Speichern und erneutes
+Öffnen in Word keine Reparatur verlangen, und hat den lokalen Commit beauftragt.
+Unveränderte Originalpixel und exakte unsichtbare Bildmatrizen sind dafür keine
+zusätzlichen Abnahmebedingungen. Keine weitere Engine-/Variantenrunde beauftragt.
+
+Der echte dreiseitige Hauptfall als Rich-Text-Variante besteht den Word-Ablauf:
+zwei dokumentierte Save/Reopen-Zyklen, beim Abschluss nochmals reparaturfrei
+geöffnet; alle drei PDF-Seiten geprüft, rot/blaues Testfoto vollständig sichtbar.
+Lokale bytegleiche Auslieferung: `artifacts/word-practical-31okt/Dossier-Word-final.docx`.
+Dies ist die Word-Abnahme dieses Testdossiers, keine pauschale 22er-Freigabe.
+Der normale Produktexport bleibt unverändert; Varianten bleiben explizit wählbar
+und gegen versehentliche Aktivierung abgesichert.
+
+Wichtiger echter Gegenbeleg aus der Abschlussprüfung: Rich Text nach zwei
+Writer-Saves öffnet zwar ohne Reparatur in Word, zeigt dort aber nur den leeren
+Fotoumrandungsring. Dieser Rücklauf ist NICHT abgenommen. Er liegt getrennt als
+`artifacts/word-practical-31okt/Dossier-Word-geprueft.docx` mit Fehler-PDF vor;
+der vorläufige Dateiname ist keine Freigabe. Nicht mit `Dossier-Word-final` verwechseln.
+
+Abschlusschecks: 1495/1495 Unit-Tests in der eingerichteten Linux-Testumgebung,
+Typprüfung, Lint und Format der geänderten TS-Dateien bestanden. Die vorhandenen
+148 Python-Prüfungen sind an unveränderte aktuelle Skripthashes gebunden.
+Erster eingeschränkter Windows-Unit-Lauf: 1486 bestanden, neun Fehler bei
+gesperrten Kindprozessen; vollständiger Linux-Lauf danach grün.
+Lokaler Commit autorisiert; kein Push und kein Merge.
+Die folgenden Abschnitte sind historische Untersuchungsstände mit strengeren
+Verträgen. Deren offene Engine-Arbeit wird nicht stillschweigend fortgesetzt.
+
+## Neuester Stand: echte Engine-Gegenprobe und Besitzvertrag 2
+
+Bericht `docs/qa/writer-crop-engine-31okt.md` samt JSON ist jetzt maßgeblich.
+Keine neue DOCX-Variantenrunde: unveränderte Minimalquellen wurden mit frischer
+Referenz und isolierter Diagnosekopie der Engine ausgeführt. Global deaktivierter
+Bitmap-Crop erhält Originalpixel, zeigt aber den falschen Ausschnitt: verworfen.
+Referenzbibliothek unverändert (SHA beginnt 7b931192), Diagnosekopie b8b17c5f.
+16 neue Saves, 24 PDFs/24 Seiten. Kein Engine-Austausch oder Push/Merge.
+NEUE PRÜFLÜCKE GESCHLOSSEN: Writer ersetzt pic:pic durch WPS bei Ellipsen auch
+ohne Crop. Original-Ellipse und Writer-Rechteck öffnen in Word ohne Reparatur;
+Writer-Ellipse ohne Crop verlangt Reparatur (abgelehnt). Beide Writer-Kontrollen
+haben zudem dieselben sechs Schemafehler; nicht jede Warnung allein WPS zuschreiben.
+Besitzvertrag 2 verlangt jetzt echtes pic:pic mit passender URI. Erhaltene Pixel
+in WPS genügen nicht. Historische 4/4-Besitzaussagen waren Vertrag 1, keine Abnahme.
+148 fokussierte Python-Tests bestanden, darunter 29 Besitz- und 10 Nachweisguards.
+Neuer wiederverwendbarer Runner: scripts/docx-next-picture-crop-engine-qa.py.
+Ungebaute Upstream-Test-/Kernbaustein-Patches unter docs/qa/patches/ mit README:
+nur Kontext geprüft, KEIN C++-Build, KEINE angebundene Import-/Exportkorrektur.
+WSL hat keinen vorbereiteten LO-Build; Windows-VS2022-C++ ist vorhanden, aber
+ebenfalls kein eingerichteter LO-Entwicklungsbuild. Nächster Schritt: echter
+LO-Build, Tests zuerst, koordinierte Modell-/Render-/PIC-Exportkorrektur.
+Keine weiteren Formatvarianten auf Verdacht. Alte Rohberichte/Gegenbelege erhalten.
+
+## Neueste lokale Fortsetzung: Kontur korrigiert, Writer-Crop minimal isoliert
+
+Bericht `docs/qa/word-picture-crop-31okt.md` mit JSON. Neue reproduzierbare
+Minimalprobe `scripts/docx-next-picture-crop-repro.py`: gleiche 120x180-RGB-Bitmap,
+Rechteck/Ellipse jeweils mit/ohne Crop. Nur Ellipse plus Crop verliert Pixel
+(96x96 nach Save 1/2); alle vier behalten typisierten textfreien Bildbesitz und
+stabile sichtbare Geometrie. Offizieller Writer-Importcode ruft dafür physischen
+Bitmap-Zuschnitt auf. Keine Engine geändert oder externe Meldung veröffentlicht.
+Tabellen-Diagnoseproduzent reserviert jetzt die volle effectExtent-Breite:
+rechte Word-Kontur geschlossen, alle vier Writer-Quellen weiter exakt.
+Originalpixel weiterhin 4/4 verloren; Word-Hauptfall zwei reparaturfreie Zyklen,
+alle Paketprüfungen bestanden. Word-PDF-Vergleich noch NICHT abgenommen:
+Druckerwechsel zwischen Exporten änderte PDF-Seitengrößen trotz unverändertem A4
+im DOCX. Fehlvergleich erhalten. Quelle und Save 2 sind in Word geöffnet.
+Nächster Schritt: beide mit demselben bereiten PDF-Drucker neu exportieren.
+26 neue native Saves, 39 PDFs/147 Seiten; acht neue Quellen schemafehlerfrei.
+Rohdaten `artifacts/word-picture-crop-31okt/`. Runde endete an Nutzungsbegrenzung;
+keine neue volle Testsuite, kein Commit/Push/Merge, keine Produktfreigabe.
+
+## Neue lokale Stunde am 31. Oktober: typisierter Tabellen-Bildbesitz
+
+Bericht: `docs/qa/word-floating-picture-31okt.md` samt JSON. Reproduzierbare
+Diagnose: `scripts/docx-next-floating-picture-probe.py`; kein Produktrendererwechsel
+in dieser Stunde, kein Commit/Push/Merge. Vier feste Writer-Quellen treffen die
+bisherige Writer-Ansicht exakt, behalten typisierten textfreien Bildbesitz und
+exakte Geometrie über zwei Saves. Originalpixel gehen weiterhin in 4/4 verloren.
+Word-Hauptfall öffnet ohne Reparatur, einmal separat gespeichert/geschlossen/
+wieder geöffnet; Paket und Word-PDF bleiben stabil. Gegen bisherige Word-Ansicht
+aber 0,05 pt horizontale Abweichung und unterbrochene rechte Kontur: keine Abnahme.
+Custom-Geometrie erhält Originalpixel, trifft jedoch die Ausgangsansicht nicht;
+WPS-Picture-Variante fordert Word-Reparatur. Diese Gegenbelege nicht übergehen.
+42 neue native DOCX-Saves, 63 PDFs/243 Seiten, Rohdaten ignoriert unter
+`artifacts/word-native-model-31okt/`. Nächster Schritt: Crop-Pixelverlust und
+Word-Kontur/Position lösen, dann volle Matrix und vier Word-Fälle mit zwei Zyklen.
+
+## Lokale Windows-Fortsetzung am 31. Oktober: Word-Fehler und Tile-Drift getrennt
+
+Aktueller lokaler Checkout jetzt `94d9021956734b39045c4aa3891c08fe6ae0e116`,
+ohne Merge-Commit vorgezogen; lokale Aenderungen gesichert und erhalten.
+Die folgende Momentaufnahme ist noch nicht committet oder gepusht.
+Verbindliche neue lokale Berichte: `docs/qa/word-direct-picture-31okt.md`
+und `docs/qa/word-tile-precision-31okt.md`, jeweils mit gebundenem JSON.
+
+- Die unveraenderte synthetische Quelle verlangt in Word Reparatur; auch
+  ihre separat gespeicherte Reparaturdatei verlangt beim Wiederoeffnen wieder
+  Reparatur. Kein zweiter reparaturfreier Zyklus und keine Word-Abnahme.
+- Diagnostisches Rich Text oeffnet und speichert in Word reparaturfrei, bleibt
+  aber ausserhalb des typisierten Bildvertrags. Writer verliert damit allein
+  weiterhin die eigene Bildzuordnung.
+- Rich Text plus fuehrender versteckter Bereichsmarker und Tile-Fuellung
+  erhaelt in vier Writer-Faellen physisch eigenes Drawing und Originalpixel.
+  Es verletzt aber Kontrolltyp/Textvertrag und driftet in der Bildskalierung.
+  Drei neue Speicherzyklen trennen die Ursache: 100-%-Skalierung bleibt exakt,
+  benoetigte Skalierung schrumpft auch bei Verschiebung null. Kein Produktfix.
+- PDF-Geometrievertrag 2 erkennt jetzt Bildmatrizen und Seitengroessen exakt.
+  Vier neue Gegenproben, insgesamt 135 fokussierte Python- und acht gezielte
+  Renderer-Tests bestanden. Historische 22er-PDFs erneut hashgebunden gelesen:
+  weiter 18/22; neue Writer-Tile-Faelle 0/4; bestehender Word-Tile-Hauptfall
+  Quelle gegen Save 2 exakt. Strenge Bildvertraege wurden nicht gelockert.
+- Die vorher offenen GitHub-Laeufe auf `7035fc2` sind abgeschlossen:
+  Release samt elf Browsergruppen erfolgreich; native Matrix 12/15 mit den
+  drei bekannten Fehlern. Keine neuen GitHub-Laeufe fuer lokale Aenderungen.
+
+Rohdateien lokal unter `artifacts/word-desktop-31okt/`. Die neuen Varianten
+sind zweifach gesperrte Diagnoseoptionen. Nicht als fertige Foto-Loesung
+uebernehmen und keine Referenzwerte anpassen. Naechste Produktentscheidung
+braucht eine andere verlustfreie Crop-/Kontrollabbildung oder eine eigenstaendig
+belegte Engine-Korrektur; weitere identische Tile-Saves ersetzen das nicht.
+Kein Commit, Push, Produktionsfreigabe oder Merge in dieser lokalen Fortsetzung.
+Die folgenden Abschnitte sind historische Uebergabestaende.
+
 ## Neuester Stand: CI-Abhaengigkeit des Word-Lesers repariert
 
 `7035fc228bd41be771f86b898c6155d7f6b2fed1` korrigiert eine eigene
@@ -232,7 +357,6 @@ Momentaufnahmen; der damalige lokale Pruefstopp lag vor diesem ausdruecklich
 beauftragten Arbeitsblock.
 
 ---
-
 
 ## Aktualisierung: bestehende CI vollstaendig ausgewertet
 

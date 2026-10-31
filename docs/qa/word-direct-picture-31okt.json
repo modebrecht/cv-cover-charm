@@ -1,0 +1,1063 @@
+{
+  "scope": "Four native renderer tiled-fill diagnostic sources, source and two Writer saves. Rich Text + one hidden leading ZWSP; not the typed-picture contract.",
+  "baseCommit": "e395d4d662ebbc7cf59b231efb3dcbf9bd10604f",
+  "productionAcceptance": "blocked",
+  "runtime": {
+    "version": {
+      "ProductName": "LibreOffice",
+      "ProductVersion": "25.8",
+      "ProductExtension": ".7.3",
+      "BuildId": "580(Build:3)"
+    },
+    "interface": "LibreOfficeKit",
+    "compiler": "isolated Ubuntu tcc with explicit CRT, same adapter source",
+    "adapterSha256": "269419f0800c8f251dd07ade244a24cf14caa4a5921ddd45f15156a33b4cde33",
+    "packageManifestSha256": "5de56f5f319a2aea970f41bfdbc955a3be7cc00650a38bd8a4c202cbb6102a4c",
+    "fontManifestSha256": "765840c4534617d8adb0172cf770e5ae1f1ba28b948e965e0873ac9ff92f9822"
+  },
+  "cases": [
+    {
+      "fixture": "app-body-photo-free-main-tile",
+      "phases": [
+        {
+          "phase": "source",
+          "docx": "app-body-photo-free-main-tile-source.docx",
+          "docxSha256": "74e8c66b4d80699ca3339cd1bd4cde3d0e433105d3c72e702ce9603d5983b794",
+          "pdf": "app-body-photo-free-main-tile-source.pdf",
+          "pdfSha256": "47bc53c08a5ab958dd6ce0ae70a39d0d1de93d8aca274b8148264ba91393e17c",
+          "richTextOwnImageVerified": true,
+          "strictTypedPictureContract": "fail",
+          "image": {
+            "part": "word/media/image-1.png",
+            "sizePx": [120, 180],
+            "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+            "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+          },
+          "originalImageBytesEqual": true,
+          "originalRgbaEqual": true,
+          "tagsAndOrderEqual": true,
+          "textEqualWithinVariant": true,
+          "tableGridsEqual": true,
+          "pageCount": 3,
+          "pagePixelsEqual": [true, true, true],
+          "wordBoxesEqual": [true, true, true],
+          "rawPdfImageFramesExact": true,
+          "maxRawImageFrameDeltaMm": 0.0
+        },
+        {
+          "phase": "saved1",
+          "docx": "app-body-photo-free-main-tile-saved1.docx",
+          "docxSha256": "8b94e9bceb56ae1d44fc8e333333d94f5c6e6f0c7892891aa737026af89ac228",
+          "pdf": "app-body-photo-free-main-tile-saved1.pdf",
+          "pdfSha256": "3e8051a6447a7636ab51a35b3ac92499a7cddc1279c801576430802359b3cf6a",
+          "richTextOwnImageVerified": true,
+          "strictTypedPictureContract": "fail",
+          "image": {
+            "part": "word/media/image1.png",
+            "sizePx": [120, 180],
+            "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+            "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+          },
+          "originalImageBytesEqual": true,
+          "originalRgbaEqual": true,
+          "tagsAndOrderEqual": true,
+          "textEqualWithinVariant": true,
+          "tableGridsEqual": true,
+          "pageCount": 3,
+          "pagePixelsEqual": [true, true, true],
+          "wordBoxesEqual": [true, true, true],
+          "rawPdfImageFramesExact": false,
+          "maxRawImageFrameDeltaMm": 0.017634582519531247
+        },
+        {
+          "phase": "saved2",
+          "docx": "app-body-photo-free-main-tile-saved2.docx",
+          "docxSha256": "27116346b6be4e9f86c402da822d7e4ab05961609b4f7ecb1066c9edc631cd60",
+          "pdf": "app-body-photo-free-main-tile-saved2.pdf",
+          "pdfSha256": "7eb9f32ebff75b98388fe39013a47d97544210542a199b1870c4f7649ed13df6",
+          "richTextOwnImageVerified": true,
+          "strictTypedPictureContract": "fail",
+          "image": {
+            "part": "word/media/image1.png",
+            "sizePx": [120, 180],
+            "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+            "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+          },
+          "originalImageBytesEqual": true,
+          "originalRgbaEqual": true,
+          "tagsAndOrderEqual": true,
+          "textEqualWithinVariant": true,
+          "tableGridsEqual": true,
+          "pageCount": 3,
+          "pagePixelsEqual": [true, true, true],
+          "wordBoxesEqual": [true, true, true],
+          "rawPdfImageFramesExact": false,
+          "maxRawImageFrameDeltaMm": 0.035290696885850695
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-low-tile",
+      "phases": [
+        {
+          "phase": "source",
+          "docx": "app-body-photo-free-low-tile-source.docx",
+          "docxSha256": "8dc03cb9890c6e591d2cb18e9ceb8f1968280e1954ffdb24c09ef32736417285",
+          "pdf": "app-body-photo-free-low-tile-source.pdf",
+          "pdfSha256": "4cf846cac33493e28e28a363b1ef08db9a3930c319c0ae0833abb7af5e817bce",
+          "richTextOwnImageVerified": true,
+          "strictTypedPictureContract": "fail",
+          "image": {
+            "part": "word/media/image-1.png",
+            "sizePx": [120, 180],
+            "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+            "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+          },
+          "originalImageBytesEqual": true,
+          "originalRgbaEqual": true,
+          "tagsAndOrderEqual": true,
+          "textEqualWithinVariant": true,
+          "tableGridsEqual": true,
+          "pageCount": 11,
+          "pagePixelsEqual": [true, true, true, true, true, true, true, true, true, true, true],
+          "wordBoxesEqual": [true, true, true, true, true, true, true, true, true, true, true],
+          "rawPdfImageFramesExact": true,
+          "maxRawImageFrameDeltaMm": 0.0
+        },
+        {
+          "phase": "saved1",
+          "docx": "app-body-photo-free-low-tile-saved1.docx",
+          "docxSha256": "c63f8ff5a3215746981dc573600040f726cb50b8d413331802e3206d1ea8601e",
+          "pdf": "app-body-photo-free-low-tile-saved1.pdf",
+          "pdfSha256": "39220ee243d69840f5c9dcaf649fb93410c40b74b5fc38eb863fc5d125416a99",
+          "richTextOwnImageVerified": true,
+          "strictTypedPictureContract": "fail",
+          "image": {
+            "part": "word/media/image1.png",
+            "sizePx": [120, 180],
+            "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+            "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+          },
+          "originalImageBytesEqual": true,
+          "originalRgbaEqual": true,
+          "tagsAndOrderEqual": true,
+          "textEqualWithinVariant": true,
+          "tableGridsEqual": true,
+          "pageCount": 11,
+          "pagePixelsEqual": [true, true, true, true, true, true, true, true, true, true, true],
+          "wordBoxesEqual": [true, true, true, true, true, true, true, true, true, true, true],
+          "rawPdfImageFramesExact": false,
+          "maxRawImageFrameDeltaMm": 0.017634582519531247
+        },
+        {
+          "phase": "saved2",
+          "docx": "app-body-photo-free-low-tile-saved2.docx",
+          "docxSha256": "6b7f30c1caffbe718a0872f25e6be7d88c3dce9f7e030319c1f080311ff33411",
+          "pdf": "app-body-photo-free-low-tile-saved2.pdf",
+          "pdfSha256": "dba2be750505fce856fd651f96fb84e4f947cc1eef8b627d2631b0889fae684b",
+          "richTextOwnImageVerified": true,
+          "strictTypedPictureContract": "fail",
+          "image": {
+            "part": "word/media/image1.png",
+            "sizePx": [120, 180],
+            "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+            "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+          },
+          "originalImageBytesEqual": true,
+          "originalRgbaEqual": true,
+          "tagsAndOrderEqual": true,
+          "textEqualWithinVariant": true,
+          "tableGridsEqual": true,
+          "pageCount": 11,
+          "pagePixelsEqual": [true, true, true, true, true, true, true, true, true, true, true],
+          "wordBoxesEqual": [true, true, true, true, true, true, true, true, true, true, true],
+          "rawPdfImageFramesExact": false,
+          "maxRawImageFrameDeltaMm": 0.035290696885850695
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-portrait-tile",
+      "phases": [
+        {
+          "phase": "source",
+          "docx": "app-body-photo-free-portrait-tile-source.docx",
+          "docxSha256": "18a3116132e4926167f8fbb09d46dad29ab4b6bfee76f76d5c61075948e89f33",
+          "pdf": "app-body-photo-free-portrait-tile-source.pdf",
+          "pdfSha256": "2577cc4f4a5091eb051f0f075adb6f31a798af0045e2c6e4a6e1b9768cf1dbf9",
+          "richTextOwnImageVerified": true,
+          "strictTypedPictureContract": "fail",
+          "image": {
+            "part": "word/media/image-1.png",
+            "sizePx": [120, 180],
+            "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+            "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+          },
+          "originalImageBytesEqual": true,
+          "originalRgbaEqual": true,
+          "tagsAndOrderEqual": true,
+          "textEqualWithinVariant": true,
+          "tableGridsEqual": true,
+          "pageCount": 3,
+          "pagePixelsEqual": [true, true, true],
+          "wordBoxesEqual": [true, true, true],
+          "rawPdfImageFramesExact": true,
+          "maxRawImageFrameDeltaMm": 0.0
+        },
+        {
+          "phase": "saved1",
+          "docx": "app-body-photo-free-portrait-tile-saved1.docx",
+          "docxSha256": "188da7ed7f36b63b7dde98f8c1d81a78f47cce73b2d4b610ec4ceb56e5f969b4",
+          "pdf": "app-body-photo-free-portrait-tile-saved1.pdf",
+          "pdfSha256": "26616322e6af157409cb1548088d688f0fef452c9b3644545f4806a01232cf15",
+          "richTextOwnImageVerified": true,
+          "strictTypedPictureContract": "fail",
+          "image": {
+            "part": "word/media/image1.png",
+            "sizePx": [120, 180],
+            "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+            "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+          },
+          "originalImageBytesEqual": true,
+          "originalRgbaEqual": true,
+          "tagsAndOrderEqual": true,
+          "textEqualWithinVariant": true,
+          "tableGridsEqual": true,
+          "pageCount": 3,
+          "pagePixelsEqual": [true, true, true],
+          "wordBoxesEqual": [true, true, true],
+          "rawPdfImageFramesExact": false,
+          "maxRawImageFrameDeltaMm": 0.03527454800075955
+        },
+        {
+          "phase": "saved2",
+          "docx": "app-body-photo-free-portrait-tile-saved2.docx",
+          "docxSha256": "752239b3d3534768ff10375dc60789d4fea43cc189a11a8ca77e0e60042bc7c9",
+          "pdf": "app-body-photo-free-portrait-tile-saved2.pdf",
+          "pdfSha256": "a71cccf9b107950a3b40d21e25fff6eba4e3b31ed96b34fa0e54031df830ab26",
+          "richTextOwnImageVerified": true,
+          "strictTypedPictureContract": "fail",
+          "image": {
+            "part": "word/media/image1.png",
+            "sizePx": [120, 180],
+            "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+            "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+          },
+          "originalImageBytesEqual": true,
+          "originalRgbaEqual": true,
+          "tagsAndOrderEqual": true,
+          "textEqualWithinVariant": true,
+          "tableGridsEqual": true,
+          "pageCount": 3,
+          "pagePixelsEqual": [true, true, true],
+          "wordBoxesEqual": [true, true, true],
+          "rawPdfImageFramesExact": false,
+          "maxRawImageFrameDeltaMm": 0.05291451348198785
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-chrome-tile",
+      "phases": [
+        {
+          "phase": "source",
+          "docx": "app-body-photo-free-chrome-tile-source.docx",
+          "docxSha256": "0e792c9dc02ff565564716d4f2913845ee5a60ef28fa27829b5a8a542a800c03",
+          "pdf": "app-body-photo-free-chrome-tile-source.pdf",
+          "pdfSha256": "3642a9b5276b89ca05bb0e68d5acfbc9ea87be97fe874cbed5ea13442823e3f3",
+          "richTextOwnImageVerified": true,
+          "strictTypedPictureContract": "fail",
+          "image": {
+            "part": "word/media/image-1.png",
+            "sizePx": [120, 180],
+            "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+            "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+          },
+          "originalImageBytesEqual": true,
+          "originalRgbaEqual": true,
+          "tagsAndOrderEqual": true,
+          "textEqualWithinVariant": true,
+          "tableGridsEqual": true,
+          "pageCount": 13,
+          "pagePixelsEqual": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "wordBoxesEqual": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "rawPdfImageFramesExact": true,
+          "maxRawImageFrameDeltaMm": 0.0
+        },
+        {
+          "phase": "saved1",
+          "docx": "app-body-photo-free-chrome-tile-saved1.docx",
+          "docxSha256": "e0f5eccb33ee09b104ce432d0fdc69ebd9afbd1bdca28dec909409c64cb92681",
+          "pdf": "app-body-photo-free-chrome-tile-saved1.pdf",
+          "pdfSha256": "59e8afbb4f1ada074f8ec0f6251bb4d053c2b4fb316a28f4e4036373803588cd",
+          "richTextOwnImageVerified": true,
+          "strictTypedPictureContract": "fail",
+          "image": {
+            "part": "word/media/image1.png",
+            "sizePx": [120, 180],
+            "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+            "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+          },
+          "originalImageBytesEqual": true,
+          "originalRgbaEqual": true,
+          "tagsAndOrderEqual": true,
+          "textEqualWithinVariant": true,
+          "tableGridsEqual": true,
+          "pageCount": 13,
+          "pagePixelsEqual": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "wordBoxesEqual": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "rawPdfImageFramesExact": false,
+          "maxRawImageFrameDeltaMm": 0.017634582519531247
+        },
+        {
+          "phase": "saved2",
+          "docx": "app-body-photo-free-chrome-tile-saved2.docx",
+          "docxSha256": "c954cf66cbc1160b9ff0f54ebb53d05df0d385061ed688310566408ffe243219",
+          "pdf": "app-body-photo-free-chrome-tile-saved2.pdf",
+          "pdfSha256": "2a2d446de08bb81b35a23e03cf34dccd0b6aacf25e813d5fd558da287c95aca3",
+          "richTextOwnImageVerified": true,
+          "strictTypedPictureContract": "fail",
+          "image": {
+            "part": "word/media/image1.png",
+            "sizePx": [120, 180],
+            "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+            "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+          },
+          "originalImageBytesEqual": true,
+          "originalRgbaEqual": true,
+          "tagsAndOrderEqual": true,
+          "textEqualWithinVariant": true,
+          "tableGridsEqual": true,
+          "pageCount": 13,
+          "pagePixelsEqual": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "wordBoxesEqual": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "rawPdfImageFramesExact": false,
+          "maxRawImageFrameDeltaMm": 0.035290696885850695
+        }
+      ]
+    }
+  ],
+  "checks": {
+    "linuxUnitTests": {
+      "passed": 1495,
+      "failed": 0
+    },
+    "strictExistingPictureOwnershipTests": {
+      "passed": 23,
+      "failed": 0
+    },
+    "typecheck": "pass",
+    "changedFilesLint": "pass",
+    "format": "pass"
+  },
+  "limits": [
+    "Rich Text instead of typed picture control",
+    "One hidden leading ZWSP is added to the photo field",
+    "Not pixel-identical to previous picture primitive on source photo page",
+    "Raw PDF tile bitmap frames drift by up to 0.0529145135 mm after two Writer saves although sampled rendered pages remain pixel-identical",
+    "No full 22-case Word or native production acceptance; right-sidebar grid issues not addressed"
+  ],
+  "desktopWordRichTextPictureCases": [
+    {
+      "fixture": "main",
+      "source": "e70655fa11c22b457dceb1c7dd1b27479b5b4ac2881007e7cd92d09f6d63fae4",
+      "saved": "df11551a6ba1a2af9407fca1731f08fe4490568b67369b71e22f67f7dbb6f490",
+      "saveReopenCycles": 2,
+      "repairRequired": false,
+      "ownImageVerified": true,
+      "imageBytesEqual": true,
+      "imageRgbaEqual": true,
+      "tagsEqual": true,
+      "textEqual": true,
+      "gridsEqual": true
+    },
+    {
+      "fixture": "low",
+      "source": "43852613a146bb348f06145c9a00f706248e6e17202c4a8972f150354d4fce50",
+      "saved": "18715fa43be853b9eb37dac9a603a2c4c1a3796f4f552b0c52191d25c17cd8b5",
+      "saveReopenCycles": 1,
+      "repairRequired": false,
+      "ownImageVerified": true,
+      "imageBytesEqual": true,
+      "imageRgbaEqual": true,
+      "tagsEqual": true,
+      "textEqual": true,
+      "gridsEqual": true
+    },
+    {
+      "fixture": "portrait",
+      "source": "27966798e9ac1abc587d1b3dff6d1bc0492fd9921d3846d70b4009cacce79b8f",
+      "saved": "1a03ae80323e3af1a6b817afd14e26891ae445c1eb6e3e3682f4edcf385d879e",
+      "saveReopenCycles": 1,
+      "repairRequired": false,
+      "ownImageVerified": true,
+      "imageBytesEqual": true,
+      "imageRgbaEqual": true,
+      "tagsEqual": true,
+      "textEqual": true,
+      "gridsEqual": true
+    },
+    {
+      "fixture": "chrome",
+      "source": "f4156f1508bbd665eda37d04061b50029cdc6b8e1af992bdf556892ad60fe3f8",
+      "saved": "5e700c09f6fbb588e1440bf2bd2a2e80fcf5cab46e00bce88ec438d4a3c4048e",
+      "saveReopenCycles": 1,
+      "repairRequired": false,
+      "ownImageVerified": true,
+      "imageBytesEqual": true,
+      "imageRgbaEqual": true,
+      "tagsEqual": true,
+      "textEqual": true,
+      "gridsEqual": true
+    }
+  ],
+  "nativeUntiledRichTextCounterexamples": [
+    {
+      "fixture": "app-body-photo-free-main-rich",
+      "phases": [
+        {
+          "phase": "source",
+          "docxSha256": "e70655fa11c22b457dceb1c7dd1b27479b5b4ac2881007e7cd92d09f6d63fae4",
+          "pdfSha256": "32c3de6488c6d54b97ccc828813d64be4e8e7005ab7c8d7b4727e64fe6aba7e3",
+          "ownDrawingCount": 1,
+          "ownershipReasons": ["untyped-picture-control"]
+        },
+        {
+          "phase": "saved1",
+          "docxSha256": "5a3490469e1b0c2dc8077f1aa64fcab891acb2b0d2e28c74975c0f20aa533123",
+          "pdfSha256": "4c59d905aae19fed1383640f6f841befa03cc9f1c37444f3f13552b72f1febcc",
+          "ownDrawingCount": 0,
+          "ownershipReasons": [
+            "untyped-picture-control",
+            "picture-control-must-own-one-drawing",
+            "picture-control-must-own-one-image-reference"
+          ]
+        },
+        {
+          "phase": "saved2",
+          "docxSha256": "ca2a3dfa2fbc92bf6cefcb851a2f1966adaea3ada6ced9d232964a323a4112fc",
+          "pdfSha256": "9e99f0f5196b6e99ee45dc98a4798d2c88f727bd921996209ab42c2ae6409167",
+          "ownDrawingCount": 0,
+          "ownershipReasons": [
+            "untyped-picture-control",
+            "picture-control-must-own-one-drawing",
+            "picture-control-must-own-one-image-reference"
+          ]
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-low-rich",
+      "phases": [
+        {
+          "phase": "source",
+          "docxSha256": "43852613a146bb348f06145c9a00f706248e6e17202c4a8972f150354d4fce50",
+          "pdfSha256": "c821026c82ee309cd5fb09531826ddea45a7be50152c277284410fdbf0f32ce3",
+          "ownDrawingCount": 1,
+          "ownershipReasons": ["untyped-picture-control"]
+        },
+        {
+          "phase": "saved1",
+          "docxSha256": "87f4cd0c66aa99b8743c7eda301ecf688cb7abfef4c8b17f0bf9a8b23c54b633",
+          "pdfSha256": "e69b9ea982d98df772f781fd031fe852daa4047c346abc9769898406c873a355",
+          "ownDrawingCount": 0,
+          "ownershipReasons": [
+            "untyped-picture-control",
+            "picture-control-must-own-one-drawing",
+            "picture-control-must-own-one-image-reference"
+          ]
+        },
+        {
+          "phase": "saved2",
+          "docxSha256": "ddccdbb9ed3473fa1ecd25fa35cb44eefbdf091fd529bc5c44fbb76fc83de86a",
+          "pdfSha256": "2b4b199c8291c7ebb7c0349a2812c2bcc9c705f28b486e853fce0e8eb53ed541",
+          "ownDrawingCount": 0,
+          "ownershipReasons": [
+            "untyped-picture-control",
+            "picture-control-must-own-one-drawing",
+            "picture-control-must-own-one-image-reference"
+          ]
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-portrait-rich",
+      "phases": [
+        {
+          "phase": "source",
+          "docxSha256": "27966798e9ac1abc587d1b3dff6d1bc0492fd9921d3846d70b4009cacce79b8f",
+          "pdfSha256": "3701713082f2b6759a615a44b38c091bea38a2daab0cdd7310133a6d533bc747",
+          "ownDrawingCount": 1,
+          "ownershipReasons": ["untyped-picture-control"]
+        },
+        {
+          "phase": "saved1",
+          "docxSha256": "764489822564cefb93c6b0d8b2a74550c1f42f09427f78b583ec9137f0fdf5f0",
+          "pdfSha256": "6790e1a32ed9a5508c24fca5dd9f76c6dca26732daaa9c7ff3c3092228851fc5",
+          "ownDrawingCount": 0,
+          "ownershipReasons": [
+            "untyped-picture-control",
+            "picture-control-must-own-one-drawing",
+            "picture-control-must-own-one-image-reference"
+          ]
+        },
+        {
+          "phase": "saved2",
+          "docxSha256": "6d0995d42b44f4526e62a6501b39c106a25c4867ea79a0f3beb747a038dbcfcf",
+          "pdfSha256": "735bee26d425fa7ae8d0f84cca9bc8272082605a11ee85d679812613e8fdb2ff",
+          "ownDrawingCount": 0,
+          "ownershipReasons": [
+            "untyped-picture-control",
+            "picture-control-must-own-one-drawing",
+            "picture-control-must-own-one-image-reference"
+          ]
+        }
+      ]
+    },
+    {
+      "fixture": "app-body-photo-free-chrome-rich",
+      "phases": [
+        {
+          "phase": "source",
+          "docxSha256": "f4156f1508bbd665eda37d04061b50029cdc6b8e1af992bdf556892ad60fe3f8",
+          "pdfSha256": "bfcb3c2bfeb594c634db247c9905b3da97a1910ae0ce248f54891b27ef3b98ed",
+          "ownDrawingCount": 1,
+          "ownershipReasons": ["untyped-picture-control"]
+        },
+        {
+          "phase": "saved1",
+          "docxSha256": "cecf3f8c3970f85eae0819daf9dee427cab34e16320fed74f44c9802770c44ce",
+          "pdfSha256": "a0f8c7302cf912428977127604f7444fd9effcb5f16da51c36342a7daf37e97d",
+          "ownDrawingCount": 0,
+          "ownershipReasons": [
+            "untyped-picture-control",
+            "picture-control-must-own-one-drawing",
+            "picture-control-must-own-one-image-reference"
+          ]
+        },
+        {
+          "phase": "saved2",
+          "docxSha256": "cc9aad3c7b2c4a8a19c7db9220a242c4145d276c03f44d44d47bd9fe4ced61fe",
+          "pdfSha256": "2ddae11783409ba8adb2cf7d294a2af093152d134364fa4838dd0213354f705d",
+          "ownDrawingCount": 0,
+          "ownershipReasons": [
+            "untyped-picture-control",
+            "picture-control-must-own-one-drawing",
+            "picture-control-must-own-one-image-reference"
+          ]
+        }
+      ]
+    },
+    {
+      "fixture": "typed-main-control",
+      "phases": [
+        {
+          "phase": "source",
+          "docxSha256": "7dd758c90f92d5a490ef022923c738edff042c539aa578e451aa1909bcd81923",
+          "pdfSha256": "b138214787ae8a899acbe6d6cbcbfc534ab6a8bba6272d31fdd6e43295621cf4",
+          "ownDrawingCount": 1,
+          "ownershipReasons": []
+        },
+        {
+          "phase": "saved1",
+          "docxSha256": "f1247da2cc0db29674a451de255eed54d102c82e38bfa1c6a55684386fa05320",
+          "pdfSha256": "a8b7e2b769b3ce6f662c4e5a3dabcb1b3b21cbe79f0f5f98fb6f17236b9cf3bb",
+          "ownDrawingCount": 0,
+          "ownershipReasons": [
+            "picture-control-must-own-one-drawing",
+            "picture-control-must-own-one-image-reference"
+          ]
+        },
+        {
+          "phase": "saved2",
+          "docxSha256": "e3d45ea09d0f7c99735847a1918701657d4887523f1e71e5f5a2b60f588561ef",
+          "pdfSha256": "491a6816d57d7d1dd0b64b9b66fb07e6005f7de21ed5102b99d9dc4175308b67",
+          "ownDrawingCount": 0,
+          "ownershipReasons": [
+            "picture-control-must-own-one-drawing",
+            "picture-control-must-own-one-image-reference"
+          ]
+        }
+      ]
+    }
+  ],
+  "sourceReconstructionManifest": [
+    {
+      "fixture": "app-body-photo-free-main",
+      "sourceSha256": "7dd758c90f92d5a490ef022923c738edff042c539aa578e451aa1909bcd81923",
+      "candidateSha256": "e70655fa11c22b457dceb1c7dd1b27479b5b4ac2881007e7cd92d09f6d63fae4",
+      "tiledCandidateSha256": "74e8c66b4d80699ca3339cd1bd4cde3d0e433105d3c72e702ce9603d5983b794",
+      "sourceReconstructionByteExact": true,
+      "onlyOwnerTypeChanged": true,
+      "controlType": "rich-text",
+      "tiledVariant": "filled shape with explicit 96 DPI tile and one hidden leading ZWSP",
+      "productionAcceptance": "blocked"
+    },
+    {
+      "fixture": "app-body-photo-free-low",
+      "sourceSha256": "e0cff56f46c69d4b721f52b51e95f6797c5542cae8165cfbaa279f775237622c",
+      "candidateSha256": "43852613a146bb348f06145c9a00f706248e6e17202c4a8972f150354d4fce50",
+      "tiledCandidateSha256": "8dc03cb9890c6e591d2cb18e9ceb8f1968280e1954ffdb24c09ef32736417285",
+      "sourceReconstructionByteExact": true,
+      "onlyOwnerTypeChanged": true,
+      "controlType": "rich-text",
+      "tiledVariant": "filled shape with explicit 96 DPI tile and one hidden leading ZWSP",
+      "productionAcceptance": "blocked"
+    },
+    {
+      "fixture": "app-body-photo-free-portrait",
+      "sourceSha256": "eebd6665b1b0bc73ea333027ea985dfb7445aef8f8ee226c02abb7a2b0a23b89",
+      "candidateSha256": "27966798e9ac1abc587d1b3dff6d1bc0492fd9921d3846d70b4009cacce79b8f",
+      "tiledCandidateSha256": "18a3116132e4926167f8fbb09d46dad29ab4b6bfee76f76d5c61075948e89f33",
+      "sourceReconstructionByteExact": true,
+      "onlyOwnerTypeChanged": true,
+      "controlType": "rich-text",
+      "tiledVariant": "filled shape with explicit 96 DPI tile and one hidden leading ZWSP",
+      "productionAcceptance": "blocked"
+    },
+    {
+      "fixture": "app-body-photo-free-chrome",
+      "sourceSha256": "647333a0d741f6a13402a7d4332e7d9b9262f55c9c435774502223d12605161b",
+      "candidateSha256": "f4156f1508bbd665eda37d04061b50029cdc6b8e1af992bdf556892ad60fe3f8",
+      "tiledCandidateSha256": "0e792c9dc02ff565564716d4f2913845ee5a60ef28fa27829b5a8a542a800c03",
+      "sourceReconstructionByteExact": true,
+      "onlyOwnerTypeChanged": true,
+      "controlType": "rich-text",
+      "tiledVariant": "filled shape with explicit 96 DPI tile and one hidden leading ZWSP",
+      "productionAcceptance": "blocked"
+    }
+  ],
+  "nonuniformImageCounterexamples": [
+    {
+      "fixture": "detail-main-rich",
+      "phases": [
+        {
+          "phase": "source",
+          "docx": "detail-main-rich-source.docx",
+          "docxSha256": "1193a87ab3f6d1c23f8643a694c2dfc3514c1e49b6c6c53ae8716fd7a5efac6d",
+          "pdf": "detail-main-rich-source.pdf",
+          "pdfSha256": "f9cc5589a75ba297fc6be0eba82cc7711a96841b1d97a17529de8ab9d78bc257",
+          "ownDrawingCount": 1,
+          "imageRgbaEqual": true,
+          "imageBytesEqual": true,
+          "changedPixelsAt2x": [0, 0, 0]
+        },
+        {
+          "phase": "saved1",
+          "docx": "detail-main-rich-saved1.docx",
+          "docxSha256": "52962d3cc0fd8ab2dec2722239badbb427f8b9cd03a7ea1660110095d7adfd3e",
+          "pdf": "detail-main-rich-saved1.pdf",
+          "pdfSha256": "84bfbb3b02d5c06981e84a98b233e3547e5bcdb4443cee26c1cb0f8509e27d3f",
+          "ownDrawingCount": 1,
+          "imageRgbaEqual": true,
+          "imageBytesEqual": true,
+          "changedPixelsAt2x": [0, 0, 0]
+        },
+        {
+          "phase": "saved2",
+          "docx": "detail-main-rich-saved2.docx",
+          "docxSha256": "52307fbbe7509fc835b481fdbc3e0ad72f60d0e85be81d38be944764c4b523b4",
+          "pdf": "detail-main-rich-saved2.pdf",
+          "pdfSha256": "f9c60da3363ccf787b77ce7559b55fbdcc6fa7f5ed97d37d50b6d3703c7e5ad6",
+          "ownDrawingCount": 1,
+          "imageRgbaEqual": true,
+          "imageBytesEqual": true,
+          "changedPixelsAt2x": [0, 0, 0]
+        }
+      ]
+    },
+    {
+      "fixture": "detail-portrait-rich",
+      "phases": [
+        {
+          "phase": "source",
+          "docx": "detail-portrait-rich-source.docx",
+          "docxSha256": "2ff6e4db535a6663c8ce0135b970ba1fef9d3ce90798f265c415e48bc547fa0a",
+          "pdf": "detail-portrait-rich-source.pdf",
+          "pdfSha256": "84759aa695cab6f331a94772133e9164e48a39b5eed64cefefc2a79573a1ff78",
+          "ownDrawingCount": 1,
+          "imageRgbaEqual": true,
+          "imageBytesEqual": true,
+          "changedPixelsAt2x": [0, 0, 0]
+        },
+        {
+          "phase": "saved1",
+          "docx": "detail-portrait-rich-saved1.docx",
+          "docxSha256": "8f8070361d086286c20fdd598d7b52ec2ea52c8b9e4fe64d80a5efde5a18cc9b",
+          "pdf": "detail-portrait-rich-saved1.pdf",
+          "pdfSha256": "b6061c9cdbb0f25f404565e6291d72747c7aec21bf661c819a35a1932d2fbba0",
+          "ownDrawingCount": 1,
+          "imageRgbaEqual": true,
+          "imageBytesEqual": true,
+          "changedPixelsAt2x": [0, 0, 0]
+        },
+        {
+          "phase": "saved2",
+          "docx": "detail-portrait-rich-saved2.docx",
+          "docxSha256": "7344c469cb47d721cefa43362f43849190d705465380390a5aa8c01456cb206f",
+          "pdf": "detail-portrait-rich-saved2.pdf",
+          "pdfSha256": "9ecd959925be1a57d815cb6d090f28750e1bd9752dd2ec11a4b35404423aea3f",
+          "ownDrawingCount": 1,
+          "imageRgbaEqual": true,
+          "imageBytesEqual": true,
+          "changedPixelsAt2x": [0, 0, 0]
+        }
+      ]
+    }
+  ],
+  "nonuniformImageSourceManifest": [
+    {
+      "fixture": "detail-main",
+      "candidateSha256": "1193a87ab3f6d1c23f8643a694c2dfc3514c1e49b6c6c53ae8716fd7a5efac6d",
+      "baseSourceSha256": "74e8c66b4d80699ca3339cd1bd4cde3d0e433105d3c72e702ce9603d5983b794",
+      "scope": "Diagnostic nonuniform 120x180 RGBA test pattern replaces only photo media; not an unchanged real app export"
+    },
+    {
+      "fixture": "detail-portrait",
+      "candidateSha256": "2ff6e4db535a6663c8ce0135b970ba1fef9d3ce90798f265c415e48bc547fa0a",
+      "baseSourceSha256": "18a3116132e4926167f8fbb09d46dad29ab4b6bfee76f76d5c61075948e89f33",
+      "scope": "Diagnostic nonuniform 120x180 RGBA test pattern replaces only photo media; not an unchanged real app export"
+    }
+  ],
+  "nonuniform8xPhotoClipAudit": [
+    {
+      "fixture": "detail-main-rich",
+      "scale": 8,
+      "clipPt": [300, 0, 595, 400],
+      "phases": [
+        {
+          "phase": "saved1",
+          "changedPixelsAt8x": 23186,
+          "differenceBoundsPx": [1006, 544, 1769, 1228]
+        },
+        {
+          "phase": "saved2",
+          "changedPixelsAt8x": 23186,
+          "differenceBoundsPx": [1006, 544, 1769, 1228]
+        }
+      ]
+    },
+    {
+      "fixture": "detail-portrait-rich",
+      "scale": 8,
+      "clipPt": [300, 0, 595, 400],
+      "phases": [
+        {
+          "phase": "saved1",
+          "changedPixelsAt8x": 41252,
+          "differenceBoundsPx": [1018, 1109, 1740, 2047]
+        },
+        {
+          "phase": "saved2",
+          "changedPixelsAt8x": 41252,
+          "differenceBoundsPx": [1018, 1109, 1740, 2047]
+        }
+      ]
+    }
+  ],
+  "desktopWordTiledMain": {
+    "repairRequired": false,
+    "saveReopenCycles": 2,
+    "phases": [
+      {
+        "file": "app-body-photo-free-main-tile.docx",
+        "sha256": "74e8c66b4d80699ca3339cd1bd4cde3d0e433105d3c72e702ce9603d5983b794",
+        "strictTypedPictureContract": "fail",
+        "richTextOwnImageVerified": true,
+        "image": {
+          "part": "word/media/image-1.png",
+          "sizePx": [120, 180],
+          "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+          "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+        },
+        "comparedToSource": {
+          "tags": true,
+          "text": true,
+          "grids": true,
+          "imageBytesEqual": true,
+          "imageRgbaEqual": true
+        }
+      },
+      {
+        "file": "tile-word-saved1.docx",
+        "sha256": "7d21975c459fad9d2e09302b4d2e386f71ea76101057b243686a677a84fe5943",
+        "strictTypedPictureContract": "fail",
+        "richTextOwnImageVerified": true,
+        "image": {
+          "part": "word/media/image1.png",
+          "sizePx": [120, 180],
+          "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+          "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+        },
+        "comparedToSource": {
+          "tags": true,
+          "text": true,
+          "grids": true,
+          "imageBytesEqual": true,
+          "imageRgbaEqual": true
+        }
+      },
+      {
+        "file": "tile-word-saved2.docx",
+        "sha256": "4726d146930aca06da3c02f09e04a3ed1e210a17c93fa57c409855ff7f64e282",
+        "strictTypedPictureContract": "fail",
+        "richTextOwnImageVerified": true,
+        "image": {
+          "part": "word/media/image1.png",
+          "sizePx": [120, 180],
+          "payloadSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+          "rgbaSha256": "5317718494929de9ab8a8d585ca8fab3c223d26e81b355e02257ecd8022e40b1"
+        },
+        "comparedToSource": {
+          "tags": true,
+          "text": true,
+          "grids": true,
+          "imageBytesEqual": true,
+          "imageRgbaEqual": true
+        }
+      }
+    ],
+    "pdfComparison": {
+      "phases": [
+        {
+          "file": "app-body-photo-free-main-tile.pdf",
+          "sha256": "935ee5fd7d9fc323fbc82da49c682386fe0f6fa5fa425f58b565bc898925014d"
+        },
+        {
+          "file": "tile-word-saved2.pdf",
+          "sha256": "ad7f620b3a7b8653676744d505793421aa4e4f19e129fa1ce65aca3067e4ff08"
+        }
+      ],
+      "comparisons": [
+        {
+          "sizePt": true,
+          "pixelSha256": true,
+          "words": true,
+          "images": true
+        },
+        {
+          "sizePt": true,
+          "pixelSha256": true,
+          "words": true,
+          "images": true
+        },
+        {
+          "sizePt": true,
+          "pixelSha256": true,
+          "words": true,
+          "images": true
+        }
+      ],
+      "photoClipPixelsEqualAt8x": true
+    }
+  },
+  "schemaChecks": {
+    "newTileSources": "four source packages pass Office2019 schema validation; main rechecked after closing Word",
+    "wordSaved1": {
+      "file": "artifacts/word-desktop-31okt/tile-word-saved1.docx",
+      "errors": []
+    },
+    "writerSaved2": {
+      "file": "artifacts/word-desktop-31okt/native-renderer-tile/app-body-photo-free-main-tile-saved2.docx",
+      "errors": [
+        {
+          "Id": "Sch_AttributeValueDataTypeDetailed",
+          "Description": "The attribute 'http://schemas.openxmlformats.org/wordprocessingml/2006/main:val' has invalid value 'start'. The Enumeration constraint failed.",
+          "Part": "/word/document.xml",
+          "Path": "/w:document[1]/w:body[1]/w:tbl[1]/w:tr[1]/w:tc[3]/w:tbl[1]/w:tblPr[1]/w:jc[1]"
+        },
+        {
+          "Id": "Sch_AttributeValueDataTypeDetailed",
+          "Description": "The attribute 'http://schemas.openxmlformats.org/wordprocessingml/2006/main:val' has invalid value 'start'. The Enumeration constraint failed.",
+          "Part": "/word/document.xml",
+          "Path": "/w:document[1]/w:body[1]/w:tbl[1]/w:tblPr[1]/w:jc[1]"
+        },
+        {
+          "Id": "Sch_AttributeValueDataTypeDetailed",
+          "Description": "The attribute 'http://schemas.openxmlformats.org/wordprocessingml/2006/main:characterSet' has invalid value 'utf-8'. The Enumeration constraint failed.",
+          "Part": "/word/fontTable.xml",
+          "Path": "/w:fonts[1]/w:font[7]/w:charset[1]"
+        },
+        {
+          "Id": "Sch_AttributeValueDataTypeDetailed",
+          "Description": "The attribute 'http://schemas.openxmlformats.org/wordprocessingml/2006/main:characterSet' has invalid value 'utf-8'. The Enumeration constraint failed.",
+          "Part": "/word/fontTable.xml",
+          "Path": "/w:fonts[1]/w:font[6]/w:charset[1]"
+        },
+        {
+          "Id": "Sch_AttributeValueDataTypeDetailed",
+          "Description": "The attribute 'http://schemas.openxmlformats.org/wordprocessingml/2006/main:characterSet' has invalid value 'utf-8'. The Enumeration constraint failed.",
+          "Part": "/word/fontTable.xml",
+          "Path": "/w:fonts[1]/w:font[5]/w:charset[1]"
+        },
+        {
+          "Id": "Sch_AttributeValueDataTypeDetailed",
+          "Description": "The attribute 'http://schemas.openxmlformats.org/wordprocessingml/2006/main:characterSet' has invalid value 'utf-8'. The Enumeration constraint failed.",
+          "Part": "/word/fontTable.xml",
+          "Path": "/w:fonts[1]/w:font[4]/w:charset[1]"
+        },
+        {
+          "Id": "Sch_AttributeValueDataTypeDetailed",
+          "Description": "The attribute 'http://schemas.openxmlformats.org/wordprocessingml/2006/main:characterSet' has invalid value 'windows-1252'. The Enumeration constraint failed.",
+          "Part": "/word/fontTable.xml",
+          "Path": "/w:fonts[1]/w:font[3]/w:charset[1]"
+        },
+        {
+          "Id": "Sch_AttributeValueDataTypeDetailed",
+          "Description": "The attribute 'http://schemas.openxmlformats.org/wordprocessingml/2006/main:characterSet' has invalid value 'windows-1252'. The Enumeration constraint failed.",
+          "Part": "/word/fontTable.xml",
+          "Path": "/w:fonts[1]/w:font[1]/w:charset[1]"
+        }
+      ]
+    },
+    "unchangedTypedWriterControlSaved2": {
+      "file": "artifacts/word-desktop-31okt/native-rich/typed-main-control-saved2.docx",
+      "errors": [
+        {
+          "Id": "Sch_AttributeValueDataTypeDetailed",
+          "Description": "The attribute 'http://schemas.openxmlformats.org/wordprocessingml/2006/main:val' has invalid value 'start'. The Enumeration constraint failed.",
+          "Part": "/word/document.xml",
+          "Path": "/w:document[1]/w:body[1]/w:tbl[1]/w:tr[1]/w:tc[3]/w:tbl[1]/w:tblPr[1]/w:jc[1]"
+        },
+        {
+          "Id": "Sch_AttributeValueDataTypeDetailed",
+          "Description": "The attribute 'http://schemas.openxmlformats.org/wordprocessingml/2006/main:val' has invalid value 'start'. The Enumeration constraint failed.",
+          "Part": "/word/document.xml",
+          "Path": "/w:document[1]/w:body[1]/w:tbl[1]/w:tblPr[1]/w:jc[1]"
+        },
+        {
+          "Id": "Sch_AttributeValueDataTypeDetailed",
+          "Description": "The attribute 'http://schemas.openxmlformats.org/wordprocessingml/2006/main:characterSet' has invalid value 'utf-8'. The Enumeration constraint failed.",
+          "Part": "/word/fontTable.xml",
+          "Path": "/w:fonts[1]/w:font[7]/w:charset[1]"
+        },
+        {
+          "Id": "Sch_AttributeValueDataTypeDetailed",
+          "Description": "The attribute 'http://schemas.openxmlformats.org/wordprocessingml/2006/main:characterSet' has invalid value 'utf-8'. The Enumeration constraint failed.",
+          "Part": "/word/fontTable.xml",
+          "Path": "/w:fonts[1]/w:font[6]/w:charset[1]"
+        },
+        {
+          "Id": "Sch_AttributeValueDataTypeDetailed",
+          "Description": "The attribute 'http://schemas.openxmlformats.org/wordprocessingml/2006/main:characterSet' has invalid value 'utf-8'. The Enumeration constraint failed.",
+          "Part": "/word/fontTable.xml",
+          "Path": "/w:fonts[1]/w:font[5]/w:charset[1]"
+        },
+        {
+          "Id": "Sch_AttributeValueDataTypeDetailed",
+          "Description": "The attribute 'http://schemas.openxmlformats.org/wordprocessingml/2006/main:characterSet' has invalid value 'utf-8'. The Enumeration constraint failed.",
+          "Part": "/word/fontTable.xml",
+          "Path": "/w:fonts[1]/w:font[4]/w:charset[1]"
+        },
+        {
+          "Id": "Sch_AttributeValueDataTypeDetailed",
+          "Description": "The attribute 'http://schemas.openxmlformats.org/wordprocessingml/2006/main:characterSet' has invalid value 'windows-1252'. The Enumeration constraint failed.",
+          "Part": "/word/fontTable.xml",
+          "Path": "/w:fonts[1]/w:font[3]/w:charset[1]"
+        },
+        {
+          "Id": "Sch_AttributeValueDataTypeDetailed",
+          "Description": "The attribute 'http://schemas.openxmlformats.org/wordprocessingml/2006/main:characterSet' has invalid value 'windows-1252'. The Enumeration constraint failed.",
+          "Part": "/word/fontTable.xml",
+          "Path": "/w:fonts[1]/w:font[1]/w:charset[1]"
+        }
+      ]
+    }
+  },
+  "followupCurrentCheckout": "94d9021956734b39045c4aa3891c08fe6ae0e116",
+  "followupReport": "word-tile-precision-31okt.json",
+  "followupSummary": {
+    "currentStrictPictureContractTests": 26,
+    "allFocusedPythonTests": 135,
+    "nativeTilePrecisionRootCause": "integer size/scale conversion; diagnostic 100% controls stable over three saves; authored scales drift without offsets",
+    "pdfComparisonContractVersion": 2,
+    "historicalExactCases": [18, 22],
+    "nativeTileRendererExactCases": [0, 4],
+    "desktopWordTileMainExactPdf": true,
+    "strictTileViolations": ["untyped-picture-control", "non-picture-text-in-picture-control"]
+  }
+}
