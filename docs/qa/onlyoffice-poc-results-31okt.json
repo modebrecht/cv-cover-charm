@@ -280,6 +280,7 @@
   ],
   "githubActionsRunPerformed": false,
   "onlyofficeReturnsOpenedInDesktopWord": false,
+  "desktopWordFollowupReport": "onlyoffice-word-return-31okt.json",
   "normalProductSourceChangedSinceC685bf43": false,
   "secondWorkflowCreated": false,
   "sharedPyMuPdfSsimImplementationChanged": false,

@@ -130,9 +130,15 @@ sind auf dem separaten Arbeitsbranch gesichert; kein Merge nach dev/render/main.
 
 ## Noch offen
 
-Der PoC prüft ONLYOFFICEs eigene Darstellung und eigene Saves. Er hat die neuen
-ONLYOFFICE-Rückläufe noch nicht in Desktop Word abgenommen. Als Nächstes sind der
-kleine CI-Modus auf diesem Branch, anschließend der Word-Abgleich der beiden
-Fotofälle und eine getrennte Bewertung von Wasserzeichen, Schriftmetriken und
-Umbrüchen sinnvoll. Eine spätere Konverterentscheidung braucht zusätzliche
-Belege; der normale Produktexport wird hier nicht geändert.
+Der ursprüngliche PoC prüft ONLYOFFICEs eigene Darstellung und eigene Saves.
+Die anschließende [Desktop-Word-Prüfung der beiden Fotofälle](onlyoffice-word-return-31okt.md)
+ist jetzt abgeschlossen: nach den zwei ONLYOFFICE-Saves zusätzlich je ein
+Word-Save/Close/Reopen-Zyklus ohne Reparatur, Fotos sichtbar, Text und alle 79
+Feldkennungen in gleicher Reihenfolge erhalten. Der ursprüngliche JSON-PoC bleibt
+eine historische Momentaufnahme vor dieser gesonderten Word-Prüfung.
+
+Noch offen sind der kleine CI-Modus auf diesem Branch und eine getrennte Bewertung
+von Wasserzeichen, Schriftmetriken und Umbrüchen. Der vorhandene In-App-Browser
+ist bei GitHub nicht angemeldet; ein CI-Start wurde deshalb nicht als erfolgt
+ausgegeben. Eine spätere Konverterentscheidung braucht zusätzliche Belege;
+der normale Produktexport wird hier nicht geändert.
