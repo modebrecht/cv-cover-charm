@@ -1,5 +1,23 @@
 # Übergabe: direkt verankertes Einzelbild, 30. Oktober 2026
 
+## Neueste Fortsetzung: Word-Ruecklauf fuer zwei Speicherzyklen vorbereitet
+
+`docs/qa/picture-word-31okt.md` beschreibt den begrenzten Desktop-Word-Ablauf
+fuer genau die unveraenderte, textfreie Quelle. Der neue lesende Befehl
+`scripts/docx-next-picture-word-return.py` wertet beide Rueckdateien gegen
+die hashgebundene Quelle und zusaetzlich gegeneinander aus. Er verwendet
+die bestehenden strengen Feld-/Bildleser; ein Erstverlust kann nicht hinter
+einer stabilen zweiten Datei verschwinden. Zwoelf neue Gegenproben, 51 alte
+Word-Leserpruefungen und die 52 fokussierten Bild-/Inhaltspruefungen bestehen
+erneut, insgesamt 115. Neue CI-Ergebnisse erst nach tatsaechlichem Lauf melden.
+Die Ruecklaufpruefung startet kein Office und vergibt auch fuer bytegleiche
+Kopien keine Word-Abnahme. Keine neue Word-Ausfuehrung, keine nativen
+Importe/Speicherungen und kein Produktionsfix in dieser Fortsetzung.
+Die Ausfuehrung in Desktop-Word bleibt der naechste fachliche Schritt.
+Der Windows-Checkout wurde nicht verbunden. Kein Merge.
+
+---
+
 ## Neuester Arbeitsblock: aktive Bilddaten direkt nach Originalimport
 
 Neue verbindliche Berichte: `docs/qa/picture-import-30okt.md` und `.json`.

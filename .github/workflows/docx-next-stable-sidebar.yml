@@ -391,6 +391,7 @@ jobs:
           python scripts/docx-next-sidebar-body-media-test.py
           python scripts/docx-next-picture-owner-contract-test.py
           python scripts/docx-next-picture-import-test.py
+          python scripts/docx-next-picture-word-return-test.py
           bun test tests/unit/docx-next-qa-story-part.test.ts
           python scripts/docx-next-sidebar-save-geometry-test.py
       - name: Install canonical browser decoder
