@@ -114,3 +114,29 @@ Die beiden anderen nativen Fehler auf `33f0affe` bleiben der historische
 Paket-Pin (`picture-identity`) und die begrenzte urspruengliche
 gotoRange-Beobachtung (`stable-comparison`). Keine Referenzwerte gelockert,
 kein Produktionscode geaendert und kein Merge.
+
+### GitHub-Bestaetigung der Setup-Korrektur
+
+Code-Commit `7035fc228bd41be771f86b898c6155d7f6b2fed1`, nativer Lauf
+`41188610434`, App-Job `124500550125`: Die Installation von `lxml==6.1.1`
+und alle zwoelf neuen Ruecklaufpruefungen bestehen. Die echte native
+Sammlung ist danach wieder vollstaendig: **22/22 Inhaltsfaelle**, weiterhin
+**18/22** in allen exakten Geometrievergleichen. Bildzuordnung und
+Originalpixelvertrag scheitern wie vor der Setup-Regression. Alle sechs
+unveraenderten Import-Gegenproben wurden erneut gesammelt; die Kombination
+aus Ellipse und Zuschnitt verliert weiterhin aktive Originalpixel.
+
+Ergebnisarchiv `13037742273`,
+`docx-next-app-body-7035fc228bd41be771f86b898c6155d7f6b2fed1`,
+8 292 988 Bytes, SHA256
+`9be19b9a333745a0fbd1267ee495a07450bf539a18c653aed8b4bba8ecfc6adf`:
+vollstaendig heruntergeladen und Digest verifiziert. Zusaetzlich alle
+66 DOCX-/PDF-Phasen, alle sechs Import-Eingaben und die Verbindung zwischen
+Inhalts- und Geometriebericht anhand ihrer gespeicherten Hashes geprueft.
+Keine lokale Office-Ausfuehrung fuer diese Archivpruefung.
+
+Release-Lauf `41188610365`: Fast-Checks mit 1490 bestandenen Unit-Tests;
+die Browsergruppen laufen bei dieser Momentaufnahme noch. Der gesamte
+native Lauf ist zu diesem Zeitpunkt ebenfalls noch nicht abgeschlossen.
+Desktop-Word bleibt mangels Zugriff offen. Die Korrektur behebt den
+Setup-Fehler, nicht den Exportfehler.

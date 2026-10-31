@@ -1,5 +1,28 @@
 # Übergabe: direkt verankertes Einzelbild, 30. Oktober 2026
 
+## Neuester Stand: CI-Abhaengigkeit des Word-Lesers repariert
+
+`7035fc228bd41be771f86b898c6155d7f6b2fed1` korrigiert eine eigene
+Setup-Regression auf `33f0affe`: Dem GitHub-App-Job fehlte `lxml` fuer den
+neu eingebundenen Word-Leser. Die Abhaengigkeit ist nun auf `6.1.1` gepinnt.
+In einer frischen Python-3.12-Umgebung zuerst reproduziert, danach alle
+115 fokussierten Tests bestanden. Neuer nativer App-Job `124500550125`
+bestaetigt die Installation und alle zwoelf neuen Ruecklaufpruefungen.
+Die native Sammlung erreicht wieder 22/22 Inhaltsfaelle und 18/22 exakte
+Geometriefaelle; Bildbesitz und Originalpixel bleiben fehlerhaft. Sechs
+Importproben erneut gesammelt. Archiv `13037742273` samt Digest, allen
+66 DOCX-/PDF-Phasen und sechs Import-Eingabehashes lokal verifiziert.
+Details und vollstaendige Hashes: `docs/qa/picture-word-31okt.md`.
+
+Vorheriger Release `41167821056` auf `33f0affe` vollstaendig erfolgreich
+mit 1490 Unit-Tests und elf Browsergruppen. Neuer Release `41188610365`
+auf `7035fc2`: Fast-Checks mit 1490 Tests bestanden, Browser noch offen.
+Neuer nativer Lauf `41188610434` bei dieser Momentaufnahme noch offen.
+Kein Produktionsfix, kein Word-Lauf, kein Merge; Desktop-Word bleibt der
+naechste fachliche Abgleich. Geschuetzte Branches unveraendert.
+
+---
+
 ## Neueste Fortsetzung: Word-Ruecklauf fuer zwei Speicherzyklen vorbereitet
 
 `docs/qa/picture-word-31okt.md` beschreibt den begrenzten Desktop-Word-Ablauf
