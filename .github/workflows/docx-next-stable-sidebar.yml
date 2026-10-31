@@ -381,7 +381,7 @@ jobs:
       - name: Install locked app and native content/image QA dependencies
         run: |
           bun install --frozen-lockfile
-          python -m pip install PyMuPDF==1.26.4 Pillow==11.3.0 numpy==2.2.6
+          python -m pip install PyMuPDF==1.26.4 Pillow==11.3.0 numpy==2.2.6 lxml==6.1.1
           npm install --no-save --no-package-lock @playwright/test@1.55.0
           bun test tests/unit/docx-next-direct-picture.test.ts
           bun test tests/unit/docx-next-sidebar-body.test.ts

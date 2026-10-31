@@ -46,9 +46,11 @@ zur angenommenen visuellen Referenz erklaert.
 
 ## Automatische Auswertung der beiden Rueckdateien
 
-Im aktualisierten Repository mit dessen Python-QA-Abhaengigkeiten:
+Im aktualisierten Repository mit den expliziten Python-QA-Abhaengigkeiten
+(in einer eigenen Python-Umgebung installieren):
 
 ```sh
+python -m pip install PyMuPDF==1.26.4 Pillow==11.3.0 numpy==2.2.6 lxml==6.1.1
 python scripts/docx-next-picture-word-return.py saved1.docx saved2.docx word-return.json
 ```
 
@@ -90,3 +92,25 @@ insgesamt **115**. Workflow-YAML ohne doppelte Schluessel und `git diff --check`
 ebenfalls bestanden. Keine neue Unit-/Browsermatrix lokal gestartet.
 Die abgeschlossenen Release-/Native-Laeufe auf `d98f5490` bleiben historische
 Evidenz. Neue CI-Ergebnisse duerfen erst nach tatsaechlichem Lauf genannt werden.
+
+## Fortsetzung: fehlende CI-Abhaengigkeit korrigiert
+
+Auf `33f0affe` ist Release-Lauf `41167821056` vollstaendig erfolgreich:
+1490 Unit-Tests und alle elf Browsergruppen. Native `41167821081` hat 12/15
+erfolgreiche Jobs. Der App-Job `124439099526` scheitert diesmal jedoch bereits
+vor seiner nativen Sammlung: Der neu ergaenzte Word-Leser importiert `lxml`,
+das lokal vorhanden war, aber in der CI-Installation fehlte. Das ist eine
+neue Setup-Regression und kein neuer Bildbefund. Die zwoelf neuen Tests
+wurden in diesem fehlgeschlagenen Job noch nicht ausgefuehrt.
+
+Die Abhaengigkeit ist im App-Job nun auf `lxml==6.1.1` gepinnt; derselbe
+Installationsbefehl steht oben. Der Fehler wurde in einer frischen Umgebung
+mit Python 3.12.14 und ausschliesslich den vorherigen drei QA-Paketen
+reproduziert. Nach Installation von `lxml==6.1.1` bestehen darin alle 115
+gezielten Python-Pruefungen. YAML-Pruefung und `git diff --check` bestehen.
+Der erneute GitHub-Lauf ist damit noch nicht als bestanden behauptet.
+
+Die beiden anderen nativen Fehler auf `33f0affe` bleiben der historische
+Paket-Pin (`picture-identity`) und die begrenzte urspruengliche
+gotoRange-Beobachtung (`stable-comparison`). Keine Referenzwerte gelockert,
+kein Produktionscode geaendert und kein Merge.
