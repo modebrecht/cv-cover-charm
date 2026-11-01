@@ -1,0 +1,47 @@
+{
+  "scope": "Actual first-attempt native outputs compared, not new conversions. Includes the initially unmeasured blank page.",
+  "cases": [
+    {
+      "id": "small-original",
+      "input_hash_equal": true,
+      "page_pixels_equal": true,
+      "pages": 3
+    },
+    {
+      "id": "small-minimum",
+      "input_hash_equal": true,
+      "page_pixels_equal": true,
+      "pages": 3
+    },
+    {
+      "id": "left-raw-original",
+      "input_hash_equal": true,
+      "page_pixels_equal": true,
+      "pages": 3
+    },
+    {
+      "id": "left-raw-no-background",
+      "input_hash_equal": true,
+      "page_pixels_equal": true,
+      "pages": 3
+    },
+    {
+      "id": "left-raw-no-photo",
+      "input_hash_equal": true,
+      "page_pixels_equal": true,
+      "pages": 3
+    },
+    {
+      "id": "left-raw-sidebar-min",
+      "input_hash_equal": true,
+      "page_pixels_equal": true,
+      "pages": 3
+    },
+    {
+      "id": "left-raw-no-header-footer",
+      "input_hash_equal": true,
+      "page_pixels_equal": true,
+      "pages": 3
+    }
+  ]
+}

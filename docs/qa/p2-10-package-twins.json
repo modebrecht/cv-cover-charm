@@ -1,0 +1,47 @@
+{
+  "scope": "Compaction twin check and historical reduced-left pixel comparison. No extra native conversions.",
+  "pairs": [
+    {
+      "side": "left",
+      "zero_gaps": false,
+      "document_xml_identical": true,
+      "page_pixels_identical": true,
+      "uncompacted_bytes": 206515,
+      "compacted_bytes": 6280,
+      "critical_content_status": "FAIL",
+      "inner_sdts_retained": 75,
+      "pixels_match_old_plain_P206_fixture": true
+    },
+    {
+      "side": "left",
+      "zero_gaps": true,
+      "document_xml_identical": true,
+      "page_pixels_identical": true,
+      "uncompacted_bytes": 206513,
+      "compacted_bytes": 6267,
+      "critical_content_status": "PASS",
+      "inner_sdts_retained": 75,
+      "pixels_match_old_plain_P206_fixture": true
+    },
+    {
+      "side": "right",
+      "zero_gaps": false,
+      "document_xml_identical": true,
+      "page_pixels_identical": true,
+      "uncompacted_bytes": 206512,
+      "compacted_bytes": 6284,
+      "critical_content_status": "FAIL",
+      "inner_sdts_retained": 75
+    },
+    {
+      "side": "right",
+      "zero_gaps": true,
+      "document_xml_identical": true,
+      "page_pixels_identical": true,
+      "uncompacted_bytes": 206510,
+      "compacted_bytes": 6271,
+      "critical_content_status": "PASS",
+      "inner_sdts_retained": 75
+    }
+  ]
+}

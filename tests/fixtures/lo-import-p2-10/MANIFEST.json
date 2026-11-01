@@ -1,0 +1,221 @@
+{
+  "schema": 1,
+  "native_run_id": 41325646722,
+  "implementation_sha": "6b9d04251648efa5708800c447f6294a900407e7",
+  "source_export_sha": "b11ec0345e999d64f0f3d8fdeba82613ca9cc9f6",
+  "scope": "Reduced synthetic diagnostic contexts retaining all 75 inner SDTs. These are not product exports.",
+  "fixtures": [
+    {
+      "filename": "left-raw-protected-context.docx",
+      "native_case": "left-raw-reduced-context-compact",
+      "side": "left",
+      "zero_gaps": false,
+      "sha256": "849409d31eac6a0f3e623eaafa1f110da306c598878d51924464d3031a6dbdef",
+      "bytes": 6280,
+      "document_xml_sha256": "84bfaf91855316a666208572be4fec14cc317ada97a6f37764f7f792b059388f",
+      "source_sha256": "7a80c88d27e467da86def48635e35e7e28ec0dda6170bcbcf666571f22208d51",
+      "protected_tables": 19,
+      "inner_sdts_retained": 75,
+      "declared_losses": [
+        "all active header/footer contents",
+        "all body drawings",
+        "sidebar story",
+        "outer SDT wrappers; critical inner SDTs retained",
+        "unreachable package parts"
+      ],
+      "removed_package_parts": [
+        "word/_rels/cv-header-first.xml.rels",
+        "word/_rels/cv-header.xml.rels",
+        "word/cv-footer-first.xml",
+        "word/cv-footer.xml",
+        "word/cv-header-first.xml",
+        "word/cv-header.xml",
+        "word/media/decoration-1.png",
+        "word/media/decoration-2.png",
+        "word/media/decoration-3.png",
+        "word/media/decoration-4.png",
+        "word/media/decoration-5.png",
+        "word/media/decoration-6.png",
+        "word/media/decoration-7.png",
+        "word/media/decoration-8.png",
+        "word/media/image-1.png"
+      ],
+      "observed": {
+        "pages": 3,
+        "critical_content_status": "FAIL",
+        "complete_entries": 15,
+        "missing": [
+          "P202Praxis17",
+          "P202Praxis18",
+          "P202Endreferenz"
+        ],
+        "split_entries": [],
+        "reference_body_present": false,
+        "main_layout_gate": "FAIL",
+        "product_status": "FAIL",
+        "pixel_sha256": [
+          "8980c1c0d0514e8dd239974dd0d95bb1b03135ab57af83c2e1dd79c6449698b2",
+          "7ac57ac1bc3539730b8f6b8b20c9c558b51d4aed86cf80279a0855772cba3b19",
+          "384258f9c41c2f5899c851ea78f0d4f3a76aae532d32f5e2c14c8a2d4fc9f7b4"
+        ]
+      }
+    },
+    {
+      "filename": "left-zero-protected-context.docx",
+      "native_case": "left-zero-reduced-context-compact",
+      "side": "left",
+      "zero_gaps": true,
+      "sha256": "7ae54d20b0fcce209c849f02b619b09b7ff0343e38f81fc8320bf5ed04cbf2d1",
+      "bytes": 6267,
+      "document_xml_sha256": "a24c88a2e4ae5c6bd6bbc5af565e158bb0d9dd7d3f2f367865ac772cf45601c9",
+      "source_sha256": "7a80c88d27e467da86def48635e35e7e28ec0dda6170bcbcf666571f22208d51",
+      "protected_tables": 19,
+      "inner_sdts_retained": 75,
+      "declared_losses": [
+        "all active header/footer contents",
+        "all body drawings",
+        "sidebar story",
+        "outer SDT wrappers; critical inner SDTs retained",
+        "unreachable package parts"
+      ],
+      "removed_package_parts": [
+        "word/_rels/cv-header-first.xml.rels",
+        "word/_rels/cv-header.xml.rels",
+        "word/cv-footer-first.xml",
+        "word/cv-footer.xml",
+        "word/cv-header-first.xml",
+        "word/cv-header.xml",
+        "word/media/decoration-1.png",
+        "word/media/decoration-2.png",
+        "word/media/decoration-3.png",
+        "word/media/decoration-4.png",
+        "word/media/decoration-5.png",
+        "word/media/decoration-6.png",
+        "word/media/decoration-7.png",
+        "word/media/decoration-8.png",
+        "word/media/image-1.png"
+      ],
+      "observed": {
+        "pages": 3,
+        "critical_content_status": "PASS",
+        "complete_entries": 18,
+        "missing": [],
+        "split_entries": [],
+        "reference_body_present": true,
+        "main_layout_gate": "PASS",
+        "product_status": "FAIL",
+        "pixel_sha256": [
+          "1ce783730975300a61d6234ca2177086709e6d8a248a497e3fd40a323d814cf3",
+          "1d467febb770b92e6a15221a68d5d9ab02671d17f2dda0713173ad8f423f1fa5",
+          "67d5005bc8e0f50c1f11ca63441723aceed4ecd9fa178283c82e58888bb93252"
+        ]
+      }
+    },
+    {
+      "filename": "right-raw-protected-context.docx",
+      "native_case": "right-raw-reduced-context-compact",
+      "side": "right",
+      "zero_gaps": false,
+      "sha256": "f3bd86cef78f05b8803c609d68b6ac03e6669510607abd0b1dc916897c864271",
+      "bytes": 6284,
+      "document_xml_sha256": "de173ded5011d94f78a6c2cdcff50799d2032ae65e8f1c1a0cbb00d061b17f3e",
+      "source_sha256": "4b4dd2aed4acf86d4ca5b33506328c19a033ca09bbecee4384e4f36360a93095",
+      "protected_tables": 19,
+      "inner_sdts_retained": 75,
+      "declared_losses": [
+        "all active header/footer contents",
+        "all body drawings",
+        "sidebar story",
+        "outer SDT wrappers; critical inner SDTs retained",
+        "unreachable package parts"
+      ],
+      "removed_package_parts": [
+        "word/_rels/cv-header-first.xml.rels",
+        "word/_rels/cv-header.xml.rels",
+        "word/cv-footer-first.xml",
+        "word/cv-footer.xml",
+        "word/cv-header-first.xml",
+        "word/cv-header.xml",
+        "word/media/decoration-1.png",
+        "word/media/decoration-2.png",
+        "word/media/decoration-3.png",
+        "word/media/decoration-4.png",
+        "word/media/decoration-5.png",
+        "word/media/decoration-6.png",
+        "word/media/decoration-7.png",
+        "word/media/decoration-8.png",
+        "word/media/image-1.png"
+      ],
+      "observed": {
+        "pages": 3,
+        "critical_content_status": "FAIL",
+        "complete_entries": 15,
+        "missing": [
+          "P202Praxis17",
+          "P202Praxis18",
+          "P202Endreferenz"
+        ],
+        "split_entries": [],
+        "reference_body_present": false,
+        "main_layout_gate": "FAIL",
+        "product_status": "FAIL",
+        "pixel_sha256": [
+          "1d316c773fab6c561736d67036acf2ba8913e2c95d93e7362a3ad123408c2ce9",
+          "74b8ae77404d1dd983992166a32b6c268bc282e4ef76e7a255354d54ec131eb7",
+          "384258f9c41c2f5899c851ea78f0d4f3a76aae532d32f5e2c14c8a2d4fc9f7b4"
+        ]
+      }
+    },
+    {
+      "filename": "right-zero-protected-context.docx",
+      "native_case": "right-zero-reduced-context-compact",
+      "side": "right",
+      "zero_gaps": true,
+      "sha256": "12fa772b33b56632f01ee1c87eba8f561b95954d6ce928dc0e0d89e6d55ff8a0",
+      "bytes": 6271,
+      "document_xml_sha256": "cacd1e28f0e66b142584ea96e4637559dc4d4f879ed4ff9e91a95590aed3357c",
+      "source_sha256": "4b4dd2aed4acf86d4ca5b33506328c19a033ca09bbecee4384e4f36360a93095",
+      "protected_tables": 19,
+      "inner_sdts_retained": 75,
+      "declared_losses": [
+        "all active header/footer contents",
+        "all body drawings",
+        "sidebar story",
+        "outer SDT wrappers; critical inner SDTs retained",
+        "unreachable package parts"
+      ],
+      "removed_package_parts": [
+        "word/_rels/cv-header-first.xml.rels",
+        "word/_rels/cv-header.xml.rels",
+        "word/cv-footer-first.xml",
+        "word/cv-footer.xml",
+        "word/cv-header-first.xml",
+        "word/cv-header.xml",
+        "word/media/decoration-1.png",
+        "word/media/decoration-2.png",
+        "word/media/decoration-3.png",
+        "word/media/decoration-4.png",
+        "word/media/decoration-5.png",
+        "word/media/decoration-6.png",
+        "word/media/decoration-7.png",
+        "word/media/decoration-8.png",
+        "word/media/image-1.png"
+      ],
+      "observed": {
+        "pages": 3,
+        "critical_content_status": "PASS",
+        "complete_entries": 18,
+        "missing": [],
+        "split_entries": [],
+        "reference_body_present": true,
+        "main_layout_gate": "PASS",
+        "product_status": "FAIL",
+        "pixel_sha256": [
+          "564f76cfd86b150d33f5e14b16769f8d3b68980486aab5e2e4a1c5145c0e2547",
+          "df983c20a81b4e9c8a2af99fe62ff4d50e616d021dd39f9c165d53ff6255e7a8",
+          "52d16d6ce2279f726dfc8a8f74ea501487a2141e373c761621cd6f0e09a83ccb"
+        ]
+      }
+    }
+  ]
+}

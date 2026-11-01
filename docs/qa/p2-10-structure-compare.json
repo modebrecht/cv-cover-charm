@@ -1,0 +1,404 @@
+{
+  "scope": "Read-only XML comparison, not native conversion or a product repair. Unwrap normalization is analytical only.",
+  "reduced_fixture_sha256": "56bfdc31f3dca210b9fff79c3822845f59f4e02801d22d88b0ceec09f1733087",
+  "sides": [
+    {
+      "side": "left",
+      "source_sha256": "7a80c88d27e467da86def48635e35e7e28ec0dda6170bcbcf666571f22208d51",
+      "entries": [
+        {
+          "marker": "P202Praxis01",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "99947f1421d938bc43ed4b47721c0aca5371d77648a378fc0c4c86d6b5f81270",
+          "unwrapped_canonical_sha256": "fcc7662a992c7ffc8f74f42578dd1f75bf62e59cdbb173f4e36af219f1b6412f",
+          "reduced_canonical_sha256": "fcc7662a992c7ffc8f74f42578dd1f75bf62e59cdbb173f4e36af219f1b6412f"
+        },
+        {
+          "marker": "P202Praxis02",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "0f37f42475dbbe3e3109a2398b18e3010c00bec52c09b0f788f2e01aae2cae2f",
+          "unwrapped_canonical_sha256": "100474a1e745c83fa31d52cff1451d98b8ef5ce6c20e791f5a17efe1a04671af",
+          "reduced_canonical_sha256": "100474a1e745c83fa31d52cff1451d98b8ef5ce6c20e791f5a17efe1a04671af"
+        },
+        {
+          "marker": "P202Praxis03",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "5dec5cec25835fc51e1e89a65fad2c2b752c63c10d26ec3ac94e393da890d71c",
+          "unwrapped_canonical_sha256": "fd15396f283ce4d661a0a19bce0321b0da734cd088b89ff005a7c06c35841b9e",
+          "reduced_canonical_sha256": "fd15396f283ce4d661a0a19bce0321b0da734cd088b89ff005a7c06c35841b9e"
+        },
+        {
+          "marker": "P202Praxis04",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "b598731bb83d2c89272da4c140c8035fb88ab5718d24cdff370cf62c9cb1741a",
+          "unwrapped_canonical_sha256": "2ac45054ef6e734a77343bd15211ce27c1207e49a71b90b187cef719671916af",
+          "reduced_canonical_sha256": "2ac45054ef6e734a77343bd15211ce27c1207e49a71b90b187cef719671916af"
+        },
+        {
+          "marker": "P202Praxis05",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "c00969754c01fa689986dd44a8c6b2cfddca08f245e03b89177f83572085f0a5",
+          "unwrapped_canonical_sha256": "d9011af9748ae60bc76d75fefb7130a4613141761067595ec3ac02cad2c79f58",
+          "reduced_canonical_sha256": "d9011af9748ae60bc76d75fefb7130a4613141761067595ec3ac02cad2c79f58"
+        },
+        {
+          "marker": "P202Praxis06",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "35018aa578d48d861a6d92480bb580fcb36cbc96053775e7bc24f4c458a84242",
+          "unwrapped_canonical_sha256": "9c8bab4859aa9dadb6f0e0020fb0f0eb38f36338db8e13c4411544abb812b53c",
+          "reduced_canonical_sha256": "9c8bab4859aa9dadb6f0e0020fb0f0eb38f36338db8e13c4411544abb812b53c"
+        },
+        {
+          "marker": "P202Praxis07",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "ff729161badd162d4d608df03be2dfb93379a2b4a570a5911edff02c9954c8b4",
+          "unwrapped_canonical_sha256": "e4349ea7ab8c774ca0d712193db8f318a7b6652d7db5e321b544fb170b68315a",
+          "reduced_canonical_sha256": "e4349ea7ab8c774ca0d712193db8f318a7b6652d7db5e321b544fb170b68315a"
+        },
+        {
+          "marker": "P202Praxis08",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "166b3b09bc6933d3c2b6af45f4060c8416236bb48ff74567ecf6750a47f70a75",
+          "unwrapped_canonical_sha256": "9cf98e56047537780c9776251278ff3a5cc5c8deb9d27bd31734b2b39cc306fb",
+          "reduced_canonical_sha256": "9cf98e56047537780c9776251278ff3a5cc5c8deb9d27bd31734b2b39cc306fb"
+        },
+        {
+          "marker": "P202Praxis09",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "f2cf30ec9fd36c51fbb71c05ee25f5ea600baa75181588301070127c4d6a344a",
+          "unwrapped_canonical_sha256": "46320608888812067993818b9982a3a1007cd55ed0b3b66087eb3db89d764f98",
+          "reduced_canonical_sha256": "46320608888812067993818b9982a3a1007cd55ed0b3b66087eb3db89d764f98"
+        },
+        {
+          "marker": "P202Praxis10",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "5e2b471688b017c6a0beda83ba574fd35d5180d159a9116ef825037169b2150c",
+          "unwrapped_canonical_sha256": "21af294692d2d18f6c9eff778b86cc5e372bbcdad74ffb95caafedd7e2e66a85",
+          "reduced_canonical_sha256": "21af294692d2d18f6c9eff778b86cc5e372bbcdad74ffb95caafedd7e2e66a85"
+        },
+        {
+          "marker": "P202Praxis11",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "50911ff74058d71410750313c0317288f33d8c4603ec032b4488bd2db5a59b60",
+          "unwrapped_canonical_sha256": "e4ef92fd7fab8eb8c66eb359d09585a5295722b28cd17baece1f3d7b71e5578d",
+          "reduced_canonical_sha256": "e4ef92fd7fab8eb8c66eb359d09585a5295722b28cd17baece1f3d7b71e5578d"
+        },
+        {
+          "marker": "P202Praxis12",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "51bd2784932cadccaae2ceed97bc89f8cfe25667701420dbdf530e62f38b7c26",
+          "unwrapped_canonical_sha256": "207ab769760e6f67547c68a67f0a82f5d6276112f53e6b0efff87fe4ce440da5",
+          "reduced_canonical_sha256": "207ab769760e6f67547c68a67f0a82f5d6276112f53e6b0efff87fe4ce440da5"
+        },
+        {
+          "marker": "P202Praxis13",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "ff2461ffc649b23e1877eae8a13ce2c6f3a73fc260d3e68397de75b22fdfa098",
+          "unwrapped_canonical_sha256": "44a81b44b8559df67c70b26e625389391c6e55851800ddba35d5d0a30ca87c90",
+          "reduced_canonical_sha256": "44a81b44b8559df67c70b26e625389391c6e55851800ddba35d5d0a30ca87c90"
+        },
+        {
+          "marker": "P202Praxis14",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "3312aa3b6e85f0108b35d086b5901201c2763820f10a31455eec3a12300add2b",
+          "unwrapped_canonical_sha256": "d3b5389b3817e64385280591ba2e9665dd5faef0c704475db69736bd532ce561",
+          "reduced_canonical_sha256": "d3b5389b3817e64385280591ba2e9665dd5faef0c704475db69736bd532ce561"
+        },
+        {
+          "marker": "P202Praxis15",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "12faec6a75e411a239f1ac2335839bc25c29a86743ce060c52e580097e765932",
+          "unwrapped_canonical_sha256": "c68c86e7048d4cdfc96e1af6491af5e5a34af122f2dbf6dbc31d6228f50d9357",
+          "reduced_canonical_sha256": "c68c86e7048d4cdfc96e1af6491af5e5a34af122f2dbf6dbc31d6228f50d9357"
+        },
+        {
+          "marker": "P202Praxis16",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "8237f190f810602c43fb26455b781ce93fd4911347838f32bfb2555399664f41",
+          "unwrapped_canonical_sha256": "4132ec88254c8f8bff91f371a56452081194231a10de680647068f62b6ce7cc2",
+          "reduced_canonical_sha256": "4132ec88254c8f8bff91f371a56452081194231a10de680647068f62b6ce7cc2"
+        },
+        {
+          "marker": "P202Praxis17",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "13a4c4e12c6afbf6f0efd6db3a83b00a4a24dc7273d22fbc16e8c4f67b955e93",
+          "unwrapped_canonical_sha256": "782b6e10dad2aa87509d44b686aa5224e61935830d6d0c54041180667d157e31",
+          "reduced_canonical_sha256": "782b6e10dad2aa87509d44b686aa5224e61935830d6d0c54041180667d157e31"
+        },
+        {
+          "marker": "P202Praxis18",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "9b4e1f3bacc3d644f5c10a41e2b37c3b222bd1c5a22f88eb6b13f5989d805570",
+          "unwrapped_canonical_sha256": "29bc4794adfeae629efc0e5f96a47a8570a61c9c87f93bcd8c92c0f172fa0ee8",
+          "reduced_canonical_sha256": "29bc4794adfeae629efc0e5f96a47a8570a61c9c87f93bcd8c92c0f172fa0ee8"
+        },
+        {
+          "marker": "P202Endreferenz",
+          "inner_sdt_count": 3,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "e30175d2d7a33f4969e5017398585fd5563bee78edf537d4361b2990238c73b8",
+          "unwrapped_canonical_sha256": "9b8b2d5a1ddd7d37e104b96664804c929e88c552607b475b41086e55a7e46e52",
+          "reduced_canonical_sha256": "9b8b2d5a1ddd7d37e104b96664804c929e88c552607b475b41086e55a7e46e52"
+        }
+      ],
+      "inner_sdts": 75,
+      "all_text_equal": true,
+      "all_unwrapped_canonical_equal": true
+    },
+    {
+      "side": "right",
+      "source_sha256": "4b4dd2aed4acf86d4ca5b33506328c19a033ca09bbecee4384e4f36360a93095",
+      "entries": [
+        {
+          "marker": "P202Praxis01",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "99947f1421d938bc43ed4b47721c0aca5371d77648a378fc0c4c86d6b5f81270",
+          "unwrapped_canonical_sha256": "fcc7662a992c7ffc8f74f42578dd1f75bf62e59cdbb173f4e36af219f1b6412f",
+          "reduced_canonical_sha256": "fcc7662a992c7ffc8f74f42578dd1f75bf62e59cdbb173f4e36af219f1b6412f"
+        },
+        {
+          "marker": "P202Praxis02",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "0f37f42475dbbe3e3109a2398b18e3010c00bec52c09b0f788f2e01aae2cae2f",
+          "unwrapped_canonical_sha256": "100474a1e745c83fa31d52cff1451d98b8ef5ce6c20e791f5a17efe1a04671af",
+          "reduced_canonical_sha256": "100474a1e745c83fa31d52cff1451d98b8ef5ce6c20e791f5a17efe1a04671af"
+        },
+        {
+          "marker": "P202Praxis03",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "5dec5cec25835fc51e1e89a65fad2c2b752c63c10d26ec3ac94e393da890d71c",
+          "unwrapped_canonical_sha256": "fd15396f283ce4d661a0a19bce0321b0da734cd088b89ff005a7c06c35841b9e",
+          "reduced_canonical_sha256": "fd15396f283ce4d661a0a19bce0321b0da734cd088b89ff005a7c06c35841b9e"
+        },
+        {
+          "marker": "P202Praxis04",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "b598731bb83d2c89272da4c140c8035fb88ab5718d24cdff370cf62c9cb1741a",
+          "unwrapped_canonical_sha256": "2ac45054ef6e734a77343bd15211ce27c1207e49a71b90b187cef719671916af",
+          "reduced_canonical_sha256": "2ac45054ef6e734a77343bd15211ce27c1207e49a71b90b187cef719671916af"
+        },
+        {
+          "marker": "P202Praxis05",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "c00969754c01fa689986dd44a8c6b2cfddca08f245e03b89177f83572085f0a5",
+          "unwrapped_canonical_sha256": "d9011af9748ae60bc76d75fefb7130a4613141761067595ec3ac02cad2c79f58",
+          "reduced_canonical_sha256": "d9011af9748ae60bc76d75fefb7130a4613141761067595ec3ac02cad2c79f58"
+        },
+        {
+          "marker": "P202Praxis06",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "35018aa578d48d861a6d92480bb580fcb36cbc96053775e7bc24f4c458a84242",
+          "unwrapped_canonical_sha256": "9c8bab4859aa9dadb6f0e0020fb0f0eb38f36338db8e13c4411544abb812b53c",
+          "reduced_canonical_sha256": "9c8bab4859aa9dadb6f0e0020fb0f0eb38f36338db8e13c4411544abb812b53c"
+        },
+        {
+          "marker": "P202Praxis07",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "ff729161badd162d4d608df03be2dfb93379a2b4a570a5911edff02c9954c8b4",
+          "unwrapped_canonical_sha256": "e4349ea7ab8c774ca0d712193db8f318a7b6652d7db5e321b544fb170b68315a",
+          "reduced_canonical_sha256": "e4349ea7ab8c774ca0d712193db8f318a7b6652d7db5e321b544fb170b68315a"
+        },
+        {
+          "marker": "P202Praxis08",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "166b3b09bc6933d3c2b6af45f4060c8416236bb48ff74567ecf6750a47f70a75",
+          "unwrapped_canonical_sha256": "9cf98e56047537780c9776251278ff3a5cc5c8deb9d27bd31734b2b39cc306fb",
+          "reduced_canonical_sha256": "9cf98e56047537780c9776251278ff3a5cc5c8deb9d27bd31734b2b39cc306fb"
+        },
+        {
+          "marker": "P202Praxis09",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "f2cf30ec9fd36c51fbb71c05ee25f5ea600baa75181588301070127c4d6a344a",
+          "unwrapped_canonical_sha256": "46320608888812067993818b9982a3a1007cd55ed0b3b66087eb3db89d764f98",
+          "reduced_canonical_sha256": "46320608888812067993818b9982a3a1007cd55ed0b3b66087eb3db89d764f98"
+        },
+        {
+          "marker": "P202Praxis10",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "5e2b471688b017c6a0beda83ba574fd35d5180d159a9116ef825037169b2150c",
+          "unwrapped_canonical_sha256": "21af294692d2d18f6c9eff778b86cc5e372bbcdad74ffb95caafedd7e2e66a85",
+          "reduced_canonical_sha256": "21af294692d2d18f6c9eff778b86cc5e372bbcdad74ffb95caafedd7e2e66a85"
+        },
+        {
+          "marker": "P202Praxis11",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "50911ff74058d71410750313c0317288f33d8c4603ec032b4488bd2db5a59b60",
+          "unwrapped_canonical_sha256": "e4ef92fd7fab8eb8c66eb359d09585a5295722b28cd17baece1f3d7b71e5578d",
+          "reduced_canonical_sha256": "e4ef92fd7fab8eb8c66eb359d09585a5295722b28cd17baece1f3d7b71e5578d"
+        },
+        {
+          "marker": "P202Praxis12",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "51bd2784932cadccaae2ceed97bc89f8cfe25667701420dbdf530e62f38b7c26",
+          "unwrapped_canonical_sha256": "207ab769760e6f67547c68a67f0a82f5d6276112f53e6b0efff87fe4ce440da5",
+          "reduced_canonical_sha256": "207ab769760e6f67547c68a67f0a82f5d6276112f53e6b0efff87fe4ce440da5"
+        },
+        {
+          "marker": "P202Praxis13",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "ff2461ffc649b23e1877eae8a13ce2c6f3a73fc260d3e68397de75b22fdfa098",
+          "unwrapped_canonical_sha256": "44a81b44b8559df67c70b26e625389391c6e55851800ddba35d5d0a30ca87c90",
+          "reduced_canonical_sha256": "44a81b44b8559df67c70b26e625389391c6e55851800ddba35d5d0a30ca87c90"
+        },
+        {
+          "marker": "P202Praxis14",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "3312aa3b6e85f0108b35d086b5901201c2763820f10a31455eec3a12300add2b",
+          "unwrapped_canonical_sha256": "d3b5389b3817e64385280591ba2e9665dd5faef0c704475db69736bd532ce561",
+          "reduced_canonical_sha256": "d3b5389b3817e64385280591ba2e9665dd5faef0c704475db69736bd532ce561"
+        },
+        {
+          "marker": "P202Praxis15",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "12faec6a75e411a239f1ac2335839bc25c29a86743ce060c52e580097e765932",
+          "unwrapped_canonical_sha256": "c68c86e7048d4cdfc96e1af6491af5e5a34af122f2dbf6dbc31d6228f50d9357",
+          "reduced_canonical_sha256": "c68c86e7048d4cdfc96e1af6491af5e5a34af122f2dbf6dbc31d6228f50d9357"
+        },
+        {
+          "marker": "P202Praxis16",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "8237f190f810602c43fb26455b781ce93fd4911347838f32bfb2555399664f41",
+          "unwrapped_canonical_sha256": "4132ec88254c8f8bff91f371a56452081194231a10de680647068f62b6ce7cc2",
+          "reduced_canonical_sha256": "4132ec88254c8f8bff91f371a56452081194231a10de680647068f62b6ce7cc2"
+        },
+        {
+          "marker": "P202Praxis17",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "13a4c4e12c6afbf6f0efd6db3a83b00a4a24dc7273d22fbc16e8c4f67b955e93",
+          "unwrapped_canonical_sha256": "782b6e10dad2aa87509d44b686aa5224e61935830d6d0c54041180667d157e31",
+          "reduced_canonical_sha256": "782b6e10dad2aa87509d44b686aa5224e61935830d6d0c54041180667d157e31"
+        },
+        {
+          "marker": "P202Praxis18",
+          "inner_sdt_count": 4,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "9b4e1f3bacc3d644f5c10a41e2b37c3b222bd1c5a22f88eb6b13f5989d805570",
+          "unwrapped_canonical_sha256": "29bc4794adfeae629efc0e5f96a47a8570a61c9c87f93bcd8c92c0f172fa0ee8",
+          "reduced_canonical_sha256": "29bc4794adfeae629efc0e5f96a47a8570a61c9c87f93bcd8c92c0f172fa0ee8"
+        },
+        {
+          "marker": "P202Endreferenz",
+          "inner_sdt_count": 3,
+          "text_equal": true,
+          "raw_canonical_equal": false,
+          "unwrapped_canonical_equal": true,
+          "full_canonical_sha256": "e30175d2d7a33f4969e5017398585fd5563bee78edf537d4361b2990238c73b8",
+          "unwrapped_canonical_sha256": "9b8b2d5a1ddd7d37e104b96664804c929e88c552607b475b41086e55a7e46e52",
+          "reduced_canonical_sha256": "9b8b2d5a1ddd7d37e104b96664804c929e88c552607b475b41086e55a7e46e52"
+        }
+      ],
+      "inner_sdts": 75,
+      "all_text_equal": true,
+      "all_unwrapped_canonical_equal": true
+    }
+  ]
+}
