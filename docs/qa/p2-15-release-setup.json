@@ -1,0 +1,16 @@
+{
+  "requested_version": "26.8.2",
+  "archive_url": "https://download.documentfoundation.org/libreoffice/stable/26.8.2/deb/x86_64/LibreOffice_26.8.2_Linux_x86-64_deb.tar.gz",
+  "metadata_url": "https://download.documentfoundation.org/libreoffice/stable/26.8.2/deb/x86_64/LibreOffice_26.8.2_Linux_x86-64_deb.tar.gz.metalink",
+  "installation_attempts": 1,
+  "status": "PASS",
+  "official_sha256": "8290c8f46cb33d6df8f681cb796e0697461ea070f86ec55b63c94d7eb9d9a476",
+  "archive_bytes": 221006208,
+  "archive_sha256": "8290c8f46cb33d6df8f681cb796e0697461ea070f86ec55b63c94d7eb9d9a476",
+  "converter_path": "/tmp/ccc-lo-release-26.8.2/extracted/opt/libreoffice26.8/program/soffice",
+  "converter_version": "LibreOffice 26.8.2.2 9dea406ab7695df6325b11b0e19fdca8db4b7276",
+  "deb_count": 42,
+  "extracted_bytes": 731527270,
+  "metadata_sha256": "8ed2bf239d88c8def15cff2a26a00536dd8cef7f8d9b5c432bbdeae6728f5788",
+  "setup_seconds": 14.295
+}

@@ -1,0 +1,287 @@
+{
+  "native_results_sha256": "e8c326e01c7d9772d24ffb4516101725ec40bb4bc97176bb6c292093e59b879e",
+  "rows": [
+    {
+      "source": "left",
+      "source_sha256": "7a80c88d27e467da86def48635e35e7e28ec0dda6170bcbcf666571f22208d51",
+      "all_content_facts_equal": true,
+      "equal_page_pixel_pairs": 0,
+      "page_pairs": 3,
+      "common_titles": [
+        {
+          "marker": "P202Praxis01",
+          "page": 1,
+          "delta_mm": [
+            0.0,
+            0.424
+          ]
+        },
+        {
+          "marker": "P202Praxis02",
+          "page": 1,
+          "delta_mm": [
+            0.0,
+            0.582
+          ]
+        },
+        {
+          "marker": "P202Praxis03",
+          "page": 1,
+          "delta_mm": [
+            0.0,
+            0.741
+          ]
+        },
+        {
+          "marker": "P202Praxis04",
+          "page": 1,
+          "delta_mm": [
+            0.0,
+            0.9
+          ]
+        },
+        {
+          "marker": "P202Praxis05",
+          "page": 1,
+          "delta_mm": [
+            0.0,
+            1.059
+          ]
+        },
+        {
+          "marker": "P202Praxis06",
+          "page": 2,
+          "delta_mm": [
+            0.0,
+            0.036
+          ]
+        },
+        {
+          "marker": "P202Praxis07",
+          "page": 2,
+          "delta_mm": [
+            0.0,
+            0.194
+          ]
+        },
+        {
+          "marker": "P202Praxis08",
+          "page": 2,
+          "delta_mm": [
+            0.0,
+            0.353
+          ]
+        },
+        {
+          "marker": "P202Praxis09",
+          "page": 2,
+          "delta_mm": [
+            0.0,
+            0.512
+          ]
+        },
+        {
+          "marker": "P202Praxis10",
+          "page": 2,
+          "delta_mm": [
+            0.0,
+            0.671
+          ]
+        },
+        {
+          "marker": "P202Praxis11",
+          "page": 2,
+          "delta_mm": [
+            0.0,
+            0.829
+          ]
+        },
+        {
+          "marker": "P202Praxis12",
+          "page": 2,
+          "delta_mm": [
+            0.0,
+            0.988
+          ]
+        },
+        {
+          "marker": "P202Praxis13",
+          "page": 2,
+          "delta_mm": [
+            0.0,
+            1.147
+          ]
+        },
+        {
+          "marker": "P202Praxis14",
+          "page": 2,
+          "delta_mm": [
+            0.0,
+            1.306
+          ]
+        },
+        {
+          "marker": "P202Praxis15",
+          "page": 2,
+          "delta_mm": [
+            0.0,
+            1.465
+          ]
+        }
+      ],
+      "max_common_title_delta_mm": 1.465,
+      "photo_gate_equal": true
+    },
+    {
+      "source": "right",
+      "source_sha256": "4b4dd2aed4acf86d4ca5b33506328c19a033ca09bbecee4384e4f36360a93095",
+      "all_content_facts_equal": true,
+      "equal_page_pixel_pairs": 0,
+      "page_pairs": 3,
+      "common_titles": [
+        {
+          "marker": "P202Praxis01",
+          "page": 1,
+          "delta_mm": [
+            0.0,
+            0.424
+          ]
+        },
+        {
+          "marker": "P202Praxis02",
+          "page": 1,
+          "delta_mm": [
+            0.0,
+            0.582
+          ]
+        },
+        {
+          "marker": "P202Praxis03",
+          "page": 1,
+          "delta_mm": [
+            0.0,
+            0.741
+          ]
+        },
+        {
+          "marker": "P202Praxis04",
+          "page": 1,
+          "delta_mm": [
+            0.0,
+            0.9
+          ]
+        },
+        {
+          "marker": "P202Praxis05",
+          "page": 1,
+          "delta_mm": [
+            0.0,
+            1.059
+          ]
+        },
+        {
+          "marker": "P202Praxis06",
+          "page": 2,
+          "delta_mm": [
+            0.0,
+            0.036
+          ]
+        },
+        {
+          "marker": "P202Praxis07",
+          "page": 2,
+          "delta_mm": [
+            0.0,
+            0.194
+          ]
+        },
+        {
+          "marker": "P202Praxis08",
+          "page": 2,
+          "delta_mm": [
+            0.0,
+            0.353
+          ]
+        },
+        {
+          "marker": "P202Praxis09",
+          "page": 2,
+          "delta_mm": [
+            0.0,
+            0.512
+          ]
+        },
+        {
+          "marker": "P202Praxis10",
+          "page": 2,
+          "delta_mm": [
+            0.0,
+            0.671
+          ]
+        },
+        {
+          "marker": "P202Praxis11",
+          "page": 2,
+          "delta_mm": [
+            0.0,
+            0.829
+          ]
+        },
+        {
+          "marker": "P202Praxis12",
+          "page": 2,
+          "delta_mm": [
+            0.0,
+            0.988
+          ]
+        },
+        {
+          "marker": "P202Praxis13",
+          "page": 2,
+          "delta_mm": [
+            0.0,
+            1.147
+          ]
+        },
+        {
+          "marker": "P202Praxis14",
+          "page": 2,
+          "delta_mm": [
+            0.0,
+            1.306
+          ]
+        },
+        {
+          "marker": "P202Praxis15",
+          "page": 2,
+          "delta_mm": [
+            0.0,
+            1.465
+          ]
+        }
+      ],
+      "max_common_title_delta_mm": 1.465,
+      "photo_gate_equal": true
+    },
+    {
+      "source": "small-original",
+      "source_sha256": "56bfdc31f3dca210b9fff79c3822845f59f4e02801d22d88b0ceec09f1733087",
+      "all_content_facts_equal": true,
+      "equal_page_pixel_pairs": 1,
+      "page_pairs": 3,
+      "common_titles": [],
+      "max_common_title_delta_mm": null,
+      "photo_gate_equal": true
+    },
+    {
+      "source": "small-minimum",
+      "source_sha256": "af134f44d0f361431a2284feb415c226f6f111cad2de0dad052692550e945d03",
+      "all_content_facts_equal": true,
+      "equal_page_pixel_pairs": 0,
+      "page_pairs": 3,
+      "common_titles": [],
+      "max_common_title_delta_mm": null,
+      "photo_gate_equal": true
+    }
+  ]
+}

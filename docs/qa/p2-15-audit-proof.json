@@ -1,0 +1,12 @@
+{
+  "native_results_sha256": "e8c326e01c7d9772d24ffb4516101725ec40bb4bc97176bb6c292093e59b879e",
+  "tested_implementation_sha": "c099e58f531371d461a279962ca0e53554f78ff5",
+  "execution_status": "PASS",
+  "all_8_case_rows_equal": true,
+  "audit_native_conversions": 0,
+  "native_resource_rows_preserved": true,
+  "vendor_metadata_and_archive_digest_match": true,
+  "official_installation_attempts": 1,
+  "baseline_p213_page_signatures_reproduced": 12,
+  "native_pdf_pages": 24
+}
