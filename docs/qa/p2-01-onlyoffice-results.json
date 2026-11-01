@@ -1,0 +1,1150 @@
+{
+  "source": {
+    "sha": "404ee44d2f0293b566903e3061bc0cef720dccc7",
+    "exporter": "production DOCX Next",
+    "synthetic": true,
+    "photo": "generated asymmetric RGB calibration card",
+    "files": [
+      {
+        "part": "cover",
+        "format": "DOCX",
+        "filename": "cover.docx",
+        "bytes": 77012,
+        "sha256": "fd55bc3b718ba0f20d9dce01d55f6f245388f643a2eeb31780f85bf93cf284f6",
+        "template": "modern",
+        "layout": "sidebar"
+      },
+      {
+        "part": "cover",
+        "format": "PDF",
+        "filename": "cover.pdf",
+        "bytes": 246851,
+        "sha256": "a594f14f99bd21bf8a620387ffd512cdff4f3ae11d5bebef40331e70914ba24f",
+        "template": "modern",
+        "layout": "sidebar"
+      },
+      {
+        "part": "letter",
+        "format": "DOCX",
+        "filename": "letter.docx",
+        "bytes": 123277,
+        "sha256": "7cc40aa4508b6906c6f63fff44b85e275ad00dbe5d911abfe816cdd45fadc702",
+        "template": "modern",
+        "layout": "sidebar"
+      },
+      {
+        "part": "letter",
+        "format": "PDF",
+        "filename": "letter.pdf",
+        "bytes": 501021,
+        "sha256": "8167977f7247276bdfcc429c8314fec30152dd2d7f27a86b72f06882a1ae7370",
+        "template": "modern",
+        "layout": "sidebar"
+      },
+      {
+        "part": "cv",
+        "format": "DOCX",
+        "filename": "cv.docx",
+        "bytes": 169538,
+        "sha256": "d2c4c655adad2f95b47701cf35ffab8637100947d94651632e3f6c1d87fee3e5",
+        "template": "modern",
+        "layout": "sidebar"
+      },
+      {
+        "part": "cv",
+        "format": "PDF",
+        "filename": "cv.pdf",
+        "bytes": 626464,
+        "sha256": "4274de0e335bad62fb6b5414b02b9bed12afda2ce09db8224392868def04f1a3",
+        "template": "modern",
+        "layout": "sidebar"
+      }
+    ]
+  },
+  "repeats": 2,
+  "documents": [
+    {
+      "part": "cover",
+      "converters": {
+        "libreoffice": {
+          "status": "PASS",
+          "raster_repeatable": true,
+          "runs": [
+            {
+              "pdf_metadata": {
+                "format": "PDF 1.7",
+                "title": "Titelblatt",
+                "author": "Lea Müller",
+                "subject": "",
+                "keywords": "",
+                "creator": "Writer",
+                "producer": "LibreOffice 24.2",
+                "creationDate": "D:20261101010557Z'",
+                "modDate": "",
+                "trapped": "",
+                "encryption": null
+              },
+              "pages": 1,
+              "page_geometry_pt": [[595.3, 841.89]],
+              "visible_image_instances": [4],
+              "photo_colors": [
+                {
+                  "red": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  },
+                  "green": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  },
+                  "blue": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  },
+                  "yellow": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  }
+                }
+              ],
+              "raster_sha256": ["3f7d025f43b535622f2cadccf610b124e5f70b1936ec22472059589b4a80ba21"],
+              "recall": 1.0,
+              "missing_tokens": {},
+              "resources": {
+                "returncode": 0,
+                "seconds": 1.212,
+                "max_rss_kib": 219008,
+                "cpu_seconds": 1.142,
+                "elapsed_seconds": 1.2,
+                "exit_code": 0
+              },
+              "photo_visible": null,
+              "status": "PASS",
+              "watermark_check": {
+                "detected": false,
+                "evidence": [
+                  {
+                    "page": 1,
+                    "glyph_path_counts": [],
+                    "detected": false
+                  }
+                ],
+                "scope": "measured SDK 10.0.0.170 outlined license mark; other builds need visual review"
+              }
+            },
+            {
+              "pdf_metadata": {
+                "format": "PDF 1.7",
+                "title": "Titelblatt",
+                "author": "Lea Müller",
+                "subject": "",
+                "keywords": "",
+                "creator": "Writer",
+                "producer": "LibreOffice 24.2",
+                "creationDate": "D:20261101010558Z'",
+                "modDate": "",
+                "trapped": "",
+                "encryption": null
+              },
+              "pages": 1,
+              "page_geometry_pt": [[595.3, 841.89]],
+              "visible_image_instances": [4],
+              "photo_colors": [
+                {
+                  "red": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  },
+                  "green": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  },
+                  "blue": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  },
+                  "yellow": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  }
+                }
+              ],
+              "raster_sha256": ["3f7d025f43b535622f2cadccf610b124e5f70b1936ec22472059589b4a80ba21"],
+              "recall": 1.0,
+              "missing_tokens": {},
+              "resources": {
+                "returncode": 0,
+                "seconds": 1.153,
+                "max_rss_kib": 219072,
+                "cpu_seconds": 1.128,
+                "elapsed_seconds": 1.13,
+                "exit_code": 0
+              },
+              "photo_visible": null,
+              "status": "PASS",
+              "watermark_check": {
+                "detected": false,
+                "evidence": [
+                  {
+                    "page": 1,
+                    "glyph_path_counts": [],
+                    "detected": false
+                  }
+                ],
+                "scope": "measured SDK 10.0.0.170 outlined license mark; other builds need visual review"
+              }
+            }
+          ]
+        },
+        "onlyoffice": {
+          "status": "FAIL",
+          "raster_repeatable": true,
+          "runs": [
+            {
+              "pdf_metadata": {
+                "format": "PDF 2.0",
+                "title": "Titelblatt",
+                "author": "Lea Müller",
+                "subject": "",
+                "keywords": "",
+                "creator": "ONLYOFFICE/10.0.0.170",
+                "producer": "ONLYOFFICE/10.0.0.170",
+                "creationDate": "D:20261101010559+00'00'",
+                "modDate": "D:20261101010559+00'00'",
+                "trapped": "",
+                "encryption": null
+              },
+              "pages": 1,
+              "page_geometry_pt": [[595.3, 841.9]],
+              "visible_image_instances": [4],
+              "photo_colors": [
+                {
+                  "red": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  },
+                  "green": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  },
+                  "blue": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  },
+                  "yellow": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  }
+                }
+              ],
+              "raster_sha256": ["fc6fc40493b32f525a21fc28593134da0b885381407690377184cd0407a74dfc"],
+              "recall": 1.0,
+              "missing_tokens": {},
+              "resources": {
+                "returncode": 0,
+                "seconds": 0.953,
+                "max_rss_kib": 141836,
+                "cpu_seconds": 1.173,
+                "elapsed_seconds": 0.92,
+                "exit_code": 0
+              },
+              "photo_visible": null,
+              "status": "FAIL",
+              "watermark_check": {
+                "detected": true,
+                "evidence": [
+                  {
+                    "page": 1,
+                    "glyph_path_counts": [
+                      282, 198, 129, 80, 110, 176, 31, 166, 80, 129, 80, 133, 46, 80, 129, 31, 176,
+                      15, 198
+                    ],
+                    "detected": true
+                  }
+                ],
+                "scope": "measured SDK 10.0.0.170 outlined license mark; other builds need visual review"
+              },
+              "structural_status": "PASS",
+              "failure_reason": "Visible Unregistered Version license watermark"
+            },
+            {
+              "pdf_metadata": {
+                "format": "PDF 2.0",
+                "title": "Titelblatt",
+                "author": "Lea Müller",
+                "subject": "",
+                "keywords": "",
+                "creator": "ONLYOFFICE/10.0.0.170",
+                "producer": "ONLYOFFICE/10.0.0.170",
+                "creationDate": "D:20261101010600+00'00'",
+                "modDate": "D:20261101010600+00'00'",
+                "trapped": "",
+                "encryption": null
+              },
+              "pages": 1,
+              "page_geometry_pt": [[595.3, 841.9]],
+              "visible_image_instances": [4],
+              "photo_colors": [
+                {
+                  "red": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  },
+                  "green": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  },
+                  "blue": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  },
+                  "yellow": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  }
+                }
+              ],
+              "raster_sha256": ["fc6fc40493b32f525a21fc28593134da0b885381407690377184cd0407a74dfc"],
+              "recall": 1.0,
+              "missing_tokens": {},
+              "resources": {
+                "returncode": 0,
+                "seconds": 0.752,
+                "max_rss_kib": 140728,
+                "cpu_seconds": 0.95,
+                "elapsed_seconds": 0.7,
+                "exit_code": 0
+              },
+              "photo_visible": null,
+              "status": "FAIL",
+              "watermark_check": {
+                "detected": true,
+                "evidence": [
+                  {
+                    "page": 1,
+                    "glyph_path_counts": [
+                      282, 198, 129, 80, 110, 176, 31, 166, 80, 129, 80, 133, 46, 80, 129, 31, 176,
+                      15, 198
+                    ],
+                    "detected": true
+                  }
+                ],
+                "scope": "measured SDK 10.0.0.170 outlined license mark; other builds need visual review"
+              },
+              "structural_status": "PASS",
+              "failure_reason": "Visible Unregistered Version license watermark"
+            }
+          ]
+        }
+      },
+      "comparisons": {
+        "app_libreoffice": [
+          {
+            "rgb_ssim": 0.986692,
+            "layout_ssim": 0.986466
+          }
+        ],
+        "app_onlyoffice": [
+          {
+            "rgb_ssim": 0.915279,
+            "layout_ssim": 0.916208
+          }
+        ],
+        "libreoffice_onlyoffice": [
+          {
+            "rgb_ssim": 0.923738,
+            "layout_ssim": 0.925787
+          }
+        ]
+      },
+      "app_pdf": {
+        "pdf_metadata": {
+          "format": "PDF 1.3",
+          "title": "Titelblatt – Lea Müller – Informatiker/in EFZ",
+          "author": "Lea Müller",
+          "subject": "Bewerbung um eine Lehrstelle als Informatiker/in EFZ",
+          "keywords": "Bewerbung, Lehrstelle, Informatiker/in EFZ, Beispiel AG, Hubersdorf",
+          "creator": "Lehrstellen-Titelblatt",
+          "producer": "jsPDF 4.2.1",
+          "creationDate": "D:20261101010542-00'00'",
+          "modDate": "",
+          "trapped": "",
+          "encryption": null
+        },
+        "pages": 1,
+        "page_geometry_pt": [[595.28, 841.89]],
+        "visible_image_instances": [1],
+        "photo_colors": [
+          {
+            "red": {
+              "pixels": 0,
+              "bbox_px": null
+            },
+            "green": {
+              "pixels": 0,
+              "bbox_px": null
+            },
+            "blue": {
+              "pixels": 0,
+              "bbox_px": null
+            },
+            "yellow": {
+              "pixels": 0,
+              "bbox_px": null
+            }
+          }
+        ],
+        "raster_sha256": ["c8dd85e977646b67979d69734e4374e0fea8ac3853f057d0ca66e6f719294052"],
+        "recall": 0.0,
+        "missing_tokens": {
+          "bewerbung": 2,
+          "hubersdorf": 2,
+          "15": 1,
+          "11": 1,
+          "2026": 1,
+          "lm": 1,
+          "um": 1,
+          "eine": 1,
+          "lehrstelle": 1,
+          "als": 1,
+          "informatiker": 1,
+          "in": 1,
+          "efz": 1,
+          "lea": 2,
+          "müller": 1,
+          "lehrbeginn": 1,
+          "august": 1,
+          "2028": 1,
+          "kontakt": 1,
+          "dorfstrasse": 1,
+          "12": 1,
+          "4535": 1,
+          "079": 1,
+          "123": 1,
+          "45": 1,
+          "67": 1,
+          "mueller@example": 1,
+          "ch": 1,
+          "14": 1,
+          "03": 1,
+          "2010": 1,
+          "beilagen": 1,
+          "motivationsschreiben": 1,
+          "lebenslauf": 1,
+          "zeugnis": 1
+        },
+        "status": "VISUAL_REVIEW"
+      }
+    },
+    {
+      "part": "letter",
+      "converters": {
+        "libreoffice": {
+          "status": "PASS",
+          "raster_repeatable": true,
+          "runs": [
+            {
+              "pdf_metadata": {
+                "format": "PDF 1.7",
+                "title": "Motivationsschreiben",
+                "author": "Lea Müller",
+                "subject": "Bewerbung um eine Lehrstelle als Informatiker/in EFZ",
+                "keywords": "",
+                "creator": "Writer",
+                "producer": "LibreOffice 24.2",
+                "creationDate": "D:20261101010602Z'",
+                "modDate": "",
+                "trapped": "",
+                "encryption": null
+              },
+              "pages": 1,
+              "page_geometry_pt": [[595.3, 841.89]],
+              "visible_image_instances": [1],
+              "photo_colors": [
+                {
+                  "red": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  },
+                  "green": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  },
+                  "blue": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  },
+                  "yellow": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  }
+                }
+              ],
+              "raster_sha256": ["53e2d2a2ce3b6b7fed81fb877dabd128658536b69d944f79cf205eeac41f37b0"],
+              "recall": 1.0,
+              "missing_tokens": {},
+              "resources": {
+                "returncode": 0,
+                "seconds": 1.354,
+                "max_rss_kib": 236764,
+                "cpu_seconds": 1.319,
+                "elapsed_seconds": 1.32,
+                "exit_code": 0
+              },
+              "photo_visible": null,
+              "status": "PASS",
+              "watermark_check": {
+                "detected": false,
+                "evidence": [
+                  {
+                    "page": 1,
+                    "glyph_path_counts": [],
+                    "detected": false
+                  }
+                ],
+                "scope": "measured SDK 10.0.0.170 outlined license mark; other builds need visual review"
+              }
+            },
+            {
+              "pdf_metadata": {
+                "format": "PDF 1.7",
+                "title": "Motivationsschreiben",
+                "author": "Lea Müller",
+                "subject": "Bewerbung um eine Lehrstelle als Informatiker/in EFZ",
+                "keywords": "",
+                "creator": "Writer",
+                "producer": "LibreOffice 24.2",
+                "creationDate": "D:20261101010603Z'",
+                "modDate": "",
+                "trapped": "",
+                "encryption": null
+              },
+              "pages": 1,
+              "page_geometry_pt": [[595.3, 841.89]],
+              "visible_image_instances": [1],
+              "photo_colors": [
+                {
+                  "red": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  },
+                  "green": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  },
+                  "blue": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  },
+                  "yellow": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  }
+                }
+              ],
+              "raster_sha256": ["53e2d2a2ce3b6b7fed81fb877dabd128658536b69d944f79cf205eeac41f37b0"],
+              "recall": 1.0,
+              "missing_tokens": {},
+              "resources": {
+                "returncode": 0,
+                "seconds": 1.354,
+                "max_rss_kib": 236960,
+                "cpu_seconds": 1.3,
+                "elapsed_seconds": 1.3,
+                "exit_code": 0
+              },
+              "photo_visible": null,
+              "status": "PASS",
+              "watermark_check": {
+                "detected": false,
+                "evidence": [
+                  {
+                    "page": 1,
+                    "glyph_path_counts": [],
+                    "detected": false
+                  }
+                ],
+                "scope": "measured SDK 10.0.0.170 outlined license mark; other builds need visual review"
+              }
+            }
+          ]
+        },
+        "onlyoffice": {
+          "status": "FAIL",
+          "raster_repeatable": true,
+          "runs": [
+            {
+              "pdf_metadata": {
+                "format": "PDF 2.0",
+                "title": "Motivationsschreiben",
+                "author": "Lea Müller",
+                "subject": "Bewerbung um eine Lehrstelle als Informatiker/in EFZ",
+                "keywords": "",
+                "creator": "ONLYOFFICE/10.0.0.170",
+                "producer": "ONLYOFFICE/10.0.0.170",
+                "creationDate": "D:20261101010605+00'00'",
+                "modDate": "D:20261101010605+00'00'",
+                "trapped": "",
+                "encryption": null
+              },
+              "pages": 1,
+              "page_geometry_pt": [[595.3, 841.9]],
+              "visible_image_instances": [1],
+              "photo_colors": [
+                {
+                  "red": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  },
+                  "green": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  },
+                  "blue": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  },
+                  "yellow": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  }
+                }
+              ],
+              "raster_sha256": ["d9253d15bb82f689bf4cefc5d9e47a712c18471604633d078a7c404239f9795a"],
+              "recall": 1.0,
+              "missing_tokens": {},
+              "resources": {
+                "returncode": 0,
+                "seconds": 0.903,
+                "max_rss_kib": 141628,
+                "cpu_seconds": 1.13,
+                "elapsed_seconds": 0.86,
+                "exit_code": 0
+              },
+              "photo_visible": null,
+              "status": "FAIL",
+              "watermark_check": {
+                "detected": true,
+                "evidence": [
+                  {
+                    "page": 1,
+                    "glyph_path_counts": [
+                      282, 198, 129, 80, 110, 176, 31, 166, 80, 129, 80, 133, 46, 80, 129, 31, 176,
+                      15, 198
+                    ],
+                    "detected": true
+                  }
+                ],
+                "scope": "measured SDK 10.0.0.170 outlined license mark; other builds need visual review"
+              },
+              "structural_status": "PASS",
+              "failure_reason": "Visible Unregistered Version license watermark"
+            },
+            {
+              "pdf_metadata": {
+                "format": "PDF 2.0",
+                "title": "Motivationsschreiben",
+                "author": "Lea Müller",
+                "subject": "Bewerbung um eine Lehrstelle als Informatiker/in EFZ",
+                "keywords": "",
+                "creator": "ONLYOFFICE/10.0.0.170",
+                "producer": "ONLYOFFICE/10.0.0.170",
+                "creationDate": "D:20261101010606+00'00'",
+                "modDate": "D:20261101010606+00'00'",
+                "trapped": "",
+                "encryption": null
+              },
+              "pages": 1,
+              "page_geometry_pt": [[595.3, 841.9]],
+              "visible_image_instances": [1],
+              "photo_colors": [
+                {
+                  "red": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  },
+                  "green": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  },
+                  "blue": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  },
+                  "yellow": {
+                    "pixels": 0,
+                    "bbox_px": null
+                  }
+                }
+              ],
+              "raster_sha256": ["d9253d15bb82f689bf4cefc5d9e47a712c18471604633d078a7c404239f9795a"],
+              "recall": 1.0,
+              "missing_tokens": {},
+              "resources": {
+                "returncode": 0,
+                "seconds": 0.903,
+                "max_rss_kib": 141656,
+                "cpu_seconds": 1.121,
+                "elapsed_seconds": 0.86,
+                "exit_code": 0
+              },
+              "photo_visible": null,
+              "status": "FAIL",
+              "watermark_check": {
+                "detected": true,
+                "evidence": [
+                  {
+                    "page": 1,
+                    "glyph_path_counts": [
+                      282, 198, 129, 80, 110, 176, 31, 166, 80, 129, 80, 133, 46, 80, 129, 31, 176,
+                      15, 198
+                    ],
+                    "detected": true
+                  }
+                ],
+                "scope": "measured SDK 10.0.0.170 outlined license mark; other builds need visual review"
+              },
+              "structural_status": "PASS",
+              "failure_reason": "Visible Unregistered Version license watermark"
+            }
+          ]
+        }
+      },
+      "comparisons": {
+        "app_libreoffice": [
+          {
+            "rgb_ssim": 0.954025,
+            "layout_ssim": 0.953945
+          }
+        ],
+        "app_onlyoffice": [
+          {
+            "rgb_ssim": 0.900801,
+            "layout_ssim": 0.900739
+          }
+        ],
+        "libreoffice_onlyoffice": [
+          {
+            "rgb_ssim": 0.934063,
+            "layout_ssim": 0.933983
+          }
+        ]
+      },
+      "app_pdf": {
+        "pdf_metadata": {
+          "format": "PDF 1.3",
+          "title": "Bewerbung um eine Lehrstelle als Informatiker/in EFZ",
+          "author": "Lea Müller",
+          "subject": "Motivationsschreiben",
+          "keywords": "Bewerbung, Motivationsschreiben, Lehrstelle",
+          "creator": "Lea Müller",
+          "producer": "jsPDF 4.2.1",
+          "creationDate": "D:20261101010549-00'00'",
+          "modDate": "",
+          "trapped": "",
+          "encryption": null
+        },
+        "pages": 1,
+        "page_geometry_pt": [[595.28, 841.89]],
+        "visible_image_instances": [1],
+        "photo_colors": [
+          {
+            "red": {
+              "pixels": 0,
+              "bbox_px": null
+            },
+            "green": {
+              "pixels": 0,
+              "bbox_px": null
+            },
+            "blue": {
+              "pixels": 0,
+              "bbox_px": null
+            },
+            "yellow": {
+              "pixels": 0,
+              "bbox_px": null
+            }
+          }
+        ],
+        "raster_sha256": ["9cc70844b959caee8f139cbd0fa38fc558be0032b24d028c780b4f4a23b78b4e"],
+        "recall": 1.0,
+        "missing_tokens": {},
+        "status": "PASS"
+      }
+    },
+    {
+      "part": "cv",
+      "converters": {
+        "libreoffice": {
+          "status": "PASS",
+          "raster_repeatable": true,
+          "runs": [
+            {
+              "pdf_metadata": {
+                "format": "PDF 1.7",
+                "title": "Lebenslauf",
+                "author": "Lea Müller",
+                "subject": "",
+                "keywords": "",
+                "creator": "Writer",
+                "producer": "LibreOffice 24.2",
+                "creationDate": "D:20261101010608Z'",
+                "modDate": "",
+                "trapped": "",
+                "encryption": null
+              },
+              "pages": 1,
+              "page_geometry_pt": [[595.3, 841.89]],
+              "visible_image_instances": [9],
+              "photo_colors": [
+                {
+                  "red": {
+                    "pixels": 1243,
+                    "bbox_px": [31, 197, 64, 234]
+                  },
+                  "green": {
+                    "pixels": 8858,
+                    "bbox_px": [31, 197, 135, 327]
+                  },
+                  "blue": {
+                    "pixels": 1285,
+                    "bbox_px": [102, 290, 135, 327]
+                  },
+                  "yellow": {
+                    "pixels": 1733,
+                    "bbox_px": [66, 237, 100, 287]
+                  }
+                }
+              ],
+              "raster_sha256": ["824a41f71de6fd2e385c2082fe0e857ce70c1fc02b71241e782c37e4e4663098"],
+              "recall": 0.991935,
+              "missing_tokens": {
+                "lebenslauf": 1
+              },
+              "resources": {
+                "returncode": 0,
+                "seconds": 1.404,
+                "max_rss_kib": 242756,
+                "cpu_seconds": 1.38,
+                "elapsed_seconds": 1.38,
+                "exit_code": 0
+              },
+              "photo_visible": true,
+              "status": "PASS",
+              "watermark_check": {
+                "detected": false,
+                "evidence": [
+                  {
+                    "page": 1,
+                    "glyph_path_counts": [],
+                    "detected": false
+                  }
+                ],
+                "scope": "measured SDK 10.0.0.170 outlined license mark; other builds need visual review"
+              }
+            },
+            {
+              "pdf_metadata": {
+                "format": "PDF 1.7",
+                "title": "Lebenslauf",
+                "author": "Lea Müller",
+                "subject": "",
+                "keywords": "",
+                "creator": "Writer",
+                "producer": "LibreOffice 24.2",
+                "creationDate": "D:20261101010609Z'",
+                "modDate": "",
+                "trapped": "",
+                "encryption": null
+              },
+              "pages": 1,
+              "page_geometry_pt": [[595.3, 841.89]],
+              "visible_image_instances": [9],
+              "photo_colors": [
+                {
+                  "red": {
+                    "pixels": 1243,
+                    "bbox_px": [31, 197, 64, 234]
+                  },
+                  "green": {
+                    "pixels": 8858,
+                    "bbox_px": [31, 197, 135, 327]
+                  },
+                  "blue": {
+                    "pixels": 1285,
+                    "bbox_px": [102, 290, 135, 327]
+                  },
+                  "yellow": {
+                    "pixels": 1733,
+                    "bbox_px": [66, 237, 100, 287]
+                  }
+                }
+              ],
+              "raster_sha256": ["824a41f71de6fd2e385c2082fe0e857ce70c1fc02b71241e782c37e4e4663098"],
+              "recall": 0.991935,
+              "missing_tokens": {
+                "lebenslauf": 1
+              },
+              "resources": {
+                "returncode": 0,
+                "seconds": 1.454,
+                "max_rss_kib": 242736,
+                "cpu_seconds": 1.405,
+                "elapsed_seconds": 1.41,
+                "exit_code": 0
+              },
+              "photo_visible": true,
+              "status": "PASS",
+              "watermark_check": {
+                "detected": false,
+                "evidence": [
+                  {
+                    "page": 1,
+                    "glyph_path_counts": [],
+                    "detected": false
+                  }
+                ],
+                "scope": "measured SDK 10.0.0.170 outlined license mark; other builds need visual review"
+              }
+            }
+          ]
+        },
+        "onlyoffice": {
+          "status": "FAIL",
+          "raster_repeatable": true,
+          "runs": [
+            {
+              "pdf_metadata": {
+                "format": "PDF 2.0",
+                "title": "Lebenslauf",
+                "author": "Lea Müller",
+                "subject": "",
+                "keywords": "",
+                "creator": "ONLYOFFICE/10.0.0.170",
+                "producer": "ONLYOFFICE/10.0.0.170",
+                "creationDate": "D:20261101010611+00'00'",
+                "modDate": "D:20261101010611+00'00'",
+                "trapped": "",
+                "encryption": null
+              },
+              "pages": 1,
+              "page_geometry_pt": [[595.3, 841.9]],
+              "visible_image_instances": [9],
+              "photo_colors": [
+                {
+                  "red": {
+                    "pixels": 1278,
+                    "bbox_px": [31, 197, 64, 234]
+                  },
+                  "green": {
+                    "pixels": 8833,
+                    "bbox_px": [31, 197, 135, 327]
+                  },
+                  "blue": {
+                    "pixels": 1251,
+                    "bbox_px": [102, 291, 135, 327]
+                  },
+                  "yellow": {
+                    "pixels": 1756,
+                    "bbox_px": [66, 237, 100, 288]
+                  }
+                }
+              ],
+              "raster_sha256": ["9450adc192c3b5c92c6bfd0c2acfdbe98b8fa29edb85e77aae758df08b636870"],
+              "recall": 0.991935,
+              "missing_tokens": {
+                "lebenslauf": 1
+              },
+              "resources": {
+                "returncode": 0,
+                "seconds": 1.053,
+                "max_rss_kib": 142752,
+                "cpu_seconds": 1.328,
+                "elapsed_seconds": 1.04,
+                "exit_code": 0
+              },
+              "photo_visible": true,
+              "status": "FAIL",
+              "watermark_check": {
+                "detected": true,
+                "evidence": [
+                  {
+                    "page": 1,
+                    "glyph_path_counts": [
+                      282, 198, 129, 80, 110, 176, 31, 166, 80, 129, 80, 133, 46, 80, 129, 31, 176,
+                      15, 198
+                    ],
+                    "detected": true
+                  }
+                ],
+                "scope": "measured SDK 10.0.0.170 outlined license mark; other builds need visual review"
+              },
+              "structural_status": "PASS",
+              "failure_reason": "Visible Unregistered Version license watermark"
+            },
+            {
+              "pdf_metadata": {
+                "format": "PDF 2.0",
+                "title": "Lebenslauf",
+                "author": "Lea Müller",
+                "subject": "",
+                "keywords": "",
+                "creator": "ONLYOFFICE/10.0.0.170",
+                "producer": "ONLYOFFICE/10.0.0.170",
+                "creationDate": "D:20261101010612+00'00'",
+                "modDate": "D:20261101010612+00'00'",
+                "trapped": "",
+                "encryption": null
+              },
+              "pages": 1,
+              "page_geometry_pt": [[595.3, 841.9]],
+              "visible_image_instances": [9],
+              "photo_colors": [
+                {
+                  "red": {
+                    "pixels": 1278,
+                    "bbox_px": [31, 197, 64, 234]
+                  },
+                  "green": {
+                    "pixels": 8833,
+                    "bbox_px": [31, 197, 135, 327]
+                  },
+                  "blue": {
+                    "pixels": 1251,
+                    "bbox_px": [102, 291, 135, 327]
+                  },
+                  "yellow": {
+                    "pixels": 1756,
+                    "bbox_px": [66, 237, 100, 288]
+                  }
+                }
+              ],
+              "raster_sha256": ["9450adc192c3b5c92c6bfd0c2acfdbe98b8fa29edb85e77aae758df08b636870"],
+              "recall": 0.991935,
+              "missing_tokens": {
+                "lebenslauf": 1
+              },
+              "resources": {
+                "returncode": 0,
+                "seconds": 1.053,
+                "max_rss_kib": 142736,
+                "cpu_seconds": 1.313,
+                "elapsed_seconds": 1.03,
+                "exit_code": 0
+              },
+              "photo_visible": true,
+              "status": "FAIL",
+              "watermark_check": {
+                "detected": true,
+                "evidence": [
+                  {
+                    "page": 1,
+                    "glyph_path_counts": [
+                      282, 198, 129, 80, 110, 176, 31, 166, 80, 129, 80, 133, 46, 80, 129, 31, 176,
+                      15, 198
+                    ],
+                    "detected": true
+                  }
+                ],
+                "scope": "measured SDK 10.0.0.170 outlined license mark; other builds need visual review"
+              },
+              "structural_status": "PASS",
+              "failure_reason": "Visible Unregistered Version license watermark"
+            }
+          ]
+        }
+      },
+      "comparisons": {
+        "app_libreoffice": [
+          {
+            "rgb_ssim": 0.883026,
+            "layout_ssim": 0.882992
+          }
+        ],
+        "app_onlyoffice": [
+          {
+            "rgb_ssim": 0.811185,
+            "layout_ssim": 0.811271
+          }
+        ],
+        "libreoffice_onlyoffice": [
+          {
+            "rgb_ssim": 0.898033,
+            "layout_ssim": 0.898108
+          }
+        ]
+      },
+      "app_pdf": {
+        "pdf_metadata": {
+          "format": "PDF 1.3",
+          "title": "Lebenslauf – Lea Müller",
+          "author": "Lea Müller",
+          "subject": "Lebenslauf",
+          "keywords": "",
+          "creator": "Lea Müller",
+          "producer": "jsPDF 4.2.1",
+          "creationDate": "D:20261101010554-00'00'",
+          "modDate": "",
+          "trapped": "",
+          "encryption": null
+        },
+        "pages": 1,
+        "page_geometry_pt": [[595.28, 841.89]],
+        "visible_image_instances": [1],
+        "photo_colors": [
+          {
+            "red": {
+              "pixels": 1216,
+              "bbox_px": [31, 197, 63, 233]
+            },
+            "green": {
+              "pixels": 8315,
+              "bbox_px": [31, 197, 131, 322]
+            },
+            "blue": {
+              "pixels": 1217,
+              "bbox_px": [99, 286, 131, 322]
+            },
+            "yellow": {
+              "pixels": 1649,
+              "bbox_px": [65, 235, 97, 284]
+            }
+          }
+        ],
+        "raster_sha256": ["b3f2997abf4f6a43a50203c5e1f027f6e6b700eee2aa123b3f67719afa4e5215"],
+        "recall": 0.983871,
+        "missing_tokens": {
+          "volleyball": 1,
+          "im": 1
+        },
+        "status": "PASS"
+      }
+    }
+  ],
+  "limitations": [
+    "Text extraction can include hidden text; inspect the contact sheets.",
+    "SSIM is observational, not a release gate or a Word oracle.",
+    "Only Modern/sidebar is accepted by the current production DOCX Next guard."
+  ],
+  "visual_audit": {
+    "method": "known SDK glyph outline signature on exact retained CI PDFs plus inspected contact sheets",
+    "failed": ["cover/onlyoffice", "letter/onlyoffice", "cv/onlyoffice"],
+    "note": "Watermarked SSIM is contaminated; no clean engine-fidelity ranking."
+  },
+  "ci": {
+    "runId": 41259328039,
+    "implementationSha": "404ee44d2f0293b566903e3061bc0cef720dccc7",
+    "artifactId": 13064362935,
+    "artifactSha256": "0d709344a64a60470388b95a39310d82a92cb9570492edab2cdaa0ff88e3cd87",
+    "originalStructuralWorkflowConclusion": "success",
+    "finalAudit": "FAIL: watermarked visual reference, 6/6 OO outputs; 6/6 LO pass"
+  },
+  "manualVisualReview": {
+    "cover": "PASS App PDF, PASS LO, FAIL OO watermark",
+    "letter": "PASS App PDF, PASS LO, FAIL OO watermark",
+    "cv": "PASS App PDF, PASS LO, FAIL OO watermark; photo visible and correct orientation",
+    "all39Templates": "BLOCKED: only Modern/sidebar tested through guarded Next entry",
+    "cleanUnlicensedBuilderSuitability": "FAIL"
+  }
+}

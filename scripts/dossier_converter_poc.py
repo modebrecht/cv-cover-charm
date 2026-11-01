@@ -147,15 +147,70 @@ def contact_sheet(paths, target):
     sheet.save(target)
 
 
+# The SDK renders the license mark as 19 filled glyph outlines, absent from the
+# PDF text layer. Signature measured in all three actual 10.0.0.170 CI PDFs.
+SDK10_WATERMARK_GLYPHS = [282, 198, 129, 80, 110, 176, 31, 166, 80, 129, 80, 133, 46, 80, 129, 31, 176, 15, 198]
+
+
+def check_builder_watermark(pdf):
+    """Known pinned-build outline mark; visual review remains required.
+
+    Never modify the PDF or erase the mark. Match its exact gray glyph path
+    counts, widths/heights and 10.0.0 producer rather than trusting text alone.
+    """
+    evidence = []
+    with fitz.open(pdf) as document:
+        producer = document.metadata.get("producer", "")
+        for page in document:
+            glyphs = [len(d["items"]) for d in page.get_drawings()
+                if d.get("fill") and all(abs(c - 192 / 255) < .001 for c in d["fill"])
+                and 20 < d["rect"].width < 100 and 20 < d["rect"].height < 100]
+            found = producer.startswith("ONLYOFFICE/10.0.0.") and any(
+                glyphs[i:i + len(SDK10_WATERMARK_GLYPHS)] == SDK10_WATERMARK_GLYPHS
+                for i in range(len(glyphs) - len(SDK10_WATERMARK_GLYPHS) + 1))
+            evidence.append({"page": page.number + 1, "glyph_path_counts": glyphs, "detected": found})
+    return {"detected": any(e["detected"] for e in evidence), "evidence": evidence,
+        "scope": "measured SDK 10.0.0.170 outlined license mark; other builds need visual review"}
+
+
+def audit_retained_report(directory):
+    """Recheck exact retained CI PDFs; do not rerun/relabel conversion metrics."""
+    path = directory / "RESULTS.json"
+    report = json.loads(path.read_text())
+    failures = []
+    for row in report["documents"]:
+        for converter, result in row["converters"].items():
+            for index, run in enumerate(result["runs"]):
+                if "pages" not in run: continue
+                pdf = directory / converter / f"run-{index+1}" / f"{row['part']}.pdf"
+                run["watermark_check"] = check_builder_watermark(pdf)
+                if run["watermark_check"]["detected"]:
+                    run.setdefault("structural_status", run["status"])
+                    run["status"] = "FAIL"
+                    run["failure_reason"] = "Visible Unregistered Version license watermark"
+            if any(run["status"] == "FAIL" for run in result["runs"]):
+                result["status"] = "FAIL"
+                failures.append(f"{row['part']}/{converter}")
+    report["visual_audit"] = {"method": "known SDK glyph outline signature on exact retained CI PDFs plus inspected contact sheets", "failed": failures, "note": "Watermarked SSIM is contaminated; no clean engine-fidelity ranking."}
+    path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
+    print(json.dumps(report["visual_audit"], indent=2))
+    return 1 if failures else 0
+
+
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--source-dir", type=Path, required=True)
-    p.add_argument("--out-dir", type=Path, required=True)
-    p.add_argument("--onlyoffice", required=True, help="CLI executable/wrapper with configured fonts/runtime")
+    p.add_argument("--source-dir", type=Path)
+    p.add_argument("--out-dir", type=Path)
+    p.add_argument("--onlyoffice", default="", help="CLI executable/wrapper with configured fonts/runtime")
     p.add_argument("--libreoffice", default="libreoffice")
     p.add_argument("--repeats", type=int, default=2, choices=range(1, 4))
     p.add_argument("--timeout", type=int, default=90)
+    p.add_argument("--audit-report", type=Path, help="Audit exact retained report PDFs without installing/rerunning converters")
     args = p.parse_args()
+    if args.audit_report:
+        return audit_retained_report(args.audit_report.resolve())
+    if not args.source_dir or not args.out_dir or not args.onlyoffice:
+        p.error("--source-dir, --out-dir and --onlyoffice are required for conversion")
     args.source_dir = args.source_dir.resolve(); args.out_dir = args.out_dir.resolve()
     out = args.out_dir; out.mkdir(parents=True, exist_ok=True)
     images = out / "rendered"; images.mkdir(exist_ok=True)
@@ -192,9 +247,12 @@ def main():
                     facts, paths = inspect_pdf(target, images, f"{part}-{converter}-{repeat+1}")
                     facts.update(recall(expected, facts.pop("text")))
                     facts["resources"] = measured
+                    facts["watermark_check"] = check_builder_watermark(target)
                     photo_ok = part != "cv" or all(any(page[c]["pixels"] >= 40 for page in facts["photo_colors"]) for c in COLORS)
                     facts["photo_visible"] = photo_ok if part == "cv" else None
-                    facts["status"] = "PASS" if facts["pages"] == app["pages"] and facts["recall"] >= .98 and photo_ok else "FAIL"
+                    facts["status"] = "PASS" if facts["pages"] == app["pages"] and facts["recall"] >= .98 and photo_ok and not facts["watermark_check"]["detected"] else "FAIL"
+                    if facts["watermark_check"]["detected"]:
+                        facts["failure_reason"] = "Visible Unregistered Version license watermark"
                     rounds.append(facts)
                     if not first_paths: first_paths = paths
                 except Exception as exc:
@@ -208,7 +266,7 @@ def main():
         contact_sheet(all_paths, out / f"{part}-comparison.png")
         report["documents"].append(row)
     (out / "RESULTS.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
-    lines = ["# P2-01 DOCX Next converter trial", "", f"Source commit: `{report['source']['sha']}`. Synthetic inputs; generated calibration card.", "", "PASS = page count matches App PDF, >=98% XML token recall, CV card visible, repeatable raster.", "SSIM is observational. Inspect comparison PNGs before any fidelity decision.", "", "| Document | App PDF | LibreOffice | ONLYOFFICE | App/LO RGB SSIM | App/OO RGB SSIM | LO/OO RGB SSIM |", "|---|---|---|---|---:|---:|---:|"]
+    lines = ["# P2-01 DOCX Next converter trial", "", f"Source commit: `{report['source']['sha']}`. Synthetic inputs; generated calibration card.", "", "PASS = page count matches App PDF, >=98% XML token recall, CV card visible, repeatable raster, no detected SDK license watermark.", "SSIM is observational; watermark-contaminated scores cannot rank clean renderer fidelity. Inspect comparison PNGs.", "", "| Document | App PDF | LibreOffice | ONLYOFFICE | App/LO RGB SSIM | App/OO RGB SSIM | LO/OO RGB SSIM |", "|---|---|---|---|---:|---:|---:|"]
     for r in report["documents"]:
         means = [f"{np.mean([x['rgb_ssim'] for x in values]):.3f}" if values else "n/a" for values in r["comparisons"].values()]
         lines.append(f"| {r['part']} | {r['app_pdf']['status']} | {r['converters']['libreoffice']['status']} | {r['converters']['onlyoffice']['status']} | {' | '.join(means)} |")
