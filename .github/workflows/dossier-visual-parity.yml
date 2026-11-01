@@ -23,12 +23,17 @@ on:
         description: Run only synthetic LibreOffice anchor/table isolation probes
         type: boolean
         default: false
+      minimal_repro:
+        description: Run only synthetic LibreOffice story reductions
+        type: boolean
+        default: false
   push:
     branches:
       - render
       - work/01nov-p2-01-onlyoffice
       - work/01nov-p2-02-semantic-parity
       - work/01nov-p2-03-lo-isolation
+      - work/01nov-p2-04-minimal-repro
 
 permissions:
   contents: read
@@ -39,7 +44,7 @@ concurrency:
 
 jobs:
   source-batch:
-    if: github.ref != 'refs/heads/work/01nov-p2-01-onlyoffice' && github.ref != 'refs/heads/work/01nov-p2-02-semantic-parity' && github.ref != 'refs/heads/work/01nov-p2-03-lo-isolation' && !inputs.converter_poc && !inputs.semantic_parity && !inputs.lo_isolation
+    if: github.ref != 'refs/heads/work/01nov-p2-01-onlyoffice' && github.ref != 'refs/heads/work/01nov-p2-02-semantic-parity' && github.ref != 'refs/heads/work/01nov-p2-03-lo-isolation' && github.ref != 'refs/heads/work/01nov-p2-04-minimal-repro' && !inputs.converter_poc && !inputs.semantic_parity && !inputs.lo_isolation && !inputs.minimal_repro
     name: Visual parity source batch ${{ matrix.batch }}
     runs-on: ubuntu-24.04
     timeout-minutes: 25
@@ -289,6 +294,7 @@ jobs:
         run: |
           .parity-venv/bin/python scripts/dossier_semantic_parity_test.py
           .parity-venv/bin/python scripts/dossier_lo_isolation_test.py
+          .parity-venv/bin/python scripts/dossier_lo_minimal_test.py
       - name: Export eight synthetic cases and check catalog/pilot gallery
         shell: bash
         run: |
@@ -306,9 +312,14 @@ jobs:
         if: always()
         env:
           P203_ENABLED: ${{ github.ref == 'refs/heads/work/01nov-p2-03-lo-isolation' || inputs.lo_isolation }}
+          P204_ENABLED: ${{ github.ref == 'refs/heads/work/01nov-p2-04-minimal-repro' || inputs.minimal_repro }}
         run: |
           if [ -f artifacts/semantic-parity/source/CATALOG.json ]; then
-            if [ "$P203_ENABLED" = true ]; then
+            if [ "$P204_ENABLED" = true ]; then
+              .parity-venv/bin/python scripts/dossier_lo_minimal.py \
+                --source-dir artifacts/semantic-parity/source \
+                --out-dir artifacts/semantic-parity/minimal
+            elif [ "$P203_ENABLED" = true ]; then
               .parity-venv/bin/python scripts/dossier_lo_isolation.py \
                 --source-dir artifacts/semantic-parity/source \
                 --out-dir artifacts/semantic-parity/isolation
@@ -324,6 +335,9 @@ jobs:
       - name: Publish semantic summary
         if: always()
         run: |
+          if [ -f artifacts/semantic-parity/minimal/SUMMARY.md ]; then
+            cat artifacts/semantic-parity/minimal/SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+          fi
           if [ -f artifacts/semantic-parity/isolation/SUMMARY.md ]; then
             cat artifacts/semantic-parity/isolation/SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
           fi
