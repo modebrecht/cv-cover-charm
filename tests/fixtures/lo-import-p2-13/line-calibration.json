@@ -1,0 +1,55 @@
+{
+  "purpose": "Pixel-only crops of synthetic reference heading lines, no photographs. Positive App line and deleted-line native negative.",
+  "fixtures": [
+    {
+      "filename": "reference-line-present.png",
+      "sha256": "ae15f3c2cae82e85faa22451c15896271d8aba46a74c85b50504317e6ad92a7b",
+      "source_pdf_sha256": "d1d2fbe74e513166a82da6171e5a9fab292c0ca6ec84138ea8b0d0d710bf95cc",
+      "source": "P2-08 App PDF cv-18-left",
+      "expected": "PASS",
+      "measurement": {
+        "status": "PASS",
+        "longest_dark_run_fraction": 0.888889,
+        "required_fraction": 0.85,
+        "best_row": 24,
+        "pixel_size": [
+          171,
+          40
+        ],
+        "page": 3,
+        "crop_mm": [
+          100.973,
+          125.645,
+          130.973,
+          132.506
+        ],
+        "heading_count": 1
+      }
+    },
+    {
+      "filename": "reference-line-absent.png",
+      "sha256": "f85481303ba36dff3e0e5f2149eef385853c7b498cc3f90207840b08e4a1572d",
+      "source_pdf_sha256": "c9b7f878e23bc5d0b35712ec32399650be467c527a1c1635e873d4a50bed30f1",
+      "source": "P2-12 left-zero-mask08 native PDF",
+      "expected": "FAIL",
+      "measurement": {
+        "status": "FAIL",
+        "longest_dark_run_fraction": 0.0,
+        "required_fraction": 0.85,
+        "best_row": null,
+        "pixel_size": [
+          171,
+          31
+        ],
+        "page": 3,
+        "crop_mm": [
+          101.032,
+          150.293,
+          131.032,
+          155.624
+        ],
+        "heading_count": 1
+      }
+    }
+  ]
+}
