@@ -63,11 +63,16 @@ def main():
     p=argparse.ArgumentParser();p.add_argument('--source-dir',type=Path,required=True);p.add_argument('--out-dir',type=Path,required=True);p.add_argument('--libreoffice',default='libreoffice');p.add_argument('--audit-only',action='store_true',help='Use existing converted PDFs without changing timings')
     a=p.parse_args();a.source_dir=a.source_dir.resolve();a.out_dir=a.out_dir.resolve();a.out_dir.mkdir(parents=True,exist_ok=True)
     rendered=a.out_dir/'rendered';rendered.mkdir(exist_ok=True)
+    previous = {}
+    if a.audit_only and (a.out_dir/'RESULTS.json').exists():
+        previous = {r['id']:r for r in json.loads((a.out_dir/'RESULTS.json').read_text())['cases']}
     catalog=json.loads((a.source_dir/'CATALOG.json').read_text())
     report={'sha':catalog['sha'],'exporter':'production DOCX Next; guarded UI downloads','catalog':{'eligible':sum(r['status']=='ELIGIBLE' for r in catalog['rows']),'blocked':sum(r['status']=='BLOCKED' for r in catalog['rows']),'scope':catalog['scope']},'cases':[], 'thresholds':{'photo_geometry_mm':2.0,'photo_pattern_min':.90},'limitations':['Photo thresholds are explicit trial gates; no Microsoft Word fidelity claim.','Gray/raster text not covered by marker extraction still needs visual inspection.']}
     for path in sorted(a.source_dir.glob('*.json')):
         if path.name=='CATALOG.json':continue
         source=json.loads(path.read_text()); row={'id':source['id'],'part':source['part'],'status':'OPEN','source_status':source['status']};report['cases'].append(row)
+        if a.audit_only and previous.get(source['id'],{}).get('resources'):
+            row['resources']=previous[source['id']]['resources']
         try:
             if source['sha']!=report['sha']:raise ValueError('Mixed source SHAs')
             if source['status']!='EXPORTED':row.update(status='BLOCKED',reason=source.get('visibleError') or source.get('reason'));continue

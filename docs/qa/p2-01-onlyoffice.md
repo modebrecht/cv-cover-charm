@@ -9,10 +9,10 @@ No research-branch changes merged. No normal export changes. No Windows/Word acc
 - Existing workflow: `.github/workflows/dossier-visual-parity.yml`; retained.
 - Existing analysis: `scripts/dossier_visual_parity.py`; unchanged, its A4
   normalization and SSIM analysis reused by `dossier_converter_poc.py`.
-- Existing x39 DOCX gallery calls the legacy `createDossierDocxBlob` export.
-  Production DOCX Next is a distinct guarded entry: `createSavedDossierDocxNext`.
-  It currently accepts Modern, sans, CV sidebar, contact header, compact footer.
-  Therefore a 3-document Next trial cannot certify 39 Next templates.
+- Corrected in P2-02: the x39 gallery uses the current dialog's production
+  `createSavedDossierDocxNext` path. Its original all-39 expectation was stale.
+  Next accepts Modern, sans, CV sidebar, contact header, compact footer;
+  a three-document trial cannot certify 39 templates.
 - New optional lane in the same workflow, with one Ubuntu runner. A push to
   `work/01nov-p2-01-onlyoffice` runs only this lane; a manual `converter_poc=true`
   does likewise. Normal render/x39 behavior retained.
@@ -140,7 +140,7 @@ These are a three-document trial's measurements, not an x39 capacity guarantee.
 ## x39 suitability and resource-saving alternative
 
 **BLOCKED / not established for all 39 templates.** The production Next guard
-currently supports Modern/sidebar; the legacy x39 gallery is a different path.
+currently supports Modern/sidebar; the x39 gallery must record unsupported designs.
 This trial covers 1 template, 3 document types, two runs per engine. It must not
 be relabelled as a 39-template Next acceptance. Unlicensed SDK watermark also
 prevents using it as a clean visual reference for any of those 39 templates.
@@ -155,7 +155,7 @@ resource path and would be another experiment, not evidence from this trial.
 
 1. Add semantic and photo-presence checks to the existing parity workflow;
    retain conversion status separately from visual-reference acceptance.
-2. Make the gallery's exporter identity explicit (Legacy x39 versus Next Modern)
+2. Make the gallery's production Next identity and guard coverage explicit
    and report unsupported Next templates as BLOCKED. Keep the production guard.
 3. Add a longer Modern/sidebar CV and mirrored/cropped synthetic-photo case to
    the existing Next lane. Compare full page counts and visual regions with LO.
@@ -174,3 +174,11 @@ resource path and would be another experiment, not evidence from this trial.
 - Protected baseline heads: dev `c8e0a4e306e2e519d2b9392b43fb9759fb8c5078`,
   render `1fe6dbe59184a759d97f9c393353a8a3d9e1f89a`,
   main `44d7eb950b4fe972d6e890a72b6d3256ce365bc9`.
+
+## P2-02 correction to the gallery interpretation
+
+The old x39 test drives the current download dialog and therefore calls DOCX
+Next, not the legacy renderer. Its all-39 success expectation became stale after
+the production switch. The legacy-path inference above is superseded by
+`p2-02-semantic-parity.md`, which traces the handler and records explicit
+EXPORTED/BLOCKED rows. P2-01 converter measurements and watermark findings stand.

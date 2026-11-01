@@ -4,7 +4,8 @@ name: Dossier Visual Parity x39
 #   visible Website preview -> PNG
 #   exported PDF            -> PNG
 #   exported DOCX -> LibreOffice PDF -> PNG
-# The report compares 39 templates x cover/letter/CV = 117 page triplets.
+# The catalog contains 39 templates; only Next-EXPORTED triplets are compared.
+# BLOCKED templates remain explicit coverage rows, never visual acceptance.
 # Similarity is observational QA: malformed/missing outputs fail the workflow,
 # while low SSIM is reported and ranked without blocking release by itself.
 on:

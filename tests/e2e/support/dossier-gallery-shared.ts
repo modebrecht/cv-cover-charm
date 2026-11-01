@@ -210,10 +210,15 @@ export function assertGalleryCatalog() {
 }
 
 export async function applyGalleryCase(page: Page, stored: CanonicalDossier, item: GalleryCase) {
-  const headerMode = defaultHeaderModeForTemplate(item.coverTemplate);
+  const headerMode =
+    item.coverTemplate === "modern" ? "contact" : defaultHeaderModeForTemplate(item.coverTemplate);
   const headerGapMm = defaultHeaderGapMmForTemplate(item.coverTemplate);
-  const footerMode = defaultFooterModeForTemplate(item.coverTemplate);
-  const cvLayout = defaultCvLayoutForTemplate(item.cvTemplate);
+  const footerMode =
+    item.coverTemplate === "modern" ? "compact" : defaultFooterModeForTemplate(item.coverTemplate);
+  // The production Next profile for Modern requires a sidebar. Make this
+  // synthetic gallery fixture explicit; do not change product defaults/guards.
+  const cvLayout =
+    item.cvTemplate === "modern" ? "modern" : defaultCvLayoutForTemplate(item.cvTemplate);
   const galleryBaseChrome = stored.chrome ?? DEFAULT_DOSSIER_CHROME_STATE;
 
   // Never write the next fixture while an editor from the previous case is
@@ -239,6 +244,15 @@ export async function applyGalleryCase(page: Page, stored: CanonicalDossier, ite
       const chrome = structuredClone(baseChrome);
 
       cover.template = coverTemplate;
+      if (coverTemplate === "modern") {
+        cover.font = "sans";
+        for (const style of Object.values(cover.layout ?? {})) {
+          if (style && typeof style === "object" && "font" in style) style.font = "sans";
+        }
+        letter.design.font = "sans";
+        letter.design.fontOverride = "sans";
+        cv.design.font = "sans";
+      }
       letter.design.template = letterTemplate;
       letter.design.colors =
         letterTemplate === "brief"

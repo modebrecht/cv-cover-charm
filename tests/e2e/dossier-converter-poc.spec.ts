@@ -39,7 +39,7 @@ test("three synthetic documents use the real DOCX Next and app PDF downloads", a
   ] as const) {
     await page.goto(`http://127.0.0.1:4173/${route}`, { waitUntil: "networkidle" });
     await waitForNativeEditorSaved(page);
-    // Prove this is the guarded production Next path, not the x39 legacy renderer.
+    // Confirm the guarded production Next path used by the download dialog.
     const source = await page.evaluate(async (part) => {
       const m = await import(/* @vite-ignore */ "/src/lib/docx-next/app-source.ts");
       const s = m.captureSavedAppDocxNextSource(part);

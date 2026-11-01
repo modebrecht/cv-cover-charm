@@ -181,11 +181,27 @@ test("real browser Next gallery records exported and blocked templates explicitl
     const baselineDocumentXml = await readCompleteDocx(target);
 
     await setPageMargins(page, CUSTOM_MARGIN_STATE);
-    const customDownload = await downloadDocxThroughFormatDialog(page);
-    const customPath = await customDownload.path();
-    expect(customPath).not.toBeNull();
-    const customDocumentXml = await readCompleteDocx(customPath ?? "");
-    assertCustomMarginSections(baselineDocumentXml, customDocumentXml, CUSTOM_MARGIN_STATE);
+    const customAvailability = await page.evaluate(async () => {
+      const module = await import(String("/src/lib/docx-next/app-source.ts"));
+      return module.savedAppDocxNextAvailability();
+    });
+    const customMargins = {
+      status: customAvailability.available ? "EXPORTED" : "BLOCKED",
+      reason: customAvailability.reason,
+    };
+    if (customAvailability.available) {
+      const customDownload = await downloadDocxThroughFormatDialog(page);
+      const customPath = await customDownload.path();
+      expect(customPath).not.toBeNull();
+      const customDocumentXml = await readCompleteDocx(customPath ?? "");
+      assertCustomMarginSections(baselineDocumentXml, customDocumentXml, CUSTOM_MARGIN_STATE);
+    } else {
+      await page.getByRole("button").filter({ hasText: "Gesamtdossier herunterladen" }).click();
+      const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
+      await expect(
+        dialog.getByRole("radio", { name: "Bearbeitbares Dossier (DOCX)" }),
+      ).toBeDisabled();
+    }
 
     await setPageMargins(page, {});
     manifestEntries.push(`${fileName} | ${item.id} | ${item.label}`);
@@ -196,6 +212,7 @@ test("real browser Next gallery records exported and blocked templates explicitl
       exporter: "production DOCX Next",
       status: "EXPORTED",
       reason: availability.reason,
+      customMargins,
     });
   }
 

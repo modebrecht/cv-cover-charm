@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Build a visual parity report for the 39 dossier templates.
+"""Build a visual parity report with honest coverage of 39 dossier templates.
 
 Inputs must come from the same repository SHA:
 - visible Web gallery: 117 PNGs + MANIFEST.txt
 - PDF gallery: 39 three-page PDFs
-- DOCX gallery: 39 three-page DOCX files
+- DOCX gallery: exported three-page Next dossiers + explicit blocked coverage
 
 The script converts PDF/DOCX to normalized A4 PNGs, computes SSIM for
 Web<->PDF, Web<->DOCX and PDF<->DOCX, and emits CSV/Markdown plus visual
