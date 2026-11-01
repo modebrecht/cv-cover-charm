@@ -35,6 +35,10 @@ on:
         description: Run only persisted-fixture preamble/lead-wrapper reductions
         type: boolean
         default: false
+      spacing_subset:
+        description: Run only the bounded 18-attribute spacing subset search
+        type: boolean
+        default: false
   push:
     branches:
       - render
@@ -44,6 +48,7 @@ on:
       - work/01nov-p2-04-minimal-repro
       - work/01nov-p2-05-compat-mode
       - work/01nov-p2-06-preamble-flow
+      - work/01nov-p2-07-spacing-subset
 
 permissions:
   contents: read
@@ -54,7 +59,7 @@ concurrency:
 
 jobs:
   source-batch:
-    if: github.ref != 'refs/heads/work/01nov-p2-01-onlyoffice' && github.ref != 'refs/heads/work/01nov-p2-02-semantic-parity' && github.ref != 'refs/heads/work/01nov-p2-03-lo-isolation' && github.ref != 'refs/heads/work/01nov-p2-04-minimal-repro' && !inputs.converter_poc && !inputs.semantic_parity && !inputs.lo_isolation && !inputs.minimal_repro && github.ref != 'refs/heads/work/01nov-p2-05-compat-mode' && !inputs.compat_mode && github.ref != 'refs/heads/work/01nov-p2-06-preamble-flow' && !inputs.preamble_flow
+    if: github.ref != 'refs/heads/work/01nov-p2-01-onlyoffice' && github.ref != 'refs/heads/work/01nov-p2-02-semantic-parity' && github.ref != 'refs/heads/work/01nov-p2-03-lo-isolation' && github.ref != 'refs/heads/work/01nov-p2-04-minimal-repro' && !inputs.converter_poc && !inputs.semantic_parity && !inputs.lo_isolation && !inputs.minimal_repro && github.ref != 'refs/heads/work/01nov-p2-05-compat-mode' && !inputs.compat_mode && github.ref != 'refs/heads/work/01nov-p2-06-preamble-flow' && !inputs.preamble_flow && github.ref != 'refs/heads/work/01nov-p2-07-spacing-subset' && !inputs.spacing_subset
     name: Visual parity source batch ${{ matrix.batch }}
     runs-on: ubuntu-24.04
     timeout-minutes: 25
@@ -282,7 +287,7 @@ jobs:
 
   semantic-parity:
     name: P2-02 — Next content, photos and continuation (LibreOffice)
-    if: github.ref != 'refs/heads/work/01nov-p2-01-onlyoffice' && github.ref != 'refs/heads/work/01nov-p2-05-compat-mode' && !inputs.converter_poc && !inputs.compat_mode && github.ref != 'refs/heads/work/01nov-p2-06-preamble-flow' && !inputs.preamble_flow
+    if: github.ref != 'refs/heads/work/01nov-p2-01-onlyoffice' && github.ref != 'refs/heads/work/01nov-p2-05-compat-mode' && !inputs.converter_poc && !inputs.compat_mode && github.ref != 'refs/heads/work/01nov-p2-06-preamble-flow' && !inputs.preamble_flow && github.ref != 'refs/heads/work/01nov-p2-07-spacing-subset' && !inputs.spacing_subset
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -364,13 +369,14 @@ jobs:
           retention-days: 14
 
   compatibility-probe:
-    name: P2-05/06 — persisted LibreOffice fixture probes
-    if: github.ref == 'refs/heads/work/01nov-p2-05-compat-mode' || inputs.compat_mode || github.ref == 'refs/heads/work/01nov-p2-06-preamble-flow' || inputs.preamble_flow
+    name: P2 — persisted LibreOffice fixture probes
+    if: github.ref == 'refs/heads/work/01nov-p2-05-compat-mode' || inputs.compat_mode || github.ref == 'refs/heads/work/01nov-p2-06-preamble-flow' || inputs.preamble_flow || github.ref == 'refs/heads/work/01nov-p2-07-spacing-subset' || inputs.spacing_subset
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     env:
+      SPACING_SUBSET: ${{ github.ref == 'refs/heads/work/01nov-p2-07-spacing-subset' || inputs.spacing_subset }}
       PREAMBLE_FLOW: ${{ github.ref == 'refs/heads/work/01nov-p2-06-preamble-flow' || inputs.preamble_flow }}
-      FIXTURE_OUTPUT: ${{ (github.ref == 'refs/heads/work/01nov-p2-06-preamble-flow' || inputs.preamble_flow) && 'artifacts/preamble-flow' || 'artifacts/compat-mode' }}
+      FIXTURE_OUTPUT: ${{ (github.ref == 'refs/heads/work/01nov-p2-07-spacing-subset' || inputs.spacing_subset) && 'artifacts/spacing-subset' || (github.ref == 'refs/heads/work/01nov-p2-06-preamble-flow' || inputs.preamble_flow) && 'artifacts/preamble-flow' || 'artifacts/compat-mode' }}
     steps:
       - uses: actions/checkout@v4
       - name: Install LibreOffice and Python analysis only
@@ -385,12 +391,17 @@ jobs:
         run: |
           .parity-venv/bin/python scripts/dossier_lo_compat_test.py
           .parity-venv/bin/python scripts/dossier_lo_preamble_test.py
+          .parity-venv/bin/python scripts/dossier_lo_spacing_test.py
           .parity-venv/bin/python scripts/dossier_semantic_parity_test.py
           .parity-venv/bin/python scripts/dossier_lo_isolation_test.py
           .parity-venv/bin/python scripts/dossier_converter_poc_test.py
       - name: Run selected persisted-fixture counterprobe and verify original baselines
         run: |
-          if [ "$PREAMBLE_FLOW" = true ]; then
+          if [ "$SPACING_SUBSET" = true ]; then
+            .parity-venv/bin/python scripts/dossier_lo_spacing.py \
+              --fixture-dir tests/fixtures/lo-import-p2-06 \
+              --out-dir "$FIXTURE_OUTPUT"
+          elif [ "$PREAMBLE_FLOW" = true ]; then
             .parity-venv/bin/python scripts/dossier_lo_preamble.py \
               --fixture-dir tests/fixtures/lo-import-p2-04 \
               --out-dir "$FIXTURE_OUTPUT"
@@ -409,7 +420,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ (github.ref == 'refs/heads/work/01nov-p2-06-preamble-flow' || inputs.preamble_flow) && 'dossier-preamble-probe' || 'dossier-compatibility-probe' }}
+          name: ${{ (github.ref == 'refs/heads/work/01nov-p2-07-spacing-subset' || inputs.spacing_subset) && 'dossier-spacing-probe' || (github.ref == 'refs/heads/work/01nov-p2-06-preamble-flow' || inputs.preamble_flow) && 'dossier-preamble-probe' || 'dossier-compatibility-probe' }}
           path: ${{ env.FIXTURE_OUTPUT }}
           if-no-files-found: warn
           retention-days: 14
