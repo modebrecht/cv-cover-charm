@@ -1,0 +1,10 @@
+{
+  "native_run_id": 41316674034,
+  "native_results_sha256": "ad882abd27c87cb8b73cc255ec26011c8ce22cfbc08d9b07b5849e0b2109c167",
+  "audit_execution_status": "PASS",
+  "audit_native_conversion_count": 0,
+  "all_six_case_measurements_and_comparisons_identical": true,
+  "both_pinned_controls_identical": true,
+  "resources_preserved": true,
+  "scope": "Saved DOCX/PDF hashes verified and measurements replayed. Not a second native run."
+}
