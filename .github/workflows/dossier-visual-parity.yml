@@ -31,6 +31,10 @@ on:
         description: Run only the persisted-fixture mode 14/15 counterprobe
         type: boolean
         default: false
+      preamble_flow:
+        description: Run only persisted-fixture preamble/lead-wrapper reductions
+        type: boolean
+        default: false
   push:
     branches:
       - render
@@ -39,6 +43,7 @@ on:
       - work/01nov-p2-03-lo-isolation
       - work/01nov-p2-04-minimal-repro
       - work/01nov-p2-05-compat-mode
+      - work/01nov-p2-06-preamble-flow
 
 permissions:
   contents: read
@@ -49,7 +54,7 @@ concurrency:
 
 jobs:
   source-batch:
-    if: github.ref != 'refs/heads/work/01nov-p2-01-onlyoffice' && github.ref != 'refs/heads/work/01nov-p2-02-semantic-parity' && github.ref != 'refs/heads/work/01nov-p2-03-lo-isolation' && github.ref != 'refs/heads/work/01nov-p2-04-minimal-repro' && !inputs.converter_poc && !inputs.semantic_parity && !inputs.lo_isolation && !inputs.minimal_repro && github.ref != 'refs/heads/work/01nov-p2-05-compat-mode' && !inputs.compat_mode
+    if: github.ref != 'refs/heads/work/01nov-p2-01-onlyoffice' && github.ref != 'refs/heads/work/01nov-p2-02-semantic-parity' && github.ref != 'refs/heads/work/01nov-p2-03-lo-isolation' && github.ref != 'refs/heads/work/01nov-p2-04-minimal-repro' && !inputs.converter_poc && !inputs.semantic_parity && !inputs.lo_isolation && !inputs.minimal_repro && github.ref != 'refs/heads/work/01nov-p2-05-compat-mode' && !inputs.compat_mode && github.ref != 'refs/heads/work/01nov-p2-06-preamble-flow' && !inputs.preamble_flow
     name: Visual parity source batch ${{ matrix.batch }}
     runs-on: ubuntu-24.04
     timeout-minutes: 25
@@ -277,7 +282,7 @@ jobs:
 
   semantic-parity:
     name: P2-02 — Next content, photos and continuation (LibreOffice)
-    if: github.ref != 'refs/heads/work/01nov-p2-01-onlyoffice' && github.ref != 'refs/heads/work/01nov-p2-05-compat-mode' && !inputs.converter_poc && !inputs.compat_mode
+    if: github.ref != 'refs/heads/work/01nov-p2-01-onlyoffice' && github.ref != 'refs/heads/work/01nov-p2-05-compat-mode' && !inputs.converter_poc && !inputs.compat_mode && github.ref != 'refs/heads/work/01nov-p2-06-preamble-flow' && !inputs.preamble_flow
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -359,10 +364,13 @@ jobs:
           retention-days: 14
 
   compatibility-probe:
-    name: P2-05 — compatibilityMode 14/15 (LibreOffice only)
-    if: github.ref == 'refs/heads/work/01nov-p2-05-compat-mode' || inputs.compat_mode
+    name: P2-05/06 — persisted LibreOffice fixture probes
+    if: github.ref == 'refs/heads/work/01nov-p2-05-compat-mode' || inputs.compat_mode || github.ref == 'refs/heads/work/01nov-p2-06-preamble-flow' || inputs.preamble_flow
     runs-on: ubuntu-24.04
     timeout-minutes: 10
+    env:
+      PREAMBLE_FLOW: ${{ github.ref == 'refs/heads/work/01nov-p2-06-preamble-flow' || inputs.preamble_flow }}
+      FIXTURE_OUTPUT: ${{ (github.ref == 'refs/heads/work/01nov-p2-06-preamble-flow' || inputs.preamble_flow) && 'artifacts/preamble-flow' || 'artifacts/compat-mode' }}
     steps:
       - uses: actions/checkout@v4
       - name: Install LibreOffice and Python analysis only
@@ -376,25 +384,32 @@ jobs:
       - name: Verify package invariants and existing content/converter controls
         run: |
           .parity-venv/bin/python scripts/dossier_lo_compat_test.py
+          .parity-venv/bin/python scripts/dossier_lo_preamble_test.py
           .parity-venv/bin/python scripts/dossier_semantic_parity_test.py
           .parity-venv/bin/python scripts/dossier_lo_isolation_test.py
           .parity-venv/bin/python scripts/dossier_converter_poc_test.py
-      - name: Convert the eight mode copies and verify unchanged mode-15 baselines
+      - name: Run selected persisted-fixture counterprobe and verify original baselines
         run: |
-          .parity-venv/bin/python scripts/dossier_lo_compat.py \
-            --fixture-dir tests/fixtures/lo-import-p2-04 \
-            --out-dir artifacts/compat-mode
-      - name: Publish compatibility counterprobe summary
+          if [ "$PREAMBLE_FLOW" = true ]; then
+            .parity-venv/bin/python scripts/dossier_lo_preamble.py \
+              --fixture-dir tests/fixtures/lo-import-p2-04 \
+              --out-dir "$FIXTURE_OUTPUT"
+          else
+            .parity-venv/bin/python scripts/dossier_lo_compat.py \
+              --fixture-dir tests/fixtures/lo-import-p2-04 \
+              --out-dir "$FIXTURE_OUTPUT"
+          fi
+      - name: Publish selected counterprobe summary
         if: always()
         run: |
-          if [ -f artifacts/compat-mode/SUMMARY.md ]; then
-            cat artifacts/compat-mode/SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+          if [ -f "$FIXTURE_OUTPUT/SUMMARY.md" ]; then
+            cat "$FIXTURE_OUTPUT/SUMMARY.md" >> "$GITHUB_STEP_SUMMARY"
           fi
-      - name: Retain eight mode copies, PDFs and measurements
+      - name: Retain controlled copies, PDFs and measurements
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: dossier-compatibility-probe
-          path: artifacts/compat-mode
+          name: ${{ (github.ref == 'refs/heads/work/01nov-p2-06-preamble-flow' || inputs.preamble_flow) && 'dossier-preamble-probe' || 'dossier-compatibility-probe' }}
+          path: ${{ env.FIXTURE_OUTPUT }}
           if-no-files-found: warn
           retention-days: 14
