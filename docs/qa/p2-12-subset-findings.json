@@ -1,0 +1,694 @@
+{
+  "native_results_sha256": "e479a8e22fda52691f8858ed74461ac5529f545cea39a97327a53986dfa0c685",
+  "fixed_condition": "All 18 identified empty-paragraph after gaps zero; two persisted full Modern 18-entry sources; LO 24.2.7.2",
+  "subset_findings": {
+    "left": {
+      "tested_masks": 16,
+      "content_pass_masks": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "minimum_deleted_drawings": 1,
+      "minimum_masks": [
+        8
+      ],
+      "inclusion_minimal_masks": [
+        8
+      ],
+      "drawings_in_every_successful_deletion": [
+        "cv.section.referenzen.heading.flow-paint"
+      ],
+      "nonmonotonic_success_to_failure": []
+    },
+    "right": {
+      "tested_masks": 16,
+      "content_pass_masks": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "minimum_deleted_drawings": 1,
+      "minimum_masks": [
+        8
+      ],
+      "inclusion_minimal_masks": [
+        8
+      ],
+      "drawings_in_every_successful_deletion": [
+        "cv.section.referenzen.heading.flow-paint"
+      ],
+      "nonmonotonic_success_to_failure": []
+    }
+  },
+  "rows": [
+    {
+      "id": "left-zero-mask00",
+      "mask": 0,
+      "removed_labels": [],
+      "content": "FAIL",
+      "complete_entries": 14,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "PASS",
+      "trial": "FAIL",
+      "copy_sha256": "971327cd50486a310499ca6f7da4857e8594e37859f05aebb98cfe1151540f3f",
+      "page_pixel_sha256": [
+        "0de4f17fb20481f92d327c5d9bdff9f1d34d1f27eb027a27b7f02ca1792c7103",
+        "150d784625c6c781da006bc6700fa6a9d266070e999f0ad37acccd98b4f98f97",
+        "f3b7d30bf470426ef065436061cc8cc32b36af90ce0cd9ac84adb1b9777630ff"
+      ]
+    },
+    {
+      "id": "left-zero-mask01",
+      "mask": 1,
+      "removed_labels": [
+        "family"
+      ],
+      "content": "FAIL",
+      "complete_entries": 14,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "PASS",
+      "trial": "FAIL",
+      "copy_sha256": "66bf75c32b56bd06a7734d0c0a60ee4ebf71bb1f5afdd7e81cac922eeec1b703",
+      "page_pixel_sha256": [
+        "b764133171ee7ddc303c2bccd20563ca032e7a2407ada0afd7dbbc8097492708",
+        "150d784625c6c781da006bc6700fa6a9d266070e999f0ad37acccd98b4f98f97",
+        "f3b7d30bf470426ef065436061cc8cc32b36af90ce0cd9ac84adb1b9777630ff"
+      ]
+    },
+    {
+      "id": "left-zero-mask02",
+      "mask": 2,
+      "removed_labels": [
+        "school"
+      ],
+      "content": "FAIL",
+      "complete_entries": 14,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "PASS",
+      "trial": "FAIL",
+      "copy_sha256": "66ac508000aa796d6288c2f6cca1028f898394837512e55d24e1d7834512f1de",
+      "page_pixel_sha256": [
+        "e6ddaa8e17bbc8a678eb1667eea05696b77f807a23e6d456298e0256dde16858",
+        "150d784625c6c781da006bc6700fa6a9d266070e999f0ad37acccd98b4f98f97",
+        "f3b7d30bf470426ef065436061cc8cc32b36af90ce0cd9ac84adb1b9777630ff"
+      ]
+    },
+    {
+      "id": "left-zero-mask03",
+      "mask": 3,
+      "removed_labels": [
+        "family",
+        "school"
+      ],
+      "content": "FAIL",
+      "complete_entries": 14,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "PASS",
+      "trial": "FAIL",
+      "copy_sha256": "715ff3759b721b746771d83b212f916cd6fc32735e402d9eadfd92995e1fdf01",
+      "page_pixel_sha256": [
+        "55c071363a7e4d56bc21c1377494680c55cc32c69e547ea1c2216b5da8421a4a",
+        "150d784625c6c781da006bc6700fa6a9d266070e999f0ad37acccd98b4f98f97",
+        "f3b7d30bf470426ef065436061cc8cc32b36af90ce0cd9ac84adb1b9777630ff"
+      ]
+    },
+    {
+      "id": "left-zero-mask04",
+      "mask": 4,
+      "removed_labels": [
+        "experience"
+      ],
+      "content": "FAIL",
+      "complete_entries": 14,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "PASS",
+      "trial": "FAIL",
+      "copy_sha256": "81647f07fd7f0cab43e3a770e268819fff7cad53a7872bd04f2f661996dd11ae",
+      "page_pixel_sha256": [
+        "e20e258f74223923dbf8524d8f7824971f7745c0d12c7450a7f436988a12928b",
+        "150d784625c6c781da006bc6700fa6a9d266070e999f0ad37acccd98b4f98f97",
+        "f3b7d30bf470426ef065436061cc8cc32b36af90ce0cd9ac84adb1b9777630ff"
+      ]
+    },
+    {
+      "id": "left-zero-mask05",
+      "mask": 5,
+      "removed_labels": [
+        "family",
+        "experience"
+      ],
+      "content": "FAIL",
+      "complete_entries": 14,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "PASS",
+      "trial": "FAIL",
+      "copy_sha256": "102f327e1274ff3299336e2e361d05ad8d272672bf3d4a0fa8775477d6065e83",
+      "page_pixel_sha256": [
+        "fdb76f42462a8ceb7d5fc2e762b48e3439df7644c751edc8118819c805738f90",
+        "150d784625c6c781da006bc6700fa6a9d266070e999f0ad37acccd98b4f98f97",
+        "f3b7d30bf470426ef065436061cc8cc32b36af90ce0cd9ac84adb1b9777630ff"
+      ]
+    },
+    {
+      "id": "left-zero-mask06",
+      "mask": 6,
+      "removed_labels": [
+        "school",
+        "experience"
+      ],
+      "content": "FAIL",
+      "complete_entries": 14,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "PASS",
+      "trial": "FAIL",
+      "copy_sha256": "1031fedc127c27341204a113792b50929e8780ee0f9b12c761bacf59637149a4",
+      "page_pixel_sha256": [
+        "673966614ac2fe0a18ad1546dfb50b41b7d0c744b37fdae73b3715c352a0b64e",
+        "150d784625c6c781da006bc6700fa6a9d266070e999f0ad37acccd98b4f98f97",
+        "f3b7d30bf470426ef065436061cc8cc32b36af90ce0cd9ac84adb1b9777630ff"
+      ]
+    },
+    {
+      "id": "left-zero-mask07",
+      "mask": 7,
+      "removed_labels": [
+        "family",
+        "school",
+        "experience"
+      ],
+      "content": "FAIL",
+      "complete_entries": 14,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "PASS",
+      "trial": "FAIL",
+      "copy_sha256": "5a94947f036c010a3cb771d3b2c4ad48a0b22e3e88d6a7a401e2975b769b7bc5",
+      "page_pixel_sha256": [
+        "bfa67a029bf3429208735d67e628b0896e8f304f5adc0489ba96f3e1e45d9e45",
+        "150d784625c6c781da006bc6700fa6a9d266070e999f0ad37acccd98b4f98f97",
+        "f3b7d30bf470426ef065436061cc8cc32b36af90ce0cd9ac84adb1b9777630ff"
+      ]
+    },
+    {
+      "id": "left-zero-mask08",
+      "mask": 8,
+      "removed_labels": [
+        "reference"
+      ],
+      "content": "PASS",
+      "complete_entries": 18,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "PASS",
+      "trial": "FAIL",
+      "copy_sha256": "8d1180dff4494c02396b397c0dcc7e0e9ea35cc781f8e0c938674d3f529f3959",
+      "page_pixel_sha256": [
+        "0de4f17fb20481f92d327c5d9bdff9f1d34d1f27eb027a27b7f02ca1792c7103",
+        "685a52ed6013d6e97ca3355b618a22dfcde8433b446bc8263893aa2faffc2ce4",
+        "47b7a0546f77ffe55c5c094d5845eeac16d42e528dff945dd9b6fd805b41cc62"
+      ]
+    },
+    {
+      "id": "left-zero-mask09",
+      "mask": 9,
+      "removed_labels": [
+        "family",
+        "reference"
+      ],
+      "content": "PASS",
+      "complete_entries": 18,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "PASS",
+      "trial": "FAIL",
+      "copy_sha256": "82cdbfe5cc4c5dbff813558562593d0ae6702222545849caa68b3b4f6ca86af9",
+      "page_pixel_sha256": [
+        "b764133171ee7ddc303c2bccd20563ca032e7a2407ada0afd7dbbc8097492708",
+        "685a52ed6013d6e97ca3355b618a22dfcde8433b446bc8263893aa2faffc2ce4",
+        "47b7a0546f77ffe55c5c094d5845eeac16d42e528dff945dd9b6fd805b41cc62"
+      ]
+    },
+    {
+      "id": "left-zero-mask10",
+      "mask": 10,
+      "removed_labels": [
+        "school",
+        "reference"
+      ],
+      "content": "PASS",
+      "complete_entries": 18,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "PASS",
+      "trial": "FAIL",
+      "copy_sha256": "2fc29d594dd93a0a8bcd17d4e7fb81060958358373f9e1d7ed8095a210892f7f",
+      "page_pixel_sha256": [
+        "e6ddaa8e17bbc8a678eb1667eea05696b77f807a23e6d456298e0256dde16858",
+        "685a52ed6013d6e97ca3355b618a22dfcde8433b446bc8263893aa2faffc2ce4",
+        "47b7a0546f77ffe55c5c094d5845eeac16d42e528dff945dd9b6fd805b41cc62"
+      ]
+    },
+    {
+      "id": "left-zero-mask11",
+      "mask": 11,
+      "removed_labels": [
+        "family",
+        "school",
+        "reference"
+      ],
+      "content": "PASS",
+      "complete_entries": 18,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "PASS",
+      "trial": "FAIL",
+      "copy_sha256": "d223b8cee4bf5cbab6f1137afe735c4bf4124855c8bfee4ea03aa8a4fced5de2",
+      "page_pixel_sha256": [
+        "55c071363a7e4d56bc21c1377494680c55cc32c69e547ea1c2216b5da8421a4a",
+        "685a52ed6013d6e97ca3355b618a22dfcde8433b446bc8263893aa2faffc2ce4",
+        "47b7a0546f77ffe55c5c094d5845eeac16d42e528dff945dd9b6fd805b41cc62"
+      ]
+    },
+    {
+      "id": "left-zero-mask12",
+      "mask": 12,
+      "removed_labels": [
+        "experience",
+        "reference"
+      ],
+      "content": "PASS",
+      "complete_entries": 18,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "PASS",
+      "trial": "FAIL",
+      "copy_sha256": "3925a142bfccfdf75e571ef9be637cdba045a1a6f0a8214c9bb34d20caadda1f",
+      "page_pixel_sha256": [
+        "e20e258f74223923dbf8524d8f7824971f7745c0d12c7450a7f436988a12928b",
+        "685a52ed6013d6e97ca3355b618a22dfcde8433b446bc8263893aa2faffc2ce4",
+        "47b7a0546f77ffe55c5c094d5845eeac16d42e528dff945dd9b6fd805b41cc62"
+      ]
+    },
+    {
+      "id": "left-zero-mask13",
+      "mask": 13,
+      "removed_labels": [
+        "family",
+        "experience",
+        "reference"
+      ],
+      "content": "PASS",
+      "complete_entries": 18,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "PASS",
+      "trial": "FAIL",
+      "copy_sha256": "190a0b4ff3cb3f2f8c692b6408b505e5f13ac70cbd70e04da1d2bcab5c93b246",
+      "page_pixel_sha256": [
+        "fdb76f42462a8ceb7d5fc2e762b48e3439df7644c751edc8118819c805738f90",
+        "685a52ed6013d6e97ca3355b618a22dfcde8433b446bc8263893aa2faffc2ce4",
+        "47b7a0546f77ffe55c5c094d5845eeac16d42e528dff945dd9b6fd805b41cc62"
+      ]
+    },
+    {
+      "id": "left-zero-mask14",
+      "mask": 14,
+      "removed_labels": [
+        "school",
+        "experience",
+        "reference"
+      ],
+      "content": "PASS",
+      "complete_entries": 18,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "PASS",
+      "trial": "FAIL",
+      "copy_sha256": "71f4995280635b240cf371fef9e74978574a40667dde87e57c4c5ed9704a6697",
+      "page_pixel_sha256": [
+        "673966614ac2fe0a18ad1546dfb50b41b7d0c744b37fdae73b3715c352a0b64e",
+        "685a52ed6013d6e97ca3355b618a22dfcde8433b446bc8263893aa2faffc2ce4",
+        "47b7a0546f77ffe55c5c094d5845eeac16d42e528dff945dd9b6fd805b41cc62"
+      ]
+    },
+    {
+      "id": "left-zero-mask15",
+      "mask": 15,
+      "removed_labels": [
+        "family",
+        "school",
+        "experience",
+        "reference"
+      ],
+      "content": "PASS",
+      "complete_entries": 18,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "PASS",
+      "trial": "FAIL",
+      "copy_sha256": "2897c70326b19a4e3a81b8f24964d865326641ba4c0f5871777a5287d06d6db7",
+      "page_pixel_sha256": [
+        "bfa67a029bf3429208735d67e628b0896e8f304f5adc0489ba96f3e1e45d9e45",
+        "685a52ed6013d6e97ca3355b618a22dfcde8433b446bc8263893aa2faffc2ce4",
+        "47b7a0546f77ffe55c5c094d5845eeac16d42e528dff945dd9b6fd805b41cc62"
+      ]
+    },
+    {
+      "id": "right-zero-mask00",
+      "mask": 0,
+      "removed_labels": [],
+      "content": "FAIL",
+      "complete_entries": 14,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "FAIL",
+      "trial": "FAIL",
+      "copy_sha256": "c4b94b62476d82c91d1c77c39c3b456776ab20928b310447af85cf4f54eb30ab",
+      "page_pixel_sha256": [
+        "16d840b6a613fff02fca8127b383a5ea3a540faa26a5243cccedf914ffa3de2e",
+        "e7fa6c96e5d1afaa3d323c02c81b1cbea41f81cbf07969d4e43e715e7e347e36",
+        "b995ed1554a6e1b875ed93ea53644300789bb026b176ab284d7f6da62453f0a8"
+      ]
+    },
+    {
+      "id": "right-zero-mask01",
+      "mask": 1,
+      "removed_labels": [
+        "family"
+      ],
+      "content": "FAIL",
+      "complete_entries": 14,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "FAIL",
+      "trial": "FAIL",
+      "copy_sha256": "9d7e846b6f2946325d0b29eaaae2cae9d7ed0f25aefd8c2b8c52f28488f0cbb8",
+      "page_pixel_sha256": [
+        "409ca4f1b44c61430365e4197a5fee17105a3de96e98c5b36df2373fa463a00c",
+        "e7fa6c96e5d1afaa3d323c02c81b1cbea41f81cbf07969d4e43e715e7e347e36",
+        "b995ed1554a6e1b875ed93ea53644300789bb026b176ab284d7f6da62453f0a8"
+      ]
+    },
+    {
+      "id": "right-zero-mask02",
+      "mask": 2,
+      "removed_labels": [
+        "school"
+      ],
+      "content": "FAIL",
+      "complete_entries": 14,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "FAIL",
+      "trial": "FAIL",
+      "copy_sha256": "f8978e7ae48689a81555c622994ce5208de24b56139f1e27f1e7fafdf2a6b8c2",
+      "page_pixel_sha256": [
+        "3e416089d9ca5019e5caa82fd2a66a529ad57c2c12c9966edb9666e8af4fb46b",
+        "e7fa6c96e5d1afaa3d323c02c81b1cbea41f81cbf07969d4e43e715e7e347e36",
+        "b995ed1554a6e1b875ed93ea53644300789bb026b176ab284d7f6da62453f0a8"
+      ]
+    },
+    {
+      "id": "right-zero-mask03",
+      "mask": 3,
+      "removed_labels": [
+        "family",
+        "school"
+      ],
+      "content": "FAIL",
+      "complete_entries": 14,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "FAIL",
+      "trial": "FAIL",
+      "copy_sha256": "e6a4bf5b5f2772603e6f2ff0cdb5ad1b431560431115c4284f118b7132446ffb",
+      "page_pixel_sha256": [
+        "fc565fe111c04eca888851598d76f46c49a45d06eaaccc842a9c3c4d8d0be291",
+        "e7fa6c96e5d1afaa3d323c02c81b1cbea41f81cbf07969d4e43e715e7e347e36",
+        "b995ed1554a6e1b875ed93ea53644300789bb026b176ab284d7f6da62453f0a8"
+      ]
+    },
+    {
+      "id": "right-zero-mask04",
+      "mask": 4,
+      "removed_labels": [
+        "experience"
+      ],
+      "content": "FAIL",
+      "complete_entries": 14,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "FAIL",
+      "trial": "FAIL",
+      "copy_sha256": "4ba132d1f69b3f85e8c28d701e37262ccc47b9bc1a7d4a52911b2cf91d9aa424",
+      "page_pixel_sha256": [
+        "50473956af28b4b599f5a8c7158e2d4f621ccae2d087097a8e3bba5c3630de07",
+        "e7fa6c96e5d1afaa3d323c02c81b1cbea41f81cbf07969d4e43e715e7e347e36",
+        "b995ed1554a6e1b875ed93ea53644300789bb026b176ab284d7f6da62453f0a8"
+      ]
+    },
+    {
+      "id": "right-zero-mask05",
+      "mask": 5,
+      "removed_labels": [
+        "family",
+        "experience"
+      ],
+      "content": "FAIL",
+      "complete_entries": 14,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "FAIL",
+      "trial": "FAIL",
+      "copy_sha256": "9fee9a05f773b478f5fa3123104bb30465e08f966c3249de713a529687cf01ed",
+      "page_pixel_sha256": [
+        "d94ffad6ce09c40a80a6011f0262e25bf1ded23de86045160d7e94ccf4f50d0f",
+        "e7fa6c96e5d1afaa3d323c02c81b1cbea41f81cbf07969d4e43e715e7e347e36",
+        "b995ed1554a6e1b875ed93ea53644300789bb026b176ab284d7f6da62453f0a8"
+      ]
+    },
+    {
+      "id": "right-zero-mask06",
+      "mask": 6,
+      "removed_labels": [
+        "school",
+        "experience"
+      ],
+      "content": "FAIL",
+      "complete_entries": 14,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "FAIL",
+      "trial": "FAIL",
+      "copy_sha256": "80a93907fa4850ce9cd7a9605450a0a4fadb65531c52808e93fff42184ac910a",
+      "page_pixel_sha256": [
+        "c4a84be7e2da6bdcdcc46a801a51372bd0e4d81c39d99fc80a298b028532bd37",
+        "e7fa6c96e5d1afaa3d323c02c81b1cbea41f81cbf07969d4e43e715e7e347e36",
+        "b995ed1554a6e1b875ed93ea53644300789bb026b176ab284d7f6da62453f0a8"
+      ]
+    },
+    {
+      "id": "right-zero-mask07",
+      "mask": 7,
+      "removed_labels": [
+        "family",
+        "school",
+        "experience"
+      ],
+      "content": "FAIL",
+      "complete_entries": 14,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "FAIL",
+      "trial": "FAIL",
+      "copy_sha256": "f5caa293ee20ddf843a009f70eca75816a865dd8b1226bbd8d188644160dc224",
+      "page_pixel_sha256": [
+        "37ee5157ad6649e09ac379a29c1375ae46218b572b38eec5bb0f0e84f04952f1",
+        "e7fa6c96e5d1afaa3d323c02c81b1cbea41f81cbf07969d4e43e715e7e347e36",
+        "b995ed1554a6e1b875ed93ea53644300789bb026b176ab284d7f6da62453f0a8"
+      ]
+    },
+    {
+      "id": "right-zero-mask08",
+      "mask": 8,
+      "removed_labels": [
+        "reference"
+      ],
+      "content": "PASS",
+      "complete_entries": 18,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "FAIL",
+      "trial": "FAIL",
+      "copy_sha256": "8acb901d6ce218a2549c4c56b16bae032018c0b30f1d641e7e4523a41729ddcf",
+      "page_pixel_sha256": [
+        "16d840b6a613fff02fca8127b383a5ea3a540faa26a5243cccedf914ffa3de2e",
+        "b569d79775fd0cc0e23bcc8bad59a58e086f61e84a296170a4001442a40523be",
+        "4be7ad9a9ac3cf1f9e169618712dd90fd6aef86016efec5f5c910f53e66a20f3"
+      ]
+    },
+    {
+      "id": "right-zero-mask09",
+      "mask": 9,
+      "removed_labels": [
+        "family",
+        "reference"
+      ],
+      "content": "PASS",
+      "complete_entries": 18,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "FAIL",
+      "trial": "FAIL",
+      "copy_sha256": "78fe3acd9d3977a76ed3fa67cff8351b9ef5e4553dbaff3f2e3b7e8963d79a30",
+      "page_pixel_sha256": [
+        "409ca4f1b44c61430365e4197a5fee17105a3de96e98c5b36df2373fa463a00c",
+        "b569d79775fd0cc0e23bcc8bad59a58e086f61e84a296170a4001442a40523be",
+        "4be7ad9a9ac3cf1f9e169618712dd90fd6aef86016efec5f5c910f53e66a20f3"
+      ]
+    },
+    {
+      "id": "right-zero-mask10",
+      "mask": 10,
+      "removed_labels": [
+        "school",
+        "reference"
+      ],
+      "content": "PASS",
+      "complete_entries": 18,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "FAIL",
+      "trial": "FAIL",
+      "copy_sha256": "9d74f06017dfdef5804ca206eebfb6fc27b26d185f6271b4d9338d111ad6b7a7",
+      "page_pixel_sha256": [
+        "3e416089d9ca5019e5caa82fd2a66a529ad57c2c12c9966edb9666e8af4fb46b",
+        "b569d79775fd0cc0e23bcc8bad59a58e086f61e84a296170a4001442a40523be",
+        "4be7ad9a9ac3cf1f9e169618712dd90fd6aef86016efec5f5c910f53e66a20f3"
+      ]
+    },
+    {
+      "id": "right-zero-mask11",
+      "mask": 11,
+      "removed_labels": [
+        "family",
+        "school",
+        "reference"
+      ],
+      "content": "PASS",
+      "complete_entries": 18,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "FAIL",
+      "trial": "FAIL",
+      "copy_sha256": "84697a58102ee8f9493397b7cb805bb2f3f1c72daf8c4d8b8c0a8dae81e4c953",
+      "page_pixel_sha256": [
+        "fc565fe111c04eca888851598d76f46c49a45d06eaaccc842a9c3c4d8d0be291",
+        "b569d79775fd0cc0e23bcc8bad59a58e086f61e84a296170a4001442a40523be",
+        "4be7ad9a9ac3cf1f9e169618712dd90fd6aef86016efec5f5c910f53e66a20f3"
+      ]
+    },
+    {
+      "id": "right-zero-mask12",
+      "mask": 12,
+      "removed_labels": [
+        "experience",
+        "reference"
+      ],
+      "content": "PASS",
+      "complete_entries": 18,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "FAIL",
+      "trial": "FAIL",
+      "copy_sha256": "a047f39c1013270c2250e0d96f9bd33cf664866ec9416837f5a252f849adf0db",
+      "page_pixel_sha256": [
+        "50473956af28b4b599f5a8c7158e2d4f621ccae2d087097a8e3bba5c3630de07",
+        "b569d79775fd0cc0e23bcc8bad59a58e086f61e84a296170a4001442a40523be",
+        "4be7ad9a9ac3cf1f9e169618712dd90fd6aef86016efec5f5c910f53e66a20f3"
+      ]
+    },
+    {
+      "id": "right-zero-mask13",
+      "mask": 13,
+      "removed_labels": [
+        "family",
+        "experience",
+        "reference"
+      ],
+      "content": "PASS",
+      "complete_entries": 18,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "FAIL",
+      "trial": "FAIL",
+      "copy_sha256": "a364ef3225d52a49f9e4eddc0d121c01c9adca62b46ec18f1d6dd33c925c4e47",
+      "page_pixel_sha256": [
+        "d94ffad6ce09c40a80a6011f0262e25bf1ded23de86045160d7e94ccf4f50d0f",
+        "b569d79775fd0cc0e23bcc8bad59a58e086f61e84a296170a4001442a40523be",
+        "4be7ad9a9ac3cf1f9e169618712dd90fd6aef86016efec5f5c910f53e66a20f3"
+      ]
+    },
+    {
+      "id": "right-zero-mask14",
+      "mask": 14,
+      "removed_labels": [
+        "school",
+        "experience",
+        "reference"
+      ],
+      "content": "PASS",
+      "complete_entries": 18,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "FAIL",
+      "trial": "FAIL",
+      "copy_sha256": "6ce431bb8c3ae5176ea03db051bc2c44076f19749b111011593d2eb1b123c628",
+      "page_pixel_sha256": [
+        "c4a84be7e2da6bdcdcc46a801a51372bd0e4d81c39d99fc80a298b028532bd37",
+        "b569d79775fd0cc0e23bcc8bad59a58e086f61e84a296170a4001442a40523be",
+        "4be7ad9a9ac3cf1f9e169618712dd90fd6aef86016efec5f5c910f53e66a20f3"
+      ]
+    },
+    {
+      "id": "right-zero-mask15",
+      "mask": 15,
+      "removed_labels": [
+        "family",
+        "school",
+        "experience",
+        "reference"
+      ],
+      "content": "PASS",
+      "complete_entries": 18,
+      "pages": 3,
+      "layout": "FAIL",
+      "photo": "FAIL",
+      "trial": "FAIL",
+      "copy_sha256": "0fe283f66275d422d8c8ef5bb7d57f3f92529da3100e16bf491e2e1a397bbd7c",
+      "page_pixel_sha256": [
+        "37ee5157ad6649e09ac379a29c1375ae46218b572b38eec5bb0f0e84f04952f1",
+        "b569d79775fd0cc0e23bcc8bad59a58e086f61e84a296170a4001442a40523be",
+        "4be7ad9a9ac3cf1f9e169618712dd90fd6aef86016efec5f5c910f53e66a20f3"
+      ]
+    }
+  ]
+}
