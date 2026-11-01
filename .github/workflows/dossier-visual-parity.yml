@@ -27,6 +27,10 @@ on:
         description: Run only synthetic LibreOffice story reductions
         type: boolean
         default: false
+      compat_mode:
+        description: Run only the persisted-fixture mode 14/15 counterprobe
+        type: boolean
+        default: false
   push:
     branches:
       - render
@@ -34,6 +38,7 @@ on:
       - work/01nov-p2-02-semantic-parity
       - work/01nov-p2-03-lo-isolation
       - work/01nov-p2-04-minimal-repro
+      - work/01nov-p2-05-compat-mode
 
 permissions:
   contents: read
@@ -44,7 +49,7 @@ concurrency:
 
 jobs:
   source-batch:
-    if: github.ref != 'refs/heads/work/01nov-p2-01-onlyoffice' && github.ref != 'refs/heads/work/01nov-p2-02-semantic-parity' && github.ref != 'refs/heads/work/01nov-p2-03-lo-isolation' && github.ref != 'refs/heads/work/01nov-p2-04-minimal-repro' && !inputs.converter_poc && !inputs.semantic_parity && !inputs.lo_isolation && !inputs.minimal_repro
+    if: github.ref != 'refs/heads/work/01nov-p2-01-onlyoffice' && github.ref != 'refs/heads/work/01nov-p2-02-semantic-parity' && github.ref != 'refs/heads/work/01nov-p2-03-lo-isolation' && github.ref != 'refs/heads/work/01nov-p2-04-minimal-repro' && !inputs.converter_poc && !inputs.semantic_parity && !inputs.lo_isolation && !inputs.minimal_repro && github.ref != 'refs/heads/work/01nov-p2-05-compat-mode' && !inputs.compat_mode
     name: Visual parity source batch ${{ matrix.batch }}
     runs-on: ubuntu-24.04
     timeout-minutes: 25
@@ -272,7 +277,7 @@ jobs:
 
   semantic-parity:
     name: P2-02 — Next content, photos and continuation (LibreOffice)
-    if: github.ref != 'refs/heads/work/01nov-p2-01-onlyoffice' && !inputs.converter_poc
+    if: github.ref != 'refs/heads/work/01nov-p2-01-onlyoffice' && github.ref != 'refs/heads/work/01nov-p2-05-compat-mode' && !inputs.converter_poc && !inputs.compat_mode
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -350,5 +355,46 @@ jobs:
         with:
           name: dossier-semantic-parity
           path: artifacts/semantic-parity
+          if-no-files-found: warn
+          retention-days: 14
+
+  compatibility-probe:
+    name: P2-05 — compatibilityMode 14/15 (LibreOffice only)
+    if: github.ref == 'refs/heads/work/01nov-p2-05-compat-mode' || inputs.compat_mode
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install LibreOffice and Python analysis only
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libreoffice-writer fonts-liberation fonts-cabin fontconfig python3-venv
+          libreoffice --version
+          fc-match Arial
+          python3 -m venv .parity-venv
+          .parity-venv/bin/pip install pillow==11.3.0 numpy==2.2.6 scikit-image==0.25.2 pymupdf==1.26.4
+      - name: Verify package invariants and existing content/converter controls
+        run: |
+          .parity-venv/bin/python scripts/dossier_lo_compat_test.py
+          .parity-venv/bin/python scripts/dossier_semantic_parity_test.py
+          .parity-venv/bin/python scripts/dossier_lo_isolation_test.py
+          .parity-venv/bin/python scripts/dossier_converter_poc_test.py
+      - name: Convert the eight mode copies and verify unchanged mode-15 baselines
+        run: |
+          .parity-venv/bin/python scripts/dossier_lo_compat.py \
+            --fixture-dir tests/fixtures/lo-import-p2-04 \
+            --out-dir artifacts/compat-mode
+      - name: Publish compatibility counterprobe summary
+        if: always()
+        run: |
+          if [ -f artifacts/compat-mode/SUMMARY.md ]; then
+            cat artifacts/compat-mode/SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Retain eight mode copies, PDFs and measurements
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dossier-compatibility-probe
+          path: artifacts/compat-mode
           if-no-files-found: warn
           retention-days: 14
