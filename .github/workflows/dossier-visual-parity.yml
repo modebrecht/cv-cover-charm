@@ -19,11 +19,16 @@ on:
         description: Run only the production Next semantic/photo regression lane
         type: boolean
         default: false
+      lo_isolation:
+        description: Run only synthetic LibreOffice anchor/table isolation probes
+        type: boolean
+        default: false
   push:
     branches:
       - render
       - work/01nov-p2-01-onlyoffice
       - work/01nov-p2-02-semantic-parity
+      - work/01nov-p2-03-lo-isolation
 
 permissions:
   contents: read
@@ -34,7 +39,7 @@ concurrency:
 
 jobs:
   source-batch:
-    if: github.ref != 'refs/heads/work/01nov-p2-01-onlyoffice' && github.ref != 'refs/heads/work/01nov-p2-02-semantic-parity' && !inputs.converter_poc && !inputs.semantic_parity
+    if: github.ref != 'refs/heads/work/01nov-p2-01-onlyoffice' && github.ref != 'refs/heads/work/01nov-p2-02-semantic-parity' && github.ref != 'refs/heads/work/01nov-p2-03-lo-isolation' && !inputs.converter_poc && !inputs.semantic_parity && !inputs.lo_isolation
     name: Visual parity source batch ${{ matrix.batch }}
     runs-on: ubuntu-24.04
     timeout-minutes: 25
@@ -281,7 +286,9 @@ jobs:
           python3 -m venv .parity-venv
           .parity-venv/bin/pip install pillow==11.3.0 numpy==2.2.6 scikit-image==0.25.2 pymupdf==1.26.4
       - name: Verify content/photo negative controls
-        run: .parity-venv/bin/python scripts/dossier_semantic_parity_test.py
+        run: |
+          .parity-venv/bin/python scripts/dossier_semantic_parity_test.py
+          .parity-venv/bin/python scripts/dossier_lo_isolation_test.py
       - name: Export eight synthetic cases and check catalog/pilot gallery
         shell: bash
         run: |
@@ -297,11 +304,19 @@ jobs:
           bash scripts/run_dossier_gallery_batch.sh docx 0 artifacts/semantic-parity/gallery-pilot
       - name: Convert and check visible markers, pages, photo geometry and crop
         if: always()
+        env:
+          P203_ENABLED: ${{ github.ref == 'refs/heads/work/01nov-p2-03-lo-isolation' || inputs.lo_isolation }}
         run: |
           if [ -f artifacts/semantic-parity/source/CATALOG.json ]; then
-            .parity-venv/bin/python scripts/dossier_semantic_parity.py \
-              --source-dir artifacts/semantic-parity/source \
-              --out-dir artifacts/semantic-parity/report
+            if [ "$P203_ENABLED" = true ]; then
+              .parity-venv/bin/python scripts/dossier_lo_isolation.py \
+                --source-dir artifacts/semantic-parity/source \
+                --out-dir artifacts/semantic-parity/isolation
+            else
+              .parity-venv/bin/python scripts/dossier_semantic_parity.py \
+                --source-dir artifacts/semantic-parity/source \
+                --out-dir artifacts/semantic-parity/report
+            fi
           else
             echo "BLOCKED: source export did not produce its catalog" >&2
             exit 1
@@ -309,6 +324,9 @@ jobs:
       - name: Publish semantic summary
         if: always()
         run: |
+          if [ -f artifacts/semantic-parity/isolation/SUMMARY.md ]; then
+            cat artifacts/semantic-parity/isolation/SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+          fi
           if [ -f artifacts/semantic-parity/report/SUMMARY.md ]; then
             cat artifacts/semantic-parity/report/SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
           fi
