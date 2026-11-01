@@ -9,9 +9,15 @@ name: Dossier Visual Parity x39
 # while low SSIM is reported and ranked without blocking release by itself.
 on:
   workflow_dispatch:
+    inputs:
+      converter_poc:
+        description: Run only the bounded three-document DOCX Next converter trial
+        type: boolean
+        default: false
   push:
     branches:
       - render
+      - work/01nov-p2-01-onlyoffice
 
 permissions:
   contents: read
@@ -22,6 +28,7 @@ concurrency:
 
 jobs:
   source-batch:
+    if: github.ref != 'refs/heads/work/01nov-p2-01-onlyoffice' && !inputs.converter_poc
     name: Visual parity source batch ${{ matrix.batch }}
     runs-on: ubuntu-24.04
     timeout-minutes: 25
@@ -183,4 +190,62 @@ jobs:
           name: dossier-visual-parity-39
           path: artifacts/dossier-visual-parity-39
           if-no-files-found: error
+          retention-days: 14
+
+  converter-poc:
+    name: P2-01 — DOCX Next / App PDF / LibreOffice / ONLYOFFICE
+    if: github.ref == 'refs/heads/work/01nov-p2-01-onlyoffice' || inputs.converter_poc
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install existing app and browser runner
+        run: |
+          bun install --frozen-lockfile
+          npm install --no-save --no-package-lock @playwright/test@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Install converters and parity analysis
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libreoffice-writer fonts-liberation fonts-cabin fontconfig python3-venv
+          python3 -m venv .parity-venv
+          .parity-venv/bin/pip install pillow==11.3.0 numpy==2.2.6 scikit-image==0.25.2 pymupdf==1.26.4
+          bash scripts/setup_onlyoffice_poc.sh "$RUNNER_TEMP/onlyoffice-poc"
+          libreoffice --version
+          fc-match Arial
+      - name: Export three synthetic documents through production downloads
+        shell: bash
+        run: |
+          set -euo pipefail
+          bun run dev -- --host 127.0.0.1 --port 4173 > /tmp/p2-01-app.log 2>&1 &
+          p2_app_pid=$!
+          trap 'kill "$p2_app_pid" 2>/dev/null || true' EXIT
+          for attempt in {1..30}; do
+            curl --fail --silent http://127.0.0.1:4173/ > /dev/null && break
+            sleep 1
+          done
+          npx playwright test tests/e2e/dossier-converter-poc.spec.ts --workers=1 --reporter=line
+      - name: Convert twice and compare with existing parity metrics
+        run: |
+          .parity-venv/bin/python scripts/dossier_converter_poc.py \
+            --source-dir artifacts/converter-poc/source \
+            --out-dir artifacts/converter-poc/report \
+            --onlyoffice "$RUNNER_TEMP/onlyoffice-poc/onlyoffice"
+      - name: Publish converter summary
+        if: always()
+        run: |
+          if [ -f artifacts/converter-poc/report/SUMMARY.md ]; then
+            cat artifacts/converter-poc/report/SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Retain synthetic sources, PDFs, comparison sheets and measurements
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dossier-converter-poc
+          path: artifacts/converter-poc
+          if-no-files-found: warn
           retention-days: 14
