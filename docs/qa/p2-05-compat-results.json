@@ -1,0 +1,1514 @@
+{
+  "implementation_sha": "cd0af56d074390e0b26102884bcc0aa57ae20e9e",
+  "fixture_source_run": 41291094020,
+  "fixture_manifest_sha256": "3af304bece5d5b3bab28ee0a15293632df71baf3d467a0308fabe03291560519",
+  "source_hashes_verified": 4,
+  "cases": [
+    {
+      "id": "photo-table-mode14",
+      "fixture": "photo-table-mode15.docx",
+      "stem": "photo-table",
+      "mode": 14,
+      "package": {
+        "settings_attribute_edits": [
+          {
+            "path": "/compat[3]/compatSetting[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+            "before": "15",
+            "after": "14"
+          }
+        ],
+        "settings_bytes_changed": 1,
+        "all_other_parts_identical": true,
+        "source_sha256": "f20ceb0527ca30f60103b4aa94c5f7958a501dcf651521e2eeb1906ae6abc0a2",
+        "copy_sha256": "f726047485bd5e28749cf8ec471f16edca49d08ccdb059be5ea6b6924a4eaa60"
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.204,
+        "max_rss_kib": 218632,
+        "cpu_seconds": 1.107,
+        "elapsed_seconds": 1.19,
+        "exit_code": 0
+      },
+      "conversion_status": "PASS",
+      "pages": 1,
+      "producer": "LibreOffice 24.2",
+      "pixel_sha256": [
+        "df85d3a9c2ae8d9cc034d3a16ebb27c14eec19d8ba3b79047bf9d2132e3b73e6"
+      ],
+      "marker_pages": {
+        "P204BODY": [
+          1
+        ]
+      },
+      "source_markers_present": true,
+      "missing": [],
+      "entry_spans": [],
+      "content_status": "PASS",
+      "photo_signature": {
+        "visible": true,
+        "pixels": 13122,
+        "bbox_mm": [
+          154.995,
+          52.101,
+          27.772,
+          34.646
+        ],
+        "grid": [
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "colors": {
+          "1": 1241,
+          "2": 8859,
+          "3": 1289,
+          "4": 1733
+        }
+      },
+      "requested_x_mm": 155.0,
+      "photo_x_mm": 154.995,
+      "photo_offset_from_requested_mm": -0.005,
+      "pixel_identical_to_mode15": false,
+      "marker_page_changes_vs_mode15": {},
+      "photo_vs_paragraph": {
+        "status": "PASS",
+        "bbox_delta_mm": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_allowed_mm": 2.0,
+        "pattern_agreement": 1.0,
+        "min_pattern_agreement": 0.9
+      }
+    },
+    {
+      "id": "photo-table-mode15",
+      "fixture": "photo-table-mode15.docx",
+      "stem": "photo-table",
+      "mode": 15,
+      "package": {
+        "settings_attribute_edits": [],
+        "settings_bytes_changed": 0,
+        "all_other_parts_identical": true,
+        "source_sha256": "f20ceb0527ca30f60103b4aa94c5f7958a501dcf651521e2eeb1906ae6abc0a2",
+        "copy_sha256": "f20ceb0527ca30f60103b4aa94c5f7958a501dcf651521e2eeb1906ae6abc0a2"
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.153,
+        "max_rss_kib": 218556,
+        "cpu_seconds": 1.109,
+        "elapsed_seconds": 1.11,
+        "exit_code": 0
+      },
+      "conversion_status": "PASS",
+      "pages": 1,
+      "producer": "LibreOffice 24.2",
+      "pixel_sha256": [
+        "c52851c58687914989de75138c6fdd9171c57b493dafae33d2e530c4b713a1bb"
+      ],
+      "marker_pages": {
+        "P204BODY": [
+          1
+        ]
+      },
+      "source_markers_present": true,
+      "missing": [],
+      "entry_spans": [],
+      "content_status": "PASS",
+      "photo_signature": {
+        "visible": true,
+        "pixels": 13121,
+        "bbox_mm": [
+          175.097,
+          52.101,
+          27.772,
+          34.646
+        ],
+        "grid": [
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "colors": {
+          "1": 1243,
+          "2": 8858,
+          "3": 1287,
+          "4": 1733
+        }
+      },
+      "requested_x_mm": 155.0,
+      "photo_x_mm": 175.097,
+      "photo_offset_from_requested_mm": 20.097,
+      "baseline_pixels_match_p204": true,
+      "pixel_identical_to_mode15": true,
+      "marker_page_changes_vs_mode15": {},
+      "photo_vs_paragraph": {
+        "status": "FAIL",
+        "bbox_delta_mm": [
+          20.102,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_allowed_mm": 2.0,
+        "pattern_agreement": 1.0,
+        "min_pattern_agreement": 0.9
+      }
+    },
+    {
+      "id": "photo-paragraph-mode14",
+      "fixture": "photo-paragraph-mode15.docx",
+      "stem": "photo-paragraph",
+      "mode": 14,
+      "package": {
+        "settings_attribute_edits": [
+          {
+            "path": "/compat[3]/compatSetting[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+            "before": "15",
+            "after": "14"
+          }
+        ],
+        "settings_bytes_changed": 1,
+        "all_other_parts_identical": true,
+        "source_sha256": "b7b49adf09813977e7c73961650d66c936e0688346514f815cfe33ec6896b915",
+        "copy_sha256": "78e31075e9ab19ff483f17c252445d2494821b3f4637aa0f441f79203b25ff39"
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.154,
+        "max_rss_kib": 218864,
+        "cpu_seconds": 1.096,
+        "elapsed_seconds": 1.1,
+        "exit_code": 0
+      },
+      "conversion_status": "PASS",
+      "pages": 1,
+      "producer": "LibreOffice 24.2",
+      "pixel_sha256": [
+        "f6e223d0697a08a779bfa260a38a218f7e1ce89742ed9b22f8117197a65f50fc"
+      ],
+      "marker_pages": {
+        "P204BODY": [
+          1
+        ]
+      },
+      "source_markers_present": true,
+      "missing": [],
+      "entry_spans": [],
+      "content_status": "PASS",
+      "photo_signature": {
+        "visible": true,
+        "pixels": 13122,
+        "bbox_mm": [
+          154.995,
+          52.101,
+          27.772,
+          34.646
+        ],
+        "grid": [
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "colors": {
+          "1": 1241,
+          "2": 8859,
+          "3": 1289,
+          "4": 1733
+        }
+      },
+      "requested_x_mm": 155.0,
+      "photo_x_mm": 154.995,
+      "photo_offset_from_requested_mm": -0.005,
+      "pixel_identical_to_mode15": true,
+      "marker_page_changes_vs_mode15": {},
+      "photo_vs_paragraph": {
+        "status": "PASS",
+        "bbox_delta_mm": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_allowed_mm": 2.0,
+        "pattern_agreement": 1.0,
+        "min_pattern_agreement": 0.9
+      }
+    },
+    {
+      "id": "photo-paragraph-mode15",
+      "fixture": "photo-paragraph-mode15.docx",
+      "stem": "photo-paragraph",
+      "mode": 15,
+      "package": {
+        "settings_attribute_edits": [],
+        "settings_bytes_changed": 0,
+        "all_other_parts_identical": true,
+        "source_sha256": "b7b49adf09813977e7c73961650d66c936e0688346514f815cfe33ec6896b915",
+        "copy_sha256": "b7b49adf09813977e7c73961650d66c936e0688346514f815cfe33ec6896b915"
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.103,
+        "max_rss_kib": 218580,
+        "cpu_seconds": 1.085,
+        "elapsed_seconds": 1.09,
+        "exit_code": 0
+      },
+      "conversion_status": "PASS",
+      "pages": 1,
+      "producer": "LibreOffice 24.2",
+      "pixel_sha256": [
+        "f6e223d0697a08a779bfa260a38a218f7e1ce89742ed9b22f8117197a65f50fc"
+      ],
+      "marker_pages": {
+        "P204BODY": [
+          1
+        ]
+      },
+      "source_markers_present": true,
+      "missing": [],
+      "entry_spans": [],
+      "content_status": "PASS",
+      "photo_signature": {
+        "visible": true,
+        "pixels": 13122,
+        "bbox_mm": [
+          154.995,
+          52.101,
+          27.772,
+          34.646
+        ],
+        "grid": [
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "colors": {
+          "1": 1241,
+          "2": 8859,
+          "3": 1289,
+          "4": 1733
+        }
+      },
+      "requested_x_mm": 155.0,
+      "photo_x_mm": 154.995,
+      "photo_offset_from_requested_mm": -0.005,
+      "baseline_pixels_match_p204": true,
+      "pixel_identical_to_mode15": true,
+      "marker_page_changes_vs_mode15": {},
+      "photo_vs_paragraph": {
+        "status": "PASS",
+        "bbox_delta_mm": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "max_allowed_mm": 2.0,
+        "pattern_agreement": 1.0,
+        "min_pattern_agreement": 0.9
+      }
+    },
+    {
+      "id": "long-coupled-mode14",
+      "fixture": "long-coupled.docx",
+      "stem": "long-coupled",
+      "mode": 14,
+      "package": {
+        "settings_attribute_edits": [
+          {
+            "path": "/compat[3]/compatSetting[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+            "before": "15",
+            "after": "14"
+          }
+        ],
+        "settings_bytes_changed": 1,
+        "all_other_parts_identical": true,
+        "source_sha256": "56bfdc31f3dca210b9fff79c3822845f59f4e02801d22d88b0ceec09f1733087",
+        "copy_sha256": "29feca86e5c508e95696fdcc9a196c2920190709f41520044c90a900bb0d749f"
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 2.807,
+        "max_rss_kib": 218832,
+        "cpu_seconds": 2.768,
+        "elapsed_seconds": 2.78,
+        "exit_code": 0
+      },
+      "conversion_status": "PASS",
+      "pages": 3,
+      "producer": "LibreOffice 24.2",
+      "pixel_sha256": [
+        "41872644b9c6e100024e860e4cbfe3465e6d7908706c370f785c61fbf52371d0",
+        "84689b2f1a6f22332ef6d2a49db4ba316c597694b134976add82a79dce049acc",
+        "384258f9c41c2f5899c851ea78f0d4f3a76aae532d32f5e2c14c8a2d4fc9f7b4"
+      ],
+      "marker_pages": {
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          1
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          2
+        ],
+        "P202Praxis16": [
+          2
+        ],
+        "P202Praxis17": [],
+        "P202Praxis18": [],
+        "P202Endreferenz": []
+      },
+      "source_markers_present": true,
+      "missing": [
+        "P202Praxis17",
+        "P202Praxis18",
+        "P202Endreferenz"
+      ],
+      "entry_spans": [
+        {
+          "marker": "P202Praxis01",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis02",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis03",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis04",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis05",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis06",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis07",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis08",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis09",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis10",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis11",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis12",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis13",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis14",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis15",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis16",
+          "start_page": 2,
+          "end_page": null,
+          "complete": false,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis17",
+          "start_page": null,
+          "end_page": null,
+          "complete": false,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis18",
+          "start_page": null,
+          "end_page": null,
+          "complete": false,
+          "split": false
+        }
+      ],
+      "content_status": "FAIL",
+      "body_heading_origin_mm": [
+        69.039,
+        70.097
+      ],
+      "pixel_identical_to_mode15": false,
+      "body_heading_delta_vs_mode15_mm": [
+        -1.993,
+        0.0
+      ],
+      "marker_page_changes_vs_mode15": {}
+    },
+    {
+      "id": "long-coupled-mode15",
+      "fixture": "long-coupled.docx",
+      "stem": "long-coupled",
+      "mode": 15,
+      "package": {
+        "settings_attribute_edits": [],
+        "settings_bytes_changed": 0,
+        "all_other_parts_identical": true,
+        "source_sha256": "56bfdc31f3dca210b9fff79c3822845f59f4e02801d22d88b0ceec09f1733087",
+        "copy_sha256": "56bfdc31f3dca210b9fff79c3822845f59f4e02801d22d88b0ceec09f1733087"
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 2.808,
+        "max_rss_kib": 218840,
+        "cpu_seconds": 2.763,
+        "elapsed_seconds": 2.77,
+        "exit_code": 0
+      },
+      "conversion_status": "PASS",
+      "pages": 3,
+      "producer": "LibreOffice 24.2",
+      "pixel_sha256": [
+        "8980c1c0d0514e8dd239974dd0d95bb1b03135ab57af83c2e1dd79c6449698b2",
+        "7ac57ac1bc3539730b8f6b8b20c9c558b51d4aed86cf80279a0855772cba3b19",
+        "384258f9c41c2f5899c851ea78f0d4f3a76aae532d32f5e2c14c8a2d4fc9f7b4"
+      ],
+      "marker_pages": {
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          1
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          2
+        ],
+        "P202Praxis16": [
+          2
+        ],
+        "P202Praxis17": [],
+        "P202Praxis18": [],
+        "P202Endreferenz": []
+      },
+      "source_markers_present": true,
+      "missing": [
+        "P202Praxis17",
+        "P202Praxis18",
+        "P202Endreferenz"
+      ],
+      "entry_spans": [
+        {
+          "marker": "P202Praxis01",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis02",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis03",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis04",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis05",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis06",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis07",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis08",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis09",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis10",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis11",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis12",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis13",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis14",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis15",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis16",
+          "start_page": 2,
+          "end_page": null,
+          "complete": false,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis17",
+          "start_page": null,
+          "end_page": null,
+          "complete": false,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis18",
+          "start_page": null,
+          "end_page": null,
+          "complete": false,
+          "split": false
+        }
+      ],
+      "content_status": "FAIL",
+      "body_heading_origin_mm": [
+        71.032,
+        70.097
+      ],
+      "baseline_pixels_match_p204": true,
+      "pixel_identical_to_mode15": true,
+      "body_heading_delta_vs_mode15_mm": [
+        0.0,
+        0.0
+      ],
+      "marker_page_changes_vs_mode15": {}
+    },
+    {
+      "id": "long-detached-mode14",
+      "fixture": "long-detached.docx",
+      "stem": "long-detached",
+      "mode": 14,
+      "package": {
+        "settings_attribute_edits": [
+          {
+            "path": "/compat[3]/compatSetting[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+            "before": "15",
+            "after": "14"
+          }
+        ],
+        "settings_bytes_changed": 1,
+        "all_other_parts_identical": true,
+        "source_sha256": "a4e11145204850f28645c543d7b6818142c6753332a91d2f675486b3496a0150",
+        "copy_sha256": "34cda9229fb7b0baac4d3d8760d02361a66a5a853ad04d4c8832a27c1b1f2d28"
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.254,
+        "max_rss_kib": 218828,
+        "cpu_seconds": 1.218,
+        "elapsed_seconds": 1.22,
+        "exit_code": 0
+      },
+      "conversion_status": "PASS",
+      "pages": 3,
+      "producer": "LibreOffice 24.2",
+      "pixel_sha256": [
+        "41872644b9c6e100024e860e4cbfe3465e6d7908706c370f785c61fbf52371d0",
+        "dd666ccbd22402566bc973b788e730b46c5cb711102eb9e83d5319109ed5f2f4",
+        "28f9b26ac6b598e3709cfd07d347dec57ff4a23bcdf912a4b89ad8b3af967d0b"
+      ],
+      "marker_pages": {
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          1
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          2
+        ],
+        "P202Praxis16": [
+          3
+        ],
+        "P202Praxis17": [
+          3
+        ],
+        "P202Praxis18": [
+          3
+        ],
+        "P202Endreferenz": [
+          3
+        ]
+      },
+      "source_markers_present": true,
+      "missing": [],
+      "entry_spans": [
+        {
+          "marker": "P202Praxis01",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis02",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis03",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis04",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis05",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis06",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis07",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis08",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis09",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis10",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis11",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis12",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis13",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis14",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis15",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis16",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis17",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis18",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        }
+      ],
+      "content_status": "PASS",
+      "body_heading_origin_mm": [
+        69.039,
+        70.097
+      ],
+      "pixel_identical_to_mode15": false,
+      "body_heading_delta_vs_mode15_mm": [
+        -1.993,
+        0.0
+      ],
+      "marker_page_changes_vs_mode15": {}
+    },
+    {
+      "id": "long-detached-mode15",
+      "fixture": "long-detached.docx",
+      "stem": "long-detached",
+      "mode": 15,
+      "package": {
+        "settings_attribute_edits": [],
+        "settings_bytes_changed": 0,
+        "all_other_parts_identical": true,
+        "source_sha256": "a4e11145204850f28645c543d7b6818142c6753332a91d2f675486b3496a0150",
+        "copy_sha256": "a4e11145204850f28645c543d7b6818142c6753332a91d2f675486b3496a0150"
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.254,
+        "max_rss_kib": 218936,
+        "cpu_seconds": 1.215,
+        "elapsed_seconds": 1.23,
+        "exit_code": 0
+      },
+      "conversion_status": "PASS",
+      "pages": 3,
+      "producer": "LibreOffice 24.2",
+      "pixel_sha256": [
+        "8980c1c0d0514e8dd239974dd0d95bb1b03135ab57af83c2e1dd79c6449698b2",
+        "a7456b06dc665c22ba626f2be9d5436c0ea48d282f3656e1f90b2703612f003c",
+        "f5f16211dba6965ffcfa99984246701cb6bb471db12b8f8ce6aef30b7b90e1cb"
+      ],
+      "marker_pages": {
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          1
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          2
+        ],
+        "P202Praxis16": [
+          3
+        ],
+        "P202Praxis17": [
+          3
+        ],
+        "P202Praxis18": [
+          3
+        ],
+        "P202Endreferenz": [
+          3
+        ]
+      },
+      "source_markers_present": true,
+      "missing": [],
+      "entry_spans": [
+        {
+          "marker": "P202Praxis01",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis02",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis03",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis04",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis05",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis06",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis07",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis08",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis09",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis10",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis11",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis12",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis13",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis14",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis15",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis16",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis17",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis18",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        }
+      ],
+      "content_status": "PASS",
+      "body_heading_origin_mm": [
+        71.032,
+        70.097
+      ],
+      "baseline_pixels_match_p204": true,
+      "pixel_identical_to_mode15": true,
+      "body_heading_delta_vs_mode15_mm": [
+        0.0,
+        0.0
+      ],
+      "marker_page_changes_vs_mode15": {}
+    }
+  ],
+  "scope": "Persisted synthetic copies only; no product export or Word acceptance.",
+  "converter_version": "LibreOffice 24.2.7.2 420(Build:2)",
+  "mode15_baselines_match_p204": true,
+  "execution_status": "PASS",
+  "verification": {
+    "native_run_id": 41294229090,
+    "artifact_id": 13078632814,
+    "artifact_zip_sha256": "392b6cf415b51995e1a7e9f5eb6c7c595f8a73bdd6d09aac94bc9758a9fe7b9a",
+    "first_native_run_id": 41293854649,
+    "first_artifact_zip_sha256": "1643543d9d37c463e4061a6b4a0e5c8ec637b488da24d0729a6bf90772ec8996",
+    "repeated_docx_copy_hashes_identical": 8,
+    "repeated_decoded_page_pixels_identical": 16,
+    "replay_preserves_native_resource_measurements": true,
+    "source_fixture_hashes_verified": 4,
+    "mode15_saved_pixel_pages_matched": 8
+  },
+  "limitations": [
+    "Reduced synthetic fixtures only; no fresh full production-export or x39 comparison in this stage.",
+    "96dpi photo color bounds have about 0.265mm pixel resolution; printed decimals do not imply micrometer accuracy.",
+    "Word compatibility behavior is not verified by these LO results.",
+    "No global compatibilityMode replacement is approved."
+  ]
+}
