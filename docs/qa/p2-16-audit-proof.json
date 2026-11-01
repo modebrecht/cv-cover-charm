@@ -1,0 +1,13 @@
+{
+  "native_results_sha256": "3ab18cac619ae7f3fc82a463afdcfd525e9a2082fbcc83afc821f4746126ad42",
+  "tested_implementation_sha": "aea7b95229d3485757cd4214d9abd584eece07e3",
+  "execution_status": "PASS",
+  "all_16_case_rows_equal": true,
+  "all_2_control_rows_equal": true,
+  "audit_native_conversions": 0,
+  "native_resource_rows_preserved": true,
+  "baseline_page_signatures_reproduced": 18,
+  "native_pdf_pages": 54,
+  "native_lo_seconds_sum": 123.56,
+  "native_max_conversion_rss_kib": 242896
+}
