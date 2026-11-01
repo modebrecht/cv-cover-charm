@@ -91,6 +91,8 @@ class ReductionControls(unittest.TestCase):
             self.assertEqual(left.read('word/document.xml'),right.read('word/document.xml'))
             self.assertEqual(right.read('word/media/image.png'),b'unchanged calibration pixels')
             self.assertNotIn('word/unused-header.xml',right.namelist())
+            self.assertIn(b'<Types xmlns=',right.read('[Content_Types].xml'))
+            self.assertIn(b'<Relationships xmlns=',right.read('word/_rels/document.xml.rels'))
         self.assertTrue(result['compaction']['retained_payloads_identical'])
         self.assertLess(small.stat().st_size,full.stat().st_size)
 

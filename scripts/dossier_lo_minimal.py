@@ -115,11 +115,14 @@ def compact_package(path):
                 resolved=posixpath.normpath(posixpath.join(posixpath.dirname(part),target)) if not target.startswith('/') else target[1:]
                 if resolved.startswith('../'):raise ValueError('Relationship escapes package')
                 walk(resolved)
-            if part=='word/document.xml':replacements[rel]=ET.tostring(root,encoding='utf-8',xml_declaration=True)
+            if part=='word/document.xml':
+                ET.register_namespace('','http://schemas.openxmlformats.org/package/2006/relationships')
+                replacements[rel]=ET.tostring(root,encoding='utf-8',xml_declaration=True)
         walk('')
         content_types=ET.fromstring(pkg.read('[Content_Types].xml'))
         for item in list(content_types):
             if item.tag.endswith('Override') and item.get('PartName','').lstrip('/') not in kept:content_types.remove(item)
+        ET.register_namespace('','http://schemas.openxmlformats.org/package/2006/content-types')
         kept.add('[Content_Types].xml');replacements['[Content_Types].xml']=ET.tostring(content_types,encoding='utf-8',xml_declaration=True)
         document=pkg.read('word/document.xml');original_size=path.stat().st_size
         temporary=path.with_suffix('.compact.tmp')

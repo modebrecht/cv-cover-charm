@@ -79,4 +79,42 @@ story counterpart; otherwise the experiment fails. These are additional package
 reductions, explicitly separate from the earlier other-parts-byte-identical
 story reductions. They provide small standalone files for later LO regressions.
 
-The closing native result remains pending until those additional copies run.
+## Second native run and package correction
+
+Implementation `a9e6f2dd39ae824f5ba9069a8578c3bff579ec9e`,
+[run 41290630138](https://github.com/modebrecht/cv-cover-charm/actions/runs/41290630138):
+16 noncompact cases converted. The original three defects and reduced positive/
+negative controls repeated. Both production-entry-only stories rendered their
+full tail, so that further reduction did not retain the truncation.
+
+All four new compact packages failed to load (LO exit 0, no PDF). The execution
+gate correctly failed. Artifact `13076854144`, ZIP SHA256
+`67477825c2efe41f4cb0410fe5c46bfc3e5121cabe641dc573a2d100ab9be714`.
+This is retained as a failed packaging attempt, not a passed native test.
+
+The reducer had changed OPC content-types and relationship roots to prefixed
+ns0 spelling. The next bounded correction preserves their original default
+namespace spelling; document.xml and live payload bytes remain unchanged.
+Its native rerun must pass the four pixel-equivalence controls before compact
+fixtures are accepted. If not, use the already working full-package story
+reductions; do not keep trying packaging changes without evidence.
+
+## Source-reading lead, not an executed fix
+
+Microsoft's [HorizontalPosition.RelativeFrom](https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.drawing.wordprocessing.horizontalposition.relativefrom?view=openxml-3.0.1)
+and [PositionOffset](https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.drawing.wordprocessing.positionoffset?view=openxml-3.0.1)
+document the selected positioning base and the offset measured from it. A bare
+page-relative coordinate by itself does not settle compatibility behavior.
+
+The official LO [24.2.7.2 GraphicImport.cxx](https://github.com/LibreOffice/core/blob/libreoffice-24.2.7.2/writerfilter/source/dmapper/GraphicImport.cxx#L750)
+contains a compatibility override: incoming layoutInCell=0 can be forced on when
+compatibilityMode >14 and the importer is in a table. For graphic objects that
+value is later passed into FollowTextFlow (around line 1880). The tested source
+settings explicitly declare compatibilityMode=15. This is a concrete lead that
+fits the table/paragraph controls. It is not an instrumented runtime trace or a
+confirmed complete C++ root cause. The source comment's Word behavior is not a
+new Word test or an acceptance claim.
+
+Next bounded test: change only compatibilityMode in standalone diagnostic copies
+(14 vs 15) and repeat both anchor-host cases. That setting affects document
+semantics; changing it globally is not a product workaround approved here.
