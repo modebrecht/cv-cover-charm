@@ -1,5 +1,10 @@
 # P2-04 — LibreOffice story reductions
 
+Completed: two successful native experiment rounds, with one intervening failed
+package-compaction round retained as evidence. **Four standalone 5–6 KB DOCX
+fixtures reproduce the two defects and their paired controls.** Normal product
+exports are unchanged; no workaround is promoted to production.
+
 Work branch `work/01nov-p2-04-minimal-repro`, base
 `e1d26d0ce02b10b3ff03075462b7c92b5e74f68b`.
 
@@ -11,7 +16,8 @@ Windows access, Word acceptance or custom converter installation.
 
 The existing workflow creates the same eight production Next/App-PDF synthetic
 source pairs; all 16 hashes and the common source SHA are checked. This lane
-converts **three byte-identical originals plus eleven diagnostic reductions**.
+initially converts **three byte-identical originals plus eleven diagnostic reductions**;
+the closing round includes six additional reductions/compact copies (20 total).
 A green experiment means completed conversions with the original defects
 reproduced; it never means product parity.
 
@@ -118,3 +124,73 @@ new Word test or an acceptance claim.
 Next bounded test: change only compatibilityMode in standalone diagnostic copies
 (14 vs 15) and repeat both anchor-host cases. That setting affects document
 semantics; changing it globally is not a product workaround approved here.
+
+## Verified closing native run
+
+Implementation `f840040d7ec2781aa9dd22e187fe72c6ed692519`,
+[run 41291094020](https://github.com/modebrecht/cv-cover-charm/actions/runs/41291094020):
+
+- **20/20 conversions complete, 44 PDF pages.** All three original defects repeat.
+- All four corrected compact packages load. Each PDF is **pixel-identical** to
+  its larger story counterpart. Default namespace spelling resolves the observed
+  LO loading failure; the earlier prefixed packages also loaded in python-docx,
+  so the failed native result is not described as universal OOXML corruption.
+- 9/9 browser cases (42.3 s), 1/1 gallery pilot (12.2 s), 8/8 reducer controls,
+  10/10 isolation controls and 9/9 semantic controls pass. Existing converter
+  contract: 4/4 locally. YAML/embedded shell and whitespace checks pass.
+- 16/16 source hashes verified; source and implementation SHA both match the
+  tested commit. All **31 repeated decoded PNGs** from the first run are identical.
+- Final artifact `13077770996`, ZIP SHA256
+  `d682fdec8281052852d36f8d4c8d1a66dfedfd1c07c239fe592a46bfde5fef21`.
+- Direct page-image inspection confirms the photo-host contrast and the long
+  pair's blank versus populated third page. A separate read-only entry-span
+  audit finds 15 complete stations in the coupled case, 18 in the detached case.
+
+| Small standalone case | Observed result | Scope |
+|---|---|---|
+| Photo in table, mode 15 | FAIL position: +19.844 mm | 110-node story, one picture |
+| Photo in paragraph, mode 15 | PASS photo trial gate: -0.258 mm | 53-node story, no table |
+| Long, coupled first cell | FAIL content: 3 critical markers absent, station 16 incomplete | no SDTs or drawings |
+| Long, detached first cell | PASS content: 18 complete entries and final reference | one keepNext attribute differs |
+
+PASS here applies to each stated diagnostic requirement. These reductions have
+no full App-layout equivalence requirement because their content/layout is
+intentionally simplified. They do not repair the eight original production cases
+or supersede P2-03's 4 PASS / 4 FAIL result. In particular, the simple bare and
+production-entry-only further reductions do not reproduce the long failure;
+the smallest positive long fixture here still retains the generated preamble.
+
+Durable files: [complete results](p2-04-minimal-results.json),
+[photo-host comparison](p2-04-photo-hosts.jpg),
+[long-story comparison](p2-04-long-coupling.jpg), and the four self-contained
+[DOCX fixtures with replay instructions](../../tests/fixtures/lo-import-p2-04/README.md).
+Full native workflow artifacts have 14-day retention; the committed fixtures,
+results and hashes remain available afterwards.
+Fixture hashes and per-page observations are bound in its MANIFEST.json. The
+photo fixtures contain only the four-color calibration image; long fixtures
+contain no media parts. The original source and full failed attempt remain
+separate, unmodified evidence.
+
+## Resources and decision
+
+No new workflow or converter installation strategy. This lane uses the existing
+Ubuntu/LibreOffice/browser environment. Measured job-log durations are 3 min 20 s,
+3 min 57 s (failed compaction round), and 3 min 19 s. Final peak measured LO child
+RSS: **238.32 MiB**; this is not whole-runner/browser memory. Every conversion has
+a 90 s timeout and private profile, with a 20-minute job cap. Four saved fixtures
+now permit the next focused LO experiment without rebuilding the app/browser
+source corpus. Capacity on other runners or engine versions is unmeasured.
+
+Keep LibreOffice as the bounded comparator and retain visible regression failures.
+The P2-01 ONLYOFFICE watermark rejection is unchanged; no new ONLYOFFICE execution
+is counted here. No x39 visual release approval is implied by these three original
+controls or the existing 39-template availability snapshot.
+
+P2-05 recommendation: use the persisted fixtures for the one-variable mode 14/15
+counterprobe described above. Keep it isolated from normal product exports.
+The generated preamble/main-table interaction in the long case remains to be
+reduced further; do not claim that any three-page nested table is sufficient.
+No custom-engine build, vendor issue publication or manual Word step was done.
+
+`dev`, `render` and `main` match their initial refs; no `src`, dependency manifest
+or lockfile changes in P2-04. All work stays on `work/01nov-p2-04-minimal-repro`.
