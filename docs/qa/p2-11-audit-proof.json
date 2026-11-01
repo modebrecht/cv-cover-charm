@@ -1,0 +1,12 @@
+{
+  "native_results_sha256": "172a739de85052569340601a4de000ff1a8cd6259280166ba9730e332597f266",
+  "native_implementation_sha": "1e19eb88dc4b9486f1beb57674f234c8378b6bd2",
+  "audit_status": "PASS",
+  "audit_native_conversions": 0,
+  "all_16_case_rows_identical": true,
+  "all_4_control_rows_identical": true,
+  "native_resource_rows_preserved": true,
+  "native_total_pdf_pages": 60,
+  "native_lo_seconds_sum": 130.46,
+  "native_max_conversion_rss_kib": 242824
+}
