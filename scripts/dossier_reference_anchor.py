@@ -126,7 +126,8 @@ def reference_line(pdf,crop_path=None):
         return result
 
 
-def main():
+def main(*,profiles=None,builder=None,case_check=None,title='P2-13 — reference anchor',scope=None,extra_evidence=None):
+    profiles=PROFILES if profiles is None else profiles;builder=make_copy if builder is None else builder
     repo=Path(__file__).resolve().parents[1];p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--out-dir',type=Path,required=True);p.add_argument('--libreoffice',default='libreoffice');p.add_argument('--audit-only',action='store_true');args=p.parse_args()
     source=repo/'tests/fixtures/lo-import-p2-08';app_path=repo/'docs/qa/p2-08-production-results.json';_,reference=load_inputs(source,app_path)
@@ -134,9 +135,11 @@ def main():
     if digest(prior_path)!=P212_SHA256:raise ValueError('Pinned P2-12 evidence changed')
     previous=json.loads(prior_path.read_text());out=args.out_dir.resolve();out.mkdir(parents=True,exist_ok=True);old=json.loads((out/'RESULTS.json').read_text()) if args.audit_only else None
     report={'implementation_sha':old['implementation_sha'] if old else os.environ.get('GITHUB_SHA'),'source_export_sha':reference['sha'],
-        'app_reference_sha256':digest(app_path),'p212_reference_sha256':digest(prior_path),'scope':'Reference-anchor copies of two full synthetic Modern 18-entry sources; original/all-zero gaps. Not product/x39/Word acceptance.',
+        'app_reference_sha256':digest(app_path),'p212_reference_sha256':digest(prior_path),'scope':scope or 'Reference-anchor copies of two full synthetic Modern 18-entry sources; original/all-zero gaps. Not product/x39/Word acceptance.',
         'converter_version':old['converter_version'] if old else subprocess.run([args.libreoffice,'--version'],capture_output=True,text=True,timeout=10).stdout.strip(),
         'controls':[],'cases':[],'conversion_attempts':[],'audit_only':args.audit_only}
+
+    if extra_evidence is not None:report['additional_evidence']=extra_evidence
 
     def convert(docx,folder,prior):
         pdf=folder/(docx.stem+'.pdf')
@@ -162,13 +165,13 @@ def main():
         for side in ['left','right']:
             ref=next(c for c in reference['cases'] if c['id']==f'cv-18-{side}')
             for zero in [False,True]:
-                for profile in PROFILES:
+                for profile in profiles:
                     tag=side+('-zero-' if zero else '-raw-')+profile;folder=out/tag;folder.mkdir(exist_ok=True);docx=folder/(tag+'.docx');src=source/f'cv-18-{side}-original.docx'
                     if old:
                         with tempfile.TemporaryDirectory() as temp:
-                            package=make_copy(src,Path(temp)/docx.name,profile,zero)
+                            package=builder(src,Path(temp)/docx.name,profile,zero)
                             if digest(docx)!=package['copy_sha256']:raise ValueError('Saved anchor DOCX changed')
-                    else:package=make_copy(src,docx,profile,zero)
+                    else:package=builder(src,docx,profile,zero)
                     prior=next(c for c in old['cases'] if c['id']==tag) if old else None;pdf,res=convert(docx,folder,prior)
                     actual,_=measure(pdf,folder,'lo',18,native_blank_pages=True);comparison=compare(ref['app'],actual,18,side=='right');line=reference_line(pdf,folder/'reference-line.png')
                     row={'id':tag,'side':side,'zero_gaps':zero,'profile':profile,'package':package,'conversion_status':'PASS','pdf_sha256':digest(pdf),'resources':res,'actual':actual,
@@ -183,11 +186,12 @@ def main():
                         row['baseline_input_match_p212']=package['copy_sha256']==expected_hash;row['baseline_pixels_match_p212']=actual['pixel_sha256']==expected_pixels
                         if not row['baseline_input_match_p212'] or not row['baseline_pixels_match_p212']:raise ValueError('P2-12 endpoint changed')
                     if profile=='delete-reference' and line['status']!='FAIL':raise ValueError('Reference-line negative control passed')
+                    if case_check is not None:case_check(row)
                     print(tag,actual['content']['status'],actual['content']['complete_entries'],'/18',actual['pages'],'pages','line',line['status'],'layout',comparison['layout_status'],flush=True)
-        report['execution_status']='PASS' if len(report['cases'])==32 and len(report['controls'])==2 else 'FAIL'
+        report['execution_status']='PASS' if len(report['cases'])==len(profiles)*4 and len(report['controls'])==2 else 'FAIL'
     except (OSError,ValueError,RuntimeError,KeyError,subprocess.TimeoutExpired) as exc:report['execution_status']='FAIL';report['error']=str(exc)
     report['native_conversion_count']=len(report['conversion_attempts']);(out/'RESULTS.json').write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n')
-    lines=['# P2-13 — reference anchor','',report['scope'],'','| Copy | Text | Complete | Pages | Line | Layout | Photo | Trial |','|---|---|---:|---:|---|---|---|---|']
+    lines=['# '+title,'',report['scope'],'','| Copy | Text | Complete | Pages | Line | Layout | Photo | Trial |','|---|---|---:|---:|---|---|---|---|']
     for c in report['cases']:
         v=c['app_metric_comparison'];lines.append(f"| {c['id']} | {c['actual']['content']['status']} | {c['actual']['content']['complete_entries']}/18 | {c['actual']['pages']} | {c['reference_line']['status']} | {v['layout_status']} | {v['photo']['status']} | {c['trial_status']} |")
     lines+=['','Execution: '+report['execution_status']]
