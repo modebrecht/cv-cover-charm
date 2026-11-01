@@ -50,7 +50,7 @@ on:
       fixture_probe:
         description: Select an additional persisted-fixture diagnostic matrix
         type: choice
-        options: [none, flow-context, outer-factors, heading-subsets, reference-anchor, reference-placement, lo-version, layout-rows]
+        options: [none, flow-context, outer-factors, heading-subsets, reference-anchor, reference-placement, lo-version, layout-rows, row-generalization]
         default: none
   push:
     branches:
@@ -71,6 +71,7 @@ on:
       - work/01nov-p2-14-reference-placement
       - work/01nov-p2-15-libreoffice-version
       - work/02nov-p2-16-layout-rows
+      - work/02nov-p2-17-row-generalization
 
 permissions:
   contents: read
@@ -81,7 +82,7 @@ concurrency:
 
 jobs:
   source-batch:
-    if: github.ref != 'refs/heads/work/01nov-p2-01-onlyoffice' && github.ref != 'refs/heads/work/01nov-p2-02-semantic-parity' && github.ref != 'refs/heads/work/01nov-p2-03-lo-isolation' && github.ref != 'refs/heads/work/01nov-p2-04-minimal-repro' && !inputs.converter_poc && !inputs.semantic_parity && !inputs.lo_isolation && !inputs.minimal_repro && github.ref != 'refs/heads/work/01nov-p2-05-compat-mode' && !inputs.compat_mode && github.ref != 'refs/heads/work/01nov-p2-06-preamble-flow' && !inputs.preamble_flow && github.ref != 'refs/heads/work/01nov-p2-07-spacing-subset' && !inputs.spacing_subset && github.ref != 'refs/heads/work/01nov-p2-08-production-spacing' && !inputs.production_spacing && github.ref != 'refs/heads/work/01nov-p2-09-flow-boundaries' && !inputs.boundary_spacing && github.ref != 'refs/heads/work/01nov-p2-10-flow-context' && inputs.fixture_probe != 'flow-context' && github.ref != 'refs/heads/work/01nov-p2-11-outer-factors' && inputs.fixture_probe != 'outer-factors' && github.ref != 'refs/heads/work/01nov-p2-12-heading-subsets' && inputs.fixture_probe != 'heading-subsets' && github.ref != 'refs/heads/work/01nov-p2-13-reference-anchor' && inputs.fixture_probe != 'reference-anchor' && github.ref != 'refs/heads/work/01nov-p2-14-reference-placement' && inputs.fixture_probe != 'reference-placement' && github.ref != 'refs/heads/work/01nov-p2-15-libreoffice-version' && inputs.fixture_probe != 'lo-version' && github.ref != 'refs/heads/work/02nov-p2-16-layout-rows' && inputs.fixture_probe != 'layout-rows'
+    if: github.ref != 'refs/heads/work/01nov-p2-01-onlyoffice' && github.ref != 'refs/heads/work/01nov-p2-02-semantic-parity' && github.ref != 'refs/heads/work/01nov-p2-03-lo-isolation' && github.ref != 'refs/heads/work/01nov-p2-04-minimal-repro' && !inputs.converter_poc && !inputs.semantic_parity && !inputs.lo_isolation && !inputs.minimal_repro && github.ref != 'refs/heads/work/01nov-p2-05-compat-mode' && !inputs.compat_mode && github.ref != 'refs/heads/work/01nov-p2-06-preamble-flow' && !inputs.preamble_flow && github.ref != 'refs/heads/work/01nov-p2-07-spacing-subset' && !inputs.spacing_subset && github.ref != 'refs/heads/work/01nov-p2-08-production-spacing' && !inputs.production_spacing && github.ref != 'refs/heads/work/01nov-p2-09-flow-boundaries' && !inputs.boundary_spacing && github.ref != 'refs/heads/work/01nov-p2-10-flow-context' && inputs.fixture_probe != 'flow-context' && github.ref != 'refs/heads/work/01nov-p2-11-outer-factors' && inputs.fixture_probe != 'outer-factors' && github.ref != 'refs/heads/work/01nov-p2-12-heading-subsets' && inputs.fixture_probe != 'heading-subsets' && github.ref != 'refs/heads/work/01nov-p2-13-reference-anchor' && inputs.fixture_probe != 'reference-anchor' && github.ref != 'refs/heads/work/01nov-p2-14-reference-placement' && inputs.fixture_probe != 'reference-placement' && github.ref != 'refs/heads/work/01nov-p2-15-libreoffice-version' && inputs.fixture_probe != 'lo-version' && github.ref != 'refs/heads/work/02nov-p2-16-layout-rows' && inputs.fixture_probe != 'layout-rows' && github.ref != 'refs/heads/work/02nov-p2-17-row-generalization' && inputs.fixture_probe != 'row-generalization'
     name: Visual parity source batch ${{ matrix.batch }}
     runs-on: ubuntu-24.04
     timeout-minutes: 25
@@ -313,6 +314,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     env:
+      P217_ENABLED: ${{ github.ref == 'refs/heads/work/02nov-p2-17-row-generalization' || inputs.fixture_probe == 'row-generalization' }}
       P208_ENABLED: ${{ github.ref == 'refs/heads/work/01nov-p2-08-production-spacing' || inputs.production_spacing }}
     steps:
       - uses: actions/checkout@v4
@@ -336,6 +338,7 @@ jobs:
           .parity-venv/bin/python scripts/dossier_lo_minimal_test.py
           .parity-venv/bin/python scripts/dossier_lo_spacing_test.py
           .parity-venv/bin/python scripts/dossier_production_spacing_test.py
+          .parity-venv/bin/python scripts/dossier_row_generalization_test.py
       - name: Export selected production cases through real download menus
         shell: bash
         run: |
@@ -347,7 +350,9 @@ jobs:
             curl --fail --silent http://127.0.0.1:4173/ > /dev/null && break
             sleep 1
           done
-          if [ "$P208_ENABLED" = true ]; then
+          if [ "$P217_ENABLED" = true ]; then
+            ROW_GENERALIZATION=true npx playwright test tests/e2e/dossier-semantic-parity.spec.ts --workers=1 --reporter=line
+          elif [ "$P208_ENABLED" = true ]; then
             PRODUCTION_SPACING=true npx playwright test tests/e2e/dossier-semantic-parity.spec.ts --workers=1 --reporter=line
           else
             npx playwright test tests/e2e/dossier-semantic-parity.spec.ts --workers=1 --reporter=line
@@ -360,7 +365,11 @@ jobs:
           P204_ENABLED: ${{ github.ref == 'refs/heads/work/01nov-p2-04-minimal-repro' || inputs.minimal_repro }}
         run: |
           if [ -f artifacts/semantic-parity/source/CATALOG.json ]; then
-            if [ "$P208_ENABLED" = true ]; then
+            if [ "$P217_ENABLED" = true ]; then
+              .parity-venv/bin/python scripts/dossier_row_generalization.py \
+                --source-dir artifacts/semantic-parity/source \
+                --out-dir artifacts/semantic-parity/row-generalization
+            elif [ "$P208_ENABLED" = true ]; then
               .parity-venv/bin/python scripts/dossier_production_spacing.py \
                 --source-dir artifacts/semantic-parity/source \
                 --out-dir artifacts/semantic-parity/production-spacing
@@ -384,6 +393,9 @@ jobs:
       - name: Publish semantic summary
         if: always()
         run: |
+          if [ -f artifacts/semantic-parity/row-generalization/SUMMARY.md ]; then
+            cat artifacts/semantic-parity/row-generalization/SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+          fi
           if [ -f artifacts/semantic-parity/production-spacing/SUMMARY.md ]; then
             cat artifacts/semantic-parity/production-spacing/SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
           fi

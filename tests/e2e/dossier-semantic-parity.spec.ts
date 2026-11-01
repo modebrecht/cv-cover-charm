@@ -19,7 +19,18 @@ const baselineCases = [
 ] as const;
 
 // QA-only variant matrix. These are genuine UI downloads, never preprocessed sources.
-const cases = process.env.PRODUCTION_SPACING === "true"
+const cases = process.env.ROW_GENERALIZATION === "true"
+  ? [
+      ...[17, 18, 19].flatMap((entryCount) => [false, true].map((mirrored) => ({
+        id: `cv-${entryCount}-${mirrored ? "right" : "left"}`, part: "cv" as const,
+        mirrored, long: true, zoom: 1, x: 50, y: 50, entryCount, variedText: false,
+      }))),
+      ...[false, true].map((mirrored) => ({
+        id: `cv-18-varied-${mirrored ? "right" : "left"}`, part: "cv" as const,
+        mirrored, long: true, zoom: 1, x: 50, y: 50, entryCount: 18, variedText: true,
+      })),
+    ]
+  : process.env.PRODUCTION_SPACING === "true"
   ? [17, 18, 19].flatMap((entryCount) => [false, true].map((mirrored) => ({
       id: `cv-${entryCount}-${mirrored ? "right" : "left"}`,
       part: "cv" as const, mirrored, long: true, zoom: 1, x: 50, y: 50, entryCount,
@@ -74,7 +85,11 @@ for (const item of cases)
             titel: marker,
             ort: "Beispiel AG, Hubersdorf",
             beschreibung:
-              "Support und kleine Automatisierungen. Zusammenarbeit im Team und sorgfältige Dokumentation der Arbeitsschritte.",
+              "variedText" in item && item.variedText
+                ? "Support und kleine Automatisierungen. " +
+                  "Planung, Abstimmung und Prüfung mit dem Team. Ergebnisse verständlich erklären und Verbesserungen umsetzen. ".repeat(1 + i % 3) +
+                  `P217Zusatz${String(i + 1).padStart(2, "0")}. Sorgfältige Dokumentation der Arbeitsschritte.`
+                : "Support und kleine Automatisierungen. Zusammenarbeit im Team und sorgfältige Dokumentation der Arbeitsschritte.",
           };
         });
         p.cv.data.referenzen[0].name = "P202Endreferenz";
