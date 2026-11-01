@@ -17,7 +17,7 @@ import xml.etree.ElementTree as ET
 from zipfile import ZipFile
 
 from dossier_converter_poc import run_conversion
-from dossier_lo_isolation import attribute_diff, entry_spans
+from dossier_lo_isolation import attribute_diff, body_heading, entry_spans
 from dossier_lo_minimal import inspect
 from dossier_parity_content import compare_photo, docx_text, marker_pages
 
@@ -128,6 +128,7 @@ def main():
                        pixel_sha256=actual['pixel_sha256'],marker_pages=found,source_markers_present=all(authored.values()),
                        missing=[m for m in markers if not found[m]],entry_spans=entry_spans(actual['texts']) if stem.startswith('long-') else [])
             row['content_status']='PASS' if not row['missing'] and all(e['complete'] for e in row['entry_spans']) else 'FAIL'
+            if stem.startswith('long-'):row['body_heading_origin_mm']=body_heading(pdf)
             if stem.startswith('photo-'):
                 row['photo_signature']=actual['photos'][0]
                 with ZipFile(docx) as pkg:
@@ -150,6 +151,8 @@ def main():
             if row['conversion_status']!='PASS':continue
             baseline=by[row['stem'],15]
             row['pixel_identical_to_mode15']=row['pixel_sha256']==baseline.get('pixel_sha256')
+            if row.get('body_heading_origin_mm') and baseline.get('body_heading_origin_mm'):
+                row['body_heading_delta_vs_mode15_mm']=[round(a-b,3) for a,b in zip(row['body_heading_origin_mm'],baseline['body_heading_origin_mm'])]
             row['marker_page_changes_vs_mode15']={m:{'mode14':v,'mode15':baseline.get('marker_pages',{}).get(m)} for m,v in row['marker_pages'].items() if v!=baseline.get('marker_pages',{}).get(m)} if row['mode']==14 else {}
             if 'photo_signature' in row:
                 reference=by['photo-paragraph',row['mode'] if row['stem']=='photo-table' else 15]
