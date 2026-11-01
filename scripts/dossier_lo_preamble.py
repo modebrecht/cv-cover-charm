@@ -28,6 +28,9 @@ LEADS={'school':'cv.section.schule.lead','experience':'cv.section.erfahrung.lead
 OPERATIONS=['baseline-coupled','baseline-detached','drop-main-leading','flatten-school',
     'flatten-experience','flatten-both','allow-school-lead-split','allow-experience-lead-split',
     'allow-both-leads-split','prefix-spacer','prefix-spacer-flatten-experience']
+OPERATIONS+=['detach-main-top-level','detach-main-title','detach-reference-heading',
+    'prefix-spacer-no-experience-heading','prefix-spacer-no-reference-heading','prefix-spacer-no-headings',
+    'entry-only-control']
 MARKERS=[f'P202Praxis{i:02}' for i in range(1,19)]+['P202Endreferenz']
 
 
@@ -60,6 +63,17 @@ def flatten(main,which):
     for i,n in enumerate(children):main.insert(index+i,n)
 
 
+def direct_heading(main,text):
+    matches=[n for n in main.findall('w:p',NS) if ''.join(t.text or '' for t in n.iter(W+'t'))==text]
+    if len(matches)!=1:raise ValueError('Expected one direct heading '+text)
+    return matches[0]
+
+
+def max_table_depth(root,depth=0):
+    depth+=root.tag==W+'tbl'
+    return max([depth]+[max_table_depth(child,depth) for child in root])
+
+
 def change_story(source,target,operation):
     if operation not in OPERATIONS:raise ValueError('Unknown reduction '+operation)
     if source.resolve()==target.resolve():raise ValueError('Cannot overwrite source fixture')
@@ -80,17 +94,39 @@ def change_story(source,target,operation):
                 flag=lead(main,which).find('w:tr/w:trPr/w:cantSplit',NS)
                 if flag is None:raise ValueError('Expected coupled lead row')
                 flag.set(W+'val','0')
+        elif operation.startswith('detach-'):
+            if operation=='detach-main-top-level':targets=main.findall('w:p',NS)
+            else:targets=[direct_heading(main,'Lebenslauf' if operation=='detach-main-title' else 'Referenzen')]
+            changed=0
+            for paragraph_node in targets:
+                flag=paragraph_node.find('w:pPr/w:keepNext',NS)
+                if flag is not None and flag.get(W+'val')=='1':flag.set(W+'val','0');changed+=1
+            if not changed:raise ValueError('Expected coupled direct paragraph')
+        elif operation=='entry-only-control':
+            entries=[]
+            for table in main.findall('.//w:tbl',NS):
+                text=''.join(t.text or '' for t in table.iter(W+'t'))
+                if not table.findall('.//w:tbl',NS) and any(m in text for m in MARKERS):entries.append(deepcopy(table))
+            for n in list(main):
+                if n.tag!=W+'tcPr':main.remove(n)
+            main.append(paragraph('P206PRELUDE',line=4762,keep=False))
+            for table in entries:main.extend([table,paragraph(line=20)])
         elif operation.startswith('prefix-spacer'):
             first=lead(main,'experience');index=list(main).index(first)
             for n in list(main)[:index]:
                 if n.tag!=W+'tcPr':main.remove(n)
             main.insert(1,paragraph('P206PRELUDE',line=4762,keep=False))
-            if operation.endswith('flatten-experience'):flatten(main,'experience')
+            if operation!='prefix-spacer':flatten(main,'experience')
+            if operation in ['prefix-spacer-no-experience-heading','prefix-spacer-no-headings']:
+                main.remove(direct_heading(main,'Praktika & Schnuppertage'))
+            if operation in ['prefix-spacer-no-reference-heading','prefix-spacer-no-headings']:
+                main.remove(direct_heading(main,'Referenzen'))
         after=payloads(root)
         if critical!=after:raise ValueError('Critical station/reference payload or order changed')
         source_text=''.join(t.text or '' for t in before.iter(W+'t'))
         result_text=''.join(t.text or '' for t in root.iter(W+'t'))
-        if not operation.startswith('prefix-spacer') and source_text!=result_text:raise ValueError('Unexpected visible-text edit')
+        reduced_text=operation.startswith('prefix-spacer') or operation=='entry-only-control'
+        if not reduced_text and source_text!=result_text:raise ValueError('Unexpected visible-text edit')
         changed=raw if operation.startswith('baseline-') else ET.tostring(root,encoding='utf-8',xml_declaration=True)
         if operation.startswith('baseline-'):shutil.copyfile(source,target)
         else:
@@ -99,11 +135,12 @@ def change_story(source,target,operation):
     with ZipFile(source) as left,ZipFile(target) as right:
         if left.namelist()!=right.namelist() or any(left.read(n)!=right.read(n) for n in left.namelist() if n!='word/document.xml'):
             raise ValueError('Unrelated package parts changed')
-    edits=attribute_diff(before,root) if operation.startswith('allow-') else []
+    edits=attribute_diff(before,root) if operation.startswith(('allow-','detach-')) else []
     return {'before':facts(before),'after':facts(root),'source_sha256':digest(source),'copy_sha256':digest(target),
         'critical_tables_canonically_identical':True,'critical_table_count':19,'all_other_parts_identical':True,
         'visible_text_identical':source_text==result_text,'attribute_edits':edits,
-        'document_xml_bytes':len(changed),'diagnostic_spacer_twips':4762 if operation.startswith('prefix-spacer') else None}
+        'document_xml_bytes':len(changed),'diagnostic_spacer_twips':4762 if reduced_text else None,
+        'max_table_depth_before':max_table_depth(before),'max_table_depth_after':max_table_depth(root)}
 
 
 def marker_origin(pdf,marker):

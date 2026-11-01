@@ -67,5 +67,19 @@ class PreambleControls(unittest.TestCase):
     def test_unknown_probe_rejected(self):
         with self.assertRaisesRegex(ValueError,'Unknown reduction'):change_story(self.source,self.root/'bad.docx','unknown')
 
+    def test_direct_paragraph_probes_only_change_keep_next_flags(self):
+        for op,count in [('detach-main-top-level',5),('detach-main-title',1),('detach-reference-heading',1)]:
+            output=self.root/(op+'.docx');change_story(self.source,output,op)
+            edits=attribute_diff(self.read(self.source),self.read(output))
+            self.assertEqual(len(edits),count)
+            self.assertTrue(all('keepNext' in e['path'] and e['before']=='1' and e['after']=='0' for e in edits))
+
+    def test_entry_only_control_has_no_original_heading_paragraphs(self):
+        output=self.root/'entries.docx';result=change_story(self.source,output,'entry-only-control')
+        main=self.read(output).find('w:body/w:tbl/w:tr',NS).findall('w:tc',NS)[2]
+        texts=[''.join(t.text or '' for t in n.iter(W+'t')) for n in main.findall('w:p',NS)]
+        self.assertEqual([text for text in texts if text],['P206PRELUDE'])
+        self.assertEqual(result['max_table_depth_after'],2)
+
 
 if __name__=='__main__':unittest.main()

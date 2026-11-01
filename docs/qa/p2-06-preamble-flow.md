@@ -32,3 +32,33 @@ It is not layout/Word/product acceptance of any reduction. Same workflow and
 shared lightweight LO/Python job; `preamble_flow` selects this matrix.
 
 Local preparation/control results and native findings follow after execution.
+
+## First native result
+
+Implementation `ea36c03db2a2f51d9dd5816ec98391d8976c64da`,
+[run 41296887983](https://github.com/modebrecht/cv-cover-charm/actions/runs/41296887983):
+all 11 conversions and 39 Python controls passed. Both original P2-04 pixel
+baselines match exactly. The coupled original and every one of the nine reductions
+still have 15/18 complete entries and an empty third page; the detached original
+has 18/18 complete entries. Therefore neither the tested lead-wrapper removal,
+lead-row split permission nor the tested prefix spacer suffices to restore content.
+
+Artifact `13079537517`, ZIP SHA256
+`0ae102c7390db86d16a5b4033de57743d9b851cbe06f1b2ef27c4bb96bafc0b9`;
+the archive hash was verified after download. These negative outcomes remain
+observed failures, despite the green experiment-execution gate.
+
+## Second bounded matrix
+
+The first entry-only reduction in P2-04 had removed direct heading paragraphs
+as well as wrapper tables. That difference was not isolated by the first batch.
+Add seven counterprobes (18 total): clear the five direct main-paragraph keepNext
+flags; independently clear only the main-title or reference-heading flag; remove
+the experience heading, reference heading or both from the spacer/flattened copy;
+and recreate the entry-only control with uniform spacer paragraphs. All 19 critical
+innermost table payloads and their ordering remain unchanged. Direct keepNext edits
+are enumerated, and maximum table depth is recorded instead of inferred.
+
+10 reducer controls now pass locally, including the exact 5/1/1 paragraph-flag
+counts and the entry-only control's absence of original heading paragraphs.
+Closing native results and interpretation are pending.
