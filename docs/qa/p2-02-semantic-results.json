@@ -1,0 +1,796 @@
+{
+  "sha": "1433ca6e8512bc3d99e89a1e83acd5aa67b3af09",
+  "exporter": "production DOCX Next; guarded UI downloads",
+  "catalog": {
+    "eligible": 1,
+    "blocked": 38,
+    "scope": "availability guard only; no 39-template export/fidelity claim"
+  },
+  "cases": [
+    {
+      "id": "cover",
+      "part": "cover",
+      "status": "PASS",
+      "source_status": "EXPORTED",
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.562,
+        "max_rss_kib": 218980,
+        "cpu_seconds": 1.158,
+        "elapsed_seconds": 1.53,
+        "exit_code": 0
+      },
+      "missing": [],
+      "app_pages": 1,
+      "lo_pages": 1,
+      "app_text_methods": ["OCR visible pixels (English, diacritics normalized)"],
+      "lo_text_methods": ["PDF text layer"],
+      "app_marker_pages": {
+        "Informatiker/in EFZ": [1],
+        "Lea Müller": [1]
+      },
+      "lo_marker_pages": {
+        "Informatiker/in EFZ": [1],
+        "Lea Müller": [1]
+      },
+      "app_photo": [
+        {
+          "visible": false,
+          "pixels": 0
+        }
+      ],
+      "lo_photo": [
+        {
+          "visible": false,
+          "pixels": 0
+        }
+      ],
+      "producer": "LibreOffice 24.2",
+      "watermark": false,
+      "rgb_ssim": 0.9867,
+      "checks": {
+        "pages_match": true,
+        "long_continuation": true,
+        "unique_synthetic_markers": true,
+        "no_watermark": true
+      }
+    },
+    {
+      "id": "cv-crop-left",
+      "part": "cv",
+      "status": "PASS",
+      "source_status": "EXPORTED",
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.454,
+        "max_rss_kib": 242720,
+        "cpu_seconds": 1.404,
+        "elapsed_seconds": 1.41,
+        "exit_code": 0
+      },
+      "missing": [],
+      "app_pages": 1,
+      "lo_pages": 1,
+      "app_text_methods": ["PDF text layer"],
+      "lo_text_methods": ["PDF text layer"],
+      "app_marker_pages": {
+        "Lea Müller": [1],
+        "Sekundarschule": [1],
+        "Herr Thomas Weber": [1]
+      },
+      "lo_marker_pages": {
+        "Lea Müller": [1],
+        "Sekundarschule": [1],
+        "Herr Thomas Weber": [1]
+      },
+      "app_photo": [
+        {
+          "visible": true,
+          "pixels": 12498,
+          "bbox_mm": [8.199, 52.101, 26.713, 33.588],
+          "grid": [
+            2, 2, 2, 4, 4, 4, 4, 4, 2, 2, 2, 4, 4, 4, 4, 4, 2, 2, 2, 4, 4, 4, 4, 4, 2, 2, 2, 4, 4,
+            4, 4, 4, 2, 2, 2, 4, 4, 4, 4, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+            2, 2, 2, 2, 2, 2
+          ],
+          "colors": {
+            "1": 0,
+            "2": 8136,
+            "3": 0,
+            "4": 4362
+          }
+        }
+      ],
+      "lo_photo": [
+        {
+          "visible": true,
+          "pixels": 13046,
+          "bbox_mm": [8.199, 52.101, 27.772, 34.646],
+          "grid": [
+            2, 2, 2, 4, 4, 4, 4, 4, 2, 2, 2, 4, 4, 4, 4, 4, 2, 2, 2, 4, 4, 4, 4, 4, 2, 2, 2, 4, 4,
+            4, 4, 4, 2, 2, 2, 0, 4, 4, 4, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+            2, 2, 2, 2, 2, 2
+          ],
+          "colors": {
+            "1": 0,
+            "2": 8606,
+            "3": 0,
+            "4": 4440
+          }
+        }
+      ],
+      "producer": "LibreOffice 24.2",
+      "photo": {
+        "status": "PASS",
+        "bbox_delta_mm": [0.0, 0.0, 1.059, 1.058],
+        "max_allowed_mm": 2.0,
+        "pattern_agreement": 0.9844,
+        "min_pattern_agreement": 0.9,
+        "expected_side": "left"
+      },
+      "watermark": false,
+      "rgb_ssim": 0.8844,
+      "checks": {
+        "pages_match": true,
+        "long_continuation": true,
+        "unique_synthetic_markers": true,
+        "no_watermark": true
+      }
+    },
+    {
+      "id": "cv-crop-right",
+      "part": "cv",
+      "status": "FAIL",
+      "source_status": "EXPORTED",
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.454,
+        "max_rss_kib": 242964,
+        "cpu_seconds": 1.414,
+        "elapsed_seconds": 1.41,
+        "exit_code": 0
+      },
+      "missing": [],
+      "app_pages": 1,
+      "lo_pages": 1,
+      "app_text_methods": ["PDF text layer"],
+      "lo_text_methods": ["PDF text layer"],
+      "app_marker_pages": {
+        "Lea Müller": [1],
+        "Sekundarschule": [1],
+        "Herr Thomas Weber": [1]
+      },
+      "lo_marker_pages": {
+        "Lea Müller": [1],
+        "Sekundarschule": [1],
+        "Herr Thomas Weber": [1]
+      },
+      "app_photo": [
+        {
+          "visible": true,
+          "pixels": 12418,
+          "bbox_mm": [155.253, 52.101, 26.713, 33.588],
+          "grid": [
+            2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 4, 4, 4, 2, 2, 2, 2, 4, 4, 4, 4, 2,
+            2, 2, 2, 4, 4, 4, 4, 2, 2, 2, 2, 4, 4, 4, 4, 2, 2, 2, 2, 4, 4, 4, 4, 2, 2, 2, 2, 4, 4,
+            4, 4, 2, 2, 2, 2
+          ],
+          "colors": {
+            "1": 0,
+            "2": 7548,
+            "3": 0,
+            "4": 4870
+          }
+        }
+      ],
+      "lo_photo": [
+        {
+          "visible": true,
+          "pixels": 12833,
+          "bbox_mm": [175.097, 52.101, 27.772, 34.646],
+          "grid": [
+            2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 4, 4, 4, 0, 2, 2, 2, 4, 4, 4, 4, 0,
+            2, 2, 2, 4, 4, 4, 4, 0, 2, 2, 2, 4, 4, 4, 4, 0, 2, 2, 2, 4, 4, 4, 4, 0, 2, 2, 2, 4, 4,
+            4, 4, 0, 2, 2, 2
+          ],
+          "colors": {
+            "1": 0,
+            "2": 7750,
+            "3": 0,
+            "4": 5083
+          }
+        }
+      ],
+      "producer": "LibreOffice 24.2",
+      "photo": {
+        "status": "FAIL",
+        "bbox_delta_mm": [19.844, 0.0, 1.059, 1.058],
+        "max_allowed_mm": 2.0,
+        "pattern_agreement": 0.9062,
+        "min_pattern_agreement": 0.9,
+        "expected_side": "right"
+      },
+      "watermark": false,
+      "rgb_ssim": 0.8634,
+      "checks": {
+        "pages_match": true,
+        "long_continuation": true,
+        "unique_synthetic_markers": true,
+        "no_watermark": true
+      }
+    },
+    {
+      "id": "cv-left",
+      "part": "cv",
+      "status": "PASS",
+      "source_status": "EXPORTED",
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.454,
+        "max_rss_kib": 242860,
+        "cpu_seconds": 1.418,
+        "elapsed_seconds": 1.42,
+        "exit_code": 0
+      },
+      "missing": [],
+      "app_pages": 1,
+      "lo_pages": 1,
+      "app_text_methods": ["PDF text layer"],
+      "lo_text_methods": ["PDF text layer"],
+      "app_marker_pages": {
+        "Lea Müller": [1],
+        "Sekundarschule": [1],
+        "Herr Thomas Weber": [1]
+      },
+      "lo_marker_pages": {
+        "Lea Müller": [1],
+        "Sekundarschule": [1],
+        "Herr Thomas Weber": [1]
+      },
+      "app_photo": [
+        {
+          "visible": true,
+          "pixels": 12397,
+          "bbox_mm": [8.199, 52.101, 26.713, 33.323],
+          "grid": [
+            1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 4, 4, 2, 2, 2, 2, 2, 2, 4, 4,
+            2, 2, 2, 2, 2, 2, 4, 4, 2, 2, 2, 2, 2, 2, 4, 4, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 2, 2,
+            2, 2, 2, 3, 3, 3
+          ],
+          "colors": {
+            "1": 1216,
+            "2": 8315,
+            "3": 1217,
+            "4": 1649
+          }
+        }
+      ],
+      "lo_photo": [
+        {
+          "visible": true,
+          "pixels": 13119,
+          "bbox_mm": [8.199, 52.101, 27.772, 34.646],
+          "grid": [
+            1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 4, 4, 2, 2, 2, 2, 2, 2, 4, 4,
+            2, 2, 2, 2, 2, 2, 4, 4, 2, 2, 2, 2, 2, 2, 4, 4, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 2, 2,
+            2, 2, 2, 3, 3, 3
+          ],
+          "colors": {
+            "1": 1243,
+            "2": 8858,
+            "3": 1285,
+            "4": 1733
+          }
+        }
+      ],
+      "producer": "LibreOffice 24.2",
+      "photo": {
+        "status": "PASS",
+        "bbox_delta_mm": [0.0, 0.0, 1.059, 1.323],
+        "max_allowed_mm": 2.0,
+        "pattern_agreement": 1.0,
+        "min_pattern_agreement": 0.9,
+        "expected_side": "left"
+      },
+      "watermark": false,
+      "rgb_ssim": 0.883,
+      "checks": {
+        "pages_match": true,
+        "long_continuation": true,
+        "unique_synthetic_markers": true,
+        "no_watermark": true
+      }
+    },
+    {
+      "id": "cv-long-left",
+      "part": "cv",
+      "status": "FAIL",
+      "source_status": "EXPORTED",
+      "resources": {
+        "returncode": 0,
+        "seconds": 16.741,
+        "max_rss_kib": 243868,
+        "cpu_seconds": 16.708,
+        "elapsed_seconds": 16.71,
+        "exit_code": 0
+      },
+      "missing": [
+        {
+          "marker": "P202Endreferenz",
+          "source_xml": true,
+          "app": [3],
+          "lo": []
+        },
+        {
+          "marker": "P202Praxis16",
+          "source_xml": true,
+          "app": [3],
+          "lo": []
+        },
+        {
+          "marker": "P202Praxis17",
+          "source_xml": true,
+          "app": [3],
+          "lo": []
+        },
+        {
+          "marker": "P202Praxis18",
+          "source_xml": true,
+          "app": [3],
+          "lo": []
+        }
+      ],
+      "app_pages": 3,
+      "lo_pages": 3,
+      "app_text_methods": ["PDF text layer", "PDF text layer", "PDF text layer"],
+      "lo_text_methods": ["PDF text layer", "PDF text layer", "PDF text layer"],
+      "app_marker_pages": {
+        "Lea Müller": [1, 2, 3],
+        "Sekundarschule": [1],
+        "P202Endreferenz": [3],
+        "P202Praxis01": [1],
+        "P202Praxis02": [1],
+        "P202Praxis03": [1],
+        "P202Praxis04": [1],
+        "P202Praxis05": [1],
+        "P202Praxis06": [1],
+        "P202Praxis07": [2],
+        "P202Praxis08": [2],
+        "P202Praxis09": [2],
+        "P202Praxis10": [2],
+        "P202Praxis11": [2],
+        "P202Praxis12": [2],
+        "P202Praxis13": [2],
+        "P202Praxis14": [2],
+        "P202Praxis15": [2],
+        "P202Praxis16": [3],
+        "P202Praxis17": [3],
+        "P202Praxis18": [3]
+      },
+      "lo_marker_pages": {
+        "Lea Müller": [1, 2, 3],
+        "Sekundarschule": [1],
+        "P202Endreferenz": [],
+        "P202Praxis01": [1],
+        "P202Praxis02": [1],
+        "P202Praxis03": [1],
+        "P202Praxis04": [1],
+        "P202Praxis05": [1],
+        "P202Praxis06": [2],
+        "P202Praxis07": [2],
+        "P202Praxis08": [2],
+        "P202Praxis09": [2],
+        "P202Praxis10": [2],
+        "P202Praxis11": [2],
+        "P202Praxis12": [2],
+        "P202Praxis13": [2],
+        "P202Praxis14": [2],
+        "P202Praxis15": [2],
+        "P202Praxis16": [],
+        "P202Praxis17": [],
+        "P202Praxis18": []
+      },
+      "app_photo": [
+        {
+          "visible": true,
+          "pixels": 12397,
+          "bbox_mm": [8.199, 52.101, 26.713, 33.323],
+          "grid": [
+            1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 4, 4, 2, 2, 2, 2, 2, 2, 4, 4,
+            2, 2, 2, 2, 2, 2, 4, 4, 2, 2, 2, 2, 2, 2, 4, 4, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 2, 2,
+            2, 2, 2, 3, 3, 3
+          ],
+          "colors": {
+            "1": 1216,
+            "2": 8315,
+            "3": 1217,
+            "4": 1649
+          }
+        },
+        {
+          "visible": false,
+          "pixels": 0
+        },
+        {
+          "visible": false,
+          "pixels": 0
+        }
+      ],
+      "lo_photo": [
+        {
+          "visible": true,
+          "pixels": 13119,
+          "bbox_mm": [8.199, 52.101, 27.772, 34.646],
+          "grid": [
+            1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 4, 4, 2, 2, 2, 2, 2, 2, 4, 4,
+            2, 2, 2, 2, 2, 2, 4, 4, 2, 2, 2, 2, 2, 2, 4, 4, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 2, 2,
+            2, 2, 2, 3, 3, 3
+          ],
+          "colors": {
+            "1": 1243,
+            "2": 8858,
+            "3": 1285,
+            "4": 1733
+          }
+        },
+        {
+          "visible": false,
+          "pixels": 0
+        },
+        {
+          "visible": false,
+          "pixels": 0
+        }
+      ],
+      "producer": "LibreOffice 24.2",
+      "photo": {
+        "status": "PASS",
+        "bbox_delta_mm": [0.0, 0.0, 1.059, 1.323],
+        "max_allowed_mm": 2.0,
+        "pattern_agreement": 1.0,
+        "min_pattern_agreement": 0.9,
+        "expected_side": "left"
+      },
+      "watermark": false,
+      "rgb_ssim": 0.8449,
+      "checks": {
+        "pages_match": true,
+        "long_continuation": true,
+        "unique_synthetic_markers": false,
+        "no_watermark": true
+      }
+    },
+    {
+      "id": "cv-long-right",
+      "part": "cv",
+      "status": "FAIL",
+      "source_status": "EXPORTED",
+      "resources": {
+        "returncode": 0,
+        "seconds": 24.908,
+        "max_rss_kib": 243880,
+        "cpu_seconds": 24.856,
+        "elapsed_seconds": 24.86,
+        "exit_code": 0
+      },
+      "missing": [
+        {
+          "marker": "P202Endreferenz",
+          "source_xml": true,
+          "app": [3],
+          "lo": []
+        },
+        {
+          "marker": "P202Praxis16",
+          "source_xml": true,
+          "app": [3],
+          "lo": []
+        },
+        {
+          "marker": "P202Praxis17",
+          "source_xml": true,
+          "app": [3],
+          "lo": []
+        },
+        {
+          "marker": "P202Praxis18",
+          "source_xml": true,
+          "app": [3],
+          "lo": []
+        }
+      ],
+      "app_pages": 3,
+      "lo_pages": 3,
+      "app_text_methods": ["PDF text layer", "PDF text layer", "PDF text layer"],
+      "lo_text_methods": ["PDF text layer", "PDF text layer", "PDF text layer"],
+      "app_marker_pages": {
+        "Lea Müller": [1, 2, 3],
+        "Sekundarschule": [1],
+        "P202Endreferenz": [3],
+        "P202Praxis01": [1],
+        "P202Praxis02": [1],
+        "P202Praxis03": [1],
+        "P202Praxis04": [1],
+        "P202Praxis05": [1],
+        "P202Praxis06": [1],
+        "P202Praxis07": [2],
+        "P202Praxis08": [2],
+        "P202Praxis09": [2],
+        "P202Praxis10": [2],
+        "P202Praxis11": [2],
+        "P202Praxis12": [2],
+        "P202Praxis13": [2],
+        "P202Praxis14": [2],
+        "P202Praxis15": [2],
+        "P202Praxis16": [3],
+        "P202Praxis17": [3],
+        "P202Praxis18": [3]
+      },
+      "lo_marker_pages": {
+        "Lea Müller": [1, 2, 3],
+        "Sekundarschule": [1],
+        "P202Endreferenz": [],
+        "P202Praxis01": [1],
+        "P202Praxis02": [1],
+        "P202Praxis03": [1],
+        "P202Praxis04": [1],
+        "P202Praxis05": [1],
+        "P202Praxis06": [2],
+        "P202Praxis07": [2],
+        "P202Praxis08": [2],
+        "P202Praxis09": [2],
+        "P202Praxis10": [2],
+        "P202Praxis11": [2],
+        "P202Praxis12": [2],
+        "P202Praxis13": [2],
+        "P202Praxis14": [2],
+        "P202Praxis15": [2],
+        "P202Praxis16": [],
+        "P202Praxis17": [],
+        "P202Praxis18": []
+      },
+      "app_photo": [
+        {
+          "visible": true,
+          "pixels": 12395,
+          "bbox_mm": [155.253, 52.101, 26.713, 33.323],
+          "grid": [
+            1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 4, 4, 2, 2, 2, 2, 2, 2, 4, 4,
+            2, 2, 2, 2, 2, 2, 4, 4, 2, 2, 2, 2, 2, 2, 4, 4, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 2, 2,
+            2, 2, 2, 3, 3, 3
+          ],
+          "colors": {
+            "1": 1217,
+            "2": 8314,
+            "3": 1215,
+            "4": 1649
+          }
+        },
+        {
+          "visible": false,
+          "pixels": 0
+        },
+        {
+          "visible": false,
+          "pixels": 0
+        }
+      ],
+      "lo_photo": [
+        {
+          "visible": true,
+          "pixels": 13121,
+          "bbox_mm": [175.097, 52.101, 27.772, 34.646],
+          "grid": [
+            1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 4, 4, 2, 2, 2, 2, 2, 2, 4, 4,
+            2, 2, 2, 2, 2, 2, 4, 4, 2, 2, 2, 2, 2, 2, 4, 4, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 2, 2,
+            2, 2, 2, 3, 3, 3
+          ],
+          "colors": {
+            "1": 1243,
+            "2": 8858,
+            "3": 1287,
+            "4": 1733
+          }
+        },
+        {
+          "visible": false,
+          "pixels": 0
+        },
+        {
+          "visible": false,
+          "pixels": 0
+        }
+      ],
+      "producer": "LibreOffice 24.2",
+      "photo": {
+        "status": "FAIL",
+        "bbox_delta_mm": [19.844, 0.0, 1.059, 1.323],
+        "max_allowed_mm": 2.0,
+        "pattern_agreement": 1.0,
+        "min_pattern_agreement": 0.9,
+        "expected_side": "right"
+      },
+      "watermark": false,
+      "rgb_ssim": 0.8377,
+      "checks": {
+        "pages_match": true,
+        "long_continuation": true,
+        "unique_synthetic_markers": false,
+        "no_watermark": true
+      }
+    },
+    {
+      "id": "cv-right",
+      "part": "cv",
+      "status": "FAIL",
+      "source_status": "EXPORTED",
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.454,
+        "max_rss_kib": 243132,
+        "cpu_seconds": 1.411,
+        "elapsed_seconds": 1.41,
+        "exit_code": 0
+      },
+      "missing": [],
+      "app_pages": 1,
+      "lo_pages": 1,
+      "app_text_methods": ["PDF text layer"],
+      "lo_text_methods": ["PDF text layer"],
+      "app_marker_pages": {
+        "Lea Müller": [1],
+        "Sekundarschule": [1],
+        "Herr Thomas Weber": [1]
+      },
+      "lo_marker_pages": {
+        "Lea Müller": [1],
+        "Sekundarschule": [1],
+        "Herr Thomas Weber": [1]
+      },
+      "app_photo": [
+        {
+          "visible": true,
+          "pixels": 12395,
+          "bbox_mm": [155.253, 52.101, 26.713, 33.323],
+          "grid": [
+            1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 4, 4, 2, 2, 2, 2, 2, 2, 4, 4,
+            2, 2, 2, 2, 2, 2, 4, 4, 2, 2, 2, 2, 2, 2, 4, 4, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 2, 2,
+            2, 2, 2, 3, 3, 3
+          ],
+          "colors": {
+            "1": 1217,
+            "2": 8314,
+            "3": 1215,
+            "4": 1649
+          }
+        }
+      ],
+      "lo_photo": [
+        {
+          "visible": true,
+          "pixels": 13121,
+          "bbox_mm": [175.097, 52.101, 27.772, 34.646],
+          "grid": [
+            1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 4, 4, 2, 2, 2, 2, 2, 2, 4, 4,
+            2, 2, 2, 2, 2, 2, 4, 4, 2, 2, 2, 2, 2, 2, 4, 4, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 2, 2,
+            2, 2, 2, 3, 3, 3
+          ],
+          "colors": {
+            "1": 1243,
+            "2": 8858,
+            "3": 1287,
+            "4": 1733
+          }
+        }
+      ],
+      "producer": "LibreOffice 24.2",
+      "photo": {
+        "status": "FAIL",
+        "bbox_delta_mm": [19.844, 0.0, 1.059, 1.323],
+        "max_allowed_mm": 2.0,
+        "pattern_agreement": 1.0,
+        "min_pattern_agreement": 0.9,
+        "expected_side": "right"
+      },
+      "watermark": false,
+      "rgb_ssim": 0.8594,
+      "checks": {
+        "pages_match": true,
+        "long_continuation": true,
+        "unique_synthetic_markers": true,
+        "no_watermark": true
+      }
+    },
+    {
+      "id": "letter",
+      "part": "letter",
+      "status": "PASS",
+      "source_status": "EXPORTED",
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.354,
+        "max_rss_kib": 236200,
+        "cpu_seconds": 1.34,
+        "elapsed_seconds": 1.34,
+        "exit_code": 0
+      },
+      "missing": [],
+      "app_pages": 1,
+      "lo_pages": 1,
+      "app_text_methods": ["PDF text layer"],
+      "lo_text_methods": ["PDF text layer"],
+      "app_marker_pages": {
+        "Guten Tag Herr Weber": [1],
+        "Freundliche Grüsse": [1],
+        "Lea Müller": [1]
+      },
+      "lo_marker_pages": {
+        "Guten Tag Herr Weber": [1],
+        "Freundliche Grüsse": [1],
+        "Lea Müller": [1]
+      },
+      "app_photo": [
+        {
+          "visible": false,
+          "pixels": 0
+        }
+      ],
+      "lo_photo": [
+        {
+          "visible": false,
+          "pixels": 0
+        }
+      ],
+      "producer": "LibreOffice 24.2",
+      "watermark": false,
+      "rgb_ssim": 0.954,
+      "checks": {
+        "pages_match": true,
+        "long_continuation": true,
+        "unique_synthetic_markers": true,
+        "no_watermark": true
+      }
+    }
+  ],
+  "thresholds": {
+    "photo_geometry_mm": 2.0,
+    "photo_pattern_min": 0.9
+  },
+  "limitations": [
+    "Photo thresholds are explicit trial gates; no Microsoft Word fidelity claim.",
+    "Gray/raster text not covered by marker extraction still needs visual inspection."
+  ],
+  "diagnosis": {
+    "mirrored_photo": {
+      "source_anchor_mm": 155,
+      "source_section_left_margin_twips": 1134,
+      "source_section_left_margin_mm": 20.002499999999998,
+      "app_visible_x_mm": 155.253,
+      "libreoffice_visible_x_mm": 175.097,
+      "inference": "LO appears to add the section left margin despite page-relative anchor; controlled probe not yet run"
+    },
+    "long_cv": {
+      "source_xml_contains_tail": true,
+      "app_pages": 3,
+      "libreoffice_pages": 3,
+      "libreoffice_third_page_body_empty": true,
+      "missing_critical_markers": [
+        "P202Praxis16",
+        "P202Praxis17",
+        "P202Praxis18",
+        "P202Endreferenz"
+      ]
+    }
+  },
+  "ci": {
+    "runId": 41276666543,
+    "implementationSha": "1433ca6e8512bc3d99e89a1e83acd5aa67b3af09",
+    "artifactId": 13071825710,
+    "artifactSha256": "829adfcfa02ef8144d28e2eaea33bf6cec1f4ea77007744943807f1ce90876ce",
+    "conclusion": "failure: four actual parity cases fail",
+    "repeatRun": 41276078265,
+    "repeatResult": "identical 8-case acceptance and photo measurements",
+    "sourceHashesVerified": 16,
+    "renderedPngIdenticalBetweenRuns": 25
+  }
+}
