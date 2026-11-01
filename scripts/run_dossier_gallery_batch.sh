@@ -36,7 +36,7 @@ case "$format" in
   docx)
     DOCX_GALLERY_BATCH_INDEX="$batch" DOCX_GALLERY_DIR="$out_dir" \
       npx playwright test tests/e2e/dossier-docx-gallery.spec.ts --reporter=line --workers=1
-    expected_files="$expected_templates"
+    expected_files="$(python3 -c 'import json,sys; rows=json.load(open(sys.argv[1])); assert len(rows)==int(sys.argv[2]); print(sum(r["status"]=="EXPORTED" for r in rows))' "$out_dir/COVERAGE.part-$part.json" "$expected_templates")"
     actual="$(find "$out_dir" -maxdepth 1 -type f -name '*.docx' | wc -l | tr -d ' ')"
     test "$actual" -eq "$expected_files"
     while IFS= read -r -d '' docx; do

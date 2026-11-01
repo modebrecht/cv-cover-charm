@@ -1,7 +1,7 @@
+import { recordGallerySource } from "./support/gallery-source";
 import { expect, test, type Page } from "@playwright/test";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { DOSSIER_DOCX_TEMPLATE_PLANS } from "../../src/lib/dossier-docx-family";
 import { readStoredDocxEntries } from "../../src/lib/dossier-docx-package";
 import {
   DOSSIER_PAGE_MARGINS_STORAGE_KEY,
@@ -129,7 +129,9 @@ async function downloadDocxThroughFormatDialog(page: Page) {
   return downloadPromise;
 }
 
-test("real browser DOCX gallery exports all 39 active dossier templates", async ({ page }) => {
+test("real browser Next gallery records exported and blocked templates explicitly", async ({
+  page,
+}) => {
   test.setTimeout(10 * 60_000);
   const batchIndex = galleryBatchIndex("DOCX_GALLERY_BATCH_INDEX");
   const stored = await seedCanonicalDossier(page);
@@ -139,17 +141,38 @@ test("real browser DOCX gallery exports all 39 active dossier templates", async 
   assertGalleryCatalog();
 
   const productIds = PRODUCT_TEMPLATES.map(({ id }) => id as string);
-  const planIds = Object.keys(DOSSIER_DOCX_TEMPLATE_PLANS);
-  expect(new Set(planIds).size).toBe(39);
-  expect([...productIds].sort()).toEqual([...planIds].sort());
   for (const retiredId of RETIRED_TEMPLATE_IDS) expect(productIds).not.toContain(retiredId);
   expect(GALLERY_CASES).toHaveLength(39);
 
   const manifestEntries: string[] = [];
+  const coverage: Record<string, unknown>[] = [];
   for (const { item, globalIndex } of selectedGalleryCases(batchIndex)) {
     await applyGalleryCase(page, stored, item);
     await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
     await setPageMargins(page, {});
+
+    const availability = await page.evaluate(async () => {
+      const module = await import(String("/src/lib/docx-next/app-source.ts"));
+      return module.savedAppDocxNextAvailability();
+    });
+    const base = galleryBaseName(globalIndex, item.label);
+    if (!availability.available) {
+      await page.getByRole("button").filter({ hasText: "Gesamtdossier herunterladen" }).click();
+      const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
+      await expect(
+        dialog.getByRole("radio", { name: "Bearbeitbares Dossier (DOCX)" }),
+      ).toBeDisabled();
+      coverage.push({
+        base,
+        id: item.id,
+        label: item.label,
+        exporter: "production DOCX Next",
+        status: "BLOCKED",
+        reason: availability.reason,
+      });
+      manifestEntries.push(`BLOCKED:${base} | ${item.id} | ${item.label}`);
+      continue;
+    }
 
     const download = await downloadDocxThroughFormatDialog(page);
     const fileName = `${galleryBaseName(globalIndex, item.label)}.docx`;
@@ -166,6 +189,14 @@ test("real browser DOCX gallery exports all 39 active dossier templates", async 
 
     await setPageMargins(page, {});
     manifestEntries.push(`${fileName} | ${item.id} | ${item.label}`);
+    coverage.push({
+      base,
+      id: item.id,
+      label: item.label,
+      exporter: "production DOCX Next",
+      status: "EXPORTED",
+      reason: availability.reason,
+    });
   }
 
   const part = String(batchIndex ?? 0).padStart(2, "0");
@@ -173,4 +204,9 @@ test("real browser DOCX gallery exports all 39 active dossier templates", async 
     join(GALLERY_DIR, `MANIFEST.part-${part}.txt`),
     `${manifestEntries.join("\n")}\n`,
   );
+  await writeFile(
+    join(GALLERY_DIR, `COVERAGE.part-${part}.json`),
+    JSON.stringify(coverage, null, 2) + "\n",
+  );
+  await recordGallerySource(GALLERY_DIR);
 });

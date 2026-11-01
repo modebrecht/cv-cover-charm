@@ -14,10 +14,15 @@ on:
         description: Run only the bounded three-document DOCX Next converter trial
         type: boolean
         default: false
+      semantic_parity:
+        description: Run only the production Next semantic/photo regression lane
+        type: boolean
+        default: false
   push:
     branches:
       - render
       - work/01nov-p2-01-onlyoffice
+      - work/01nov-p2-02-semantic-parity
 
 permissions:
   contents: read
@@ -28,7 +33,7 @@ concurrency:
 
 jobs:
   source-batch:
-    if: github.ref != 'refs/heads/work/01nov-p2-01-onlyoffice' && !inputs.converter_poc
+    if: github.ref != 'refs/heads/work/01nov-p2-01-onlyoffice' && github.ref != 'refs/heads/work/01nov-p2-02-semantic-parity' && !inputs.converter_poc && !inputs.semantic_parity
     name: Visual parity source batch ${{ matrix.batch }}
     runs-on: ubuntu-24.04
     timeout-minutes: 25
@@ -148,7 +153,10 @@ jobs:
           echo "Exact source set: Web=$web_count PNG, PDF=$pdf_count, DOCX=$docx_count, templates=$manifest_rows"
           test "$web_count" -eq 117
           test "$pdf_count" -eq 39
-          test "$docx_count" -eq 39
+          python3 scripts/assemble_next_coverage.py \
+            --batch-root artifacts/parity-batches \
+            --docx-dir artifacts/parity-source/docx \
+            --sha "$GITHUB_SHA"
           test "$manifest_rows" -eq 39
 
       - name: Install parity renderer dependencies
@@ -170,7 +178,8 @@ jobs:
             --web-dir artifacts/parity-source/web \
             --pdf-dir artifacts/parity-source/pdf \
             --docx-dir artifacts/parity-source/docx \
-            --out-dir artifacts/dossier-visual-parity-39
+            --out-dir artifacts/dossier-visual-parity-39 \
+            --next-coverage artifacts/parity-source/docx/COVERAGE.json
 
       - name: Publish parity summary
         shell: bash
@@ -247,5 +256,66 @@ jobs:
         with:
           name: dossier-converter-poc
           path: artifacts/converter-poc
+          if-no-files-found: warn
+          retention-days: 14
+
+  semantic-parity:
+    name: P2-02 — Next content, photos and continuation (LibreOffice)
+    if: github.ref != 'refs/heads/work/01nov-p2-01-onlyoffice' && !inputs.converter_poc
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install existing app, browser and LibreOffice
+        run: |
+          bun install --frozen-lockfile
+          npm install --no-save --no-package-lock @playwright/test@1.55.0
+          npx playwright install --with-deps chromium
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libreoffice-writer fonts-liberation fonts-cabin fontconfig python3-venv tesseract-ocr
+          python3 -m venv .parity-venv
+          .parity-venv/bin/pip install pillow==11.3.0 numpy==2.2.6 scikit-image==0.25.2 pymupdf==1.26.4
+      - name: Verify content/photo negative controls
+        run: .parity-venv/bin/python scripts/dossier_semantic_parity_test.py
+      - name: Export eight synthetic cases and check catalog/pilot gallery
+        shell: bash
+        run: |
+          set -euo pipefail
+          bun run dev -- --host 127.0.0.1 --port 4173 > /tmp/p2-02-app.log 2>&1 &
+          p202_app_pid=$!
+          trap 'kill "$p202_app_pid" 2>/dev/null || true' EXIT
+          for attempt in {1..30}; do
+            curl --fail --silent http://127.0.0.1:4173/ > /dev/null && break
+            sleep 1
+          done
+          npx playwright test tests/e2e/dossier-semantic-parity.spec.ts --workers=1 --reporter=line
+          bash scripts/run_dossier_gallery_batch.sh docx 0 artifacts/semantic-parity/gallery-pilot
+      - name: Convert and check visible markers, pages, photo geometry and crop
+        if: always()
+        run: |
+          if [ -f artifacts/semantic-parity/source/CATALOG.json ]; then
+            .parity-venv/bin/python scripts/dossier_semantic_parity.py \
+              --source-dir artifacts/semantic-parity/source \
+              --out-dir artifacts/semantic-parity/report
+          else
+            echo "BLOCKED: source export did not produce its catalog" >&2
+            exit 1
+          fi
+      - name: Publish semantic summary
+        if: always()
+        run: |
+          if [ -f artifacts/semantic-parity/report/SUMMARY.md ]; then
+            cat artifacts/semantic-parity/report/SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Retain synthetic evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dossier-semantic-parity
+          path: artifacts/semantic-parity
           if-no-files-found: warn
           retention-days: 14

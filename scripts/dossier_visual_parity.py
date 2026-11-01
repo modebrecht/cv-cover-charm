@@ -16,6 +16,7 @@ from __future__ import annotations
 import argparse
 import csv
 import hashlib
+import json
 import shutil
 import subprocess
 import sys
@@ -30,6 +31,7 @@ import PIL
 import skimage
 from PIL import Image, ImageDraw, ImageOps
 from skimage.metrics import structural_similarity
+from dossier_parity_content import marker_pages, docx_text
 
 PAGE_KINDS = ("cover", "letter", "cv")
 PAIR_KEYS = ("web_pdf", "web_docx", "pdf_docx")
@@ -89,6 +91,25 @@ def parse_web_manifest(path: Path) -> list[TemplateCase]:
     if len({case.base for case in cases}) != 39:
         raise RuntimeError("Web manifest contains duplicate template keys")
     return cases
+
+
+def apply_next_coverage(cases, path, source_sha=None):
+    """Availability/export coverage is separate from visual acceptance."""
+    data = json.loads(path.read_text())
+    rows = data["rows"]
+    expected = {case.base for case in cases}
+    if len(rows) != len(expected) or {row["base"] for row in rows} != expected:
+        raise RuntimeError("Next coverage must contain each Web template exactly once")
+    if data.get("exporter") != "production DOCX Next":
+        raise RuntimeError("Unexpected gallery exporter identity")
+    if source_sha is not None and data.get("sha") != source_sha:
+        raise RuntimeError("Next coverage SHA differs from source package")
+    statuses = {row["base"]: row["status"] for row in rows}
+    if any(s not in ("EXPORTED", "BLOCKED") for s in statuses.values()):
+        raise RuntimeError("Unknown Next coverage status")
+    if any(row["status"] == "BLOCKED" and not row.get("reason") for row in rows):
+        raise RuntimeError("Blocked templates require a reason")
+    return [case for case in cases if statuses[case.base] == "EXPORTED"], rows
 
 
 def save_normalized_rgb(rgb: Image.Image, target: Path) -> None:
@@ -308,17 +329,39 @@ def average(rows: Iterable[dict[str, object]], key: str) -> float:
     return mean(values) if values else float("nan")
 
 
+def canonical_content_checks(docx, converted_pdf):
+    markers = {"cover": ["Informatiker/in EFZ", "Lea Müller"],
+        "letter": ["Guten Tag", "Herr Thomas Weber", "Informatiker/in EFZ"],
+        "cv": ["Sekundarschule", "Lea Müller", "Schnupperlehre"]}
+    source = docx_text(docx)
+    result = []
+    with fitz.open(converted_pdf) as pdf:
+        for index, kind in enumerate(PAGE_KINDS):
+            found = marker_pages([pdf[index].get_text()], markers[kind])
+            xml = marker_pages([source], markers[kind])
+            missing = [m for m in markers[kind] if not found[m] or not xml[m]]
+            result.append({"page":kind,"status":"FAIL" if missing else "PASS","missing":missing})
+    return result
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--web-dir", type=Path, required=True)
     parser.add_argument("--pdf-dir", type=Path, required=True)
     parser.add_argument("--docx-dir", type=Path, required=True)
     parser.add_argument("--out-dir", type=Path, required=True)
+    parser.add_argument("--next-coverage", type=Path, help="Same-SHA production Next exported/blocked manifest")
     args = parser.parse_args()
 
     require_command("libreoffice")
 
     cases = parse_web_manifest(args.web_dir / "MANIFEST.txt")
+    catalog_count = len(cases)
+    coverage_rows = None
+    if args.next_coverage:
+        sha = (args.docx_dir / "SOURCE_SHA.txt").read_text().strip()
+        cases, coverage_rows = apply_next_coverage(cases, args.next_coverage, sha)
+        if not cases: raise RuntimeError("All Next templates are BLOCKED; no parity acceptance")
     args.out_dir.mkdir(parents=True, exist_ok=True)
     normalized = args.out_dir / "normalized"
     pdf_png_dir = normalized / "pdf"
@@ -326,14 +369,17 @@ def main() -> int:
     web_png_dir = normalized / "web"
     docx_pdf_dir = args.out_dir / "docx-pdf"
 
+    content_rows = []
     rows: list[dict[str, object]] = []
     image_lookup: dict[tuple[str, str, str], Path] = {}
 
-    print("Converting 39 DOCX files through LibreOffice...", flush=True)
+    if coverage_rows is not None:
+        (args.out_dir / "NEXT_COVERAGE.json").write_text(json.dumps({"exporter":"production DOCX Next","rows":coverage_rows}, indent=2) + "\n")
+    print(f"Converting {len(cases)}/{catalog_count} exported DOCX files through LibreOffice...", flush=True)
     docx_pdfs = convert_all_docx_to_pdf(args.docx_dir, cases, docx_pdf_dir)
 
     for index, case in enumerate(cases, start=1):
-        print(f"[{index:02d}/39] {case.base} {case.label}", flush=True)
+        print(f"[{index:02d}/{len(cases)}] {case.base} {case.label}", flush=True)
         pdf = args.pdf_dir / f"{case.base}.pdf"
         docx = args.docx_dir / f"{case.base}.docx"
         if not pdf.is_file():
@@ -344,6 +390,7 @@ def main() -> int:
         pdf_pages = rasterize_pdf(pdf, pdf_png_dir, case.base)
         docx_pdf = docx_pdfs[case.base]
         docx_pages = rasterize_pdf(docx_pdf, docx_png_dir, case.base)
+        content_rows.extend({"base":case.base,**row} for row in canonical_content_checks(docx,docx_pdf))
 
         template_images: dict[str, dict[str, Path]] = {"web": {}, "pdf": pdf_pages, "docx": docx_pages}
         template_rows: list[dict[str, object]] = []
@@ -374,8 +421,8 @@ def main() -> int:
             args.out_dir / "templates" / f"{case.base}.jpg",
         )
 
-    if len(rows) != 117:
-        raise RuntimeError(f"Expected 117 parity rows, found {len(rows)}")
+    if len(rows) != len(cases) * 3:
+        raise RuntimeError(f"Expected {len(cases)*3} parity rows, found {len(rows)}")
 
     # Exact duplicate page images are a source-integrity failure, not merely a
     # low-similarity observation. This specifically guards against gallery state
@@ -398,15 +445,20 @@ def main() -> int:
     for pair in PAIR_KEYS:
         create_worst_sheet(rows, pair, image_lookup, args.out_dir / f"worst-{pair.replace('_', '-vs-')}.jpg")
 
+    (args.out_dir / "CONTENT_CHECKS.json").write_text(json.dumps({"scope":"Critical canonical markers in source XML and converted PDF; App raster cover not text-certified here", "photo_coverage":"NOT_EXERCISED: gallery demo has no CV photo; use the semantic Next lane", "rows":content_rows}, indent=2, ensure_ascii=False) + "\n")
     versions = renderer_versions()
     summary_lines = [
         "# Dossier Visual Parity x39",
         "",
-        "All 39 templates, each with cover / letter / CV (117 page comparisons).",
+        f"{len(cases)}/{catalog_count} templates exported and compared, each with cover / letter / CV ({len(rows)} page comparisons).",
+        f"{catalog_count-len(cases)} templates are BLOCKED by the production Next guard; not passed or visually certified.",
+        "Exporter: production DOCX Next" if coverage_rows is not None else "Exporter: not recorded (historical source package)",
         "Web means the visible editor preview, not the hidden PDF export canvas.",
         "Primary scores are **RGB SSIM** after A4 normalization; 1.000 means pixel-identical.",
         "A separate grayscale **layout SSIM** helps distinguish geometry/text drift from color/theme drift.",
         "Low scores are reported for QA and do not fail the workflow; malformed, missing, or exact-duplicate source pages do fail.",
+        "",
+        f"Content gate: {sum(r['status']=='PASS' for r in content_rows)}/{len(content_rows)} critical-marker checks pass. Photo coverage: separate semantic lane (gallery demo has no photo).",
         "",
         "## Renderer versions",
         "",
@@ -453,7 +505,7 @@ def main() -> int:
     (args.out_dir / "SUMMARY.md").write_text("\n".join(summary_lines) + "\n", encoding="utf-8")
     print("\n".join(summary_lines[:36]))
     print(f"\nReport written to {args.out_dir}")
-    return 0
+    return 1 if any(row["status"] == "FAIL" for row in content_rows) else 0
 
 
 if __name__ == "__main__":
