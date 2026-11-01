@@ -27,6 +27,9 @@ from dossier_production_spacing import W,NS,critical,compare,content,digest,meas
 
 WP='{http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing}'
 CONTEXTS=['original','no-background','no-photo','sidebar-min','no-header-footer','reduced-context','reduced-context-compact']
+OUTER_CONTEXTS=['original','outer-controls','main-heading-paint','outer-controls-and-main-paint']
+MAIN_PAINT={'cv.section.custom:familie.heading.flow-paint','cv.section.schule.heading.flow-paint',
+    'cv.section.erfahrung.heading.flow-paint','cv.section.referenzen.heading.flow-paint'}
 GAPS=list(range(2,18))+['school-gap','reference-gap']
 P209_SHA256='6e1bb797be6896bd3e631eea86d11e8406fcfde016425605abca49148e50e6f4'
 
@@ -77,7 +80,7 @@ def unwrap_outer_controls(parent):
 
 
 def reduce_context(source,target,context,zero_gaps):
-    if context not in CONTEXTS:raise ValueError('Unknown context')
+    if context not in set(CONTEXTS)|set(OUTER_CONTEXTS):raise ValueError('Unknown context')
     if source.resolve()==target.resolve():raise ValueError('Cannot overwrite source fixture')
     if zero_gaps:spacing=change_gaps(source,target,GAPS)
     else:shutil.copyfile(source,target);spacing={'attribute_edits':[]}
@@ -88,6 +91,14 @@ def reduce_context(source,target,context,zero_gaps):
     before_critical=critical(root,18);removed_drawings=[];removed_refs=[];header_parts=[]
     sidebar_removed='';minimal=context.startswith('reduced-context')
     first_properties=[canon(c.find('w:p/w:pPr',NS)) for c in cells]
+    if context in ['outer-controls','outer-controls-and-main-paint']:
+        unwrap_outer_controls(root.find('w:body',NS));unwrap_outer_controls(expected_main)
+    if context in ['main-heading-paint','outer-controls-and-main-paint']:
+        removed_drawings=remove_named(cells[main_index],lambda n:n in MAIN_PAINT)
+        remove_named(expected_main,lambda n:n in MAIN_PAINT)
+        if set(removed_drawings)!=MAIN_PAINT or len(removed_drawings)!=4:raise ValueError('Expected four main heading drawings')
+    if context in OUTER_CONTEXTS and [n.text for n in before.iter(W+'t')]!=[n.text for n in root.iter(W+'t')]:
+        raise ValueError('Outer-factor probe changed visible text')
     if context=='no-photo':
         removed_drawings=remove_named(root,lambda n:n=='cv.person.photo')
         remove_named(expected_main,lambda n:n=='cv.person.photo')
@@ -136,6 +147,9 @@ def reduce_context(source,target,context,zero_gaps):
         hashes=[{'path':n,'before_sha256':hashlib.sha256(a.read(n)).hexdigest(),
             'after_sha256':hashlib.sha256(b.read(n)).hexdigest() if n in b.namelist() else None} for n in changed+removed]
     losses={'original':[],'no-background':['page-background drawings'],
+        'outer-controls':['outer content-control metadata; visible text/drawings retained'],
+        'main-heading-paint':['four main-section heading drawings'],
+        'outer-controls-and-main-paint':['outer content-control metadata','four main-section heading drawings'],
         'no-photo':['calibration photo'],'sidebar-min':['sidebar text/tables/line artwork'],
         'no-header-footer':['all active header/footer contents including page backgrounds'],
         'reduced-context':['all active header/footer contents','all body drawings','sidebar story','outer SDT wrappers; critical inner SDTs retained'],

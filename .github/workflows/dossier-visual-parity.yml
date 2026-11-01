@@ -50,7 +50,7 @@ on:
       fixture_probe:
         description: Select an additional persisted-fixture diagnostic matrix
         type: choice
-        options: [none, flow-context]
+        options: [none, flow-context, outer-factors]
         default: none
   push:
     branches:
@@ -65,6 +65,7 @@ on:
       - work/01nov-p2-08-production-spacing
       - work/01nov-p2-09-flow-boundaries
       - work/01nov-p2-10-flow-context
+      - work/01nov-p2-11-outer-factors
 
 permissions:
   contents: read
@@ -75,7 +76,7 @@ concurrency:
 
 jobs:
   source-batch:
-    if: github.ref != 'refs/heads/work/01nov-p2-01-onlyoffice' && github.ref != 'refs/heads/work/01nov-p2-02-semantic-parity' && github.ref != 'refs/heads/work/01nov-p2-03-lo-isolation' && github.ref != 'refs/heads/work/01nov-p2-04-minimal-repro' && !inputs.converter_poc && !inputs.semantic_parity && !inputs.lo_isolation && !inputs.minimal_repro && github.ref != 'refs/heads/work/01nov-p2-05-compat-mode' && !inputs.compat_mode && github.ref != 'refs/heads/work/01nov-p2-06-preamble-flow' && !inputs.preamble_flow && github.ref != 'refs/heads/work/01nov-p2-07-spacing-subset' && !inputs.spacing_subset && github.ref != 'refs/heads/work/01nov-p2-08-production-spacing' && !inputs.production_spacing && github.ref != 'refs/heads/work/01nov-p2-09-flow-boundaries' && !inputs.boundary_spacing && github.ref != 'refs/heads/work/01nov-p2-10-flow-context' && inputs.fixture_probe != 'flow-context'
+    if: github.ref != 'refs/heads/work/01nov-p2-01-onlyoffice' && github.ref != 'refs/heads/work/01nov-p2-02-semantic-parity' && github.ref != 'refs/heads/work/01nov-p2-03-lo-isolation' && github.ref != 'refs/heads/work/01nov-p2-04-minimal-repro' && !inputs.converter_poc && !inputs.semantic_parity && !inputs.lo_isolation && !inputs.minimal_repro && github.ref != 'refs/heads/work/01nov-p2-05-compat-mode' && !inputs.compat_mode && github.ref != 'refs/heads/work/01nov-p2-06-preamble-flow' && !inputs.preamble_flow && github.ref != 'refs/heads/work/01nov-p2-07-spacing-subset' && !inputs.spacing_subset && github.ref != 'refs/heads/work/01nov-p2-08-production-spacing' && !inputs.production_spacing && github.ref != 'refs/heads/work/01nov-p2-09-flow-boundaries' && !inputs.boundary_spacing && github.ref != 'refs/heads/work/01nov-p2-10-flow-context' && inputs.fixture_probe != 'flow-context' && github.ref != 'refs/heads/work/01nov-p2-11-outer-factors' && inputs.fixture_probe != 'outer-factors'
     name: Visual parity source batch ${{ matrix.batch }}
     runs-on: ubuntu-24.04
     timeout-minutes: 25
@@ -303,7 +304,7 @@ jobs:
 
   semantic-parity:
     name: P2 — Next content, photos and production-copy counterprobes (LibreOffice)
-    if: github.ref != 'refs/heads/work/01nov-p2-01-onlyoffice' && github.ref != 'refs/heads/work/01nov-p2-05-compat-mode' && !inputs.converter_poc && !inputs.compat_mode && github.ref != 'refs/heads/work/01nov-p2-06-preamble-flow' && !inputs.preamble_flow && github.ref != 'refs/heads/work/01nov-p2-07-spacing-subset' && !inputs.spacing_subset && github.ref != 'refs/heads/work/01nov-p2-09-flow-boundaries' && !inputs.boundary_spacing && github.ref != 'refs/heads/work/01nov-p2-10-flow-context' && inputs.fixture_probe != 'flow-context'
+    if: github.ref != 'refs/heads/work/01nov-p2-01-onlyoffice' && github.ref != 'refs/heads/work/01nov-p2-05-compat-mode' && !inputs.converter_poc && !inputs.compat_mode && github.ref != 'refs/heads/work/01nov-p2-06-preamble-flow' && !inputs.preamble_flow && github.ref != 'refs/heads/work/01nov-p2-07-spacing-subset' && !inputs.spacing_subset && github.ref != 'refs/heads/work/01nov-p2-09-flow-boundaries' && !inputs.boundary_spacing && github.ref != 'refs/heads/work/01nov-p2-10-flow-context' && inputs.fixture_probe != 'flow-context' && github.ref != 'refs/heads/work/01nov-p2-11-outer-factors' && inputs.fixture_probe != 'outer-factors'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     env:
@@ -401,15 +402,16 @@ jobs:
 
   compatibility-probe:
     name: P2 — persisted LibreOffice fixture probes
-    if: github.ref == 'refs/heads/work/01nov-p2-05-compat-mode' || inputs.compat_mode || github.ref == 'refs/heads/work/01nov-p2-06-preamble-flow' || inputs.preamble_flow || github.ref == 'refs/heads/work/01nov-p2-07-spacing-subset' || inputs.spacing_subset || github.ref == 'refs/heads/work/01nov-p2-09-flow-boundaries' || inputs.boundary_spacing || github.ref == 'refs/heads/work/01nov-p2-10-flow-context' || inputs.fixture_probe == 'flow-context'
+    if: github.ref == 'refs/heads/work/01nov-p2-05-compat-mode' || inputs.compat_mode || github.ref == 'refs/heads/work/01nov-p2-06-preamble-flow' || inputs.preamble_flow || github.ref == 'refs/heads/work/01nov-p2-07-spacing-subset' || inputs.spacing_subset || github.ref == 'refs/heads/work/01nov-p2-09-flow-boundaries' || inputs.boundary_spacing || github.ref == 'refs/heads/work/01nov-p2-10-flow-context' || inputs.fixture_probe == 'flow-context' || github.ref == 'refs/heads/work/01nov-p2-11-outer-factors' || inputs.fixture_probe == 'outer-factors'
     runs-on: ubuntu-24.04
-    timeout-minutes: ${{ (github.ref == 'refs/heads/work/01nov-p2-10-flow-context' || inputs.fixture_probe == 'flow-context') && 15 || 10 }}
+    timeout-minutes: ${{ (github.ref == 'refs/heads/work/01nov-p2-10-flow-context' || inputs.fixture_probe == 'flow-context' || github.ref == 'refs/heads/work/01nov-p2-11-outer-factors' || inputs.fixture_probe == 'outer-factors') && 15 || 10 }}
     env:
+      OUTER_FACTORS: ${{ github.ref == 'refs/heads/work/01nov-p2-11-outer-factors' || inputs.fixture_probe == 'outer-factors' }}
       FLOW_CONTEXT: ${{ github.ref == 'refs/heads/work/01nov-p2-10-flow-context' || inputs.fixture_probe == 'flow-context' }}
       BOUNDARY_SPACING: ${{ github.ref == 'refs/heads/work/01nov-p2-09-flow-boundaries' || inputs.boundary_spacing }}
       SPACING_SUBSET: ${{ github.ref == 'refs/heads/work/01nov-p2-07-spacing-subset' || inputs.spacing_subset }}
       PREAMBLE_FLOW: ${{ github.ref == 'refs/heads/work/01nov-p2-06-preamble-flow' || inputs.preamble_flow }}
-      FIXTURE_OUTPUT: ${{ (github.ref == 'refs/heads/work/01nov-p2-10-flow-context' || inputs.fixture_probe == 'flow-context') && 'artifacts/flow-context' || (github.ref == 'refs/heads/work/01nov-p2-09-flow-boundaries' || inputs.boundary_spacing) && 'artifacts/flow-boundaries' || (github.ref == 'refs/heads/work/01nov-p2-07-spacing-subset' || inputs.spacing_subset) && 'artifacts/spacing-subset' || (github.ref == 'refs/heads/work/01nov-p2-06-preamble-flow' || inputs.preamble_flow) && 'artifacts/preamble-flow' || 'artifacts/compat-mode' }}
+      FIXTURE_OUTPUT: ${{ (github.ref == 'refs/heads/work/01nov-p2-11-outer-factors' || inputs.fixture_probe == 'outer-factors') && 'artifacts/outer-factors' || (github.ref == 'refs/heads/work/01nov-p2-10-flow-context' || inputs.fixture_probe == 'flow-context') && 'artifacts/flow-context' || (github.ref == 'refs/heads/work/01nov-p2-09-flow-boundaries' || inputs.boundary_spacing) && 'artifacts/flow-boundaries' || (github.ref == 'refs/heads/work/01nov-p2-07-spacing-subset' || inputs.spacing_subset) && 'artifacts/spacing-subset' || (github.ref == 'refs/heads/work/01nov-p2-06-preamble-flow' || inputs.preamble_flow) && 'artifacts/preamble-flow' || 'artifacts/compat-mode' }}
     steps:
       - uses: actions/checkout@v4
       - name: Install LibreOffice and Python analysis only
@@ -424,6 +426,7 @@ jobs:
         run: |
           .parity-venv/bin/python scripts/dossier_lo_compat_test.py
           .parity-venv/bin/python scripts/dossier_lo_context_test.py
+          .parity-venv/bin/python scripts/dossier_lo_outer_test.py
           .parity-venv/bin/python scripts/dossier_production_spacing_test.py
           .parity-venv/bin/python scripts/dossier_lo_boundaries_test.py
           .parity-venv/bin/python scripts/dossier_lo_preamble_test.py
@@ -433,7 +436,9 @@ jobs:
           .parity-venv/bin/python scripts/dossier_converter_poc_test.py
       - name: Run selected persisted-fixture counterprobe and verify original baselines
         run: |
-          if [ "$FLOW_CONTEXT" = true ]; then
+          if [ "$OUTER_FACTORS" = true ]; then
+            .parity-venv/bin/python scripts/dossier_lo_outer.py --out-dir "$FIXTURE_OUTPUT"
+          elif [ "$FLOW_CONTEXT" = true ]; then
             .parity-venv/bin/python scripts/dossier_lo_context.py --out-dir "$FIXTURE_OUTPUT"
           elif [ "$BOUNDARY_SPACING" = true ]; then
             .parity-venv/bin/python scripts/dossier_lo_boundaries.py --out-dir "$FIXTURE_OUTPUT"
@@ -460,7 +465,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ (github.ref == 'refs/heads/work/01nov-p2-10-flow-context' || inputs.fixture_probe == 'flow-context') && 'dossier-flow-context' || (github.ref == 'refs/heads/work/01nov-p2-09-flow-boundaries' || inputs.boundary_spacing) && 'dossier-boundary-probe' || (github.ref == 'refs/heads/work/01nov-p2-07-spacing-subset' || inputs.spacing_subset) && 'dossier-spacing-probe' || (github.ref == 'refs/heads/work/01nov-p2-06-preamble-flow' || inputs.preamble_flow) && 'dossier-preamble-probe' || 'dossier-compatibility-probe' }}
+          name: ${{ (github.ref == 'refs/heads/work/01nov-p2-11-outer-factors' || inputs.fixture_probe == 'outer-factors') && 'dossier-outer-factors' || (github.ref == 'refs/heads/work/01nov-p2-10-flow-context' || inputs.fixture_probe == 'flow-context') && 'dossier-flow-context' || (github.ref == 'refs/heads/work/01nov-p2-09-flow-boundaries' || inputs.boundary_spacing) && 'dossier-boundary-probe' || (github.ref == 'refs/heads/work/01nov-p2-07-spacing-subset' || inputs.spacing_subset) && 'dossier-spacing-probe' || (github.ref == 'refs/heads/work/01nov-p2-06-preamble-flow' || inputs.preamble_flow) && 'dossier-preamble-probe' || 'dossier-compatibility-probe' }}
           path: ${{ env.FIXTURE_OUTPUT }}
           if-no-files-found: warn
           retention-days: 14
