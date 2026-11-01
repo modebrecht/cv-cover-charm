@@ -1,0 +1,174 @@
+{
+  "schema": 1,
+  "native_run_id": 41298301313,
+  "implementation_sha": "695ad4fd7b4e9d254e7ea1cba11f408e6ca8582a",
+  "scope": "Collective empty-paragraph spacing counterprobe. Not an accepted product/Word fix. Minimum failure-triggering subset remains untested.",
+  "fixtures": [
+    {
+      "filename": "long-gap-original.docx",
+      "sha256": "56bfdc31f3dca210b9fff79c3822845f59f4e02801d22d88b0ceec09f1733087",
+      "document_xml_sha256": "45e16c44cc9a01f5c369057fd8c9e9ee664462d84cd5b5323c0e57760404f357",
+      "bytes": 5579,
+      "observed": {
+        "pages": 3,
+        "content_status": "FAIL",
+        "complete_entries": 15,
+        "missing": [
+          "P202Praxis17",
+          "P202Praxis18",
+          "P202Endreferenz"
+        ],
+        "split_entries": [],
+        "pixel_sha256": [
+          "8980c1c0d0514e8dd239974dd0d95bb1b03135ab57af83c2e1dd79c6449698b2",
+          "7ac57ac1bc3539730b8f6b8b20c9c558b51d4aed86cf80279a0855772cba3b19",
+          "384258f9c41c2f5899c851ea78f0d4f3a76aae532d32f5e2c14c8a2d4fc9f7b4"
+        ],
+        "first_station": {
+          "page": 1,
+          "origin_mm": [
+            95.338,
+            143.175
+          ]
+        }
+      }
+    },
+    {
+      "filename": "long-gap-zero.docx",
+      "sha256": "da22de03b4d730b7576a6c9c05a705df84633fc9ea3898a8e14f02f6405fb7f2",
+      "document_xml_sha256": "c7dd3a0b001eff559152c7090377b6a9f3213b949caa5096e9a7d21a871b252d",
+      "bytes": 5566,
+      "observed": {
+        "pages": 3,
+        "content_status": "PASS",
+        "complete_entries": 18,
+        "missing": [],
+        "split_entries": [],
+        "pixel_sha256": [
+          "1ce783730975300a61d6234ca2177086709e6d8a248a497e3fd40a323d814cf3",
+          "1d467febb770b92e6a15221a68d5d9ab02671d17f2dda0713173ad8f423f1fa5",
+          "67d5005bc8e0f50c1f11ca63441723aceed4ecd9fa178283c82e58888bb93252"
+        ],
+        "first_station": {
+          "page": 1,
+          "origin_mm": [
+            95.338,
+            141.905
+          ]
+        }
+      }
+    }
+  ],
+  "attribute_changes": [
+    {
+      "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[10]/pPr[0]/spacing[0]",
+      "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+      "before": "72",
+      "after": "0"
+    },
+    {
+      "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[14]/pPr[0]/spacing[0]",
+      "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+      "before": "1",
+      "after": "0"
+    },
+    {
+      "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[16]/pPr[0]/spacing[0]",
+      "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+      "before": "1",
+      "after": "0"
+    },
+    {
+      "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[18]/pPr[0]/spacing[0]",
+      "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+      "before": "1",
+      "after": "0"
+    },
+    {
+      "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[20]/pPr[0]/spacing[0]",
+      "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+      "before": "1",
+      "after": "0"
+    },
+    {
+      "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[22]/pPr[0]/spacing[0]",
+      "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+      "before": "1",
+      "after": "0"
+    },
+    {
+      "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[24]/pPr[0]/spacing[0]",
+      "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+      "before": "1",
+      "after": "0"
+    },
+    {
+      "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[26]/pPr[0]/spacing[0]",
+      "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+      "before": "1",
+      "after": "0"
+    },
+    {
+      "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[28]/pPr[0]/spacing[0]",
+      "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+      "before": "1",
+      "after": "0"
+    },
+    {
+      "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[30]/pPr[0]/spacing[0]",
+      "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+      "before": "1",
+      "after": "0"
+    },
+    {
+      "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[32]/pPr[0]/spacing[0]",
+      "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+      "before": "1",
+      "after": "0"
+    },
+    {
+      "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[34]/pPr[0]/spacing[0]",
+      "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+      "before": "1",
+      "after": "0"
+    },
+    {
+      "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[36]/pPr[0]/spacing[0]",
+      "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+      "before": "1",
+      "after": "0"
+    },
+    {
+      "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[38]/pPr[0]/spacing[0]",
+      "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+      "before": "1",
+      "after": "0"
+    },
+    {
+      "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[40]/pPr[0]/spacing[0]",
+      "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+      "before": "1",
+      "after": "0"
+    },
+    {
+      "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[42]/pPr[0]/spacing[0]",
+      "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+      "before": "1",
+      "after": "0"
+    },
+    {
+      "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[44]/pPr[0]/spacing[0]",
+      "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+      "before": "1",
+      "after": "0"
+    },
+    {
+      "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[46]/pPr[0]/spacing[0]",
+      "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+      "before": "72",
+      "after": "0"
+    }
+  ],
+  "critical_tables_identical": 19,
+  "all_non_document_parts_identical": true
+}
