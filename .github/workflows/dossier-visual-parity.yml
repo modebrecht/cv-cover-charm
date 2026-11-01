@@ -411,7 +411,7 @@ jobs:
     timeout-minutes: ${{ (github.ref == 'refs/heads/work/01nov-p2-15-libreoffice-version' || inputs.fixture_probe == 'lo-version' || github.ref == 'refs/heads/work/01nov-p2-14-reference-placement' || inputs.fixture_probe == 'reference-placement' || github.ref == 'refs/heads/work/01nov-p2-13-reference-anchor' || inputs.fixture_probe == 'reference-anchor' || github.ref == 'refs/heads/work/01nov-p2-12-heading-subsets' || inputs.fixture_probe == 'heading-subsets' || github.ref == 'refs/heads/work/01nov-p2-10-flow-context' || inputs.fixture_probe == 'flow-context' || github.ref == 'refs/heads/work/01nov-p2-11-outer-factors' || inputs.fixture_probe == 'outer-factors') && 15 || 10 }}
     env:
       LO_VERSION: ${{ github.ref == 'refs/heads/work/01nov-p2-15-libreoffice-version' || inputs.fixture_probe == 'lo-version' }}
-      RELEASE_ROOT: ${{ runner.temp }}/lo-release-26.8.2
+      RELEASE_ROOT: /tmp/ccc-lo-release-26.8.2
       REFERENCE_PLACEMENT: ${{ github.ref == 'refs/heads/work/01nov-p2-14-reference-placement' || inputs.fixture_probe == 'reference-placement' }}
       REFERENCE_ANCHOR: ${{ github.ref == 'refs/heads/work/01nov-p2-13-reference-anchor' || inputs.fixture_probe == 'reference-anchor' }}
       HEADING_SUBSETS: ${{ github.ref == 'refs/heads/work/01nov-p2-12-heading-subsets' || inputs.fixture_probe == 'heading-subsets' }}
