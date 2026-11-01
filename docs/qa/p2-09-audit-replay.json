@@ -1,0 +1,12 @@
+{
+  "native_run_id": 41321091953,
+  "implementation_sha": "1135164b5c5fefbbc1150da49900193fe6af3874",
+  "native_results_sha256": "6e1bb797be6896bd3e631eea86d11e8406fcfde016425605abca49148e50e6f4",
+  "audit_execution_status": "PASS",
+  "audit_native_conversion_count": 0,
+  "all_20_case_results_exactly_reproduced": true,
+  "both_small_controls_exactly_reproduced": true,
+  "all_14_first_matrix_repeats_preserved": true,
+  "native_resources_preserved": true,
+  "scope": "Saved DOCX/PDF hashes and measurements replayed. No independent native conversion."
+}
