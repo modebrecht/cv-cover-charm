@@ -13,6 +13,8 @@ from dossier_lo_isolation import attribute_diff
 class ReductionControls(unittest.TestCase):
     def setUp(self):
         for prefix,uri in NS.items():ET.register_namespace(prefix,uri)
+        ET.register_namespace('r','http://schemas.openxmlformats.org/officeDocument/2006/relationships')
+        ET.register_namespace('a','http://schemas.openxmlformats.org/drawingml/2006/main')
         self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
         self.root=Path(self.temp.name);self.source=self.root/'source.docx'
         cell=lambda width: (f'<w:tc><w:tcPr><w:tcW w:w="{width}"/></w:tcPr><w:p><w:pPr>'
@@ -22,10 +24,18 @@ class ReductionControls(unittest.TestCase):
              '<w:sectPr><w:headerReference/><w:pgMar w:left="1134"/></w:sectPr></w:body></w:document>')
         r=ET.fromstring(xml)
         drawing=ET.SubElement(r.find('.//w:tc/w:p',NS),W+'r')
-        ET.SubElement(ET.SubElement(drawing,W+'drawing'),'{'+NS['wp']+'}anchor',{'layoutInCell':'0'})
+        anchor=ET.SubElement(ET.SubElement(drawing,W+'drawing'),'{'+NS['wp']+'}anchor',{'layoutInCell':'0'})
+        ET.SubElement(anchor,'{http://schemas.openxmlformats.org/drawingml/2006/main}blip',
+                      {'{http://schemas.openxmlformats.org/officeDocument/2006/relationships}embed':'image1'})
         with ZipFile(self.source,'w') as pkg:
             pkg.writestr('word/document.xml',ET.tostring(r))
             pkg.writestr('word/media/image.png',b'unchanged calibration pixels')
+            prefix='http://schemas.openxmlformats.org/officeDocument/2006/relationships/'
+            rels='http://schemas.openxmlformats.org/package/2006/relationships'
+            pkg.writestr('_rels/.rels',f'<Relationships xmlns="{rels}"><Relationship Id="doc" Type="{prefix}officeDocument" Target="word/document.xml"/></Relationships>')
+            pkg.writestr('word/_rels/document.xml.rels',f'<Relationships xmlns="{rels}"><Relationship Id="image1" Type="{prefix}image" Target="media/image.png"/><Relationship Id="header" Type="{prefix}header" Target="unused-header.xml"/></Relationships>')
+            pkg.writestr('word/unused-header.xml','unused header')
+            pkg.writestr('[Content_Types].xml','<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/unused-header.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml"/></Types>')
 
     def read(self,path):
         with ZipFile(path) as pkg:return ET.fromstring(pkg.read('word/document.xml'))
@@ -72,6 +82,17 @@ class ReductionControls(unittest.TestCase):
     def test_reducer_cannot_overwrite_source(self):
         with self.assertRaisesRegex(ValueError,'overwrite its source'):
             reduce_story(self.source,self.source,'long-bare')
+
+    def test_compaction_keeps_live_bytes_and_drops_unreachable_header(self):
+        full=self.root/'full.docx';small=self.root/'small.docx'
+        reduce_story(self.source,full,'photo-table-20')
+        result=reduce_story(self.source,small,'photo-table-20-compact')
+        with ZipFile(full) as left,ZipFile(small) as right:
+            self.assertEqual(left.read('word/document.xml'),right.read('word/document.xml'))
+            self.assertEqual(right.read('word/media/image.png'),b'unchanged calibration pixels')
+            self.assertNotIn('word/unused-header.xml',right.namelist())
+        self.assertTrue(result['compaction']['retained_payloads_identical'])
+        self.assertLess(small.stat().st_size,full.stat().st_size)
 
 
 if __name__=='__main__':unittest.main()

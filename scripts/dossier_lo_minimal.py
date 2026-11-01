@@ -6,15 +6,16 @@ They are reproducers, never alternate product exports or parity baselines.
 """
 from __future__ import annotations
 import argparse
-from copy import deepcopy
+from copy import copy, deepcopy
 import hashlib
 import io
 import json
 import os
+import posixpath
 from pathlib import Path
 import shutil
 import xml.etree.ElementTree as ET
-from zipfile import ZipFile
+from zipfile import ZIP_DEFLATED, ZipFile
 
 import fitz
 from PIL import Image
@@ -87,8 +88,59 @@ def bare_inner(text, width, height=None):
     return table
 
 
+def compact_package(path):
+    """Drop unreachable package parts; keep document.xml and live payload bytes."""
+    kept=set();replacements={}
+    with ZipFile(path) as pkg:
+        names=set(pkg.namelist())
+        def walk(part):
+            if part and part in kept:return
+            if part:
+                if part not in names:raise ValueError('Missing relationship target '+part)
+                kept.add(part)
+            rel=posixpath.join(posixpath.dirname(part),'_rels',posixpath.basename(part)+'.rels') if part else '_rels/.rels'
+            if rel not in names:return
+            kept.add(rel);root=ET.fromstring(pkg.read(rel))
+            referenced=set()
+            if part=='word/document.xml':
+                doc=ET.fromstring(pkg.read(part))
+                referenced={v for n in doc.iter() for k,v in n.attrib.items()
+                            if k.startswith('{http://schemas.openxmlformats.org/officeDocument/2006/relationships}')}
+            for relationship in list(root):
+                kind=relationship.get('Type','').rsplit('/',1)[-1]
+                if part=='word/document.xml' and kind in ['image','header','footer','hyperlink'] and relationship.get('Id') not in referenced:
+                    root.remove(relationship);continue
+                if relationship.get('TargetMode')=='External':continue
+                target=relationship.get('Target')
+                resolved=posixpath.normpath(posixpath.join(posixpath.dirname(part),target)) if not target.startswith('/') else target[1:]
+                if resolved.startswith('../'):raise ValueError('Relationship escapes package')
+                walk(resolved)
+            if part=='word/document.xml':replacements[rel]=ET.tostring(root,encoding='utf-8',xml_declaration=True)
+        walk('')
+        content_types=ET.fromstring(pkg.read('[Content_Types].xml'))
+        for item in list(content_types):
+            if item.tag.endswith('Override') and item.get('PartName','').lstrip('/') not in kept:content_types.remove(item)
+        kept.add('[Content_Types].xml');replacements['[Content_Types].xml']=ET.tostring(content_types,encoding='utf-8',xml_declaration=True)
+        document=pkg.read('word/document.xml');original_size=path.stat().st_size
+        temporary=path.with_suffix('.compact.tmp')
+        live={n:pkg.read(n) for n in kept if n not in replacements}
+        with ZipFile(temporary,'w') as output:
+            for item in pkg.infolist():
+                if item.filename not in kept:continue
+                info=copy(item);info.compress_type=ZIP_DEFLATED
+                output.writestr(info,replacements.get(item.filename,pkg.read(item)))
+        removed=sorted(names-kept)
+    temporary.replace(path)
+    with ZipFile(path) as pkg:
+        assert pkg.read('word/document.xml')==document
+        assert all(pkg.read(n)==data for n,data in live.items())
+    return {'removed_parts':removed,'retained_parts':len(kept),'retained_payloads_identical':True,
+            'document_xml_identical':True,'zip_bytes_before':original_size,'zip_bytes_after':path.stat().st_size}
+
+
 def reduce_story(source, target, operation):
     if operation not in {op for _,op in plan()}:raise ValueError('Unknown reduction '+operation)
+    compact=operation.endswith('-compact');operation=operation.removesuffix('-compact')
     if source.resolve()==target.resolve():raise ValueError('Diagnostic output must not overwrite its source')
     if operation=='original':
         shutil.copyfile(source,target)
@@ -128,6 +180,19 @@ def reduce_story(source, target, operation):
                     if operation.endswith('detached'):start.find('w:pPr/w:keepNext',NS).set(W+'val','0')
                     width=int(cells[0].find('w:tcPr/w:tcW',NS).get(W+'w'))
                     fill_cell(cells[0],[start,bare_inner('P204SIDEBAR',width),paragraph()])
+                if operation in ['long-entries','long-entries-detached']:
+                    start=deepcopy(cells[0].find('w:p',NS))
+                    if operation.endswith('detached'):start.find('w:pPr/w:keepNext',NS).set(W+'val','0')
+                    width=int(cells[0].find('w:tcPr/w:tcW',NS).get(W+'w'))
+                    fill_cell(cells[0],[start,bare_inner('P204SIDEBAR',width),paragraph()])
+                    entries=[]
+                    for table in cells[2].findall('.//w:tbl',NS):
+                        text=''.join(t.text or '' for t in table.iter(W+'t'))
+                        if not table.findall('.//w:tbl',NS) and ('P202Praxis' in text or 'P202Endreferenz' in text):entries.append(deepcopy(table))
+                    if len(entries)!=19:raise ValueError('Expected 18 innermost station tables plus reference')
+                    children=[paragraph('P204INTRO',line=4762,keep=False)]
+                    for table in entries:children.extend([table,paragraph(line=20)])
+                    fill_cell(cells[2],children)
                 if operation in ['long-bare','long-bare-detached']:
                     width=int(cells[2].find('w:tcPr/w:tcW',NS).get(W+'w'))
                     children=[paragraph('P204INTRO',line=4535,keep=False)]
@@ -142,8 +207,10 @@ def reduce_story(source, target, operation):
     with ZipFile(source) as original, ZipFile(target) as reduced:
         assert original.namelist()==reduced.namelist()
         assert all(original.read(n)==reduced.read(n) for n in original.namelist() if n!='word/document.xml')
-    return {'before':before,'after':facts(root),'document_xml_bytes_before':len(raw),
-            'document_xml_bytes_after':len(changed),'other_package_parts_identical':True}
+    metadata={'before':before,'after':facts(root),'document_xml_bytes_before':len(raw),
+              'document_xml_bytes_after':len(changed),'other_package_parts_identical':not compact}
+    if compact:metadata['compaction']=compact_package(target)
+    return metadata
 
 
 def plan():
@@ -151,20 +218,24 @@ def plan():
         'photo-table-20','photo-table-10','photo-table-0','photo-paragraph-20','photo-table-in-cell']]+[
         ('cv-long-left','original'),('cv-long-right','original')]+[
         ('cv-long-left',o) for o in ['long-unwrapped','long-no-image','long-sidebar-min',
-                                   'long-sidebar-detached','long-bare','long-bare-detached']]
+                                   'long-sidebar-detached','long-bare','long-bare-detached',
+                                   'long-entries','long-entries-detached']]+[
+        ('cv-right','photo-table-20-compact'),('cv-right','photo-paragraph-20-compact'),
+        ('cv-long-left','long-sidebar-min-compact'),('cv-long-left','long-sidebar-detached-compact')]
 
 
 def inspect(path, folder):
-    texts=[];photos=[];images=[]
+    texts=[];photos=[];images=[];pixels=[]
     with fitz.open(path) as pdf:
         producer=pdf.metadata.get('producer')
         for i,page in enumerate(pdf):
             pix=page.get_pixmap(matrix=fitz.Matrix(96/72,96/72),alpha=False)
             rgb=Image.frombytes('RGB',(pix.width,pix.height),pix.samples)
+            pixels.append(hashlib.sha256(rgb.tobytes()).hexdigest())
             photos.append(photo_signature(rgb,(page.rect.width*25.4/72,page.rect.height*25.4/72)))
             output=folder/f'page-{i+1}.png';rgb.save(output);images.append(output)
             texts.append(page.get_text())
-    return {'texts':texts,'photos':photos,'pages':len(texts),'producer':producer},images
+    return {'texts':texts,'photos':photos,'pages':len(texts),'producer':producer,'pixel_sha256':pixels},images
 
 
 def main():
@@ -213,6 +284,7 @@ def main():
                 if operation.startswith('long-bare') else [f'P202Praxis{i:02}' for i in range(1,19)]+['P202Endreferenz'])
         found=marker_pages(actual['texts'],markers)
         row.update(conversion_status='PASS',pages=actual['pages'],producer=actual['producer'],marker_pages=found,
+                   pixel_sha256=actual['pixel_sha256'],
                    missing=[m for m in markers if not found[m]],page_text_characters=[len(t) for t in actual['texts']])
         row['content_status']='FAIL' if row['missing'] else 'PASS'
         sheet=Image.new('RGB',(340,481*len(images)),'#ddd')
@@ -229,7 +301,10 @@ def main():
             all(by[c+'--original'].get('pages')==3 and set(by[c+'--original'].get('missing',[]))==tail
                 for c in ['cv-long-left','cv-long-right']))
         report['original_defects_reproduced']=controls
-        report['execution_status']='PASS' if controls and all(r['conversion_status']=='PASS' for r in report['cases']) else 'FAIL'
+        compact_checks={r['id']:r.get('pixel_sha256')==by[r['id'].removesuffix('-compact')].get('pixel_sha256')
+                        and r.get('pixel_sha256') is not None for r in report['cases'] if r['operation'].endswith('-compact')}
+        report['compact_pairs_pixel_identical']=compact_checks
+        report['execution_status']='PASS' if controls and all(compact_checks.values()) and all(r['conversion_status']=='PASS' for r in report['cases']) else 'FAIL'
     (out/'RESULTS.json').write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n')
     lines=['# P2-04 — synthetic story reductions','',f"Source SHA: `{report['source_sha']}`",
            '', 'Execution PASS means conversions completed and original failures reproduced. No product acceptance.',
