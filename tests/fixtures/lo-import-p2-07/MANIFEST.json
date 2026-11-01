@@ -1,0 +1,128 @@
+{
+  "schema": 1,
+  "native_run_id": 41303045164,
+  "implementation_sha": "8c42a028458cb5c856a12fdc665e6ac1b7e01532",
+  "scope": "18 after attributes in one persisted synthetic fixture; content recovery is not App/Word layout parity.",
+  "source_fixture": "../lo-import-p2-06/long-gap-original.docx",
+  "source_sha256": "56bfdc31f3dca210b9fff79c3822845f59f4e02801d22d88b0ceec09f1733087",
+  "filename": "long-gap06-zero.docx",
+  "sha256": "af134f44d0f361431a2284feb415c226f6f111cad2de0dad052692550e945d03",
+  "bytes": 5586,
+  "document_xml_sha256": "9223fcce15de6deb98433590e38514b0b2adb7f29b54310c7e0b61c0f943c427",
+  "raw_document_xml_length": 73906,
+  "raw_document_xml_byte_diff": [
+    {
+      "zero_based_offset": 32666,
+      "before": "1",
+      "after": "0"
+    }
+  ],
+  "attribute_edits": [
+    {
+      "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[22]/pPr[0]/spacing[0]",
+      "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+      "before": "1",
+      "after": "0"
+    }
+  ],
+  "critical_tables_identical": 19,
+  "all_non_document_parts_identical": true,
+  "visible_text_identical": true,
+  "selected_zeroed": [
+    "entry-gap-06"
+  ],
+  "all_sufficient_singletons": [
+    "entry-gap-06"
+  ],
+  "minimum_cardinality_in_tested_domain": 1,
+  "observed": {
+    "pages": 3,
+    "content_status": "PASS",
+    "complete_entries": 18,
+    "missing": [],
+    "split_entries": [],
+    "reference_body_present": true,
+    "pixel_sha256": [
+      "8980c1c0d0514e8dd239974dd0d95bb1b03135ab57af83c2e1dd79c6449698b2",
+      "a7456b06dc665c22ba626f2be9d5436c0ea48d282f3656e1f90b2703612f003c",
+      "f5f16211dba6965ffcfa99984246701cb6bb471db12b8f8ce6aef30b7b90e1cb"
+    ],
+    "first_station": {
+      "page": 1,
+      "origin_mm": [
+        95.338,
+        143.175
+      ]
+    },
+    "body_heading_origin_mm": [
+      71.032,
+      70.097
+    ],
+    "marker_pages": {
+      "P202Praxis01": [
+        1
+      ],
+      "P202Praxis02": [
+        1
+      ],
+      "P202Praxis03": [
+        1
+      ],
+      "P202Praxis04": [
+        1
+      ],
+      "P202Praxis05": [
+        1
+      ],
+      "P202Praxis06": [
+        1
+      ],
+      "P202Praxis07": [
+        2
+      ],
+      "P202Praxis08": [
+        2
+      ],
+      "P202Praxis09": [
+        2
+      ],
+      "P202Praxis10": [
+        2
+      ],
+      "P202Praxis11": [
+        2
+      ],
+      "P202Praxis12": [
+        2
+      ],
+      "P202Praxis13": [
+        2
+      ],
+      "P202Praxis14": [
+        2
+      ],
+      "P202Praxis15": [
+        2
+      ],
+      "P202Praxis16": [
+        3
+      ],
+      "P202Praxis17": [
+        3
+      ],
+      "P202Praxis18": [
+        3
+      ],
+      "P202Endreferenz": [
+        3
+      ]
+    }
+  },
+  "layout_observations": {
+    "first_page_pixels_equal_original": true,
+    "first_15_entry_title_origins_and_pages_equal_original": true,
+    "entry16_title_page_original": 2,
+    "entry16_title_page_copy": 3,
+    "product_app_parity": "NOT_TESTED"
+  }
+}

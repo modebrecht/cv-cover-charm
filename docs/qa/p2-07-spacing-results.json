@@ -1,0 +1,2692 @@
+{
+  "implementation_sha": "8c42a028458cb5c856a12fdc665e6ac1b7e01532",
+  "fixture_manifest_sha256": "e98413e55745c0928056826515ae1ab99f28fdc29f5c2af89b3fd194328be8b4",
+  "gaps": [
+    {
+      "id": "school-gap",
+      "main_child_index": 10,
+      "after_twips": 72
+    },
+    {
+      "id": "entry-gap-02",
+      "main_child_index": 14,
+      "after_twips": 1
+    },
+    {
+      "id": "entry-gap-03",
+      "main_child_index": 16,
+      "after_twips": 1
+    },
+    {
+      "id": "entry-gap-04",
+      "main_child_index": 18,
+      "after_twips": 1
+    },
+    {
+      "id": "entry-gap-05",
+      "main_child_index": 20,
+      "after_twips": 1
+    },
+    {
+      "id": "entry-gap-06",
+      "main_child_index": 22,
+      "after_twips": 1
+    },
+    {
+      "id": "entry-gap-07",
+      "main_child_index": 24,
+      "after_twips": 1
+    },
+    {
+      "id": "entry-gap-08",
+      "main_child_index": 26,
+      "after_twips": 1
+    },
+    {
+      "id": "entry-gap-09",
+      "main_child_index": 28,
+      "after_twips": 1
+    },
+    {
+      "id": "entry-gap-10",
+      "main_child_index": 30,
+      "after_twips": 1
+    },
+    {
+      "id": "entry-gap-11",
+      "main_child_index": 32,
+      "after_twips": 1
+    },
+    {
+      "id": "entry-gap-12",
+      "main_child_index": 34,
+      "after_twips": 1
+    },
+    {
+      "id": "entry-gap-13",
+      "main_child_index": 36,
+      "after_twips": 1
+    },
+    {
+      "id": "entry-gap-14",
+      "main_child_index": 38,
+      "after_twips": 1
+    },
+    {
+      "id": "entry-gap-15",
+      "main_child_index": 40,
+      "after_twips": 1
+    },
+    {
+      "id": "entry-gap-16",
+      "main_child_index": 42,
+      "after_twips": 1
+    },
+    {
+      "id": "entry-gap-17",
+      "main_child_index": 44,
+      "after_twips": 1
+    },
+    {
+      "id": "reference-gap",
+      "main_child_index": 46,
+      "after_twips": 72
+    }
+  ],
+  "cases": [
+    {
+      "id": "trial-00",
+      "zeroed": [],
+      "package": {
+        "source_sha256": "56bfdc31f3dca210b9fff79c3822845f59f4e02801d22d88b0ceec09f1733087",
+        "copy_sha256": "56bfdc31f3dca210b9fff79c3822845f59f4e02801d22d88b0ceec09f1733087",
+        "attribute_edits": [],
+        "critical_tables_identical": 19,
+        "visible_text_identical": true,
+        "all_non_document_parts_identical": true
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 2.909,
+        "max_rss_kib": 218660,
+        "cpu_seconds": 2.835,
+        "elapsed_seconds": 2.88,
+        "exit_code": 0
+      },
+      "conversion_status": "PASS",
+      "pages": 3,
+      "producer": "LibreOffice 24.2",
+      "marker_pages": {
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          1
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          2
+        ],
+        "P202Praxis16": [
+          2
+        ],
+        "P202Praxis17": [],
+        "P202Praxis18": [],
+        "P202Endreferenz": []
+      },
+      "missing": [
+        "P202Praxis17",
+        "P202Praxis18",
+        "P202Endreferenz"
+      ],
+      "complete_entries": 15,
+      "split_entries": [],
+      "reference_body_present": false,
+      "content_status": "FAIL",
+      "first_station": {
+        "page": 1,
+        "origin_mm": [
+          95.338,
+          143.175
+        ]
+      },
+      "body_heading_origin_mm": [
+        71.032,
+        70.097
+      ],
+      "pdf_sha256": "b2b56e7f75251abce7db67c7a2ac8d456b645e77d1d3a230240cc9ce660b471d",
+      "pixel_sha256": [
+        "8980c1c0d0514e8dd239974dd0d95bb1b03135ab57af83c2e1dd79c6449698b2",
+        "7ac57ac1bc3539730b8f6b8b20c9c558b51d4aed86cf80279a0855772cba3b19",
+        "384258f9c41c2f5899c851ea78f0d4f3a76aae532d32f5e2c14c8a2d4fc9f7b4"
+      ],
+      "baseline_pixels_match_p206": true
+    },
+    {
+      "id": "trial-01",
+      "zeroed": [
+        "entry-gap-02",
+        "entry-gap-03",
+        "entry-gap-04",
+        "entry-gap-05",
+        "entry-gap-06",
+        "entry-gap-07",
+        "entry-gap-08",
+        "entry-gap-09",
+        "entry-gap-10",
+        "entry-gap-11",
+        "entry-gap-12",
+        "entry-gap-13",
+        "entry-gap-14",
+        "entry-gap-15",
+        "entry-gap-16",
+        "entry-gap-17",
+        "reference-gap",
+        "school-gap"
+      ],
+      "package": {
+        "source_sha256": "56bfdc31f3dca210b9fff79c3822845f59f4e02801d22d88b0ceec09f1733087",
+        "copy_sha256": "da22de03b4d730b7576a6c9c05a705df84633fc9ea3898a8e14f02f6405fb7f2",
+        "attribute_edits": [
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[10]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "72",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[14]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[16]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[18]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[20]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[22]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[24]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[26]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[28]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[30]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[32]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[34]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[36]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[38]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[40]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[42]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[44]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[46]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "72",
+            "after": "0"
+          }
+        ],
+        "critical_tables_identical": 19,
+        "visible_text_identical": true,
+        "all_non_document_parts_identical": true
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.554,
+        "max_rss_kib": 218796,
+        "cpu_seconds": 1.506,
+        "elapsed_seconds": 1.51,
+        "exit_code": 0
+      },
+      "conversion_status": "PASS",
+      "pages": 3,
+      "producer": "LibreOffice 24.2",
+      "marker_pages": {
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          1
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          2
+        ],
+        "P202Praxis16": [
+          3
+        ],
+        "P202Praxis17": [
+          3
+        ],
+        "P202Praxis18": [
+          3
+        ],
+        "P202Endreferenz": [
+          3
+        ]
+      },
+      "missing": [],
+      "complete_entries": 18,
+      "split_entries": [],
+      "reference_body_present": true,
+      "content_status": "PASS",
+      "first_station": {
+        "page": 1,
+        "origin_mm": [
+          95.338,
+          141.905
+        ]
+      },
+      "body_heading_origin_mm": [
+        71.032,
+        70.097
+      ],
+      "pdf_sha256": "b658bbc32e061169686ec8fe4d6c5d1dc27c80c24ab650d2e656d1f74cf4a041",
+      "pixel_sha256": [
+        "1ce783730975300a61d6234ca2177086709e6d8a248a497e3fd40a323d814cf3",
+        "1d467febb770b92e6a15221a68d5d9ab02671d17f2dda0713173ad8f423f1fa5",
+        "67d5005bc8e0f50c1f11ca63441723aceed4ecd9fa178283c82e58888bb93252"
+      ],
+      "baseline_pixels_match_p206": true
+    },
+    {
+      "id": "trial-02",
+      "zeroed": [
+        "entry-gap-02",
+        "entry-gap-03",
+        "entry-gap-04",
+        "entry-gap-05",
+        "entry-gap-06",
+        "entry-gap-07",
+        "entry-gap-08",
+        "entry-gap-09",
+        "entry-gap-10",
+        "entry-gap-11",
+        "entry-gap-12",
+        "entry-gap-13",
+        "entry-gap-14",
+        "entry-gap-15",
+        "entry-gap-16",
+        "entry-gap-17"
+      ],
+      "package": {
+        "source_sha256": "56bfdc31f3dca210b9fff79c3822845f59f4e02801d22d88b0ceec09f1733087",
+        "copy_sha256": "0ae96ef22f101a2b12a083bec4f2e6dec0cc1c3243ec492428c2cee4319760af",
+        "attribute_edits": [
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[14]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[16]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[18]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[20]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[22]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[24]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[26]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[28]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[30]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[32]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[34]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[36]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[38]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[40]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[42]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[44]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          }
+        ],
+        "critical_tables_identical": 19,
+        "visible_text_identical": true,
+        "all_non_document_parts_identical": true
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.554,
+        "max_rss_kib": 218512,
+        "cpu_seconds": 1.506,
+        "elapsed_seconds": 1.51,
+        "exit_code": 0
+      },
+      "conversion_status": "PASS",
+      "pages": 3,
+      "producer": "LibreOffice 24.2",
+      "marker_pages": {
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          1
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          2
+        ],
+        "P202Praxis16": [
+          3
+        ],
+        "P202Praxis17": [
+          3
+        ],
+        "P202Praxis18": [
+          3
+        ],
+        "P202Endreferenz": [
+          3
+        ]
+      },
+      "missing": [],
+      "complete_entries": 18,
+      "split_entries": [],
+      "reference_body_present": true,
+      "content_status": "PASS",
+      "first_station": {
+        "page": 1,
+        "origin_mm": [
+          95.338,
+          143.175
+        ]
+      },
+      "body_heading_origin_mm": [
+        71.032,
+        70.097
+      ],
+      "pdf_sha256": "5dfdd8e7391054df608d26a5e2d646a7817342e2bb6c95b5e7b202e1b3283577"
+    },
+    {
+      "id": "trial-03",
+      "zeroed": [
+        "reference-gap",
+        "school-gap"
+      ],
+      "package": {
+        "source_sha256": "56bfdc31f3dca210b9fff79c3822845f59f4e02801d22d88b0ceec09f1733087",
+        "copy_sha256": "237e36bdb109ee106cbad85e6bcaa9549047e0924387206ce0715122f4c3358c",
+        "attribute_edits": [
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[10]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "72",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[46]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "72",
+            "after": "0"
+          }
+        ],
+        "critical_tables_identical": 19,
+        "visible_text_identical": true,
+        "all_non_document_parts_identical": true
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 2.807,
+        "max_rss_kib": 218760,
+        "cpu_seconds": 2.768,
+        "elapsed_seconds": 2.77,
+        "exit_code": 0
+      },
+      "conversion_status": "PASS",
+      "pages": 3,
+      "producer": "LibreOffice 24.2",
+      "marker_pages": {
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          1
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          2
+        ],
+        "P202Praxis16": [
+          2
+        ],
+        "P202Praxis17": [],
+        "P202Praxis18": [],
+        "P202Endreferenz": []
+      },
+      "missing": [
+        "P202Praxis17",
+        "P202Praxis18",
+        "P202Endreferenz"
+      ],
+      "complete_entries": 15,
+      "split_entries": [],
+      "reference_body_present": false,
+      "content_status": "FAIL",
+      "first_station": {
+        "page": 1,
+        "origin_mm": [
+          95.338,
+          141.905
+        ]
+      },
+      "body_heading_origin_mm": [
+        71.032,
+        70.097
+      ],
+      "pdf_sha256": "e8bec33bc4ef18397c962f146fba9b89e5cd0e777975af9e3909d89fa9b99f0b"
+    },
+    {
+      "id": "trial-04",
+      "zeroed": [
+        "entry-gap-02"
+      ],
+      "package": {
+        "source_sha256": "56bfdc31f3dca210b9fff79c3822845f59f4e02801d22d88b0ceec09f1733087",
+        "copy_sha256": "5a46f0c0705cc240ff6d5354644a5974bcb2528c32ecae0979f64fb3db2b24af",
+        "attribute_edits": [
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[14]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          }
+        ],
+        "critical_tables_identical": 19,
+        "visible_text_identical": true,
+        "all_non_document_parts_identical": true
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 2.757,
+        "max_rss_kib": 218876,
+        "cpu_seconds": 2.736,
+        "elapsed_seconds": 2.74,
+        "exit_code": 0
+      },
+      "conversion_status": "PASS",
+      "pages": 3,
+      "producer": "LibreOffice 24.2",
+      "marker_pages": {
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          1
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          2
+        ],
+        "P202Praxis16": [
+          2
+        ],
+        "P202Praxis17": [],
+        "P202Praxis18": [],
+        "P202Endreferenz": []
+      },
+      "missing": [
+        "P202Praxis17",
+        "P202Praxis18",
+        "P202Endreferenz"
+      ],
+      "complete_entries": 15,
+      "split_entries": [],
+      "reference_body_present": false,
+      "content_status": "FAIL",
+      "first_station": {
+        "page": 1,
+        "origin_mm": [
+          95.338,
+          143.175
+        ]
+      },
+      "body_heading_origin_mm": [
+        71.032,
+        70.097
+      ],
+      "pdf_sha256": "7375f1498b0c8211ae087110c2353c225f42c91c4e649271d05670087874e67e"
+    },
+    {
+      "id": "trial-05",
+      "zeroed": [
+        "entry-gap-03"
+      ],
+      "package": {
+        "source_sha256": "56bfdc31f3dca210b9fff79c3822845f59f4e02801d22d88b0ceec09f1733087",
+        "copy_sha256": "0e09cd8b53ea3afd1e38b40affc8fe9c8e4e0c6662e33ce30d0fa1ea84b9337d",
+        "attribute_edits": [
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[16]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          }
+        ],
+        "critical_tables_identical": 19,
+        "visible_text_identical": true,
+        "all_non_document_parts_identical": true
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 2.858,
+        "max_rss_kib": 218576,
+        "cpu_seconds": 2.806,
+        "elapsed_seconds": 2.81,
+        "exit_code": 0
+      },
+      "conversion_status": "PASS",
+      "pages": 3,
+      "producer": "LibreOffice 24.2",
+      "marker_pages": {
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          1
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          2
+        ],
+        "P202Praxis16": [
+          2
+        ],
+        "P202Praxis17": [],
+        "P202Praxis18": [],
+        "P202Endreferenz": []
+      },
+      "missing": [
+        "P202Praxis17",
+        "P202Praxis18",
+        "P202Endreferenz"
+      ],
+      "complete_entries": 15,
+      "split_entries": [],
+      "reference_body_present": false,
+      "content_status": "FAIL",
+      "first_station": {
+        "page": 1,
+        "origin_mm": [
+          95.338,
+          143.175
+        ]
+      },
+      "body_heading_origin_mm": [
+        71.032,
+        70.097
+      ],
+      "pdf_sha256": "691dee8e38e2c534710db427fa1601974a6c41fefd9a591e809bebed70faa7fc"
+    },
+    {
+      "id": "trial-06",
+      "zeroed": [
+        "entry-gap-04"
+      ],
+      "package": {
+        "source_sha256": "56bfdc31f3dca210b9fff79c3822845f59f4e02801d22d88b0ceec09f1733087",
+        "copy_sha256": "ef10178ecd32e06ed6a2736de0c2502f0b3d86044abaeb602e0a1d19c9fcc2a6",
+        "attribute_edits": [
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[18]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          }
+        ],
+        "critical_tables_identical": 19,
+        "visible_text_identical": true,
+        "all_non_document_parts_identical": true
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 2.807,
+        "max_rss_kib": 218392,
+        "cpu_seconds": 2.779,
+        "elapsed_seconds": 2.78,
+        "exit_code": 0
+      },
+      "conversion_status": "PASS",
+      "pages": 3,
+      "producer": "LibreOffice 24.2",
+      "marker_pages": {
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          1
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          2
+        ],
+        "P202Praxis16": [
+          2
+        ],
+        "P202Praxis17": [],
+        "P202Praxis18": [],
+        "P202Endreferenz": []
+      },
+      "missing": [
+        "P202Praxis17",
+        "P202Praxis18",
+        "P202Endreferenz"
+      ],
+      "complete_entries": 15,
+      "split_entries": [],
+      "reference_body_present": false,
+      "content_status": "FAIL",
+      "first_station": {
+        "page": 1,
+        "origin_mm": [
+          95.338,
+          143.175
+        ]
+      },
+      "body_heading_origin_mm": [
+        71.032,
+        70.097
+      ],
+      "pdf_sha256": "b5c3740b5aa29ed4d10b9aaff5306da0a9b9eddebc7e20109b5c8da34adee750"
+    },
+    {
+      "id": "trial-07",
+      "zeroed": [
+        "entry-gap-05"
+      ],
+      "package": {
+        "source_sha256": "56bfdc31f3dca210b9fff79c3822845f59f4e02801d22d88b0ceec09f1733087",
+        "copy_sha256": "fa7973afdd6227f77a42b73d1bfb88d14c56e3cc06d2f58b0bdb9955f9447682",
+        "attribute_edits": [
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[20]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          }
+        ],
+        "critical_tables_identical": 19,
+        "visible_text_identical": true,
+        "all_non_document_parts_identical": true
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 2.807,
+        "max_rss_kib": 218808,
+        "cpu_seconds": 2.764,
+        "elapsed_seconds": 2.77,
+        "exit_code": 0
+      },
+      "conversion_status": "PASS",
+      "pages": 3,
+      "producer": "LibreOffice 24.2",
+      "marker_pages": {
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          1
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          2
+        ],
+        "P202Praxis16": [
+          2
+        ],
+        "P202Praxis17": [],
+        "P202Praxis18": [],
+        "P202Endreferenz": []
+      },
+      "missing": [
+        "P202Praxis17",
+        "P202Praxis18",
+        "P202Endreferenz"
+      ],
+      "complete_entries": 15,
+      "split_entries": [],
+      "reference_body_present": false,
+      "content_status": "FAIL",
+      "first_station": {
+        "page": 1,
+        "origin_mm": [
+          95.338,
+          143.175
+        ]
+      },
+      "body_heading_origin_mm": [
+        71.032,
+        70.097
+      ],
+      "pdf_sha256": "9c620acdeaa1c14891c9f08c3c2ea55051aac332590ba711f0c9e12c55b1a450"
+    },
+    {
+      "id": "trial-08",
+      "zeroed": [
+        "entry-gap-06"
+      ],
+      "package": {
+        "source_sha256": "56bfdc31f3dca210b9fff79c3822845f59f4e02801d22d88b0ceec09f1733087",
+        "copy_sha256": "af134f44d0f361431a2284feb415c226f6f111cad2de0dad052692550e945d03",
+        "attribute_edits": [
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[22]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          }
+        ],
+        "critical_tables_identical": 19,
+        "visible_text_identical": true,
+        "all_non_document_parts_identical": true
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.554,
+        "max_rss_kib": 218452,
+        "cpu_seconds": 1.518,
+        "elapsed_seconds": 1.52,
+        "exit_code": 0
+      },
+      "conversion_status": "PASS",
+      "pages": 3,
+      "producer": "LibreOffice 24.2",
+      "marker_pages": {
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          1
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          2
+        ],
+        "P202Praxis16": [
+          3
+        ],
+        "P202Praxis17": [
+          3
+        ],
+        "P202Praxis18": [
+          3
+        ],
+        "P202Endreferenz": [
+          3
+        ]
+      },
+      "missing": [],
+      "complete_entries": 18,
+      "split_entries": [],
+      "reference_body_present": true,
+      "content_status": "PASS",
+      "first_station": {
+        "page": 1,
+        "origin_mm": [
+          95.338,
+          143.175
+        ]
+      },
+      "body_heading_origin_mm": [
+        71.032,
+        70.097
+      ],
+      "pdf_sha256": "e2813ebaeac3316209e8434455e9b5c56426de361eb420e7380d91e2e7b5d708",
+      "pixel_sha256": [
+        "8980c1c0d0514e8dd239974dd0d95bb1b03135ab57af83c2e1dd79c6449698b2",
+        "a7456b06dc665c22ba626f2be9d5436c0ea48d282f3656e1f90b2703612f003c",
+        "f5f16211dba6965ffcfa99984246701cb6bb471db12b8f8ce6aef30b7b90e1cb"
+      ]
+    },
+    {
+      "id": "trial-09",
+      "zeroed": [
+        "entry-gap-07"
+      ],
+      "package": {
+        "source_sha256": "56bfdc31f3dca210b9fff79c3822845f59f4e02801d22d88b0ceec09f1733087",
+        "copy_sha256": "dfa09e92c4703990c52bc35c382e29ce660354601f4f2470115ba6312dac350c",
+        "attribute_edits": [
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[24]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          }
+        ],
+        "critical_tables_identical": 19,
+        "visible_text_identical": true,
+        "all_non_document_parts_identical": true
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 2.808,
+        "max_rss_kib": 218912,
+        "cpu_seconds": 2.794,
+        "elapsed_seconds": 2.8,
+        "exit_code": 0
+      },
+      "conversion_status": "PASS",
+      "pages": 3,
+      "producer": "LibreOffice 24.2",
+      "marker_pages": {
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          1
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          2
+        ],
+        "P202Praxis16": [
+          2
+        ],
+        "P202Praxis17": [],
+        "P202Praxis18": [],
+        "P202Endreferenz": []
+      },
+      "missing": [
+        "P202Praxis17",
+        "P202Praxis18",
+        "P202Endreferenz"
+      ],
+      "complete_entries": 15,
+      "split_entries": [],
+      "reference_body_present": false,
+      "content_status": "FAIL",
+      "first_station": {
+        "page": 1,
+        "origin_mm": [
+          95.338,
+          143.175
+        ]
+      },
+      "body_heading_origin_mm": [
+        71.032,
+        70.097
+      ],
+      "pdf_sha256": "3897390b4805d181ad77d6b58dcbb91d36178836fcc7287f3f142c1e2628b691"
+    },
+    {
+      "id": "trial-10",
+      "zeroed": [
+        "entry-gap-08"
+      ],
+      "package": {
+        "source_sha256": "56bfdc31f3dca210b9fff79c3822845f59f4e02801d22d88b0ceec09f1733087",
+        "copy_sha256": "8024ec2ec3a100efb387f00bb735d715d9ddceb70329ed62ea3572c50f7e6212",
+        "attribute_edits": [
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[26]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          }
+        ],
+        "critical_tables_identical": 19,
+        "visible_text_identical": true,
+        "all_non_document_parts_identical": true
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 2.808,
+        "max_rss_kib": 219040,
+        "cpu_seconds": 2.796,
+        "elapsed_seconds": 2.8,
+        "exit_code": 0
+      },
+      "conversion_status": "PASS",
+      "pages": 3,
+      "producer": "LibreOffice 24.2",
+      "marker_pages": {
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          1
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          2
+        ],
+        "P202Praxis16": [
+          2
+        ],
+        "P202Praxis17": [],
+        "P202Praxis18": [],
+        "P202Endreferenz": []
+      },
+      "missing": [
+        "P202Praxis17",
+        "P202Praxis18",
+        "P202Endreferenz"
+      ],
+      "complete_entries": 15,
+      "split_entries": [],
+      "reference_body_present": false,
+      "content_status": "FAIL",
+      "first_station": {
+        "page": 1,
+        "origin_mm": [
+          95.338,
+          143.175
+        ]
+      },
+      "body_heading_origin_mm": [
+        71.032,
+        70.097
+      ],
+      "pdf_sha256": "21758a5c38acd4c290f7528c25a314cf773a33bb84bfe2c06e69f030bd520519"
+    },
+    {
+      "id": "trial-11",
+      "zeroed": [
+        "entry-gap-09"
+      ],
+      "package": {
+        "source_sha256": "56bfdc31f3dca210b9fff79c3822845f59f4e02801d22d88b0ceec09f1733087",
+        "copy_sha256": "a55fcdd838f26d90fb64699d0f884f1f91f209315ec6204166a8c488a99fea16",
+        "attribute_edits": [
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[28]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          }
+        ],
+        "critical_tables_identical": 19,
+        "visible_text_identical": true,
+        "all_non_document_parts_identical": true
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 2.808,
+        "max_rss_kib": 218712,
+        "cpu_seconds": 2.797,
+        "elapsed_seconds": 2.8,
+        "exit_code": 0
+      },
+      "conversion_status": "PASS",
+      "pages": 3,
+      "producer": "LibreOffice 24.2",
+      "marker_pages": {
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          1
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          2
+        ],
+        "P202Praxis16": [
+          2
+        ],
+        "P202Praxis17": [],
+        "P202Praxis18": [],
+        "P202Endreferenz": []
+      },
+      "missing": [
+        "P202Praxis17",
+        "P202Praxis18",
+        "P202Endreferenz"
+      ],
+      "complete_entries": 15,
+      "split_entries": [],
+      "reference_body_present": false,
+      "content_status": "FAIL",
+      "first_station": {
+        "page": 1,
+        "origin_mm": [
+          95.338,
+          143.175
+        ]
+      },
+      "body_heading_origin_mm": [
+        71.032,
+        70.097
+      ],
+      "pdf_sha256": "49f6221086906ad26064bc1f03ce2e3d8bfc5d3104b18a123ea094f6772b5430"
+    },
+    {
+      "id": "trial-12",
+      "zeroed": [
+        "entry-gap-10"
+      ],
+      "package": {
+        "source_sha256": "56bfdc31f3dca210b9fff79c3822845f59f4e02801d22d88b0ceec09f1733087",
+        "copy_sha256": "1c2b2af54f059612144cc2dcafb742e87ac3dbce247b953d2e73fa179adb45bf",
+        "attribute_edits": [
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[30]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          }
+        ],
+        "critical_tables_identical": 19,
+        "visible_text_identical": true,
+        "all_non_document_parts_identical": true
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 2.808,
+        "max_rss_kib": 218696,
+        "cpu_seconds": 2.782,
+        "elapsed_seconds": 2.78,
+        "exit_code": 0
+      },
+      "conversion_status": "PASS",
+      "pages": 3,
+      "producer": "LibreOffice 24.2",
+      "marker_pages": {
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          1
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          2
+        ],
+        "P202Praxis16": [
+          2
+        ],
+        "P202Praxis17": [],
+        "P202Praxis18": [],
+        "P202Endreferenz": []
+      },
+      "missing": [
+        "P202Praxis17",
+        "P202Praxis18",
+        "P202Endreferenz"
+      ],
+      "complete_entries": 15,
+      "split_entries": [],
+      "reference_body_present": false,
+      "content_status": "FAIL",
+      "first_station": {
+        "page": 1,
+        "origin_mm": [
+          95.338,
+          143.175
+        ]
+      },
+      "body_heading_origin_mm": [
+        71.032,
+        70.097
+      ],
+      "pdf_sha256": "bad02da6d6bf46a48ec99c06e33d5e71cb57263c7aafd0e76ec265cc76890a8f"
+    },
+    {
+      "id": "trial-13",
+      "zeroed": [
+        "entry-gap-11"
+      ],
+      "package": {
+        "source_sha256": "56bfdc31f3dca210b9fff79c3822845f59f4e02801d22d88b0ceec09f1733087",
+        "copy_sha256": "e0dfbcfb8ed79a7cceaa018f0449aa2388923c954075aa68501422eb7f1058e2",
+        "attribute_edits": [
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[32]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          }
+        ],
+        "critical_tables_identical": 19,
+        "visible_text_identical": true,
+        "all_non_document_parts_identical": true
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 2.807,
+        "max_rss_kib": 218776,
+        "cpu_seconds": 2.775,
+        "elapsed_seconds": 2.78,
+        "exit_code": 0
+      },
+      "conversion_status": "PASS",
+      "pages": 3,
+      "producer": "LibreOffice 24.2",
+      "marker_pages": {
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          1
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          2
+        ],
+        "P202Praxis16": [
+          2
+        ],
+        "P202Praxis17": [],
+        "P202Praxis18": [],
+        "P202Endreferenz": []
+      },
+      "missing": [
+        "P202Praxis17",
+        "P202Praxis18",
+        "P202Endreferenz"
+      ],
+      "complete_entries": 15,
+      "split_entries": [],
+      "reference_body_present": false,
+      "content_status": "FAIL",
+      "first_station": {
+        "page": 1,
+        "origin_mm": [
+          95.338,
+          143.175
+        ]
+      },
+      "body_heading_origin_mm": [
+        71.032,
+        70.097
+      ],
+      "pdf_sha256": "49b8da47a71ba614a324cc31c1294506ef976bbb9a4db74f9e92b60d702ed957"
+    },
+    {
+      "id": "trial-14",
+      "zeroed": [
+        "entry-gap-12"
+      ],
+      "package": {
+        "source_sha256": "56bfdc31f3dca210b9fff79c3822845f59f4e02801d22d88b0ceec09f1733087",
+        "copy_sha256": "01e0a0ee39594662bec88ae3454577b63cd7d98d0bf9862a1202e6ec97a7e8d1",
+        "attribute_edits": [
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[34]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          }
+        ],
+        "critical_tables_identical": 19,
+        "visible_text_identical": true,
+        "all_non_document_parts_identical": true
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 2.807,
+        "max_rss_kib": 218916,
+        "cpu_seconds": 2.772,
+        "elapsed_seconds": 2.77,
+        "exit_code": 0
+      },
+      "conversion_status": "PASS",
+      "pages": 3,
+      "producer": "LibreOffice 24.2",
+      "marker_pages": {
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          1
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          2
+        ],
+        "P202Praxis16": [
+          2
+        ],
+        "P202Praxis17": [],
+        "P202Praxis18": [],
+        "P202Endreferenz": []
+      },
+      "missing": [
+        "P202Praxis17",
+        "P202Praxis18",
+        "P202Endreferenz"
+      ],
+      "complete_entries": 15,
+      "split_entries": [],
+      "reference_body_present": false,
+      "content_status": "FAIL",
+      "first_station": {
+        "page": 1,
+        "origin_mm": [
+          95.338,
+          143.175
+        ]
+      },
+      "body_heading_origin_mm": [
+        71.032,
+        70.097
+      ],
+      "pdf_sha256": "c61ad19a6da957c79836b47f259fc3192622e60bb1b17f1490cfeedac6aec06f"
+    },
+    {
+      "id": "trial-15",
+      "zeroed": [
+        "entry-gap-13"
+      ],
+      "package": {
+        "source_sha256": "56bfdc31f3dca210b9fff79c3822845f59f4e02801d22d88b0ceec09f1733087",
+        "copy_sha256": "df1ab9257af96d624367cf074828a8e74df5a727d9962389b269bf753a5a03df",
+        "attribute_edits": [
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[36]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          }
+        ],
+        "critical_tables_identical": 19,
+        "visible_text_identical": true,
+        "all_non_document_parts_identical": true
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 2.807,
+        "max_rss_kib": 218892,
+        "cpu_seconds": 2.783,
+        "elapsed_seconds": 2.79,
+        "exit_code": 0
+      },
+      "conversion_status": "PASS",
+      "pages": 3,
+      "producer": "LibreOffice 24.2",
+      "marker_pages": {
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          1
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          2
+        ],
+        "P202Praxis16": [
+          2
+        ],
+        "P202Praxis17": [],
+        "P202Praxis18": [],
+        "P202Endreferenz": []
+      },
+      "missing": [
+        "P202Praxis17",
+        "P202Praxis18",
+        "P202Endreferenz"
+      ],
+      "complete_entries": 15,
+      "split_entries": [],
+      "reference_body_present": false,
+      "content_status": "FAIL",
+      "first_station": {
+        "page": 1,
+        "origin_mm": [
+          95.338,
+          143.175
+        ]
+      },
+      "body_heading_origin_mm": [
+        71.032,
+        70.097
+      ],
+      "pdf_sha256": "2b9db821cca60fae170d409ce51eac089d9a8fcda1468e9057be6a27332775e0"
+    },
+    {
+      "id": "trial-16",
+      "zeroed": [
+        "entry-gap-14"
+      ],
+      "package": {
+        "source_sha256": "56bfdc31f3dca210b9fff79c3822845f59f4e02801d22d88b0ceec09f1733087",
+        "copy_sha256": "6163398702414782b809f84a1265d82b8a6e5f373b9a4cc089264869ddc934fd",
+        "attribute_edits": [
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[38]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          }
+        ],
+        "critical_tables_identical": 19,
+        "visible_text_identical": true,
+        "all_non_document_parts_identical": true
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 2.808,
+        "max_rss_kib": 218756,
+        "cpu_seconds": 2.788,
+        "elapsed_seconds": 2.79,
+        "exit_code": 0
+      },
+      "conversion_status": "PASS",
+      "pages": 3,
+      "producer": "LibreOffice 24.2",
+      "marker_pages": {
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          1
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          2
+        ],
+        "P202Praxis16": [
+          2
+        ],
+        "P202Praxis17": [],
+        "P202Praxis18": [],
+        "P202Endreferenz": []
+      },
+      "missing": [
+        "P202Praxis17",
+        "P202Praxis18",
+        "P202Endreferenz"
+      ],
+      "complete_entries": 15,
+      "split_entries": [],
+      "reference_body_present": false,
+      "content_status": "FAIL",
+      "first_station": {
+        "page": 1,
+        "origin_mm": [
+          95.338,
+          143.175
+        ]
+      },
+      "body_heading_origin_mm": [
+        71.032,
+        70.097
+      ],
+      "pdf_sha256": "e2edfc92cab9c872d56fe1e109ef0b75fde1e89e7a27be911f9ffcaae52b913f"
+    },
+    {
+      "id": "trial-17",
+      "zeroed": [
+        "entry-gap-15"
+      ],
+      "package": {
+        "source_sha256": "56bfdc31f3dca210b9fff79c3822845f59f4e02801d22d88b0ceec09f1733087",
+        "copy_sha256": "8f938554cc921f6bfeb76a28ec11ab395c118cf9093fbb64f4fa1bca5d7c22a2",
+        "attribute_edits": [
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[40]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          }
+        ],
+        "critical_tables_identical": 19,
+        "visible_text_identical": true,
+        "all_non_document_parts_identical": true
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 2.808,
+        "max_rss_kib": 218716,
+        "cpu_seconds": 2.792,
+        "elapsed_seconds": 2.8,
+        "exit_code": 0
+      },
+      "conversion_status": "PASS",
+      "pages": 3,
+      "producer": "LibreOffice 24.2",
+      "marker_pages": {
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          1
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          2
+        ],
+        "P202Praxis16": [
+          2
+        ],
+        "P202Praxis17": [],
+        "P202Praxis18": [],
+        "P202Endreferenz": []
+      },
+      "missing": [
+        "P202Praxis17",
+        "P202Praxis18",
+        "P202Endreferenz"
+      ],
+      "complete_entries": 15,
+      "split_entries": [],
+      "reference_body_present": false,
+      "content_status": "FAIL",
+      "first_station": {
+        "page": 1,
+        "origin_mm": [
+          95.338,
+          143.175
+        ]
+      },
+      "body_heading_origin_mm": [
+        71.032,
+        70.097
+      ],
+      "pdf_sha256": "49d9fe455d952e936dde4887aea3def2c757c524e45069117907e1f95bfe4ede"
+    },
+    {
+      "id": "trial-18",
+      "zeroed": [
+        "entry-gap-16"
+      ],
+      "package": {
+        "source_sha256": "56bfdc31f3dca210b9fff79c3822845f59f4e02801d22d88b0ceec09f1733087",
+        "copy_sha256": "0bd6debb780e9e0780a4ec1016d0ce95731a177ddba8ea76c92da2b233e31734",
+        "attribute_edits": [
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[42]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          }
+        ],
+        "critical_tables_identical": 19,
+        "visible_text_identical": true,
+        "all_non_document_parts_identical": true
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 2.807,
+        "max_rss_kib": 218840,
+        "cpu_seconds": 2.755,
+        "elapsed_seconds": 2.76,
+        "exit_code": 0
+      },
+      "conversion_status": "PASS",
+      "pages": 3,
+      "producer": "LibreOffice 24.2",
+      "marker_pages": {
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          1
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          2
+        ],
+        "P202Praxis16": [
+          2
+        ],
+        "P202Praxis17": [],
+        "P202Praxis18": [],
+        "P202Endreferenz": []
+      },
+      "missing": [
+        "P202Praxis17",
+        "P202Praxis18",
+        "P202Endreferenz"
+      ],
+      "complete_entries": 15,
+      "split_entries": [],
+      "reference_body_present": false,
+      "content_status": "FAIL",
+      "first_station": {
+        "page": 1,
+        "origin_mm": [
+          95.338,
+          143.175
+        ]
+      },
+      "body_heading_origin_mm": [
+        71.032,
+        70.097
+      ],
+      "pdf_sha256": "89d58b3b8276d25825bf44ccf26421977100f91ee1549fdeb2dd12d6de00e75b"
+    },
+    {
+      "id": "trial-19",
+      "zeroed": [
+        "entry-gap-17"
+      ],
+      "package": {
+        "source_sha256": "56bfdc31f3dca210b9fff79c3822845f59f4e02801d22d88b0ceec09f1733087",
+        "copy_sha256": "9efd50ae03480a478ab43b3b9c735bf2cc745f15e2bd4100d2f164039e521ad5",
+        "attribute_edits": [
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[44]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          }
+        ],
+        "critical_tables_identical": 19,
+        "visible_text_identical": true,
+        "all_non_document_parts_identical": true
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 2.858,
+        "max_rss_kib": 218684,
+        "cpu_seconds": 2.809,
+        "elapsed_seconds": 2.81,
+        "exit_code": 0
+      },
+      "conversion_status": "PASS",
+      "pages": 3,
+      "producer": "LibreOffice 24.2",
+      "marker_pages": {
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          1
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          2
+        ],
+        "P202Praxis16": [
+          2
+        ],
+        "P202Praxis17": [],
+        "P202Praxis18": [],
+        "P202Endreferenz": []
+      },
+      "missing": [
+        "P202Praxis17",
+        "P202Praxis18",
+        "P202Endreferenz"
+      ],
+      "complete_entries": 15,
+      "split_entries": [],
+      "reference_body_present": false,
+      "content_status": "FAIL",
+      "first_station": {
+        "page": 1,
+        "origin_mm": [
+          95.338,
+          143.175
+        ]
+      },
+      "body_heading_origin_mm": [
+        71.032,
+        70.097
+      ],
+      "pdf_sha256": "5d2aad821c81f972813fdab7b93c274edf5b3b43be2500b7f40640efc114934c"
+    },
+    {
+      "id": "trial-20",
+      "zeroed": [
+        "school-gap"
+      ],
+      "package": {
+        "source_sha256": "56bfdc31f3dca210b9fff79c3822845f59f4e02801d22d88b0ceec09f1733087",
+        "copy_sha256": "d0c6c682acee56a55cf74ce2a55905acf4beb0289345e368fc4f8a63cba98bcc",
+        "attribute_edits": [
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[10]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "72",
+            "after": "0"
+          }
+        ],
+        "critical_tables_identical": 19,
+        "visible_text_identical": true,
+        "all_non_document_parts_identical": true
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 2.858,
+        "max_rss_kib": 218892,
+        "cpu_seconds": 2.844,
+        "elapsed_seconds": 2.85,
+        "exit_code": 0
+      },
+      "conversion_status": "PASS",
+      "pages": 3,
+      "producer": "LibreOffice 24.2",
+      "marker_pages": {
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          1
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          2
+        ],
+        "P202Praxis16": [
+          2
+        ],
+        "P202Praxis17": [],
+        "P202Praxis18": [],
+        "P202Endreferenz": []
+      },
+      "missing": [
+        "P202Praxis17",
+        "P202Praxis18",
+        "P202Endreferenz"
+      ],
+      "complete_entries": 15,
+      "split_entries": [],
+      "reference_body_present": false,
+      "content_status": "FAIL",
+      "first_station": {
+        "page": 1,
+        "origin_mm": [
+          95.338,
+          141.905
+        ]
+      },
+      "body_heading_origin_mm": [
+        71.032,
+        70.097
+      ],
+      "pdf_sha256": "31d6317897beaff87d8f7e08ae31798a0ed089fa7d2cb1455c420845350b30d6"
+    },
+    {
+      "id": "trial-21",
+      "zeroed": [
+        "reference-gap"
+      ],
+      "package": {
+        "source_sha256": "56bfdc31f3dca210b9fff79c3822845f59f4e02801d22d88b0ceec09f1733087",
+        "copy_sha256": "21a0225d57a9eef0f5b98a43d0c3647a397ea57cc370cf7801c44279a548fee9",
+        "attribute_edits": [
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[46]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "72",
+            "after": "0"
+          }
+        ],
+        "critical_tables_identical": 19,
+        "visible_text_identical": true,
+        "all_non_document_parts_identical": true
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 2.807,
+        "max_rss_kib": 218536,
+        "cpu_seconds": 2.775,
+        "elapsed_seconds": 2.78,
+        "exit_code": 0
+      },
+      "conversion_status": "PASS",
+      "pages": 3,
+      "producer": "LibreOffice 24.2",
+      "marker_pages": {
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          1
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          2
+        ],
+        "P202Praxis16": [
+          2
+        ],
+        "P202Praxis17": [],
+        "P202Praxis18": [],
+        "P202Endreferenz": []
+      },
+      "missing": [
+        "P202Praxis17",
+        "P202Praxis18",
+        "P202Endreferenz"
+      ],
+      "complete_entries": 15,
+      "split_entries": [],
+      "reference_body_present": false,
+      "content_status": "FAIL",
+      "first_station": {
+        "page": 1,
+        "origin_mm": [
+          95.338,
+          143.175
+        ]
+      },
+      "body_heading_origin_mm": [
+        71.032,
+        70.097
+      ],
+      "pdf_sha256": "abac5a500430a726ad6ecc10fffe8c485c23c16120274c3563288c668682db01"
+    }
+  ],
+  "scope": "18 after attributes in one persisted synthetic fixture; content recovery is not App/Word layout parity.",
+  "converter_version": "LibreOffice 24.2.7.2 420(Build:2)",
+  "search": {
+    "selected": [
+      "entry-gap-06"
+    ],
+    "all_sufficient_singletons": [
+      "entry-gap-06"
+    ],
+    "minimum_cardinality": 1,
+    "minimum_proven": true,
+    "one_minimal": true
+  },
+  "baseline_controls_pass": true,
+  "execution_status": "PASS",
+  "native_conversion_count": 22,
+  "audit_only": false
+}
