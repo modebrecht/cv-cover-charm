@@ -62,3 +62,32 @@ are enumerated, and maximum table depth is recorded instead of inferred.
 10 reducer controls now pass locally, including the exact 5/1/1 paragraph-flag
 counts and the entry-only control's absence of original heading paragraphs.
 Closing native results and interpretation are pending.
+
+## Second native result and final spacing counterprobe
+
+Implementation `f0c95d224d253cc0718493c6730874bfa3c48a49`,
+[run 41297618519](https://github.com/modebrecht/cv-cover-charm/actions/runs/41297618519):
+18/18 conversions, 41 controls, both saved pixel baselines pass. Direct main
+keepNext changes, including the exact 5/1/1 flag subsets, do not restore the tail.
+Neither removing the individual headings nor removing both from the prefix copy
+helps. These cases still have 15 complete entries and a blank third page.
+The rebuilt entry-only control has 18 complete entries on three pages.
+
+Artifact `13079966863`, ZIP SHA256
+`97b3e282ea3e876c26b7bae1266cf308e23a722b4006d7414cece28acb17701d`;
+the downloaded archive was hash-verified. Maximum depth is two in both the failing
+heading-free prefix copy and passing entry-only control, so depth alone does not
+explain this contrast. The earlier direct-heading explanation is not established.
+
+Comparing their XML leaves empty spacer paragraphs as the concrete difference:
+extra consecutive empty paragraphs and existing after values of 1 or 72 twips,
+versus uniform single empty paragraphs with after=0. A final bounded matrix adds
+five cases (23 total): one 1-twip gap after station 02; one 72-twip gap before the
+reference; zero all empty-paragraph after values in the heading-free prefix copy;
+zero them in the full coupled story; and independently deduplicate consecutive
+empty paragraphs while retaining nonzero gap values. All critical tables remain
+unchanged. The minimal gap cases have exactly one attribute difference relative
+to the already passing entry-only control. No spacing normalization is applied
+to normal product exports or their baseline.
+
+13 reducer controls pass locally. Native spacing results remain pending.

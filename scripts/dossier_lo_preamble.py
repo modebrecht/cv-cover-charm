@@ -31,6 +31,8 @@ OPERATIONS=['baseline-coupled','baseline-detached','drop-main-leading','flatten-
 OPERATIONS+=['detach-main-top-level','detach-main-title','detach-reference-heading',
     'prefix-spacer-no-experience-heading','prefix-spacer-no-reference-heading','prefix-spacer-no-headings',
     'entry-only-control']
+OPERATIONS+=['entry-only-gap02-one','entry-only-reference-gap72','prefix-spacer-zero-after',
+    'main-empty-zero-after','prefix-spacer-dedupe-empty']
 MARKERS=[f'P202Praxis{i:02}' for i in range(1,19)]+['P202Endreferenz']
 
 
@@ -77,32 +79,35 @@ def max_table_depth(root,depth=0):
 def change_story(source,target,operation):
     if operation not in OPERATIONS:raise ValueError('Unknown reduction '+operation)
     if source.resolve()==target.resolve():raise ValueError('Cannot overwrite source fixture')
+    action={'entry-only-gap02-one':'entry-only-control','entry-only-reference-gap72':'entry-only-control',
+        'prefix-spacer-zero-after':'prefix-spacer-no-headings','prefix-spacer-dedupe-empty':'prefix-spacer-no-headings',
+        'main-empty-zero-after':'baseline-coupled'}.get(operation,operation)
     with ZipFile(source) as pkg:
         raw=pkg.read('word/document.xml')
         for _,pair in ET.iterparse(io.BytesIO(raw),events=['start-ns']):ET.register_namespace(*pair)
         root=ET.fromstring(raw);before=deepcopy(root);critical=payloads(root)
         main=root.find('w:body/w:tbl/w:tr',NS).findall('w:tc',NS)[2]
-        if operation=='drop-main-leading':
+        if action=='drop-main-leading':
             first=main.find('w:p',NS)
             if ''.join(first.itertext()).strip():raise ValueError('Leading paragraph is not empty')
             main.remove(first)
-        elif operation.startswith('flatten-'):
-            for which in (['school','experience'] if operation=='flatten-both' else [operation.removeprefix('flatten-')]):flatten(main,which)
-        elif operation.startswith('allow-'):
-            whiches=['school','experience'] if operation=='allow-both-leads-split' else [operation.removeprefix('allow-').removesuffix('-lead-split')]
+        elif action.startswith('flatten-'):
+            for which in (['school','experience'] if action=='flatten-both' else [action.removeprefix('flatten-')]):flatten(main,which)
+        elif action.startswith('allow-'):
+            whiches=['school','experience'] if action=='allow-both-leads-split' else [action.removeprefix('allow-').removesuffix('-lead-split')]
             for which in whiches:
                 flag=lead(main,which).find('w:tr/w:trPr/w:cantSplit',NS)
                 if flag is None:raise ValueError('Expected coupled lead row')
                 flag.set(W+'val','0')
-        elif operation.startswith('detach-'):
-            if operation=='detach-main-top-level':targets=main.findall('w:p',NS)
-            else:targets=[direct_heading(main,'Lebenslauf' if operation=='detach-main-title' else 'Referenzen')]
+        elif action.startswith('detach-'):
+            if action=='detach-main-top-level':targets=main.findall('w:p',NS)
+            else:targets=[direct_heading(main,'Lebenslauf' if action=='detach-main-title' else 'Referenzen')]
             changed=0
             for paragraph_node in targets:
                 flag=paragraph_node.find('w:pPr/w:keepNext',NS)
                 if flag is not None and flag.get(W+'val')=='1':flag.set(W+'val','0');changed+=1
             if not changed:raise ValueError('Expected coupled direct paragraph')
-        elif operation=='entry-only-control':
+        elif action=='entry-only-control':
             entries=[]
             for table in main.findall('.//w:tbl',NS):
                 text=''.join(t.text or '' for t in table.iter(W+'t'))
@@ -111,21 +116,38 @@ def change_story(source,target,operation):
                 if n.tag!=W+'tcPr':main.remove(n)
             main.append(paragraph('P206PRELUDE',line=4762,keep=False))
             for table in entries:main.extend([table,paragraph(line=20)])
-        elif operation.startswith('prefix-spacer'):
+        elif action.startswith('prefix-spacer'):
             first=lead(main,'experience');index=list(main).index(first)
             for n in list(main)[:index]:
                 if n.tag!=W+'tcPr':main.remove(n)
             main.insert(1,paragraph('P206PRELUDE',line=4762,keep=False))
-            if operation!='prefix-spacer':flatten(main,'experience')
-            if operation in ['prefix-spacer-no-experience-heading','prefix-spacer-no-headings']:
+            if action!='prefix-spacer':flatten(main,'experience')
+            if action in ['prefix-spacer-no-experience-heading','prefix-spacer-no-headings']:
                 main.remove(direct_heading(main,'Praktika & Schnuppertage'))
-            if operation in ['prefix-spacer-no-reference-heading','prefix-spacer-no-headings']:
+            if action in ['prefix-spacer-no-reference-heading','prefix-spacer-no-headings']:
                 main.remove(direct_heading(main,'Referenzen'))
+        pair_before=deepcopy(root)
+        if operation in ['entry-only-gap02-one','entry-only-reference-gap72']:
+            index=1 if operation=='entry-only-gap02-one' else 17
+            table=main.findall('w:tbl',NS)[index]
+            gap=list(main)[list(main).index(table)+1]
+            gap.find('w:pPr/w:spacing',NS).set(W+'after','1' if index==1 else '72')
+        elif operation in ['main-empty-zero-after','prefix-spacer-zero-after']:
+            for node in main.findall('w:p',NS):
+                if any(t.text for t in node.iter(W+'t')):continue
+                spacing=node.find('w:pPr/w:spacing',NS)
+                if spacing is not None and spacing.get(W+'after') not in [None,'0']:spacing.set(W+'after','0')
+        elif operation=='prefix-spacer-dedupe-empty':
+            previous_empty=False
+            for node in list(main):
+                empty=node.tag==W+'p' and not any(t.text for t in node.iter(W+'t'))
+                if empty and previous_empty:main.remove(node)
+                previous_empty=empty
         after=payloads(root)
         if critical!=after:raise ValueError('Critical station/reference payload or order changed')
         source_text=''.join(t.text or '' for t in before.iter(W+'t'))
         result_text=''.join(t.text or '' for t in root.iter(W+'t'))
-        reduced_text=operation.startswith('prefix-spacer') or operation=='entry-only-control'
+        reduced_text=action.startswith('prefix-spacer') or action=='entry-only-control'
         if not reduced_text and source_text!=result_text:raise ValueError('Unexpected visible-text edit')
         changed=raw if operation.startswith('baseline-') else ET.tostring(root,encoding='utf-8',xml_declaration=True)
         if operation.startswith('baseline-'):shutil.copyfile(source,target)
@@ -135,11 +157,13 @@ def change_story(source,target,operation):
     with ZipFile(source) as left,ZipFile(target) as right:
         if left.namelist()!=right.namelist() or any(left.read(n)!=right.read(n) for n in left.namelist() if n!='word/document.xml'):
             raise ValueError('Unrelated package parts changed')
-    edits=attribute_diff(before,root) if operation.startswith(('allow-','detach-')) else []
+    edits=attribute_diff(before,root) if operation.startswith(('allow-','detach-')) or operation=='main-empty-zero-after' else []
+    paired_edits=attribute_diff(pair_before,root) if operation in ['entry-only-gap02-one','entry-only-reference-gap72','prefix-spacer-zero-after','main-empty-zero-after'] else []
     return {'before':facts(before),'after':facts(root),'source_sha256':digest(source),'copy_sha256':digest(target),
         'critical_tables_canonically_identical':True,'critical_table_count':19,'all_other_parts_identical':True,
         'visible_text_identical':source_text==result_text,'attribute_edits':edits,
         'document_xml_bytes':len(changed),'diagnostic_spacer_twips':4762 if reduced_text else None,
+        'pair_reference_operation':action if action!=operation else None,'within_pair_attribute_edits':paired_edits,
         'max_table_depth_before':max_table_depth(before),'max_table_depth_after':max_table_depth(root)}
 
 

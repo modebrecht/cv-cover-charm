@@ -81,5 +81,28 @@ class PreambleControls(unittest.TestCase):
         self.assertEqual([text for text in texts if text],['P206PRELUDE'])
         self.assertEqual(result['max_table_depth_after'],2)
 
+    def test_minimal_gap_pairs_have_exactly_one_attribute_difference(self):
+        baseline=self.root/'entry-control.docx';change_story(self.source,baseline,'entry-only-control')
+        for op,value in [('entry-only-gap02-one','1'),('entry-only-reference-gap72','72')]:
+            output=self.root/(op+'.docx');change_story(self.source,output,op)
+            edits=attribute_diff(self.read(baseline),self.read(output))
+            self.assertEqual(len(edits),1);self.assertEqual(edits[0]['attribute'],W+'after')
+            self.assertEqual(edits[0]['before'],'0');self.assertEqual(edits[0]['after'],value)
+
+    def test_only_empty_paragraph_spacing_is_zeroed(self):
+        for op,count in [('main-empty-zero-after',18),('prefix-spacer-zero-after',17)]:
+            output=self.root/(op+'.docx');result=change_story(self.source,output,op)
+            edits=result['within_pair_attribute_edits'];self.assertEqual(len(edits),count)
+            self.assertTrue(all(e['attribute']==W+'after' and e['after']=='0' for e in edits))
+
+    def test_deduping_empty_paragraphs_preserves_nonzero_gap_properties(self):
+        baseline=self.root/'prefix.docx';change_story(self.source,baseline,'prefix-spacer-no-headings')
+        output=self.root/'dedup.docx';change_story(self.source,output,'prefix-spacer-dedupe-empty')
+        original=self.read(baseline).find('w:body/w:tbl/w:tr',NS).findall('w:tc',NS)[2]
+        changed=self.read(output).find('w:body/w:tbl/w:tr',NS).findall('w:tc',NS)[2]
+        self.assertEqual(len(original)-len(changed),3)
+        values=[n.get(W+'after') for n in changed.findall('w:p/w:pPr/w:spacing',NS)]
+        self.assertEqual(values.count('1'),16);self.assertIn('72',values)
+
 
 if __name__=='__main__':unittest.main()
