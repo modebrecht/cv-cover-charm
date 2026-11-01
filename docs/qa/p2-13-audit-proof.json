@@ -1,0 +1,12 @@
+{
+  "native_results_sha256": "26345be9e0ab6b78812e04ba3e32c715a2de0ff7c71873ea706aa511b8f31048",
+  "tested_implementation_sha": "ef2853a27ab8844bc5c285f0e0dd71741163575a",
+  "execution_status": "PASS",
+  "all_32_case_rows_equal": true,
+  "all_2_control_rows_equal": true,
+  "native_resource_rows_preserved": true,
+  "audit_native_conversions": 0,
+  "native_pdf_pages": 102,
+  "native_lo_seconds_sum": 310.274,
+  "native_max_conversion_rss_kib": 243084
+}
