@@ -79,8 +79,11 @@ def unwrap_outer_controls(parent):
         else:unwrap_outer_controls(child)
 
 
-def reduce_context(source,target,context,zero_gaps):
+def reduce_context(source,target,context,zero_gaps,*,paint_names=None):
     if context not in set(CONTEXTS)|set(OUTER_CONTEXTS):raise ValueError('Unknown context')
+    paint=MAIN_PAINT if paint_names is None else set(paint_names)
+    if paint_names is not None and (context!='main-heading-paint' or not paint or not paint<=MAIN_PAINT):
+        raise ValueError('Explicit paint names require a nonempty main-heading-paint subset')
     if source.resolve()==target.resolve():raise ValueError('Cannot overwrite source fixture')
     if zero_gaps:spacing=change_gaps(source,target,GAPS)
     else:shutil.copyfile(source,target);spacing={'attribute_edits':[]}
@@ -94,9 +97,9 @@ def reduce_context(source,target,context,zero_gaps):
     if context in ['outer-controls','outer-controls-and-main-paint']:
         unwrap_outer_controls(root.find('w:body',NS));unwrap_outer_controls(expected_main)
     if context in ['main-heading-paint','outer-controls-and-main-paint']:
-        removed_drawings=remove_named(cells[main_index],lambda n:n in MAIN_PAINT)
-        remove_named(expected_main,lambda n:n in MAIN_PAINT)
-        if set(removed_drawings)!=MAIN_PAINT or len(removed_drawings)!=4:raise ValueError('Expected four main heading drawings')
+        removed_drawings=remove_named(cells[main_index],lambda n:n in paint)
+        remove_named(expected_main,lambda n:n in paint)
+        if set(removed_drawings)!=paint or len(removed_drawings)!=len(paint):raise ValueError('Expected named main heading drawings')
     if context in OUTER_CONTEXTS and [n.text for n in before.iter(W+'t')]!=[n.text for n in root.iter(W+'t')]:
         raise ValueError('Outer-factor probe changed visible text')
     if context=='no-photo':
@@ -154,6 +157,8 @@ def reduce_context(source,target,context,zero_gaps):
         'no-header-footer':['all active header/footer contents including page backgrounds'],
         'reduced-context':['all active header/footer contents','all body drawings','sidebar story','outer SDT wrappers; critical inner SDTs retained'],
         'reduced-context-compact':['all active header/footer contents','all body drawings','sidebar story','outer SDT wrappers; critical inner SDTs retained','unreachable package parts']}
+    if paint_names is not None and paint!=MAIN_PAINT:
+        losses['main-heading-paint']=[f'{len(paint)} named main-section heading drawings']
     return {'source_sha256':digest(source),'copy_sha256':digest(target),'context':context,'zero_gaps':zero_gaps,
         'spacing_attribute_edits':spacing['attribute_edits'],'critical_tables_identical':19,
         'main_cell_index':main_index,'sidebar_cell_index':sidebar_index,'main_story_expected_only':True,
