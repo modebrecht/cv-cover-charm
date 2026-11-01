@@ -4,8 +4,12 @@ from pathlib import Path
 import json
 import tempfile
 import unittest
+from unittest.mock import patch
 from zipfile import ZipFile
+import fitz
+from PIL import Image
 from dossier_lo_context import CONTEXTS,W,NS,reduce_context,read_root,canon,cells_of,named_drawings,digest,critical
+from dossier_production_spacing import blank_native_page,measure
 
 ROOT=Path(__file__).resolve().parents[1];FIXTURES=ROOT/'tests/fixtures/lo-import-p2-08'
 
@@ -78,6 +82,22 @@ class ContextControls(unittest.TestCase):
         source=FIXTURES/'cv-18-left-original.docx'
         with self.assertRaisesRegex(ValueError,'Unknown'):reduce_context(source,self.folder/'bad.docx','unknown',False)
         with self.assertRaisesRegex(ValueError,'overwrite'):reduce_context(source,source,'no-photo',False)
+
+    def test_blank_native_page_bypasses_ocr_without_passing_content(self):
+        path=self.folder/'blank.pdf'
+        with fitz.open() as pdf:pdf.new_page();pdf.save(path)
+        with patch('dossier_production_spacing.subprocess.run',side_effect=AssertionError('OCR called')):
+            actual,_=measure(path,self.folder,'blank',18,native_blank_pages=True)
+        self.assertEqual(actual['pages'],1);self.assertEqual(actual['content']['status'],'FAIL')
+        self.assertTrue(actual['text_methods'][0].startswith('Blank native'))
+        with patch('dossier_production_spacing.subprocess.run',side_effect=AssertionError('OCR called')):
+            with self.assertRaisesRegex(AssertionError,'OCR called'):measure(path,self.folder,'app-default',18)
+
+    def test_blank_gate_never_hides_sparse_ink_or_white_text_layer(self):
+        white=Image.new('RGB',(100,100),'white');self.assertTrue(blank_native_page('',white))
+        ink=white.copy();ink.putpixel((50,50),(0,0,0));self.assertFalse(blank_native_page('',ink))
+        ink=white.copy();ink.putpixel((50,50),(254,254,254));self.assertFalse(blank_native_page('',ink))
+        self.assertFalse(blank_native_page('P202Praxis01',white))
 
 
 if __name__=='__main__':unittest.main()

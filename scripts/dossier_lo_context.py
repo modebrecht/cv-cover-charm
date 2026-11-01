@@ -203,7 +203,7 @@ def main():
                     else:package=reduce_context(src,docx,context,zero)
                     if content([''.join(t.text or '' for t in read_root(docx).iter(W+'t'))],18)['status']!='PASS':raise ValueError('Critical authored data incomplete')
                     prior=next(c for c in old['cases'] if c['id']==tag) if old else None
-                    pdf,res=convert(docx,folder,prior);actual,images=measure(pdf,folder,'lo',18);comparison=compare(ref['app'],actual,18,side=='right')
+                    pdf,res=convert(docx,folder,prior);actual,images=measure(pdf,folder,'lo',18,native_blank_pages=True);comparison=compare(ref['app'],actual,18,side=='right')
                     row={'id':tag,'side':side,'context':context,'zero_gaps':zero,'package':package,'conversion_status':'PASS',
                         'pdf_sha256':digest(pdf),'resources':res,'actual':actual,'app_metric_comparison':comparison,
                         'product_status':'FAIL' if context!='original' else comparison['status']};report['cases'].append(row)

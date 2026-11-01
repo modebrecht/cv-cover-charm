@@ -115,7 +115,12 @@ def tsv_origins(text,expected,page,page_mm,pixel_size):
     return found
 
 
-def measure(pdf,folder,label,count):
+def blank_native_page(text,rgb):
+    """Only empty text plus an entirely white raster may bypass OCR."""
+    return not compact(text) and all(low==high==255 for low,high in rgb.convert('RGB').getextrema())
+
+
+def measure(pdf,folder,label,count,*,native_blank_pages=False):
     texts=[];photos=[];images=[];origins={};methods=[];pixels=[]
     with fitz.open(pdf) as doc:
         producer=doc.metadata.get('producer')
@@ -126,7 +131,9 @@ def measure(pdf,folder,label,count):
             image=folder/f'{label}-{i+1}.png';rgb.save(image);images.append(image)
             pixels.append(hashlib.sha256(rgb.tobytes()).hexdigest());photos.append(photo_signature(rgb,page_mm))
             text=page.get_text();method='PDF text layer'
-            if len(compact(text))<20:
+            if native_blank_pages and blank_native_page(text,rgb):
+                text='';method='Blank native PDF page: no text and every RGB pixel white'
+            elif len(compact(text))<20:
                 raster=folder/f'{label}-{i+1}-ocr.png';high=page.get_pixmap(matrix=fitz.Matrix(2,2),alpha=False);high.save(raster)
                 base=raster.with_suffix('')
                 proc=subprocess.run(['tesseract',str(raster),str(base),'--psm','11','txt','tsv'],capture_output=True,text=True,timeout=30)
