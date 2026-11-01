@@ -1,0 +1,291 @@
+{
+  "native_results_sha256": "4a43cfdbc07347d255fceed2d99e3c06ec5b495aead77eaa77d9a70be87b172c",
+  "method": "PyMuPDF get_image_info, images 952x33 on final native page; absent entry is only a page-3 observation.",
+  "pymupdf_version": "1.26.4",
+  "rows": [
+    {
+      "id": "left-zero-inline",
+      "pdf_sha256": "f1641dd4576637314663be7a5cd437f7e20b970f872ed92661fa06a22fdcaacf",
+      "page": 3,
+      "reference_size_images_on_page_3": [
+        {
+          "bbox_mm": [
+            70.996528,
+            150.477637,
+            189.988468,
+            154.64041
+          ],
+          "source_pixels": [
+            952,
+            33
+          ]
+        }
+      ],
+      "line_placement_status": "FAIL",
+      "reference_marker": {
+        "marker": "P202Endreferenz",
+        "app": {
+          "page": 3,
+          "top_left_mm": [
+            70.973,
+            131.005
+          ]
+        },
+        "lo": {
+          "page": 3,
+          "top_left_mm": [
+            71.032,
+            160.317
+          ]
+        },
+        "delta_mm": [
+          0.059,
+          29.312
+        ]
+      }
+    },
+    {
+      "id": "left-zero-inline-min-width",
+      "pdf_sha256": "6adc62d259f821e9443ca1f5b93e9d94391e8c33e5ab3656824a07c030e7f0cf",
+      "page": 3,
+      "reference_size_images_on_page_3": [
+        {
+          "bbox_mm": [
+            70.996528,
+            150.512917,
+            71.40222,
+            154.67569
+          ],
+          "source_pixels": [
+            952,
+            33
+          ]
+        }
+      ],
+      "line_placement_status": "FAIL",
+      "reference_marker": {
+        "marker": "P202Endreferenz",
+        "app": {
+          "page": 3,
+          "top_left_mm": [
+            70.973,
+            131.005
+          ]
+        },
+        "lo": {
+          "page": 3,
+          "top_left_mm": [
+            71.032,
+            156.19
+          ]
+        },
+        "delta_mm": [
+          0.059,
+          25.185
+        ]
+      }
+    },
+    {
+      "id": "left-zero-inline-min-size",
+      "pdf_sha256": "8fa0b91d772f75cbb485fd25b4532e17cd8f37d351b40e16f781268cb3048fd0",
+      "page": 3,
+      "reference_size_images_on_page_3": [
+        {
+          "bbox_mm": [
+            70.996528,
+            153.88194,
+            71.40222,
+            154.287632
+          ],
+          "source_pixels": [
+            952,
+            33
+          ]
+        }
+      ],
+      "line_placement_status": "FAIL",
+      "reference_marker": {
+        "marker": "P202Endreferenz",
+        "app": {
+          "page": 3,
+          "top_left_mm": [
+            70.973,
+            131.005
+          ]
+        },
+        "lo": {
+          "page": 3,
+          "top_left_mm": [
+            71.032,
+            155.696
+          ]
+        },
+        "delta_mm": [
+          0.059,
+          24.691
+        ]
+      }
+    },
+    {
+      "id": "left-zero-page-y",
+      "pdf_sha256": "e8f15dd4f49b6558bc2eb62c3afdc849982018952620751348470022024c223d",
+      "page": 3,
+      "reference_size_images_on_page_3": [],
+      "line_placement_status": "FAIL",
+      "reference_marker": {
+        "marker": "P202Endreferenz",
+        "app": {
+          "page": 3,
+          "top_left_mm": [
+            70.973,
+            131.005
+          ]
+        },
+        "lo": null,
+        "delta_mm": null
+      }
+    },
+    {
+      "id": "right-zero-inline",
+      "pdf_sha256": "27a0da3f63c62d5cbbba21c7940f2254af3fdca9b86a06ff06277d13225fde0b",
+      "page": 3,
+      "reference_size_images_on_page_3": [
+        {
+          "bbox_mm": [
+            20.0025,
+            150.477637,
+            138.994444,
+            154.64041
+          ],
+          "source_pixels": [
+            952,
+            33
+          ]
+        }
+      ],
+      "line_placement_status": "FAIL",
+      "reference_marker": {
+        "marker": "P202Endreferenz",
+        "app": {
+          "page": 3,
+          "top_left_mm": [
+            19.989,
+            131.005
+          ]
+        },
+        "lo": {
+          "page": 3,
+          "top_left_mm": [
+            20.038,
+            160.317
+          ]
+        },
+        "delta_mm": [
+          0.049,
+          29.312
+        ]
+      }
+    },
+    {
+      "id": "right-zero-inline-min-width",
+      "pdf_sha256": "4303e7d8c9fdca179323babc6a3fdf28e3caa088147aff2d3cd51bf7c9fb86e1",
+      "page": 3,
+      "reference_size_images_on_page_3": [
+        {
+          "bbox_mm": [
+            20.0025,
+            150.512917,
+            20.408195,
+            154.67569
+          ],
+          "source_pixels": [
+            952,
+            33
+          ]
+        }
+      ],
+      "line_placement_status": "FAIL",
+      "reference_marker": {
+        "marker": "P202Endreferenz",
+        "app": {
+          "page": 3,
+          "top_left_mm": [
+            19.989,
+            131.005
+          ]
+        },
+        "lo": {
+          "page": 3,
+          "top_left_mm": [
+            20.038,
+            156.19
+          ]
+        },
+        "delta_mm": [
+          0.049,
+          25.185
+        ]
+      }
+    },
+    {
+      "id": "right-zero-inline-min-size",
+      "pdf_sha256": "ff56fce8acc304a35d4c5320894925197a685ed40b2513f44bb4d9c4532489b0",
+      "page": 3,
+      "reference_size_images_on_page_3": [
+        {
+          "bbox_mm": [
+            20.0025,
+            153.88194,
+            20.408195,
+            154.287632
+          ],
+          "source_pixels": [
+            952,
+            33
+          ]
+        }
+      ],
+      "line_placement_status": "FAIL",
+      "reference_marker": {
+        "marker": "P202Endreferenz",
+        "app": {
+          "page": 3,
+          "top_left_mm": [
+            19.989,
+            131.005
+          ]
+        },
+        "lo": {
+          "page": 3,
+          "top_left_mm": [
+            20.038,
+            155.696
+          ]
+        },
+        "delta_mm": [
+          0.049,
+          24.691
+        ]
+      }
+    },
+    {
+      "id": "right-zero-page-y",
+      "pdf_sha256": "db429829398c8807e428638339424fb407a9a44ed9efbe2d5465458fd97c3eb2",
+      "page": 3,
+      "reference_size_images_on_page_3": [],
+      "line_placement_status": "FAIL",
+      "reference_marker": {
+        "marker": "P202Endreferenz",
+        "app": {
+          "page": 3,
+          "top_left_mm": [
+            19.989,
+            131.005
+          ]
+        },
+        "lo": null,
+        "delta_mm": null
+      }
+    }
+  ]
+}
