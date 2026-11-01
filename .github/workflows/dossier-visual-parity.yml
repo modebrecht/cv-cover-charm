@@ -39,6 +39,10 @@ on:
         description: Run only the bounded 18-attribute spacing subset search
         type: boolean
         default: false
+      production_spacing:
+        description: Run fresh full Next exports and the one-gap spacing counterprobe
+        type: boolean
+        default: false
   push:
     branches:
       - render
@@ -49,6 +53,7 @@ on:
       - work/01nov-p2-05-compat-mode
       - work/01nov-p2-06-preamble-flow
       - work/01nov-p2-07-spacing-subset
+      - work/01nov-p2-08-production-spacing
 
 permissions:
   contents: read
@@ -59,7 +64,7 @@ concurrency:
 
 jobs:
   source-batch:
-    if: github.ref != 'refs/heads/work/01nov-p2-01-onlyoffice' && github.ref != 'refs/heads/work/01nov-p2-02-semantic-parity' && github.ref != 'refs/heads/work/01nov-p2-03-lo-isolation' && github.ref != 'refs/heads/work/01nov-p2-04-minimal-repro' && !inputs.converter_poc && !inputs.semantic_parity && !inputs.lo_isolation && !inputs.minimal_repro && github.ref != 'refs/heads/work/01nov-p2-05-compat-mode' && !inputs.compat_mode && github.ref != 'refs/heads/work/01nov-p2-06-preamble-flow' && !inputs.preamble_flow && github.ref != 'refs/heads/work/01nov-p2-07-spacing-subset' && !inputs.spacing_subset
+    if: github.ref != 'refs/heads/work/01nov-p2-01-onlyoffice' && github.ref != 'refs/heads/work/01nov-p2-02-semantic-parity' && github.ref != 'refs/heads/work/01nov-p2-03-lo-isolation' && github.ref != 'refs/heads/work/01nov-p2-04-minimal-repro' && !inputs.converter_poc && !inputs.semantic_parity && !inputs.lo_isolation && !inputs.minimal_repro && github.ref != 'refs/heads/work/01nov-p2-05-compat-mode' && !inputs.compat_mode && github.ref != 'refs/heads/work/01nov-p2-06-preamble-flow' && !inputs.preamble_flow && github.ref != 'refs/heads/work/01nov-p2-07-spacing-subset' && !inputs.spacing_subset && github.ref != 'refs/heads/work/01nov-p2-08-production-spacing' && !inputs.production_spacing
     name: Visual parity source batch ${{ matrix.batch }}
     runs-on: ubuntu-24.04
     timeout-minutes: 25
@@ -286,10 +291,12 @@ jobs:
           retention-days: 14
 
   semantic-parity:
-    name: P2-02 — Next content, photos and continuation (LibreOffice)
+    name: P2 — Next content, photos and production-copy counterprobes (LibreOffice)
     if: github.ref != 'refs/heads/work/01nov-p2-01-onlyoffice' && github.ref != 'refs/heads/work/01nov-p2-05-compat-mode' && !inputs.converter_poc && !inputs.compat_mode && github.ref != 'refs/heads/work/01nov-p2-06-preamble-flow' && !inputs.preamble_flow && github.ref != 'refs/heads/work/01nov-p2-07-spacing-subset' && !inputs.spacing_subset
     runs-on: ubuntu-24.04
     timeout-minutes: 20
+    env:
+      P208_ENABLED: ${{ github.ref == 'refs/heads/work/01nov-p2-08-production-spacing' || inputs.production_spacing }}
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -310,7 +317,9 @@ jobs:
           .parity-venv/bin/python scripts/dossier_semantic_parity_test.py
           .parity-venv/bin/python scripts/dossier_lo_isolation_test.py
           .parity-venv/bin/python scripts/dossier_lo_minimal_test.py
-      - name: Export eight synthetic cases and check catalog/pilot gallery
+          .parity-venv/bin/python scripts/dossier_lo_spacing_test.py
+          .parity-venv/bin/python scripts/dossier_production_spacing_test.py
+      - name: Export selected production cases through real download menus
         shell: bash
         run: |
           set -euo pipefail
@@ -321,8 +330,12 @@ jobs:
             curl --fail --silent http://127.0.0.1:4173/ > /dev/null && break
             sleep 1
           done
-          npx playwright test tests/e2e/dossier-semantic-parity.spec.ts --workers=1 --reporter=line
-          bash scripts/run_dossier_gallery_batch.sh docx 0 artifacts/semantic-parity/gallery-pilot
+          if [ "$P208_ENABLED" = true ]; then
+            PRODUCTION_SPACING=true npx playwright test tests/e2e/dossier-semantic-parity.spec.ts --workers=1 --reporter=line
+          else
+            npx playwright test tests/e2e/dossier-semantic-parity.spec.ts --workers=1 --reporter=line
+            bash scripts/run_dossier_gallery_batch.sh docx 0 artifacts/semantic-parity/gallery-pilot
+          fi
       - name: Convert and check visible markers, pages, photo geometry and crop
         if: always()
         env:
@@ -330,7 +343,11 @@ jobs:
           P204_ENABLED: ${{ github.ref == 'refs/heads/work/01nov-p2-04-minimal-repro' || inputs.minimal_repro }}
         run: |
           if [ -f artifacts/semantic-parity/source/CATALOG.json ]; then
-            if [ "$P204_ENABLED" = true ]; then
+            if [ "$P208_ENABLED" = true ]; then
+              .parity-venv/bin/python scripts/dossier_production_spacing.py \
+                --source-dir artifacts/semantic-parity/source \
+                --out-dir artifacts/semantic-parity/production-spacing
+            elif [ "$P204_ENABLED" = true ]; then
               .parity-venv/bin/python scripts/dossier_lo_minimal.py \
                 --source-dir artifacts/semantic-parity/source \
                 --out-dir artifacts/semantic-parity/minimal
@@ -350,6 +367,9 @@ jobs:
       - name: Publish semantic summary
         if: always()
         run: |
+          if [ -f artifacts/semantic-parity/production-spacing/SUMMARY.md ]; then
+            cat artifacts/semantic-parity/production-spacing/SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+          fi
           if [ -f artifacts/semantic-parity/minimal/SUMMARY.md ]; then
             cat artifacts/semantic-parity/minimal/SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
           fi

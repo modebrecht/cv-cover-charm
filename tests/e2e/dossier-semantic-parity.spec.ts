@@ -7,7 +7,7 @@ import { PRODUCT_TEMPLATES } from "./support/dossier-gallery-shared";
 
 const OUT = process.env.SEMANTIC_PARITY_DIR ?? "artifacts/semantic-parity/source";
 const sha = () => execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim();
-const cases = [
+const baselineCases = [
   { id: "cover", part: "cover", mirrored: false, long: false, zoom: 1, x: 50, y: 50 },
   { id: "letter", part: "letter", mirrored: false, long: false, zoom: 1, x: 50, y: 50 },
   { id: "cv-left", part: "cv", mirrored: false, long: false, zoom: 1, x: 50, y: 50 },
@@ -17,6 +17,14 @@ const cases = [
   { id: "cv-long-left", part: "cv", mirrored: false, long: true, zoom: 1, x: 50, y: 50 },
   { id: "cv-long-right", part: "cv", mirrored: true, long: true, zoom: 1, x: 50, y: 50 },
 ] as const;
+
+// QA-only variant matrix. These are genuine UI downloads, never preprocessed sources.
+const cases = process.env.PRODUCTION_SPACING === "true"
+  ? [17, 18, 19].flatMap((entryCount) => [false, true].map((mirrored) => ({
+      id: `cv-${entryCount}-${mirrored ? "right" : "left"}`,
+      part: "cv" as const, mirrored, long: true, zoom: 1, x: 50, y: 50, entryCount,
+    })))
+  : baselineCases.map((item) => ({ ...item, entryCount: 18 }));
 
 for (const item of cases)
   test(`${item.id}: production Next/App PDF retain content and photo intent`, async ({ page }) => {
@@ -57,7 +65,7 @@ for (const item of cases)
         borderWidth: 0,
       };
       if (item.long) {
-        p.cv.data.erfahrung = Array.from({ length: 18 }, (_, i) => {
+        p.cv.data.erfahrung = Array.from({ length: item.entryCount }, (_, i) => {
           const marker = `P202Praxis${String(i + 1).padStart(2, "0")}`;
           markers.push(marker);
           return {
