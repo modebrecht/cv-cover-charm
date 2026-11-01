@@ -25,8 +25,12 @@ from dossier_production_spacing import W,NS,critical,content,compare,digest,meas
 from dossier_parity_content import docx_text
 
 REFERENCE_SHA256='ad882abd27c87cb8b73cc255ec26011c8ce22cfbc08d9b07b5849e0b2109c167'
+INITIAL_SHA256='ddc72f8d0c9e9f1765e595100da800a3d55e865ccd5ecf617801363b101d5ae0'
 PLAN={'original':[],'gap06-zero':[6],'gap05-zero':[5],'gap14-zero':[14],
-    'gap15-zero':[15],'small-gaps-zero':list(range(2,18))}
+    'gap15-zero':[15],'small-gaps-zero':list(range(2,18)),
+    'school-gap-zero':['school-gap'],'reference-gap-zero':['reference-gap'],
+    'section-gaps-zero':['school-gap','reference-gap'],
+    'all-gaps-zero':list(range(2,18))+['school-gap','reference-gap']}
 
 
 def gap_map(root):
@@ -43,17 +47,26 @@ def gap_map(root):
         spacing=gap.find('w:pPr/w:spacing',NS)
         if spacing is None or spacing.get(W+'after')!='1':raise ValueError('Expected source after=1 for '+marker)
         mapping[entry]=(index,spacing)
+    for tag,entry,offset in [('school-gap',1,-1),('reference-gap',18,1)]:
+        marker=f'P202Praxis{entry:02}'
+        tables=[n for n in main.findall('w:tbl',NS) if marker in ''.join(t.text or '' for t in n.iter(W+'t'))]
+        if len(tables)!=1:raise ValueError('Missing unique section boundary '+tag)
+        index=list(main).index(tables[0])+offset;gap=main[index]
+        if gap.tag!=W+'p' or any(t.text for t in gap.iter(W+'t')):raise ValueError('Nonempty section gap '+tag)
+        spacing=gap.find('w:pPr/w:spacing',NS)
+        if spacing is None or spacing.get(W+'after')!='72':raise ValueError('Expected source after=72 for '+tag)
+        mapping[tag]=(index,spacing)
     return cells.index(main),mapping
 
 
 def change_gaps(source,target,selected):
     if source.resolve()==target.resolve():raise ValueError('Cannot overwrite source fixture')
     selected=list(selected)
-    if len(selected)!=len(set(selected)) or not set(selected)<=set(range(2,18)):raise ValueError('Invalid or duplicate gap IDs')
+    if len(selected)!=len(set(selected)) or not set(selected)<=set(range(2,18))|{'school-gap','reference-gap'}:raise ValueError('Invalid or duplicate gap IDs')
     root=read_root(source);before=deepcopy(root);cell,mapping=gap_map(root)
     for entry in selected:mapping[entry][1].set(W+'after','0')
     edits=attribute_diff(before,root)
-    if len(edits)!=len(selected) or any(e['attribute']!=W+'after' or e['before']!='1' or e['after']!='0' for e in edits):
+    if len(edits)!=len(selected) or any(e['attribute']!=W+'after' or e['before'] not in ['1','72'] or e['after']!='0' for e in edits):
         raise ValueError('Unexpected attribute edits')
     if critical(before,18)!=critical(root,18):raise ValueError('Critical table payload changed')
     if selected:
@@ -100,8 +113,12 @@ def main():
     p.add_argument('--out-dir',type=Path,required=True);p.add_argument('--libreoffice',default='libreoffice');p.add_argument('--audit-only',action='store_true');a=p.parse_args()
     source=a.fixture_dir.resolve();out=a.out_dir.resolve();out.mkdir(parents=True,exist_ok=True)
     manifest,reference=load_inputs(source,a.reference);old=json.loads((out/'RESULTS.json').read_text()) if a.audit_only else None
+    initial_path=root/'docs/qa/p2-09-initial-results.json'
+    if digest(initial_path)!=INITIAL_SHA256:raise ValueError('Initial native matrix hash mismatch')
+    initial=json.loads(initial_path.read_text())
     report={'implementation_sha':old['implementation_sha'] if old else os.environ.get('GITHUB_SHA'),
         'source_export_sha':reference['sha'],'reference_report_sha256':digest(a.reference),
+        'initial_native_report_sha256':digest(initial_path),
         'fixture_manifest_sha256':digest(source/'MANIFEST.json'),'audit_only':a.audit_only,
         'scope':'Full persisted 18-entry production sources and pinned P2-08 App metrics; no fresh App export or Word/x39 acceptance.',
         'converter_version':old['converter_version'] if old else subprocess.run([a.libreoffice,'--version'],capture_output=True,text=True,timeout=10).stdout.strip(),
@@ -161,7 +178,17 @@ def main():
                     with Image.open(image) as im:sheet.paste(im.resize((340,481)),(0,i*481))
                 sheet.save(folder/'pages.jpg',quality=90)
                 print(tag,actual['content']['status'],actual['content']['complete_entries'],'/18',actual['pages'],'pages','overall',row['comparison']['status'],flush=True)
-        report['execution_status']='PASS' if len(report['cases'])==12 and len(report['controls'])==2 else 'FAIL'
+        repeat=[]
+        for previous in initial['controls']:
+            current=next(c for c in report['controls'] if c['id']==previous['id'])
+            repeat.append({'id':current['id'],'input_hash_equal':current['docx_sha256']==previous['docx_sha256'],
+                'pixels_equal':current['pixel_sha256']==previous['pixel_sha256']})
+        for previous in initial['cases']:
+            current=next(c for c in report['cases'] if c['id']==previous['id'])
+            repeat.append({'id':current['id'],'input_hash_equal':current['package']['copy_sha256']==previous['package']['copy_sha256'],
+                'pixels_equal':current['actual']['pixel_sha256']==previous['actual']['pixel_sha256']})
+        report['initial_matrix_repeat']=repeat
+        report['execution_status']='PASS' if len(report['cases'])==20 and len(report['controls'])==2 and len(repeat)==14 and all(r['input_hash_equal'] and r['pixels_equal'] for r in repeat) else 'FAIL'
     except (OSError,ValueError,RuntimeError,KeyError,subprocess.TimeoutExpired) as exc:
         report['execution_status']='FAIL';report['error']=str(exc)
     report['native_conversion_count']=len(report['conversion_attempts'])

@@ -20,7 +20,7 @@ class BoundaryControls(unittest.TestCase):
     def test_both_sides_select_same_authored_gap_independently_of_cell(self):
         for side,cell in [('left',2),('right',0)]:
             selected,mapping=gap_map(read_root(FIXTURES/f'cv-18-{side}-original.docx'))
-            self.assertEqual(selected,cell);self.assertEqual(set(mapping),set(range(2,18)))
+            self.assertEqual(selected,cell);self.assertEqual(set(mapping),set(range(2,18))|{'school-gap','reference-gap'})
 
     def test_every_planned_copy_changes_exactly_declared_attributes(self):
         for side in ['left','right']:
@@ -29,7 +29,7 @@ class BoundaryControls(unittest.TestCase):
                 with self.subTest(side=side,variant=name):
                     r=change_gaps(source,self.folder/(side+'-'+name+'.docx'),selected)
                     self.assertEqual(len(r['attribute_edits']),len(selected));self.assertEqual(r['critical_tables_identical'],19)
-                    self.assertEqual(r['main_child_indices'],[2*n+10 for n in selected])
+                    self.assertEqual(r['main_child_indices'],[2*n+10 if isinstance(n,int) else {'school-gap':10,'reference-gap':46}[n] for n in selected])
             self.assertEqual(source.read_bytes(),before)
 
     def test_original_and_gap06_controls_are_whole_file_identical(self):
@@ -59,6 +59,13 @@ class BoundaryControls(unittest.TestCase):
     def test_changed_app_reference_rejected(self):
         ref=self.folder/'changed.json';ref.write_text('{}')
         with self.assertRaisesRegex(ValueError,'reference report hash'):load_inputs(FIXTURES,ref)
+
+    def test_section_and_collective_probes_edit_only_the_expected_values(self):
+        source=FIXTURES/'cv-18-left-original.docx'
+        for variant,ones,sections in [('section-gaps-zero',0,2),('all-gaps-zero',16,2)]:
+            r=change_gaps(source,self.folder/(variant+'.docx'),PLAN[variant])
+            self.assertEqual(sum(e['before']=='1' for e in r['attribute_edits']),ones)
+            self.assertEqual(sum(e['before']=='72' for e in r['attribute_edits']),sections)
 
 
 if __name__=='__main__':unittest.main()
