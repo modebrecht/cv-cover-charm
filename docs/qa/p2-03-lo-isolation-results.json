@@ -1,0 +1,6032 @@
+{
+  "source_sha": "60fd5c9e68b1dad9817ee1bf9b5ad94e1b3dc339",
+  "research_reference": "c685bf4308235ac5fcc38957d45d9c9bf508eb21",
+  "implementation_sha": "60fd5c9e68b1dad9817ee1bf9b5ad94e1b3dc339",
+  "scope": "Synthetic package copies; no product changes; PASS is measured parity only.",
+  "thresholds": {
+    "body_heading_origin_mm": 2.0,
+    "photo_geometry_mm": 2.0,
+    "photo_pattern_min": 0.9
+  },
+  "cases": [
+    {
+      "id": "cv-right--margin-zero",
+      "source_case": "cv-right",
+      "operation": "margin-zero",
+      "source_sha256": "bce105ec1f891cb011a3e5098f37ed9a4d592fac8956106c76b5e1c03449ccfd",
+      "probe_sha256": "5bb7232f91d99cf316e2c01e2b6a18cc7606e88c7ab0639afd0562d6e92a4c74",
+      "edits": [
+        {
+          "path": "/body[0]/sectPr[2]/pgMar[6]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}left",
+          "before": "1134",
+          "after": "0"
+        }
+      ],
+      "other_package_parts_identical": true,
+      "semantic_text_identical": true,
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.153,
+        "max_rss_kib": 243396,
+        "cpu_seconds": 1.101,
+        "elapsed_seconds": 1.11,
+        "exit_code": 0
+      },
+      "page_count": 1,
+      "app_page_count": 1,
+      "producer": "LibreOffice 24.2",
+      "missing": [],
+      "marker_pages": {
+        "Lea Müller": [
+          1
+        ],
+        "Sekundarschule": [
+          1
+        ],
+        "Herr Thomas Weber": [
+          1
+        ]
+      },
+      "photo": {
+        "status": "PASS",
+        "bbox_delta_mm": [
+          0.258,
+          0.0,
+          1.059,
+          1.323
+        ],
+        "max_allowed_mm": 2.0,
+        "pattern_agreement": 1.0,
+        "min_pattern_agreement": 0.9
+      },
+      "lo_photo": {
+        "visible": true,
+        "pixels": 13122,
+        "bbox_mm": [
+          154.995,
+          52.101,
+          27.772,
+          34.646
+        ],
+        "grid": [
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "colors": {
+          "1": 1241,
+          "2": 8859,
+          "3": 1289,
+          "4": 1733
+        }
+      },
+      "app_photo": {
+        "visible": true,
+        "pixels": 12395,
+        "bbox_mm": [
+          155.253,
+          52.101,
+          26.713,
+          33.323
+        ],
+        "grid": [
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "colors": {
+          "1": 1217,
+          "2": 8314,
+          "3": 1215,
+          "4": 1649
+        }
+      },
+      "repeated_photo": false,
+      "marker_page_changes": {},
+      "app_entries": [],
+      "lo_entries": [],
+      "body_heading": {
+        "app_origin_mm": [
+          19.989,
+          68.66
+        ],
+        "lo_origin_mm": [
+          0.035,
+          70.097
+        ],
+        "delta_mm": [
+          19.954,
+          1.437
+        ],
+        "max_allowed_mm": 2.0,
+        "status": "FAIL"
+      },
+      "content_status": "PASS",
+      "layout_status": "FAIL",
+      "status": "FAIL"
+    },
+    {
+      "id": "cv-right--margin-half",
+      "source_case": "cv-right",
+      "operation": "margin-half",
+      "source_sha256": "bce105ec1f891cb011a3e5098f37ed9a4d592fac8956106c76b5e1c03449ccfd",
+      "probe_sha256": "fd334b3d49936a810c4a9abcf09acfc8915f4dd16bb7760ca4fdd173229877bd",
+      "edits": [
+        {
+          "path": "/body[0]/sectPr[2]/pgMar[6]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}left",
+          "before": "1134",
+          "after": "567"
+        }
+      ],
+      "other_package_parts_identical": true,
+      "semantic_text_identical": true,
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.154,
+        "max_rss_kib": 242816,
+        "cpu_seconds": 1.095,
+        "elapsed_seconds": 1.1,
+        "exit_code": 0
+      },
+      "page_count": 1,
+      "app_page_count": 1,
+      "producer": "LibreOffice 24.2",
+      "missing": [],
+      "marker_pages": {
+        "Lea Müller": [
+          1
+        ],
+        "Sekundarschule": [
+          1
+        ],
+        "Herr Thomas Weber": [
+          1
+        ]
+      },
+      "photo": {
+        "status": "FAIL",
+        "bbox_delta_mm": [
+          9.793,
+          0.0,
+          1.059,
+          1.323
+        ],
+        "max_allowed_mm": 2.0,
+        "pattern_agreement": 1.0,
+        "min_pattern_agreement": 0.9
+      },
+      "lo_photo": {
+        "visible": true,
+        "pixels": 13122,
+        "bbox_mm": [
+          165.046,
+          52.101,
+          27.772,
+          34.646
+        ],
+        "grid": [
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "colors": {
+          "1": 1242,
+          "2": 8859,
+          "3": 1288,
+          "4": 1733
+        }
+      },
+      "app_photo": {
+        "visible": true,
+        "pixels": 12395,
+        "bbox_mm": [
+          155.253,
+          52.101,
+          26.713,
+          33.323
+        ],
+        "grid": [
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "colors": {
+          "1": 1217,
+          "2": 8314,
+          "3": 1215,
+          "4": 1649
+        }
+      },
+      "repeated_photo": false,
+      "marker_page_changes": {},
+      "app_entries": [],
+      "lo_entries": [],
+      "body_heading": {
+        "app_origin_mm": [
+          19.989,
+          68.66
+        ],
+        "lo_origin_mm": [
+          10.037,
+          70.097
+        ],
+        "delta_mm": [
+          9.952,
+          1.437
+        ],
+        "max_allowed_mm": 2.0,
+        "status": "FAIL"
+      },
+      "content_status": "PASS",
+      "layout_status": "FAIL",
+      "status": "FAIL"
+    },
+    {
+      "id": "cv-right--layout-in-cell",
+      "source_case": "cv-right",
+      "operation": "layout-in-cell",
+      "source_sha256": "bce105ec1f891cb011a3e5098f37ed9a4d592fac8956106c76b5e1c03449ccfd",
+      "probe_sha256": "dfc84b2b1dcc56c1512f0a8bd63b77ea937d30d4dfdbb36b36d6c33443593f03",
+      "edits": [
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[0]/p[1]/r[1]/drawing[0]/anchor[0]",
+          "attribute": "layoutInCell",
+          "before": "0",
+          "after": "1"
+        }
+      ],
+      "other_package_parts_identical": true,
+      "semantic_text_identical": true,
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.153,
+        "max_rss_kib": 243192,
+        "cpu_seconds": 1.104,
+        "elapsed_seconds": 1.11,
+        "exit_code": 0
+      },
+      "page_count": 1,
+      "app_page_count": 1,
+      "producer": "LibreOffice 24.2",
+      "missing": [],
+      "marker_pages": {
+        "Lea Müller": [
+          1
+        ],
+        "Sekundarschule": [
+          1
+        ],
+        "Herr Thomas Weber": [
+          1
+        ]
+      },
+      "photo": {
+        "status": "FAIL",
+        "bbox_delta_mm": [
+          19.844,
+          0.0,
+          1.059,
+          1.323
+        ],
+        "max_allowed_mm": 2.0,
+        "pattern_agreement": 1.0,
+        "min_pattern_agreement": 0.9
+      },
+      "lo_photo": {
+        "visible": true,
+        "pixels": 13121,
+        "bbox_mm": [
+          175.097,
+          52.101,
+          27.772,
+          34.646
+        ],
+        "grid": [
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "colors": {
+          "1": 1243,
+          "2": 8858,
+          "3": 1287,
+          "4": 1733
+        }
+      },
+      "app_photo": {
+        "visible": true,
+        "pixels": 12395,
+        "bbox_mm": [
+          155.253,
+          52.101,
+          26.713,
+          33.323
+        ],
+        "grid": [
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "colors": {
+          "1": 1217,
+          "2": 8314,
+          "3": 1215,
+          "4": 1649
+        }
+      },
+      "repeated_photo": false,
+      "marker_page_changes": {},
+      "app_entries": [],
+      "lo_entries": [],
+      "body_heading": {
+        "app_origin_mm": [
+          19.989,
+          68.66
+        ],
+        "lo_origin_mm": [
+          20.038,
+          70.097
+        ],
+        "delta_mm": [
+          0.049,
+          1.437
+        ],
+        "max_allowed_mm": 2.0,
+        "status": "PASS"
+      },
+      "content_status": "PASS",
+      "layout_status": "PASS",
+      "status": "FAIL"
+    },
+    {
+      "id": "cv-right--horizontal-column",
+      "source_case": "cv-right",
+      "operation": "horizontal-column",
+      "source_sha256": "bce105ec1f891cb011a3e5098f37ed9a4d592fac8956106c76b5e1c03449ccfd",
+      "probe_sha256": "4f1f79a8f7c9ddd67eb7b641fe5a8f5a98cfd77e833e7f8cf3176378ffe93176",
+      "edits": [
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[0]/p[1]/r[1]/drawing[0]/anchor[0]/positionH[1]",
+          "attribute": "relativeFrom",
+          "before": "page",
+          "after": "column"
+        }
+      ],
+      "other_package_parts_identical": true,
+      "semantic_text_identical": true,
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.154,
+        "max_rss_kib": 243468,
+        "cpu_seconds": 1.089,
+        "elapsed_seconds": 1.1,
+        "exit_code": 0
+      },
+      "page_count": 1,
+      "app_page_count": 1,
+      "producer": "LibreOffice 24.2",
+      "missing": [],
+      "marker_pages": {
+        "Lea Müller": [
+          1
+        ],
+        "Sekundarschule": [
+          1
+        ],
+        "Herr Thomas Weber": [
+          1
+        ]
+      },
+      "photo": {
+        "status": "FAIL",
+        "bbox_delta_mm": [
+          19.844,
+          0.0,
+          1.059,
+          1.323
+        ],
+        "max_allowed_mm": 2.0,
+        "pattern_agreement": 1.0,
+        "min_pattern_agreement": 0.9
+      },
+      "lo_photo": {
+        "visible": true,
+        "pixels": 13121,
+        "bbox_mm": [
+          175.097,
+          52.101,
+          27.772,
+          34.646
+        ],
+        "grid": [
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "colors": {
+          "1": 1243,
+          "2": 8858,
+          "3": 1287,
+          "4": 1733
+        }
+      },
+      "app_photo": {
+        "visible": true,
+        "pixels": 12395,
+        "bbox_mm": [
+          155.253,
+          52.101,
+          26.713,
+          33.323
+        ],
+        "grid": [
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "colors": {
+          "1": 1217,
+          "2": 8314,
+          "3": 1215,
+          "4": 1649
+        }
+      },
+      "repeated_photo": false,
+      "marker_page_changes": {},
+      "app_entries": [],
+      "lo_entries": [],
+      "body_heading": {
+        "app_origin_mm": [
+          19.989,
+          68.66
+        ],
+        "lo_origin_mm": [
+          20.038,
+          70.097
+        ],
+        "delta_mm": [
+          0.049,
+          1.437
+        ],
+        "max_allowed_mm": 2.0,
+        "status": "PASS"
+      },
+      "content_status": "PASS",
+      "layout_status": "PASS",
+      "status": "FAIL"
+    },
+    {
+      "id": "cv-long-left--detach-all",
+      "source_case": "cv-long-left",
+      "operation": "detach-all",
+      "source_sha256": "7a80c88d27e467da86def48635e35e7e28ec0dda6170bcbcf666571f22208d51",
+      "probe_sha256": "458d395046d21bfd8ac8cee90d80f9ca6ecf0cad03e43325f9a44da4638285b2",
+      "edits": [
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[0]/p[1]/pPr[0]/keepNext[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": "1",
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[1]/pPr[0]/keepNext[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": "1",
+          "after": "0"
+        }
+      ],
+      "other_package_parts_identical": true,
+      "semantic_text_identical": true,
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.405,
+        "max_rss_kib": 244116,
+        "cpu_seconds": 1.38,
+        "elapsed_seconds": 1.39,
+        "exit_code": 0
+      },
+      "page_count": 3,
+      "app_page_count": 3,
+      "producer": "LibreOffice 24.2",
+      "missing": [],
+      "marker_pages": {
+        "Lea Müller": [
+          1,
+          2,
+          3
+        ],
+        "Sekundarschule": [
+          1
+        ],
+        "P202Endreferenz": [
+          3
+        ],
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          2
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          3
+        ],
+        "P202Praxis16": [
+          3
+        ],
+        "P202Praxis17": [
+          3
+        ],
+        "P202Praxis18": [
+          3
+        ]
+      },
+      "photo": {
+        "status": "PASS",
+        "bbox_delta_mm": [
+          0.0,
+          0.0,
+          1.059,
+          1.323
+        ],
+        "max_allowed_mm": 2.0,
+        "pattern_agreement": 1.0,
+        "min_pattern_agreement": 0.9
+      },
+      "lo_photo": {
+        "visible": true,
+        "pixels": 13119,
+        "bbox_mm": [
+          8.199,
+          52.101,
+          27.772,
+          34.646
+        ],
+        "grid": [
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "colors": {
+          "1": 1243,
+          "2": 8858,
+          "3": 1285,
+          "4": 1733
+        }
+      },
+      "app_photo": {
+        "visible": true,
+        "pixels": 12397,
+        "bbox_mm": [
+          8.199,
+          52.101,
+          26.713,
+          33.323
+        ],
+        "grid": [
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "colors": {
+          "1": 1216,
+          "2": 8315,
+          "3": 1217,
+          "4": 1649
+        }
+      },
+      "repeated_photo": false,
+      "marker_page_changes": {
+        "P202Praxis06": {
+          "app": [
+            1
+          ],
+          "lo": [
+            2
+          ]
+        },
+        "P202Praxis15": {
+          "app": [
+            2
+          ],
+          "lo": [
+            3
+          ]
+        }
+      },
+      "app_entries": [
+        {
+          "marker": "P202Praxis01",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis02",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis03",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis04",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis05",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis06",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis07",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis08",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis09",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis10",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis11",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis12",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis13",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis14",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis15",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis16",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis17",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis18",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        }
+      ],
+      "lo_entries": [
+        {
+          "marker": "P202Praxis01",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis02",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis03",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis04",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis05",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis06",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis07",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis08",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis09",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis10",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis11",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis12",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis13",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis14",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis15",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis16",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis17",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis18",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        }
+      ],
+      "body_heading": {
+        "app_origin_mm": [
+          70.973,
+          68.66
+        ],
+        "lo_origin_mm": [
+          71.032,
+          70.097
+        ],
+        "delta_mm": [
+          0.059,
+          1.437
+        ],
+        "max_allowed_mm": 2.0,
+        "status": "PASS"
+      },
+      "content_status": "PASS",
+      "layout_status": "FAIL",
+      "status": "FAIL"
+    },
+    {
+      "id": "cv-long-left--detach-main",
+      "source_case": "cv-long-left",
+      "operation": "detach-main",
+      "source_sha256": "7a80c88d27e467da86def48635e35e7e28ec0dda6170bcbcf666571f22208d51",
+      "probe_sha256": "99d130f75aacf4c4520e7976ab775dc770c6d216b22c6f6158097f94fb71c034",
+      "edits": [
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[1]/pPr[0]/keepNext[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": "1",
+          "after": "0"
+        }
+      ],
+      "other_package_parts_identical": true,
+      "semantic_text_identical": true,
+      "resources": {
+        "returncode": 0,
+        "seconds": 8.075,
+        "max_rss_kib": 244156,
+        "cpu_seconds": 8.051,
+        "elapsed_seconds": 8.06,
+        "exit_code": 0
+      },
+      "page_count": 3,
+      "app_page_count": 3,
+      "producer": "LibreOffice 24.2",
+      "missing": [
+        "P202Endreferenz",
+        "P202Praxis16",
+        "P202Praxis17",
+        "P202Praxis18"
+      ],
+      "marker_pages": {
+        "Lea Müller": [
+          1,
+          2,
+          3
+        ],
+        "Sekundarschule": [
+          1
+        ],
+        "P202Endreferenz": [],
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          2
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          2
+        ],
+        "P202Praxis16": [],
+        "P202Praxis17": [],
+        "P202Praxis18": []
+      },
+      "photo": {
+        "status": "PASS",
+        "bbox_delta_mm": [
+          0.0,
+          0.0,
+          1.059,
+          1.323
+        ],
+        "max_allowed_mm": 2.0,
+        "pattern_agreement": 1.0,
+        "min_pattern_agreement": 0.9
+      },
+      "lo_photo": {
+        "visible": true,
+        "pixels": 13119,
+        "bbox_mm": [
+          8.199,
+          52.101,
+          27.772,
+          34.646
+        ],
+        "grid": [
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "colors": {
+          "1": 1243,
+          "2": 8858,
+          "3": 1285,
+          "4": 1733
+        }
+      },
+      "app_photo": {
+        "visible": true,
+        "pixels": 12397,
+        "bbox_mm": [
+          8.199,
+          52.101,
+          26.713,
+          33.323
+        ],
+        "grid": [
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "colors": {
+          "1": 1216,
+          "2": 8315,
+          "3": 1217,
+          "4": 1649
+        }
+      },
+      "repeated_photo": false,
+      "marker_page_changes": {
+        "P202Endreferenz": {
+          "app": [
+            3
+          ],
+          "lo": []
+        },
+        "P202Praxis06": {
+          "app": [
+            1
+          ],
+          "lo": [
+            2
+          ]
+        },
+        "P202Praxis16": {
+          "app": [
+            3
+          ],
+          "lo": []
+        },
+        "P202Praxis17": {
+          "app": [
+            3
+          ],
+          "lo": []
+        },
+        "P202Praxis18": {
+          "app": [
+            3
+          ],
+          "lo": []
+        }
+      },
+      "app_entries": [
+        {
+          "marker": "P202Praxis01",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis02",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis03",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis04",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis05",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis06",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis07",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis08",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis09",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis10",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis11",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis12",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis13",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis14",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis15",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis16",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis17",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis18",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        }
+      ],
+      "lo_entries": [
+        {
+          "marker": "P202Praxis01",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis02",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis03",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis04",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis05",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis06",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis07",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis08",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis09",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis10",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis11",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis12",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis13",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis14",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis15",
+          "start_page": 2,
+          "end_page": null,
+          "complete": false,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis16",
+          "start_page": null,
+          "end_page": null,
+          "complete": false,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis17",
+          "start_page": null,
+          "end_page": null,
+          "complete": false,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis18",
+          "start_page": null,
+          "end_page": null,
+          "complete": false,
+          "split": false
+        }
+      ],
+      "body_heading": {
+        "app_origin_mm": [
+          70.973,
+          68.66
+        ],
+        "lo_origin_mm": [
+          71.032,
+          70.097
+        ],
+        "delta_mm": [
+          0.059,
+          1.437
+        ],
+        "max_allowed_mm": 2.0,
+        "status": "PASS"
+      },
+      "content_status": "FAIL",
+      "layout_status": "FAIL",
+      "status": "FAIL"
+    },
+    {
+      "id": "cv-long-left--detach-sidebar",
+      "source_case": "cv-long-left",
+      "operation": "detach-sidebar",
+      "source_sha256": "7a80c88d27e467da86def48635e35e7e28ec0dda6170bcbcf666571f22208d51",
+      "probe_sha256": "bdfe437d8e4aa855744a588f1797f220c0e3e5edc441cbc5b3b09a0246111f84",
+      "edits": [
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[0]/p[1]/pPr[0]/keepNext[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": "1",
+          "after": "0"
+        }
+      ],
+      "other_package_parts_identical": true,
+      "semantic_text_identical": true,
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.454,
+        "max_rss_kib": 244080,
+        "cpu_seconds": 1.433,
+        "elapsed_seconds": 1.44,
+        "exit_code": 0
+      },
+      "page_count": 3,
+      "app_page_count": 3,
+      "producer": "LibreOffice 24.2",
+      "missing": [],
+      "marker_pages": {
+        "Lea Müller": [
+          1,
+          2,
+          3
+        ],
+        "Sekundarschule": [
+          1
+        ],
+        "P202Endreferenz": [
+          3
+        ],
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          2
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          3
+        ],
+        "P202Praxis16": [
+          3
+        ],
+        "P202Praxis17": [
+          3
+        ],
+        "P202Praxis18": [
+          3
+        ]
+      },
+      "photo": {
+        "status": "PASS",
+        "bbox_delta_mm": [
+          0.0,
+          0.0,
+          1.059,
+          1.323
+        ],
+        "max_allowed_mm": 2.0,
+        "pattern_agreement": 1.0,
+        "min_pattern_agreement": 0.9
+      },
+      "lo_photo": {
+        "visible": true,
+        "pixels": 13119,
+        "bbox_mm": [
+          8.199,
+          52.101,
+          27.772,
+          34.646
+        ],
+        "grid": [
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "colors": {
+          "1": 1243,
+          "2": 8858,
+          "3": 1285,
+          "4": 1733
+        }
+      },
+      "app_photo": {
+        "visible": true,
+        "pixels": 12397,
+        "bbox_mm": [
+          8.199,
+          52.101,
+          26.713,
+          33.323
+        ],
+        "grid": [
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "colors": {
+          "1": 1216,
+          "2": 8315,
+          "3": 1217,
+          "4": 1649
+        }
+      },
+      "repeated_photo": false,
+      "marker_page_changes": {
+        "P202Praxis06": {
+          "app": [
+            1
+          ],
+          "lo": [
+            2
+          ]
+        },
+        "P202Praxis15": {
+          "app": [
+            2
+          ],
+          "lo": [
+            3
+          ]
+        }
+      },
+      "app_entries": [
+        {
+          "marker": "P202Praxis01",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis02",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis03",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis04",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis05",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis06",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis07",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis08",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis09",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis10",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis11",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis12",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis13",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis14",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis15",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis16",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis17",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis18",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        }
+      ],
+      "lo_entries": [
+        {
+          "marker": "P202Praxis01",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis02",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis03",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis04",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis05",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis06",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis07",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis08",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis09",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis10",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis11",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis12",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis13",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis14",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis15",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis16",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis17",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis18",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        }
+      ],
+      "body_heading": {
+        "app_origin_mm": [
+          70.973,
+          68.66
+        ],
+        "lo_origin_mm": [
+          71.032,
+          70.097
+        ],
+        "delta_mm": [
+          0.059,
+          1.437
+        ],
+        "max_allowed_mm": 2.0,
+        "status": "PASS"
+      },
+      "content_status": "PASS",
+      "layout_status": "FAIL",
+      "status": "FAIL"
+    },
+    {
+      "id": "cv-long-left--allow-inner-row-split",
+      "source_case": "cv-long-left",
+      "operation": "allow-inner-row-split",
+      "source_sha256": "7a80c88d27e467da86def48635e35e7e28ec0dda6170bcbcf666571f22208d51",
+      "probe_sha256": "22ab609b2efadc62e87f805a07e9ee35ab6ba5c6c59de1f051c471b858ee37ad",
+      "edits": [
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[2]/tbl[7]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[2]/tbl[7]/tr[2]/tc[1]/tbl[2]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[2]/tbl[9]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[2]/tbl[11]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[2]/tbl[11]/tr[2]/tc[1]/tbl[2]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[2]/tbl[13]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[2]/tbl[15]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[2]/tbl[17]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[2]/tbl[19]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[2]/tbl[21]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[2]/tbl[23]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[2]/tbl[25]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[2]/tbl[27]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[2]/tbl[29]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[2]/tbl[31]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[2]/tbl[33]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[2]/tbl[35]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[2]/tbl[37]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[2]/tbl[39]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[2]/tbl[41]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[2]/tbl[43]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[2]/tbl[45]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        }
+      ],
+      "other_package_parts_identical": true,
+      "semantic_text_identical": true,
+      "resources": {
+        "returncode": 0,
+        "seconds": 3.211,
+        "max_rss_kib": 244068,
+        "cpu_seconds": 3.153,
+        "elapsed_seconds": 3.16,
+        "exit_code": 0
+      },
+      "page_count": 3,
+      "app_page_count": 3,
+      "producer": "LibreOffice 24.2",
+      "missing": [],
+      "marker_pages": {
+        "Lea Müller": [
+          1,
+          2,
+          3
+        ],
+        "Sekundarschule": [
+          1
+        ],
+        "P202Endreferenz": [
+          3
+        ],
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          1
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          2
+        ],
+        "P202Praxis16": [
+          3
+        ],
+        "P202Praxis17": [
+          3
+        ],
+        "P202Praxis18": [
+          3
+        ]
+      },
+      "photo": {
+        "status": "PASS",
+        "bbox_delta_mm": [
+          0.0,
+          0.0,
+          1.059,
+          1.323
+        ],
+        "max_allowed_mm": 2.0,
+        "pattern_agreement": 1.0,
+        "min_pattern_agreement": 0.9
+      },
+      "lo_photo": {
+        "visible": true,
+        "pixels": 13119,
+        "bbox_mm": [
+          8.199,
+          52.101,
+          27.772,
+          34.646
+        ],
+        "grid": [
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "colors": {
+          "1": 1243,
+          "2": 8858,
+          "3": 1285,
+          "4": 1733
+        }
+      },
+      "app_photo": {
+        "visible": true,
+        "pixels": 12397,
+        "bbox_mm": [
+          8.199,
+          52.101,
+          26.713,
+          33.323
+        ],
+        "grid": [
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "colors": {
+          "1": 1216,
+          "2": 8315,
+          "3": 1217,
+          "4": 1649
+        }
+      },
+      "repeated_photo": false,
+      "marker_page_changes": {},
+      "app_entries": [
+        {
+          "marker": "P202Praxis01",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis02",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis03",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis04",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis05",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis06",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis07",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis08",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis09",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis10",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis11",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis12",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis13",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis14",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis15",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis16",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis17",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis18",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        }
+      ],
+      "lo_entries": [
+        {
+          "marker": "P202Praxis01",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis02",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis03",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis04",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis05",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis06",
+          "start_page": 1,
+          "end_page": 2,
+          "complete": true,
+          "split": true
+        },
+        {
+          "marker": "P202Praxis07",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis08",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis09",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis10",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis11",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis12",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis13",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis14",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis15",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis16",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis17",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis18",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        }
+      ],
+      "body_heading": {
+        "app_origin_mm": [
+          70.973,
+          68.66
+        ],
+        "lo_origin_mm": [
+          71.032,
+          70.097
+        ],
+        "delta_mm": [
+          0.059,
+          1.437
+        ],
+        "max_allowed_mm": 2.0,
+        "status": "PASS"
+      },
+      "content_status": "PASS",
+      "layout_status": "FAIL",
+      "status": "FAIL"
+    },
+    {
+      "id": "cv-long-right--detach-all",
+      "source_case": "cv-long-right",
+      "operation": "detach-all",
+      "source_sha256": "4b4dd2aed4acf86d4ca5b33506328c19a033ca09bbecee4384e4f36360a93095",
+      "probe_sha256": "95f1fd8222fee84fd0ebd68d96a34bf0670f40c55cca4e14efbcadbd3fdd42ba",
+      "edits": [
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[0]/p[1]/pPr[0]/keepNext[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": "1",
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[1]/pPr[0]/keepNext[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": "1",
+          "after": "0"
+        }
+      ],
+      "other_package_parts_identical": true,
+      "semantic_text_identical": true,
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.454,
+        "max_rss_kib": 244060,
+        "cpu_seconds": 1.405,
+        "elapsed_seconds": 1.41,
+        "exit_code": 0
+      },
+      "page_count": 3,
+      "app_page_count": 3,
+      "producer": "LibreOffice 24.2",
+      "missing": [],
+      "marker_pages": {
+        "Lea Müller": [
+          1,
+          2,
+          3
+        ],
+        "Sekundarschule": [
+          1
+        ],
+        "P202Endreferenz": [
+          3
+        ],
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          2
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          3
+        ],
+        "P202Praxis16": [
+          3
+        ],
+        "P202Praxis17": [
+          3
+        ],
+        "P202Praxis18": [
+          3
+        ]
+      },
+      "photo": {
+        "status": "FAIL",
+        "bbox_delta_mm": [
+          19.844,
+          0.0,
+          1.059,
+          1.323
+        ],
+        "max_allowed_mm": 2.0,
+        "pattern_agreement": 1.0,
+        "min_pattern_agreement": 0.9
+      },
+      "lo_photo": {
+        "visible": true,
+        "pixels": 13121,
+        "bbox_mm": [
+          175.097,
+          52.101,
+          27.772,
+          34.646
+        ],
+        "grid": [
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "colors": {
+          "1": 1243,
+          "2": 8858,
+          "3": 1287,
+          "4": 1733
+        }
+      },
+      "app_photo": {
+        "visible": true,
+        "pixels": 12395,
+        "bbox_mm": [
+          155.253,
+          52.101,
+          26.713,
+          33.323
+        ],
+        "grid": [
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "colors": {
+          "1": 1217,
+          "2": 8314,
+          "3": 1215,
+          "4": 1649
+        }
+      },
+      "repeated_photo": false,
+      "marker_page_changes": {
+        "P202Praxis06": {
+          "app": [
+            1
+          ],
+          "lo": [
+            2
+          ]
+        },
+        "P202Praxis15": {
+          "app": [
+            2
+          ],
+          "lo": [
+            3
+          ]
+        }
+      },
+      "app_entries": [
+        {
+          "marker": "P202Praxis01",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis02",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis03",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis04",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis05",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis06",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis07",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis08",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis09",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis10",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis11",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis12",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis13",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis14",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis15",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis16",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis17",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis18",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        }
+      ],
+      "lo_entries": [
+        {
+          "marker": "P202Praxis01",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis02",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis03",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis04",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis05",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis06",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis07",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis08",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis09",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis10",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis11",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis12",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis13",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis14",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis15",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis16",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis17",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis18",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        }
+      ],
+      "body_heading": {
+        "app_origin_mm": [
+          19.989,
+          68.66
+        ],
+        "lo_origin_mm": [
+          20.038,
+          70.097
+        ],
+        "delta_mm": [
+          0.049,
+          1.437
+        ],
+        "max_allowed_mm": 2.0,
+        "status": "PASS"
+      },
+      "content_status": "PASS",
+      "layout_status": "FAIL",
+      "status": "FAIL"
+    },
+    {
+      "id": "cv-long-right--detach-main",
+      "source_case": "cv-long-right",
+      "operation": "detach-main",
+      "source_sha256": "4b4dd2aed4acf86d4ca5b33506328c19a033ca09bbecee4384e4f36360a93095",
+      "probe_sha256": "1d05b213d598daee20fb22ead9fa1675f185a046fac78e27b0e32146ab1218d9",
+      "edits": [
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[0]/p[1]/pPr[0]/keepNext[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": "1",
+          "after": "0"
+        }
+      ],
+      "other_package_parts_identical": true,
+      "semantic_text_identical": true,
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.405,
+        "max_rss_kib": 243788,
+        "cpu_seconds": 1.38,
+        "elapsed_seconds": 1.39,
+        "exit_code": 0
+      },
+      "page_count": 3,
+      "app_page_count": 3,
+      "producer": "LibreOffice 24.2",
+      "missing": [],
+      "marker_pages": {
+        "Lea Müller": [
+          1,
+          2,
+          3
+        ],
+        "Sekundarschule": [
+          1
+        ],
+        "P202Endreferenz": [
+          3
+        ],
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          2
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          3
+        ],
+        "P202Praxis16": [
+          3
+        ],
+        "P202Praxis17": [
+          3
+        ],
+        "P202Praxis18": [
+          3
+        ]
+      },
+      "photo": {
+        "status": "FAIL",
+        "bbox_delta_mm": [
+          19.844,
+          0.0,
+          1.059,
+          1.323
+        ],
+        "max_allowed_mm": 2.0,
+        "pattern_agreement": 1.0,
+        "min_pattern_agreement": 0.9
+      },
+      "lo_photo": {
+        "visible": true,
+        "pixels": 13121,
+        "bbox_mm": [
+          175.097,
+          52.101,
+          27.772,
+          34.646
+        ],
+        "grid": [
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "colors": {
+          "1": 1243,
+          "2": 8858,
+          "3": 1287,
+          "4": 1733
+        }
+      },
+      "app_photo": {
+        "visible": true,
+        "pixels": 12395,
+        "bbox_mm": [
+          155.253,
+          52.101,
+          26.713,
+          33.323
+        ],
+        "grid": [
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "colors": {
+          "1": 1217,
+          "2": 8314,
+          "3": 1215,
+          "4": 1649
+        }
+      },
+      "repeated_photo": false,
+      "marker_page_changes": {
+        "P202Praxis06": {
+          "app": [
+            1
+          ],
+          "lo": [
+            2
+          ]
+        },
+        "P202Praxis15": {
+          "app": [
+            2
+          ],
+          "lo": [
+            3
+          ]
+        }
+      },
+      "app_entries": [
+        {
+          "marker": "P202Praxis01",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis02",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis03",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis04",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis05",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis06",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis07",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis08",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis09",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis10",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis11",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis12",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis13",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis14",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis15",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis16",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis17",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis18",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        }
+      ],
+      "lo_entries": [
+        {
+          "marker": "P202Praxis01",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis02",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis03",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis04",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis05",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis06",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis07",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis08",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis09",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis10",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis11",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis12",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis13",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis14",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis15",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis16",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis17",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis18",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        }
+      ],
+      "body_heading": {
+        "app_origin_mm": [
+          19.989,
+          68.66
+        ],
+        "lo_origin_mm": [
+          20.038,
+          70.097
+        ],
+        "delta_mm": [
+          0.049,
+          1.437
+        ],
+        "max_allowed_mm": 2.0,
+        "status": "PASS"
+      },
+      "content_status": "PASS",
+      "layout_status": "FAIL",
+      "status": "FAIL"
+    },
+    {
+      "id": "cv-long-right--detach-sidebar",
+      "source_case": "cv-long-right",
+      "operation": "detach-sidebar",
+      "source_sha256": "4b4dd2aed4acf86d4ca5b33506328c19a033ca09bbecee4384e4f36360a93095",
+      "probe_sha256": "b7c111e12fd32360f15707d13bacd4e588cb6afe7ef276468d7699362ee30c41",
+      "edits": [
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[1]/pPr[0]/keepNext[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": "1",
+          "after": "0"
+        }
+      ],
+      "other_package_parts_identical": true,
+      "semantic_text_identical": true,
+      "resources": {
+        "returncode": 0,
+        "seconds": 11.781,
+        "max_rss_kib": 243700,
+        "cpu_seconds": 11.761,
+        "elapsed_seconds": 11.77,
+        "exit_code": 0
+      },
+      "page_count": 3,
+      "app_page_count": 3,
+      "producer": "LibreOffice 24.2",
+      "missing": [
+        "P202Endreferenz",
+        "P202Praxis16",
+        "P202Praxis17",
+        "P202Praxis18"
+      ],
+      "marker_pages": {
+        "Lea Müller": [
+          1,
+          2,
+          3
+        ],
+        "Sekundarschule": [
+          1
+        ],
+        "P202Endreferenz": [],
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          2
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          2
+        ],
+        "P202Praxis16": [],
+        "P202Praxis17": [],
+        "P202Praxis18": []
+      },
+      "photo": {
+        "status": "FAIL",
+        "bbox_delta_mm": [
+          19.844,
+          0.0,
+          1.059,
+          1.323
+        ],
+        "max_allowed_mm": 2.0,
+        "pattern_agreement": 1.0,
+        "min_pattern_agreement": 0.9
+      },
+      "lo_photo": {
+        "visible": true,
+        "pixels": 13121,
+        "bbox_mm": [
+          175.097,
+          52.101,
+          27.772,
+          34.646
+        ],
+        "grid": [
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "colors": {
+          "1": 1243,
+          "2": 8858,
+          "3": 1287,
+          "4": 1733
+        }
+      },
+      "app_photo": {
+        "visible": true,
+        "pixels": 12395,
+        "bbox_mm": [
+          155.253,
+          52.101,
+          26.713,
+          33.323
+        ],
+        "grid": [
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "colors": {
+          "1": 1217,
+          "2": 8314,
+          "3": 1215,
+          "4": 1649
+        }
+      },
+      "repeated_photo": false,
+      "marker_page_changes": {
+        "P202Endreferenz": {
+          "app": [
+            3
+          ],
+          "lo": []
+        },
+        "P202Praxis06": {
+          "app": [
+            1
+          ],
+          "lo": [
+            2
+          ]
+        },
+        "P202Praxis16": {
+          "app": [
+            3
+          ],
+          "lo": []
+        },
+        "P202Praxis17": {
+          "app": [
+            3
+          ],
+          "lo": []
+        },
+        "P202Praxis18": {
+          "app": [
+            3
+          ],
+          "lo": []
+        }
+      },
+      "app_entries": [
+        {
+          "marker": "P202Praxis01",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis02",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis03",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis04",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis05",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis06",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis07",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis08",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis09",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis10",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis11",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis12",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis13",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis14",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis15",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis16",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis17",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis18",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        }
+      ],
+      "lo_entries": [
+        {
+          "marker": "P202Praxis01",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis02",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis03",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis04",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis05",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis06",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis07",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis08",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis09",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis10",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis11",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis12",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis13",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis14",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis15",
+          "start_page": 2,
+          "end_page": null,
+          "complete": false,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis16",
+          "start_page": null,
+          "end_page": null,
+          "complete": false,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis17",
+          "start_page": null,
+          "end_page": null,
+          "complete": false,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis18",
+          "start_page": null,
+          "end_page": null,
+          "complete": false,
+          "split": false
+        }
+      ],
+      "body_heading": {
+        "app_origin_mm": [
+          19.989,
+          68.66
+        ],
+        "lo_origin_mm": [
+          20.038,
+          70.097
+        ],
+        "delta_mm": [
+          0.049,
+          1.437
+        ],
+        "max_allowed_mm": 2.0,
+        "status": "PASS"
+      },
+      "content_status": "FAIL",
+      "layout_status": "FAIL",
+      "status": "FAIL"
+    },
+    {
+      "id": "cv-long-right--allow-inner-row-split",
+      "source_case": "cv-long-right",
+      "operation": "allow-inner-row-split",
+      "source_sha256": "4b4dd2aed4acf86d4ca5b33506328c19a033ca09bbecee4384e4f36360a93095",
+      "probe_sha256": "f57100ef9795d7e807888f24058b26f15ff557831d71bc01f456f14a9ebf33c5",
+      "edits": [
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[0]/tbl[7]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[0]/tbl[7]/tr[2]/tc[1]/tbl[2]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[0]/tbl[9]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[0]/tbl[11]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[0]/tbl[11]/tr[2]/tc[1]/tbl[2]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[0]/tbl[13]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[0]/tbl[15]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[0]/tbl[17]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[0]/tbl[19]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[0]/tbl[21]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[0]/tbl[23]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[0]/tbl[25]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[0]/tbl[27]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[0]/tbl[29]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[0]/tbl[31]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[0]/tbl[33]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[0]/tbl[35]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[0]/tbl[37]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[0]/tbl[39]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[0]/tbl[41]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[0]/tbl[43]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        },
+        {
+          "path": "/body[0]/tbl[0]/tr[2]/tc[0]/tbl[45]/tr[2]/trPr[0]/cantSplit[0]",
+          "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}val",
+          "before": null,
+          "after": "0"
+        }
+      ],
+      "other_package_parts_identical": true,
+      "semantic_text_identical": true,
+      "resources": {
+        "returncode": 0,
+        "seconds": 3.008,
+        "max_rss_kib": 244380,
+        "cpu_seconds": 2.958,
+        "elapsed_seconds": 2.97,
+        "exit_code": 0
+      },
+      "page_count": 3,
+      "app_page_count": 3,
+      "producer": "LibreOffice 24.2",
+      "missing": [],
+      "marker_pages": {
+        "Lea Müller": [
+          1,
+          2,
+          3
+        ],
+        "Sekundarschule": [
+          1
+        ],
+        "P202Endreferenz": [
+          3
+        ],
+        "P202Praxis01": [
+          1
+        ],
+        "P202Praxis02": [
+          1
+        ],
+        "P202Praxis03": [
+          1
+        ],
+        "P202Praxis04": [
+          1
+        ],
+        "P202Praxis05": [
+          1
+        ],
+        "P202Praxis06": [
+          1
+        ],
+        "P202Praxis07": [
+          2
+        ],
+        "P202Praxis08": [
+          2
+        ],
+        "P202Praxis09": [
+          2
+        ],
+        "P202Praxis10": [
+          2
+        ],
+        "P202Praxis11": [
+          2
+        ],
+        "P202Praxis12": [
+          2
+        ],
+        "P202Praxis13": [
+          2
+        ],
+        "P202Praxis14": [
+          2
+        ],
+        "P202Praxis15": [
+          2
+        ],
+        "P202Praxis16": [
+          3
+        ],
+        "P202Praxis17": [
+          3
+        ],
+        "P202Praxis18": [
+          3
+        ]
+      },
+      "photo": {
+        "status": "FAIL",
+        "bbox_delta_mm": [
+          19.844,
+          0.0,
+          1.059,
+          1.323
+        ],
+        "max_allowed_mm": 2.0,
+        "pattern_agreement": 1.0,
+        "min_pattern_agreement": 0.9
+      },
+      "lo_photo": {
+        "visible": true,
+        "pixels": 13121,
+        "bbox_mm": [
+          175.097,
+          52.101,
+          27.772,
+          34.646
+        ],
+        "grid": [
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "colors": {
+          "1": 1243,
+          "2": 8858,
+          "3": 1287,
+          "4": 1733
+        }
+      },
+      "app_photo": {
+        "visible": true,
+        "pixels": 12395,
+        "bbox_mm": [
+          155.253,
+          52.101,
+          26.713,
+          33.323
+        ],
+        "grid": [
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          4,
+          4,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        "colors": {
+          "1": 1217,
+          "2": 8314,
+          "3": 1215,
+          "4": 1649
+        }
+      },
+      "repeated_photo": false,
+      "marker_page_changes": {},
+      "app_entries": [
+        {
+          "marker": "P202Praxis01",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis02",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis03",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis04",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis05",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis06",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis07",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis08",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis09",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis10",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis11",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis12",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis13",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis14",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis15",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis16",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis17",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis18",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        }
+      ],
+      "lo_entries": [
+        {
+          "marker": "P202Praxis01",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis02",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis03",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis04",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis05",
+          "start_page": 1,
+          "end_page": 1,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis06",
+          "start_page": 1,
+          "end_page": 2,
+          "complete": true,
+          "split": true
+        },
+        {
+          "marker": "P202Praxis07",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis08",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis09",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis10",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis11",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis12",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis13",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis14",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis15",
+          "start_page": 2,
+          "end_page": 2,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis16",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis17",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        },
+        {
+          "marker": "P202Praxis18",
+          "start_page": 3,
+          "end_page": 3,
+          "complete": true,
+          "split": false
+        }
+      ],
+      "body_heading": {
+        "app_origin_mm": [
+          19.989,
+          68.66
+        ],
+        "lo_origin_mm": [
+          20.038,
+          70.097
+        ],
+        "delta_mm": [
+          0.049,
+          1.437
+        ],
+        "max_allowed_mm": 2.0,
+        "status": "PASS"
+      },
+      "content_status": "PASS",
+      "layout_status": "FAIL",
+      "status": "FAIL"
+    }
+  ],
+  "execution_status": "PASS",
+  "baseline": [
+    {
+      "id": "cover",
+      "status": "PASS",
+      "missing": [],
+      "photo": null,
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.713,
+        "max_rss_kib": 218944,
+        "cpu_seconds": 0.944,
+        "elapsed_seconds": 1.68,
+        "exit_code": 0
+      }
+    },
+    {
+      "id": "cv-crop-left",
+      "status": "PASS",
+      "missing": [],
+      "photo": {
+        "status": "PASS",
+        "bbox_delta_mm": [
+          0.0,
+          0.0,
+          1.059,
+          1.058
+        ],
+        "max_allowed_mm": 2.0,
+        "pattern_agreement": 0.9844,
+        "min_pattern_agreement": 0.9,
+        "expected_side": "left"
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.154,
+        "max_rss_kib": 242600,
+        "cpu_seconds": 1.114,
+        "elapsed_seconds": 1.12,
+        "exit_code": 0
+      }
+    },
+    {
+      "id": "cv-crop-right",
+      "status": "FAIL",
+      "missing": [],
+      "photo": {
+        "status": "FAIL",
+        "bbox_delta_mm": [
+          19.844,
+          0.0,
+          1.059,
+          1.058
+        ],
+        "max_allowed_mm": 2.0,
+        "pattern_agreement": 0.9062,
+        "min_pattern_agreement": 0.9,
+        "expected_side": "right"
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.153,
+        "max_rss_kib": 244164,
+        "cpu_seconds": 1.111,
+        "elapsed_seconds": 1.12,
+        "exit_code": 0
+      }
+    },
+    {
+      "id": "cv-left",
+      "status": "PASS",
+      "missing": [],
+      "photo": {
+        "status": "PASS",
+        "bbox_delta_mm": [
+          0.0,
+          0.0,
+          1.059,
+          1.323
+        ],
+        "max_allowed_mm": 2.0,
+        "pattern_agreement": 1.0,
+        "min_pattern_agreement": 0.9,
+        "expected_side": "left"
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.154,
+        "max_rss_kib": 242768,
+        "cpu_seconds": 1.101,
+        "elapsed_seconds": 1.11,
+        "exit_code": 0
+      }
+    },
+    {
+      "id": "cv-long-left",
+      "status": "FAIL",
+      "missing": [
+        {
+          "marker": "P202Endreferenz",
+          "source_xml": true,
+          "app": [
+            3
+          ],
+          "lo": []
+        },
+        {
+          "marker": "P202Praxis16",
+          "source_xml": true,
+          "app": [
+            3
+          ],
+          "lo": []
+        },
+        {
+          "marker": "P202Praxis17",
+          "source_xml": true,
+          "app": [
+            3
+          ],
+          "lo": []
+        },
+        {
+          "marker": "P202Praxis18",
+          "source_xml": true,
+          "app": [
+            3
+          ],
+          "lo": []
+        }
+      ],
+      "photo": {
+        "status": "PASS",
+        "bbox_delta_mm": [
+          0.0,
+          0.0,
+          1.059,
+          1.323
+        ],
+        "max_allowed_mm": 2.0,
+        "pattern_agreement": 1.0,
+        "min_pattern_agreement": 0.9,
+        "expected_side": "left"
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 8.572,
+        "max_rss_kib": 243892,
+        "cpu_seconds": 8.506,
+        "elapsed_seconds": 8.52,
+        "exit_code": 0
+      }
+    },
+    {
+      "id": "cv-long-right",
+      "status": "FAIL",
+      "missing": [
+        {
+          "marker": "P202Endreferenz",
+          "source_xml": true,
+          "app": [
+            3
+          ],
+          "lo": []
+        },
+        {
+          "marker": "P202Praxis16",
+          "source_xml": true,
+          "app": [
+            3
+          ],
+          "lo": []
+        },
+        {
+          "marker": "P202Praxis17",
+          "source_xml": true,
+          "app": [
+            3
+          ],
+          "lo": []
+        },
+        {
+          "marker": "P202Praxis18",
+          "source_xml": true,
+          "app": [
+            3
+          ],
+          "lo": []
+        }
+      ],
+      "photo": {
+        "status": "FAIL",
+        "bbox_delta_mm": [
+          19.844,
+          0.0,
+          1.059,
+          1.323
+        ],
+        "max_allowed_mm": 2.0,
+        "pattern_agreement": 1.0,
+        "min_pattern_agreement": 0.9,
+        "expected_side": "right"
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 12.138,
+        "max_rss_kib": 243696,
+        "cpu_seconds": 12.077,
+        "elapsed_seconds": 12.09,
+        "exit_code": 0
+      }
+    },
+    {
+      "id": "cv-right",
+      "status": "FAIL",
+      "missing": [],
+      "photo": {
+        "status": "FAIL",
+        "bbox_delta_mm": [
+          19.844,
+          0.0,
+          1.059,
+          1.323
+        ],
+        "max_allowed_mm": 2.0,
+        "pattern_agreement": 1.0,
+        "min_pattern_agreement": 0.9,
+        "expected_side": "right"
+      },
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.153,
+        "max_rss_kib": 242728,
+        "cpu_seconds": 1.103,
+        "elapsed_seconds": 1.11,
+        "exit_code": 0
+      }
+    },
+    {
+      "id": "letter",
+      "status": "PASS",
+      "missing": [],
+      "photo": null,
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.053,
+        "max_rss_kib": 236712,
+        "cpu_seconds": 1.032,
+        "elapsed_seconds": 1.04,
+        "exit_code": 0
+      }
+    }
+  ],
+  "baseline_controls_pass": true,
+  "hypotheses": {
+    "photo_follows_section_left_margin": {
+      "status": "PASS",
+      "dose_error_mm": [
+        0.1,
+        0.05
+      ],
+      "max_error_mm": 0.5
+    },
+    "first_physical_cell_coupling_controls_tail": {
+      "status": "PASS"
+    }
+  },
+  "verification": {
+    "native_run_id": 41285285817,
+    "native_artifact_id": 13075155870,
+    "artifact_zip_sha256": "eaedf97b2d2b6e390a432f925da5a2ee083620fee88295a9db4028a02e7a4807",
+    "source_hashes_verified": 16,
+    "repeat_comparison": {
+      "first_run_id": 41284447354,
+      "first_artifact_zip_sha256": "ef5b0af5556acc927c465756e1696762205a2693586d55a9e381b23f3b5f3a83",
+      "decoded_pngs_identical": 81,
+      "case_measurements_identical": true
+    }
+  }
+}

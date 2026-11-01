@@ -1,5 +1,10 @@
 # P2-03 — isolated LibreOffice experiments
 
+Completed: two native cloud runs reproduce **4 PASS / 4 FAIL** for the original
+eight production exports. Controlled copies explain the margin response and
+first-cell dependency, but **all 12 candidates FAIL** the final combined gates.
+No product correction is accepted.
+
 Branch: `work/01nov-p2-03-lo-isolation`, base
 `d15eaf0ee8476d955f5d124920414a3bdeae92aa`.
 
@@ -73,11 +78,50 @@ titles on the same pages. Visual review reveals a different defect: entry 06's
 description splits across pages 1/2. The new entry-span gate detects it. Neither
 workaround is a faithful general replacement for the original table flow.
 
-## Validation pending closing repeat
+## Verified closing repeat
 
-10 mutation/baseline/layout controls and 9 semantic negative/control tests pass locally. The
-retained P2-02 artifact ZIP was hash-verified before preparing twelve test copies.
-Native conversion and final findings will be recorded after the Actions run.
+Implementation `60fd5c9e68b1dad9817ee1bf9b5ad94e1b3dc339`,
+[run 41285285817](https://github.com/modebrecht/cv-cover-charm/actions/runs/41285285817):
+
+- 10/10 mutation/baseline/layout controls and 9/9 semantic negative controls pass.
+- 9/9 real browser cases pass (52.1 s); gallery pilot passes (14.0 s).
+- All 8 original and 12 copy conversions complete. The original result remains
+  4 PASS / 4 FAIL; all 12 copies FAIL the combined candidate gates as expected.
+- Both explicit experiment hypotheses pass; margin dose errors are 0.100/0.050 mm.
+- 16/16 source hashes and all source/implementation SHAs verified after download.
+- Every case measurement, missing-marker set, entry span, heading origin and
+  photo signature repeats. **81/81 decoded PNGs are pixel-identical** between runs.
+- Native artifact `13075155870`, ZIP SHA256
+  `eaedf97b2d2b6e390a432f925da5a2ee083620fee88295a9db4028a02e7a4807`.
+
+The first ZIP was also verified before its final auditor replay. That replay
+retains the original converter measurements; it does not claim a new conversion.
+The closing native run executes the stricter auditor directly from its tested SHA.
+Local TypeScript, YAML/embedded-shell and whitespace checks pass; 4/4 existing
+converter-contract controls pass. No extra product tests are inferred from those.
+
+| Original production case | LO result | Observed failure |
+|---|---|---|
+| cover | PASS | none in existing gates |
+| letter | PASS | none in existing gates |
+| cv-left | PASS | none in existing gates |
+| cv-crop-left | PASS | none in existing gates |
+| cv-right | FAIL | photo +19.844 mm horizontally |
+| cv-crop-right | FAIL | photo +19.844 mm horizontally |
+| cv-long-left | FAIL | 3 station markers + final reference absent |
+| cv-long-right | FAIL | missing tail plus photo shift |
+
+PASS in this table describes the unchanged P2-02 gates, not universal Word or
+pixel fidelity. Source XML and App PDFs contain the missing long-CV tail.
+
+Durable evidence: [full machine results](p2-03-lo-isolation-results.json),
+[zero-margin copy: corrected photo / displaced body](p2-03-margin-photo-body.jpg),
+[row-split copy: recovered tail / split entry](p2-03-long-split-entry.jpg).
+Comparison images show App on the left, the diagnostic LO copy on the right.
+The runner regenerates these synthetic inputs through the real browser menus;
+its opt-in is `lo_isolation` in the existing visual parity workflow. Audit-only
+replay uses the retained source and isolation directories with
+`scripts/dossier_lo_isolation.py --source-dir SOURCE --out-dir ISOLATION --audit-only`.
 
 ## Research scope
 
@@ -88,3 +132,47 @@ rejects the crop bypass and does not provide a released engine fix. Those tests
 concern picture ownership/crop/save behavior; they do not establish a fix for
 these current production page anchors or long-story rendering. No research
 picture variant, binary patch or existing Word acceptance is promoted here.
+
+## Decision and next boundary
+
+Keep LibreOffice as the existing, bounded comparator, with its observed defects
+visible. Do not apply margin compensation, detach-all or cantSplit suppression
+to normal exports or silently to the CI baseline. None of these copies passes
+all measured content/photo/body-position/page-flow requirements.
+
+The initial converter decision is unchanged: ONLYOFFICE 10 executed the three
+P2-01 documents repeatably, but all three visible PDFs failed because of the
+unregistered-version watermark. It remains an opt-in experiment, not a clean
+reference or a reason to replace LO. See [P2-01](p2-01-onlyoffice.md).
+
+P2-04 should use these bound cloud regressions to reduce the page-anchor and
+first-cell/nested-row interactions before proposing an importer or renderer
+change. The minimum acceptance needs full tail text, unsplit entries on the App
+pages, body origins and correct photo position/crop together. A package-only
+pass, page-count-only pass or one corrected photograph is insufficient.
+This handoff introduces no Windows/Word step and does not rebuild a custom engine.
+
+The 39-template catalog check remains availability only: one Modern profile is
+eligible and 38 templates are blocked in that snapshot. No x39 visual acceptance
+or full browser/gallery source-matrix run is claimed here.
+
+## CI resource scope
+
+Each measured P2-03 run performs 20 LO conversions / 40 converted pages, plus
+the eight real App/DOCX downloads and gallery pilot. No additional workflow,
+ONLYOFFICE installation, service or paid endpoint. Cold workflow durations: **6 min 04 s / 4 min 21 s**;
+peak measured LO child RSS **238.56 / 238.65 MiB** (LibreOffice 24.2 PDFs). This is not a whole-runner memory figure.
+Across these runs, short copies take 1.15–1.51 s; pathological long originals/
+countercontrols roughly 8–24 s; effective detach copies 1.4–2.0 s, row-split
+copies 3.0–5.7 s.
+Each conversion has a 90 s timeout and isolated profile; the existing job is
+bounded to 20 minutes. These two runs are observations, not a capacity guarantee.
+
+## Protected scope
+
+No `src`, normal product export, dependency manifest or lockfile changes in P2-03.
+The work branch is separate. Closing protected refs match the task's originals:
+
+- `dev`: `c8e0a4e306e2e519d2b9392b43fb9759fb8c5078`
+- `render`: `1fe6dbe59184a759d97f9c393353a8a3d9e1f89a`
+- `main`: `44d7eb950b4fe972d6e890a72b6d3256ce365bc9`
