@@ -1,0 +1,32 @@
+{
+  "implementation_sha": "e79480aed22c6e5d3b8fd33bd47b29fa3b867841",
+  "source_export_sha": "42bab2e13572145b201d1e9deabfa3baa8dab426",
+  "run_id": 41425693219,
+  "job_id": 125211631873,
+  "artifact_id": 13132955267,
+  "archive_sha256": "5e2675aa63bda5040e379429bf54b3c110fc7494cc2fa8afd003552affa0e7be",
+  "raw_report_sha256": "2ac502e50ad0109cf4ec54e3cedddf039e2f20311dd0ef9d372c227f816a066a",
+  "audit_all_case_records_identical": true,
+  "audit_native_conversions": 0,
+  "unit_tests_passed": 151,
+  "native_conversions": 12,
+  "native_pdf_pages": 48,
+  "summed_conversion_seconds": 19.756,
+  "peak_converter_rss_kib": 245688,
+  "trial_pass": 5,
+  "content_pass": 12,
+  "page_edge_pass": 12,
+  "baseline_reproductions": 4,
+  "retained_files": [
+    {
+      "path": "varied-left-detached-frame-lo.pdf",
+      "sha256": "9c2b33032448ea481f9875e7c4bdf7c343d9d45a640a3b39e0686792fff65dea",
+      "bytes": 142500
+    },
+    {
+      "path": "varied-left-detached-frame.docx",
+      "sha256": "09cc7a65c666519bc53ee09710e93481b7309f73b33f3837d80d146ea692122e",
+      "bytes": 240835
+    }
+  ]
+}
