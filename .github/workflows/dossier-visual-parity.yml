@@ -50,7 +50,7 @@ on:
       fixture_probe:
         description: Select an additional persisted-fixture diagnostic matrix
         type: choice
-        options: [none, flow-context, outer-factors, heading-subsets, reference-anchor, reference-placement, lo-version, layout-rows, row-generalization, entry-rows, photo-frame, unified-rows, photo-crops, detached-main, body-flow, row-metrics, boundary-check]
+        options: [none, flow-context, outer-factors, heading-subsets, reference-anchor, reference-placement, lo-version, layout-rows, row-generalization, entry-rows, photo-frame, unified-rows, photo-crops, detached-main, body-flow, row-metrics, boundary-check, candidate-crops]
         default: none
   push:
     branches:
@@ -80,6 +80,7 @@ on:
       - work/02nov-p2-23-body-flow
       - work/02nov-p2-24-row-metrics
       - work/02nov-p2-25-boundary-check
+      - work/02nov-p2-26-final-crops
 
 permissions:
   contents: read
@@ -90,7 +91,7 @@ concurrency:
 
 jobs:
   source-batch:
-    if: github.ref != 'refs/heads/work/01nov-p2-01-onlyoffice' && github.ref != 'refs/heads/work/01nov-p2-02-semantic-parity' && github.ref != 'refs/heads/work/01nov-p2-03-lo-isolation' && github.ref != 'refs/heads/work/01nov-p2-04-minimal-repro' && !inputs.converter_poc && !inputs.semantic_parity && !inputs.lo_isolation && !inputs.minimal_repro && github.ref != 'refs/heads/work/01nov-p2-05-compat-mode' && !inputs.compat_mode && github.ref != 'refs/heads/work/01nov-p2-06-preamble-flow' && !inputs.preamble_flow && github.ref != 'refs/heads/work/01nov-p2-07-spacing-subset' && !inputs.spacing_subset && github.ref != 'refs/heads/work/01nov-p2-08-production-spacing' && !inputs.production_spacing && github.ref != 'refs/heads/work/01nov-p2-09-flow-boundaries' && !inputs.boundary_spacing && github.ref != 'refs/heads/work/01nov-p2-10-flow-context' && inputs.fixture_probe != 'flow-context' && github.ref != 'refs/heads/work/01nov-p2-11-outer-factors' && inputs.fixture_probe != 'outer-factors' && github.ref != 'refs/heads/work/01nov-p2-12-heading-subsets' && inputs.fixture_probe != 'heading-subsets' && github.ref != 'refs/heads/work/01nov-p2-13-reference-anchor' && inputs.fixture_probe != 'reference-anchor' && github.ref != 'refs/heads/work/01nov-p2-14-reference-placement' && inputs.fixture_probe != 'reference-placement' && github.ref != 'refs/heads/work/01nov-p2-15-libreoffice-version' && inputs.fixture_probe != 'lo-version' && github.ref != 'refs/heads/work/02nov-p2-16-layout-rows' && inputs.fixture_probe != 'layout-rows' && github.ref != 'refs/heads/work/02nov-p2-17-row-generalization' && inputs.fixture_probe != 'row-generalization' && github.ref != 'refs/heads/work/02nov-p2-18-entry-rows' && inputs.fixture_probe != 'entry-rows' && github.ref != 'refs/heads/work/02nov-p2-19-photo-frame' && inputs.fixture_probe != 'photo-frame' && github.ref != 'refs/heads/work/02nov-p2-20-unified-rows' && inputs.fixture_probe != 'unified-rows' && github.ref != 'refs/heads/work/02nov-p2-21-photo-crops' && inputs.fixture_probe != 'photo-crops' && github.ref != 'refs/heads/work/02nov-p2-22-detached-main' && inputs.fixture_probe != 'detached-main' && github.ref != 'refs/heads/work/02nov-p2-23-body-flow' && inputs.fixture_probe != 'body-flow' && github.ref != 'refs/heads/work/02nov-p2-24-row-metrics' && inputs.fixture_probe != 'row-metrics' && github.ref != 'refs/heads/work/02nov-p2-25-boundary-check' && inputs.fixture_probe != 'boundary-check'
+    if: github.ref != 'refs/heads/work/01nov-p2-01-onlyoffice' && github.ref != 'refs/heads/work/01nov-p2-02-semantic-parity' && github.ref != 'refs/heads/work/01nov-p2-03-lo-isolation' && github.ref != 'refs/heads/work/01nov-p2-04-minimal-repro' && !inputs.converter_poc && !inputs.semantic_parity && !inputs.lo_isolation && !inputs.minimal_repro && github.ref != 'refs/heads/work/01nov-p2-05-compat-mode' && !inputs.compat_mode && github.ref != 'refs/heads/work/01nov-p2-06-preamble-flow' && !inputs.preamble_flow && github.ref != 'refs/heads/work/01nov-p2-07-spacing-subset' && !inputs.spacing_subset && github.ref != 'refs/heads/work/01nov-p2-08-production-spacing' && !inputs.production_spacing && github.ref != 'refs/heads/work/01nov-p2-09-flow-boundaries' && !inputs.boundary_spacing && github.ref != 'refs/heads/work/01nov-p2-10-flow-context' && inputs.fixture_probe != 'flow-context' && github.ref != 'refs/heads/work/01nov-p2-11-outer-factors' && inputs.fixture_probe != 'outer-factors' && github.ref != 'refs/heads/work/01nov-p2-12-heading-subsets' && inputs.fixture_probe != 'heading-subsets' && github.ref != 'refs/heads/work/01nov-p2-13-reference-anchor' && inputs.fixture_probe != 'reference-anchor' && github.ref != 'refs/heads/work/01nov-p2-14-reference-placement' && inputs.fixture_probe != 'reference-placement' && github.ref != 'refs/heads/work/01nov-p2-15-libreoffice-version' && inputs.fixture_probe != 'lo-version' && github.ref != 'refs/heads/work/02nov-p2-16-layout-rows' && inputs.fixture_probe != 'layout-rows' && github.ref != 'refs/heads/work/02nov-p2-17-row-generalization' && inputs.fixture_probe != 'row-generalization' && github.ref != 'refs/heads/work/02nov-p2-18-entry-rows' && inputs.fixture_probe != 'entry-rows' && github.ref != 'refs/heads/work/02nov-p2-19-photo-frame' && inputs.fixture_probe != 'photo-frame' && github.ref != 'refs/heads/work/02nov-p2-20-unified-rows' && inputs.fixture_probe != 'unified-rows' && github.ref != 'refs/heads/work/02nov-p2-21-photo-crops' && inputs.fixture_probe != 'photo-crops' && github.ref != 'refs/heads/work/02nov-p2-22-detached-main' && inputs.fixture_probe != 'detached-main' && github.ref != 'refs/heads/work/02nov-p2-23-body-flow' && inputs.fixture_probe != 'body-flow' && github.ref != 'refs/heads/work/02nov-p2-24-row-metrics' && inputs.fixture_probe != 'row-metrics' && github.ref != 'refs/heads/work/02nov-p2-25-boundary-check' && inputs.fixture_probe != 'boundary-check' && github.ref != 'refs/heads/work/02nov-p2-26-final-crops' && inputs.fixture_probe != 'candidate-crops'
     name: Visual parity source batch ${{ matrix.batch }}
     runs-on: ubuntu-24.04
     timeout-minutes: 25
@@ -322,6 +323,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     env:
+      P226_ENABLED: ${{ github.ref == 'refs/heads/work/02nov-p2-26-final-crops' || inputs.fixture_probe == 'candidate-crops' }}
       P221_ENABLED: ${{ github.ref == 'refs/heads/work/02nov-p2-21-photo-crops' || inputs.fixture_probe == 'photo-crops' }}
       P217_ENABLED: ${{ github.ref == 'refs/heads/work/02nov-p2-17-row-generalization' || inputs.fixture_probe == 'row-generalization' }}
       P208_ENABLED: ${{ github.ref == 'refs/heads/work/01nov-p2-08-production-spacing' || inputs.production_spacing }}
@@ -352,6 +354,7 @@ jobs:
           .parity-venv/bin/python scripts/dossier_photo_frame_test.py
           .parity-venv/bin/python scripts/dossier_unified_rows_test.py
           .parity-venv/bin/python scripts/dossier_photo_crops_test.py
+          .parity-venv/bin/python scripts/dossier_candidate_crops_test.py
       - name: Export selected production cases through real download menus
         shell: bash
         run: |
@@ -363,7 +366,9 @@ jobs:
             curl --fail --silent http://127.0.0.1:4173/ > /dev/null && break
             sleep 1
           done
-          if [ "$P221_ENABLED" = true ]; then
+          if [ "$P226_ENABLED" = true ]; then
+            PHOTO_CROP_CHECK=true CANDIDATE_CROPS=true npx playwright test tests/e2e/dossier-semantic-parity.spec.ts --workers=1 --reporter=line
+          elif [ "$P221_ENABLED" = true ]; then
             PHOTO_CROP_CHECK=true npx playwright test tests/e2e/dossier-semantic-parity.spec.ts --workers=1 --reporter=line
           elif [ "$P217_ENABLED" = true ]; then
             ROW_GENERALIZATION=true npx playwright test tests/e2e/dossier-semantic-parity.spec.ts --workers=1 --reporter=line
@@ -380,7 +385,9 @@ jobs:
           P204_ENABLED: ${{ github.ref == 'refs/heads/work/01nov-p2-04-minimal-repro' || inputs.minimal_repro }}
         run: |
           if [ -f artifacts/semantic-parity/source/CATALOG.json ]; then
-            if [ "$P221_ENABLED" = true ]; then
+            if [ "$P226_ENABLED" = true ]; then
+              .parity-venv/bin/python scripts/dossier_candidate_crops.py --out-dir artifacts/semantic-parity/candidate-crops
+            elif [ "$P221_ENABLED" = true ]; then
               .parity-venv/bin/python scripts/dossier_photo_crops.py --out-dir artifacts/semantic-parity/photo-crops
             elif [ "$P217_ENABLED" = true ]; then
               .parity-venv/bin/python scripts/dossier_row_generalization.py \
@@ -410,6 +417,9 @@ jobs:
       - name: Publish semantic summary
         if: always()
         run: |
+          if [ -f artifacts/semantic-parity/candidate-crops/SUMMARY.md ]; then
+            cat artifacts/semantic-parity/candidate-crops/SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+          fi
           if [ -f artifacts/semantic-parity/photo-crops/SUMMARY.md ]; then
             cat artifacts/semantic-parity/photo-crops/SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
           fi

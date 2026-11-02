@@ -19,11 +19,16 @@ const baselineCases = [
 ] as const;
 
 // QA-only variant matrix. These are genuine UI downloads, never preprocessed sources.
+const candidateCrops = process.env.CANDIDATE_CROPS === "true";
 const cases = process.env.PHOTO_CROP_CHECK === "true"
   ? [false, true].map((mirrored) => ({
       id: `cv-crop-${mirrored ? "right" : "left"}`, part: "cv" as const,
-      mirrored, long: true, zoom: mirrored ? 2.2 : 1.8,
-      x: mirrored ? 75 : 20, y: mirrored ? 30 : 80, entryCount: 18,
+      mirrored, long: true,
+      zoom: candidateCrops ? (mirrored ? 2.0 : 1.6) : (mirrored ? 2.2 : 1.8),
+      x: candidateCrops ? (mirrored ? 65 : 30) : (mirrored ? 75 : 20),
+      y: candidateCrops ? (mirrored ? 35 : 70) : (mirrored ? 30 : 80),
+      entryCount: 18,
+      ...(candidateCrops ? { cropTrial: "p2-26-candidate" } : {}),
     }))
   : process.env.ROW_GENERALIZATION === "true"
   ? [

@@ -12,7 +12,7 @@ Modern-Lebensläufe. Das ist keine Produkt- oder 39-Vorlagen-Freigabe.
 | 2. ONLYOFFICE-Entscheidung und Alternative | FERTIG | Wasserzeichen: FAIL; LibreOffice behalten |
 | 3. Gemeinsamer CV-Kandidat | FERTIG | P2-24: 4/4 Kandidaten PASS |
 | 4. Benachbarte Umbrüche 17/19, links/rechts | FERTIG | P2-25: 8/8 Kandidaten PASS, 167 Tests |
-| 5. Neue Fotoausschnitte auf diesem Kandidaten | OFFEN | geplanter zweiter CI-Lauf |
+| 5. Neue Fotoausschnitte auf diesem Kandidaten | IN ARBEIT | P2-26: zwei frische UI-Exporte, vier native Konvertierungen geplant |
 | 6. Abschlussentscheidung und Übergabe | OFFEN | Rohdaten, Integrität, Grenzen, Empfehlung |
 
 **4 von 6 Prüfpaketen abgeschlossen.** Das ist eine Paketanzahl, keine nach
