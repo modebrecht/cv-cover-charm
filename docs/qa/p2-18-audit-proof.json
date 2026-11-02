@@ -1,0 +1,29 @@
+{
+  "implementation_sha": "744381e4e695b9eb56668861426fe977ea9de005",
+  "source_export_sha": "42bab2e13572145b201d1e9deabfa3baa8dab426",
+  "run_id": 41406026494,
+  "job_id": 125148124214,
+  "artifact_id": 13123153616,
+  "archive_sha256": "a142ea55c9b9469ae1e615346c104ac9b797ca879b9fcec10528129d56f1fbb4",
+  "raw_report_sha256": "35576f8737db1a66af9ba37b38dbf54dab094b6dd9cc753ba849fff5c6e48f41",
+  "audit_all_case_records_identical": true,
+  "audit_native_conversions": 0,
+  "unit_tests_passed": 132,
+  "native_conversions": 12,
+  "native_pdf_pages": 46,
+  "summed_conversion_seconds": 21.509,
+  "peak_converter_rss_kib": 245492,
+  "baseline_p217_reproductions": 4,
+  "retained_files": [
+    {
+      "path": "varied-left-entry-rows-nosplit-lo.pdf",
+      "sha256": "4332c4c4147002cd2af28de236c3f092e56aa9471d3180845a8b58f0a554332e",
+      "bytes": 149978
+    },
+    {
+      "path": "varied-left-entry-rows-nosplit.docx",
+      "sha256": "6f7484a2dcd4a723c5a1dbb6279fd152f6347fc8f8dd6f76e206c4aa3d4eb8da",
+      "bytes": 248731
+    }
+  ]
+}
