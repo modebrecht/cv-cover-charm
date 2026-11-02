@@ -508,6 +508,7 @@ jobs:
           bun install --frozen-lockfile
           python -m pip install PyMuPDF==1.26.4 Pillow==11.3.0 pypdf==6.10.0
           python scripts/docx-next-picture-identity-test.py
+          python scripts/docx-next-picture-history-test.py
           python scripts/docx-next-pdf-picture-test.py
           python scripts/docx-next-native-photo-test.py
           python scripts/docx-next-crop-precision-test.py
@@ -524,29 +525,30 @@ jobs:
       - name: Set up verified stable engine with bounded cold download
         timeout-minutes: 12
         run: python scripts/docx-next-stable-sidebar-setup.py "$QA_ROOT/setup" --assets /tmp/docx-next-stable-assets
-      - name: Generate guarded minimal picture ownership controls
+      - name: Generate and pin current renderer controls; restore immutable historical inputs
         run: |
-          mkdir -p "$QA_ROOT/fixtures"
-          python scripts/docx-next-fixture-images.py "$QA_ROOT/fixtures/images.json"
-          bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/fixtures"
-          mkdir -p "$QA_ROOT/frames"
-          python scripts/docx-next-fixture-images.py "$QA_ROOT/frames/images.json"
-          bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/frames" --frames
-          mkdir -p "$QA_ROOT/precision"
-          python scripts/docx-next-fixture-images.py "$QA_ROOT/precision/images.json"
-          bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/precision" --precision-controls
-          mkdir -p "$QA_ROOT/windows"
-          python scripts/docx-next-fixture-images.py "$QA_ROOT/windows/images.json"
-          bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/windows" --window-controls
-          mkdir -p "$QA_ROOT/sizes"
-          python scripts/docx-next-fixture-images.py "$QA_ROOT/sizes/images.json" --picture-sizes
-          bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/sizes" --size-controls
-          mkdir -p "$QA_ROOT/sized-rectangles"
-          python scripts/docx-next-fixture-images.py "$QA_ROOT/sized-rectangles/images.json" --picture-sizes
-          bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/sized-rectangles" --sized-rectangle-controls
-          mkdir -p "$QA_ROOT/sized-shapes"
-          python scripts/docx-next-fixture-images.py "$QA_ROOT/sized-shapes/images.json" --picture-sizes
-          bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/sized-shapes" --sized-shape-controls
+          mkdir -p "$QA_ROOT/current/fixtures"
+          python scripts/docx-next-fixture-images.py "$QA_ROOT/current/fixtures/images.json"
+          bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/current/fixtures"
+          mkdir -p "$QA_ROOT/current/frames"
+          python scripts/docx-next-fixture-images.py "$QA_ROOT/current/frames/images.json"
+          bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/current/frames" --frames
+          mkdir -p "$QA_ROOT/current/precision"
+          python scripts/docx-next-fixture-images.py "$QA_ROOT/current/precision/images.json"
+          bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/current/precision" --precision-controls
+          mkdir -p "$QA_ROOT/current/windows"
+          python scripts/docx-next-fixture-images.py "$QA_ROOT/current/windows/images.json"
+          bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/current/windows" --window-controls
+          mkdir -p "$QA_ROOT/current/sizes"
+          python scripts/docx-next-fixture-images.py "$QA_ROOT/current/sizes/images.json" --picture-sizes
+          bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/current/sizes" --size-controls
+          mkdir -p "$QA_ROOT/current/sized-rectangles"
+          python scripts/docx-next-fixture-images.py "$QA_ROOT/current/sized-rectangles/images.json" --picture-sizes
+          bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/current/sized-rectangles" --sized-rectangle-controls
+          mkdir -p "$QA_ROOT/current/sized-shapes"
+          python scripts/docx-next-fixture-images.py "$QA_ROOT/current/sized-shapes/images.json" --picture-sizes
+          bun scripts/docx-next-picture-identity-probe.ts "$QA_ROOT/current/sized-shapes" --sized-shape-controls
+          python scripts/docx-next-picture-history-replay.py "$QA_ROOT"
       - name: Observe stable field identity, complete text, geometry and save/reopen
         timeout-minutes: 3
         run: |
@@ -566,6 +568,12 @@ jobs:
           python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/sized-shapes" --sized-shape-controls --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --replay --baseline docs/docx-next/sidebar-sized-shape-evidence.json
           python scripts/docx-next-crop-precision-qa.py "$QA_ROOT/sized-shapes" --baseline docs/docx-next/sidebar-sized-shape-evidence.json --baseline-section precision
           python scripts/docx-next-pixel-subset-qa.py "$QA_ROOT/sized-shapes" --baseline docs/docx-next/sidebar-pixel-subset-evidence.json --baseline-section sized
+      - name: Measure current typed-picture controls independently of October evidence
+        timeout-minutes: 3
+        run: |
+          python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/current/fixtures" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --replay
+          python scripts/docx-next-native-photo-qa.py "$QA_ROOT/current/fixtures"
+          python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/current/frames" --frames --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --replay
       - name: Retain actual picture identity evidence including stopped cases
         if: always()
         uses: actions/upload-artifact@v4
@@ -573,6 +581,8 @@ jobs:
           name: docx-next-picture-identity-${{ github.sha }}
           retention-days: 30
           path: |
+            ${{ env.QA_ROOT }}/current/
+            ${{ env.QA_ROOT }}/historical-source-provenance.json
             ${{ env.QA_ROOT }}/setup/runtime/runtime-record.json
             ${{ env.QA_ROOT }}/fixtures/
             ${{ env.QA_ROOT }}/frames/

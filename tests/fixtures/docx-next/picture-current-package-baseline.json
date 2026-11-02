@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "38b2ad7edc66c300f75daa3e35c559dfeaf5c9e0",
+  "scope": "Current typed-picture serializer package regression; original browser-normalized October PNGs; native results are measured separately and do not imply Word acceptance.",
+  "matrices": {
+    "fixtures": [
+      {
+        "name": "picture-identity-body-plain",
+        "docxSha256": "fca6357e5ab5073707d803e78d6efc1ccfb0543d30d64f7f86e9b7ec32c9b206",
+        "normalizedSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42"
+      },
+      {
+        "name": "picture-identity-body-photo",
+        "docxSha256": "dc641904f7ea5e77ddad10d8a4eefeb1542dd5fabbc7cba7d741c0e7f9401db8",
+        "normalizedSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42"
+      },
+      {
+        "name": "picture-identity-single-plain",
+        "docxSha256": "79561ad7c17cf6368ee9f863f9ac8ce9434912ef4ab0733692639dd0ea358a78",
+        "normalizedSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42"
+      },
+      {
+        "name": "picture-identity-single-photo",
+        "docxSha256": "b3b3ea0887f2e3d859b79fba35e70dc03576208f66b81d66a0d81686966006a8",
+        "normalizedSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42"
+      },
+      {
+        "name": "picture-identity-left-plain",
+        "docxSha256": "c7686a832853ee3f39da64881789e5cdc215e33f8df5e59ddb879db2a1522df9",
+        "normalizedSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42"
+      },
+      {
+        "name": "picture-identity-left-photo",
+        "docxSha256": "ebaad52da8d4e10e7da511368a6fbd790c55bfc75c364d82fbba126ba3a27a55",
+        "normalizedSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42"
+      },
+      {
+        "name": "picture-identity-right-plain",
+        "docxSha256": "f15d981cf51833097e6f913119062e7775f0491c3fa752c812f18223ae1b7003",
+        "normalizedSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42"
+      },
+      {
+        "name": "picture-identity-right-photo",
+        "docxSha256": "680e792c41f8cfc9ba71a858f642be426fb96db2b7776b1ebd11c1b99ea61571",
+        "normalizedSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42"
+      }
+    ],
+    "frames": [
+      {
+        "name": "picture-frame-uncropped-rect",
+        "docxSha256": "61444b4077529c8eff3ec14013f744c63066995947ec51f3613551e3dc821032",
+        "normalizedSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42"
+      },
+      {
+        "name": "picture-frame-uncropped-ellipse",
+        "docxSha256": "b91cdb9c54af7e361f41714e0c9dd14da69564ef9fa36007174bb070da4ba713",
+        "normalizedSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42"
+      },
+      {
+        "name": "picture-frame-cropped-rect",
+        "docxSha256": "b537d238453fcafe002bbb3b29df32ca015220827b929dc511d2c16b50e31043",
+        "normalizedSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42"
+      },
+      {
+        "name": "picture-frame-cropped-ellipse",
+        "docxSha256": "dc641904f7ea5e77ddad10d8a4eefeb1542dd5fabbc7cba7d741c0e7f9401db8",
+        "normalizedSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42"
+      }
+    ],
+    "precision": [
+      {
+        "name": "picture-frame-uncropped-rect",
+        "docxSha256": "61444b4077529c8eff3ec14013f744c63066995947ec51f3613551e3dc821032",
+        "normalizedSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42"
+      },
+      {
+        "name": "picture-precision-declared-crop-rect",
+        "docxSha256": "f0a26d5c1b3ad26db4ab1877c1cf43260559b417495331adcd8e0d86bfba74aa",
+        "normalizedSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42"
+      }
+    ],
+    "windows": [
+      {
+        "name": "picture-precision-declared-crop-rect",
+        "docxSha256": "f0a26d5c1b3ad26db4ab1877c1cf43260559b417495331adcd8e0d86bfba74aa",
+        "normalizedSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42"
+      },
+      {
+        "name": "picture-window-right-lower",
+        "docxSha256": "2a9a4fcaf6441af46d62efa44ee23a0e852e77dd5b99cfb9474734a571286cab",
+        "normalizedSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42"
+      },
+      {
+        "name": "picture-window-left-upper",
+        "docxSha256": "10a7d79faa845a114b86947b4339a23ee502be7e2ab9511b6c79c3c4b1f0b698",
+        "normalizedSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42"
+      },
+      {
+        "name": "picture-window-increased-zoom",
+        "docxSha256": "384bffca7e1b7709e8a020cad3346b3cd3e3da43440c35e6ea32995a6f88f5a7",
+        "normalizedSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42"
+      }
+    ],
+    "sizes": [
+      {
+        "name": "picture-precision-declared-crop-rect",
+        "docxSha256": "f0a26d5c1b3ad26db4ab1877c1cf43260559b417495331adcd8e0d86bfba74aa",
+        "normalizedSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42"
+      },
+      {
+        "name": "picture-size-240x360",
+        "docxSha256": "011bff5edc03341bec129ce0bc79f39b58b8b585166fabe861f2dcacfe8f5209",
+        "normalizedSha256": "7c1597350e5fb018da6d28e074fb9216bab42f647fdcd6482ea8309058ece4a4"
+      },
+      {
+        "name": "picture-size-600x900",
+        "docxSha256": "3998b988bbb19209ba0620df169c76e5c435b99b134b9c08729fed82a8cd43fe",
+        "normalizedSha256": "9a91925cd107b08841bf8df2bb5c8c6543eeb1324295b35d516f32a461873827"
+      }
+    ],
+    "sized-rectangles": [
+      {
+        "name": "picture-precision-declared-crop-rect",
+        "docxSha256": "f0a26d5c1b3ad26db4ab1877c1cf43260559b417495331adcd8e0d86bfba74aa",
+        "normalizedSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42"
+      },
+      {
+        "name": "picture-sized-240x360-declared-rect",
+        "docxSha256": "6bccbfc2f14b6d5c4f6c71f6bf095896f1141455e53e0ae62d7e5336ecd04779",
+        "normalizedSha256": "7c1597350e5fb018da6d28e074fb9216bab42f647fdcd6482ea8309058ece4a4"
+      }
+    ],
+    "sized-shapes": [
+      {
+        "name": "picture-precision-declared-crop-rect",
+        "docxSha256": "f0a26d5c1b3ad26db4ab1877c1cf43260559b417495331adcd8e0d86bfba74aa",
+        "normalizedSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42"
+      },
+      {
+        "name": "picture-sized-240x360-declared-rect",
+        "docxSha256": "6bccbfc2f14b6d5c4f6c71f6bf095896f1141455e53e0ae62d7e5336ecd04779",
+        "normalizedSha256": "7c1597350e5fb018da6d28e074fb9216bab42f647fdcd6482ea8309058ece4a4"
+      },
+      {
+        "name": "picture-sized-240x360-declared-ellipse",
+        "docxSha256": "77926c1abfd7f8bf3a963498ff49f5d77069603f162d9a429364c1aebe0a10e1",
+        "normalizedSha256": "7c1597350e5fb018da6d28e074fb9216bab42f647fdcd6482ea8309058ece4a4"
+      }
+    ]
+  }
+}

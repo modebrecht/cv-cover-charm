@@ -23,6 +23,19 @@ const sizes = process.argv[3] === "--size-controls";
 const sizedShapes = process.argv[3] === "--sized-shape-controls";
 const sizedRectangles = process.argv[3] === "--sized-rectangle-controls";
 const variedPhotos = sizes || sizedShapes || sizedRectangles;
+const matrix = sizedRectangles
+  ? "sized-rectangles"
+  : sizedShapes
+    ? "sized-shapes"
+    : sizes
+      ? "sizes"
+      : windows
+        ? "windows"
+        : precision
+          ? "precision"
+          : frames
+            ? "frames"
+            : "fixtures";
 if (
   !directory ||
   (process.argv.length !== 3 &&
@@ -172,26 +185,34 @@ for (const value of cases) {
     docxSha256: createHash("sha256").update(bytes).digest("hex"),
   };
   manifest.push(record);
-  if (precision && manifest.length === 1)
-    assert.equal(
-      record.docxSha256,
-      "8dfabf25a4097cc4ce6065e5a8998713bbd37bc4dfe15bd3e317d22850ac92df",
-    );
-  if ((windows || variedPhotos) && manifest.length === 1)
-    assert.equal(
-      record.docxSha256,
-      "8792017431b1a913da220b55a4fc7e5d83db749a55eee085741935bbc0856222",
-    );
   await writeFile(path.join(directory, value.name + ".docx"), bytes);
   await writeFile(
     path.join(directory, value.name + ".json"),
     JSON.stringify(record, null, 2) + "\n",
   );
 }
+// The historical native baselines own frozen October packages. These pins cover
+// the current serializer independently, including the typed run-level picture SDT.
+const baseline = JSON.parse(
+  await readFile(
+    new URL("../tests/fixtures/docx-next/picture-current-package-baseline.json", import.meta.url),
+    "utf8",
+  ),
+);
+assert.equal(baseline.schemaVersion, 1);
+assert.deepEqual(
+  manifest.map(({ name, docxSha256, normalizedSha256 }) => ({
+    name,
+    docxSha256,
+    normalizedSha256,
+  })),
+  baseline.matrices[matrix],
+  "Current picture packages changed; historical source pins must not be rewritten",
+);
 await writeFile(
   path.join(directory, "picture-identity-manifest.json"),
   JSON.stringify(manifest, null, 2) + "\n",
 );
 console.log(
-  `${manifest.length} guarded native picture controls; canonical browser image, complete fields, immutable JSON and restored package identity verified.`,
+  `${manifest.length} current guarded picture packages pinned; canonical browser image, complete fields, immutable JSON and restored package identity verified. Historical native observations use separately frozen sources.`,
 );

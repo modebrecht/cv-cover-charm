@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "scope": "Immutable October diagnostic sources; historical observations only, never current renderer or product/Word acceptance.",
+  "sourceCommit": "59b5dcbc0ee85db33c90f6bdf50fc0bdc386a8e2",
+  "workflowRun": 37715949743,
+  "artifactId": 11524215131,
+  "artifactSha256": "2d7a5cf5394571120eaef745483eaddcaab1eaa4c26ee814af344b045cc5e80b",
+  "archiveSha256": "4f27755405fccdaec39ad2f020f88979405352ba1ff072e7b44d40eb201041b3",
+  "matrices": {
+    "fixtures": [
+      "picture-identity-body-plain",
+      "picture-identity-body-photo",
+      "picture-identity-single-plain",
+      "picture-identity-single-photo",
+      "picture-identity-left-plain",
+      "picture-identity-left-photo",
+      "picture-identity-right-plain",
+      "picture-identity-right-photo"
+    ],
+    "frames": [
+      "picture-frame-uncropped-rect",
+      "picture-frame-uncropped-ellipse",
+      "picture-frame-cropped-rect",
+      "picture-frame-cropped-ellipse"
+    ],
+    "precision": [
+      "picture-frame-uncropped-rect",
+      "picture-precision-declared-crop-rect"
+    ],
+    "windows": [
+      "picture-precision-declared-crop-rect",
+      "picture-window-right-lower",
+      "picture-window-left-upper",
+      "picture-window-increased-zoom"
+    ],
+    "sizes": [
+      "picture-precision-declared-crop-rect",
+      "picture-size-240x360",
+      "picture-size-600x900"
+    ],
+    "sized-rectangles": [
+      "picture-precision-declared-crop-rect",
+      "picture-sized-240x360-declared-rect"
+    ],
+    "sized-shapes": [
+      "picture-precision-declared-crop-rect",
+      "picture-sized-240x360-declared-rect",
+      "picture-sized-240x360-declared-ellipse"
+    ]
+  },
+  "files": {
+    "fixtures/canonical-photo.png": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+    "fixtures/picture-identity-body-photo.docx": "d873fb8eb3f631baeeff32bafde34b79bda04e29bcae31383b03d38d819c936e",
+    "fixtures/picture-identity-body-plain.docx": "fca6357e5ab5073707d803e78d6efc1ccfb0543d30d64f7f86e9b7ec32c9b206",
+    "fixtures/picture-identity-left-photo.docx": "b05711e2fc055ac6387df5ef748ea12310e7c31b4105cfabaa11aa6ba60cbb42",
+    "fixtures/picture-identity-left-plain.docx": "c7686a832853ee3f39da64881789e5cdc215e33f8df5e59ddb879db2a1522df9",
+    "fixtures/picture-identity-manifest.json": "495a35202d4d43fc9830c4999fc86aacd54d1e35af885f7b48af24e7bc9e5518",
+    "fixtures/picture-identity-right-photo.docx": "8eb7b6b7d03d4f6e1250e7622afcb25bc42539a5087c5fd61df5859bd264758a",
+    "fixtures/picture-identity-right-plain.docx": "f15d981cf51833097e6f913119062e7775f0491c3fa752c812f18223ae1b7003",
+    "fixtures/picture-identity-single-photo.docx": "40dc2a65db89a9a18d12e3f298d9d8995ea93edb2bbc8495975e63528bd64d49",
+    "fixtures/picture-identity-single-plain.docx": "79561ad7c17cf6368ee9f863f9ac8ce9434912ef4ab0733692639dd0ea358a78",
+    "frames/canonical-photo.png": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+    "frames/picture-frame-cropped-ellipse.docx": "d873fb8eb3f631baeeff32bafde34b79bda04e29bcae31383b03d38d819c936e",
+    "frames/picture-frame-cropped-rect.docx": "8f3ea03dba5d08dff674738da0a7dee82ee5599783e3c471ceb832ada401773b",
+    "frames/picture-frame-uncropped-ellipse.docx": "0821fbd3763aafad822e36afb0626691167178e4c322a2a35ce499e5e79f4d8d",
+    "frames/picture-frame-uncropped-rect.docx": "8dfabf25a4097cc4ce6065e5a8998713bbd37bc4dfe15bd3e317d22850ac92df",
+    "frames/picture-identity-manifest.json": "bc6527c45e3148aff169e5d2e070e93d199edb51a1310f11b8ffaaeb90dcd1e3",
+    "precision/canonical-photo.png": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+    "precision/picture-frame-uncropped-rect.docx": "8dfabf25a4097cc4ce6065e5a8998713bbd37bc4dfe15bd3e317d22850ac92df",
+    "precision/picture-identity-manifest.json": "47795fc41799b949c0a215885f7cde9bb8f8cce46154a85483b9a3cd3d16effa",
+    "precision/picture-precision-declared-crop-rect.docx": "8792017431b1a913da220b55a4fc7e5d83db749a55eee085741935bbc0856222",
+    "sized-rectangles/canonical-photo-240x360.png": "7c1597350e5fb018da6d28e074fb9216bab42f647fdcd6482ea8309058ece4a4",
+    "sized-rectangles/canonical-photo.png": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+    "sized-rectangles/picture-identity-manifest.json": "30f6dc3a1b80209fdcfc220e24082cf0039f82a1ceae92f084899ade5236734c",
+    "sized-rectangles/picture-precision-declared-crop-rect.docx": "8792017431b1a913da220b55a4fc7e5d83db749a55eee085741935bbc0856222",
+    "sized-rectangles/picture-sized-240x360-declared-rect.docx": "001d77d4de7b6cc9352f36667d4433f1b3e5e5923bc2ebb3c0a6aecfea9d5b35",
+    "sized-shapes/canonical-photo-240x360.png": "7c1597350e5fb018da6d28e074fb9216bab42f647fdcd6482ea8309058ece4a4",
+    "sized-shapes/canonical-photo.png": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+    "sized-shapes/picture-identity-manifest.json": "a9635465321f60c434fb06c97a466a6ab027a7d554e83061ce87ea3ff3e9cd2d",
+    "sized-shapes/picture-precision-declared-crop-rect.docx": "8792017431b1a913da220b55a4fc7e5d83db749a55eee085741935bbc0856222",
+    "sized-shapes/picture-sized-240x360-declared-ellipse.docx": "e36bd425a24fe5c22fa7576d89fbcb7cede858f5bab9f21223f94d24878ee501",
+    "sized-shapes/picture-sized-240x360-declared-rect.docx": "001d77d4de7b6cc9352f36667d4433f1b3e5e5923bc2ebb3c0a6aecfea9d5b35",
+    "sizes/canonical-photo-240x360.png": "7c1597350e5fb018da6d28e074fb9216bab42f647fdcd6482ea8309058ece4a4",
+    "sizes/canonical-photo-600x900.png": "9a91925cd107b08841bf8df2bb5c8c6543eeb1324295b35d516f32a461873827",
+    "sizes/canonical-photo.png": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+    "sizes/picture-identity-manifest.json": "bbb1e150562bf484bf22eedb912b6d7b6a78fc84a51ff0c5d700eadd8414aaad",
+    "sizes/picture-precision-declared-crop-rect.docx": "8792017431b1a913da220b55a4fc7e5d83db749a55eee085741935bbc0856222",
+    "sizes/picture-size-240x360.docx": "4ed84d096df767d4fdc5ee39c94cd935d253ab296b0a62dad39567b0490bfc9e",
+    "sizes/picture-size-600x900.docx": "c32c0ef455d1705f041e3ee38468f30c17eec92237d42872dbdc983fdf65a44f",
+    "windows/canonical-photo.png": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+    "windows/picture-identity-manifest.json": "465c81c3a2b0a84591b52a93f130b26b5b2f6ea4cb06fce012c79e157cdf1760",
+    "windows/picture-precision-declared-crop-rect.docx": "8792017431b1a913da220b55a4fc7e5d83db749a55eee085741935bbc0856222",
+    "windows/picture-window-increased-zoom.docx": "8c555689953aa0b27063702e48bad194e4e228c9a13f121848d31c77ba574199",
+    "windows/picture-window-left-upper.docx": "2a0ea0a59305416ee566e2dc55526e7d4383461ea188bd36a6d5c6c2e27c774d",
+    "windows/picture-window-right-lower.docx": "c5aa3294410d96812c042720a0abb0194570c90457459e155c659b8183b125ab"
+  }
+}
