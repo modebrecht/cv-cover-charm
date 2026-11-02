@@ -68,12 +68,7 @@
           "pictures": [
             {
               "page": 3,
-              "boundsMm": [
-                20.408,
-                27.499,
-                54.416,
-                61.507
-              ]
+              "boundsMm": [20.408, 27.499, 54.416, 61.507]
             }
           ]
         },
@@ -84,12 +79,7 @@
           "pictures": [
             {
               "page": 3,
-              "boundsMm": [
-                20.408,
-                27.499,
-                54.416,
-                61.507
-              ]
+              "boundsMm": [20.408, 27.499, 54.416, 61.507]
             }
           ]
         }
@@ -107,9 +97,7 @@
           "fieldIdentity": "pass",
           "missingOrChangedTaggedFields": [],
           "tableIdentity": "fail",
-          "missingTableIds": [
-            "cv.identity.container"
-          ],
+          "missingTableIds": ["cv.identity.container"],
           "saveReopenIdentity": "fail"
         },
         "render": {
@@ -138,9 +126,7 @@
           "fieldIdentity": "pass",
           "missingOrChangedTaggedFields": [],
           "tableIdentity": "fail",
-          "missingTableIds": [
-            "cv.identity.container"
-          ],
+          "missingTableIds": ["cv.identity.container"],
           "saveReopenIdentity": "fail"
         },
         "render": {
@@ -150,12 +136,7 @@
           "pictures": [
             {
               "page": 3,
-              "boundsMm": [
-                20.408,
-                27.499,
-                54.416,
-                61.507
-              ]
+              "boundsMm": [20.408, 27.499, 54.416, 61.507]
             }
           ]
         },
@@ -166,12 +147,7 @@
           "pictures": [
             {
               "page": 3,
-              "boundsMm": [
-                20.408,
-                27.499,
-                54.416,
-                61.507
-              ]
+              "boundsMm": [20.408, 27.499, 54.416, 61.507]
             }
           ]
         }
@@ -189,9 +165,7 @@
           "fieldIdentity": "pass",
           "missingOrChangedTaggedFields": [],
           "tableIdentity": "fail",
-          "missingTableIds": [
-            "cv.identity.container"
-          ],
+          "missingTableIds": ["cv.identity.container"],
           "saveReopenIdentity": "fail"
         },
         "render": {
@@ -220,9 +194,7 @@
           "fieldIdentity": "pass",
           "missingOrChangedTaggedFields": [],
           "tableIdentity": "fail",
-          "missingTableIds": [
-            "cv.identity.container"
-          ],
+          "missingTableIds": ["cv.identity.container"],
           "saveReopenIdentity": "fail"
         },
         "render": {
@@ -232,12 +204,7 @@
           "pictures": [
             {
               "page": 3,
-              "boundsMm": [
-                20.408,
-                27.499,
-                54.416,
-                61.507
-              ]
+              "boundsMm": [20.408, 27.499, 54.416, 61.507]
             }
           ]
         },
@@ -248,12 +215,7 @@
           "pictures": [
             {
               "page": 3,
-              "boundsMm": [
-                20.408,
-                27.499,
-                54.416,
-                61.507
-              ]
+              "boundsMm": [20.408, 27.499, 54.416, 61.507]
             }
           ]
         }
@@ -271,9 +233,7 @@
           "fieldIdentity": "pass",
           "missingOrChangedTaggedFields": [],
           "tableIdentity": "fail",
-          "missingTableIds": [
-            "cv.identity.container"
-          ],
+          "missingTableIds": ["cv.identity.container"],
           "saveReopenIdentity": "fail"
         },
         "render": {
@@ -302,9 +262,7 @@
           "fieldIdentity": "pass",
           "missingOrChangedTaggedFields": [],
           "tableIdentity": "fail",
-          "missingTableIds": [
-            "cv.identity.container"
-          ],
+          "missingTableIds": ["cv.identity.container"],
           "saveReopenIdentity": "fail"
         },
         "render": {
@@ -314,12 +272,7 @@
           "pictures": [
             {
               "page": 3,
-              "boundsMm": [
-                105.41,
-                27.499,
-                139.418,
-                61.507
-              ]
+              "boundsMm": [105.41, 27.499, 139.418, 61.507]
             }
           ]
         },
@@ -330,12 +283,7 @@
           "pictures": [
             {
               "page": 3,
-              "boundsMm": [
-                105.41,
-                27.499,
-                139.418,
-                61.507
-              ]
+              "boundsMm": [105.41, 27.499, 139.418, 61.507]
             }
           ]
         }
@@ -362,10 +310,7 @@
               "alt": "CV portrait",
               "story": "word/document.xml",
               "representation": "picture",
-              "extentMm": [
-                34.0,
-                34.0
-              ],
+              "extentMm": [34.0, 34.0],
               "crop": {
                 "l": 8400,
                 "t": 24400,
@@ -385,10 +330,7 @@
               "alt": "CV portrait",
               "story": "word/document.xml",
               "representation": "image-fill",
-              "extentMm": [
-                34.007778,
-                34.007778
-              ],
+              "extentMm": [34.007778, 34.007778],
               "crop": {
                 "l": 0,
                 "t": 0,
@@ -422,10 +364,7 @@
               "alt": "CV portrait",
               "story": "word/document.xml",
               "representation": "picture",
-              "extentMm": [
-                34.0,
-                34.0
-              ],
+              "extentMm": [34.0, 34.0],
               "crop": {
                 "l": 8400,
                 "t": 24400,
@@ -445,10 +384,7 @@
               "alt": "CV portrait",
               "story": "word/document.xml",
               "representation": "image-fill",
-              "extentMm": [
-                34.007778,
-                34.007778
-              ],
+              "extentMm": [34.007778, 34.007778],
               "crop": {
                 "l": 0,
                 "t": 0,
@@ -482,10 +418,7 @@
               "alt": "CV portrait",
               "story": "word/document.xml",
               "representation": "picture",
-              "extentMm": [
-                34.0,
-                34.0
-              ],
+              "extentMm": [34.0, 34.0],
               "crop": {
                 "l": 8400,
                 "t": 24400,
@@ -505,10 +438,7 @@
               "alt": "CV portrait",
               "story": "word/document.xml",
               "representation": "image-fill",
-              "extentMm": [
-                34.007778,
-                34.007778
-              ],
+              "extentMm": [34.007778, 34.007778],
               "crop": {
                 "l": 0,
                 "t": 0,
@@ -542,10 +472,7 @@
               "alt": "CV portrait",
               "story": "word/document.xml",
               "representation": "picture",
-              "extentMm": [
-                34.0,
-                34.0
-              ],
+              "extentMm": [34.0, 34.0],
               "crop": {
                 "l": 8400,
                 "t": 24400,
@@ -565,10 +492,7 @@
               "alt": "CV portrait",
               "story": "word/document.xml",
               "representation": "image-fill",
-              "extentMm": [
-                34.007778,
-                34.007778
-              ],
+              "extentMm": [34.007778, 34.007778],
               "crop": {
                 "l": 0,
                 "t": 0,

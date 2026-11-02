@@ -125,6 +125,10 @@ historical body contract is now tested on its original already pinned 25.8.7.3
 engine, where all 383 fields survive both saves. There was no new converter
 version search, engine patch or ONLYOFFICE installation.
 
+Follow-up: the [picture source-version audit](picture-source-versioning-2026-11-02.md)
+resolves the separately diagnosed stale reference. The following paragraph
+records the state at the Word consolidation checkpoint.
+
 The broader pre-existing stable-sidebar workflow still fails its old hard-coded
 picture precision DOCX hash. The very same actual CI PNG was passed through the
 real fixture and renderer on old dev `9e84088` and the integration. Both produce

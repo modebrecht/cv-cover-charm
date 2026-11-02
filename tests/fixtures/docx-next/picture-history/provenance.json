@@ -23,10 +23,7 @@
       "picture-frame-cropped-rect",
       "picture-frame-cropped-ellipse"
     ],
-    "precision": [
-      "picture-frame-uncropped-rect",
-      "picture-precision-declared-crop-rect"
-    ],
+    "precision": ["picture-frame-uncropped-rect", "picture-precision-declared-crop-rect"],
     "windows": [
       "picture-precision-declared-crop-rect",
       "picture-window-right-lower",
