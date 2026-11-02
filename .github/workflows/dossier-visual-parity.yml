@@ -1,4 +1,4 @@
-name: Dossier Visual Parity x39
+name: Dossier Visual Parity
 
 # Same-SHA visual truth across all active dossier templates:
 #   visible Website preview -> PNG
@@ -9,9 +9,26 @@ name: Dossier Visual Parity x39
 # while low SSIM is reported and ranked without blocking release by itself.
 on:
   workflow_dispatch:
+    inputs:
+      qa_suite:
+        description: 'Bounded Modern smoke/full, or legacy x39 gallery (no Next approval)'
+        type: choice
+        default: smoke
+        options: [smoke, full, gallery]
   push:
     branches:
       - render
+      - dev
+    paths:
+      - 'src/**'
+      - 'scripts/**'
+      - 'tests/**'
+      - 'package.json'
+      - 'bun.lock'
+      - '.github/workflows/dossier-visual-parity.yml'
+
+env:
+  QA_MODE: ${{ (github.ref_name == 'render' || inputs.qa_suite == 'gallery') && 'gallery' || inputs.qa_suite || 'smoke' }}
 
 permissions:
   contents: read
@@ -29,7 +46,7 @@ jobs:
       fail-fast: false
       max-parallel: 10
       matrix:
-        batch: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        batch: ${{ fromJSON((github.ref_name == 'render' || inputs.qa_suite == 'gallery') && '[0,1,2,3,4,5,6,7,8,9]' || '[0]') }}
 
     steps:
       - uses: actions/checkout@v4
@@ -62,11 +79,19 @@ jobs:
           exit 1
 
       - name: Generate same-SHA Web/PDF/DOCX source batch
+        if: env.QA_MODE == 'gallery'
         shell: bash
         run: |
           bash scripts/run_dossier_gallery_batch.sh web  "${{ matrix.batch }}" artifacts/parity-source/web
           bash scripts/run_dossier_gallery_batch.sh pdf  "${{ matrix.batch }}" artifacts/parity-source/pdf
           bash scripts/run_dossier_gallery_batch.sh docx "${{ matrix.batch }}" artifacts/parity-source/docx
+
+      - name: Download synthetic Modern sources through the product UI
+        if: env.QA_MODE != 'gallery'
+        env:
+          SEMANTIC_PARITY_DIR: artifacts/parity-source/modern
+          DOSSIER_QA_SUITE: ${{ env.QA_MODE }}
+        run: npx playwright test tests/e2e/dossier-semantic-parity.spec.ts --workers=1 --reporter=line
 
       - name: Upload same-SHA source batch
         uses: actions/upload-artifact@v4
@@ -87,7 +112,7 @@ jobs:
           if [ -f /tmp/cv-cover-charm.pid ]; then kill "$(cat /tmp/cv-cover-charm.pid)" || true; fi
 
   compare:
-    name: Compare Website vs PDF vs DOCX — 39 templates
+    name: Compare native outputs
     needs:
       - source-batch
     runs-on: ubuntu-24.04
@@ -103,6 +128,7 @@ jobs:
           path: artifacts/parity-batches
 
       - name: Assemble exact 39-template source packages
+        if: env.QA_MODE == 'gallery'
         shell: bash
         run: |
           set -euo pipefail
@@ -147,7 +173,7 @@ jobs:
       - name: Install parity renderer dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends libreoffice-writer fonts-cabin fontconfig python3-venv
+          sudo apt-get install -y --no-install-recommends libreoffice-writer fonts-cabin fonts-liberation fontconfig python3-venv tesseract-ocr time
           libreoffice --version
           fc-match Cabin
           python3 -m venv .parity-venv
@@ -157,7 +183,34 @@ jobs:
             scikit-image==0.25.2 \
             pymupdf==1.26.4
 
+      - name: Verify candidate preservation and negative controls
+        if: env.QA_MODE != 'gallery'
+        run: .parity-venv/bin/python -m unittest discover -s tests -p test_dossier_qa.py -v
+
+      - name: Run bounded same-SHA native QA
+        if: env.QA_MODE != 'gallery'
+        env:
+          DOSSIER_QA_SUITE: ${{ env.QA_MODE }}
+        run: |
+          .parity-venv/bin/python scripts/dossier_qa.py \
+            --source-dir artifacts/parity-batches/dossier-visual-parity-source-0/modern \
+            --suite "$DOSSIER_QA_SUITE" --out-dir artifacts/dossier-modern-qa
+
+      - name: Publish bounded QA summary
+        if: always() && env.QA_MODE != 'gallery'
+        run: cat artifacts/dossier-modern-qa/SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Retain bounded QA evidence including failures
+        if: always() && env.QA_MODE != 'gallery'
+        uses: actions/upload-artifact@v4
+        with:
+          name: dossier-modern-qa
+          path: artifacts/dossier-modern-qa
+          if-no-files-found: error
+          retention-days: 14
+
       - name: Render and measure visual parity
+        if: env.QA_MODE == 'gallery'
         run: |
           .parity-venv/bin/python scripts/dossier_visual_parity.py \
             --web-dir artifacts/parity-source/web \
@@ -166,11 +219,13 @@ jobs:
             --out-dir artifacts/dossier-visual-parity-39
 
       - name: Publish parity summary
+        if: env.QA_MODE == 'gallery'
         shell: bash
         run: |
           cat artifacts/dossier-visual-parity-39/SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
 
       - name: Keep report compact
+        if: env.QA_MODE == 'gallery'
         shell: bash
         run: |
           rm -rf \
@@ -178,6 +233,7 @@ jobs:
             artifacts/dossier-visual-parity-39/docx-pdf
 
       - name: Upload x39 visual parity report
+        if: env.QA_MODE == 'gallery'
         uses: actions/upload-artifact@v4
         with:
           name: dossier-visual-parity-39

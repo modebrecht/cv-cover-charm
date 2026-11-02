@@ -1,1 +1,3 @@
 docs/qa/docx-next-shared-settings-18okt/*.pdf binary
+tests/fixtures/dossier-qa/*.pdf binary
+tests/fixtures/dossier-qa/*.docx binary
