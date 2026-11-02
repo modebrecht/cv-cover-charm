@@ -1,0 +1,277 @@
+{
+  "baseline_commit": "9e84088855dddb5992a6ba7ec768adbe9153fe12",
+  "initial_integration_commit": "56b9fa3be5314029679bbcedd8d4b11c276a984d",
+  "selection_source_commit": "f4854051595a0a5a51a6a9adc97003dd51e2d929",
+  "normal_package_baseline": {
+    "baseline_commit": "9e84088855dddb5992a6ba7ec768adbe9153fe12",
+    "scope": "Eight deterministic normal packages; explicit synthetic PNG adapter, no browser/Word claim",
+    "normal_package_sha256": {
+      "left-left": "fa31bc01e6f0f340385521161502191bde3485d524d877a1b5ff5effec14a159",
+      "left-right": "a71bf24b6f9bd49d420f76f2d62ead02d4c79910841dc6eab56a2f9609b2610a",
+      "both-long-left": "8546a1bfe8a893670550028c6f9fb069b314c1ccd6c5ffd1889205f98ce66e71",
+      "both-long-right": "9704c0db8ee4dca0079d5e703bcd7f4869e5d5051b8f87dd1d94c8a146dae135",
+      "photo-left-left": "adc9f796240b02b43e794c47e0f4920d4931a6c35cbd590e6655014e11c335dd",
+      "photo-left-right": "fb8483c7f9b059f959b8ae60eeb4a5761cdf6cc1bdfa0f54590e81418f3d55d0",
+      "photo-free-portrait-left": "e682d64bc9c81658cc4748826213841b1d131c7a3624312d190baffa011762d3",
+      "photo-free-portrait-right": "76cf208e766eef8269170b6ec0e39c359f39b87b82f08734d285555e36f4a347"
+    }
+  },
+  "local_checks": {
+    "unit_tests": 1495,
+    "unit_failed": 0,
+    "unit_files": 283,
+    "focused_typescript_tests": 15,
+    "retained_python_tests": {
+      "body": 11,
+      "body_media": 7,
+      "picture_ownership": 29,
+      "word_return_reader": 12,
+      "save_geometry": 12,
+      "native_import": 10
+    },
+    "new_bounded_python_tests": 6,
+    "existing_modern_python_tests": 12,
+    "typecheck": "PASS",
+    "changed_file_lint": "PASS",
+    "changed_file_format": "PASS",
+    "build": "PASS"
+  },
+  "initial_counterexample": {
+    "run_id": 41514066869,
+    "artifact_id": 13173333927,
+    "converter": "LibreOffice 24.2.7.2",
+    "source_case": "body-long-left",
+    "source_fields": 383,
+    "save1_fields": 381,
+    "save2_fields": 381,
+    "lost_empty_controls": [
+      "letter.body.paragraph:1",
+      "letter.body.paragraph:3"
+    ],
+    "decision": "Keep strict field preservation; verify historical body contract on its existing pinned 25.8.7.3 runtime. 24.2 full-dossier field preservation remains BLOCKED."
+  },
+  "reading_order_correction": {
+    "source_sha256": "bedb59c5280b78405aa2268f91f6335c0a51e15c7f3913765c8434b84bc08759",
+    "pdf_sha256": "0253ae7a2729d0b9665c7abb4ac0eb728e2a513f5dd732a39240c995f36d1651",
+    "pages": 11,
+    "whole_page_reading_false_missing": [
+      "cv.entry.hobbys:4",
+      "cv.entry.hobbys:23",
+      "cv.entry.hobbys:32",
+      "cv.entry.hobbys:41",
+      "cv.entry.hobbys:50"
+    ],
+    "declared_column_reading_missing": [],
+    "scope": "All same complete field texts required; column streams prevent interleaving across page breaks. Six adversarial input/visibility tests pass."
+  },
+  "preexisting_picture_precision_hash_blocker": {
+    "run_id": 41514066947,
+    "job_id": 125512971064,
+    "artifact_id": 13174113274,
+    "test_path": "scripts/docx-next-picture-identity-probe.ts",
+    "expected_old_docx_sha256": "8dfabf25a4097cc4ce6065e5a8998713bbd37bc4dfe15bd3e317d22850ac92df",
+    "before_docx_sha256": "61444b4077529c8eff3ec14013f744c63066995947ec51f3613551e3dc821032",
+    "after_docx_sha256": "61444b4077529c8eff3ec14013f744c63066995947ec51f3613551e3dc821032",
+    "canonical_png_sha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+    "method": "Actual PNG from failed CI replayed through the unchanged fixture and real renderer on old dev and integration. No new native conversions; byte-identical before/after.",
+    "decision": "Historical pin remains failing and unchanged; not a new renderer regression. No rebaseline or gate reduction."
+  },
+  "fresh_native_validation": {
+    "status": "PASS",
+    "commit": "d26b61c78e0303f51c7edfeb8c7dbe983365b46f",
+    "run_id": 41515754421,
+    "artifact_id": 13175665839,
+    "source_artifact_id": 13175172901,
+    "run_url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/41515754421",
+    "body_engine": {
+      "ProductName": "LibreOffice",
+      "ProductVersion": "25.8",
+      "ProductExtension": ".7.3",
+      "BuildId": "580(Build:3)"
+    },
+    "body_engine_record_sha256": "f4c6fcc49061d9292287221e2956e23848b8f8100a0bf346425c177d62796d59",
+    "body_cases": [
+      {
+        "id": "body-long-left",
+        "status": "PASS",
+        "phases": [
+          {
+            "phase": "source",
+            "docx_sha256": "bedb59c5280b78405aa2268f91f6335c0a51e15c7f3913765c8434b84bc08759",
+            "pdf_sha256": "542445002e480ed1c374ab556824905bfe2feb9ccebe4e6b91186557e8b3f868",
+            "pages": 11,
+            "body_fields": 383,
+            "all_fields": 383,
+            "missing_visible_fields": []
+          },
+          {
+            "phase": "save1",
+            "docx_sha256": "6d7fb2c407f071f4d0391e2df6c381bb86d147ae4aaec6dba66337e07cec4df4",
+            "pdf_sha256": "55160eed4f358ae1a799ca1fdce32aa65f3c03927a5fcdb2361b2242cdcc31c1",
+            "pages": 11,
+            "body_fields": 383,
+            "all_fields": 383,
+            "missing_visible_fields": []
+          },
+          {
+            "phase": "save2",
+            "docx_sha256": "29b6b2b1ce80218949da91b8f57b5c6229fcd78df3187ccd5a324d8d2477f393",
+            "pdf_sha256": "36bada0f57125a2d0349065577b09bfaf6f80715b77599f2726021239061923c",
+            "pages": 11,
+            "body_fields": 383,
+            "all_fields": 383,
+            "missing_visible_fields": []
+          }
+        ],
+        "source_unchanged": true
+      },
+      {
+        "id": "body-long-right",
+        "status": "PASS",
+        "phases": [
+          {
+            "phase": "source",
+            "docx_sha256": "a4aa884e25599c821154f7079a74afcc26d06a5e47f569c7049b3e17608dcd62",
+            "pdf_sha256": "e036915e28d5a13a1bff66d30e820350a37b141753ce683e26c850f044165be1",
+            "pages": 11,
+            "body_fields": 383,
+            "all_fields": 383,
+            "missing_visible_fields": []
+          },
+          {
+            "phase": "save1",
+            "docx_sha256": "f8890150637a8b6285d7c3e4864f40bd7089fe42fb4a29e602ab11916acf6448",
+            "pdf_sha256": "2da726e2c389da002dbd115681bc421e5b343aee086559f497dddb7ba4c0419a",
+            "pages": 11,
+            "body_fields": 383,
+            "all_fields": 383,
+            "missing_visible_fields": []
+          },
+          {
+            "phase": "save2",
+            "docx_sha256": "7d341aa8284f486346940f13850fc3a2ee81a785ac15002a330303138958cf48",
+            "pdf_sha256": "c854fb143259f2df70b988c700dd65c21c658f7236fd411f6fc3f7db7c7ad3a2",
+            "pages": 11,
+            "body_fields": 383,
+            "all_fields": 383,
+            "missing_visible_fields": []
+          }
+        ],
+        "source_unchanged": true
+      }
+    ],
+    "body_conversions": [
+      {
+        "id": "body-long-left/save1",
+        "seconds": 0.44,
+        "exit_code": 0,
+        "max_rss_kib": 202936
+      },
+      {
+        "id": "body-long-left/save2",
+        "seconds": 0.39,
+        "exit_code": 0,
+        "max_rss_kib": 206292
+      },
+      {
+        "id": "body-long-left/source-pdf",
+        "seconds": 0.38,
+        "exit_code": 0,
+        "max_rss_kib": 202132
+      },
+      {
+        "id": "body-long-left/save1-pdf",
+        "seconds": 0.4,
+        "exit_code": 0,
+        "max_rss_kib": 205596
+      },
+      {
+        "id": "body-long-left/save2-pdf",
+        "seconds": 0.39,
+        "exit_code": 0,
+        "max_rss_kib": 202912
+      },
+      {
+        "id": "body-long-right/save1",
+        "seconds": 0.39,
+        "exit_code": 0,
+        "max_rss_kib": 202908
+      },
+      {
+        "id": "body-long-right/save2",
+        "seconds": 0.43,
+        "exit_code": 0,
+        "max_rss_kib": 203056
+      },
+      {
+        "id": "body-long-right/source-pdf",
+        "seconds": 0.42,
+        "exit_code": 0,
+        "max_rss_kib": 202576
+      },
+      {
+        "id": "body-long-right/save1-pdf",
+        "seconds": 0.43,
+        "exit_code": 0,
+        "max_rss_kib": 202896
+      },
+      {
+        "id": "body-long-right/save2-pdf",
+        "seconds": 0.4,
+        "exit_code": 0,
+        "max_rss_kib": 202828
+      }
+    ],
+    "modern_engine": "LibreOffice 24.2.7.2 420(Build:2)",
+    "modern_status": "PASS",
+    "modern_cases": [
+      {
+        "id": "cover",
+        "original": "PASS",
+        "candidate": null
+      },
+      {
+        "id": "cv-crop-left",
+        "original": "FAIL",
+        "candidate": "PASS"
+      },
+      {
+        "id": "cv-crop-right",
+        "original": "FAIL",
+        "candidate": "PASS"
+      },
+      {
+        "id": "letter",
+        "original": "PASS",
+        "candidate": null
+      }
+    ],
+    "total_native_conversions": 18,
+    "native_pdf_pages": 86,
+    "body_peak_rss_kib": 206292,
+    "total_job_peak_memory": "NOT MEASURED"
+  },
+  "production_acceptance": "BLOCKED",
+  "microsoft_word_accepted": false,
+  "raster_review": {
+    "method": "Source and save2 first/last CV pages on both sides, visually inspected. All 66 body PDF pages had automated complete-field checks. No pixel-identity or exact geometry claim.",
+    "files": [
+      {
+        "path": "docs/qa/word-consolidation-2026-11-02/right-first-cv.jpg",
+        "sha256": "474e65b02f15a9b06b2e90a498189c5ceacd3b0007ec47e8326bb91b27803e75"
+      },
+      {
+        "path": "docs/qa/word-consolidation-2026-11-02/right-last-cv.jpg",
+        "sha256": "115f1685f1007bc2c1f59b28249c33da6acce9e1c85a8474f7f1e79c8a7a84e0"
+      },
+      {
+        "path": "docs/qa/word-consolidation-2026-11-02/left-last-cv.jpg",
+        "sha256": "51a565a2df0bf7853200f131c9464da783c01e1a5fd312d3bfb25e40da178f62"
+      },
+      {
+        "path": "docs/qa/word-consolidation-2026-11-02/left-first-cv.jpg",
+        "sha256": "13f23349197210be65c5c09a96b0dc65cd3da77eed1c8a8fbc3afa023c436274"
+      }
+    ]
+  }
+}
