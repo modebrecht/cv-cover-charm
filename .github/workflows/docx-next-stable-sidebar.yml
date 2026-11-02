@@ -18,6 +18,9 @@ on:
       - scripts/docx_next_raster_qa.py
       - scripts/docx_next_story_qa.py
       - scripts/docx-next-*.ts
+      # These helpers have their own bounded same-SHA native smoke.
+      - '!scripts/docx-next-word-consolidation-*.py'
+      - '!scripts/docx-next-word-consolidation-*.ts'
       - scripts/docx-next-lo-kit.c
       - scripts/qa-browser-setup.sh
       - docs/docx-next/stable-*.json
