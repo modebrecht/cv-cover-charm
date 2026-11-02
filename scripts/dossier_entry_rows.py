@@ -127,7 +127,7 @@ def load_cases(root):
     return report, cases
 
 
-def main(*, profiles=None, builder=None, case_check=None, title='P2-18 — continuation entry rows', scope=None, extra_evidence=None, case_loader=None):
+def main(*, profiles=None, builder=None, case_check=None, title='P2-18 — continuation entry rows', scope=None, extra_evidence=None, case_loader=None, reference_hash=None):
     profiles = PROFILES if profiles is None else profiles
     builder = make_copy if builder is None else builder
     root = Path(__file__).resolve().parents[1]
@@ -141,7 +141,7 @@ def main(*, profiles=None, builder=None, case_check=None, title='P2-18 — conti
     out.mkdir(parents=True, exist_ok=True)
     old = json.loads((out / 'RESULTS.json').read_text()) if a.audit_only else None
     report = {'implementation_sha': old['implementation_sha'] if old else os.environ.get('GITHUB_SHA'),
-              'source_export_sha': previous['source_export_sha'], 'reference_report_sha256': REFERENCE_SHA256,
+              'source_export_sha': previous['source_export_sha'], 'reference_report_sha256': reference_hash or REFERENCE_SHA256,
               'scope': scope or 'Frozen 18-entry ordinary/varied actual Next exports; unchanged leaf tables. No fresh App export/product/x39/Word acceptance.',
               'converter_version': old['converter_version'] if old else subprocess.run([a.libreoffice, '--version'], capture_output=True, text=True, timeout=10).stdout.strip(),
               'audit_only': a.audit_only, 'cases': [], 'conversion_attempts': []}
