@@ -1,0 +1,32 @@
+{
+  "source_export_sha": "42bab2e13572145b201d1e9deabfa3baa8dab426",
+  "source_report_sha256": "c48da0d455604efb27521bd8f111db5ea072b9e1b626c608d2da7dbd8b38f327",
+  "artifact_id": 13106249318,
+  "archive_sha256": "c2d5380ad06c323034ddf6c42e2850de224af31e400e0dae13b31cef10011b59",
+  "files": [
+    {
+      "source_id": "cv-17-left",
+      "filename": "cv-17-left-original.docx",
+      "sha256": "431fbbc76696ec561f628cae5f2bd12eb2a986c0e042a1b0440919c461d29ac8",
+      "bytes": 225462
+    },
+    {
+      "source_id": "cv-17-right",
+      "filename": "cv-17-right-original.docx",
+      "sha256": "4b6f5df854d45c32ab323e69bfe65403f6bae48dd04aed01cd8c3eb5008cfc69",
+      "bytes": 225437
+    },
+    {
+      "source_id": "cv-19-left",
+      "filename": "cv-19-left-original.docx",
+      "sha256": "ce70cc537c226c8911cbd6c629c3ec8a89a65c136387f4609b51855c8349929e",
+      "bytes": 232916
+    },
+    {
+      "source_id": "cv-19-right",
+      "filename": "cv-19-right-original.docx",
+      "sha256": "a73bbca567e3a666eda67f22fa6d9b3cda232368214f9d4bf52795b1c255bd2e",
+      "bytes": 232891
+    }
+  ]
+}

@@ -32,11 +32,11 @@ def layout_profile(source):
     return 'entry-rows-nosplit' if 'varied' in source.name else 'fixed-5-14'
 
 
-def make_copy(source, target, profile):
+def make_copy(source, target, profile, *, layout=None, count=18):
     if profile not in PROFILES:
         raise ValueError('Unknown photo-frame profile')
-    layout = layout_profile(source)
-    meta = entries.make_copy(source, target, layout)
+    layout = layout_profile(source) if layout is None else layout
+    meta = entries.make_copy(source, target, layout, count=count)
     with ZipFile(target) as z:
         infos = z.infolist()
         parts = {n: z.read(n) for n in z.namelist()}
@@ -62,7 +62,7 @@ def make_copy(source, target, profile):
         with ZipFile(target, 'w') as z:
             for info in infos:
                 z.writestr(info, parts[info.filename])
-    if word_values(root) != word_values(before) or critical(root, 18) != critical(before, 18):
+    if word_values(root) != word_values(before) or critical(root, count) != critical(before, count):
         raise ValueError('Text or critical table changed')
     # Removing the portrait from both trees proves all surrounding XML identical.
     a, b = deepcopy(before), deepcopy(root)

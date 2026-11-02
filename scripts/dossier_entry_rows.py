@@ -29,10 +29,10 @@ REFERENCE_SHA256 = 'c48da0d455604efb27521bd8f111db5ea072b9e1b626c608d2da7dbd8b38
 PROFILES = ['fixed-5-14', 'entry-rows', 'entry-rows-nosplit']
 
 
-def make_copy(source, target, profile):
+def make_copy(source, target, profile, *, count=18):
     if profile not in PROFILES:
         raise ValueError('Unknown entry-row profile')
-    meta = fixed_copy(source, target, 18)
+    meta = fixed_copy(source, target, count)
     if profile == 'fixed-5-14':
         return meta
     with ZipFile(target) as z:
@@ -47,7 +47,8 @@ def make_copy(source, target, profile):
     nodes = [n for row in rows for n in row.findall('w:tc', NS)[mi] if n.tag != W + 'tcPr']
     blocks = [canon(n) for n in nodes]
     cuts = []
-    for number in range(6, 19):
+    controls = len(root.findall('.//w:sdt', NS))
+    for number in range(6, count + 1):
         found = [i for i, n in enumerate(nodes) if n.tag == W + 'tbl' and f'P202Praxis{number:02}' in ''.join(word_values(n))]
         if len(found) != 1:
             raise ValueError('Missing unique direct entry boundary')
@@ -79,11 +80,11 @@ def make_copy(source, target, profile):
                 new.append(paragraph(line=1, keep=False))
     rows = table.findall('w:tr', NS)
     moved = [canon(n) for row in rows for n in row.findall('w:tc', NS)[mi] if n.tag != W + 'tcPr']
-    if moved != blocks or critical(root, 18) != critical(before, 18):
+    if moved != blocks or critical(root, count) != critical(before, count):
         raise ValueError('Main or leaf-table payload changed')
     if Counter(word_values(root)) != Counter(word_values(before)) or drawing_payloads(root) != drawing_payloads(before):
         raise ValueError('Text or graphic payload changed')
-    if len(root.findall('.//w:sdt', NS)) != 107:
+    if len(root.findall('.//w:sdt', NS)) != controls:
         raise ValueError('Content-control count changed')
     parts['word/document.xml'] = ET.tostring(root, encoding='utf-8', xml_declaration=True)
     with ZipFile(target, 'w') as z:
@@ -94,7 +95,7 @@ def make_copy(source, target, profile):
             raise ValueError('Unrelated package parts changed')
     meta.update(profile=profile, copy_sha256=digest(target), layout_rows=len(rows),
                 continuation_rows_cant_split=profile == 'entry-rows-nosplit',
-                row_entry_ranges=[[1, 5]] + [[i, i] for i in range(6, 19)] + [['reference', 'reference']],
+                row_entry_ranges=[[1, 5]] + [[i, i] for i in range(6, count + 1)] + [['reference', 'reference']],
                 reference_heading_body_grouped=True, first_layout_row_properties_unchanged=True)
     return meta
 
@@ -126,7 +127,7 @@ def load_cases(root):
     return report, cases
 
 
-def main(*, profiles=None, builder=None, case_check=None, title='P2-18 — continuation entry rows', scope=None, extra_evidence=None):
+def main(*, profiles=None, builder=None, case_check=None, title='P2-18 — continuation entry rows', scope=None, extra_evidence=None, case_loader=None):
     profiles = PROFILES if profiles is None else profiles
     builder = make_copy if builder is None else builder
     root = Path(__file__).resolve().parents[1]
@@ -135,7 +136,7 @@ def main(*, profiles=None, builder=None, case_check=None, title='P2-18 — conti
     p.add_argument('--libreoffice', default='libreoffice')
     p.add_argument('--audit-only', action='store_true')
     a = p.parse_args()
-    previous, cases = load_cases(root)
+    previous, cases = (case_loader or load_cases)(root)
     out = a.out_dir.resolve()
     out.mkdir(parents=True, exist_ok=True)
     old = json.loads((out / 'RESULTS.json').read_text()) if a.audit_only else None
@@ -149,6 +150,7 @@ def main(*, profiles=None, builder=None, case_check=None, title='P2-18 — conti
     try:
         for source_case, source in cases:
             tag = source_case['id']
+            count = source_case['entry_count']
             for profile in profiles:
                 folder = out / (tag + '-' + profile)
                 folder.mkdir(exist_ok=True)
@@ -174,13 +176,13 @@ def main(*, profiles=None, builder=None, case_check=None, title='P2-18 — conti
                     report['conversion_attempts'].append({'id': folder.name, 'resources': resources})
                     if resources.get('status') == 'BLOCKED':
                         raise RuntimeError(resources['error'])
-                actual, _ = measure(pdf, folder, 'native', 18, native_blank_pages=True)
-                comparison = compare(source_case['app'], actual, 18, source_case['mirrored'])
+                actual, _ = measure(pdf, folder, 'native', count, native_blank_pages=True)
+                comparison = compare(source_case['app'], actual, count, source_case['mirrored'])
                 line = reference_line(pdf, folder / 'reference-line.png')
                 group = reference_group(line, actual)
                 with fitz.open(pdf) as document:
                     text = ''.join(page.get_text() for page in document)
-                missing = [f'P217Zusatz{i:02}' for i in range(1, 19) if text.count(f'P217Zusatz{i:02}') != 1] if source_case['varied_text'] else []
+                missing = [f'P217Zusatz{i:02}' for i in range(1, count + 1) if text.count(f'P217Zusatz{i:02}') != 1] if source_case['varied_text'] else []
                 row = {'id': folder.name, 'source_id': tag, 'profile': profile, 'varied_text': source_case['varied_text'],
                        'mirrored': source_case['mirrored'], 'package': package, 'pdf_sha256': digest(pdf),
                        'resources': resources, 'actual': actual, 'comparison': comparison, 'reference_line': line,
@@ -198,7 +200,7 @@ def main(*, profiles=None, builder=None, case_check=None, title='P2-18 — conti
                 report['cases'].append(row)
                 print(row['id'], row['trial_status'], 'complete', actual['content']['complete_entries'], 'pages', actual['pages'],
                       'splits', actual['content']['split_entries'], 'reference', group['status'], flush=True)
-        report['execution_status'] = 'PASS' if len(report['cases']) == 4 * len(profiles) else 'FAIL'
+        report['execution_status'] = 'PASS' if len(report['cases']) == len(cases) * len(profiles) else 'FAIL'
     except (OSError, ValueError, KeyError, RuntimeError, subprocess.TimeoutExpired) as exc:
         report['execution_status'] = 'FAIL'
         report['error'] = str(exc)
@@ -207,7 +209,7 @@ def main(*, profiles=None, builder=None, case_check=None, title='P2-18 — conti
     lines = ['# ' + title, '', report['scope'], '',
              '| Case | Trial | Complete | Pages | Layout | Photo | Ref group |', '|---|---|---:|---:|---|---|---|']
     for c in report['cases']:
-        lines.append(f"| {c['id']} | {c['trial_status']} | {c['actual']['content']['complete_entries']}/18 | {c['actual']['pages']} | {c['comparison']['layout_status']} | {c['comparison']['photo']['status']} | {c['reference_group']['status']} |")
+        lines.append(f"| {c['id']} | {c['trial_status']} | {c['actual']['content']['complete_entries']}/{c['package']['entry_count']} | {c['actual']['pages']} | {c['comparison']['layout_status']} | {c['comparison']['photo']['status']} | {c['reference_group']['status']} |")
     lines += ['', 'Execution: ' + report['execution_status']]
     if report.get('error'):
         lines += ['', report['error']]
