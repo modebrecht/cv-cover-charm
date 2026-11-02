@@ -1,0 +1,32 @@
+{
+  "implementation_sha": "42bab2e13572145b201d1e9deabfa3baa8dab426",
+  "source_export_sha": "42bab2e13572145b201d1e9deabfa3baa8dab426",
+  "workflow_run_id": 41364498934,
+  "artifact_id": 13106249318,
+  "archive_sha256": "c2d5380ad06c323034ddf6c42e2850de224af31e400e0dae13b31cef10011b59",
+  "native_report_sha256": "c48da0d455604efb27521bd8f111db5ea072b9e1b626c608d2da7dbd8b38f327",
+  "scope": "One harder left source/candidate and native PDFs retained; all eight fresh App/DOCX source pairs and 16 native PDFs in the linked 14-day Actions artifact.",
+  "app_pdf_sha256": "25dc05a6d0c45f12320f8bb0bea9eead5e7f087fb483485398722f7f2596874c",
+  "files": [
+    {
+      "filename": "cv-18-varied-left-original.docx",
+      "bytes": 232765,
+      "sha256": "b47e611826e3297df6ad712b50a1c539a96f1117f9a184e2dd67c5c34c0b3689"
+    },
+    {
+      "filename": "cv-18-varied-left-rows-5-14.docx",
+      "bytes": 237219,
+      "sha256": "e4514912b91ed6803c517638ec9b07009e7e8d656a40ac8d7c10d010750c6b4b"
+    },
+    {
+      "filename": "cv-18-varied-left-original-lo.pdf",
+      "bytes": 115988,
+      "sha256": "265ab2523b9e6f3de59caa88d8db182c7cbf4f2c7b4bc3b93d5d2db775933a1e"
+    },
+    {
+      "filename": "cv-18-varied-left-rows-5-14-lo.pdf",
+      "bytes": 140934,
+      "sha256": "f35e1d1ffdb75e13757811b08a08f3cbe74991372ac6bc048291188bb4934542"
+    }
+  ]
+}

@@ -1,0 +1,201 @@
+{
+  "implementation_sha": "42bab2e13572145b201d1e9deabfa3baa8dab426",
+  "source_export_sha": "42bab2e13572145b201d1e9deabfa3baa8dab426",
+  "workflow_run_id": 41364498934,
+  "job_id": 125021674991,
+  "artifact_id": 13106249318,
+  "archive_bytes": 31216257,
+  "archive_sha256": "c2d5380ad06c323034ddf6c42e2850de224af31e400e0dae13b31cef10011b59",
+  "raw_report_sha256": "c48da0d455604efb27521bd8f111db5ea072b9e1b626c608d2da7dbd8b38f327",
+  "audit_execution_status": "PASS",
+  "audit_native_conversions": 0,
+  "all_eight_case_records_identical": true,
+  "retained_docx_rebuilt_and_pdf_hashes_verified": true,
+  "python_tests_passed": 49,
+  "browser_tests_passed": 9,
+  "local_frozen_row_tests_additionally_passed": 7,
+  "native_conversions": 16,
+  "native_pdf_pages": 52,
+  "app_pdf_pages": 28,
+  "converter_version": "LibreOffice 24.2.7.2 420(Build:2)",
+  "summed_native_seconds": 174.398,
+  "peak_native_rss_kib": 246724,
+  "run_started_utc": "2026-11-01T23:56:07Z",
+  "run_completed_utc": "2026-11-02T00:02:44Z",
+  "baseline_pairs": [
+    {
+      "case": "cv-18-left",
+      "variant": "original",
+      "pixels_identical_to_p216": true,
+      "pages": 3
+    },
+    {
+      "case": "cv-18-left",
+      "variant": "rows-5-14",
+      "pixels_identical_to_p216": true,
+      "pages": 3
+    },
+    {
+      "case": "cv-18-right",
+      "variant": "original",
+      "pixels_identical_to_p216": true,
+      "pages": 3
+    },
+    {
+      "case": "cv-18-right",
+      "variant": "rows-5-14",
+      "pixels_identical_to_p216": true,
+      "pages": 3
+    }
+  ],
+  "source_catalog_sha256": "fd50cba62e8f484ff1c9787b85574a81e1b30d8ec64377a72929dbd7cf38be24",
+  "source_manifests": [
+    {
+      "id": "cv-17-left",
+      "manifest_sha256": "d3e9a8de69c5c330f9048ff0f6648846f176e51b172b802806d1c0769d6e928d",
+      "download_files": [
+        {
+          "format": "PDF",
+          "filename": "cv-17-left.pdf",
+          "sha256": "91a3f1c6b3b0f28449e438a01f0962520b47885b8f01e5d6613f91c03e639e8a"
+        },
+        {
+          "format": "DOCX",
+          "filename": "cv-17-left.docx",
+          "sha256": "431fbbc76696ec561f628cae5f2bd12eb2a986c0e042a1b0440919c461d29ac8"
+        }
+      ]
+    },
+    {
+      "id": "cv-17-right",
+      "manifest_sha256": "4b8f3f4bdef35b56d21f5e8de1005b8ce562731ed4b90ff0c02c5aefedaa1136",
+      "download_files": [
+        {
+          "format": "PDF",
+          "filename": "cv-17-right.pdf",
+          "sha256": "dcb475697482c9a8b92f70ecc070991b8df051d19497cdfae303102150be851f"
+        },
+        {
+          "format": "DOCX",
+          "filename": "cv-17-right.docx",
+          "sha256": "4b6f5df854d45c32ab323e69bfe65403f6bae48dd04aed01cd8c3eb5008cfc69"
+        }
+      ]
+    },
+    {
+      "id": "cv-18-left",
+      "manifest_sha256": "a14421cd6d52041dd0ba88344ca903040293126982ffd159c390d38657263c3c",
+      "download_files": [
+        {
+          "format": "PDF",
+          "filename": "cv-18-left.pdf",
+          "sha256": "e6cd740a197e705818ac1ae54f1ab74a2bcdf7c9d9255f93ba4c24f676a20535"
+        },
+        {
+          "format": "DOCX",
+          "filename": "cv-18-left.docx",
+          "sha256": "7a80c88d27e467da86def48635e35e7e28ec0dda6170bcbcf666571f22208d51"
+        }
+      ]
+    },
+    {
+      "id": "cv-18-right",
+      "manifest_sha256": "7d11fdf5a42106c11df7740c9599cbbeba0a765f82cf611e24858b7c2e3917c5",
+      "download_files": [
+        {
+          "format": "PDF",
+          "filename": "cv-18-right.pdf",
+          "sha256": "41d2a728d9c5753c41c8f257943febac3476ec792967c0618488b4dcc4e7a067"
+        },
+        {
+          "format": "DOCX",
+          "filename": "cv-18-right.docx",
+          "sha256": "4b4dd2aed4acf86d4ca5b33506328c19a033ca09bbecee4384e4f36360a93095"
+        }
+      ]
+    },
+    {
+      "id": "cv-18-varied-left",
+      "manifest_sha256": "006fbe76d752c47bc28ff184f79edb806e26c19c54cfa4c3e89d7778a8d1d386",
+      "download_files": [
+        {
+          "format": "PDF",
+          "filename": "cv-18-varied-left.pdf",
+          "sha256": "25dc05a6d0c45f12320f8bb0bea9eead5e7f087fb483485398722f7f2596874c"
+        },
+        {
+          "format": "DOCX",
+          "filename": "cv-18-varied-left.docx",
+          "sha256": "b47e611826e3297df6ad712b50a1c539a96f1117f9a184e2dd67c5c34c0b3689"
+        }
+      ]
+    },
+    {
+      "id": "cv-18-varied-right",
+      "manifest_sha256": "d5a17f6cc83c23ef73129270405cbe348fbc8e317c0b8c0dd797bcd7f201b0b7",
+      "download_files": [
+        {
+          "format": "PDF",
+          "filename": "cv-18-varied-right.pdf",
+          "sha256": "667f7a248223291954b8f5c7f353fd184343003d91598f7578d5838e2c858e72"
+        },
+        {
+          "format": "DOCX",
+          "filename": "cv-18-varied-right.docx",
+          "sha256": "09c10ee5843abf99d8f66ef7dfd4f5598f9bdcfc6539372574d1a11e214d9afe"
+        }
+      ]
+    },
+    {
+      "id": "cv-19-left",
+      "manifest_sha256": "cdefa22460eb81964deba1913886632e98a9a7c60db8f637fa983aaf83b3e152",
+      "download_files": [
+        {
+          "format": "PDF",
+          "filename": "cv-19-left.pdf",
+          "sha256": "655476636480662f95f68c3e8eddd8697d460574cdabab617e6e6ca40b5e7318"
+        },
+        {
+          "format": "DOCX",
+          "filename": "cv-19-left.docx",
+          "sha256": "ce70cc537c226c8911cbd6c629c3ec8a89a65c136387f4609b51855c8349929e"
+        }
+      ]
+    },
+    {
+      "id": "cv-19-right",
+      "manifest_sha256": "9a69034903b73f64f72c900b195af629b733118ff9884e39f7d5750343733870",
+      "download_files": [
+        {
+          "format": "PDF",
+          "filename": "cv-19-right.pdf",
+          "sha256": "869e641b36e114c558f375b58a2d4d0724069d684f718a9a2c5e52d220d06aa0"
+        },
+        {
+          "format": "DOCX",
+          "filename": "cv-19-right.docx",
+          "sha256": "a73bbca567e3a666eda67f22fa6d9b3cda232368214f9d4bf52795b1c255bd2e"
+        }
+      ]
+    }
+  ],
+  "protected_refs": {
+    "dev": "c8e0a4e306e2e519d2b9392b43fb9759fb8c5078",
+    "render": "1fe6dbe59184a759d97f9c393353a8a3d9e1f89a",
+    "main": "44d7eb950b4fe972d6e890a72b6d3256ce365bc9"
+  },
+  "visual_findings": {
+    "varied_text_candidate_both_sides": {
+      "entry09_split": true,
+      "reference_heading_page": 4,
+      "reference_body_page": 5,
+      "app_reference_heading_and_body_page": 5
+    },
+    "contact_sheets_inspected": [
+      "cv-17-left",
+      "cv-19-left",
+      "cv-18-varied-left",
+      "cv-18-varied-right"
+    ]
+  }
+}
