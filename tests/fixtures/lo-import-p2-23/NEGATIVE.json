@@ -1,0 +1,8 @@
+{
+  "source_report_sha256": "2ac502e50ad0109cf4ec54e3cedddf039e2f20311dd0ef9d372c227f816a066a",
+  "source_implementation_sha": "e79480aed22c6e5d3b8fd33bd47b29fa3b867841",
+  "source_case": "cv-18-varied-right-detached-frame",
+  "pdf_sha256": "dd8d13b2a5991bf6e4638bf5056f86ea2a69d6405fb820c8ffa3452112ddc1a3",
+  "filename": "p222-varied-right-faint-lines.pdf",
+  "scope": "Actual P222 native output with four too-faint main-section lines; negative calibration, not accepted output."
+}
