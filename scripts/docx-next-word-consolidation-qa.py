@@ -78,6 +78,7 @@ def main(argv=None):
     p.add_argument('--source-dir', type=Path, required=True)
     p.add_argument('--out-dir', type=Path, required=True)
     p.add_argument('--libreoffice', default='libreoffice')
+    p.add_argument('--engine', type=Path, help='Existing hash-pinned LibreOfficeKit runtime for the historical body contract')
     a = p.parse_args(argv)
     source, out = a.source_dir.resolve(), a.out_dir.resolve()
     out.mkdir(parents=True, exist_ok=True)
@@ -90,9 +91,12 @@ def main(argv=None):
         result = folder/(input_path.stem+'.'+kind)
         assert not result.exists() and input_path.resolve() != result.resolve(), 'Refusing source/output overwrite'
         profile = folder/'profile'
-        command = [a.libreoffice,'--headless','--nologo','--nodefault','--nofirststartwizard',
-                   '-env:UserInstallation='+profile.as_uri(),'--convert-to',
-                   'docx:Office Open XML Text' if kind == 'docx' else 'pdf', '--outdir',str(folder),str(input_path)]
+        if a.engine:
+            command = [str(a.engine.resolve()/'lo-kit'), profile.as_uri(), input_path.as_uri(), result.as_uri(), kind]
+        else:
+            command = [a.libreoffice,'--headless','--nologo','--nodefault','--nofirststartwizard',
+                       '-env:UserInstallation='+profile.as_uri(),'--convert-to',
+                       'docx:Office Open XML Text' if kind == 'docx' else 'pdf', '--outdir',str(folder),str(input_path)]
         timing = folder/'resources.json'
         if Path('/usr/bin/time').exists():
             command = ['/usr/bin/time','-f','{"max_rss_kib":%M,"seconds":%e,"exit_code":%x}','-o',str(timing),*command]
@@ -110,9 +114,18 @@ def main(argv=None):
     try:
         metadata = json.loads((source/'MANIFEST.json').read_text())
         require_source(source, metadata)
+        if a.engine:
+            record_path = a.engine.resolve()/'runtime-record.json'
+            record = json.loads(record_path.read_text())
+            assert record['packageManifestSha256'] == digest(ROOT/'docs/docx-next/stable-lo-packages.json'), 'Engine package manifest differs'
+            assert record['fontManifestSha256'] == digest(ROOT/'docs/docx-next/stable-sidebar-fonts.json'), 'Engine font manifest differs'
+            converter = record['version']
+            assert converter['ProductVersion'] + converter['ProductExtension'] == '25.8.7.3', 'Historical body engine version differs'
+            report['engine_record_sha256'] = digest(record_path)
+        else:
+            converter = subprocess.check_output([a.libreoffice,'--version'],text=True,timeout=10).strip()
         report.update(implementation_sha=metadata['sha'], baseline_commit=metadata['baseline_commit'],
-                      normal_packages_identical=metadata['normal_packages_identical'],
-                      converter_version=subprocess.check_output([a.libreoffice,'--version'],text=True,timeout=10).strip())
+                      normal_packages_identical=metadata['normal_packages_identical'], converter_version=converter)
         for meta in metadata['cases']:
             original = source/(meta['id']+'.docx')
             original_hash = digest(original)

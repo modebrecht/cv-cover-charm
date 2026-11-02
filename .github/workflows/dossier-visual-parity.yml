@@ -214,12 +214,24 @@ jobs:
             --source-dir artifacts/parity-batches/dossier-visual-parity-source-0/modern \
             --suite "$DOSSIER_QA_SUITE" --out-dir artifacts/dossier-modern-qa
 
+      - name: Cache the existing hash-pinned Word/body engine assets
+        if: env.QA_MODE != 'gallery'
+        uses: actions/cache@v4
+        with:
+          path: /tmp/docx-next-stable-assets
+          key: docx-next-stable-assets-${{ runner.os }}-${{ hashFiles('docs/docx-next/stable-lo-packages.json', 'docs/docx-next/stable-sidebar-fonts.json') }}
+
+      - name: Prepare the historical Word/body contract engine
+        if: env.QA_MODE != 'gallery'
+        run: .parity-venv/bin/python scripts/docx-next-stable-sidebar-setup.py /tmp/word-consolidation/setup --assets /tmp/docx-next-stable-assets
+
       - name: Verify long detached candidates through two native saves
         if: env.QA_MODE != 'gallery'
         run: |
           .parity-venv/bin/python scripts/docx-next-word-consolidation-qa.py \
             --source-dir artifacts/parity-batches/dossier-visual-parity-source-0/word-smoke \
-            --out-dir artifacts/dossier-modern-qa/word-consolidation
+            --out-dir artifacts/dossier-modern-qa/word-consolidation \
+            --engine /tmp/word-consolidation/setup/runtime
 
       - name: Publish bounded QA summary
         if: always() && env.QA_MODE != 'gallery'
