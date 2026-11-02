@@ -123,6 +123,17 @@ class DossierQA(unittest.TestCase):
             self.assertEqual(qa.simple_document_result(args['app'], args['native'], args['source'], markers, True)['status'], 'FAIL')
         self.assertEqual(qa.simple_document_result(text, text, text, markers, False)['status'], 'FAIL')
 
+    def test_contact_sheet_does_not_count_ocr_rasters_as_extra_pages(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp)
+            (folder/'app').mkdir()
+            for name in ['render-1.png', 'render-1-ocr.png']:
+                Image.new('RGB', (20, 30), 'white').save(folder/'app'/name)
+            target = folder/'comparison.jpg'
+            qa.contact_sheet(folder, target)
+            with Image.open(target) as im:
+                self.assertEqual(im.size, (900, 455))
+
     def test_mixed_sha_and_missing_source_pair_fail(self):
         with tempfile.TemporaryDirectory() as tmp:
             source = Path(tmp)

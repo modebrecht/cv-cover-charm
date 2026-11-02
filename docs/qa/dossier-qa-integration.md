@@ -80,9 +80,71 @@ Ubuntu 24.04 / repository-pinned Python raster dependencies / Cabin and
 Liberation are used in CI. ONLYOFFICE investigation is closed. No Windows,
 manual Word approval, product fix or 39-Next approval is implied.
 
-## Validation
+## Verified integration — 2026-11-02
 
-Integration validation and native CI identity will be recorded here after the
-first dev run. Local checks currently cover eleven test groups including all ten
-byte-exact candidate reproductions and content, photo, line, footer and missing
-source negatives. Product changes: none.
+Native checked implementation: `2020a560e5d897285e1ee1853423dbe4a446a057`.
+[Full native CI run](https://github.com/modebrecht/cv-cover-charm/actions/runs/41497645811):
+both source and comparison jobs PASS. Five browser tests passed; all four fresh
+UI source pairs were additionally downloaded and their PDF/DOCX SHA256 hashes
+rechecked against their manifests. All pairs have the implementation SHA above.
+
+| Case | Original LibreOffice | Guarded QA candidate |
+|---|---|---|
+| Cover | PASS | Not applicable |
+| Letter | PASS | Not applicable |
+| 18-entry crop, sidebar left | FAIL: 14/18 complete entries | PASS: 18/18 |
+| 18-entry crop, sidebar right | FAIL: 14/18 complete entries; photo shifted | PASS: 18/18 |
+
+Eight conversions produced 20 native pages on LibreOffice 24.2.7.2.
+Maximum candidate title-position deviation: 1.665 mm. Both photo pattern
+agreements: 1.0, with BBox deviations below the retained 2 mm gate. All reference,
+line, page allocation, entry split, header and bottom gates passed for candidates.
+Measured peak converter RSS: 243388 KiB (237.7 MiB); this is not total job/browser
+peak memory. Original failures remain FAIL in the durable evidence.
+
+Local validation: 12 Python test groups, including exact regeneration of all ten
+research candidates, negative content/photo/line/footer/source/App-marker gates,
+and a contact-sheet check excluding OCR diagnostic images. The new evaluator
+also passed all ten retained native research PDFs without new conversions.
+These are overlapping checks, not 22 unique native test cases. The complete
+fresh ten-CV native matrix is available manually; it was not rerun in this smoke
+integration check.
+
+CI fast checks on the native checked implementation also passed: 1486 product
+unit tests, release formatting, TypeScript, lint (21 warnings, 0 errors) and
+production build. The larger pre-existing Dossier Regression browser suite has
+its own [run](https://github.com/modebrecht/cv-cover-charm/actions/runs/41497645964).
+
+The final display-only contact-sheet correction was tested locally and rebuilt
+from the retained native CI page PNGs with zero additional conversions. It
+excludes `render-N-ocr.png` from the page list; measured page counts and native
+gates were already correct. The three CV/letter sheets are byte-identical to
+the initially reviewed rasters; the corrected one-page cover sheet was reviewed
+separately. The core transformation/measurement module is unchanged from the
+native checked implementation. The complete real results, resource values,
+source manifests and raster hashes are retained in
+[dossier-qa-integration-proof.json](dossier-qa-integration-proof.json).
+
+### Reviewed native raster sheets
+
+Columns show App, original LibreOffice, and QA candidate. Cover/letter have no
+candidate; their last column is intentionally empty.
+
+![CV left](dossier-qa-smoke-2026-11-02/cv-crop-left.jpg)
+
+![CV right](dossier-qa-smoke-2026-11-02/cv-crop-right.jpg)
+
+![Cover](dossier-qa-smoke-2026-11-02/cover.jpg)
+
+![Letter](dossier-qa-smoke-2026-11-02/letter.jpg)
+
+### Branch outcome
+
+[The concrete 26-ref list](p2-branch-cleanup-2026-11-02.md) records exact current
+SHAs, GitHub ancestry evidence and preservation decisions. 24 refs are deletion
+candidates; P2-26 and the separate P2-14 proof closure remain archive anchors.
+All 26 refs still exist; no deletion was performed or authorized. No new branch
+was created. render and main remain at their pre-integration SHAs.
+
+This completes the bounded QA integration and cleanup preparation. Product
+exports are unchanged, and 39-Next release remains BLOCKED.

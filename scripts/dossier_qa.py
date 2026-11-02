@@ -168,7 +168,7 @@ def acceptance(rows):
 
 def contact_sheet(folder, target):
     groups = [('App', folder / 'app'), ('Original LO', folder / 'original'), ('QA candidate', folder / 'candidate')]
-    images = [(label, sorted(p.glob('render-*.png'))) for label, p in groups]
+    images = [(label, sorted(f for f in p.glob('render-*.png') if re.fullmatch(r'render-\d+\.png', f.name))) for label, p in groups]
     pages = max((len(v) for _, v in images), default=0)
     if not pages:
         return
