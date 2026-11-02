@@ -46,6 +46,17 @@ class ConsolidationTests(unittest.TestCase):
             self.assertEqual((pages,missing),(1,[]))
             self.assertEqual(qa.visible_fields({'entry':'Complete entry ending missing'},pdf)[1],['entry'])
 
+    def test_complete_field_across_pages_uses_its_own_column(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            pdf=Path(tmp)/'columns.pdf'
+            with fitz.open() as doc:
+                first=doc.new_page();first.insert_text((40,700),'First entry');first.insert_text((330,700),'Other column')
+                doc.new_page().insert_text((40,60),'ending');doc.save(pdf)
+            fields={'entry':'First entry ending'}
+            self.assertEqual(qa.visible_fields(fields,pdf)[1],['entry'])
+            self.assertEqual(qa.visible_fields(fields,pdf,[(10,80)])[1],[])
+            self.assertEqual(qa.visible_fields({'entry':'First entry ending absent'},pdf,[(10,80)])[1],['entry'])
+
     def test_blank_native_page_is_rejected(self):
         with tempfile.TemporaryDirectory() as tmp:
             pdf=Path(tmp)/'blank.pdf'

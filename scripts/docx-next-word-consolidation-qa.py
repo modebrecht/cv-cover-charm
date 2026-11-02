@@ -44,13 +44,32 @@ def require_source(source, metadata):
         body.check_cell_start_attachments(path, False)
 
 
-def visible_fields(fields, pdf):
+def source_lanes(path):
+    # Use the declared source grid, not inferred PDF word positions.
+    with ZipFile(path) as archive:
+        root = body.ET.fromstring(archive.read('word/document.xml'))
+    ns = {'w': body.W[1:-1]}
+    margins = root.find('w:body/w:sectPr/w:pgMar', ns)
+    left = int(margins.get(body.W+'left')) * 25.4 / 1440
+    table = next(t for t in root.findall('w:body/w:tbl', ns)
+                 if (caption := t.find('w:tblPr/w:tblCaption', ns)) is not None
+                 and caption.get(body.W+'val') == 'cv.sidebar')
+    widths = [int(c.get(body.W+'w'))*25.4/1440 for c in table.findall('w:tblGrid/w:gridCol', ns)]
+    assert len(widths) == 3 and all(w > 0 for w in widths), 'Invalid source grid'
+    return [(left, left+widths[0]), (left+sum(widths[:2]), left+sum(widths))]
+
+
+def visible_fields(fields, pdf, lanes=()):
     with fitz.open(pdf) as doc:
-        text = compact(''.join(page.get_text() for page in doc))
+        streams = [compact(''.join(page.get_text() for page in doc))]
+        for left, right in lanes:
+            streams.append(compact(''.join(page.get_text(clip=fitz.Rect(
+                (left-.75)*72/25.4, 0, (right+.75)*72/25.4, page.rect.height)) for page in doc)))
         pages = len(doc)
         for page in doc:
             assert page.get_text().strip(), 'Unexpected blank page'
-    missing = [key for key, value in fields.items() if compact(value) and compact(value) not in text]
+    missing = [key for key, value in fields.items()
+               if compact(value) and not any(compact(value) in text for text in streams)]
     return pages, missing
 
 
@@ -98,6 +117,7 @@ def main(argv=None):
             original = source/(meta['id']+'.docx')
             original_hash = digest(original)
             expected = body.package_controls(original)
+            lanes = source_lanes(original)
             folder = out/meta['id']
             saved = convert(original,folder/'save1','docx')
             saved2 = convert(saved,folder/'save2','docx')
@@ -108,7 +128,7 @@ def main(argv=None):
                 observed = body.package_controls(path)
                 assert observed == expected and list(observed[0]) == list(expected[0]), 'Serialized field identities/text/order changed'
                 pdf = convert(path,folder/(label+'-pdf'),'pdf')
-                pages, missing = visible_fields(expected[1],pdf)
+                pages, missing = visible_fields(expected[1],pdf,lanes)
                 row['phases'].append({'phase':label,'docx_sha256':digest(path),'pdf_sha256':digest(pdf),
                                      'pages':pages,'body_fields':len(observed[0]),'all_fields':len(observed[1]),'missing_visible_fields':missing})
                 assert not missing, 'Visible fields lost: '+str(missing[:6])
