@@ -115,6 +115,27 @@ def make_candidate(source, target, count):
         raise
 
 
+def visible_text(pdf, folder, label='render'):
+    """Reuse OCR produced by measure; blank App PDFs cannot pass marker gates."""
+    import fitz
+    texts = []
+    with fitz.open(pdf) as doc:
+        for number, page in enumerate(doc, 1):
+            text = page.get_text()
+            ocr = folder / f'{label}-{number}-ocr.txt'
+            if len(compact(text)) < 20 and ocr.is_file():
+                text = ocr.read_text()
+            texts.append(text)
+    return compact(''.join(texts))
+
+
+def simple_document_result(app_text, native_text, source_text, markers, pages_match):
+    missing = {label: [m for m in markers if compact(m) not in text]
+               for label, text in [('app', app_text), ('native', native_text), ('source', compact(source_text))]}
+    return {'status': 'PASS' if pages_match and not any(missing.values()) else 'FAIL',
+            'pages_match': pages_match, 'missing_markers': missing}
+
+
 def evaluate(app, actual, count, mirrored, pdf, control_edges=None, varied=False):
     comparison = core.compare(app, actual, count, mirrored)
     reference = core.reference_line(pdf)
@@ -252,12 +273,10 @@ def main(argv=None):
                         varied=meta.get('varied_text', False))
                 else:
                     # Covers and letters have no synthetic CV markers/photo.
-                    import fitz
-                    with fitz.open(pdf) as native:
-                        text = compact(''.join(p.get_text() for p in native))
-                    markers = meta['markers']
-                    ok = actual['pages'] == app['pages'] and all(compact(m) in text and compact(m) in compact(core.docx_text(docx)) for m in markers)
-                    row['original'] = {'status': 'PASS' if ok else 'FAIL', 'pages': actual['pages'], 'required_markers': markers}
+                    row['original'] = simple_document_result(
+                        visible_text(app_pdf, app_folder), visible_text(pdf, dest),
+                        core.docx_text(docx), meta['markers'], actual['pages'] == app['pages'])
+
             contact_sheet(folder, folder / 'comparison.jpg')
             print(meta['id'], 'original', row['original']['status'], 'candidate', row.get('candidate', {}).get('status', 'N/A'), flush=True)
         report['status'] = 'PASS' if acceptance(report['cases']) else 'FAIL'

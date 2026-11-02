@@ -113,6 +113,16 @@ class DossierQA(unittest.TestCase):
             self.assertEqual(json.loads((out/'RESULTS.json').read_text())['status'], 'BLOCKED')
             self.assertTrue((out/'SUMMARY.md').exists())
 
+    def test_cover_letter_gate_requires_app_native_and_source_markers(self):
+        text = qa.compact('Guten Tag Freundliche Grüsse')
+        markers = ['Guten Tag', 'Freundliche Grüsse']
+        self.assertEqual(qa.simple_document_result(text, text, text, markers, True)['status'], 'PASS')
+        for label in ['app', 'native', 'source']:
+            args = {key: text for key in ['app', 'native', 'source']}
+            args[label] = ''
+            self.assertEqual(qa.simple_document_result(args['app'], args['native'], args['source'], markers, True)['status'], 'FAIL')
+        self.assertEqual(qa.simple_document_result(text, text, text, markers, False)['status'], 'FAIL')
+
     def test_mixed_sha_and_missing_source_pair_fail(self):
         with tempfile.TemporaryDirectory() as tmp:
             source = Path(tmp)

@@ -83,6 +83,6 @@ manual Word approval, product fix or 39-Next approval is implied.
 ## Validation
 
 Integration validation and native CI identity will be recorded here after the
-first dev run. Local checks currently cover ten test groups including all ten
+first dev run. Local checks currently cover eleven test groups including all ten
 byte-exact candidate reproductions and content, photo, line, footer and missing
 source negatives. Product changes: none.
