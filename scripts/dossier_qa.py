@@ -16,7 +16,8 @@ import shutil
 import subprocess
 import sys
 import unicodedata
-from zipfile import ZipFile
+from zipfile import BadZipFile, ZipFile
+from xml.etree.ElementTree import ParseError
 
 from PIL import Image, ImageDraw
 import dossier_qa_core as core
@@ -260,7 +261,7 @@ def main(argv=None):
             contact_sheet(folder, folder / 'comparison.jpg')
             print(meta['id'], 'original', row['original']['status'], 'candidate', row.get('candidate', {}).get('status', 'N/A'), flush=True)
         report['status'] = 'PASS' if acceptance(report['cases']) else 'FAIL'
-    except (OSError, ValueError, RuntimeError, KeyError, TypeError, subprocess.SubprocessError) as exc:
+    except (OSError, ValueError, RuntimeError, KeyError, TypeError, BadZipFile, ParseError, subprocess.SubprocessError) as exc:
         report['status'] = 'BLOCKED'
         report['error'] = str(exc)
     finally:

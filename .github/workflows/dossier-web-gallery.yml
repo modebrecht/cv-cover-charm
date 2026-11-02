@@ -7,7 +7,6 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - dev
       - docx-next/integrate-39-templates
       - render
 

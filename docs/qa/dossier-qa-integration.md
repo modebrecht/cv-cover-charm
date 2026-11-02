@@ -10,7 +10,9 @@ A relevant dev push runs one source batch: actual cover and letter downloads,
 plus the long 18-entry Modern CV on both sides with the proven new crop settings.
 Five browser tests include the explicit Modern-eligible/38-blocked catalogue.
 Native comparison converts eight documents: cover, letter, and three variants
-of each CV. The x39 browser fan-out is not run for these dev pushes.
+of each CV. The x39 browser fan-out is not run for these dev pushes. The pre-existing
+`dossier-web-gallery.yml` also no longer auto-runs on dev; it remains manually
+available there and automatic on its other existing branches.
 
 Manual dispatch `qa_suite=full` exports cover/letter and the ten bounded CV cases
 (17/18/19 normal entries left/right, 18 varied left/right, two fresh crops).
