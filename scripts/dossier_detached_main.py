@@ -31,7 +31,7 @@ def table_properties(original, width, caption, indent=0):
     return props
 
 
-def make_copy(source, target, profile):
+def make_copy(source, target, profile, *, count=18):
     if profile not in PROFILES:
         raise ValueError('Unknown detached-main profile')
     with ZipFile(source) as z:
@@ -39,7 +39,7 @@ def make_copy(source, target, profile):
     margin = original.find('w:body/w:sectPr/w:pgMar', NS)
     left = int(margin.get(W + 'left'))
     frame = 'margin-equivalent' if left else 'original-photo'
-    meta = photo_copy(source, target, frame, layout=layout_profile(source))
+    meta = photo_copy(source, target, frame, layout=layout_profile(source), count=count)
     if profile == 'prior-control':
         meta.update(profile=profile, photo_control_profile=frame)
         return meta
@@ -84,7 +84,7 @@ def make_copy(source, target, profile):
     grid = ET.SubElement(main, W + 'tblGrid')
     ET.SubElement(grid, W + 'gridCol', {W + 'w': str(main_width)})
     cuts = []
-    for number in range(2, 19):
+    for number in range(2, count + 1):
         found = [i for i, n in enumerate(main_nodes) if n.tag == W + 'tbl' and f'P202Praxis{number:02}' in ''.join(word_values(n))]
         if len(found) != 1:
             raise ValueError('Expected unique semantic entry boundary')
@@ -112,9 +112,9 @@ def make_copy(source, target, profile):
     moved = [canon(n) for row in main.findall('w:tr', NS) for n in row.find('w:tc', NS) if n.tag != W + 'tcPr']
     if moved != main_blocks or canon(sidebar) != sidebar_before:
         raise ValueError('Main blocks or sidebar payload changed')
-    if Counter(word_values(root)) != Counter(word_values(before)) or critical(root, 18) != critical(before, 18):
+    if Counter(word_values(root)) != Counter(word_values(before)) or critical(root, count) != critical(before, count):
         raise ValueError('Visible text or critical payload changed')
-    if drawing_payloads(root) != drawing_payloads(before) or len(root.findall('.//w:sdt', NS)) != 107:
+    if drawing_payloads(root) != drawing_payloads(before) or len(root.findall('.//w:sdt', NS)) != len(before.findall('.//w:sdt', NS)):
         raise ValueError('Drawing or control payload changed')
     if profile == 'detached-frame':
         section = root.find('w:body/w:sectPr', NS)

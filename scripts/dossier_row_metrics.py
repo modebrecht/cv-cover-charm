@@ -56,10 +56,10 @@ def section_metrics(root):
             'effective_native_body_bottom': 'NOT_MEASURED: PDF text ink does not expose Writer row/page-area boxes'}
 
 
-def make_copy(source, target, profile):
+def make_copy(source, target, profile, *, count=18):
     if profile not in PROFILES:
         raise ValueError('Unknown row-metrics profile')
-    meta = body_copy(source, target, 'body-flow-nosplit-front')
+    meta = body_copy(source, target, 'body-flow-nosplit-front', count=count)
     with ZipFile(target) as z:
         infos = z.infolist(); parts = {n: z.read(n) for n in z.namelist()}
     root = parse_part(parts['word/document.xml']); before = deepcopy(root)
@@ -77,7 +77,7 @@ def make_copy(source, target, profile):
     expected = deepcopy(before)
     expected.find('w:body', NS).remove(expected.find('w:body/w:sectPr', NS))
     expected.find('w:body', NS).append(deepcopy(section))
-    if canon(expected) != canon(root) or critical(before, 18) != critical(root, 18) or drawing_payloads(before) != drawing_payloads(root):
+    if canon(expected) != canon(root) or critical(before, count) != critical(root, count) or drawing_payloads(before) != drawing_payloads(root):
         raise ValueError('Page-area edit changed content or graphics')
     if profile != 'prior-control':
         parts['word/document.xml'] = ET.tostring(root, encoding='utf-8', xml_declaration=True)
@@ -88,7 +88,7 @@ def make_copy(source, target, profile):
             raise ValueError('Non-document part changed')
     meta.update(profile=profile, copy_sha256=digest(target), empty_footer_parts_verified=footer_parts,
                 section_before=section_metrics(before), section_after=section_metrics(root),
-                critical_tables_identical_to_body_flow_front_control=19,
+                critical_tables_identical_to_body_flow_front_control=count+1,
                 page_area_edit={'prior-control': 'none', 'footer-distance-zero': 'pgMar.footer 680 -> 0',
                                 'footer-references-off': 'remove two empty footer references; parts/rels retained',
                                 'bottom-margin-zero': 'pgMar.bottom 283 -> 0'}[profile])

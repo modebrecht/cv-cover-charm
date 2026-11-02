@@ -22,17 +22,17 @@ PROFILES = ['frame-control', 'body-flow', 'body-flow-nosplit', 'body-flow-nospli
 LABELS = ['FAMILIE', 'SCHULBILDUNG', 'PRAKTIKA & SCHNUPPERTAGE', 'REFERENZEN']
 
 
-def leaves(root):
+def leaves(root, count=18):
     result = [t for t in root.findall('.//w:tbl', NS) if not t.findall('.//w:tbl', NS)
-              and any(m in ''.join(word_values(t)) for m in markers(18))]
-    if len(result) != 19:
-        raise ValueError('Expected 19 critical leaf tables')
+              and any(m in ''.join(word_values(t)) for m in markers(count))]
+    if len(result) != count + 1:
+        raise ValueError('Expected one critical leaf table per entry plus reference')
     return result
 
 
-def neutral_tables(root):
+def neutral_tables(root, count=18):
     result = []
-    for table in leaves(root):
+    for table in leaves(root, count):
         table = deepcopy(table)
         for row in table.findall('w:tr', NS):
             props = row.find('w:trPr', NS)
@@ -45,10 +45,10 @@ def neutral_tables(root):
     return result
 
 
-def make_copy(source, target, profile):
+def make_copy(source, target, profile, *, count=18):
     if profile not in PROFILES:
         raise ValueError('Unknown body-flow profile')
-    meta = detached_copy(source, target, 'detached-frame')
+    meta = detached_copy(source, target, 'detached-frame', count=count)
     if profile == 'frame-control':
         meta.update(profile=profile)
         return meta
@@ -71,9 +71,9 @@ def make_copy(source, target, profile):
     if [canon(n) for n in list(body)[index:index+len(blocks)]] != original_blocks:
         raise ValueError('Direct body transfer changed original blocks')
     guard_edits = 0
-    existing_guards = sum(row.find('w:trPr/w:cantSplit', NS) is not None for leaf in leaves(root) for row in leaf.findall('w:tr', NS))
+    existing_guards = sum(row.find('w:trPr/w:cantSplit', NS) is not None for leaf in leaves(root, count) for row in leaf.findall('w:tr', NS))
     if profile != 'body-flow':
-        for leaf in leaves(root):
+        for leaf in leaves(root, count):
             for row in leaf.findall('w:tr', NS):
                 props = row.find('w:trPr', NS)
                 if props is None:
@@ -86,8 +86,8 @@ def make_copy(source, target, profile):
                     continue
                 ET.SubElement(props, W+'cantSplit')
                 guard_edits += 1
-        if guard_edits + existing_guards != 19:
-            raise ValueError('Expected all 19 leaf rows guarded after preserving source guards')
+        if guard_edits + existing_guards != count + 1:
+            raise ValueError('Expected all leaf rows guarded after preserving source guards')
     paint_edits = []
     if profile == 'body-flow-nosplit-front':
         for d in root.iter(W+'drawing'):
@@ -100,9 +100,9 @@ def make_copy(source, target, profile):
                 paint_edits.append(prop.get('name'))
         if set(paint_edits) != MAIN_PAINT:
             raise ValueError('Expected exactly four main-section paint edits')
-    if neutral_tables(before) != neutral_tables(root):
+    if neutral_tables(before, count) != neutral_tables(root, count):
         raise ValueError('Critical content changed beyond declared leaf split guards')
-    if Counter(word_values(root)) != Counter(word_values(before)) or len(root.findall('.//w:sdt', NS)) != 107:
+    if Counter(word_values(root)) != Counter(word_values(before)) or len(root.findall('.//w:sdt', NS)) != len(before.findall('.//w:sdt', NS)):
         raise ValueError('Text or content-control payload changed')
     a,b = drawing_payloads(before),drawing_payloads(root)
     if set(a) != set(b) or any(a[n] != b[n] for n in a if n not in paint_edits):
@@ -120,12 +120,12 @@ def make_copy(source, target, profile):
     with ZipFile(source) as a,ZipFile(target) as b:
         if a.namelist()!=b.namelist() or any(a.read(n)!=b.read(n) for n in a.namelist() if n!='word/document.xml'):
             raise ValueError('Unrelated ZIP part changed')
-    same = sum(x == y for x,y in zip(critical(before,18),critical(root,18)))
+    same = sum(x == y for x,y in zip(critical(before,count),critical(root,count)))
     meta.update(profile=profile,copy_sha256=digest(target),main_outer_table_removed=True,
                 main_table_columns=0,main_table_rows=0,layout_rows=0,continuation_rows_cant_split=False,
                 reference_heading_body_grouped=False,source_reference_keep_next_preserved=True,
                 main_story_blocks_identical=not guard_edits,main_story_text_identical=True,
-                critical_tables_identical=same,critical_tables_except_cant_split_identical=19,
+                critical_tables_identical=same,critical_tables_except_cant_split_identical=count+1,
                 added_leaf_row_cant_split=guard_edits,existing_leaf_row_cant_split=existing_guards,
                 main_paint_foreground_edits=paint_edits,
                 drawing_payloads_identical=8-len(paint_edits)-(1 if meta['photo_control_profile']=='margin-equivalent' else 0),
