@@ -1,0 +1,97 @@
+{
+  "run_id": 41477205657,
+  "job_id": 125385818703,
+  "run_url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/41477205657",
+  "run_started_at": "2026-11-02T16:00:36Z",
+  "run_updated_at": "2026-11-02T16:05:45Z",
+  "conclusion": "success",
+  "implementation_sha": "49d3a6c8f1f765ca89678ee98d28653baf21f701",
+  "implementation_tree": "9c1c48ab04bbe71b3fd508e1f3e12f3d9428358f",
+  "base_sha": "73e59b0d47865dc510233777ef569e46a45f6056",
+  "unit_test_count": 167,
+  "test_counts": [
+    8,
+    10,
+    7,
+    9,
+    8,
+    6,
+    5,
+    7,
+    2,
+    5,
+    5,
+    5,
+    4,
+    5,
+    7,
+    5,
+    4,
+    10,
+    9,
+    13,
+    10,
+    9,
+    10,
+    4
+  ],
+  "artifact_id": 13158725372,
+  "artifact_bytes": 9205638,
+  "artifact_sha256": "f0d48cd1b305188462ab6fb978a930970e6ddc8c2a5e4bba8b807e3f00218132",
+  "artifact_expires_at": "2026-11-16T16:05:40Z",
+  "protected_refs": [
+    {
+      "branch": "dev",
+      "sha": "c8e0a4e306e2e519d2b9392b43fb9759fb8c5078"
+    },
+    {
+      "branch": "render",
+      "sha": "1fe6dbe59184a759d97f9c393353a8a3d9e1f89a"
+    },
+    {
+      "branch": "main",
+      "sha": "44d7eb950b4fe972d6e890a72b6d3256ce365bc9"
+    }
+  ],
+  "native_conversions": 16,
+  "native_pages": 56,
+  "audit_conversions": 0,
+  "candidate_cases": 8,
+  "candidate_passes": 8,
+  "trial_passes": 10,
+  "trial_fails": 6,
+  "pinned_18_entry_trials": 8,
+  "visual_review_new_candidate_pages": 12,
+  "native_converter_seconds": 23.619,
+  "max_converter_rss_kib": 245212,
+  "whole_job_peak_rss": "NOT_MEASURED",
+  "native_report_sha256": "cbff2a39ff35549a32e21e6c01fc56d91cf42b88081e11066e22cdf90b62c790",
+  "audit_report_sha256": "b29101483b3600ed5b2aceacdbc42fa0bad219172dc55d58e285e00afaa9efa0",
+  "retained_files": [
+    {
+      "path": "tests/fixtures/lo-import-p2-25/cv-17-left-footer-distance-zero.pdf",
+      "sha256": "7c87474f6d32cb3d896d615df3ae3a01fb2bcab03c65ac3b7c2b727797e24533",
+      "bytes": 133475
+    },
+    {
+      "path": "tests/fixtures/lo-import-p2-25/cv-17-right-footer-distance-zero.pdf",
+      "sha256": "a496b390e903d9b5aa8671b9630972da7227b27c0f3fbec1b8f64a07d86408d3",
+      "bytes": 133025
+    },
+    {
+      "path": "tests/fixtures/lo-import-p2-25/cv-19-left-footer-distance-zero.pdf",
+      "sha256": "d14183bce71431a8264fbd8c9df4c3d6fcb4470685521e5d35ef9b92072a4bf1",
+      "bytes": 137310
+    },
+    {
+      "path": "tests/fixtures/lo-import-p2-25/cv-19-right-footer-distance-zero.docx",
+      "sha256": "355cd52c2018ed3fe73f8a1ea37118c5dc60f72957411113db66cbc404fea3a6",
+      "bytes": 235351
+    },
+    {
+      "path": "tests/fixtures/lo-import-p2-25/cv-19-right-footer-distance-zero.pdf",
+      "sha256": "354f89012d56064229d30719db393d6d31a10656a72bd43324e6f863e765d8ee",
+      "bytes": 136817
+    }
+  ]
+}
