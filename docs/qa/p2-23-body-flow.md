@@ -6,13 +6,15 @@ Basis `1eadc7d079e49204ed65b4768111099ca2eb62b2`, separater Branch
 Vier echte eingefrorene P2-17-Next-Quellen (18 normale/längere Beschreibungen,
 links/rechts), passende eingefrorene App-Messwerte. Vier Profile je Quelle:
 P2-22-Rahmenkontrolle; Hauptblöcke ohne äußere Haupttabelle direkt im Dokumentfluss;
-dasselbe mit 19 `cantSplit`-Zusätzen an den inneren Eintrags-/Referenzzeilen;
+dasselbe mit Ergänzung fehlender `cantSplit`-Guards an den inneren Eintrags-/Referenzzeilen;
 zusätzlich vier Hauptabschnitts-Grafiken im Vordergrund statt hinter dem Dokument.
 16 native Konvertierungen. Gleiche Regel für beide Textlängen, kein 5/14-Routing.
 
 Default-Body-Flow behält alle 19 inneren Tabellen byte-/kanonisch gleich.
 Die geschützte Variante verändert ausdrücklich nur deren Zeilenformatierung:
-19 neue `cantSplit`-Elemente. Nach Entfernen ausschließlich dieser Guards stimmen
+Die normalen Quellen besitzen bereits 18, die längeren 12 Guards. Es werden nur
+die fehlenden 1 bzw. 7 ergänzt; alle vorhandenen Guards bleiben unverändert.
+Nach Neutralisierung ausschließlich des `cantSplit`-Formats stimmen
 alle Tabellen wieder kanonisch überein. 107 Inhaltssteuerelemente, alle Texte,
 Bild-/Crop-Payloads, übrige Absatz-/Tabellenformatierung bleiben erhalten.
 Vordergrund-Gegenprobe verändert zusätzlich exakt vier `behindDoc`-Flags;
@@ -30,3 +32,8 @@ Foto-, Referenzgruppen- und Kopf-/Randpixel-Gates bleiben bestehen.
 Nur bestehender Kompatibilitätsjob im bisherigen Workflow. Produktcode/normaler
 Export, Paketdateien und geschützte Branches unverändert. Keine frischen App-
 Exporte, privaten Dateien oder manuelle Word-Abnahme. Native Ergebnisse folgen.
+
+Der erste veröffentlichte Implementierungsstand `c4d051c7…` enthielt eine falsche
+Annahme über fehlende Guards und scheitert an drei lokalen Strukturtests. Er wird
+durch einen Folgecommit korrigiert; keine Historie wird umgeschrieben. Der
+zugehörige CI-Kontrollschritt verhindert native Konvertierungen dieses Stands.

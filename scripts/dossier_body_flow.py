@@ -71,6 +71,7 @@ def make_copy(source, target, profile):
     if [canon(n) for n in list(body)[index:index+len(blocks)]] != original_blocks:
         raise ValueError('Direct body transfer changed original blocks')
     guard_edits = 0
+    existing_guards = sum(row.find('w:trPr/w:cantSplit', NS) is not None for leaf in leaves(root) for row in leaf.findall('w:tr', NS))
     if profile != 'body-flow':
         for leaf in leaves(root):
             for row in leaf.findall('w:tr', NS):
@@ -78,12 +79,15 @@ def make_copy(source, target, profile):
                 if props is None:
                     props = ET.Element(W+'trPr')
                     row.insert(0, props)
-                if props.find('w:cantSplit', NS) is not None:
-                    raise ValueError('Unexpected existing leaf split guard')
+                existing = props.find('w:cantSplit', NS)
+                if existing is not None:
+                    if existing.get(W+'val', '1') not in ['1', 'true', 'on']:
+                        raise ValueError('Unexpected explicitly disabled source guard')
+                    continue
                 ET.SubElement(props, W+'cantSplit')
                 guard_edits += 1
-        if guard_edits != 19:
-            raise ValueError('Expected exactly 19 leaf-row guard additions')
+        if guard_edits + existing_guards != 19:
+            raise ValueError('Expected all 19 leaf rows guarded after preserving source guards')
     paint_edits = []
     if profile == 'body-flow-nosplit-front':
         for d in root.iter(W+'drawing'):
@@ -122,10 +126,11 @@ def make_copy(source, target, profile):
                 reference_heading_body_grouped=False,source_reference_keep_next_preserved=True,
                 main_story_blocks_identical=not guard_edits,main_story_text_identical=True,
                 critical_tables_identical=same,critical_tables_except_cant_split_identical=19,
-                added_leaf_row_cant_split=guard_edits,main_paint_foreground_edits=paint_edits,
+                added_leaf_row_cant_split=guard_edits,existing_leaf_row_cant_split=existing_guards,
+                main_paint_foreground_edits=paint_edits,
                 drawing_payloads_identical=8-len(paint_edits)-(1 if meta['photo_control_profile']=='margin-equivalent' else 0),
                 declared_losses=meta['declared_losses']+['Outer main table removed; original leaf blocks now direct body flow']+
-                (['Leaf table formatting changed only by 19 cantSplit additions'] if guard_edits else [])+
+                ([f'Leaf table formatting changed only by {guard_edits} missing cantSplit additions; existing guards retained'] if guard_edits else [])+
                 (['Four main-section drawing behindDoc flags changed to foreground'] if paint_edits else []))
     return meta
 
@@ -180,7 +185,7 @@ def main():
             row['foreground_main_metrics_identical_to_nosplit']=all(row['actual'][k]==old[k] for k in ['pages','content','title_positions','photos'])
     return entries.main(profiles=PROFILES,builder=make_copy,case_check=check,
                         title='P2-23 — direct body flow and leaf-row split guards',
-                        scope='Four frozen actual P217 18-entry sources; P222 frame control vs direct main-body flow, optional 19 leaf-row cantSplit additions and four main-paint foreground flags. Same rule for both text lengths. Frozen App metrics; no product/Word/x39 acceptance.',
+                        scope='Four frozen actual P217 18-entry sources; P222 frame control vs direct main-body flow, optional completion of missing leaf-row cantSplit guards and four main-paint foreground flags. Same rule for both text lengths. Frozen App metrics; no product/Word/x39 acceptance.',
                         extra_evidence={'p222_report_sha256':P222_SHA256,'all_four_main_heading_lines_gate':'15 mm pixel strip 5 mm after actual text bbox; unchanged 0.85 dark-run threshold, calibrated on retained positive and actual faint-line negative native PDFs'})
 
 

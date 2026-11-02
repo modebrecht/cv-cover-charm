@@ -36,10 +36,12 @@ class BodyFlow(unittest.TestCase):
             self.assertGreater(len(body.findall('w:tbl',NS)),18)
             self.assertTrue(m['main_outer_table_removed'])
 
-    def test_guarded_tables_change_only_the_19_row_split_properties(self):
+    def test_guarded_tables_preserve_existing_and_complete_only_missing_guards(self):
         for case,src in self.cases:
             a,b=self.folder/'a.docx',self.folder/'b.docx';make_copy(src,a,'body-flow');m=make_copy(src,b,'body-flow-nosplit')
-            x,y=read_root(a),read_root(b);self.assertEqual(neutral_tables(x),neutral_tables(y));self.assertEqual(m['added_leaf_row_cant_split'],19)
+            x,y=read_root(a),read_root(b);self.assertEqual(neutral_tables(x),neutral_tables(y))
+            self.assertEqual(m['added_leaf_row_cant_split'],7 if case['varied_text'] else 1)
+            self.assertEqual(m['existing_leaf_row_cant_split'],12 if case['varied_text'] else 18)
             self.assertEqual(sum(t.find('w:tr/w:trPr/w:cantSplit',NS) is not None for t in leaves(y)),19)
             self.assertEqual(word_values(x),word_values(y));self.assertEqual(drawing_payloads(x),drawing_payloads(y))
 
