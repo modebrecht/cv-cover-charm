@@ -162,6 +162,15 @@ def only_photo_changed(source, candidate, media):
     assert all(first[name] == second[name] for name in first if name != media), 'Photo-size comparison changed a non-photo package part'
 
 
+def declared_frame_shape(picture, fixture):
+    # Frozen October controls include ellipses on non-square frames. Current
+    # geometry correctly declares a CSS capsule there. Compare the actual native
+    # shape to that version's explicit declaration, not the historical case name.
+    shape = fixture['pictureGeometry']['shape']
+    assert shape in ['rect', 'ellipse', 'roundRect'], 'Unknown declared native picture shape'
+    assert picture['shape'] == shape, 'Native picture shape differs from declared geometry'
+
+
 def run(directory, executable, kit=False, require_stable=False, observe=False, replay=False, baseline=None, frames=False, precision=False, windows=False, sizes=False, sized_shapes=False, sized_rectangles=False):
     assert sum([precision, windows, sizes, sized_shapes, sized_rectangles]) <= 1, 'Choose one independent diagnostic matrix'
     assert not (precision or windows or sizes or sized_shapes or sized_rectangles) or frames, 'Precision/window controls require the strict frame/photo gates'
@@ -222,7 +231,7 @@ def run(directory, executable, kit=False, require_stable=False, observe=False, r
             assert picture['pictureId'] == fixture['pictureId'] == manifest[0]['pictureId']
             if sizes:
                 only_photo_changed(directory / (manifest[0]['name'] + '.docx'), directory / (fixture['name'] + '.docx'), picture['media'])
-            assert picture['shape'] == ('ellipse' if fixture['ellipse'] else 'rect')
+            declared_frame_shape(picture, fixture)
             assert picture['crop'] == dict(zip(['l', 't', 'r', 'b'], [fixture['pictureGeometry']['crop'][key] for key in ['left', 'top', 'right', 'bottom']]))
             if not fixture['crop']:
                 assert not any(picture['crop'].values()), 'Uncropped control has a crop'

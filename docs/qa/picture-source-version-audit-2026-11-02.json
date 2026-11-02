@@ -1,0 +1,281 @@
+{
+  "currentSerializerCommit": "38b2ad7edc66c300f75daa3e35c559dfeaf5c9e0",
+  "sourceUpgradeCommit": "90216cb21ffeaf3b555ebde48b5e65c7bc64f602",
+  "cases": [
+    {
+      "matrix": "fixtures",
+      "name": "picture-identity-body-plain",
+      "historicalDocxSha256": "fca6357e5ab5073707d803e78d6efc1ccfb0543d30d64f7f86e9b7ec32c9b206",
+      "currentDocxSha256": "fca6357e5ab5073707d803e78d6efc1ccfb0543d30d64f7f86e9b7ec32c9b206",
+      "normalizedPhotoSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+      "changedParts": []
+    },
+    {
+      "matrix": "fixtures",
+      "name": "picture-identity-body-photo",
+      "historicalDocxSha256": "d873fb8eb3f631baeeff32bafde34b79bda04e29bcae31383b03d38d819c936e",
+      "currentDocxSha256": "dc641904f7ea5e77ddad10d8a4eefeb1542dd5fabbc7cba7d741c0e7f9401db8",
+      "normalizedPhotoSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+      "changedParts": [
+        "word/document.xml",
+        "word/settings.xml"
+      ]
+    },
+    {
+      "matrix": "fixtures",
+      "name": "picture-identity-single-plain",
+      "historicalDocxSha256": "79561ad7c17cf6368ee9f863f9ac8ce9434912ef4ab0733692639dd0ea358a78",
+      "currentDocxSha256": "79561ad7c17cf6368ee9f863f9ac8ce9434912ef4ab0733692639dd0ea358a78",
+      "normalizedPhotoSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+      "changedParts": []
+    },
+    {
+      "matrix": "fixtures",
+      "name": "picture-identity-single-photo",
+      "historicalDocxSha256": "40dc2a65db89a9a18d12e3f298d9d8995ea93edb2bbc8495975e63528bd64d49",
+      "currentDocxSha256": "b3b3ea0887f2e3d859b79fba35e70dc03576208f66b81d66a0d81686966006a8",
+      "normalizedPhotoSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+      "changedParts": [
+        "word/document.xml",
+        "word/settings.xml"
+      ]
+    },
+    {
+      "matrix": "fixtures",
+      "name": "picture-identity-left-plain",
+      "historicalDocxSha256": "c7686a832853ee3f39da64881789e5cdc215e33f8df5e59ddb879db2a1522df9",
+      "currentDocxSha256": "c7686a832853ee3f39da64881789e5cdc215e33f8df5e59ddb879db2a1522df9",
+      "normalizedPhotoSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+      "changedParts": []
+    },
+    {
+      "matrix": "fixtures",
+      "name": "picture-identity-left-photo",
+      "historicalDocxSha256": "b05711e2fc055ac6387df5ef748ea12310e7c31b4105cfabaa11aa6ba60cbb42",
+      "currentDocxSha256": "ebaad52da8d4e10e7da511368a6fbd790c55bfc75c364d82fbba126ba3a27a55",
+      "normalizedPhotoSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+      "changedParts": [
+        "word/document.xml",
+        "word/settings.xml"
+      ]
+    },
+    {
+      "matrix": "fixtures",
+      "name": "picture-identity-right-plain",
+      "historicalDocxSha256": "f15d981cf51833097e6f913119062e7775f0491c3fa752c812f18223ae1b7003",
+      "currentDocxSha256": "f15d981cf51833097e6f913119062e7775f0491c3fa752c812f18223ae1b7003",
+      "normalizedPhotoSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+      "changedParts": []
+    },
+    {
+      "matrix": "fixtures",
+      "name": "picture-identity-right-photo",
+      "historicalDocxSha256": "8eb7b6b7d03d4f6e1250e7622afcb25bc42539a5087c5fd61df5859bd264758a",
+      "currentDocxSha256": "680e792c41f8cfc9ba71a858f642be426fb96db2b7776b1ebd11c1b99ea61571",
+      "normalizedPhotoSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+      "changedParts": [
+        "word/document.xml",
+        "word/settings.xml"
+      ]
+    },
+    {
+      "matrix": "frames",
+      "name": "picture-frame-uncropped-rect",
+      "historicalDocxSha256": "8dfabf25a4097cc4ce6065e5a8998713bbd37bc4dfe15bd3e317d22850ac92df",
+      "currentDocxSha256": "61444b4077529c8eff3ec14013f744c63066995947ec51f3613551e3dc821032",
+      "normalizedPhotoSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+      "changedParts": [
+        "word/document.xml",
+        "word/settings.xml"
+      ]
+    },
+    {
+      "matrix": "frames",
+      "name": "picture-frame-uncropped-ellipse",
+      "historicalDocxSha256": "0821fbd3763aafad822e36afb0626691167178e4c322a2a35ce499e5e79f4d8d",
+      "currentDocxSha256": "b91cdb9c54af7e361f41714e0c9dd14da69564ef9fa36007174bb070da4ba713",
+      "normalizedPhotoSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+      "changedParts": [
+        "word/document.xml",
+        "word/settings.xml"
+      ]
+    },
+    {
+      "matrix": "frames",
+      "name": "picture-frame-cropped-rect",
+      "historicalDocxSha256": "8f3ea03dba5d08dff674738da0a7dee82ee5599783e3c471ceb832ada401773b",
+      "currentDocxSha256": "b537d238453fcafe002bbb3b29df32ca015220827b929dc511d2c16b50e31043",
+      "normalizedPhotoSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+      "changedParts": [
+        "word/document.xml",
+        "word/settings.xml"
+      ]
+    },
+    {
+      "matrix": "frames",
+      "name": "picture-frame-cropped-ellipse",
+      "historicalDocxSha256": "d873fb8eb3f631baeeff32bafde34b79bda04e29bcae31383b03d38d819c936e",
+      "currentDocxSha256": "dc641904f7ea5e77ddad10d8a4eefeb1542dd5fabbc7cba7d741c0e7f9401db8",
+      "normalizedPhotoSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+      "changedParts": [
+        "word/document.xml",
+        "word/settings.xml"
+      ]
+    },
+    {
+      "matrix": "precision",
+      "name": "picture-frame-uncropped-rect",
+      "historicalDocxSha256": "8dfabf25a4097cc4ce6065e5a8998713bbd37bc4dfe15bd3e317d22850ac92df",
+      "currentDocxSha256": "61444b4077529c8eff3ec14013f744c63066995947ec51f3613551e3dc821032",
+      "normalizedPhotoSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+      "changedParts": [
+        "word/document.xml",
+        "word/settings.xml"
+      ]
+    },
+    {
+      "matrix": "precision",
+      "name": "picture-precision-declared-crop-rect",
+      "historicalDocxSha256": "8792017431b1a913da220b55a4fc7e5d83db749a55eee085741935bbc0856222",
+      "currentDocxSha256": "f0a26d5c1b3ad26db4ab1877c1cf43260559b417495331adcd8e0d86bfba74aa",
+      "normalizedPhotoSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+      "changedParts": [
+        "word/document.xml",
+        "word/settings.xml"
+      ]
+    },
+    {
+      "matrix": "windows",
+      "name": "picture-precision-declared-crop-rect",
+      "historicalDocxSha256": "8792017431b1a913da220b55a4fc7e5d83db749a55eee085741935bbc0856222",
+      "currentDocxSha256": "f0a26d5c1b3ad26db4ab1877c1cf43260559b417495331adcd8e0d86bfba74aa",
+      "normalizedPhotoSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+      "changedParts": [
+        "word/document.xml",
+        "word/settings.xml"
+      ]
+    },
+    {
+      "matrix": "windows",
+      "name": "picture-window-right-lower",
+      "historicalDocxSha256": "c5aa3294410d96812c042720a0abb0194570c90457459e155c659b8183b125ab",
+      "currentDocxSha256": "2a9a4fcaf6441af46d62efa44ee23a0e852e77dd5b99cfb9474734a571286cab",
+      "normalizedPhotoSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+      "changedParts": [
+        "word/document.xml",
+        "word/settings.xml"
+      ]
+    },
+    {
+      "matrix": "windows",
+      "name": "picture-window-left-upper",
+      "historicalDocxSha256": "2a0ea0a59305416ee566e2dc55526e7d4383461ea188bd36a6d5c6c2e27c774d",
+      "currentDocxSha256": "10a7d79faa845a114b86947b4339a23ee502be7e2ab9511b6c79c3c4b1f0b698",
+      "normalizedPhotoSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+      "changedParts": [
+        "word/document.xml",
+        "word/settings.xml"
+      ]
+    },
+    {
+      "matrix": "windows",
+      "name": "picture-window-increased-zoom",
+      "historicalDocxSha256": "8c555689953aa0b27063702e48bad194e4e228c9a13f121848d31c77ba574199",
+      "currentDocxSha256": "384bffca7e1b7709e8a020cad3346b3cd3e3da43440c35e6ea32995a6f88f5a7",
+      "normalizedPhotoSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+      "changedParts": [
+        "word/document.xml",
+        "word/settings.xml"
+      ]
+    },
+    {
+      "matrix": "sizes",
+      "name": "picture-precision-declared-crop-rect",
+      "historicalDocxSha256": "8792017431b1a913da220b55a4fc7e5d83db749a55eee085741935bbc0856222",
+      "currentDocxSha256": "f0a26d5c1b3ad26db4ab1877c1cf43260559b417495331adcd8e0d86bfba74aa",
+      "normalizedPhotoSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+      "changedParts": [
+        "word/document.xml",
+        "word/settings.xml"
+      ]
+    },
+    {
+      "matrix": "sizes",
+      "name": "picture-size-240x360",
+      "historicalDocxSha256": "4ed84d096df767d4fdc5ee39c94cd935d253ab296b0a62dad39567b0490bfc9e",
+      "currentDocxSha256": "011bff5edc03341bec129ce0bc79f39b58b8b585166fabe861f2dcacfe8f5209",
+      "normalizedPhotoSha256": "7c1597350e5fb018da6d28e074fb9216bab42f647fdcd6482ea8309058ece4a4",
+      "changedParts": [
+        "word/document.xml",
+        "word/settings.xml"
+      ]
+    },
+    {
+      "matrix": "sizes",
+      "name": "picture-size-600x900",
+      "historicalDocxSha256": "c32c0ef455d1705f041e3ee38468f30c17eec92237d42872dbdc983fdf65a44f",
+      "currentDocxSha256": "3998b988bbb19209ba0620df169c76e5c435b99b134b9c08729fed82a8cd43fe",
+      "normalizedPhotoSha256": "9a91925cd107b08841bf8df2bb5c8c6543eeb1324295b35d516f32a461873827",
+      "changedParts": [
+        "word/document.xml",
+        "word/settings.xml"
+      ]
+    },
+    {
+      "matrix": "sized-rectangles",
+      "name": "picture-precision-declared-crop-rect",
+      "historicalDocxSha256": "8792017431b1a913da220b55a4fc7e5d83db749a55eee085741935bbc0856222",
+      "currentDocxSha256": "f0a26d5c1b3ad26db4ab1877c1cf43260559b417495331adcd8e0d86bfba74aa",
+      "normalizedPhotoSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+      "changedParts": [
+        "word/document.xml",
+        "word/settings.xml"
+      ]
+    },
+    {
+      "matrix": "sized-rectangles",
+      "name": "picture-sized-240x360-declared-rect",
+      "historicalDocxSha256": "001d77d4de7b6cc9352f36667d4433f1b3e5e5923bc2ebb3c0a6aecfea9d5b35",
+      "currentDocxSha256": "6bccbfc2f14b6d5c4f6c71f6bf095896f1141455e53e0ae62d7e5336ecd04779",
+      "normalizedPhotoSha256": "7c1597350e5fb018da6d28e074fb9216bab42f647fdcd6482ea8309058ece4a4",
+      "changedParts": [
+        "word/document.xml",
+        "word/settings.xml"
+      ]
+    },
+    {
+      "matrix": "sized-shapes",
+      "name": "picture-precision-declared-crop-rect",
+      "historicalDocxSha256": "8792017431b1a913da220b55a4fc7e5d83db749a55eee085741935bbc0856222",
+      "currentDocxSha256": "f0a26d5c1b3ad26db4ab1877c1cf43260559b417495331adcd8e0d86bfba74aa",
+      "normalizedPhotoSha256": "77aa2ffea44e66b004db2ce62dd50607cdf506f97202772528b74148893e9e42",
+      "changedParts": [
+        "word/document.xml",
+        "word/settings.xml"
+      ]
+    },
+    {
+      "matrix": "sized-shapes",
+      "name": "picture-sized-240x360-declared-rect",
+      "historicalDocxSha256": "001d77d4de7b6cc9352f36667d4433f1b3e5e5923bc2ebb3c0a6aecfea9d5b35",
+      "currentDocxSha256": "6bccbfc2f14b6d5c4f6c71f6bf095896f1141455e53e0ae62d7e5336ecd04779",
+      "normalizedPhotoSha256": "7c1597350e5fb018da6d28e074fb9216bab42f647fdcd6482ea8309058ece4a4",
+      "changedParts": [
+        "word/document.xml",
+        "word/settings.xml"
+      ]
+    },
+    {
+      "matrix": "sized-shapes",
+      "name": "picture-sized-240x360-declared-ellipse",
+      "historicalDocxSha256": "e36bd425a24fe5c22fa7576d89fbcb7cede858f5bab9f21223f94d24878ee501",
+      "currentDocxSha256": "77926c1abfd7f8bf3a963498ff49f5d77069603f162d9a429364c1aebe0a10e1",
+      "normalizedPhotoSha256": "7c1597350e5fb018da6d28e074fb9216bab42f647fdcd6482ea8309058ece4a4",
+      "changedParts": [
+        "word/document.xml",
+        "word/settings.xml"
+      ]
+    }
+  ],
+  "contourUpgradeCommit": "02eb033a92b38ad1922de9252dea8bea22265065"
+}

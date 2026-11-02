@@ -81,6 +81,20 @@ class PictureIdentityTests(unittest.TestCase):
         second = {'fixtures': [{'native': self.result(field='fail')['native']}]}
         self.assertNotEqual(module.comparable(first), module.comparable(second))
 
+    def test_each_version_requires_its_exact_declared_native_shape(self):
+        for shape in ['rect', 'ellipse', 'roundRect']:
+            module.declared_frame_shape({'shape': shape}, {'pictureGeometry': {'shape': shape}})
+
+    def test_capsule_cannot_pass_as_an_ellipse_or_rectangle(self):
+        for actual, expected in [('roundRect', 'ellipse'), ('ellipse', 'roundRect'),
+                                 ('roundRect', 'rect'), ('rect', 'roundRect')]:
+            with self.assertRaisesRegex(AssertionError, 'differs from declared'):
+                module.declared_frame_shape({'shape': actual}, {'pictureGeometry': {'shape': expected}})
+
+    def test_unknown_shape_cannot_be_declared_to_make_a_source_pass(self):
+        with self.assertRaisesRegex(AssertionError, 'Unknown'):
+            module.declared_frame_shape({'shape': 'unknown'}, {'pictureGeometry': {'shape': 'unknown'}})
+
     def source_pair(self, edits=None):
         work = tempfile.TemporaryDirectory()
         self.addCleanup(work.cleanup)

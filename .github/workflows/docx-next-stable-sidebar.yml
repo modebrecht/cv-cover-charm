@@ -39,6 +39,8 @@ on:
       - docs/docx-next/sidebar-description-owner-evidence.json
       - docs/docx-next/sidebar-split-description-owner-evidence.json
       - docs/docx-next/sidebar-nested-side-evidence.json
+      - docs/docx-next/sidebar-picture-current-identity-evidence.json
+      - docs/docx-next/sidebar-picture-current-frame-evidence.json
       - docs/docx-next/sidebar-picture-identity-evidence.json
       - docs/docx-next/sidebar-picture-frame-evidence.json
       - docs/docx-next/sidebar-crop-precision-evidence.json
@@ -571,8 +573,8 @@ jobs:
       - name: Measure current typed-picture controls independently of October evidence
         timeout-minutes: 3
         run: |
-          python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/current/fixtures" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --replay
-          python scripts/docx-next-native-photo-qa.py "$QA_ROOT/current/fixtures"
+          python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/current/fixtures" --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --replay --baseline docs/docx-next/sidebar-picture-current-identity-evidence.json
+          python scripts/docx-next-native-photo-qa.py "$QA_ROOT/current/fixtures" --baseline docs/docx-next/sidebar-picture-current-identity-evidence.json
           python scripts/docx-next-picture-identity-qa.py "$QA_ROOT/current/frames" --frames --libreofficekit "$QA_ROOT/setup/runtime/lo-kit" --require-stable --observe --replay
       - name: Retain actual picture identity evidence including stopped cases
         if: always()
