@@ -7,6 +7,9 @@ Tested implementation `49d3a6c8f1f765ca89678ee98d28653baf21f701`,
 [native run 41477205657](https://github.com/modebrecht/cv-cover-charm/actions/runs/41477205657).
 The four `footer-distance-zero` PDFs each have 3 pages and pass all unchanged
 content/layout/photo/line gates. One 19-entry right DOCX copy is retained too.
+The four matching original App PDFs were subsequently recovered from pinned
+P217 artifact `13106249318`, checked against its recorded PDF SHA256 values,
+and retained here as `*-app.pdf`. This read-only recovery starts no converter.
 
 Rebuild any candidate with `dossier_boundary_check.make_copy(source, target,
 'footer-distance-zero')` and the pinned CI analysis dependencies. Source,

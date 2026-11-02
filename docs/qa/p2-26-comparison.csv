@@ -1,0 +1,5 @@
+source,profile,trial,complete_entries,pages,layout,photo,pattern,max_bbox_delta_mm,edges,lines,pdf_sha256
+cv-crop-left,original-source,FAIL,14,3,FAIL,PASS,1.0,1.059,PASS,FAIL,1952781a8992ebe86c1dc36076357237bc95c5693535e01e961e99a9d8ef46ae
+cv-crop-left,footer-distance-zero,PASS,18,3,PASS,PASS,1.0,1.059,PASS,PASS,8116cf7b7641b207dc2490a07482de3f0285559ababd3eed815f928ad65bf8d8
+cv-crop-right,original-source,FAIL,14,3,FAIL,FAIL,1.0,19.843,PASS,FAIL,bdda8514f1a03b2af0caadd5d810eb76cbf5febf21b295ecb8fa6bd364d5070d
+cv-crop-right,footer-distance-zero,PASS,18,3,PASS,PASS,1.0,1.322,PASS,PASS,9c347520367dd89c0d098645dd1bb54f3fa7636bc92a054a6c3d888394b0cfd5

@@ -1,0 +1,132 @@
+{
+  "run_id": 41479670289,
+  "job_id": 125394307437,
+  "run_url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/41479670289",
+  "run_started_at": "2026-11-02T16:15:23Z",
+  "run_updated_at": "2026-11-02T16:20:05Z",
+  "conclusion": "success",
+  "implementation_sha": "2226e220eeddfa3f12cc589da45ad250ae5fb667",
+  "implementation_tree": "c5e87a705545ddb00834403a6044e8767138d68b",
+  "base_sha": "c5d854a8a9853fec9dcb71cae9fe381a03803372",
+  "unit_test_count": 73,
+  "browser_test_count": 3,
+  "browser_seconds": 24.2,
+  "artifact_id": 13158248988,
+  "artifact_bytes": 6341665,
+  "artifact_sha256": "5d03128b498ee04cb6917caabe14b0919c020dcb86fdfcf484e4789ae94b80fb",
+  "artifact_expires_at": "2026-11-16T16:19:49Z",
+  "protected_refs": [
+    {
+      "branch": "dev",
+      "sha": "c8e0a4e306e2e519d2b9392b43fb9759fb8c5078"
+    },
+    {
+      "branch": "render",
+      "sha": "1fe6dbe59184a759d97f9c393353a8a3d9e1f89a"
+    },
+    {
+      "branch": "main",
+      "sha": "44d7eb950b4fe972d6e890a72b6d3256ce365bc9"
+    }
+  ],
+  "native_conversions": 4,
+  "native_pages": 12,
+  "app_pdf_downloads": 2,
+  "app_pages": 6,
+  "audit_conversions": 0,
+  "candidate_cases": 2,
+  "candidate_passes": 2,
+  "original_control_fails": 2,
+  "visual_review_candidate_pages": 6,
+  "visual_review_app_pages": 6,
+  "native_converter_seconds": 44.417,
+  "candidate_converter_seconds": 3.31,
+  "original_converter_seconds": 41.107,
+  "max_converter_rss_kib": 244176,
+  "whole_job_peak_rss": "NOT_MEASURED",
+  "retained_files": [
+    {
+      "path": "tests/fixtures/lo-import-p2-26/CATALOG.json",
+      "sha256": "59c833f72f22fd0d1c0a82cd400a1f0c370334379df2d9e08d88fcaa4fc55660",
+      "bytes": 9939
+    },
+    {
+      "path": "tests/fixtures/lo-import-p2-26/cv-crop-left-original.docx",
+      "sha256": "3b6309882fa81035eed377e9951c61d2f545f6cca5b264ccffde37cab2035f23",
+      "bytes": 229199
+    },
+    {
+      "path": "tests/fixtures/lo-import-p2-26/cv-crop-left.json",
+      "sha256": "2f14e476f146c426b8629cd7c92f105c65b49afc38e8d10b3fd021e51f3498b0",
+      "bytes": 1177
+    },
+    {
+      "path": "tests/fixtures/lo-import-p2-26/cv-crop-left-app.pdf",
+      "sha256": "7e729741a3bd70f0b3d7b4383aea1904962e4ee4b6239704d6d065899ba6e261",
+      "bytes": 1929581
+    },
+    {
+      "path": "tests/fixtures/lo-import-p2-26/cv-crop-right-original.docx",
+      "sha256": "ba3eceb510df262ab653bf41b8c81419db7507660a1bf7c98816668c9bbbf527",
+      "bytes": 229174
+    },
+    {
+      "path": "tests/fixtures/lo-import-p2-26/cv-crop-right.json",
+      "sha256": "5b2ff9fd7179a1017498477059c34e78cf47f5b8783e8ade0ea1bfd82b2fd3e4",
+      "bytes": 1178
+    },
+    {
+      "path": "tests/fixtures/lo-import-p2-26/cv-crop-right-app.pdf",
+      "sha256": "2576310c41aa8749d2aed76baa65634a416ff137da021cc4584a47e09b701fe3",
+      "bytes": 1920028
+    },
+    {
+      "path": "tests/fixtures/lo-import-p2-26/cv-crop-left-footer-distance-zero.docx",
+      "sha256": "3316f50f53027fd33afeb3986ea81027f8992fa027bd2cecc0b36f9a2c5a6af9",
+      "bytes": 231559
+    },
+    {
+      "path": "tests/fixtures/lo-import-p2-26/cv-crop-left-footer-distance-zero.pdf",
+      "sha256": "8116cf7b7641b207dc2490a07482de3f0285559ababd3eed815f928ad65bf8d8",
+      "bytes": 134304
+    },
+    {
+      "path": "tests/fixtures/lo-import-p2-26/cv-crop-right-footer-distance-zero.docx",
+      "sha256": "81c3e93b427eaf9e521d8230f9cfc34dd7617303c1d51136a40583bebfd4bb79",
+      "bytes": 231539
+    },
+    {
+      "path": "tests/fixtures/lo-import-p2-26/cv-crop-right-footer-distance-zero.pdf",
+      "sha256": "9c347520367dd89c0d098645dd1bb54f3fa7636bc92a054a6c3d888394b0cfd5",
+      "bytes": 133777
+    },
+    {
+      "path": "tests/fixtures/lo-import-p2-26/cv-crop-left-original-lo.pdf",
+      "sha256": "1952781a8992ebe86c1dc36076357237bc95c5693535e01e961e99a9d8ef46ae",
+      "bytes": 124584
+    },
+    {
+      "path": "tests/fixtures/lo-import-p2-26/cv-crop-right-original-lo.pdf",
+      "sha256": "bdda8514f1a03b2af0caadd5d810eb76cbf5febf21b295ecb8fa6bd364d5070d",
+      "bytes": 124151
+    }
+  ],
+  "overall_rest_package": {
+    "planned_native_ci_runs": 2,
+    "executed_native_ci_runs": 2,
+    "extra_followup_ci_runs": 0,
+    "remaining_native_ci_runs": 0,
+    "completed_packages": 6,
+    "total_packages": 6,
+    "candidate_passes": 10,
+    "candidate_cases": 10,
+    "native_conversions": 20,
+    "native_pages": 68,
+    "audit_conversions": 0,
+    "product_acceptance": false,
+    "x39_next": "BLOCKED: 38 unsupported source designs"
+  },
+  "native_report_sha256": "24fdf64bb6784e408b17728ca16cf741651ab82b2d79aaa1b98b1822ca0fc3a1",
+  "audit_report_sha256": "6d9e3dd7ffff28860b439c94c56e354c36fb07d40c9762c94f96997e736a3d26",
+  "fresh_inputs_sha256": "10fbac58924f81e6eaa1d55b97009a7a28507c795bf0af35fef9df38ad13cfc2"
+}

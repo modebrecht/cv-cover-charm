@@ -1,0 +1,278 @@
+{
+  "sha": "2226e220eeddfa3f12cc589da45ad250ae5fb667",
+  "scope": "availability guard only; no 39-template export/fidelity claim",
+  "rows": [
+    {
+      "id": "brief",
+      "name": "Brief",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "klassisch",
+      "name": "Editorial",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "modern",
+      "name": "Modern",
+      "status": "ELIGIBLE",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "freundlich",
+      "name": "Warm",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "edel",
+      "name": "Edel",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "colorful",
+      "name": "Colorful",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "blockig",
+      "name": "Blockig",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "serioes",
+      "name": "Seriös",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "human",
+      "name": "Human",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "welle",
+      "name": "Horizont",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "terracotta",
+      "name": "Kolumne",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "pastell",
+      "name": "Rahmen",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "sonne",
+      "name": "Sonne",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "studio",
+      "name": "Studio",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "neon",
+      "name": "Neon",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "aurora",
+      "name": "Aurora",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "verlauf",
+      "name": "Verlauf",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "citrus",
+      "name": "Citrus",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "edge",
+      "name": "Edge",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "glow",
+      "name": "Glow",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "monoLuxe",
+      "name": "Mono Luxe",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "horizon",
+      "name": "Horizon",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "sunrise",
+      "name": "Sunrise",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "forestFlow",
+      "name": "Forest Flow",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "violetPulse",
+      "name": "Violet Pulse",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "studio2",
+      "name": "Studio 2",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "studio3",
+      "name": "Studio 3",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "warm2",
+      "name": "Warm 2",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "warm3",
+      "name": "Warm 3",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "verlauf2",
+      "name": "Verlauf 2",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "verlauf3",
+      "name": "Verlauf 3",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "ledger",
+      "name": "Ledger",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "prism",
+      "name": "Prism",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "gallery",
+      "name": "Gallery",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "orbit",
+      "name": "Orbit",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "ribbon",
+      "name": "Ribbon",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "cove",
+      "name": "Cove",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "diagonal",
+      "name": "Diagonal",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    },
+    {
+      "id": "edelDark",
+      "name": "Edel Dark",
+      "status": "BLOCKED",
+      "reason": "Error: Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf.",
+      "exporter": "production DOCX Next"
+    }
+  ]
+}

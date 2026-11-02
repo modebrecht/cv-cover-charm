@@ -92,6 +92,52 @@
       "path": "tests/fixtures/lo-import-p2-25/cv-19-right-footer-distance-zero.pdf",
       "sha256": "354f89012d56064229d30719db393d6d31a10656a72bd43324e6f863e765d8ee",
       "bytes": 136817
+    },
+    {
+      "path": "tests/fixtures/lo-import-p2-25/cv-17-left-app.pdf",
+      "sha256": "91a3f1c6b3b0f28449e438a01f0962520b47885b8f01e5d6613f91c03e639e8a",
+      "bytes": 1864154
+    },
+    {
+      "path": "tests/fixtures/lo-import-p2-25/cv-17-right-app.pdf",
+      "sha256": "dcb475697482c9a8b92f70ecc070991b8df051d19497cdfae303102150be851f",
+      "bytes": 1855071
+    },
+    {
+      "path": "tests/fixtures/lo-import-p2-25/cv-19-left-app.pdf",
+      "sha256": "655476636480662f95f68c3e8eddd8697d460574cdabab617e6e6ca40b5e7318",
+      "bytes": 1994474
+    },
+    {
+      "path": "tests/fixtures/lo-import-p2-25/cv-19-right-app.pdf",
+      "sha256": "869e641b36e114c558f375b58a2d4d0724069d684f718a9a2c5e52d220d06aa0",
+      "bytes": 1984486
     }
-  ]
+  ],
+  "retained_boundary_app_source": {
+    "artifact_id": 13106249318,
+    "archive_sha256": "c2d5380ad06c323034ddf6c42e2850de224af31e400e0dae13b31cef10011b59",
+    "files": [
+      {
+        "path": "tests/fixtures/lo-import-p2-25/cv-17-left-app.pdf",
+        "sha256": "91a3f1c6b3b0f28449e438a01f0962520b47885b8f01e5d6613f91c03e639e8a",
+        "bytes": 1864154
+      },
+      {
+        "path": "tests/fixtures/lo-import-p2-25/cv-17-right-app.pdf",
+        "sha256": "dcb475697482c9a8b92f70ecc070991b8df051d19497cdfae303102150be851f",
+        "bytes": 1855071
+      },
+      {
+        "path": "tests/fixtures/lo-import-p2-25/cv-19-left-app.pdf",
+        "sha256": "655476636480662f95f68c3e8eddd8697d460574cdabab617e6e6ca40b5e7318",
+        "bytes": 1994474
+      },
+      {
+        "path": "tests/fixtures/lo-import-p2-25/cv-19-right-app.pdf",
+        "sha256": "869e641b36e114c558f375b58a2d4d0724069d684f718a9a2c5e52d220d06aa0",
+        "bytes": 1984486
+      }
+    ]
+  }
 }

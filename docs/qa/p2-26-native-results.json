@@ -1,0 +1,5623 @@
+{
+  "implementation_sha": "2226e220eeddfa3f12cc589da45ad250ae5fb667",
+  "source_export_sha": "2226e220eeddfa3f12cc589da45ad250ae5fb667",
+  "reference_report_sha256": "10fbac58924f81e6eaa1d55b97009a7a28507c795bf0af35fef9df38ad13cfc2",
+  "scope": "Two fresh ordinary 18-entry Next/App exports; original sources vs the unchanged guarded body-flow/empty-footer candidate. New left 1.6x x30/y70 and right 2.0x x65/y35. No product, arbitrary-photo, x39 or Word approval.",
+  "converter_version": "LibreOffice 24.2.7.2 420(Build:2)",
+  "audit_only": false,
+  "cases": [
+    {
+      "id": "cv-crop-left-original-source",
+      "source_id": "cv-crop-left",
+      "profile": "original-source",
+      "varied_text": false,
+      "mirrored": false,
+      "package": {
+        "entry_count": 18,
+        "source_sha256": "3b6309882fa81035eed377e9951c61d2f545f6cca5b264ccffde37cab2035f23",
+        "copy_sha256": "3b6309882fa81035eed377e9951c61d2f545f6cca5b264ccffde37cab2035f23",
+        "source_bytes_unchanged": true
+      },
+      "pdf_sha256": "1952781a8992ebe86c1dc36076357237bc95c5693535e01e961e99a9d8ef46ae",
+      "resources": {
+        "returncode": 0,
+        "seconds": 16.747,
+        "max_rss_kib": 243516,
+        "cpu_seconds": 16.463,
+        "elapsed_seconds": 16.72,
+        "exit_code": 0
+      },
+      "actual": {
+        "pages": 3,
+        "content": {
+          "status": "FAIL",
+          "marker_pages": {
+            "P202Praxis01": [
+              1
+            ],
+            "P202Praxis02": [
+              1
+            ],
+            "P202Praxis03": [
+              1
+            ],
+            "P202Praxis04": [
+              1
+            ],
+            "P202Praxis05": [
+              1
+            ],
+            "P202Praxis06": [
+              2
+            ],
+            "P202Praxis07": [
+              2
+            ],
+            "P202Praxis08": [
+              2
+            ],
+            "P202Praxis09": [
+              2
+            ],
+            "P202Praxis10": [
+              2
+            ],
+            "P202Praxis11": [
+              2
+            ],
+            "P202Praxis12": [
+              2
+            ],
+            "P202Praxis13": [
+              2
+            ],
+            "P202Praxis14": [
+              2
+            ],
+            "P202Praxis15": [
+              2
+            ],
+            "P202Praxis16": [],
+            "P202Praxis17": [],
+            "P202Praxis18": [],
+            "P202Endreferenz": []
+          },
+          "missing_or_nonunique": [
+            "P202Praxis16",
+            "P202Praxis17",
+            "P202Praxis18",
+            "P202Endreferenz"
+          ],
+          "entries": [
+            {
+              "marker": "P202Praxis01",
+              "start_page": 1,
+              "end_page": 1,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis02",
+              "start_page": 1,
+              "end_page": 1,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis03",
+              "start_page": 1,
+              "end_page": 1,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis04",
+              "start_page": 1,
+              "end_page": 1,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis05",
+              "start_page": 1,
+              "end_page": 1,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis06",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis07",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis08",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis09",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis10",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis11",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis12",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis13",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis14",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis15",
+              "start_page": 2,
+              "end_page": null,
+              "complete": false,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis16",
+              "start_page": null,
+              "end_page": null,
+              "complete": false,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis17",
+              "start_page": null,
+              "end_page": null,
+              "complete": false,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis18",
+              "start_page": null,
+              "end_page": null,
+              "complete": false,
+              "split": false
+            }
+          ],
+          "complete_entries": 14,
+          "split_entries": [],
+          "reference_body_present": false
+        },
+        "photos": [
+          {
+            "visible": true,
+            "pixels": 13357,
+            "bbox_mm": [
+              8.199,
+              52.101,
+              27.772,
+              34.646
+            ],
+            "grid": [
+              2,
+              2,
+              2,
+              4,
+              4,
+              4,
+              4,
+              2,
+              2,
+              2,
+              2,
+              4,
+              4,
+              4,
+              4,
+              2,
+              2,
+              2,
+              2,
+              4,
+              4,
+              4,
+              4,
+              2,
+              2,
+              2,
+              2,
+              4,
+              4,
+              4,
+              4,
+              2,
+              2,
+              2,
+              2,
+              4,
+              4,
+              4,
+              4,
+              2,
+              2,
+              2,
+              2,
+              4,
+              4,
+              4,
+              4,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              3,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              3
+            ],
+            "colors": {
+              "1": 248,
+              "2": 7948,
+              "3": 373,
+              "4": 4788
+            }
+          },
+          {
+            "visible": false,
+            "pixels": 0
+          },
+          {
+            "visible": false,
+            "pixels": 0
+          }
+        ],
+        "title_positions": {
+          "P202Praxis01": {
+            "page": 1,
+            "top_left_mm": [
+              95.338,
+              139.184
+            ]
+          },
+          "P202Praxis02": {
+            "page": 1,
+            "top_left_mm": [
+              95.338,
+              164.637
+            ]
+          },
+          "P202Praxis03": {
+            "page": 1,
+            "top_left_mm": [
+              95.338,
+              189.402
+            ]
+          },
+          "P202Praxis04": {
+            "page": 1,
+            "top_left_mm": [
+              95.338,
+              214.167
+            ]
+          },
+          "P202Praxis05": {
+            "page": 1,
+            "top_left_mm": [
+              95.338,
+              238.932
+            ]
+          },
+          "P202Praxis06": {
+            "page": 2,
+            "top_left_mm": [
+              95.338,
+              51.889
+            ]
+          },
+          "P202Praxis07": {
+            "page": 2,
+            "top_left_mm": [
+              95.338,
+              76.654
+            ]
+          },
+          "P202Praxis08": {
+            "page": 2,
+            "top_left_mm": [
+              95.338,
+              101.419
+            ]
+          },
+          "P202Praxis09": {
+            "page": 2,
+            "top_left_mm": [
+              95.338,
+              126.184
+            ]
+          },
+          "P202Praxis10": {
+            "page": 2,
+            "top_left_mm": [
+              95.338,
+              150.949
+            ]
+          },
+          "P202Praxis11": {
+            "page": 2,
+            "top_left_mm": [
+              95.338,
+              175.714
+            ]
+          },
+          "P202Praxis12": {
+            "page": 2,
+            "top_left_mm": [
+              95.338,
+              200.479
+            ]
+          },
+          "P202Praxis13": {
+            "page": 2,
+            "top_left_mm": [
+              95.338,
+              225.244
+            ]
+          },
+          "P202Praxis14": {
+            "page": 2,
+            "top_left_mm": [
+              95.338,
+              250.009
+            ]
+          },
+          "P202Praxis15": {
+            "page": 2,
+            "top_left_mm": [
+              95.338,
+              274.774
+            ]
+          }
+        },
+        "pixel_sha256": [
+          "e2a47705abfdf16368c17906e100b9b44f0b4e1ad73b169b6aba28caf24acf34",
+          "931c6fd15dc17b65f995dbfc8304f08890578d206ebff636dca3c282def4e81f",
+          "f3b7d30bf470426ef065436061cc8cc32b36af90ce0cd9ac84adb1b9777630ff"
+        ],
+        "text_methods": [
+          "PDF text layer",
+          "PDF text layer",
+          "PDF text layer"
+        ],
+        "producer": "LibreOffice 24.2"
+      },
+      "comparison": {
+        "status": "FAIL",
+        "content_status": "FAIL",
+        "layout_status": "FAIL",
+        "photo": {
+          "status": "PASS",
+          "bbox_delta_mm": [
+            0.0,
+            0.0,
+            1.059,
+            1.058
+          ],
+          "max_allowed_mm": 2.0,
+          "pattern_agreement": 1.0,
+          "min_pattern_agreement": 0.9,
+          "expected_side": "left"
+        },
+        "pages_match": true,
+        "title_page_changes": [
+          "P202Praxis06",
+          "P202Praxis16",
+          "P202Praxis17",
+          "P202Praxis18",
+          "P202Endreferenz"
+        ],
+        "entry_span_changes": [
+          "P202Praxis06",
+          "P202Praxis15",
+          "P202Praxis16",
+          "P202Praxis17",
+          "P202Praxis18"
+        ],
+        "title_geometry": [
+          {
+            "marker": "P202Praxis01",
+            "app": {
+              "page": 1,
+              "top_left_mm": [
+                95.26,
+                136.818
+              ]
+            },
+            "lo": {
+              "page": 1,
+              "top_left_mm": [
+                95.338,
+                139.184
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              2.366
+            ]
+          },
+          {
+            "marker": "P202Praxis02",
+            "app": {
+              "page": 1,
+              "top_left_mm": [
+                95.26,
+                161.72
+              ]
+            },
+            "lo": {
+              "page": 1,
+              "top_left_mm": [
+                95.338,
+                164.637
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              2.917
+            ]
+          },
+          {
+            "marker": "P202Praxis03",
+            "app": {
+              "page": 1,
+              "top_left_mm": [
+                95.26,
+                186.621
+              ]
+            },
+            "lo": {
+              "page": 1,
+              "top_left_mm": [
+                95.338,
+                189.402
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              2.781
+            ]
+          },
+          {
+            "marker": "P202Praxis04",
+            "app": {
+              "page": 1,
+              "top_left_mm": [
+                95.26,
+                211.523
+              ]
+            },
+            "lo": {
+              "page": 1,
+              "top_left_mm": [
+                95.338,
+                214.167
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              2.644
+            ]
+          },
+          {
+            "marker": "P202Praxis05",
+            "app": {
+              "page": 1,
+              "top_left_mm": [
+                95.26,
+                236.424
+              ]
+            },
+            "lo": {
+              "page": 1,
+              "top_left_mm": [
+                95.338,
+                238.932
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              2.508
+            ]
+          },
+          {
+            "marker": "P202Praxis06",
+            "app": {
+              "page": 1,
+              "top_left_mm": [
+                95.26,
+                261.326
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                95.338,
+                51.889
+              ]
+            },
+            "delta_mm": null
+          },
+          {
+            "marker": "P202Praxis07",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                95.26,
+                50.258
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                95.338,
+                76.654
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              26.396
+            ]
+          },
+          {
+            "marker": "P202Praxis08",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                95.26,
+                75.16
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                95.338,
+                101.419
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              26.259
+            ]
+          },
+          {
+            "marker": "P202Praxis09",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                95.26,
+                100.061
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                95.338,
+                126.184
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              26.123
+            ]
+          },
+          {
+            "marker": "P202Praxis10",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                95.26,
+                124.963
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                95.338,
+                150.949
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              25.986
+            ]
+          },
+          {
+            "marker": "P202Praxis11",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                95.26,
+                149.864
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                95.338,
+                175.714
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              25.85
+            ]
+          },
+          {
+            "marker": "P202Praxis12",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                95.26,
+                174.766
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                95.338,
+                200.479
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              25.713
+            ]
+          },
+          {
+            "marker": "P202Praxis13",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                95.26,
+                199.667
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                95.338,
+                225.244
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              25.577
+            ]
+          },
+          {
+            "marker": "P202Praxis14",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                95.26,
+                224.569
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                95.338,
+                250.009
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              25.44
+            ]
+          },
+          {
+            "marker": "P202Praxis15",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                95.26,
+                249.47
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                95.338,
+                274.774
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              25.304
+            ]
+          },
+          {
+            "marker": "P202Praxis16",
+            "app": {
+              "page": 3,
+              "top_left_mm": [
+                95.26,
+                50.258
+              ]
+            },
+            "lo": null,
+            "delta_mm": null
+          },
+          {
+            "marker": "P202Praxis17",
+            "app": {
+              "page": 3,
+              "top_left_mm": [
+                95.26,
+                75.16
+              ]
+            },
+            "lo": null,
+            "delta_mm": null
+          },
+          {
+            "marker": "P202Praxis18",
+            "app": {
+              "page": 3,
+              "top_left_mm": [
+                95.26,
+                100.061
+              ]
+            },
+            "lo": null,
+            "delta_mm": null
+          },
+          {
+            "marker": "P202Endreferenz",
+            "app": {
+              "page": 3,
+              "top_left_mm": [
+                70.973,
+                131.005
+              ]
+            },
+            "lo": null,
+            "delta_mm": null
+          }
+        ],
+        "title_geometry_status": "FAIL",
+        "title_geometry_tolerance_mm": 2.0
+      },
+      "reference_line": {
+        "status": "FAIL",
+        "reason": "Reference heading missing or nonunique",
+        "heading_count": 0
+      },
+      "reference_group": {
+        "status": "FAIL",
+        "heading_page": null,
+        "body_pages": []
+      },
+      "extra_description_markers_missing": [],
+      "trial_status": "FAIL",
+      "product_disposition": "NOT_ACCEPTED",
+      "entry_visible_ink": [],
+      "entry_visible_ink_status": "NOT_MEASURED_INCOMPLETE_NATIVE_TEXT: content gate remains FAIL",
+      "section_lines": {
+        "FAMILIE": {
+          "status": "PASS",
+          "longest_dark_run_fraction": 1.0,
+          "required_fraction": 0.85,
+          "best_row": 14,
+          "pixel_size": [
+            86,
+            31
+          ],
+          "page": 1,
+          "heading_count": 1,
+          "crop_mm": [
+            94.069,
+            75.875,
+            109.069,
+            81.206
+          ]
+        },
+        "SCHULBILDUNG": {
+          "status": "PASS",
+          "longest_dark_run_fraction": 1.0,
+          "required_fraction": 0.85,
+          "best_row": 14,
+          "pixel_size": [
+            86,
+            31
+          ],
+          "page": 1,
+          "heading_count": 1,
+          "crop_mm": [
+            111.686,
+            101.434,
+            126.686,
+            106.764
+          ]
+        },
+        "PRAKTIKA & SCHNUPPERTAGE": {
+          "status": "PASS",
+          "longest_dark_run_fraction": 1.0,
+          "required_fraction": 0.85,
+          "best_row": 14,
+          "pixel_size": [
+            86,
+            31
+          ],
+          "page": 1,
+          "heading_count": 1,
+          "crop_mm": [
+            145.831,
+            133.907,
+            160.831,
+            139.238
+          ]
+        },
+        "REFERENZEN": {
+          "status": "FAIL",
+          "reason": "Heading missing or nonunique",
+          "heading_count": 0
+        }
+      },
+      "section_line_status": "FAIL",
+      "page_edge_signatures": [
+        {
+          "header_sha256": "fc173b477ad66fa67fb6df274c9700c11a53d54711056fe2eb147a2c707b4d07",
+          "bottom_sha256": "e3d03606e52a2db083f5e439641c23cb41d6d5eb1b6fe63354aff4b232c85b99"
+        },
+        {
+          "header_sha256": "fc173b477ad66fa67fb6df274c9700c11a53d54711056fe2eb147a2c707b4d07",
+          "bottom_sha256": "e3d03606e52a2db083f5e439641c23cb41d6d5eb1b6fe63354aff4b232c85b99"
+        },
+        {
+          "header_sha256": "fc173b477ad66fa67fb6df274c9700c11a53d54711056fe2eb147a2c707b4d07",
+          "bottom_sha256": "e3d03606e52a2db083f5e439641c23cb41d6d5eb1b6fe63354aff4b232c85b99"
+        }
+      ],
+      "page_edge_status": "PASS"
+    },
+    {
+      "id": "cv-crop-left-footer-distance-zero",
+      "source_id": "cv-crop-left",
+      "profile": "footer-distance-zero",
+      "varied_text": false,
+      "mirrored": false,
+      "package": {
+        "source_sha256": "3b6309882fa81035eed377e9951c61d2f545f6cca5b264ccffde37cab2035f23",
+        "copy_sha256": "3316f50f53027fd33afeb3986ea81027f8992fa027bd2cecc0b36f9a2c5a6af9",
+        "entry_count": 18,
+        "spacing_attribute_edits": [
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[10]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "72",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[14]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[16]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[18]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[20]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[22]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[24]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[26]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[28]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[30]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[32]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[34]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[36]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[38]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[40]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[42]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[44]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[2]/p[46]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "72",
+            "after": "0"
+          }
+        ],
+        "critical_tables_identical": 18,
+        "body_controls_retained": 107,
+        "drawing_payloads_identical": 4,
+        "layout_rows": 0,
+        "main_story_blocks_identical": false,
+        "sidebar_payload_identical": true,
+        "all_non_document_parts_identical": true,
+        "global_word_text_order_identical": true,
+        "row_entry_ranges": [
+          [
+            1,
+            5
+          ],
+          [
+            6,
+            14
+          ],
+          [
+            15,
+            18
+          ]
+        ],
+        "declared_losses": [
+          "Outer three-column layout replaced by floating sidebar and independent one-column flow; global XML reading order may change",
+          "Outer main table removed; original leaf blocks now direct body flow",
+          "Leaf table formatting changed only by 1 missing cantSplit additions; existing guards retained",
+          "Four main-section drawing behindDoc flags changed to foreground",
+          "pgMar.footer 680 -> 0"
+        ],
+        "profile": "footer-distance-zero",
+        "layout_control_profile": "fixed-5-14",
+        "photo_frame_before": "page",
+        "photo_frame_after": "page",
+        "photo_offset_emu_before": 288000,
+        "photo_offset_emu_after": 288000,
+        "section_left_margin_emu": 0,
+        "declared_page_x_emu_before": 288000,
+        "declared_page_x_emu_after": 288000,
+        "declared_page_x_equivalent": true,
+        "photo_horizontal_anchor_only_changed": false,
+        "photo_graphic_payload_identical": true,
+        "sidebar_text_and_non_photo_payload_identical": true,
+        "word_verification": "NOT_PERFORMED",
+        "photo_control_profile": "original-photo",
+        "main_table_columns": 0,
+        "main_table_rows": 0,
+        "sidebar_table_columns": 1,
+        "main_frame_source_x_twips": 4025,
+        "main_table_indent_twips": 0,
+        "sidebar_float_page_xy_twips": [
+          0,
+          2948
+        ],
+        "sidebar_float_standoff_twips": 0,
+        "source_spacer_cell_removed": true,
+        "added_empty_body_anchor_paragraphs": 1,
+        "section_frame_identical": false,
+        "section_main_frame_restricted": true,
+        "sidebar_identical_to_photo_control": true,
+        "reference_heading_body_grouped": false,
+        "main_outer_table_removed": true,
+        "continuation_rows_cant_split": false,
+        "source_reference_keep_next_preserved": true,
+        "main_story_text_identical": true,
+        "critical_tables_except_cant_split_identical": 19,
+        "added_leaf_row_cant_split": 1,
+        "existing_leaf_row_cant_split": 18,
+        "main_paint_foreground_edits": [
+          "cv.section.custom:familie.heading.flow-paint",
+          "cv.section.schule.heading.flow-paint",
+          "cv.section.erfahrung.heading.flow-paint",
+          "cv.section.referenzen.heading.flow-paint"
+        ],
+        "empty_footer_parts_verified": [
+          "word/cv-footer.xml",
+          "word/cv-footer-first.xml"
+        ],
+        "section_before": {
+          "page_twips": {
+            "w": 11906,
+            "h": 16838
+          },
+          "margin_twips": {
+            "top": 2948,
+            "right": 1134,
+            "bottom": 283,
+            "left": 4025,
+            "header": 0,
+            "footer": 680,
+            "gutter": 0
+          },
+          "footer_reference_count": 2,
+          "nominal_body_bottom_mm": 292.012,
+          "effective_native_body_bottom": "NOT_MEASURED: PDF text ink does not expose Writer row/page-area boxes"
+        },
+        "section_after": {
+          "page_twips": {
+            "w": 11906,
+            "h": 16838
+          },
+          "margin_twips": {
+            "top": 2948,
+            "right": 1134,
+            "bottom": 283,
+            "left": 4025,
+            "header": 0,
+            "footer": 0,
+            "gutter": 0
+          },
+          "footer_reference_count": 2,
+          "nominal_body_bottom_mm": 292.012,
+          "effective_native_body_bottom": "NOT_MEASURED: PDF text ink does not expose Writer row/page-area boxes"
+        },
+        "critical_tables_identical_to_body_flow_front_control": 19,
+        "page_area_edit": "pgMar.footer 680 -> 0"
+      },
+      "pdf_sha256": "8116cf7b7641b207dc2490a07482de3f0285559ababd3eed815f928ad65bf8d8",
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.655,
+        "max_rss_kib": 244176,
+        "cpu_seconds": 1.647,
+        "elapsed_seconds": 1.65,
+        "exit_code": 0
+      },
+      "actual": {
+        "pages": 3,
+        "content": {
+          "status": "PASS",
+          "marker_pages": {
+            "P202Praxis01": [
+              1
+            ],
+            "P202Praxis02": [
+              1
+            ],
+            "P202Praxis03": [
+              1
+            ],
+            "P202Praxis04": [
+              1
+            ],
+            "P202Praxis05": [
+              1
+            ],
+            "P202Praxis06": [
+              1
+            ],
+            "P202Praxis07": [
+              2
+            ],
+            "P202Praxis08": [
+              2
+            ],
+            "P202Praxis09": [
+              2
+            ],
+            "P202Praxis10": [
+              2
+            ],
+            "P202Praxis11": [
+              2
+            ],
+            "P202Praxis12": [
+              2
+            ],
+            "P202Praxis13": [
+              2
+            ],
+            "P202Praxis14": [
+              2
+            ],
+            "P202Praxis15": [
+              2
+            ],
+            "P202Praxis16": [
+              3
+            ],
+            "P202Praxis17": [
+              3
+            ],
+            "P202Praxis18": [
+              3
+            ],
+            "P202Endreferenz": [
+              3
+            ]
+          },
+          "missing_or_nonunique": [],
+          "entries": [
+            {
+              "marker": "P202Praxis01",
+              "start_page": 1,
+              "end_page": 1,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis02",
+              "start_page": 1,
+              "end_page": 1,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis03",
+              "start_page": 1,
+              "end_page": 1,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis04",
+              "start_page": 1,
+              "end_page": 1,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis05",
+              "start_page": 1,
+              "end_page": 1,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis06",
+              "start_page": 1,
+              "end_page": 1,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis07",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis08",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis09",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis10",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis11",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis12",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis13",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis14",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis15",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis16",
+              "start_page": 3,
+              "end_page": 3,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis17",
+              "start_page": 3,
+              "end_page": 3,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis18",
+              "start_page": 3,
+              "end_page": 3,
+              "complete": true,
+              "split": false
+            }
+          ],
+          "complete_entries": 18,
+          "split_entries": [],
+          "reference_body_present": true
+        },
+        "photos": [
+          {
+            "visible": true,
+            "pixels": 13357,
+            "bbox_mm": [
+              8.199,
+              52.101,
+              27.772,
+              34.646
+            ],
+            "grid": [
+              2,
+              2,
+              2,
+              4,
+              4,
+              4,
+              4,
+              2,
+              2,
+              2,
+              2,
+              4,
+              4,
+              4,
+              4,
+              2,
+              2,
+              2,
+              2,
+              4,
+              4,
+              4,
+              4,
+              2,
+              2,
+              2,
+              2,
+              4,
+              4,
+              4,
+              4,
+              2,
+              2,
+              2,
+              2,
+              4,
+              4,
+              4,
+              4,
+              2,
+              2,
+              2,
+              2,
+              4,
+              4,
+              4,
+              4,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              3,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              3
+            ],
+            "colors": {
+              "1": 248,
+              "2": 7948,
+              "3": 373,
+              "4": 4788
+            }
+          },
+          {
+            "visible": false,
+            "pixels": 0
+          },
+          {
+            "visible": false,
+            "pixels": 0
+          }
+        ],
+        "title_positions": {
+          "P202Praxis01": {
+            "page": 1,
+            "top_left_mm": [
+              95.338,
+              137.932
+            ]
+          },
+          "P202Praxis02": {
+            "page": 1,
+            "top_left_mm": [
+              95.338,
+              163.385
+            ]
+          },
+          "P202Praxis03": {
+            "page": 1,
+            "top_left_mm": [
+              95.338,
+              188.132
+            ]
+          },
+          "P202Praxis04": {
+            "page": 1,
+            "top_left_mm": [
+              95.338,
+              212.88
+            ]
+          },
+          "P202Praxis05": {
+            "page": 1,
+            "top_left_mm": [
+              95.338,
+              237.627
+            ]
+          },
+          "P202Praxis06": {
+            "page": 1,
+            "top_left_mm": [
+              95.338,
+              262.374
+            ]
+          },
+          "P202Praxis07": {
+            "page": 2,
+            "top_left_mm": [
+              95.338,
+              51.889
+            ]
+          },
+          "P202Praxis08": {
+            "page": 2,
+            "top_left_mm": [
+              95.338,
+              76.637
+            ]
+          },
+          "P202Praxis09": {
+            "page": 2,
+            "top_left_mm": [
+              95.338,
+              101.384
+            ]
+          },
+          "P202Praxis10": {
+            "page": 2,
+            "top_left_mm": [
+              95.338,
+              126.132
+            ]
+          },
+          "P202Praxis11": {
+            "page": 2,
+            "top_left_mm": [
+              95.338,
+              150.879
+            ]
+          },
+          "P202Praxis12": {
+            "page": 2,
+            "top_left_mm": [
+              95.338,
+              175.626
+            ]
+          },
+          "P202Praxis13": {
+            "page": 2,
+            "top_left_mm": [
+              95.338,
+              200.374
+            ]
+          },
+          "P202Praxis14": {
+            "page": 2,
+            "top_left_mm": [
+              95.338,
+              225.121
+            ]
+          },
+          "P202Praxis15": {
+            "page": 2,
+            "top_left_mm": [
+              95.338,
+              249.868
+            ]
+          },
+          "P202Praxis16": {
+            "page": 3,
+            "top_left_mm": [
+              95.338,
+              51.889
+            ]
+          },
+          "P202Praxis17": {
+            "page": 3,
+            "top_left_mm": [
+              95.338,
+              76.637
+            ]
+          },
+          "P202Praxis18": {
+            "page": 3,
+            "top_left_mm": [
+              95.338,
+              101.384
+            ]
+          },
+          "P202Endreferenz": {
+            "page": 3,
+            "top_left_mm": [
+              71.032,
+              130.949
+            ]
+          }
+        },
+        "pixel_sha256": [
+          "bb2105a085f128555dc923e706986dd0575c94daec93506b295578a1d603785f",
+          "2bbbcbe413603ec9bfe73ee357911d5fa85ad4942bfcd55724e65c1a664618a1",
+          "303b9df58886ea65fe86edf89f2470d51646d909758a9497801826cc00a3ba1f"
+        ],
+        "text_methods": [
+          "PDF text layer",
+          "PDF text layer",
+          "PDF text layer"
+        ],
+        "producer": "LibreOffice 24.2"
+      },
+      "comparison": {
+        "status": "PASS",
+        "content_status": "PASS",
+        "layout_status": "PASS",
+        "photo": {
+          "status": "PASS",
+          "bbox_delta_mm": [
+            0.0,
+            0.0,
+            1.059,
+            1.058
+          ],
+          "max_allowed_mm": 2.0,
+          "pattern_agreement": 1.0,
+          "min_pattern_agreement": 0.9,
+          "expected_side": "left"
+        },
+        "pages_match": true,
+        "title_page_changes": [],
+        "entry_span_changes": [],
+        "title_geometry": [
+          {
+            "marker": "P202Praxis01",
+            "app": {
+              "page": 1,
+              "top_left_mm": [
+                95.26,
+                136.818
+              ]
+            },
+            "lo": {
+              "page": 1,
+              "top_left_mm": [
+                95.338,
+                137.932
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              1.114
+            ]
+          },
+          {
+            "marker": "P202Praxis02",
+            "app": {
+              "page": 1,
+              "top_left_mm": [
+                95.26,
+                161.72
+              ]
+            },
+            "lo": {
+              "page": 1,
+              "top_left_mm": [
+                95.338,
+                163.385
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              1.665
+            ]
+          },
+          {
+            "marker": "P202Praxis03",
+            "app": {
+              "page": 1,
+              "top_left_mm": [
+                95.26,
+                186.621
+              ]
+            },
+            "lo": {
+              "page": 1,
+              "top_left_mm": [
+                95.338,
+                188.132
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              1.511
+            ]
+          },
+          {
+            "marker": "P202Praxis04",
+            "app": {
+              "page": 1,
+              "top_left_mm": [
+                95.26,
+                211.523
+              ]
+            },
+            "lo": {
+              "page": 1,
+              "top_left_mm": [
+                95.338,
+                212.88
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              1.357
+            ]
+          },
+          {
+            "marker": "P202Praxis05",
+            "app": {
+              "page": 1,
+              "top_left_mm": [
+                95.26,
+                236.424
+              ]
+            },
+            "lo": {
+              "page": 1,
+              "top_left_mm": [
+                95.338,
+                237.627
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              1.203
+            ]
+          },
+          {
+            "marker": "P202Praxis06",
+            "app": {
+              "page": 1,
+              "top_left_mm": [
+                95.26,
+                261.326
+              ]
+            },
+            "lo": {
+              "page": 1,
+              "top_left_mm": [
+                95.338,
+                262.374
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              1.048
+            ]
+          },
+          {
+            "marker": "P202Praxis07",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                95.26,
+                50.258
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                95.338,
+                51.889
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              1.631
+            ]
+          },
+          {
+            "marker": "P202Praxis08",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                95.26,
+                75.16
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                95.338,
+                76.637
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              1.477
+            ]
+          },
+          {
+            "marker": "P202Praxis09",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                95.26,
+                100.061
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                95.338,
+                101.384
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              1.323
+            ]
+          },
+          {
+            "marker": "P202Praxis10",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                95.26,
+                124.963
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                95.338,
+                126.132
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              1.169
+            ]
+          },
+          {
+            "marker": "P202Praxis11",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                95.26,
+                149.864
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                95.338,
+                150.879
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              1.015
+            ]
+          },
+          {
+            "marker": "P202Praxis12",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                95.26,
+                174.766
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                95.338,
+                175.626
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              0.86
+            ]
+          },
+          {
+            "marker": "P202Praxis13",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                95.26,
+                199.667
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                95.338,
+                200.374
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              0.707
+            ]
+          },
+          {
+            "marker": "P202Praxis14",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                95.26,
+                224.569
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                95.338,
+                225.121
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              0.552
+            ]
+          },
+          {
+            "marker": "P202Praxis15",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                95.26,
+                249.47
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                95.338,
+                249.868
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              0.398
+            ]
+          },
+          {
+            "marker": "P202Praxis16",
+            "app": {
+              "page": 3,
+              "top_left_mm": [
+                95.26,
+                50.258
+              ]
+            },
+            "lo": {
+              "page": 3,
+              "top_left_mm": [
+                95.338,
+                51.889
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              1.631
+            ]
+          },
+          {
+            "marker": "P202Praxis17",
+            "app": {
+              "page": 3,
+              "top_left_mm": [
+                95.26,
+                75.16
+              ]
+            },
+            "lo": {
+              "page": 3,
+              "top_left_mm": [
+                95.338,
+                76.637
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              1.477
+            ]
+          },
+          {
+            "marker": "P202Praxis18",
+            "app": {
+              "page": 3,
+              "top_left_mm": [
+                95.26,
+                100.061
+              ]
+            },
+            "lo": {
+              "page": 3,
+              "top_left_mm": [
+                95.338,
+                101.384
+              ]
+            },
+            "delta_mm": [
+              0.078,
+              1.323
+            ]
+          },
+          {
+            "marker": "P202Endreferenz",
+            "app": {
+              "page": 3,
+              "top_left_mm": [
+                70.973,
+                131.005
+              ]
+            },
+            "lo": {
+              "page": 3,
+              "top_left_mm": [
+                71.032,
+                130.949
+              ]
+            },
+            "delta_mm": [
+              0.059,
+              -0.056
+            ]
+          }
+        ],
+        "title_geometry_status": "PASS",
+        "title_geometry_tolerance_mm": 2.0
+      },
+      "reference_line": {
+        "status": "PASS",
+        "longest_dark_run_fraction": 0.888889,
+        "required_fraction": 0.85,
+        "best_row": 15,
+        "pixel_size": [
+          171,
+          31
+        ],
+        "page": 3,
+        "crop_mm": [
+          101.032,
+          125.546,
+          131.032,
+          130.877
+        ],
+        "heading_count": 1
+      },
+      "reference_group": {
+        "status": "PASS",
+        "heading_page": 3,
+        "body_pages": [
+          3
+        ]
+      },
+      "extra_description_markers_missing": [],
+      "trial_status": "PASS",
+      "product_disposition": "NOT_ACCEPTED",
+      "entry_visible_ink": [
+        {
+          "marker": "P202Praxis01",
+          "title_page": 1,
+          "terminal_description_page": 1,
+          "title_ink_top_mm": 137.932,
+          "terminal_ink_bottom_mm": 161.737,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis02",
+          "title_page": 1,
+          "terminal_description_page": 1,
+          "title_ink_top_mm": 163.385,
+          "terminal_ink_bottom_mm": 187.19,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis03",
+          "title_page": 1,
+          "terminal_description_page": 1,
+          "title_ink_top_mm": 188.132,
+          "terminal_ink_bottom_mm": 211.937,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis04",
+          "title_page": 1,
+          "terminal_description_page": 1,
+          "title_ink_top_mm": 212.88,
+          "terminal_ink_bottom_mm": 236.684,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis05",
+          "title_page": 1,
+          "terminal_description_page": 1,
+          "title_ink_top_mm": 237.627,
+          "terminal_ink_bottom_mm": 261.432,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis06",
+          "title_page": 1,
+          "terminal_description_page": 1,
+          "title_ink_top_mm": 262.374,
+          "terminal_ink_bottom_mm": 286.179,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis07",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 51.889,
+          "terminal_ink_bottom_mm": 75.694,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis08",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 76.637,
+          "terminal_ink_bottom_mm": 100.442,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis09",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 101.384,
+          "terminal_ink_bottom_mm": 125.189,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis10",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 126.132,
+          "terminal_ink_bottom_mm": 149.936,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis11",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 150.879,
+          "terminal_ink_bottom_mm": 174.684,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis12",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 175.626,
+          "terminal_ink_bottom_mm": 199.431,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis13",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 200.374,
+          "terminal_ink_bottom_mm": 224.178,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis14",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 225.121,
+          "terminal_ink_bottom_mm": 248.926,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis15",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 249.868,
+          "terminal_ink_bottom_mm": 273.673,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis16",
+          "title_page": 3,
+          "terminal_description_page": 3,
+          "title_ink_top_mm": 51.889,
+          "terminal_ink_bottom_mm": 75.694,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis17",
+          "title_page": 3,
+          "terminal_description_page": 3,
+          "title_ink_top_mm": 76.637,
+          "terminal_ink_bottom_mm": 100.442,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis18",
+          "title_page": 3,
+          "terminal_description_page": 3,
+          "title_ink_top_mm": 101.384,
+          "terminal_ink_bottom_mm": 125.189,
+          "same_page_ink_extent_mm": 23.805
+        }
+      ],
+      "entry_visible_ink_status": "MEASURED",
+      "section_lines": {
+        "FAMILIE": {
+          "status": "PASS",
+          "longest_dark_run_fraction": 1.0,
+          "required_fraction": 0.85,
+          "best_row": 14,
+          "pixel_size": [
+            86,
+            31
+          ],
+          "page": 1,
+          "heading_count": 1,
+          "crop_mm": [
+            94.069,
+            75.893,
+            109.069,
+            81.223
+          ]
+        },
+        "SCHULBILDUNG": {
+          "status": "PASS",
+          "longest_dark_run_fraction": 1.0,
+          "required_fraction": 0.85,
+          "best_row": 14,
+          "pixel_size": [
+            86,
+            31
+          ],
+          "page": 1,
+          "heading_count": 1,
+          "crop_mm": [
+            111.695,
+            101.451,
+            126.695,
+            106.782
+          ]
+        },
+        "PRAKTIKA & SCHNUPPERTAGE": {
+          "status": "PASS",
+          "longest_dark_run_fraction": 1.0,
+          "required_fraction": 0.85,
+          "best_row": 14,
+          "pixel_size": [
+            86,
+            31
+          ],
+          "page": 1,
+          "heading_count": 1,
+          "crop_mm": [
+            145.84,
+            132.654,
+            160.84,
+            137.985
+          ]
+        },
+        "REFERENZEN": {
+          "status": "PASS",
+          "longest_dark_run_fraction": 1.0,
+          "required_fraction": 0.85,
+          "best_row": 15,
+          "pixel_size": [
+            86,
+            31
+          ],
+          "page": 3,
+          "heading_count": 1,
+          "crop_mm": [
+            106.114,
+            125.546,
+            121.114,
+            130.877
+          ]
+        }
+      },
+      "section_line_status": "PASS",
+      "page_edge_signatures": [
+        {
+          "header_sha256": "fc173b477ad66fa67fb6df274c9700c11a53d54711056fe2eb147a2c707b4d07",
+          "bottom_sha256": "e3d03606e52a2db083f5e439641c23cb41d6d5eb1b6fe63354aff4b232c85b99"
+        },
+        {
+          "header_sha256": "fc173b477ad66fa67fb6df274c9700c11a53d54711056fe2eb147a2c707b4d07",
+          "bottom_sha256": "e3d03606e52a2db083f5e439641c23cb41d6d5eb1b6fe63354aff4b232c85b99"
+        },
+        {
+          "header_sha256": "fc173b477ad66fa67fb6df274c9700c11a53d54711056fe2eb147a2c707b4d07",
+          "bottom_sha256": "e3d03606e52a2db083f5e439641c23cb41d6d5eb1b6fe63354aff4b232c85b99"
+        }
+      ],
+      "page_edge_status": "PASS",
+      "pinned_header_bottom_pixels_match_p224": true
+    },
+    {
+      "id": "cv-crop-right-original-source",
+      "source_id": "cv-crop-right",
+      "profile": "original-source",
+      "varied_text": false,
+      "mirrored": true,
+      "package": {
+        "entry_count": 18,
+        "source_sha256": "ba3eceb510df262ab653bf41b8c81419db7507660a1bf7c98816668c9bbbf527",
+        "copy_sha256": "ba3eceb510df262ab653bf41b8c81419db7507660a1bf7c98816668c9bbbf527",
+        "source_bytes_unchanged": true
+      },
+      "pdf_sha256": "bdda8514f1a03b2af0caadd5d810eb76cbf5febf21b295ecb8fa6bd364d5070d",
+      "resources": {
+        "returncode": 0,
+        "seconds": 24.36,
+        "max_rss_kib": 243668,
+        "cpu_seconds": 24.33,
+        "elapsed_seconds": 24.34,
+        "exit_code": 0
+      },
+      "actual": {
+        "pages": 3,
+        "content": {
+          "status": "FAIL",
+          "marker_pages": {
+            "P202Praxis01": [
+              1
+            ],
+            "P202Praxis02": [
+              1
+            ],
+            "P202Praxis03": [
+              1
+            ],
+            "P202Praxis04": [
+              1
+            ],
+            "P202Praxis05": [
+              1
+            ],
+            "P202Praxis06": [
+              2
+            ],
+            "P202Praxis07": [
+              2
+            ],
+            "P202Praxis08": [
+              2
+            ],
+            "P202Praxis09": [
+              2
+            ],
+            "P202Praxis10": [
+              2
+            ],
+            "P202Praxis11": [
+              2
+            ],
+            "P202Praxis12": [
+              2
+            ],
+            "P202Praxis13": [
+              2
+            ],
+            "P202Praxis14": [
+              2
+            ],
+            "P202Praxis15": [
+              2
+            ],
+            "P202Praxis16": [],
+            "P202Praxis17": [],
+            "P202Praxis18": [],
+            "P202Endreferenz": []
+          },
+          "missing_or_nonunique": [
+            "P202Praxis16",
+            "P202Praxis17",
+            "P202Praxis18",
+            "P202Endreferenz"
+          ],
+          "entries": [
+            {
+              "marker": "P202Praxis01",
+              "start_page": 1,
+              "end_page": 1,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis02",
+              "start_page": 1,
+              "end_page": 1,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis03",
+              "start_page": 1,
+              "end_page": 1,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis04",
+              "start_page": 1,
+              "end_page": 1,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis05",
+              "start_page": 1,
+              "end_page": 1,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis06",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis07",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis08",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis09",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis10",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis11",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis12",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis13",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis14",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis15",
+              "start_page": 2,
+              "end_page": null,
+              "complete": false,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis16",
+              "start_page": null,
+              "end_page": null,
+              "complete": false,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis17",
+              "start_page": null,
+              "end_page": null,
+              "complete": false,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis18",
+              "start_page": null,
+              "end_page": null,
+              "complete": false,
+              "split": false
+            }
+          ],
+          "complete_entries": 14,
+          "split_entries": [],
+          "reference_body_present": false
+        },
+        "photos": [
+          {
+            "visible": true,
+            "pixels": 13213,
+            "bbox_mm": [
+              175.625,
+              52.101,
+              27.243,
+              34.646
+            ],
+            "grid": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              4,
+              4,
+              4,
+              4,
+              4,
+              2,
+              2,
+              2,
+              4,
+              4,
+              4,
+              4,
+              4,
+              2,
+              2,
+              2,
+              4,
+              4,
+              4,
+              4,
+              4,
+              2,
+              2,
+              2,
+              4,
+              4,
+              4,
+              4,
+              4,
+              2,
+              2,
+              2,
+              4,
+              4,
+              4,
+              4,
+              4,
+              2,
+              2,
+              2,
+              4,
+              4,
+              4,
+              4,
+              4,
+              2,
+              2,
+              2
+            ],
+            "colors": {
+              "1": 0,
+              "2": 6451,
+              "3": 0,
+              "4": 6762
+            }
+          },
+          {
+            "visible": false,
+            "pixels": 0
+          },
+          {
+            "visible": false,
+            "pixels": 0
+          }
+        ],
+        "title_positions": {
+          "P202Praxis01": {
+            "page": 1,
+            "top_left_mm": [
+              44.344,
+              139.184
+            ]
+          },
+          "P202Praxis02": {
+            "page": 1,
+            "top_left_mm": [
+              44.344,
+              164.637
+            ]
+          },
+          "P202Praxis03": {
+            "page": 1,
+            "top_left_mm": [
+              44.344,
+              189.402
+            ]
+          },
+          "P202Praxis04": {
+            "page": 1,
+            "top_left_mm": [
+              44.344,
+              214.167
+            ]
+          },
+          "P202Praxis05": {
+            "page": 1,
+            "top_left_mm": [
+              44.344,
+              238.932
+            ]
+          },
+          "P202Praxis06": {
+            "page": 2,
+            "top_left_mm": [
+              44.344,
+              51.889
+            ]
+          },
+          "P202Praxis07": {
+            "page": 2,
+            "top_left_mm": [
+              44.344,
+              76.654
+            ]
+          },
+          "P202Praxis08": {
+            "page": 2,
+            "top_left_mm": [
+              44.344,
+              101.419
+            ]
+          },
+          "P202Praxis09": {
+            "page": 2,
+            "top_left_mm": [
+              44.344,
+              126.184
+            ]
+          },
+          "P202Praxis10": {
+            "page": 2,
+            "top_left_mm": [
+              44.344,
+              150.949
+            ]
+          },
+          "P202Praxis11": {
+            "page": 2,
+            "top_left_mm": [
+              44.344,
+              175.714
+            ]
+          },
+          "P202Praxis12": {
+            "page": 2,
+            "top_left_mm": [
+              44.344,
+              200.479
+            ]
+          },
+          "P202Praxis13": {
+            "page": 2,
+            "top_left_mm": [
+              44.344,
+              225.244
+            ]
+          },
+          "P202Praxis14": {
+            "page": 2,
+            "top_left_mm": [
+              44.344,
+              250.009
+            ]
+          },
+          "P202Praxis15": {
+            "page": 2,
+            "top_left_mm": [
+              44.344,
+              274.774
+            ]
+          }
+        },
+        "pixel_sha256": [
+          "2a0550f406edb03622581691856d705fdae6aa1ead63ed0bc62a329091e03e20",
+          "b1eed0cc9f84a145b12406795e0138d505b195f539b070d8c69fd4b24838e347",
+          "b995ed1554a6e1b875ed93ea53644300789bb026b176ab284d7f6da62453f0a8"
+        ],
+        "text_methods": [
+          "PDF text layer",
+          "PDF text layer",
+          "PDF text layer"
+        ],
+        "producer": "LibreOffice 24.2"
+      },
+      "comparison": {
+        "status": "FAIL",
+        "content_status": "FAIL",
+        "layout_status": "FAIL",
+        "photo": {
+          "status": "FAIL",
+          "bbox_delta_mm": [
+            19.843,
+            0.0,
+            1.059,
+            1.058
+          ],
+          "max_allowed_mm": 2.0,
+          "pattern_agreement": 1.0,
+          "min_pattern_agreement": 0.9,
+          "expected_side": "right"
+        },
+        "pages_match": true,
+        "title_page_changes": [
+          "P202Praxis06",
+          "P202Praxis16",
+          "P202Praxis17",
+          "P202Praxis18",
+          "P202Endreferenz"
+        ],
+        "entry_span_changes": [
+          "P202Praxis06",
+          "P202Praxis15",
+          "P202Praxis16",
+          "P202Praxis17",
+          "P202Praxis18"
+        ],
+        "title_geometry": [
+          {
+            "marker": "P202Praxis01",
+            "app": {
+              "page": 1,
+              "top_left_mm": [
+                44.276,
+                136.818
+              ]
+            },
+            "lo": {
+              "page": 1,
+              "top_left_mm": [
+                44.344,
+                139.184
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              2.366
+            ]
+          },
+          {
+            "marker": "P202Praxis02",
+            "app": {
+              "page": 1,
+              "top_left_mm": [
+                44.276,
+                161.72
+              ]
+            },
+            "lo": {
+              "page": 1,
+              "top_left_mm": [
+                44.344,
+                164.637
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              2.917
+            ]
+          },
+          {
+            "marker": "P202Praxis03",
+            "app": {
+              "page": 1,
+              "top_left_mm": [
+                44.276,
+                186.621
+              ]
+            },
+            "lo": {
+              "page": 1,
+              "top_left_mm": [
+                44.344,
+                189.402
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              2.781
+            ]
+          },
+          {
+            "marker": "P202Praxis04",
+            "app": {
+              "page": 1,
+              "top_left_mm": [
+                44.276,
+                211.523
+              ]
+            },
+            "lo": {
+              "page": 1,
+              "top_left_mm": [
+                44.344,
+                214.167
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              2.644
+            ]
+          },
+          {
+            "marker": "P202Praxis05",
+            "app": {
+              "page": 1,
+              "top_left_mm": [
+                44.276,
+                236.424
+              ]
+            },
+            "lo": {
+              "page": 1,
+              "top_left_mm": [
+                44.344,
+                238.932
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              2.508
+            ]
+          },
+          {
+            "marker": "P202Praxis06",
+            "app": {
+              "page": 1,
+              "top_left_mm": [
+                44.276,
+                261.326
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                44.344,
+                51.889
+              ]
+            },
+            "delta_mm": null
+          },
+          {
+            "marker": "P202Praxis07",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                44.276,
+                50.258
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                44.344,
+                76.654
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              26.396
+            ]
+          },
+          {
+            "marker": "P202Praxis08",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                44.276,
+                75.16
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                44.344,
+                101.419
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              26.259
+            ]
+          },
+          {
+            "marker": "P202Praxis09",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                44.276,
+                100.061
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                44.344,
+                126.184
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              26.123
+            ]
+          },
+          {
+            "marker": "P202Praxis10",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                44.276,
+                124.963
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                44.344,
+                150.949
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              25.986
+            ]
+          },
+          {
+            "marker": "P202Praxis11",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                44.276,
+                149.864
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                44.344,
+                175.714
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              25.85
+            ]
+          },
+          {
+            "marker": "P202Praxis12",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                44.276,
+                174.766
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                44.344,
+                200.479
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              25.713
+            ]
+          },
+          {
+            "marker": "P202Praxis13",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                44.276,
+                199.667
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                44.344,
+                225.244
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              25.577
+            ]
+          },
+          {
+            "marker": "P202Praxis14",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                44.276,
+                224.569
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                44.344,
+                250.009
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              25.44
+            ]
+          },
+          {
+            "marker": "P202Praxis15",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                44.276,
+                249.47
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                44.344,
+                274.774
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              25.304
+            ]
+          },
+          {
+            "marker": "P202Praxis16",
+            "app": {
+              "page": 3,
+              "top_left_mm": [
+                44.276,
+                50.258
+              ]
+            },
+            "lo": null,
+            "delta_mm": null
+          },
+          {
+            "marker": "P202Praxis17",
+            "app": {
+              "page": 3,
+              "top_left_mm": [
+                44.276,
+                75.16
+              ]
+            },
+            "lo": null,
+            "delta_mm": null
+          },
+          {
+            "marker": "P202Praxis18",
+            "app": {
+              "page": 3,
+              "top_left_mm": [
+                44.276,
+                100.061
+              ]
+            },
+            "lo": null,
+            "delta_mm": null
+          },
+          {
+            "marker": "P202Endreferenz",
+            "app": {
+              "page": 3,
+              "top_left_mm": [
+                19.989,
+                131.005
+              ]
+            },
+            "lo": null,
+            "delta_mm": null
+          }
+        ],
+        "title_geometry_status": "FAIL",
+        "title_geometry_tolerance_mm": 2.0
+      },
+      "reference_line": {
+        "status": "FAIL",
+        "reason": "Reference heading missing or nonunique",
+        "heading_count": 0
+      },
+      "reference_group": {
+        "status": "FAIL",
+        "heading_page": null,
+        "body_pages": []
+      },
+      "extra_description_markers_missing": [],
+      "trial_status": "FAIL",
+      "product_disposition": "NOT_ACCEPTED",
+      "entry_visible_ink": [],
+      "entry_visible_ink_status": "NOT_MEASURED_INCOMPLETE_NATIVE_TEXT: content gate remains FAIL",
+      "section_lines": {
+        "FAMILIE": {
+          "status": "PASS",
+          "longest_dark_run_fraction": 1.0,
+          "required_fraction": 0.85,
+          "best_row": 14,
+          "pixel_size": [
+            86,
+            31
+          ],
+          "page": 1,
+          "heading_count": 1,
+          "crop_mm": [
+            43.075,
+            75.875,
+            58.075,
+            81.206
+          ]
+        },
+        "SCHULBILDUNG": {
+          "status": "PASS",
+          "longest_dark_run_fraction": 1.0,
+          "required_fraction": 0.85,
+          "best_row": 14,
+          "pixel_size": [
+            86,
+            31
+          ],
+          "page": 1,
+          "heading_count": 1,
+          "crop_mm": [
+            60.692,
+            101.434,
+            75.692,
+            106.764
+          ]
+        },
+        "PRAKTIKA & SCHNUPPERTAGE": {
+          "status": "PASS",
+          "longest_dark_run_fraction": 1.0,
+          "required_fraction": 0.85,
+          "best_row": 14,
+          "pixel_size": [
+            86,
+            31
+          ],
+          "page": 1,
+          "heading_count": 1,
+          "crop_mm": [
+            94.837,
+            133.907,
+            109.837,
+            139.238
+          ]
+        },
+        "REFERENZEN": {
+          "status": "FAIL",
+          "reason": "Heading missing or nonunique",
+          "heading_count": 0
+        }
+      },
+      "section_line_status": "FAIL",
+      "page_edge_signatures": [
+        {
+          "header_sha256": "b85bbf9a232d151efc3de56fbfec12fd396e7cf228fd8fdc3c7b650a9834f73d",
+          "bottom_sha256": "f9db85c2008fd32fa6ed4e0a9ad96d151dbc3cfeb593a3ae1668fa4b6de8f079"
+        },
+        {
+          "header_sha256": "b85bbf9a232d151efc3de56fbfec12fd396e7cf228fd8fdc3c7b650a9834f73d",
+          "bottom_sha256": "f9db85c2008fd32fa6ed4e0a9ad96d151dbc3cfeb593a3ae1668fa4b6de8f079"
+        },
+        {
+          "header_sha256": "b85bbf9a232d151efc3de56fbfec12fd396e7cf228fd8fdc3c7b650a9834f73d",
+          "bottom_sha256": "f9db85c2008fd32fa6ed4e0a9ad96d151dbc3cfeb593a3ae1668fa4b6de8f079"
+        }
+      ],
+      "page_edge_status": "PASS"
+    },
+    {
+      "id": "cv-crop-right-footer-distance-zero",
+      "source_id": "cv-crop-right",
+      "profile": "footer-distance-zero",
+      "varied_text": false,
+      "mirrored": true,
+      "package": {
+        "source_sha256": "ba3eceb510df262ab653bf41b8c81419db7507660a1bf7c98816668c9bbbf527",
+        "copy_sha256": "81c3e93b427eaf9e521d8230f9cfc34dd7617303c1d51136a40583bebfd4bb79",
+        "entry_count": 18,
+        "spacing_attribute_edits": [
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[0]/p[10]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "72",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[0]/p[14]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[0]/p[16]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[0]/p[18]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[0]/p[20]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[0]/p[22]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[0]/p[24]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[0]/p[26]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[0]/p[28]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[0]/p[30]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[0]/p[32]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[0]/p[34]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[0]/p[36]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[0]/p[38]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[0]/p[40]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[0]/p[42]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[0]/p[44]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "1",
+            "after": "0"
+          },
+          {
+            "path": "/body[0]/tbl[0]/tr[2]/tc[0]/p[46]/pPr[0]/spacing[0]",
+            "attribute": "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}after",
+            "before": "72",
+            "after": "0"
+          }
+        ],
+        "critical_tables_identical": 18,
+        "body_controls_retained": 107,
+        "drawing_payloads_identical": 3,
+        "layout_rows": 0,
+        "main_story_blocks_identical": false,
+        "sidebar_payload_identical": false,
+        "all_non_document_parts_identical": true,
+        "global_word_text_order_identical": false,
+        "row_entry_ranges": [
+          [
+            1,
+            5
+          ],
+          [
+            6,
+            14
+          ],
+          [
+            15,
+            18
+          ]
+        ],
+        "declared_losses": [
+          "Outer three-column layout replaced by floating sidebar and independent one-column flow; global XML reading order may change",
+          "Outer main table removed; original leaf blocks now direct body flow",
+          "Leaf table formatting changed only by 1 missing cantSplit additions; existing guards retained",
+          "Four main-section drawing behindDoc flags changed to foreground",
+          "pgMar.footer 680 -> 0"
+        ],
+        "profile": "footer-distance-zero",
+        "layout_control_profile": "fixed-5-14",
+        "photo_frame_before": "page",
+        "photo_frame_after": "margin",
+        "photo_offset_emu_before": 5580000,
+        "photo_offset_emu_after": 4859910,
+        "section_left_margin_emu": 720090,
+        "declared_page_x_emu_before": 5580000,
+        "declared_page_x_emu_after": 5580000,
+        "declared_page_x_equivalent": true,
+        "photo_horizontal_anchor_only_changed": true,
+        "photo_graphic_payload_identical": true,
+        "sidebar_text_and_non_photo_payload_identical": true,
+        "word_verification": "NOT_PERFORMED",
+        "photo_control_profile": "margin-equivalent",
+        "main_table_columns": 0,
+        "main_table_rows": 0,
+        "sidebar_table_columns": 1,
+        "main_frame_source_x_twips": 1134,
+        "main_table_indent_twips": 0,
+        "sidebar_float_page_xy_twips": [
+          8334,
+          2948
+        ],
+        "sidebar_float_standoff_twips": 0,
+        "source_spacer_cell_removed": true,
+        "added_empty_body_anchor_paragraphs": 1,
+        "section_frame_identical": false,
+        "section_main_frame_restricted": true,
+        "sidebar_identical_to_photo_control": true,
+        "reference_heading_body_grouped": false,
+        "main_outer_table_removed": true,
+        "continuation_rows_cant_split": false,
+        "source_reference_keep_next_preserved": true,
+        "main_story_text_identical": true,
+        "critical_tables_except_cant_split_identical": 19,
+        "added_leaf_row_cant_split": 1,
+        "existing_leaf_row_cant_split": 18,
+        "main_paint_foreground_edits": [
+          "cv.section.custom:familie.heading.flow-paint",
+          "cv.section.schule.heading.flow-paint",
+          "cv.section.erfahrung.heading.flow-paint",
+          "cv.section.referenzen.heading.flow-paint"
+        ],
+        "empty_footer_parts_verified": [
+          "word/cv-footer.xml",
+          "word/cv-footer-first.xml"
+        ],
+        "section_before": {
+          "page_twips": {
+            "w": 11906,
+            "h": 16838
+          },
+          "margin_twips": {
+            "top": 2948,
+            "right": 4026,
+            "bottom": 283,
+            "left": 1134,
+            "header": 0,
+            "footer": 680,
+            "gutter": 0
+          },
+          "footer_reference_count": 2,
+          "nominal_body_bottom_mm": 292.012,
+          "effective_native_body_bottom": "NOT_MEASURED: PDF text ink does not expose Writer row/page-area boxes"
+        },
+        "section_after": {
+          "page_twips": {
+            "w": 11906,
+            "h": 16838
+          },
+          "margin_twips": {
+            "top": 2948,
+            "right": 4026,
+            "bottom": 283,
+            "left": 1134,
+            "header": 0,
+            "footer": 0,
+            "gutter": 0
+          },
+          "footer_reference_count": 2,
+          "nominal_body_bottom_mm": 292.012,
+          "effective_native_body_bottom": "NOT_MEASURED: PDF text ink does not expose Writer row/page-area boxes"
+        },
+        "critical_tables_identical_to_body_flow_front_control": 19,
+        "page_area_edit": "pgMar.footer 680 -> 0"
+      },
+      "pdf_sha256": "9c347520367dd89c0d098645dd1bb54f3fa7636bc92a054a6c3d888394b0cfd5",
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.655,
+        "max_rss_kib": 243976,
+        "cpu_seconds": 1.648,
+        "elapsed_seconds": 1.65,
+        "exit_code": 0
+      },
+      "actual": {
+        "pages": 3,
+        "content": {
+          "status": "PASS",
+          "marker_pages": {
+            "P202Praxis01": [
+              1
+            ],
+            "P202Praxis02": [
+              1
+            ],
+            "P202Praxis03": [
+              1
+            ],
+            "P202Praxis04": [
+              1
+            ],
+            "P202Praxis05": [
+              1
+            ],
+            "P202Praxis06": [
+              1
+            ],
+            "P202Praxis07": [
+              2
+            ],
+            "P202Praxis08": [
+              2
+            ],
+            "P202Praxis09": [
+              2
+            ],
+            "P202Praxis10": [
+              2
+            ],
+            "P202Praxis11": [
+              2
+            ],
+            "P202Praxis12": [
+              2
+            ],
+            "P202Praxis13": [
+              2
+            ],
+            "P202Praxis14": [
+              2
+            ],
+            "P202Praxis15": [
+              2
+            ],
+            "P202Praxis16": [
+              3
+            ],
+            "P202Praxis17": [
+              3
+            ],
+            "P202Praxis18": [
+              3
+            ],
+            "P202Endreferenz": [
+              3
+            ]
+          },
+          "missing_or_nonunique": [],
+          "entries": [
+            {
+              "marker": "P202Praxis01",
+              "start_page": 1,
+              "end_page": 1,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis02",
+              "start_page": 1,
+              "end_page": 1,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis03",
+              "start_page": 1,
+              "end_page": 1,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis04",
+              "start_page": 1,
+              "end_page": 1,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis05",
+              "start_page": 1,
+              "end_page": 1,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis06",
+              "start_page": 1,
+              "end_page": 1,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis07",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis08",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis09",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis10",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis11",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis12",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis13",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis14",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis15",
+              "start_page": 2,
+              "end_page": 2,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis16",
+              "start_page": 3,
+              "end_page": 3,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis17",
+              "start_page": 3,
+              "end_page": 3,
+              "complete": true,
+              "split": false
+            },
+            {
+              "marker": "P202Praxis18",
+              "start_page": 3,
+              "end_page": 3,
+              "complete": true,
+              "split": false
+            }
+          ],
+          "complete_entries": 18,
+          "split_entries": [],
+          "reference_body_present": true
+        },
+        "photos": [
+          {
+            "visible": true,
+            "pixels": 13310,
+            "bbox_mm": [
+              155.524,
+              52.101,
+              27.243,
+              34.91
+            ],
+            "grid": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              4,
+              4,
+              4,
+              4,
+              4,
+              2,
+              2,
+              2,
+              4,
+              4,
+              4,
+              4,
+              4,
+              2,
+              2,
+              2,
+              4,
+              4,
+              4,
+              4,
+              4,
+              2,
+              2,
+              2,
+              4,
+              4,
+              4,
+              4,
+              4,
+              2,
+              2,
+              2,
+              4,
+              4,
+              4,
+              4,
+              4,
+              2,
+              2,
+              2,
+              4,
+              4,
+              4,
+              4,
+              4,
+              2,
+              2,
+              2
+            ],
+            "colors": {
+              "1": 0,
+              "2": 6482,
+              "3": 0,
+              "4": 6828
+            }
+          },
+          {
+            "visible": false,
+            "pixels": 0
+          },
+          {
+            "visible": false,
+            "pixels": 0
+          }
+        ],
+        "title_positions": {
+          "P202Praxis01": {
+            "page": 1,
+            "top_left_mm": [
+              44.344,
+              137.932
+            ]
+          },
+          "P202Praxis02": {
+            "page": 1,
+            "top_left_mm": [
+              44.344,
+              163.385
+            ]
+          },
+          "P202Praxis03": {
+            "page": 1,
+            "top_left_mm": [
+              44.344,
+              188.132
+            ]
+          },
+          "P202Praxis04": {
+            "page": 1,
+            "top_left_mm": [
+              44.344,
+              212.88
+            ]
+          },
+          "P202Praxis05": {
+            "page": 1,
+            "top_left_mm": [
+              44.344,
+              237.627
+            ]
+          },
+          "P202Praxis06": {
+            "page": 1,
+            "top_left_mm": [
+              44.344,
+              262.374
+            ]
+          },
+          "P202Praxis07": {
+            "page": 2,
+            "top_left_mm": [
+              44.344,
+              51.889
+            ]
+          },
+          "P202Praxis08": {
+            "page": 2,
+            "top_left_mm": [
+              44.344,
+              76.637
+            ]
+          },
+          "P202Praxis09": {
+            "page": 2,
+            "top_left_mm": [
+              44.344,
+              101.384
+            ]
+          },
+          "P202Praxis10": {
+            "page": 2,
+            "top_left_mm": [
+              44.344,
+              126.132
+            ]
+          },
+          "P202Praxis11": {
+            "page": 2,
+            "top_left_mm": [
+              44.344,
+              150.879
+            ]
+          },
+          "P202Praxis12": {
+            "page": 2,
+            "top_left_mm": [
+              44.344,
+              175.626
+            ]
+          },
+          "P202Praxis13": {
+            "page": 2,
+            "top_left_mm": [
+              44.344,
+              200.374
+            ]
+          },
+          "P202Praxis14": {
+            "page": 2,
+            "top_left_mm": [
+              44.344,
+              225.121
+            ]
+          },
+          "P202Praxis15": {
+            "page": 2,
+            "top_left_mm": [
+              44.344,
+              249.868
+            ]
+          },
+          "P202Praxis16": {
+            "page": 3,
+            "top_left_mm": [
+              44.344,
+              51.889
+            ]
+          },
+          "P202Praxis17": {
+            "page": 3,
+            "top_left_mm": [
+              44.344,
+              76.637
+            ]
+          },
+          "P202Praxis18": {
+            "page": 3,
+            "top_left_mm": [
+              44.344,
+              101.384
+            ]
+          },
+          "P202Endreferenz": {
+            "page": 3,
+            "top_left_mm": [
+              20.038,
+              130.949
+            ]
+          }
+        },
+        "pixel_sha256": [
+          "759e34217f8465251f1c24c251561e04957fb7e6642bc0847cc16151f1d14e5d",
+          "329980462bad4f1c3e316426f71fccdb68eb829a639fe979ee5e20a35050a147",
+          "51139e791c823287f464fe0f6e54f486f07215f9968855957860293107eeab60"
+        ],
+        "text_methods": [
+          "PDF text layer",
+          "PDF text layer",
+          "PDF text layer"
+        ],
+        "producer": "LibreOffice 24.2"
+      },
+      "comparison": {
+        "status": "PASS",
+        "content_status": "PASS",
+        "layout_status": "PASS",
+        "photo": {
+          "status": "PASS",
+          "bbox_delta_mm": [
+            0.258,
+            0.0,
+            1.059,
+            1.322
+          ],
+          "max_allowed_mm": 2.0,
+          "pattern_agreement": 1.0,
+          "min_pattern_agreement": 0.9,
+          "expected_side": "right"
+        },
+        "pages_match": true,
+        "title_page_changes": [],
+        "entry_span_changes": [],
+        "title_geometry": [
+          {
+            "marker": "P202Praxis01",
+            "app": {
+              "page": 1,
+              "top_left_mm": [
+                44.276,
+                136.818
+              ]
+            },
+            "lo": {
+              "page": 1,
+              "top_left_mm": [
+                44.344,
+                137.932
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              1.114
+            ]
+          },
+          {
+            "marker": "P202Praxis02",
+            "app": {
+              "page": 1,
+              "top_left_mm": [
+                44.276,
+                161.72
+              ]
+            },
+            "lo": {
+              "page": 1,
+              "top_left_mm": [
+                44.344,
+                163.385
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              1.665
+            ]
+          },
+          {
+            "marker": "P202Praxis03",
+            "app": {
+              "page": 1,
+              "top_left_mm": [
+                44.276,
+                186.621
+              ]
+            },
+            "lo": {
+              "page": 1,
+              "top_left_mm": [
+                44.344,
+                188.132
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              1.511
+            ]
+          },
+          {
+            "marker": "P202Praxis04",
+            "app": {
+              "page": 1,
+              "top_left_mm": [
+                44.276,
+                211.523
+              ]
+            },
+            "lo": {
+              "page": 1,
+              "top_left_mm": [
+                44.344,
+                212.88
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              1.357
+            ]
+          },
+          {
+            "marker": "P202Praxis05",
+            "app": {
+              "page": 1,
+              "top_left_mm": [
+                44.276,
+                236.424
+              ]
+            },
+            "lo": {
+              "page": 1,
+              "top_left_mm": [
+                44.344,
+                237.627
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              1.203
+            ]
+          },
+          {
+            "marker": "P202Praxis06",
+            "app": {
+              "page": 1,
+              "top_left_mm": [
+                44.276,
+                261.326
+              ]
+            },
+            "lo": {
+              "page": 1,
+              "top_left_mm": [
+                44.344,
+                262.374
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              1.048
+            ]
+          },
+          {
+            "marker": "P202Praxis07",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                44.276,
+                50.258
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                44.344,
+                51.889
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              1.631
+            ]
+          },
+          {
+            "marker": "P202Praxis08",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                44.276,
+                75.16
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                44.344,
+                76.637
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              1.477
+            ]
+          },
+          {
+            "marker": "P202Praxis09",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                44.276,
+                100.061
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                44.344,
+                101.384
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              1.323
+            ]
+          },
+          {
+            "marker": "P202Praxis10",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                44.276,
+                124.963
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                44.344,
+                126.132
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              1.169
+            ]
+          },
+          {
+            "marker": "P202Praxis11",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                44.276,
+                149.864
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                44.344,
+                150.879
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              1.015
+            ]
+          },
+          {
+            "marker": "P202Praxis12",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                44.276,
+                174.766
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                44.344,
+                175.626
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              0.86
+            ]
+          },
+          {
+            "marker": "P202Praxis13",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                44.276,
+                199.667
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                44.344,
+                200.374
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              0.707
+            ]
+          },
+          {
+            "marker": "P202Praxis14",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                44.276,
+                224.569
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                44.344,
+                225.121
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              0.552
+            ]
+          },
+          {
+            "marker": "P202Praxis15",
+            "app": {
+              "page": 2,
+              "top_left_mm": [
+                44.276,
+                249.47
+              ]
+            },
+            "lo": {
+              "page": 2,
+              "top_left_mm": [
+                44.344,
+                249.868
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              0.398
+            ]
+          },
+          {
+            "marker": "P202Praxis16",
+            "app": {
+              "page": 3,
+              "top_left_mm": [
+                44.276,
+                50.258
+              ]
+            },
+            "lo": {
+              "page": 3,
+              "top_left_mm": [
+                44.344,
+                51.889
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              1.631
+            ]
+          },
+          {
+            "marker": "P202Praxis17",
+            "app": {
+              "page": 3,
+              "top_left_mm": [
+                44.276,
+                75.16
+              ]
+            },
+            "lo": {
+              "page": 3,
+              "top_left_mm": [
+                44.344,
+                76.637
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              1.477
+            ]
+          },
+          {
+            "marker": "P202Praxis18",
+            "app": {
+              "page": 3,
+              "top_left_mm": [
+                44.276,
+                100.061
+              ]
+            },
+            "lo": {
+              "page": 3,
+              "top_left_mm": [
+                44.344,
+                101.384
+              ]
+            },
+            "delta_mm": [
+              0.068,
+              1.323
+            ]
+          },
+          {
+            "marker": "P202Endreferenz",
+            "app": {
+              "page": 3,
+              "top_left_mm": [
+                19.989,
+                131.005
+              ]
+            },
+            "lo": {
+              "page": 3,
+              "top_left_mm": [
+                20.038,
+                130.949
+              ]
+            },
+            "delta_mm": [
+              0.049,
+              -0.056
+            ]
+          }
+        ],
+        "title_geometry_status": "PASS",
+        "title_geometry_tolerance_mm": 2.0
+      },
+      "reference_line": {
+        "status": "PASS",
+        "longest_dark_run_fraction": 0.888889,
+        "required_fraction": 0.85,
+        "best_row": 15,
+        "pixel_size": [
+          171,
+          31
+        ],
+        "page": 3,
+        "crop_mm": [
+          50.038,
+          125.546,
+          80.038,
+          130.877
+        ],
+        "heading_count": 1
+      },
+      "reference_group": {
+        "status": "PASS",
+        "heading_page": 3,
+        "body_pages": [
+          3
+        ]
+      },
+      "extra_description_markers_missing": [],
+      "trial_status": "PASS",
+      "product_disposition": "NOT_ACCEPTED",
+      "entry_visible_ink": [
+        {
+          "marker": "P202Praxis01",
+          "title_page": 1,
+          "terminal_description_page": 1,
+          "title_ink_top_mm": 137.932,
+          "terminal_ink_bottom_mm": 161.737,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis02",
+          "title_page": 1,
+          "terminal_description_page": 1,
+          "title_ink_top_mm": 163.385,
+          "terminal_ink_bottom_mm": 187.19,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis03",
+          "title_page": 1,
+          "terminal_description_page": 1,
+          "title_ink_top_mm": 188.132,
+          "terminal_ink_bottom_mm": 211.937,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis04",
+          "title_page": 1,
+          "terminal_description_page": 1,
+          "title_ink_top_mm": 212.88,
+          "terminal_ink_bottom_mm": 236.684,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis05",
+          "title_page": 1,
+          "terminal_description_page": 1,
+          "title_ink_top_mm": 237.627,
+          "terminal_ink_bottom_mm": 261.432,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis06",
+          "title_page": 1,
+          "terminal_description_page": 1,
+          "title_ink_top_mm": 262.374,
+          "terminal_ink_bottom_mm": 286.179,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis07",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 51.889,
+          "terminal_ink_bottom_mm": 75.694,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis08",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 76.637,
+          "terminal_ink_bottom_mm": 100.442,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis09",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 101.384,
+          "terminal_ink_bottom_mm": 125.189,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis10",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 126.132,
+          "terminal_ink_bottom_mm": 149.936,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis11",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 150.879,
+          "terminal_ink_bottom_mm": 174.684,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis12",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 175.626,
+          "terminal_ink_bottom_mm": 199.431,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis13",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 200.374,
+          "terminal_ink_bottom_mm": 224.178,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis14",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 225.121,
+          "terminal_ink_bottom_mm": 248.926,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis15",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 249.868,
+          "terminal_ink_bottom_mm": 273.673,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis16",
+          "title_page": 3,
+          "terminal_description_page": 3,
+          "title_ink_top_mm": 51.889,
+          "terminal_ink_bottom_mm": 75.694,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis17",
+          "title_page": 3,
+          "terminal_description_page": 3,
+          "title_ink_top_mm": 76.637,
+          "terminal_ink_bottom_mm": 100.442,
+          "same_page_ink_extent_mm": 23.805
+        },
+        {
+          "marker": "P202Praxis18",
+          "title_page": 3,
+          "terminal_description_page": 3,
+          "title_ink_top_mm": 101.384,
+          "terminal_ink_bottom_mm": 125.189,
+          "same_page_ink_extent_mm": 23.805
+        }
+      ],
+      "entry_visible_ink_status": "MEASURED",
+      "section_lines": {
+        "FAMILIE": {
+          "status": "PASS",
+          "longest_dark_run_fraction": 1.0,
+          "required_fraction": 0.85,
+          "best_row": 14,
+          "pixel_size": [
+            86,
+            31
+          ],
+          "page": 1,
+          "heading_count": 1,
+          "crop_mm": [
+            43.075,
+            75.893,
+            58.075,
+            81.223
+          ]
+        },
+        "SCHULBILDUNG": {
+          "status": "PASS",
+          "longest_dark_run_fraction": 1.0,
+          "required_fraction": 0.85,
+          "best_row": 14,
+          "pixel_size": [
+            86,
+            31
+          ],
+          "page": 1,
+          "heading_count": 1,
+          "crop_mm": [
+            60.701,
+            101.451,
+            75.701,
+            106.782
+          ]
+        },
+        "PRAKTIKA & SCHNUPPERTAGE": {
+          "status": "PASS",
+          "longest_dark_run_fraction": 1.0,
+          "required_fraction": 0.85,
+          "best_row": 14,
+          "pixel_size": [
+            86,
+            31
+          ],
+          "page": 1,
+          "heading_count": 1,
+          "crop_mm": [
+            94.846,
+            132.654,
+            109.846,
+            137.985
+          ]
+        },
+        "REFERENZEN": {
+          "status": "PASS",
+          "longest_dark_run_fraction": 1.0,
+          "required_fraction": 0.85,
+          "best_row": 15,
+          "pixel_size": [
+            86,
+            31
+          ],
+          "page": 3,
+          "heading_count": 1,
+          "crop_mm": [
+            55.12,
+            125.546,
+            70.12,
+            130.877
+          ]
+        }
+      },
+      "section_line_status": "PASS",
+      "page_edge_signatures": [
+        {
+          "header_sha256": "b85bbf9a232d151efc3de56fbfec12fd396e7cf228fd8fdc3c7b650a9834f73d",
+          "bottom_sha256": "f9db85c2008fd32fa6ed4e0a9ad96d151dbc3cfeb593a3ae1668fa4b6de8f079"
+        },
+        {
+          "header_sha256": "b85bbf9a232d151efc3de56fbfec12fd396e7cf228fd8fdc3c7b650a9834f73d",
+          "bottom_sha256": "f9db85c2008fd32fa6ed4e0a9ad96d151dbc3cfeb593a3ae1668fa4b6de8f079"
+        },
+        {
+          "header_sha256": "b85bbf9a232d151efc3de56fbfec12fd396e7cf228fd8fdc3c7b650a9834f73d",
+          "bottom_sha256": "f9db85c2008fd32fa6ed4e0a9ad96d151dbc3cfeb593a3ae1668fa4b6de8f079"
+        }
+      ],
+      "page_edge_status": "PASS",
+      "pinned_header_bottom_pixels_match_p224": true
+    }
+  ],
+  "conversion_attempts": [
+    {
+      "id": "cv-crop-left-original-source",
+      "resources": {
+        "returncode": 0,
+        "seconds": 16.747,
+        "max_rss_kib": 243516,
+        "cpu_seconds": 16.463,
+        "elapsed_seconds": 16.72,
+        "exit_code": 0
+      }
+    },
+    {
+      "id": "cv-crop-left-footer-distance-zero",
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.655,
+        "max_rss_kib": 244176,
+        "cpu_seconds": 1.647,
+        "elapsed_seconds": 1.65,
+        "exit_code": 0
+      }
+    },
+    {
+      "id": "cv-crop-right-original-source",
+      "resources": {
+        "returncode": 0,
+        "seconds": 24.36,
+        "max_rss_kib": 243668,
+        "cpu_seconds": 24.33,
+        "elapsed_seconds": 24.34,
+        "exit_code": 0
+      }
+    },
+    {
+      "id": "cv-crop-right-footer-distance-zero",
+      "resources": {
+        "returncode": 0,
+        "seconds": 1.655,
+        "max_rss_kib": 243976,
+        "cpu_seconds": 1.648,
+        "elapsed_seconds": 1.65,
+        "exit_code": 0
+      }
+    }
+  ],
+  "additional_evidence": {
+    "source_export_sha": "2226e220eeddfa3f12cc589da45ad250ae5fb667",
+    "catalog_sha256": "59c833f72f22fd0d1c0a82cd400a1f0c370334379df2d9e08d88fcaa4fc55660",
+    "scope": "Two fresh actual UI exports, ordinary 18-entry text; new crop settings on both sides. Not arbitrary crops or varied 17/19 coverage.",
+    "cases": [
+      {
+        "source_manifest": {
+          "id": "cv-crop-left",
+          "part": "cv",
+          "mirrored": false,
+          "long": true,
+          "zoom": 1.6,
+          "x": 30,
+          "y": 70,
+          "entryCount": 18,
+          "cropTrial": "p2-26-candidate",
+          "sha": "2226e220eeddfa3f12cc589da45ad250ae5fb667",
+          "exporter": "production DOCX Next",
+          "markers": [
+            "Lea Müller",
+            "Sekundarschule",
+            "P202Endreferenz",
+            "P202Praxis01",
+            "P202Praxis02",
+            "P202Praxis03",
+            "P202Praxis04",
+            "P202Praxis05",
+            "P202Praxis06",
+            "P202Praxis07",
+            "P202Praxis08",
+            "P202Praxis09",
+            "P202Praxis10",
+            "P202Praxis11",
+            "P202Praxis12",
+            "P202Praxis13",
+            "P202Praxis14",
+            "P202Praxis15",
+            "P202Praxis16",
+            "P202Praxis17",
+            "P202Praxis18"
+          ],
+          "intent": {
+            "template": "modern",
+            "cvLayout": "sidebar",
+            "sidebarSide": "left"
+          },
+          "photo": true,
+          "files": [
+            {
+              "format": "PDF",
+              "filename": "cv-crop-left.pdf",
+              "sha256": "7e729741a3bd70f0b3d7b4383aea1904962e4ee4b6239704d6d065899ba6e261"
+            },
+            {
+              "format": "DOCX",
+              "filename": "cv-crop-left.docx",
+              "sha256": "3b6309882fa81035eed377e9951c61d2f545f6cca5b264ccffde37cab2035f23"
+            }
+          ],
+          "status": "EXPORTED"
+        },
+        "manifest_sha256": "2f14e476f146c426b8629cd7c92f105c65b49afc38e8d10b3fd021e51f3498b0",
+        "app": {
+          "pages": 3,
+          "content": {
+            "status": "PASS",
+            "marker_pages": {
+              "P202Praxis01": [
+                1
+              ],
+              "P202Praxis02": [
+                1
+              ],
+              "P202Praxis03": [
+                1
+              ],
+              "P202Praxis04": [
+                1
+              ],
+              "P202Praxis05": [
+                1
+              ],
+              "P202Praxis06": [
+                1
+              ],
+              "P202Praxis07": [
+                2
+              ],
+              "P202Praxis08": [
+                2
+              ],
+              "P202Praxis09": [
+                2
+              ],
+              "P202Praxis10": [
+                2
+              ],
+              "P202Praxis11": [
+                2
+              ],
+              "P202Praxis12": [
+                2
+              ],
+              "P202Praxis13": [
+                2
+              ],
+              "P202Praxis14": [
+                2
+              ],
+              "P202Praxis15": [
+                2
+              ],
+              "P202Praxis16": [
+                3
+              ],
+              "P202Praxis17": [
+                3
+              ],
+              "P202Praxis18": [
+                3
+              ],
+              "P202Endreferenz": [
+                3
+              ]
+            },
+            "missing_or_nonunique": [],
+            "entries": [
+              {
+                "marker": "P202Praxis01",
+                "start_page": 1,
+                "end_page": 1,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis02",
+                "start_page": 1,
+                "end_page": 1,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis03",
+                "start_page": 1,
+                "end_page": 1,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis04",
+                "start_page": 1,
+                "end_page": 1,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis05",
+                "start_page": 1,
+                "end_page": 1,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis06",
+                "start_page": 1,
+                "end_page": 1,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis07",
+                "start_page": 2,
+                "end_page": 2,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis08",
+                "start_page": 2,
+                "end_page": 2,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis09",
+                "start_page": 2,
+                "end_page": 2,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis10",
+                "start_page": 2,
+                "end_page": 2,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis11",
+                "start_page": 2,
+                "end_page": 2,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis12",
+                "start_page": 2,
+                "end_page": 2,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis13",
+                "start_page": 2,
+                "end_page": 2,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis14",
+                "start_page": 2,
+                "end_page": 2,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis15",
+                "start_page": 2,
+                "end_page": 2,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis16",
+                "start_page": 3,
+                "end_page": 3,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis17",
+                "start_page": 3,
+                "end_page": 3,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis18",
+                "start_page": 3,
+                "end_page": 3,
+                "complete": true,
+                "split": false
+              }
+            ],
+            "complete_entries": 18,
+            "split_entries": [],
+            "reference_body_present": true
+          },
+          "photos": [
+            {
+              "visible": true,
+              "pixels": 12258,
+              "bbox_mm": [
+                8.199,
+                52.101,
+                26.713,
+                33.588
+              ],
+              "grid": [
+                2,
+                2,
+                2,
+                4,
+                4,
+                4,
+                4,
+                2,
+                2,
+                2,
+                2,
+                4,
+                4,
+                4,
+                4,
+                2,
+                2,
+                2,
+                2,
+                4,
+                4,
+                4,
+                4,
+                2,
+                2,
+                2,
+                2,
+                4,
+                4,
+                4,
+                4,
+                2,
+                2,
+                2,
+                2,
+                4,
+                4,
+                4,
+                4,
+                2,
+                2,
+                2,
+                2,
+                4,
+                4,
+                4,
+                4,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                3,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                3
+              ],
+              "colors": {
+                "1": 205,
+                "2": 7409,
+                "3": 404,
+                "4": 4240
+              }
+            },
+            {
+              "visible": false,
+              "pixels": 0
+            },
+            {
+              "visible": false,
+              "pixels": 0
+            }
+          ],
+          "title_positions": {
+            "P202Praxis01": {
+              "page": 1,
+              "top_left_mm": [
+                95.26,
+                136.818
+              ]
+            },
+            "P202Praxis02": {
+              "page": 1,
+              "top_left_mm": [
+                95.26,
+                161.72
+              ]
+            },
+            "P202Praxis03": {
+              "page": 1,
+              "top_left_mm": [
+                95.26,
+                186.621
+              ]
+            },
+            "P202Praxis04": {
+              "page": 1,
+              "top_left_mm": [
+                95.26,
+                211.523
+              ]
+            },
+            "P202Praxis05": {
+              "page": 1,
+              "top_left_mm": [
+                95.26,
+                236.424
+              ]
+            },
+            "P202Praxis06": {
+              "page": 1,
+              "top_left_mm": [
+                95.26,
+                261.326
+              ]
+            },
+            "P202Praxis07": {
+              "page": 2,
+              "top_left_mm": [
+                95.26,
+                50.258
+              ]
+            },
+            "P202Praxis08": {
+              "page": 2,
+              "top_left_mm": [
+                95.26,
+                75.16
+              ]
+            },
+            "P202Praxis09": {
+              "page": 2,
+              "top_left_mm": [
+                95.26,
+                100.061
+              ]
+            },
+            "P202Praxis10": {
+              "page": 2,
+              "top_left_mm": [
+                95.26,
+                124.963
+              ]
+            },
+            "P202Praxis11": {
+              "page": 2,
+              "top_left_mm": [
+                95.26,
+                149.864
+              ]
+            },
+            "P202Praxis12": {
+              "page": 2,
+              "top_left_mm": [
+                95.26,
+                174.766
+              ]
+            },
+            "P202Praxis13": {
+              "page": 2,
+              "top_left_mm": [
+                95.26,
+                199.667
+              ]
+            },
+            "P202Praxis14": {
+              "page": 2,
+              "top_left_mm": [
+                95.26,
+                224.569
+              ]
+            },
+            "P202Praxis15": {
+              "page": 2,
+              "top_left_mm": [
+                95.26,
+                249.47
+              ]
+            },
+            "P202Praxis16": {
+              "page": 3,
+              "top_left_mm": [
+                95.26,
+                50.258
+              ]
+            },
+            "P202Praxis17": {
+              "page": 3,
+              "top_left_mm": [
+                95.26,
+                75.16
+              ]
+            },
+            "P202Praxis18": {
+              "page": 3,
+              "top_left_mm": [
+                95.26,
+                100.061
+              ]
+            },
+            "P202Endreferenz": {
+              "page": 3,
+              "top_left_mm": [
+                70.973,
+                131.005
+              ]
+            }
+          },
+          "pixel_sha256": [
+            "c2403f87a1b87c1777a160c62fd83196b4fb20114377574b83ee0d1fd0400bfc",
+            "d259925424852fde7f56de0abef66adf7b2f1c7ddb4340aaca9bed8370222831",
+            "8d4aed7a38e3e51f79dff8081aed57bdba5b6fb678b90ce16ecbd4b8fa861c87"
+          ],
+          "text_methods": [
+            "PDF text layer",
+            "PDF text layer",
+            "PDF text layer"
+          ],
+          "producer": "jsPDF 4.2.1"
+        }
+      },
+      {
+        "source_manifest": {
+          "id": "cv-crop-right",
+          "part": "cv",
+          "mirrored": true,
+          "long": true,
+          "zoom": 2,
+          "x": 65,
+          "y": 35,
+          "entryCount": 18,
+          "cropTrial": "p2-26-candidate",
+          "sha": "2226e220eeddfa3f12cc589da45ad250ae5fb667",
+          "exporter": "production DOCX Next",
+          "markers": [
+            "Lea Müller",
+            "Sekundarschule",
+            "P202Endreferenz",
+            "P202Praxis01",
+            "P202Praxis02",
+            "P202Praxis03",
+            "P202Praxis04",
+            "P202Praxis05",
+            "P202Praxis06",
+            "P202Praxis07",
+            "P202Praxis08",
+            "P202Praxis09",
+            "P202Praxis10",
+            "P202Praxis11",
+            "P202Praxis12",
+            "P202Praxis13",
+            "P202Praxis14",
+            "P202Praxis15",
+            "P202Praxis16",
+            "P202Praxis17",
+            "P202Praxis18"
+          ],
+          "intent": {
+            "template": "modern",
+            "cvLayout": "sidebar",
+            "sidebarSide": "right"
+          },
+          "photo": true,
+          "files": [
+            {
+              "format": "PDF",
+              "filename": "cv-crop-right.pdf",
+              "sha256": "2576310c41aa8749d2aed76baa65634a416ff137da021cc4584a47e09b701fe3"
+            },
+            {
+              "format": "DOCX",
+              "filename": "cv-crop-right.docx",
+              "sha256": "ba3eceb510df262ab653bf41b8c81419db7507660a1bf7c98816668c9bbbf527"
+            }
+          ],
+          "status": "EXPORTED"
+        },
+        "manifest_sha256": "5b2ff9fd7179a1017498477059c34e78cf47f5b8783e8ade0ea1bfd82b2fd3e4",
+        "app": {
+          "pages": 3,
+          "content": {
+            "status": "PASS",
+            "marker_pages": {
+              "P202Praxis01": [
+                1
+              ],
+              "P202Praxis02": [
+                1
+              ],
+              "P202Praxis03": [
+                1
+              ],
+              "P202Praxis04": [
+                1
+              ],
+              "P202Praxis05": [
+                1
+              ],
+              "P202Praxis06": [
+                1
+              ],
+              "P202Praxis07": [
+                2
+              ],
+              "P202Praxis08": [
+                2
+              ],
+              "P202Praxis09": [
+                2
+              ],
+              "P202Praxis10": [
+                2
+              ],
+              "P202Praxis11": [
+                2
+              ],
+              "P202Praxis12": [
+                2
+              ],
+              "P202Praxis13": [
+                2
+              ],
+              "P202Praxis14": [
+                2
+              ],
+              "P202Praxis15": [
+                2
+              ],
+              "P202Praxis16": [
+                3
+              ],
+              "P202Praxis17": [
+                3
+              ],
+              "P202Praxis18": [
+                3
+              ],
+              "P202Endreferenz": [
+                3
+              ]
+            },
+            "missing_or_nonunique": [],
+            "entries": [
+              {
+                "marker": "P202Praxis01",
+                "start_page": 1,
+                "end_page": 1,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis02",
+                "start_page": 1,
+                "end_page": 1,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis03",
+                "start_page": 1,
+                "end_page": 1,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis04",
+                "start_page": 1,
+                "end_page": 1,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis05",
+                "start_page": 1,
+                "end_page": 1,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis06",
+                "start_page": 1,
+                "end_page": 1,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis07",
+                "start_page": 2,
+                "end_page": 2,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis08",
+                "start_page": 2,
+                "end_page": 2,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis09",
+                "start_page": 2,
+                "end_page": 2,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis10",
+                "start_page": 2,
+                "end_page": 2,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis11",
+                "start_page": 2,
+                "end_page": 2,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis12",
+                "start_page": 2,
+                "end_page": 2,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis13",
+                "start_page": 2,
+                "end_page": 2,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis14",
+                "start_page": 2,
+                "end_page": 2,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis15",
+                "start_page": 2,
+                "end_page": 2,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis16",
+                "start_page": 3,
+                "end_page": 3,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis17",
+                "start_page": 3,
+                "end_page": 3,
+                "complete": true,
+                "split": false
+              },
+              {
+                "marker": "P202Praxis18",
+                "start_page": 3,
+                "end_page": 3,
+                "complete": true,
+                "split": false
+              }
+            ],
+            "complete_entries": 18,
+            "split_entries": [],
+            "reference_body_present": true
+          },
+          "photos": [
+            {
+              "visible": true,
+              "pixels": 12206,
+              "bbox_mm": [
+                155.782,
+                52.101,
+                26.184,
+                33.588
+              ],
+              "grid": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                4,
+                4,
+                4,
+                4,
+                4,
+                2,
+                2,
+                2,
+                4,
+                4,
+                4,
+                4,
+                4,
+                2,
+                2,
+                2,
+                4,
+                4,
+                4,
+                4,
+                4,
+                2,
+                2,
+                2,
+                4,
+                4,
+                4,
+                4,
+                4,
+                2,
+                2,
+                2,
+                4,
+                4,
+                4,
+                4,
+                4,
+                2,
+                2,
+                2,
+                4,
+                4,
+                4,
+                4,
+                4,
+                2,
+                2,
+                2
+              ],
+              "colors": {
+                "1": 0,
+                "2": 6001,
+                "3": 0,
+                "4": 6205
+              }
+            },
+            {
+              "visible": false,
+              "pixels": 0
+            },
+            {
+              "visible": false,
+              "pixels": 0
+            }
+          ],
+          "title_positions": {
+            "P202Praxis01": {
+              "page": 1,
+              "top_left_mm": [
+                44.276,
+                136.818
+              ]
+            },
+            "P202Praxis02": {
+              "page": 1,
+              "top_left_mm": [
+                44.276,
+                161.72
+              ]
+            },
+            "P202Praxis03": {
+              "page": 1,
+              "top_left_mm": [
+                44.276,
+                186.621
+              ]
+            },
+            "P202Praxis04": {
+              "page": 1,
+              "top_left_mm": [
+                44.276,
+                211.523
+              ]
+            },
+            "P202Praxis05": {
+              "page": 1,
+              "top_left_mm": [
+                44.276,
+                236.424
+              ]
+            },
+            "P202Praxis06": {
+              "page": 1,
+              "top_left_mm": [
+                44.276,
+                261.326
+              ]
+            },
+            "P202Praxis07": {
+              "page": 2,
+              "top_left_mm": [
+                44.276,
+                50.258
+              ]
+            },
+            "P202Praxis08": {
+              "page": 2,
+              "top_left_mm": [
+                44.276,
+                75.16
+              ]
+            },
+            "P202Praxis09": {
+              "page": 2,
+              "top_left_mm": [
+                44.276,
+                100.061
+              ]
+            },
+            "P202Praxis10": {
+              "page": 2,
+              "top_left_mm": [
+                44.276,
+                124.963
+              ]
+            },
+            "P202Praxis11": {
+              "page": 2,
+              "top_left_mm": [
+                44.276,
+                149.864
+              ]
+            },
+            "P202Praxis12": {
+              "page": 2,
+              "top_left_mm": [
+                44.276,
+                174.766
+              ]
+            },
+            "P202Praxis13": {
+              "page": 2,
+              "top_left_mm": [
+                44.276,
+                199.667
+              ]
+            },
+            "P202Praxis14": {
+              "page": 2,
+              "top_left_mm": [
+                44.276,
+                224.569
+              ]
+            },
+            "P202Praxis15": {
+              "page": 2,
+              "top_left_mm": [
+                44.276,
+                249.47
+              ]
+            },
+            "P202Praxis16": {
+              "page": 3,
+              "top_left_mm": [
+                44.276,
+                50.258
+              ]
+            },
+            "P202Praxis17": {
+              "page": 3,
+              "top_left_mm": [
+                44.276,
+                75.16
+              ]
+            },
+            "P202Praxis18": {
+              "page": 3,
+              "top_left_mm": [
+                44.276,
+                100.061
+              ]
+            },
+            "P202Endreferenz": {
+              "page": 3,
+              "top_left_mm": [
+                19.989,
+                131.005
+              ]
+            }
+          },
+          "pixel_sha256": [
+            "6d6e0bca09396e2405f437349070d05b133a3355e657ff972e17c223e720971c",
+            "e831bdca17f79223f13c947167f229e3f8fe75e6a5a12ed1c8888d3c6a9bfc7d",
+            "efc2abd890aa3d762b05bd0f231906d168527288ac1c65628311d5acdfcd2c40"
+          ],
+          "text_methods": [
+            "PDF text layer",
+            "PDF text layer",
+            "PDF text layer"
+          ],
+          "producer": "jsPDF 4.2.1"
+        }
+      }
+    ]
+  },
+  "execution_status": "PASS",
+  "native_conversion_count": 4
+}
