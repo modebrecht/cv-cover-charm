@@ -1,0 +1,41 @@
+{
+  "implementation_sha": "9b37e77b36bd66011f5a7479f06ca744f1975774",
+  "source_export_sha": "42bab2e13572145b201d1e9deabfa3baa8dab426",
+  "run_id": 41428995677,
+  "job_id": 125222523523,
+  "artifact_id": 13132773606,
+  "archive_sha256": "3812f0558592b0d4f128004f412f18c7ed55edb0a50717e98d8d80df89501870",
+  "raw_report_sha256": "a55793da0a3349f88f46b221324460fa33e74c592f407993952a699a2cd01a58",
+  "audit_all_case_records_identical": true,
+  "audit_native_conversions": 0,
+  "unit_tests_passed": 158,
+  "native_conversions": 16,
+  "native_pdf_pages": 64,
+  "summed_conversion_seconds": 29.038,
+  "peak_converter_rss_kib": 245236,
+  "trial_pass": 4,
+  "baseline_reproductions": 4,
+  "foreground_only_main_metrics_unchanged": 4,
+  "page_edge_pass": 16,
+  "failed_initial_implementation": {
+    "sha": "c4d051c775b9f4f8b51b1ef2e01cd3bcd6973097",
+    "run_id": 41428504053,
+    "job_id": 125220879207,
+    "unit_errors": 3,
+    "native_step": "SKIPPED",
+    "native_conversions": 0,
+    "cause": "Incorrect assumption that all critical leaf split guards were absent; fixed by retaining 18/12 existing guards and adding only 1/7 missing guards."
+  },
+  "retained_files": [
+    {
+      "path": "varied-right-body-flow-nosplit-front.docx",
+      "sha256": "b189071b36bb4f861a5319e3a8e33204c862c1159a8efedd4c84fa85ec2b575c",
+      "bytes": 235293
+    },
+    {
+      "path": "varied-right-body-flow-nosplit-front-lo.pdf",
+      "sha256": "f0cb3d36312a3b0742ce81a5926d6536562cbe02fb92a8a75738dcd5cc78e80f",
+      "bytes": 139110
+    }
+  ]
+}

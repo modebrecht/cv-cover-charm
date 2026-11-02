@@ -1,0 +1,40 @@
+{
+  "phases": [
+    {
+      "phase": "P2-22",
+      "implementation_sha": "e79480aed22c6e5d3b8fd33bd47b29fa3b867841",
+      "run_id": 41425693219,
+      "native_conversions": 12,
+      "native_pdf_pages": 48,
+      "unit_tests_passed": 151,
+      "raw_report_sha256": "2ac502e50ad0109cf4ec54e3cedddf039e2f20311dd0ef9d372c227f816a066a",
+      "audit_native_conversions": 0,
+      "summed_conversion_seconds": 19.756,
+      "peak_converter_rss_kib": 245688
+    },
+    {
+      "phase": "P2-23",
+      "implementation_sha": "9b37e77b36bd66011f5a7479f06ca744f1975774",
+      "run_id": 41428995677,
+      "native_conversions": 16,
+      "native_pdf_pages": 64,
+      "unit_tests_passed": 158,
+      "raw_report_sha256": "a55793da0a3349f88f46b221324460fa33e74c592f407993952a699a2cd01a58",
+      "audit_native_conversions": 0,
+      "summed_conversion_seconds": 29.038,
+      "peak_converter_rss_kib": 245236
+    }
+  ],
+  "actual_native_conversions": 28,
+  "native_pdf_pages": 112,
+  "extra_audit_native_conversions": 0,
+  "failed_control_only_runs": 1,
+  "failed_control_native_conversions": 0,
+  "summed_converter_seconds": 48.794,
+  "peak_converter_rss_kib": 245688,
+  "protected_refs": {
+    "dev": "c8e0a4e306e2e519d2b9392b43fb9759fb8c5078",
+    "render": "1fe6dbe59184a759d97f9c393353a8a3d9e1f89a",
+    "main": "44d7eb950b4fe972d6e890a72b6d3256ce365bc9"
+  }
+}
