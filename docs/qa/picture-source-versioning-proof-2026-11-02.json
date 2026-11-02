@@ -1649,5 +1649,65 @@
     "identityContactSheetSha256": "d1c65871403550d35f7d2473621f3091f899e19c00e5919750b2329e7280d1b8",
     "frameContactSheetSha256": "15cf3c22156eb07626fd6ecd07ed52ccd251d5fffb9f75a237be0a443611977f",
     "limits": "Diagnostic visual review only; does not waive the native table/crop/pixel failures."
+  },
+  "historicalRasterReproduction": {
+    "originalArtifactId": 11524215131,
+    "originalArtifactSha256": "2d7a5cf5394571120eaef745483eaddcaab1eaa4c26ee814af344b045cc5e80b",
+    "successorArtifactId": 13184415134,
+    "identicalRgbaPages": 144,
+    "differentRgbaPages": [],
+    "unavailableOriginalPages": [],
+    "scope": "Every actual historical source/saved page compared read-only at full RGBA resolution, without tolerance or masking."
+  },
+  "branchRecheck": {
+    "previousRefs": 198,
+    "currentRefs": 198,
+    "added": [],
+    "removed": [],
+    "changed": [
+      {
+        "name": "dev",
+        "before": "9e84088855dddb5992a6ba7ec768adbe9153fe12",
+        "after": "37eb8f95a4fd3c7aeea544e2fa3b3d1997bce65c"
+      }
+    ],
+    "scope": "Fresh all-ref comparison with the original branch review input: no added/removed refs; all 197 non-dev heads unchanged, including main/render and the P2-14/P2-26/Word archive refs."
+  },
+  "finalVerification": {
+    "sourceCommit": "37eb8f95a4fd3c7aeea544e2fa3b3d1997bce65c",
+    "workflowRun": 41534849043,
+    "pictureJob": 125584666702,
+    "conclusion": "success",
+    "artifactId": 13183442223,
+    "artifactSha256": "12dd2f57204be847c19fb1b0e5261444a051727c0f00bfd091ebe4c001a86eee",
+    "strictHistoricalMatrices": 7,
+    "strictCurrentNativeMatrices": 2,
+    "currentPackagePins": 26,
+    "currentCropPrecisionComparison": "pass against separate current frame baseline",
+    "comparison": "All 210 final source/saved page RGB buffers and dimensions exactly equal the fully PDF-verified successor artifact; original saved DOCX metadata hashes remain independently observed, not treated as deterministic.",
+    "rgbEquivalentToAuditedSuccessorPages": 210,
+    "broaderChecks": {
+      "unitTests": 1495,
+      "fastChecks": "pass: units, release formatting, TypeScript, lint, build",
+      "stableSidebarWorkflow": {
+        "run": 41534849043,
+        "conclusion": "success",
+        "activeJobs": 14,
+        "manualFullBodyMatrix": "not requested; existing guarded skip retained"
+      },
+      "boundedVisualWorkflow": {
+        "run": 41534849171,
+        "conclusion": "success",
+        "activeJobs": 2
+      },
+      "productSourcePackageLockAndPinnedEngineFonts": "byte-identical to pre-follow-up dev 38b2ad7edc66c300f75daa3e35c559dfeaf5c9e0",
+      "ordinaryDossierRegression": {
+        "run": 41534849123,
+        "conclusion": "success",
+        "browserGroups": 11,
+        "activeJobsIncludingStatusPublisher": 13,
+        "nativePrintBenchmark": "existing skip; not enabled by this change"
+      }
+    }
   }
 }

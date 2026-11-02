@@ -1,8 +1,9 @@
 # Picture diagnostic source versions — 2026-11-02
 
-The stale picture-package hash failed before the guarded Word consolidation.
-Its cause is now isolated without changing product rendering or replacing any
-historical native observations.
+The stale picture diagnostic is fixed on dev. Historical native comparisons
+now use immutable, versioned October inputs. The live renderer has separate
+exact package and native baselines. Product rendering and the original native
+observations remain unchanged.
 
 ## Cause
 
@@ -110,3 +111,52 @@ Both current native matrices and their photo/crop observations are now pinned
 as separate evidence. The final verification must reproduce those observations
 with exact source/native/geometry/pixel/stop comparisons, while retaining all
 seven unchanged historical comparisons.
+
+
+The fresh historical renders were also compared directly with the original
+October artifact at full RGBA resolution: **all 144 source/saved page images
+are byte-identical**, with zero different or unavailable pages. No masking or
+tolerance was used. Thus the historical inputs, observations and actual native
+page pixels all remain reproducible after this source-version separation.
+
+
+A fresh complete branch read still finds 198 refs. Compared with the original
+branch review snapshot, no ref was added or removed and only dev changed.
+All 197 other heads remain identical, including main, render, P2-14, P2-26
+and the final Word research archive. The previously reviewed November/late
+October branch set has therefore not changed during this integration.
+
+
+## Final checked implementation
+
+[`37eb8f95a4fd3c7aeea544e2fa3b3d1997bce65c`](https://github.com/modebrecht/cv-cover-charm/commit/37eb8f95a4fd3c7aeea544e2fa3b3d1997bce65c)
+passes the final [picture job](https://github.com/modebrecht/cv-cover-charm/actions/runs/41534849043/job/125584666702),
+including all seven strict historical comparisons, both strict current native
+matrices, current photo retention and the current exact crop comparison.
+Its artifact `13183442223` has SHA-256
+`12dd2f57204be847c19fb1b0e5261444a051727c0f00bfd091ebe4c001a86eee`.
+All 210 final page RGB buffers and dimensions match the independently
+PDF-verified predecessor artifact exactly. The source package pins and actual
+known failures remain unchanged. The [bounded Modern/Word CI](https://github.com/modebrecht/cv-cover-charm/actions/runs/41534849171)
+also passes both jobs on this exact checked implementation.
+
+The final evidence is documentation only. No application source, package/lock
+file, default export option, engine/font manifest or historical native baseline
+was changed by this picture follow-up. Main and render retain their original
+heads; no branch was created, deleted or rewritten.
+
+
+All 14 active jobs in the complete stable-sidebar workflow now PASS on this
+checked implementation, including all ten integrated template jobs, supported
+Sidebar, entry-flow, the picture job and the full historical/native ownership
+comparison. The existing manual-only full body/photo matrix was not requested.
+The fast check job again passes all 1,495 units, release formatting, TypeScript,
+lint and build. The complete ordinary browser regression is recorded separately.
+
+
+The complete [ordinary Dossier Regression](https://github.com/modebrecht/cv-cover-charm/actions/runs/41534849123)
+also passes on the same checked implementation: all eleven browser groups,
+fast checks and the final status publisher. Its existing opt-in native print
+benchmark stays skipped. Thus all three relevant workflows are green on
+`37eb8f95`; the closing commit only stores this final evidence and does not
+rerun unchanged application checks.
