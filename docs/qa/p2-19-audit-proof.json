@@ -1,0 +1,30 @@
+{
+  "implementation_sha": "aebcf91f5f9443ff452bc74624dabd8f6a056606",
+  "source_export_sha": "42bab2e13572145b201d1e9deabfa3baa8dab426",
+  "run_id": 41407449666,
+  "job_id": 125152580098,
+  "artifact_id": 13124003208,
+  "archive_sha256": "ed76d1de9fc9b8aee88b6ce9516c1bf8f89eaf023f102fe41f0c22addb22842f",
+  "raw_report_sha256": "cefb4ea23416455ae11da353eeb6d03caefe0084e748575c638da59a4506642d",
+  "audit_all_case_records_identical": true,
+  "audit_native_conversions": 0,
+  "unit_tests_passed": 137,
+  "native_conversions": 16,
+  "native_pdf_pages": 64,
+  "summed_conversion_seconds": 28.83,
+  "peak_converter_rss_kib": 245760,
+  "baseline_p218_reproductions": 4,
+  "trial_pass": 8,
+  "retained_files": [
+    {
+      "path": "varied-right-margin-equivalent-lo.pdf",
+      "sha256": "55f88668c0657db770747e88237c889ddb2e4145d9374d96f3a52519c996b502",
+      "bytes": 149528
+    },
+    {
+      "path": "varied-right-margin-equivalent.docx",
+      "sha256": "2e458a0b8a1f41b74ac6b6f01bc91a640e4cfed4520e726156c523196cb13be0",
+      "bytes": 248708
+    }
+  ]
+}
