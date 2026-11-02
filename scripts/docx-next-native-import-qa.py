@@ -84,7 +84,9 @@ def validate_measurement(measurement, original, packages):
             assert events[78]['tags'] == tags and first not in tags
             status = 'created on empty body paragraph; registered paragraph disposes before import end with first tag absent'
         else:
-            assert len(events) == 3 and not hits and not disposals
+            assert len(events) == 3 and not hits and not disposals, (
+                f"Changed sparse progress for {case['fixture']}/{case['phase']}: "
+                f"events={len(events)}, firstTagHitEvents={hits}, paragraphDisposals={disposals}")
             assert events[0]['event'] == 'start' and events[0]['value']['range'] == 1
             assert events[1]['event'] == 'value' and events[1]['value'] == events[1]['count'] == 1
             assert first not in tags
@@ -127,7 +129,10 @@ def audit(root, binding_directory):
         process = subprocess.run([sys.executable, str(worker), str(request)], capture_output=True, text=True, env=env, timeout=30)
     assert process.returncode == 0, 'Original import observation failed: ' + process.stderr
     assert process.stderr.strip() in ('', 'Allowlisted languages: de-DE en-US'), 'Unexpected import diagnostics'
-    measurement = json.loads(process.stdout); summaries = validate_measurement(measurement, original, packages)
+    measurement = json.loads(process.stdout)
+    # Retain actual callback evidence even when its strict historical contract rejects it.
+    (root / 'native-import-observation.json').write_text(json.dumps(measurement, indent=2) + '\n')
+    summaries = validate_measurement(measurement, original, packages)
     assert all(hashlib.sha256(Path(row['path']).read_bytes()).hexdigest() == row['sha256'] for row in requests)
     return {'scope': 'Six unchanged original read-only imports with public status and canonical-anchor paragraph-disposal callbacks',
             'binding': record, 'originalImportBinding': original['binding'], 'workerSha256': hashlib.sha256(worker.read_bytes()).hexdigest(),

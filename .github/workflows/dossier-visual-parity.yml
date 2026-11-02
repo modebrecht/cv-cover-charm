@@ -98,6 +98,10 @@ jobs:
           DOSSIER_QA_SUITE: ${{ env.QA_MODE }}
         run: npx playwright test tests/e2e/dossier-semantic-parity.spec.ts --workers=1 --reporter=line
 
+      - name: Generate bounded Word/body-story diagnostics and verify normal export hashes
+        if: env.QA_MODE != 'gallery'
+        run: bun scripts/docx-next-word-consolidation-probe.ts artifacts/parity-source/word-smoke
+
       - name: Upload same-SHA source batch
         uses: actions/upload-artifact@v4
         with:
@@ -186,11 +190,20 @@ jobs:
             pillow==11.3.0 \
             numpy==2.2.6 \
             scikit-image==0.25.2 \
-            pymupdf==1.26.4
+            pymupdf==1.26.4 \
+            lxml==6.1.1
 
       - name: Verify candidate preservation and negative controls
         if: env.QA_MODE != 'gallery'
-        run: .parity-venv/bin/python -m unittest discover -s tests -p test_dossier_qa.py -v
+        run: |
+          .parity-venv/bin/python -m unittest discover -s tests -p test_dossier_qa.py -v
+          .parity-venv/bin/python scripts/docx-next-sidebar-body-test.py
+          .parity-venv/bin/python scripts/docx-next-sidebar-body-media-test.py
+          .parity-venv/bin/python scripts/docx-next-picture-owner-contract-test.py
+          .parity-venv/bin/python scripts/docx-next-picture-word-return-test.py
+          .parity-venv/bin/python scripts/docx-next-sidebar-save-geometry-test.py
+          .parity-venv/bin/python scripts/docx-next-native-import-test.py
+          .parity-venv/bin/python scripts/docx-next-word-consolidation-test.py
 
       - name: Run bounded same-SHA native QA
         if: env.QA_MODE != 'gallery'
@@ -201,9 +214,20 @@ jobs:
             --source-dir artifacts/parity-batches/dossier-visual-parity-source-0/modern \
             --suite "$DOSSIER_QA_SUITE" --out-dir artifacts/dossier-modern-qa
 
+      - name: Verify long detached candidates through two native saves
+        if: env.QA_MODE != 'gallery'
+        run: |
+          .parity-venv/bin/python scripts/docx-next-word-consolidation-qa.py \
+            --source-dir artifacts/parity-batches/dossier-visual-parity-source-0/word-smoke \
+            --out-dir artifacts/dossier-modern-qa/word-consolidation
+
       - name: Publish bounded QA summary
         if: always() && env.QA_MODE != 'gallery'
-        run: cat artifacts/dossier-modern-qa/SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+        run: |
+          cat artifacts/dossier-modern-qa/SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+          if [ -f artifacts/dossier-modern-qa/word-consolidation/SUMMARY.md ]; then
+            cat artifacts/dossier-modern-qa/word-consolidation/SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+          fi
 
       - name: Retain bounded QA evidence including failures
         if: always() && env.QA_MODE != 'gallery'

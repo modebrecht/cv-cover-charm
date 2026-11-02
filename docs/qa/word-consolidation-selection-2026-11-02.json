@@ -1,0 +1,155 @@
+{
+  "source_commit": "f4854051595a0a5a51a6a9adc97003dd51e2d929",
+  "files": [
+    {
+      "path": "src/lib/docx-next/cv-sidebar-body.ts",
+      "git_blob": "65cd9f5243851916d818079fe165ca5bab07b0d9",
+      "sha256": "8d00646e26c39adf9d5c18423d53c88a7257de89801d90ea91951337c4262934"
+    },
+    {
+      "path": "src/lib/docx-next/model.ts",
+      "git_blob": "e781b2c701e8aef15c8ac64b2b494699a4ff4122",
+      "sha256": "a9fdd55b950e01e7a026f93e7be3dedad4f6082673d08fddf7d5816416a1a7e6"
+    },
+    {
+      "path": "src/lib/docx-next/native-picture-fill.ts",
+      "git_blob": "7eef988d4f5a77b93139ba28963b55002c10c671",
+      "sha256": "da2cc5871ba0856ed057eb675458d459899845d0fc99d930dff6f9e91c2ebd44"
+    },
+    {
+      "path": "src/lib/docx-next/native-text.ts",
+      "git_blob": "673cd019a21f179916595afabf2569ceb71382dd",
+      "sha256": "c92497a75c447f4b826b753bb2b7587dbeea777034eb4b55f27ee516e0c389f3"
+    },
+    {
+      "path": "src/lib/docx-next/renderer.ts",
+      "git_blob": "eebf2cdf68ada42809050b735df16b4f452903b4",
+      "sha256": "c009f5a45061c2ee59cd51cf217f2f15880bb595ea3a45f236be3fc281aefc31"
+    },
+    {
+      "path": "src/lib/docx-next/validation.ts",
+      "git_blob": "871b1e554d636cfaca2fa2feca42936ba9012590",
+      "sha256": "ebf5760441df990e28927a6bd47094cc3ac104c8c9b1041932c138d0b4f9b6b7"
+    },
+    {
+      "path": "tests/unit/docx-next-sidebar-body.test.ts",
+      "git_blob": "fdb1966845ace52bfdcb2817ae76ee751c99f07f",
+      "sha256": "d288635aedb61fdef0a233e421901238a8516fd95e27203db22b4b2d307858a4"
+    },
+    {
+      "path": "tests/unit/docx-next-direct-picture.test.ts",
+      "git_blob": "4b73406fd38c857500f6b7a1bcc240d7c5c20aaa",
+      "sha256": "506bd45346aca61d978e74ac79979af09267ed1ede534ce5c6970e5cbd7ebf93"
+    },
+    {
+      "path": "tests/unit/docx-next-rich-picture.test.ts",
+      "git_blob": "0069cca9e9f0215ae126b8f2c40ad300364bd225",
+      "sha256": "b1977f6ddeb8aab1428aaf6238e0a552b702cc7302b3f4fe44518e4b7890b041"
+    },
+    {
+      "path": "scripts/docx_next_picture_owner_qa.py",
+      "git_blob": "40c10abe57ad3ed63d9e1c31224eabc4e765d353",
+      "sha256": "7f86cdb3b084262b613ed9b6241ff481ea211bcb11dbff42bb409b7e98469506"
+    },
+    {
+      "path": "scripts/docx-next-picture-owner-contract-test.py",
+      "git_blob": "6774c6b260d46c42fd689c854458a811d2470e92",
+      "sha256": "59d529e6ff834e817934d86c10d140234916f27a39bf31b1b0f89bbb890f950a"
+    },
+    {
+      "path": "scripts/docx-next-picture-word-return.py",
+      "git_blob": "34695602ba3ec15d5d12701f58a07cd55ddfb58b",
+      "sha256": "49869b280fe71d9de270414ade70e324a0f7a78b2d1cbc295e4bf59ea32adfbc"
+    },
+    {
+      "path": "scripts/docx-next-picture-word-return-test.py",
+      "git_blob": "e7a74aaaaf94dbbc19a038e66774e06dd3cf3df2",
+      "sha256": "293830333dcbb2de8fdb697fd274a5c2a057ae82bba860fada25d64b38e2317b"
+    },
+    {
+      "path": "scripts/docx-next-sidebar-body-qa.py",
+      "git_blob": "951b99b519d2bb06be3d0c8ce0c62dc98d6f2621",
+      "sha256": "df520dc57718bbe0fa22d9c7e89aadc18a061c8d41919627b271791859b4aeff"
+    },
+    {
+      "path": "scripts/docx-next-sidebar-body-test.py",
+      "git_blob": "87d8ab6594b8fcf9247ad34be43e50d940b5c5a1",
+      "sha256": "58c040afdf6c61e45e1472c3f57f4deb0d5047be507d73f6389ad5d17cac017f"
+    },
+    {
+      "path": "scripts/docx-next-sidebar-body-media-test.py",
+      "git_blob": "2a2ef61f214f31bbaca42ed4fb054036400956fc",
+      "sha256": "7cbdb03e2ac9302f4dec40b0dd7f9834ff614deab9729445f55a35315c409671"
+    },
+    {
+      "path": "scripts/docx-next-sidebar-save-geometry-qa.py",
+      "git_blob": "c2cc691ddb74528df01dc4737b66bc396f8aaa6c",
+      "sha256": "4aab79ae3b9be9dacb7992b101a1ad4b4052685165b2d8792376647a331c9638"
+    },
+    {
+      "path": "scripts/docx-next-sidebar-save-geometry-test.py",
+      "git_blob": "0548368cbf1c6b68dbdc6ae9df9c605630ee04a3",
+      "sha256": "edcb60264f021606ae0a6894c8fe5906771c0f9cd709506a8940c6363e8ed740"
+    },
+    {
+      "path": "scripts/docx-next-sidebar-body-probe.ts",
+      "git_blob": "77a0f0d82231e93fa1bd8c93423aaac6c20007e4",
+      "sha256": "6cf6acdbb149deea1f3325662e565e2bba8da9e6fd1fba3a799bc0fdf0bf0a41"
+    },
+    {
+      "path": "scripts/docx-next-native-import-qa.py",
+      "git_blob": "d210332433fc2291d1003252c4c1262c1e30fc9e",
+      "sha256": "2ffeafb46157ddc2401cdf7951634583244c3575d0bdbee1873d3a4b716d650b"
+    },
+    {
+      "path": "tests/fixtures/docx-next/picture-import/app-body-photo-free-main.docx",
+      "git_blob": "adbfccf14ffbb056d520a1c963801ba2a5891594",
+      "sha256": "7dd758c90f92d5a490ef022923c738edff042c539aa578e451aa1909bcd81923"
+    },
+    {
+      "path": "tests/fixtures/docx-next/picture-import/app-body-photo-free-main.json",
+      "git_blob": "ef32f35ea2157279cba8120ffc68bcb3e78c0307",
+      "sha256": "bf85ec49cb2caa06d4bab8786ed7b5a25013f11a3f1acdc8afd89e5d103f6aac"
+    },
+    {
+      "path": "docs/qa/body-boundary-candidate-30okt.md",
+      "git_blob": "b2212bc8142609c04f29eb40e2ba6dd5f2830bf0",
+      "sha256": "3c6d693b2f1121ede79863b75348cff274f84d0aca5cadb2b5a3fa708d6460b5"
+    },
+    {
+      "path": "docs/qa/body-boundary-candidate-30okt.json",
+      "git_blob": "f4ea2e3e25f608c698a54eb326fa170407ceceb6",
+      "sha256": "ca77d9de2057d9c6a8476db7ba67255939e8e2f12610a92a3f3b2e360264aa84"
+    },
+    {
+      "path": "docs/qa/word-practical-acceptance-31okt.md",
+      "git_blob": "cc73e0f002c09f64cc522cc8238996de783d0119",
+      "sha256": "8add46ca90684b08289c77d1518759eb477f4075a8359952238306a5d74c8718"
+    },
+    {
+      "path": "docs/qa/word-practical-acceptance-31okt.json",
+      "git_blob": "2a78efdce1b5646dcd08962e588fb6bb63b40600",
+      "sha256": "af8aff3b5b1a02a53329d9fa122c653c83e945788676e4b7ce905e01c1ad8365"
+    },
+    {
+      "path": "docs/qa/word-commit-review-31okt.md",
+      "git_blob": "4a6171402bdfc298397fcc756cc3b63504ccb0a4",
+      "sha256": "486d0baeb683fa9a9e0a7eb1eb5dff9bff83ec35e4537a1b2fd81dee4977b22b"
+    },
+    {
+      "path": "docs/qa/word-commit-review-31okt.json",
+      "git_blob": "c1ce218cf2bb67619ed7dc427a077dc680da1616",
+      "sha256": "fbe61dca564a6b10648704a352e7fc0468adc02cfcafb284cf46a8e804b1d0de"
+    },
+    {
+      "path": "docs/qa/onlyoffice-word-return-31okt.md",
+      "git_blob": "acee3747c223ff25f2dbebbab276df48e52b6167",
+      "sha256": "b720a6d81ee9b7b649a4195bfb802896f77f1a6818e5cda172a936ead52530e4"
+    },
+    {
+      "path": "docs/qa/onlyoffice-word-return-31okt.json",
+      "git_blob": "bff5bd6776263d8fbd1039ecdd2914d38e6d713a",
+      "sha256": "95292795dd0190eab0bfa4779f9337b6f4cedb68841b2e7b7ab026e02ad84677"
+    }
+  ]
+}

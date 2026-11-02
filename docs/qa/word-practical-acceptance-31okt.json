@@ -1,0 +1,129 @@
+{
+  "scope": "Practical acceptance of one three-page Desktop Word dossier, not a general product release",
+  "baseCommit": "94d9021956734b39045c4aa3891c08fe6ae0e116",
+  "userAcceptance": [
+    "No Word repair warning after save/close/reopen",
+    "Visible dossier and photo acceptable"
+  ],
+  "originalPixelsOutsideVisibleCropRequiredForPracticalAcceptance": false,
+  "practicalWordMainAcceptance": "pass",
+  "standardProductExportChanged": false,
+  "full22CaseProductAcceptanceGranted": false,
+  "wordDelivery": {
+    "document": {
+      "path": "artifacts/word-practical-31okt/Dossier-Word-final.docx",
+      "sha256": "df11551a6ba1a2af9407fca1731f08fe4490568b67369b71e22f67f7dbb6f490",
+      "bytes": 28454
+    },
+    "pdf": {
+      "path": "artifacts/word-practical-31okt/Dossier-Word-final.pdf",
+      "sha256": "843432b225a6dcf3ba371f9dc9c451fba6078ed37fb7e3ab0fa15ce95648c574",
+      "bytes": 172183
+    },
+    "copiedDocument": {
+      "path": "artifacts/word-desktop-31okt/richtext-word-saved2.docx",
+      "sha256": "df11551a6ba1a2af9407fca1731f08fe4490568b67369b71e22f67f7dbb6f490",
+      "bytes": 28454
+    },
+    "copiedPdf": {
+      "path": "artifacts/word-desktop-31okt/richtext-word-saved2.pdf",
+      "sha256": "843432b225a6dcf3ba371f9dc9c451fba6078ed37fb7e3ab0fa15ce95648c574",
+      "bytes": 172183
+    },
+    "byteExactCopies": true,
+    "historicalWordSaveReopenCycles": 2,
+    "freshFinalCopyOpenedWithoutRepair": true,
+    "pdfPagesVisuallyReviewed": 3,
+    "photoVisiblyFilledRedBlue": true,
+    "historicalEvidence": {
+      "path": "artifacts/word-desktop-31okt/richtext-word-analysis.json",
+      "sha256": "cf83ce3779221344eb8248faf70117b50017c241f20acc1707f21cfed4d1de4a",
+      "bytes": 37800
+    }
+  },
+  "writerReturn": {
+    "acceptance": "fail",
+    "repairWarningsObserved": false,
+    "wordSaveCloseReopenCompleted": true,
+    "failure": "Word PDF shows empty photo outline; repair-free opening alone is insufficient",
+    "source": {
+      "path": "artifacts/word-desktop-31okt/native-rich/app-body-photo-free-main-rich-saved2.docx",
+      "sha256": "ca2a3dfa2fbc92bf6cefcb851a2f1966adaea3ada6ced9d232964a323a4112fc",
+      "bytes": 21997
+    },
+    "document": {
+      "path": "artifacts/word-practical-31okt/Dossier-Word-geprueft.docx",
+      "sha256": "702efa01687d7189bcb5ebb8acfcce4e999df3b094a1f889fcb8bce843e2201a",
+      "bytes": 37533
+    },
+    "pdf": {
+      "path": "artifacts/word-practical-31okt/Dossier-Word-geprueft.pdf",
+      "sha256": "d08d04ed73765702e06e3c5d9b6b07bf19fa2df379785bc2e18235dfcaa4ec67",
+      "bytes": 178012
+    }
+  },
+  "checks": {
+    "unitLinux": {
+      "passed": 1495,
+      "failed": 0,
+      "log": {
+        "path": "artifacts/word-practical-31okt/unit-linux.log",
+        "sha256": "d33867939b31187f4bb92c9acf2d962966879cc146396886d4794a6c77e3e118",
+        "bytes": 186061
+      }
+    },
+    "unitWindowsRestricted": {
+      "passed": 1486,
+      "failed": 9,
+      "reason": "EPERM child-process spawning; subsequent full Linux run passed",
+      "log": {
+        "path": "artifacts/word-practical-31okt/unit-tests.log",
+        "sha256": "494218ee916577f695e0cc0d94944566cb9540710a27cf06aeeae9a5a00994bd",
+        "bytes": 190318
+      }
+    },
+    "typecheck": {
+      "exitCode": 0,
+      "log": {
+        "path": "artifacts/word-practical-31okt/typecheck.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    "changedTypeScriptLint": {
+      "exitCode": 0,
+      "log": {
+        "path": "artifacts/word-practical-31okt/lint.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    "changedTypeScriptPrettier": "pass",
+    "focusedPython": {
+      "passed": 148,
+      "failedSuites": 0,
+      "rerunThisClosure": false,
+      "allSuiteScriptsStillMatchEvidenceHashes": true,
+      "evidence": {
+        "path": "artifacts/writer-crop-engine-31okt/focused-test-results.json",
+        "sha256": "c3a363a31dc5de2d52c104f0c02bbe8d0cb66427f57683af4e7d2f5a40bdf2b1",
+        "bytes": 3152
+      },
+      "currentScriptHashChecks": {
+        "scripts\\docx-next-word-acceptance-test.py": true,
+        "scripts\\docx-next-picture-word-return-test.py": true,
+        "scripts\\docx-next-picture-import-test.py": true,
+        "scripts\\docx-next-picture-owner-contract-test.py": true,
+        "scripts\\docx-next-sidebar-body-test.py": true,
+        "scripts\\docx-next-sidebar-body-media-test.py": true,
+        "scripts\\docx-next-sidebar-save-geometry-test.py": true,
+        "scripts\\docx-next-pdf-picture-test.py": true,
+        "scripts\\docx-next-picture-crop-engine-test.py": true
+      }
+    }
+  },
+  "commitScope": "Local diagnostic renderer options, regression checks, investigation reports and unbuilt upstream drafts",
+  "pushAuthorized": false,
+  "mergeAuthorized": false,
+  "engineReplaced": false
+}

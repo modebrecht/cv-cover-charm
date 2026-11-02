@@ -1,0 +1,99 @@
+{
+  "localCommit": "c685bf4308235ac5fcc38957d45d9c9bf508eb21",
+  "originDev": "c8e0a4e306e2e519d2b9392b43fb9759fb8c5078",
+  "mergeBase": "c3e9f4f17b8493526a602efff1b7110622bb154c",
+  "divergence": {
+    "localOnly": 20,
+    "devOnly": 1
+  },
+  "devOnlyScope": "three documentation files, preserved without merge",
+  "workingBranch": "work/word-verified-onlyoffice-poc-31okt",
+  "normalProductExportSourceChanged": false,
+  "changedSourceFiles": [
+    "src/lib/docx-next/cv-sidebar-body.ts",
+    "src/lib/docx-next/model.ts",
+    "src/lib/docx-next/native-picture-fill.ts",
+    "src/lib/docx-next/native-text.ts",
+    "src/lib/docx-next/renderer.ts",
+    "src/lib/docx-next/validation.ts"
+  ],
+  "evidenceHashChecks": {
+    "passed": 13,
+    "files": [
+      "artifacts/word-practical-31okt/Dossier-Word-final.docx",
+      "artifacts/word-practical-31okt/Dossier-Word-final.pdf",
+      "artifacts/word-desktop-31okt/richtext-word-saved2.docx",
+      "artifacts/word-desktop-31okt/richtext-word-saved2.pdf",
+      "artifacts/word-desktop-31okt/richtext-word-analysis.json",
+      "artifacts/word-desktop-31okt/native-rich/app-body-photo-free-main-rich-saved2.docx",
+      "artifacts/word-practical-31okt/Dossier-Word-geprueft.docx",
+      "artifacts/word-practical-31okt/Dossier-Word-geprueft.pdf",
+      "artifacts/word-practical-31okt/unit-linux.log",
+      "artifacts/word-practical-31okt/unit-tests.log",
+      "artifacts/word-practical-31okt/typecheck.log",
+      "artifacts/word-practical-31okt/lint.log",
+      "artifacts/writer-crop-engine-31okt/focused-test-results.json"
+    ]
+  },
+  "unitAssessment": {
+    "passed": 1495,
+    "failed": 0,
+    "runtime": "Bun in WSL/Linux",
+    "evidence": {
+      "path": "artifacts/word-practical-31okt/unit-linux.log",
+      "sha256": "d33867939b31187f4bb92c9acf2d962966879cc146396886d4794a6c77e3e118",
+      "bytes": 186061
+    },
+    "scope": "unit checks, not native Office rendering or complete editor compatibility"
+  },
+  "nativeWordAssessment": {
+    "case": "three-page rich-text main dossier",
+    "saveReopenCycles": 2,
+    "photoVisible": true,
+    "repairWarning": false,
+    "scope": "one diagnostic Word case, not general product acceptance"
+  },
+  "pdfColorControls": {
+    "word": {
+      "pdf": "artifacts/word-practical-31okt/Dossier-Word-final.pdf",
+      "sha256": "843432b225a6dcf3ba371f9dc9c451fba6078ed37fb7e3ab0fa15ce95648c574",
+      "pages": 3,
+      "redPixelsPage3": 15377,
+      "bluePixelsPage3": 13855
+    },
+    "writerThenWord": {
+      "pdf": "artifacts/word-practical-31okt/Dossier-Word-geprueft.pdf",
+      "sha256": "d08d04ed73765702e06e3c5d9b6b07bf19fa2df379785bc2e18235dfcaa4ec67",
+      "pages": 3,
+      "redPixelsPage3": 1,
+      "bluePixelsPage3": 96
+    },
+    "writerOwnPdf": {
+      "pdf": "artifacts/word-desktop-31okt/native-rich/app-body-photo-free-main-rich-saved2.pdf",
+      "sha256": "9e99f0f5196b6e99ee45dc98a4798d2c88f727bd921996209ab42c2ae6409167",
+      "pages": 3,
+      "redPixelsPage3": 15025,
+      "bluePixelsPage3": 14209
+    }
+  },
+  "classification": [
+    {
+      "case": "accepted rich-text Word source and two Word saves",
+      "class": "pass in verified Word case",
+      "normalProductFailureReproduced": false
+    },
+    {
+      "case": "typed direct floating picture source asks Word for repair",
+      "class": "reproduced Word incompatibility in guarded diagnostic output",
+      "normalProductFailureReproduced": false
+    },
+    {
+      "case": "rich-text source through two Writer saves then Word",
+      "class": "converter roundtrip incompatibility; photo remains in Writer PDF but is empty in Word after Writer serialization",
+      "normalProductFailureReproduced": false
+    }
+  ],
+  "decision": "Keep normal product export unchanged; next work is a bounded alternative converter PoC",
+  "mergePerformed": false,
+  "targetsNotMerged": ["dev", "render", "main"]
+}

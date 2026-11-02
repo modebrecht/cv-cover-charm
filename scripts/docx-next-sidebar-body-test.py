@@ -85,4 +85,37 @@ class InventoryTests(unittest.TestCase):
             with self.assertRaisesRegex(AssertionError,'Duplicated package canonical field'):qa.package_controls(path)
 
 
+class CellStartAttachmentTests(unittest.TestCase):
+    def package(self, folder, values):
+        path = Path(folder) / 'cell-starts.docx'
+        cells = ''.join('<w:tc><w:p><w:pPr>' +
+                        ('' if value is None else f'<w:keepNext w:val="{int(value)}"/>') +
+                        '</w:pPr></w:p></w:tc>' for value in values)
+        with ZipFile(path, 'w') as archive:
+            archive.writestr('word/document.xml', f'<w:document xmlns:w="{qa.W[1:-1]}"><w:body><w:tbl><w:tblPr><w:tblCaption w:val="cv.sidebar"/></w:tblPr><w:tr>{cells}</w:tr></w:tbl></w:body></w:document>')
+        return path
+
+    def test_attached_and_detached_sources_match_only_their_declared_policy(self):
+        with tempfile.TemporaryDirectory() as folder:
+            for attached in [False, True]:
+                qa.check_cell_start_attachments(self.package(folder, [attached, None, attached]), attached)
+
+    def test_opposite_policy_is_rejected(self):
+        with tempfile.TemporaryDirectory() as folder:
+            for attached in [False, True]:
+                with self.assertRaisesRegex(AssertionError, 'differs from the declared experiment'):
+                    qa.check_cell_start_attachments(self.package(folder, [attached, None, attached]), not attached)
+
+    def test_missing_or_mixed_anchor_policy_is_rejected(self):
+        with tempfile.TemporaryDirectory() as folder:
+            for values in [[None, None, False], [False, None, True]]:
+                with self.assertRaisesRegex(AssertionError, 'differs from the declared experiment'):
+                    qa.check_cell_start_attachments(self.package(folder, values), False)
+
+    def test_changed_column_count_is_rejected(self):
+        with tempfile.TemporaryDirectory() as folder:
+            with self.assertRaisesRegex(AssertionError, 'column count'):
+                qa.check_cell_start_attachments(self.package(folder, [False, False]), False)
+
+
 if __name__ == '__main__': unittest.main()

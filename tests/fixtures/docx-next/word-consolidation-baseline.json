@@ -1,0 +1,14 @@
+{
+  "baseline_commit": "9e84088855dddb5992a6ba7ec768adbe9153fe12",
+  "scope": "Eight deterministic normal packages; explicit synthetic PNG adapter, no browser/Word claim",
+  "normal_package_sha256": {
+    "left-left": "fa31bc01e6f0f340385521161502191bde3485d524d877a1b5ff5effec14a159",
+    "left-right": "a71bf24b6f9bd49d420f76f2d62ead02d4c79910841dc6eab56a2f9609b2610a",
+    "both-long-left": "8546a1bfe8a893670550028c6f9fb069b314c1ccd6c5ffd1889205f98ce66e71",
+    "both-long-right": "9704c0db8ee4dca0079d5e703bcd7f4869e5d5051b8f87dd1d94c8a146dae135",
+    "photo-left-left": "adc9f796240b02b43e794c47e0f4920d4931a6c35cbd590e6655014e11c335dd",
+    "photo-left-right": "fb8483c7f9b059f959b8ae60eeb4a5761cdf6cc1bdfa0f54590e81418f3d55d0",
+    "photo-free-portrait-left": "e682d64bc9c81658cc4748826213841b1d131c7a3624312d190baffa011762d3",
+    "photo-free-portrait-right": "76cf208e766eef8269170b6ec0e39c359f39b87b82f08734d285555e36f4a347"
+  }
+}

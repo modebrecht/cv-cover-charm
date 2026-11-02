@@ -2,3 +2,4 @@ docs/qa/docx-next-shared-settings-18okt/*.pdf binary
 tests/fixtures/dossier-qa/*.pdf binary
 tests/fixtures/dossier-qa/*.docx binary
 docs/qa/dossier-qa-smoke-2026-11-02/*.jpg binary
+tests/fixtures/docx-next/picture-import/*.docx binary

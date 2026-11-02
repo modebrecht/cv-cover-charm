@@ -1,0 +1,165 @@
+{
+  "scope": "ONLYOFFICE save2 opened in Desktop Word, one separate Word save, close/reopen and PDF photo inspection; two cases only",
+  "baseCommit": "7752187dc06760697750d97d31c10e036485779c",
+  "pocCodeCommit": "3ac893f8082929ac8f9a8889ad6917c4c331e4a3",
+  "wordSaveReopenCyclesPerCase": 1,
+  "onlyofficePriorSaveCyclesPerCase": 2,
+  "normalProductExportChanged": false,
+  "githubWorkflowStarted": false,
+  "githubWorkflowStartObservation": "Connected in-app browser shows GitHub Sign in and no Run workflow control; GitHub connector exposes no workflow dispatch operation",
+  "cases": [
+    {
+      "id": "02-inline-photo",
+      "source": {
+        "file": "artifacts/onlyoffice-poc-31okt/run-final/02-inline-photo/saved2.docx",
+        "sha256": "fbba7bb20ea6941c393dbfe677a72c6d7484b885afa9766dc7e11d2e4b6d5995"
+      },
+      "wordInputCopy": {
+        "file": "artifacts/onlyoffice-word-return-31okt/Inline-OO-Save2.docx",
+        "sha256": "fbba7bb20ea6941c393dbfe677a72c6d7484b885afa9766dc7e11d2e4b6d5995"
+      },
+      "wordSaved1": {
+        "file": "artifacts/onlyoffice-word-return-31okt/Inline-Word-Save1.docx",
+        "sha256": "dae77935a71e12607dace002523975e55def03e2a7d6e31f83ae9dad8f5b6b26"
+      },
+      "wordPdfAfterReopen": {
+        "file": "artifacts/onlyoffice-word-return-31okt/Inline-Word-Save1.pdf",
+        "sha256": "706c772395c629ac23243c18196f521584753ee216fa77c433a8f8254ac1a60b"
+      },
+      "sourceCopyByteExactAndUnchanged": true,
+      "openedWithoutRepair": true,
+      "wordSavedClosedAndReopenedWithoutRepair": true,
+      "photoControl": {
+        "redPixelsCv": 15343,
+        "bluePixelsCv": 13884,
+        "knownPhotoVisible": true
+      },
+      "pdfPages": 3,
+      "wordTextUnchanged": true,
+      "semanticTagOrderUnchanged": true,
+      "sourceTags": 79,
+      "wordTags": 79,
+      "crossEngineSsim": [
+        {
+          "page": "cover",
+          "onlyofficeSaved2VsWordSaved1Ssim": 0.8917650845050916
+        },
+        {
+          "page": "letter",
+          "onlyofficeSaved2VsWordSaved1Ssim": 0.8157449456843581
+        },
+        {
+          "page": "cv",
+          "onlyofficeSaved2VsWordSaved1Ssim": 0.7588677178929024
+        }
+      ],
+      "visiblePhotoAndRepairAcceptance": "pass"
+    },
+    {
+      "id": "03-word-free-photo",
+      "source": {
+        "file": "artifacts/onlyoffice-poc-31okt/run-final/03-word-free-photo/saved2.docx",
+        "sha256": "55107a86db689be0ac26f636358707f3d206d293e31113b4ec6e39835e747b78"
+      },
+      "wordInputCopy": {
+        "file": "artifacts/onlyoffice-word-return-31okt/Frei-OO-Save2.docx",
+        "sha256": "55107a86db689be0ac26f636358707f3d206d293e31113b4ec6e39835e747b78"
+      },
+      "wordSaved1": {
+        "file": "artifacts/onlyoffice-word-return-31okt/Frei-Word-Save1.docx",
+        "sha256": "6c7f7da7d8504923145fda450a6dc12d648183675e6be1d55810ac11db4e294b"
+      },
+      "wordPdfAfterReopen": {
+        "file": "artifacts/onlyoffice-word-return-31okt/Frei-Word-Save1.pdf",
+        "sha256": "5168a9187ba20f483d5a837da32dcb780ef24df97c5dcde800f9156f64b96876"
+      },
+      "sourceCopyByteExactAndUnchanged": true,
+      "openedWithoutRepair": true,
+      "wordSavedClosedAndReopenedWithoutRepair": true,
+      "photoControl": {
+        "redPixelsCv": 15377,
+        "bluePixelsCv": 13861,
+        "knownPhotoVisible": true
+      },
+      "pdfPages": 3,
+      "wordTextUnchanged": true,
+      "semanticTagOrderUnchanged": true,
+      "sourceTags": 79,
+      "wordTags": 79,
+      "crossEngineSsim": [
+        {
+          "page": "cover",
+          "onlyofficeSaved2VsWordSaved1Ssim": 0.8917650845050916
+        },
+        {
+          "page": "letter",
+          "onlyofficeSaved2VsWordSaved1Ssim": 0.8157449456843581
+        },
+        {
+          "page": "cv",
+          "onlyofficeSaved2VsWordSaved1Ssim": 0.761460660942967
+        }
+      ],
+      "visiblePhotoAndRepairAcceptance": "pass"
+    }
+  ],
+  "desktopEvents": {
+    "file": "artifacts/onlyoffice-word-return-31okt/desktop-events.json",
+    "sha256": "31649ef54128e7c6d0e527fd060c36d82a5b88795ae17b86cec6beb7554c105a"
+  },
+  "events": [
+    {
+      "case": "inline",
+      "event": "ONLYOFFICE save2 opened in Word without repair",
+      "time": "2026-10-31T22:11:31.455Z"
+    },
+    {
+      "case": "inline",
+      "event": "saved separate Word DOCX",
+      "time": "2026-10-31T22:11:54.200Z"
+    },
+    {
+      "case": "inline",
+      "event": "Word copy confirmed closed before reopen",
+      "time": "2026-10-31T22:12:06.016Z"
+    },
+    {
+      "case": "inline",
+      "event": "Word save1 reopened without repair",
+      "time": "2026-10-31T22:12:16.462Z"
+    },
+    {
+      "case": "inline",
+      "event": "PDF exported from reopened Word save1",
+      "time": "2026-10-31T22:12:52.024Z"
+    },
+    {
+      "case": "free",
+      "event": "ONLYOFFICE save2 opened in Word without repair",
+      "time": "2026-10-31T22:13:32.776Z"
+    },
+    {
+      "case": "free",
+      "event": "saved separate Word DOCX",
+      "time": "2026-10-31T22:13:56.294Z"
+    },
+    {
+      "case": "free",
+      "event": "Word copy confirmed closed before reopen",
+      "time": "2026-10-31T22:14:00.577Z"
+    },
+    {
+      "case": "free",
+      "event": "Word save1 reopened without repair",
+      "time": "2026-10-31T22:14:34.768Z"
+    },
+    {
+      "case": "free",
+      "event": "PDF exported from reopened Word save1",
+      "time": "2026-10-31T22:15:02.097Z"
+    }
+  ],
+  "wordAcceptanceCasesPassed": 2,
+  "fullProductAcceptanceGranted": false,
+  "wordPdfWatermarksRetained": true
+}

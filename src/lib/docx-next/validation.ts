@@ -71,7 +71,8 @@ export function validateDossierDocModel(model: DossierDocModel): void {
             block.id === "cv.sidebar" &&
             ((block.bodyBoundary === "paragraph" && block.bodyBoundaryKeepNext === true) ||
               (block.bodyBoundary === "section-start" &&
-                block.bodyBoundaryKeepNext === undefined)) &&
+                (block.bodyBoundaryKeepNext === undefined ||
+                  block.bodyBoundaryKeepNext === false))) &&
             !block.position &&
             block.rows.length === 1 &&
             block.rows[0].cells.length === 3 &&
@@ -498,7 +499,9 @@ export function validateDossierDocModel(model: DossierDocModel): void {
           throw new Error(`DOCX Next invalid table body boundary lead ${block.id}`);
         if (
           block.bodyBoundaryKeepNext !== undefined &&
-          (typeof block.bodyBoundaryKeepNext !== "boolean" || block.bodyBoundary !== "paragraph")
+          (typeof block.bodyBoundaryKeepNext !== "boolean" ||
+            (block.bodyBoundary !== "paragraph" &&
+              !(block.bodyBoundary === "section-start" && block.bodyBoundaryKeepNext === false)))
         )
           throw new Error(`DOCX Next invalid table body boundary attachment ${block.id}`);
         if (

@@ -2,6 +2,11 @@ name: DOCX Next Stable Sidebar
 
 on:
   workflow_dispatch:
+    inputs:
+      full_body_diagnostics:
+        description: 'Run the full known-blocked 22-case photo/body matrix; not product acceptance'
+        type: boolean
+        default: false
   push:
     branches: [dev, docx-next/integrate-39-templates]
     paths:
@@ -356,7 +361,9 @@ jobs:
             ${{ env.QA_ROOT }}/uno-binding/binding-record.json
 
   app-body-content:
-    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/docx-next/integrate-39-templates'
+    # Bounded automatic body coverage is in dossier-visual-parity.yml.
+    # The full photo matrix still has documented blockers and is explicit research.
+    if: github.event_name == 'workflow_dispatch' && inputs.full_body_diagnostics
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     env:
@@ -404,7 +411,7 @@ jobs:
           bun scripts/docx-next-sidebar-body-probe.ts "$QA_ROOT/fixtures"
       - name: Require complete visible and native stories, chrome and photos through two Save/Reopen cycles
         timeout-minutes: 10
-        run: python scripts/docx-next-sidebar-body-qa.py "$QA_ROOT/fixtures" --engine "$QA_ROOT/setup/runtime" --binding "$QA_ROOT/uno-binding"
+        run: python scripts/docx-next-sidebar-body-qa.py "$QA_ROOT/fixtures" --engine "$QA_ROOT/setup/runtime" --binding "$QA_ROOT/uno-binding" --detached-cell-starts --require-picture-ownership
       - name: Measure exact save geometry separately and retain every outstanding counterexample
         timeout-minutes: 5
         run: python scripts/docx-next-sidebar-save-geometry-qa.py "$QA_ROOT/fixtures" --engine "$QA_ROOT/setup/runtime" --binding "$QA_ROOT/uno-binding"

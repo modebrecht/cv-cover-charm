@@ -1,12 +1,14 @@
 """Adversarial exact geometry and complete canonical owner checks."""
 import copy
 import importlib.util
+import io
 from pathlib import Path
 import tempfile
 import unittest
 from xml.etree import ElementTree as ET
 
 import fitz
+from PIL import Image
 
 spec = importlib.util.spec_from_file_location('geometry', Path(__file__).with_name('docx-next-sidebar-save-geometry-qa.py'))
 qa = importlib.util.module_from_spec(spec)
@@ -30,6 +32,25 @@ def pdf(path, offset=0, text='Canonical text', pages=1, paint=False, title=''):
     doc.set_metadata({'title': title})
     doc.save(path)
     doc.close()
+
+
+def photo_pdf(path, offset=0, width=200, copies=1, title='', clip=False):
+    bitmap = io.BytesIO()
+    Image.new('RGB', (4, 4), (255, 0, 0)).save(bitmap, format='PNG')
+    with fitz.open() as doc:
+        page = doc.new_page(width=width, height=200)
+        for _ in range(copies):
+            page.insert_image(fitz.Rect(20 + offset, 20, 120 + offset, 120), stream=bitmap.getvalue())
+        if clip:
+            # The flat image covers this fixed inner window in both files.
+            # Its placement can change without moving any painted red pixels.
+            content = page.read_contents()
+            xref = doc.get_new_xref()
+            doc.update_object(xref, '<<>>')
+            doc.update_stream(xref, b'q 40 120 40 40 re W n\n' + content + b'\nQ')
+            page.set_contents(xref)
+        doc.set_metadata({'title': title})
+        doc.save(path)
 
 
 class GeometryTests(unittest.TestCase):
@@ -94,6 +115,48 @@ class GeometryTests(unittest.TestCase):
             self.assertEqual(result['changedWordPages'], [])
             self.assertEqual(result['changedPixelPages'], [1])
             self.assertFalse(result['exactVisibleGeometry'])
+
+    def test_clipped_flat_photo_transform_cannot_hide_behind_equal_pixels(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            a, b = Path(temporary) / 'a.pdf', Path(temporary) / 'b.pdf'
+            photo_pdf(a, clip=True)
+            photo_pdf(b, offset=.01, clip=True)
+            result = qa.compare_pdf(a, b)
+            self.assertEqual(result['changedPixelPages'], [])
+            self.assertEqual(result['changedWordPages'], [])
+            self.assertEqual(result['changedImageGeometryPages'], [1])
+            self.assertFalse(result['exactVisibleGeometry'])
+
+    def test_duplicate_opaque_image_paint_is_not_the_same_native_geometry(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            a, b = Path(temporary) / 'a.pdf', Path(temporary) / 'b.pdf'
+            photo_pdf(a)
+            photo_pdf(b, copies=2)
+            result = qa.compare_pdf(a, b)
+            self.assertEqual(result['changedPixelPages'], [])
+            self.assertEqual(result['changedImageGeometryPages'], [1])
+            self.assertFalse(result['exactVisibleGeometry'])
+
+    def test_subpixel_page_size_change_is_measured_even_with_equal_raster_dimensions(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            a, b = Path(temporary) / 'a.pdf', Path(temporary) / 'b.pdf'
+            photo_pdf(a, width=200.01)
+            photo_pdf(b, width=200.02)
+            result = qa.compare_pdf(a, b)
+            self.assertEqual(result['changedPixelPages'], [])
+            self.assertEqual(result['changedImageGeometryPages'], [])
+            self.assertEqual(result['changedPageSizePages'], [1])
+            self.assertFalse(result['exactVisibleGeometry'])
+
+    def test_image_geometry_ignores_pdf_metadata(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            a, b = Path(temporary) / 'a.pdf', Path(temporary) / 'b.pdf'
+            photo_pdf(a, title='First export')
+            photo_pdf(b, title='Second export')
+            result = qa.compare_pdf(a, b)
+            self.assertTrue(result['exactVisibleGeometry'])
+            self.assertEqual(result['changedImageGeometryPages'], [])
+            self.assertEqual(result['comparisonContractVersion'], 2)
 
     def test_strict_stability_cannot_confuse_successful_collection_with_acceptance(self):
         keys = ('sourceGridConsistencyAcceptance', 'exactVisibleGeometryAcceptance',

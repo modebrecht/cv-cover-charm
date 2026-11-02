@@ -17,6 +17,7 @@ import fitz
 import numpy as np
 from PIL import Image
 from docx_next_story_qa import W, text_value, visible_story
+from docx_next_picture_owner_qa import picture_inventory, compare_image_data, require_picture_ownership, effective_document
 
 REPO = Path(__file__).resolve().parent.parent
 spec = importlib.util.spec_from_file_location('entry_flow', Path(__file__).with_name('docx-next-entry-flow-qa.py'))
@@ -54,7 +55,7 @@ def package_controls(path):
         types = ET.fromstring(archive.read('[Content_Types].xml'))
         declared = {item.get('PartName').lstrip('/') for item in types
                     if item.get('ContentType', '').endswith(('.header+xml', '.footer+xml'))}
-        document = ET.fromstring(archive.read('word/document.xml'))
+        document = effective_document(archive.read('word/document.xml'))
         relations = {item.get('Id'):posixpath.normpath(posixpath.join('word',item.get('Target')))
                      for item in ET.fromstring(archive.read('word/_rels/document.xml.rels'))}
         settings = ET.fromstring(archive.read('word/settings.xml'))
@@ -74,7 +75,7 @@ def package_controls(path):
         for name in archive.namelist():
             if name in story_parts:
                 records = {}
-                for node in ET.fromstring(archive.read(name)).iter(W + 'sdt'):
+                for node in effective_document(archive.read(name)).iter(W + 'sdt'):
                     tag = node.find(W + 'sdtPr/' + W + 'tag')
                     assert tag is not None, f'{name}: missing authored field tag'
                     identity = tag.get(W + 'val')
@@ -114,9 +115,27 @@ def photo_pixels(page):
                        float((x.max() + 1) / (2 * MM)), float((y.max() + 1) / (2 * MM))]}
 
 
-def audit(folder, engine, binding, replay_existing=False):
+def check_cell_start_attachments(path, attached):
+    with ZipFile(path) as archive:
+        root = ET.fromstring(archive.read('word/document.xml'))
+    body = root.find(W + 'body')
+    tables = [table for table in body.findall(W + 'tbl')
+              if table.find(W + 'tblPr/' + W + 'tblCaption') is not None and
+              table.find(W + 'tblPr/' + W + 'tblCaption').get(W + 'val') == 'cv.sidebar']
+    assert len(tables) == 1, 'Missing or duplicate body-story table'
+    cells = tables[0].findall(W + 'tr/' + W + 'tc')
+    assert len(cells) == 3, 'Changed body-story column count'
+    for index in [0, 2]:
+        paragraph = cells[index].find(W + 'p')
+        assert paragraph is not None, 'Missing structural cell-start paragraph'
+        flag = paragraph.find(W + 'pPr/' + W + 'keepNext')
+        assert flag is not None and flag.get(W + 'val') == ('1' if attached else '0'), 'Cell-start attachment differs from the declared experiment'
+
+
+def audit(folder, engine, binding, replay_existing=False, detached_cell_starts=False, direct_picture_ownership=False):
     report = {'scope': 'Shared application snapshot/model/export body composition', 'cases': [],
               'contentRoundtripAcceptance': 'pending', 'geometryAcceptance': 'unaccepted',
+              'pictureOwnershipAcceptance': 'pending', 'imageDataAcceptance': 'pending',
               'productionAcceptance': 'blocked', 'microsoftWordAccepted': 0,
               'executionMode': 'read-only replay where retained inputs and native hashes match' if replay_existing else 'fresh native Save/Reopen, imports and PDF exports',
               'importObjectLifetime': 'unmeasured; final semantic identity checked'}
@@ -126,11 +145,33 @@ def audit(folder, engine, binding, replay_existing=False):
         assert json.loads((folder / 'manifest.json').read_text()) == NAMES, 'Incomplete app matrix'
         for name in NAMES:
             fixture = json.loads((folder / (name + '.json')).read_text())
-            assert fixture['sharedSnapshotExport'] and fixture['bodyBoundaryKeepNext']
+            assert fixture['sharedSnapshotExport']
+            assert fixture.get('directPictureOwnership', False) is direct_picture_ownership, 'Unexpected picture ownership experiment'
+            assert fixture['bodyBoundaryKeepNext'] is (not detached_cell_starts), 'Unexpected cell-start experiment'
             assert fixture['paragraphPoliciesUnchanged'] and fixture['existingStoryPartsUnchanged']
             source = folder / (name + '.docx')
             assert entry.sha(source) == fixture['sourceSha256']
+            if direct_picture_ownership:
+                with ZipFile(source) as archive:
+                    document = ET.fromstring(archive.read('word/document.xml'))
+                wp = '{http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing}'
+                pic = '{http://schemas.openxmlformats.org/drawingml/2006/picture}'
+                for picture in fixture['pictures']:
+                    owners = [sdt for sdt in document.iter(W+'sdt')
+                              if (tag := sdt.find(W+'sdtPr/'+W+'tag')) is not None
+                              and tag.get(W+'val') == picture['id']]
+                    assert len(owners) == 1, 'Direct picture must have exactly one owner'
+                    owner = owners[0]
+                    assert owner.find(W+'sdtPr/'+W+'picture') is not None, 'Missing typed picture owner'
+                    assert len(list(owner.iter(W+'drawing'))) == 1, 'Picture owner must contain one drawing'
+                    assert len(list(owner.iter(pic+'pic'))) == 1, 'Picture owner must contain one native picture'
+                    assert not list(owner.iter(W+'txbxContent')), 'Direct picture cannot own a text frame'
+                    positioning = wp + ('anchor' if picture['placement'] == 'free' else 'inline')
+                    assert len(list(owner.iter(positioning))) == 1, 'Unexpected direct picture positioning'
+            check_cell_start_attachments(source, not detached_cell_starts)
             expected_body, expected_all = package_controls(source)
+            source_pictures = picture_inventory(source, fixture['pictures'])
+            assert source_pictures['status'] == 'pass', 'Invalid source picture ownership'
             photo_digests, paint_digests = package_image_digests(source)
             assert bool(photo_digests) == bool(fixture['pictures']), 'Source photo inventory changed'
             for paragraph in fixture['nativeParagraphs']:
@@ -168,13 +209,21 @@ def audit(folder, engine, binding, replay_existing=False):
             (folder / (name + '-native.json')).write_text(json.dumps(observation, indent=2) + '\n')
             assert len(observation['cases']) == 3
             for request, native in zip(requests, observation['cases']):
-                result = {'phase': request['phase'], 'nativeStories': {}, 'visibleStories': {}}
+                owned_pictures = picture_inventory(Path(request['path']), fixture['pictures'])
+                result = {'phase': request['phase'], 'nativeStories': {}, 'visibleStories': {},
+                          'pictureOwnership': owned_pictures,
+                          'imageData': compare_image_data(source_pictures, owned_pictures)}
                 case['phases'].append(result); retain()
                 assert native['readOnly'] and not native['modified']
                 inventory = {row['tag']: row['text'] for row in native['finalControls']}
                 assert len(inventory) == len(native['finalControls']), 'Duplicate native tag'
                 assert set(inventory) == set(expected_all), 'Native story fields missing or added'
-                assert [key for key in inventory if key in expected_body] == list(expected_body), 'Native body field order changed'
+                actual_order = [key for key in inventory if key in expected_body]
+                expected_order = list(expected_body)
+                assert actual_order == expected_order, (
+                    f"Native body field order changed: {name}/{request['phase']}; "
+                    f"expectedPhotoIndex={expected_order.index('cv.person.photo') if 'cv.person.photo' in expected_order else None}, "
+                    f"actualPhotoIndex={actual_order.index('cv.person.photo') if 'cv.person.photo' in actual_order else None}")
                 assert all(value.replace('\n', '').replace('\t', '') == inventory[tag].replace('\n', '').replace('\t', '')
                            for tag, value in expected_all.items()), 'Native field text changed'
                 result['nativeControls'] = len(inventory)
@@ -244,7 +293,12 @@ def audit(folder, engine, binding, replay_existing=False):
                     assert picture['heightMm']-border-.25 <= y1-y0 <= picture['heightMm']+border+.25, 'Visible photo height exceeds declared frame and stroke'
                 assert entry.sha(source) == fixture['sourceSha256']
             case['contentRoundtripAcceptance'] = 'pass'; retain()
-        report['contentRoundtripAcceptance'] = 'pass'; retain()
+        report['contentRoundtripAcceptance'] = 'pass'
+        report['pictureOwnershipAcceptance'] = 'pass' if all(
+            phase['pictureOwnership']['status'] == 'pass' for case in report['cases'] for phase in case['phases']) else 'fail'
+        report['imageDataAcceptance'] = 'pass' if all(
+            phase['imageData']['status'] == 'pass' for case in report['cases'] for phase in case['phases']) else 'fail'
+        retain()
         return report
     except Exception as error:
         report['contentRoundtripAcceptance'] = 'fail'; report['failure'] = type(error).__name__ + ': ' + str(error); retain()
@@ -256,6 +310,12 @@ if __name__ == '__main__':
     parser.add_argument('directory', type=Path); parser.add_argument('--engine', type=Path, required=True)
     parser.add_argument('--binding', type=Path, required=True)
     parser.add_argument('--replay-existing', action='store_true', help='Read-only local re-audit of retained native observations and exports; CI always uses fresh execution')
+    parser.add_argument('--detached-cell-starts', action='store_true', help='Explicit unaccepted experiment: verify detached empty cell-start anchors without changing semantic paragraphs')
+    parser.add_argument('--direct-picture-ownership', action='store_true', help='Explicit unaccepted experiment: verify a single native drawing per typed picture owner')
+    parser.add_argument('--require-picture-ownership', action='store_true', help='Reject empty or detached picture controls after collecting the full content matrix')
     args = parser.parse_args()
-    result = audit(args.directory.resolve(), args.engine.resolve(), (args.binding / 'binding').resolve(), args.replay_existing)
-    print(json.dumps({'cases':len(result['cases']), 'contentRoundtripAcceptance':result['contentRoundtripAcceptance']}))
+    result = audit(args.directory.resolve(), args.engine.resolve(), (args.binding / 'binding').resolve(), args.replay_existing, args.detached_cell_starts, args.direct_picture_ownership)
+    print(json.dumps({'cases':len(result['cases']), 'contentRoundtripAcceptance':result['contentRoundtripAcceptance'],
+                      'pictureOwnershipAcceptance':result['pictureOwnershipAcceptance'], 'imageDataAcceptance':result['imageDataAcceptance']}))
+    if args.require_picture_ownership:
+        require_picture_ownership(result)
