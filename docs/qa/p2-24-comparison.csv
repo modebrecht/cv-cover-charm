@@ -1,0 +1,17 @@
+source,profile,trial,pages,complete_entries,layout,photo,page_edges,all_four_lines,max_same_page_title_delta_mm,pdf_sha256
+cv-18-left,prior-control,FAIL,3,18,FAIL,PASS,PASS,PASS,26.379,875c8feb8159be48439155bde61e3c7193e845019dad53215d8e48021acad691
+cv-18-left,footer-distance-zero,PASS,3,18,PASS,PASS,PASS,PASS,1.665,be9b55942effd3f0b41e4939047c870969067cfd24486e6a2a1ae45b33d192ea
+cv-18-left,footer-references-off,PASS,3,18,PASS,PASS,PASS,PASS,1.665,24e5a39bda8ab49da65b32123be09acb11a3b084dfab48dfab5f794dc269e0cf
+cv-18-left,bottom-margin-zero,FAIL,3,18,FAIL,PASS,PASS,PASS,26.379,a3d45823d005bb1390d0d4341a94f3ff9699ed2026f7e192ae0438bea76378c7
+cv-18-varied-left,prior-control,PASS,5,18,PASS,PASS,PASS,PASS,1.631,f77b275158c7959698508a62eed7d0cab85876670fb0f6710398a870fa95eadb
+cv-18-varied-left,footer-distance-zero,PASS,5,18,PASS,PASS,PASS,PASS,1.631,3cdf69c1f48f5fa1c6d4476ca307c7c35e2b534caeb4d19b14ce202248cd5712
+cv-18-varied-left,footer-references-off,PASS,5,18,PASS,PASS,PASS,PASS,1.631,fe5f48c40662a048dfc04e282c55fd7cbf0c392b777137c0b5a580e5609f789d
+cv-18-varied-left,bottom-margin-zero,PASS,5,18,PASS,PASS,PASS,PASS,1.631,50e7099f590192fd6ca7598022d7d33de400b5933fedc439201d6669b57e826e
+cv-18-right,prior-control,FAIL,3,18,FAIL,PASS,PASS,PASS,26.379,6f063c7309478e20063b302f38075e9e280e4819cfe33621d98f88f37e531233
+cv-18-right,footer-distance-zero,PASS,3,18,PASS,PASS,PASS,PASS,1.665,90867e4c326cea8a2e6221f76b508e7b38d699d5521c3fd1255133d4652e29d7
+cv-18-right,footer-references-off,PASS,3,18,PASS,PASS,PASS,PASS,1.665,f10fb6322591c18231900c73c4c99bf036300f7efcc2e4ba3fb1427abfb3365f
+cv-18-right,bottom-margin-zero,FAIL,3,18,FAIL,PASS,PASS,PASS,26.379,f89ae45461682b050f1817c4a0f43dd7a43b33d050093bf07010d863bee7de77
+cv-18-varied-right,prior-control,PASS,5,18,PASS,PASS,PASS,PASS,1.631,da1aa8c440898fc110373d4d7eb894802b5c8963ebac872b76d039aa760bd29b
+cv-18-varied-right,footer-distance-zero,PASS,5,18,PASS,PASS,PASS,PASS,1.631,6c020bd1f0a9702798d9aa0c0f0cd249d7dabe8193e95e7151dc5d13bdd79ad5
+cv-18-varied-right,footer-references-off,PASS,5,18,PASS,PASS,PASS,PASS,1.631,1414ddecbf7afb421541ecdab33944a8dfd5879070deb81e06850ac1f6839bdd
+cv-18-varied-right,bottom-margin-zero,PASS,5,18,PASS,PASS,PASS,PASS,1.631,0f89671eded1a5522dd2f3a99f4e05c02085cd0487eb8db659155833fbb220d2

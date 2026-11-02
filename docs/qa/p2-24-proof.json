@@ -1,0 +1,111 @@
+{
+  "run_id": 41453661190,
+  "run_url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/41453661190",
+  "job_id": 125304822500,
+  "run_started_at": "2026-11-02T13:31:08Z",
+  "run_updated_at": "2026-11-02T13:36:01Z",
+  "conclusion": "success",
+  "unit_test_count": 163,
+  "test_counts": [
+    8,
+    10,
+    7,
+    9,
+    8,
+    6,
+    5,
+    7,
+    2,
+    5,
+    5,
+    5,
+    4,
+    5,
+    7,
+    5,
+    10,
+    9,
+    13,
+    10,
+    9,
+    10,
+    4
+  ],
+  "artifact_id": 13146297495,
+  "artifact_bytes": 10561249,
+  "artifact_sha256": "acde7a96cd4e6178a47e5a661886b295d7bd839f0e3936a45e0e5475a91cccdd",
+  "artifact_expires_at": "2026-11-16T13:35:56Z",
+  "implementation_sha": "dac54d958277c8120ee935975230cf3ad436e542",
+  "implementation_tree": "a189327e6eb7f12e9ba45b930e72ee0a5d9ca3cd",
+  "base_sha": "840f6be1eac99a6e5057ba71948a7568c57a389c",
+  "protected_refs": [
+    {
+      "branch": "dev",
+      "sha": "c8e0a4e306e2e519d2b9392b43fb9759fb8c5078"
+    },
+    {
+      "branch": "render",
+      "sha": "1fe6dbe59184a759d97f9c393353a8a3d9e1f89a"
+    },
+    {
+      "branch": "main",
+      "sha": "44d7eb950b4fe972d6e890a72b6d3256ce365bc9"
+    }
+  ],
+  "native_report_sha256": "46df7c8b4ddc556e392b18c80a0f33dfedeb09d10cedd21e805888da95d19719",
+  "audit_report_sha256": "aac15762d8a6196a9b112f1b024658de250e9fe5ae23e198c604cdfc1117a204",
+  "visual_audit": {
+    "method": "Rendered-PDF visual inspection",
+    "reviewed_candidate_pages": 16,
+    "candidate_profile": "footer-distance-zero",
+    "app_comparison_pages": {
+      "cv-18-left": [
+        1
+      ],
+      "cv-18-right": [
+        1
+      ],
+      "cv-18-varied-left": [
+        4
+      ],
+      "cv-18-varied-right": [
+        4
+      ]
+    },
+    "focused_boundary": "normal entry 06 / page 1; App vs control vs candidate",
+    "result": "PASS within documented gates; line wrapping and font metrics remain visibly different from App"
+  },
+  "native_conversions": 16,
+  "native_pages": 64,
+  "audit_conversions": 0,
+  "native_converter_seconds": 24.064,
+  "max_converter_rss_kib": 245312,
+  "whole_job_peak_rss": "NOT_MEASURED",
+  "retained_files": [
+    {
+      "path": "tests/fixtures/lo-import-p2-24/cv-18-left-footer-distance-zero.docx",
+      "sha256": "2243cc02efa21da3e8736e6565738f0fbbe900c911655d6b72a0b77dffa01bc9",
+      "bytes": 231549
+    },
+    {
+      "path": "tests/fixtures/lo-import-p2-24/cv-18-left-footer-distance-zero.pdf",
+      "sha256": "be9b55942effd3f0b41e4939047c870969067cfd24486e6a2a1ae45b33d192ea",
+      "bytes": 135392
+    },
+    {
+      "path": "tests/fixtures/lo-import-p2-24/cv-18-varied-left-footer-distance-zero.pdf",
+      "sha256": "3cdf69c1f48f5fa1c6d4476ca307c7c35e2b534caeb4d19b14ce202248cd5712",
+      "bytes": 139550
+    },
+    {
+      "path": "tests/fixtures/lo-import-p2-24/cv-18-right-footer-distance-zero.pdf",
+      "sha256": "90867e4c326cea8a2e6221f76b508e7b38d699d5521c3fd1255133d4652e29d7",
+      "bytes": 134920
+    },
+    {
+      "path": "tests/fixtures/lo-import-p2-24/cv-18-varied-right-footer-distance-zero.pdf",
+      "sha256": "6c020bd1f0a9702798d9aa0c0f0cd249d7dabe8193e95e7151dc5d13bdd79ad5",
+      "bytes": 139110
+    }
+  ]
+}

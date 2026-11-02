@@ -1,0 +1,607 @@
+{
+  "source_artifact_id": 13106249318,
+  "archive_sha256": "c2d5380ad06c323034ddf6c42e2850de224af31e400e0dae13b31cef10011b59",
+  "cases": [
+    {
+      "id": "cv-18-left",
+      "app_pdf_sha256": "e6cd740a197e705818ac1ae54f1ab74a2bcdf7c9d9255f93ba4c24f676a20535",
+      "visible_ink": [
+        {
+          "marker": "P202Praxis01",
+          "title_page": 1,
+          "terminal_description_page": 1,
+          "title_ink_top_mm": 136.818,
+          "terminal_ink_bottom_mm": 162.166,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis02",
+          "title_page": 1,
+          "terminal_description_page": 1,
+          "title_ink_top_mm": 161.72,
+          "terminal_ink_bottom_mm": 187.068,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis03",
+          "title_page": 1,
+          "terminal_description_page": 1,
+          "title_ink_top_mm": 186.621,
+          "terminal_ink_bottom_mm": 211.969,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis04",
+          "title_page": 1,
+          "terminal_description_page": 1,
+          "title_ink_top_mm": 211.523,
+          "terminal_ink_bottom_mm": 236.871,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis05",
+          "title_page": 1,
+          "terminal_description_page": 1,
+          "title_ink_top_mm": 236.424,
+          "terminal_ink_bottom_mm": 261.772,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis06",
+          "title_page": 1,
+          "terminal_description_page": 1,
+          "title_ink_top_mm": 261.326,
+          "terminal_ink_bottom_mm": 286.674,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis07",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 50.258,
+          "terminal_ink_bottom_mm": 75.606,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis08",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 75.16,
+          "terminal_ink_bottom_mm": 100.507,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis09",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 100.061,
+          "terminal_ink_bottom_mm": 125.409,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis10",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 124.963,
+          "terminal_ink_bottom_mm": 150.311,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis11",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 149.864,
+          "terminal_ink_bottom_mm": 175.212,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis12",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 174.766,
+          "terminal_ink_bottom_mm": 200.114,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis13",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 199.667,
+          "terminal_ink_bottom_mm": 225.015,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis14",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 224.569,
+          "terminal_ink_bottom_mm": 249.917,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis15",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 249.47,
+          "terminal_ink_bottom_mm": 274.818,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis16",
+          "title_page": 3,
+          "terminal_description_page": 3,
+          "title_ink_top_mm": 50.258,
+          "terminal_ink_bottom_mm": 75.606,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis17",
+          "title_page": 3,
+          "terminal_description_page": 3,
+          "title_ink_top_mm": 75.16,
+          "terminal_ink_bottom_mm": 100.507,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis18",
+          "title_page": 3,
+          "terminal_description_page": 3,
+          "title_ink_top_mm": 100.061,
+          "terminal_ink_bottom_mm": 125.409,
+          "same_page_ink_extent_mm": 25.348
+        }
+      ]
+    },
+    {
+      "id": "cv-18-varied-left",
+      "app_pdf_sha256": "25dc05a6d0c45f12320f8bb0bea9eead5e7f087fb483485398722f7f2596874c",
+      "visible_ink": [
+        {
+          "marker": "P202Praxis01",
+          "title_page": 1,
+          "terminal_description_page": 1,
+          "title_ink_top_mm": 136.818,
+          "terminal_ink_bottom_mm": 171.431,
+          "same_page_ink_extent_mm": 34.613
+        },
+        {
+          "marker": "P202Praxis02",
+          "title_page": 1,
+          "terminal_description_page": 1,
+          "title_ink_top_mm": 170.985,
+          "terminal_ink_bottom_mm": 214.862,
+          "same_page_ink_extent_mm": 43.877
+        },
+        {
+          "marker": "P202Praxis03",
+          "title_page": 1,
+          "terminal_description_page": 1,
+          "title_ink_top_mm": 214.416,
+          "terminal_ink_bottom_mm": 267.558,
+          "same_page_ink_extent_mm": 53.142
+        },
+        {
+          "marker": "P202Praxis04",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 50.258,
+          "terminal_ink_bottom_mm": 84.871,
+          "same_page_ink_extent_mm": 34.613
+        },
+        {
+          "marker": "P202Praxis05",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 84.424,
+          "terminal_ink_bottom_mm": 128.302,
+          "same_page_ink_extent_mm": 43.877
+        },
+        {
+          "marker": "P202Praxis06",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 127.855,
+          "terminal_ink_bottom_mm": 180.997,
+          "same_page_ink_extent_mm": 53.142
+        },
+        {
+          "marker": "P202Praxis07",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 180.551,
+          "terminal_ink_bottom_mm": 215.164,
+          "same_page_ink_extent_mm": 34.613
+        },
+        {
+          "marker": "P202Praxis08",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 214.717,
+          "terminal_ink_bottom_mm": 258.595,
+          "same_page_ink_extent_mm": 43.877
+        },
+        {
+          "marker": "P202Praxis09",
+          "title_page": 3,
+          "terminal_description_page": 3,
+          "title_ink_top_mm": 50.258,
+          "terminal_ink_bottom_mm": 103.4,
+          "same_page_ink_extent_mm": 53.142
+        },
+        {
+          "marker": "P202Praxis10",
+          "title_page": 3,
+          "terminal_description_page": 3,
+          "title_ink_top_mm": 102.954,
+          "terminal_ink_bottom_mm": 137.566,
+          "same_page_ink_extent_mm": 34.613
+        },
+        {
+          "marker": "P202Praxis11",
+          "title_page": 3,
+          "terminal_description_page": 3,
+          "title_ink_top_mm": 137.12,
+          "terminal_ink_bottom_mm": 180.997,
+          "same_page_ink_extent_mm": 43.877
+        },
+        {
+          "marker": "P202Praxis12",
+          "title_page": 3,
+          "terminal_description_page": 3,
+          "title_ink_top_mm": 180.551,
+          "terminal_ink_bottom_mm": 233.693,
+          "same_page_ink_extent_mm": 53.142
+        },
+        {
+          "marker": "P202Praxis13",
+          "title_page": 3,
+          "terminal_description_page": 3,
+          "title_ink_top_mm": 233.247,
+          "terminal_ink_bottom_mm": 267.859,
+          "same_page_ink_extent_mm": 34.613
+        },
+        {
+          "marker": "P202Praxis14",
+          "title_page": 4,
+          "terminal_description_page": 4,
+          "title_ink_top_mm": 50.258,
+          "terminal_ink_bottom_mm": 94.135,
+          "same_page_ink_extent_mm": 43.877
+        },
+        {
+          "marker": "P202Praxis15",
+          "title_page": 4,
+          "terminal_description_page": 4,
+          "title_ink_top_mm": 93.689,
+          "terminal_ink_bottom_mm": 146.831,
+          "same_page_ink_extent_mm": 53.142
+        },
+        {
+          "marker": "P202Praxis16",
+          "title_page": 4,
+          "terminal_description_page": 4,
+          "title_ink_top_mm": 146.385,
+          "terminal_ink_bottom_mm": 180.997,
+          "same_page_ink_extent_mm": 34.613
+        },
+        {
+          "marker": "P202Praxis17",
+          "title_page": 4,
+          "terminal_description_page": 4,
+          "title_ink_top_mm": 180.551,
+          "terminal_ink_bottom_mm": 224.428,
+          "same_page_ink_extent_mm": 43.877
+        },
+        {
+          "marker": "P202Praxis18",
+          "title_page": 4,
+          "terminal_description_page": 4,
+          "title_ink_top_mm": 223.982,
+          "terminal_ink_bottom_mm": 277.124,
+          "same_page_ink_extent_mm": 53.142
+        }
+      ]
+    },
+    {
+      "id": "cv-18-right",
+      "app_pdf_sha256": "41d2a728d9c5753c41c8f257943febac3476ec792967c0618488b4dcc4e7a067",
+      "visible_ink": [
+        {
+          "marker": "P202Praxis01",
+          "title_page": 1,
+          "terminal_description_page": 1,
+          "title_ink_top_mm": 136.818,
+          "terminal_ink_bottom_mm": 162.166,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis02",
+          "title_page": 1,
+          "terminal_description_page": 1,
+          "title_ink_top_mm": 161.72,
+          "terminal_ink_bottom_mm": 187.068,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis03",
+          "title_page": 1,
+          "terminal_description_page": 1,
+          "title_ink_top_mm": 186.621,
+          "terminal_ink_bottom_mm": 211.969,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis04",
+          "title_page": 1,
+          "terminal_description_page": 1,
+          "title_ink_top_mm": 211.523,
+          "terminal_ink_bottom_mm": 236.871,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis05",
+          "title_page": 1,
+          "terminal_description_page": 1,
+          "title_ink_top_mm": 236.424,
+          "terminal_ink_bottom_mm": 261.772,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis06",
+          "title_page": 1,
+          "terminal_description_page": 1,
+          "title_ink_top_mm": 261.326,
+          "terminal_ink_bottom_mm": 286.674,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis07",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 50.258,
+          "terminal_ink_bottom_mm": 75.606,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis08",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 75.16,
+          "terminal_ink_bottom_mm": 100.507,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis09",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 100.061,
+          "terminal_ink_bottom_mm": 125.409,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis10",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 124.963,
+          "terminal_ink_bottom_mm": 150.311,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis11",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 149.864,
+          "terminal_ink_bottom_mm": 175.212,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis12",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 174.766,
+          "terminal_ink_bottom_mm": 200.114,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis13",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 199.667,
+          "terminal_ink_bottom_mm": 225.015,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis14",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 224.569,
+          "terminal_ink_bottom_mm": 249.917,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis15",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 249.47,
+          "terminal_ink_bottom_mm": 274.818,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis16",
+          "title_page": 3,
+          "terminal_description_page": 3,
+          "title_ink_top_mm": 50.258,
+          "terminal_ink_bottom_mm": 75.606,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis17",
+          "title_page": 3,
+          "terminal_description_page": 3,
+          "title_ink_top_mm": 75.16,
+          "terminal_ink_bottom_mm": 100.507,
+          "same_page_ink_extent_mm": 25.348
+        },
+        {
+          "marker": "P202Praxis18",
+          "title_page": 3,
+          "terminal_description_page": 3,
+          "title_ink_top_mm": 100.061,
+          "terminal_ink_bottom_mm": 125.409,
+          "same_page_ink_extent_mm": 25.348
+        }
+      ]
+    },
+    {
+      "id": "cv-18-varied-right",
+      "app_pdf_sha256": "667f7a248223291954b8f5c7f353fd184343003d91598f7578d5838e2c858e72",
+      "visible_ink": [
+        {
+          "marker": "P202Praxis01",
+          "title_page": 1,
+          "terminal_description_page": 1,
+          "title_ink_top_mm": 136.818,
+          "terminal_ink_bottom_mm": 171.431,
+          "same_page_ink_extent_mm": 34.613
+        },
+        {
+          "marker": "P202Praxis02",
+          "title_page": 1,
+          "terminal_description_page": 1,
+          "title_ink_top_mm": 170.985,
+          "terminal_ink_bottom_mm": 214.862,
+          "same_page_ink_extent_mm": 43.877
+        },
+        {
+          "marker": "P202Praxis03",
+          "title_page": 1,
+          "terminal_description_page": 1,
+          "title_ink_top_mm": 214.416,
+          "terminal_ink_bottom_mm": 267.558,
+          "same_page_ink_extent_mm": 53.142
+        },
+        {
+          "marker": "P202Praxis04",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 50.258,
+          "terminal_ink_bottom_mm": 84.871,
+          "same_page_ink_extent_mm": 34.613
+        },
+        {
+          "marker": "P202Praxis05",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 84.424,
+          "terminal_ink_bottom_mm": 128.302,
+          "same_page_ink_extent_mm": 43.877
+        },
+        {
+          "marker": "P202Praxis06",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 127.855,
+          "terminal_ink_bottom_mm": 180.997,
+          "same_page_ink_extent_mm": 53.142
+        },
+        {
+          "marker": "P202Praxis07",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 180.551,
+          "terminal_ink_bottom_mm": 215.164,
+          "same_page_ink_extent_mm": 34.613
+        },
+        {
+          "marker": "P202Praxis08",
+          "title_page": 2,
+          "terminal_description_page": 2,
+          "title_ink_top_mm": 214.717,
+          "terminal_ink_bottom_mm": 258.595,
+          "same_page_ink_extent_mm": 43.877
+        },
+        {
+          "marker": "P202Praxis09",
+          "title_page": 3,
+          "terminal_description_page": 3,
+          "title_ink_top_mm": 50.258,
+          "terminal_ink_bottom_mm": 103.4,
+          "same_page_ink_extent_mm": 53.142
+        },
+        {
+          "marker": "P202Praxis10",
+          "title_page": 3,
+          "terminal_description_page": 3,
+          "title_ink_top_mm": 102.954,
+          "terminal_ink_bottom_mm": 137.566,
+          "same_page_ink_extent_mm": 34.613
+        },
+        {
+          "marker": "P202Praxis11",
+          "title_page": 3,
+          "terminal_description_page": 3,
+          "title_ink_top_mm": 137.12,
+          "terminal_ink_bottom_mm": 180.997,
+          "same_page_ink_extent_mm": 43.877
+        },
+        {
+          "marker": "P202Praxis12",
+          "title_page": 3,
+          "terminal_description_page": 3,
+          "title_ink_top_mm": 180.551,
+          "terminal_ink_bottom_mm": 233.693,
+          "same_page_ink_extent_mm": 53.142
+        },
+        {
+          "marker": "P202Praxis13",
+          "title_page": 3,
+          "terminal_description_page": 3,
+          "title_ink_top_mm": 233.247,
+          "terminal_ink_bottom_mm": 267.859,
+          "same_page_ink_extent_mm": 34.613
+        },
+        {
+          "marker": "P202Praxis14",
+          "title_page": 4,
+          "terminal_description_page": 4,
+          "title_ink_top_mm": 50.258,
+          "terminal_ink_bottom_mm": 94.135,
+          "same_page_ink_extent_mm": 43.877
+        },
+        {
+          "marker": "P202Praxis15",
+          "title_page": 4,
+          "terminal_description_page": 4,
+          "title_ink_top_mm": 93.689,
+          "terminal_ink_bottom_mm": 146.831,
+          "same_page_ink_extent_mm": 53.142
+        },
+        {
+          "marker": "P202Praxis16",
+          "title_page": 4,
+          "terminal_description_page": 4,
+          "title_ink_top_mm": 146.385,
+          "terminal_ink_bottom_mm": 180.997,
+          "same_page_ink_extent_mm": 34.613
+        },
+        {
+          "marker": "P202Praxis17",
+          "title_page": 4,
+          "terminal_description_page": 4,
+          "title_ink_top_mm": 180.551,
+          "terminal_ink_bottom_mm": 224.428,
+          "same_page_ink_extent_mm": 43.877
+        },
+        {
+          "marker": "P202Praxis18",
+          "title_page": 4,
+          "terminal_description_page": 4,
+          "title_ink_top_mm": 223.982,
+          "terminal_ink_bottom_mm": 277.124,
+          "same_page_ink_extent_mm": 53.142
+        }
+      ]
+    }
+  ],
+  "measurement": "Native PDF text-line bboxes from archived actual App PDFs; not row boxes or exact glyph-raster outlines. Same entry_ink routine as native probe."
+}
