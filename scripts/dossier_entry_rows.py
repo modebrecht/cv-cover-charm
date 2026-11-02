@@ -126,7 +126,9 @@ def load_cases(root):
     return report, cases
 
 
-def main():
+def main(*, profiles=None, builder=None, case_check=None, title='P2-18 — continuation entry rows', scope=None, extra_evidence=None):
+    profiles = PROFILES if profiles is None else profiles
+    builder = make_copy if builder is None else builder
     root = Path(__file__).resolve().parents[1]
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--out-dir', type=Path, required=True)
@@ -139,23 +141,25 @@ def main():
     old = json.loads((out / 'RESULTS.json').read_text()) if a.audit_only else None
     report = {'implementation_sha': old['implementation_sha'] if old else os.environ.get('GITHUB_SHA'),
               'source_export_sha': previous['source_export_sha'], 'reference_report_sha256': REFERENCE_SHA256,
-              'scope': 'Frozen 18-entry ordinary/varied actual Next exports; unchanged leaf tables. No fresh App export/product/x39/Word acceptance.',
+              'scope': scope or 'Frozen 18-entry ordinary/varied actual Next exports; unchanged leaf tables. No fresh App export/product/x39/Word acceptance.',
               'converter_version': old['converter_version'] if old else subprocess.run([a.libreoffice, '--version'], capture_output=True, text=True, timeout=10).stdout.strip(),
               'audit_only': a.audit_only, 'cases': [], 'conversion_attempts': []}
+    if extra_evidence is not None:
+        report['additional_evidence'] = extra_evidence
     try:
         for source_case, source in cases:
             tag = source_case['id']
-            for profile in PROFILES:
+            for profile in profiles:
                 folder = out / (tag + '-' + profile)
                 folder.mkdir(exist_ok=True)
                 docx = folder / 'copy.docx'
                 if old:
                     with tempfile.TemporaryDirectory() as temp:
-                        package = make_copy(source, Path(temp) / 'copy.docx', profile)
+                        package = builder(source, Path(temp) / 'copy.docx', profile)
                     if digest(docx) != package['copy_sha256']:
                         raise ValueError('Retained DOCX differs from rebuilt copy')
                 else:
-                    package = make_copy(source, docx, profile)
+                    package = builder(source, docx, profile)
                 pdf = folder / 'copy.pdf'
                 if old:
                     prior = next(c for c in old['cases'] if c['id'] == folder.name)
@@ -189,16 +193,18 @@ def main():
                     row['baseline_pixels_match_p217'] = actual['pixel_sha256'] == baseline['actual']['pixel_sha256']
                     if not row['baseline_docx_match_p217'] or not row['baseline_pixels_match_p217']:
                         raise ValueError('P2-17 baseline changed')
+                if case_check is not None:
+                    case_check(row, source_case)
                 report['cases'].append(row)
                 print(row['id'], row['trial_status'], 'complete', actual['content']['complete_entries'], 'pages', actual['pages'],
                       'splits', actual['content']['split_entries'], 'reference', group['status'], flush=True)
-        report['execution_status'] = 'PASS' if len(report['cases']) == 12 else 'FAIL'
+        report['execution_status'] = 'PASS' if len(report['cases']) == 4 * len(profiles) else 'FAIL'
     except (OSError, ValueError, KeyError, RuntimeError, subprocess.TimeoutExpired) as exc:
         report['execution_status'] = 'FAIL'
         report['error'] = str(exc)
     report['native_conversion_count'] = len(report['conversion_attempts'])
     (out / 'RESULTS.json').write_text(json.dumps(report, indent=2, ensure_ascii=False) + '\n')
-    lines = ['# P2-18 — continuation entry rows', '', report['scope'], '',
+    lines = ['# ' + title, '', report['scope'], '',
              '| Case | Trial | Complete | Pages | Layout | Photo | Ref group |', '|---|---|---:|---:|---|---|---|']
     for c in report['cases']:
         lines.append(f"| {c['id']} | {c['trial_status']} | {c['actual']['content']['complete_entries']}/18 | {c['actual']['pages']} | {c['comparison']['layout_status']} | {c['comparison']['photo']['status']} | {c['reference_group']['status']} |")
