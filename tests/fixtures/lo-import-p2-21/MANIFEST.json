@@ -1,0 +1,41 @@
+{
+  "implementation_sha": "887706640dba19aac621b13a7817e7efad6d8902",
+  "source_export_sha": "887706640dba19aac621b13a7817e7efad6d8902",
+  "run_id": 41410023444,
+  "artifact_id": 13125765686,
+  "archive_sha256": "621c779404a5ef477bb98471f33ad04e670deb1c16c488792613bb3f0b16a4ad",
+  "raw_report_sha256": "e1fec5a7a3e4275989f9f035827ec52f71e349962d1495b9a1c2c5cc3b70f193",
+  "scope": "Two actual fresh synthetic Next DOCX/JSON source exports and right diagnostic copy/native PDF retained; full App PDFs and all four native PDFs in the 14-day Actions artifact. App metrics and original hashes in raw results.",
+  "files": [
+    {
+      "filename": "cv-crop-left.docx",
+      "sha256": "c0be9dfd4bb09e835b2a4b732134d28a22212dbff847f6aca7ee0ac3fa059064",
+      "bytes": 229198
+    },
+    {
+      "filename": "cv-crop-left.json",
+      "sha256": "8643450d8db8db3384625879d93d38e7195da9b26950629db4f575e586c4e9c9",
+      "bytes": 1143
+    },
+    {
+      "filename": "cv-crop-right.docx",
+      "sha256": "213898b0b0ad88d74312f90bd1a2c8a3c122a14a32c383e97fd292d99240e5a0",
+      "bytes": 229174
+    },
+    {
+      "filename": "cv-crop-right.json",
+      "sha256": "11abe6ec5fa99f5a12595f68ef43234e89a799a8b8ad73daa93a5730578f3d33",
+      "bytes": 1146
+    },
+    {
+      "filename": "crop-right-side-aware.docx",
+      "sha256": "88101ab6526417f9327adb40c7df4b0349a8303509b61fdf0005348c23e259bf",
+      "bytes": 233636
+    },
+    {
+      "filename": "crop-right-side-aware-lo.pdf",
+      "sha256": "f8ff32447a6a37c8374cf93586eb95adf44619174c643a434a1ce775f3560e8a",
+      "bytes": 135744
+    }
+  ]
+}

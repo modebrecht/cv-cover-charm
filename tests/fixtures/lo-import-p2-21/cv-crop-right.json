@@ -1,0 +1,54 @@
+{
+  "id": "cv-crop-right",
+  "part": "cv",
+  "mirrored": true,
+  "long": true,
+  "zoom": 2.2,
+  "x": 75,
+  "y": 30,
+  "entryCount": 18,
+  "sha": "887706640dba19aac621b13a7817e7efad6d8902",
+  "exporter": "production DOCX Next",
+  "markers": [
+    "Lea Müller",
+    "Sekundarschule",
+    "P202Endreferenz",
+    "P202Praxis01",
+    "P202Praxis02",
+    "P202Praxis03",
+    "P202Praxis04",
+    "P202Praxis05",
+    "P202Praxis06",
+    "P202Praxis07",
+    "P202Praxis08",
+    "P202Praxis09",
+    "P202Praxis10",
+    "P202Praxis11",
+    "P202Praxis12",
+    "P202Praxis13",
+    "P202Praxis14",
+    "P202Praxis15",
+    "P202Praxis16",
+    "P202Praxis17",
+    "P202Praxis18"
+  ],
+  "intent": {
+    "template": "modern",
+    "cvLayout": "sidebar",
+    "sidebarSide": "right"
+  },
+  "photo": true,
+  "files": [
+    {
+      "format": "PDF",
+      "filename": "cv-crop-right.pdf",
+      "sha256": "e2c713cd869577c952be730b471fb6546695aa51b44861ffb045ce5491a55c5c"
+    },
+    {
+      "format": "DOCX",
+      "filename": "cv-crop-right.docx",
+      "sha256": "213898b0b0ad88d74312f90bd1a2c8a3c122a14a32c383e97fd292d99240e5a0"
+    }
+  ],
+  "status": "EXPORTED"
+}

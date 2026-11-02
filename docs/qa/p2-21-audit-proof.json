@@ -1,0 +1,25 @@
+{
+  "implementation_sha": "887706640dba19aac621b13a7817e7efad6d8902",
+  "source_export_sha": "887706640dba19aac621b13a7817e7efad6d8902",
+  "run_id": 41410023444,
+  "job_id": 125160701348,
+  "artifact_id": 13125765686,
+  "archive_sha256": "621c779404a5ef477bb98471f33ad04e670deb1c16c488792613bb3f0b16a4ad",
+  "raw_report_sha256": "e1fec5a7a3e4275989f9f035827ec52f71e349962d1495b9a1c2c5cc3b70f193",
+  "fresh_input_reference_sha256": "b5a63990fcf96a1dc133ed9b7c5d5731d3259172ab8238f640b866d3a40b1aa4",
+  "audit_all_case_records_identical": true,
+  "audit_all_fresh_app_metrics_identical": true,
+  "audit_native_conversions": 0,
+  "unit_tests_passed": 68,
+  "browser_tests_passed": 3,
+  "native_conversions": 4,
+  "native_pdf_pages": 12,
+  "summed_conversion_seconds": 45.083,
+  "peak_converter_rss_kib": 244236,
+  "trial_pass": 2,
+  "crop_pattern_agreements": {
+    "cv-crop-left": 0.9844,
+    "cv-crop-right": 0.9062
+  },
+  "contact_sheets_and_enlarged_crop_details_visually_inspected": true
+}

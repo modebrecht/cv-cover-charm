@@ -1,0 +1,72 @@
+{
+  "phases": [
+    {
+      "phase": "P2-18",
+      "implementation_sha": "744381e4e695b9eb56668861426fe977ea9de005",
+      "run_id": 41406026494,
+      "native_conversions": 12,
+      "native_pdf_pages": 46,
+      "unit_tests_passed": 132,
+      "browser_tests_passed": 0,
+      "audit_native_conversions": 0,
+      "raw_report_sha256": "35576f8737db1a66af9ba37b38dbf54dab094b6dd9cc753ba849fff5c6e48f41",
+      "execution_status": "PASS",
+      "summed_conversion_seconds": 21.509,
+      "peak_converter_rss_kib": 245492
+    },
+    {
+      "phase": "P2-19",
+      "implementation_sha": "aebcf91f5f9443ff452bc74624dabd8f6a056606",
+      "run_id": 41407449666,
+      "native_conversions": 16,
+      "native_pdf_pages": 64,
+      "unit_tests_passed": 137,
+      "browser_tests_passed": 0,
+      "audit_native_conversions": 0,
+      "raw_report_sha256": "cefb4ea23416455ae11da353eeb6d03caefe0084e748575c638da59a4506642d",
+      "execution_status": "PASS",
+      "summed_conversion_seconds": 28.83,
+      "peak_converter_rss_kib": 245760
+    },
+    {
+      "phase": "P2-20",
+      "implementation_sha": "f50706cb8a68467f468ebda67b6a6bb7e4081428",
+      "run_id": 41408816525,
+      "native_conversions": 16,
+      "native_pdf_pages": 56,
+      "unit_tests_passed": 142,
+      "browser_tests_passed": 0,
+      "audit_native_conversions": 0,
+      "raw_report_sha256": "70f645ac6a1af62cac3b6f6d0fde2e3b6d564865a3ceecb59a997ee2d1d445ad",
+      "execution_status": "PASS",
+      "summed_conversion_seconds": 20.103,
+      "peak_converter_rss_kib": 245920
+    },
+    {
+      "phase": "P2-21",
+      "implementation_sha": "887706640dba19aac621b13a7817e7efad6d8902",
+      "run_id": 41410023444,
+      "native_conversions": 4,
+      "native_pdf_pages": 12,
+      "unit_tests_passed": 68,
+      "browser_tests_passed": 3,
+      "audit_native_conversions": 0,
+      "raw_report_sha256": "e1fec5a7a3e4275989f9f035827ec52f71e349962d1495b9a1c2c5cc3b70f193",
+      "execution_status": "PASS",
+      "summed_conversion_seconds": 45.083,
+      "peak_converter_rss_kib": 244236
+    }
+  ],
+  "total_actual_native_conversions": 48,
+  "total_native_pdf_pages": 178,
+  "total_extra_audit_native_conversions": 0,
+  "all_execution_statuses_pass": true,
+  "summed_converter_seconds": 115.525,
+  "peak_measured_converter_rss_kib": 245920,
+  "protected_refs": {
+    "dev": "c8e0a4e306e2e519d2b9392b43fb9759fb8c5078",
+    "render": "1fe6dbe59184a759d97f9c393353a8a3d9e1f89a",
+    "main": "44d7eb950b4fe972d6e890a72b6d3256ce365bc9"
+  },
+  "product_paths_unchanged_since_block_base": "7d937d504d583ee6cc7d373df38ccd20baa2121c"
+}
