@@ -532,9 +532,9 @@ export function planCvMeasuredTwoPages(
 }
 
 /** Validate the rendered trial, rather than trusting an estimated section split. */
-export function cvTwoPageTrialFits(canvas: HTMLElement | null): boolean {
+function cvPageFitTrialFits(canvas: HTMLElement | null, maximumPages: 1 | 2): boolean {
   const pages = canvas?.querySelectorAll<HTMLElement>("[data-cv-page]");
-  if (!pages?.length || pages.length > 2) return false;
+  if (!pages?.length || pages.length > maximumPages) return false;
   for (const page of pages) {
     for (const node of page.querySelectorAll<HTMLElement>("[data-cv-main], [data-cv-sidebar]")) {
       if (node.scrollHeight > node.clientHeight + 2) return false;
@@ -542,6 +542,9 @@ export function cvTwoPageTrialFits(canvas: HTMLElement | null): boolean {
   }
   return true;
 }
+
+export const cvOnePageTrialFits = (canvas: HTMLElement | null) => cvPageFitTrialFits(canvas, 1);
+export const cvTwoPageTrialFits = (canvas: HTMLElement | null) => cvPageFitTrialFits(canvas, 2);
 
 function twoPageScale(weight: number) {
   if (weight <= 20) return 1.07;
@@ -621,6 +624,54 @@ function onePageCompactLayout(
   flush();
 
   return { widthBySection, packingBySection, effectiveWeight };
+}
+
+/** Try the fewest changed rubrics first. Existing authored layouts stay intact;
+ * the browser must still measure every candidate before any state is saved. */
+export function buildCvOnePageCompactTrials(data: CvData): CvData[] {
+  const order = cvSectionOrder(data);
+  const runs: CvLayoutSectionKey[][] = [];
+  let run: CvLayoutSectionKey[] = [];
+  const flush = () => {
+    if (run.length > 1) runs.push(run);
+    run = [];
+  };
+  for (const key of order) {
+    const weight = cvPageFitSectionWeight(data, key);
+    if (weight <= 0) continue;
+    if (cvSectionLayout(data, key).positioning === "flow" && canCompactToHalf(data, key, weight))
+      run.push(key);
+    else flush();
+  }
+  flush();
+  const groups = [
+    ...runs.flatMap((keys) => keys.slice(1).map((key, i) => [keys[i], key])),
+    ...runs,
+    runs.flat(),
+  ];
+  const seen = new Set<string>();
+  const candidates: { data: CvData; changes: number }[] = [];
+  for (const keys of groups) {
+    const sectionLayouts = { ...data.sectionLayouts };
+    let changes = 0;
+    for (const key of keys) {
+      const layout = cvSectionLayout(data, key);
+      if (layout.width === "half" && layout.packing === "masonry") continue;
+      sectionLayouts[key] = { ...layout, width: "half", packing: "masonry" };
+      changes++;
+    }
+    if (!changes) continue;
+    const signature = JSON.stringify(sectionLayouts);
+    if (seen.has(signature)) continue;
+    seen.add(signature);
+    candidates.push({ data: { ...data, sectionLayouts }, changes });
+  }
+  const full = candidates.at(-1);
+  candidates.sort((a, b) => a.changes - b.changes);
+  // Bound live layout passes even for projects with many custom rubrics.
+  const selected = candidates.slice(0, 15);
+  if (full && !selected.includes(full)) selected.push(full);
+  return selected.map((candidate) => candidate.data);
 }
 
 /**

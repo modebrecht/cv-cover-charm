@@ -58,11 +58,14 @@ async function load(
   return page.locator(documentRoots("cv").web).first();
 }
 
-async function fit(page: Page) {
+async function fit(page: Page, mode: "one" | "two" = "one") {
   await page.getByRole("button", { name: "Menü", exact: true }).click();
-  await page.locator('[data-cv-page-fit-mode-control="one"]').click();
+  const label = mode === "one" ? "Alles auf 1 Seite" : "Alles auf 2 Seiten";
+  const button = page.getByRole("button", { name: label, exact: true });
+  await expect(button).toHaveAttribute("data-cv-page-fit-mode-control", mode);
+  await button.click();
   await page.keyboard.press("Escape");
-  await expect(page.locator('[data-cv-page-fit-mode="one"]')).toHaveCount(0);
+  await expect(page.locator(`[data-cv-page-fit-mode="${mode}"]`)).toHaveCount(0);
   await expect(page.locator('[role="status"][title="Automatisch gespeichert"]')).toBeVisible();
 }
 
@@ -78,10 +81,10 @@ function withExperienceCount(count: number) {
   return data;
 }
 
-async function checkOutput(page: Page) {
+async function checkOutput(page: Page, expectedPages = 1) {
   for (const selector of [documentRoots("cv").web, documentRoots("cv").canonical]) {
     const output = await collectDocument(page, selector, "cv");
-    expect(output).toHaveLength(1);
+    expect(output).toHaveLength(expectedPages);
     expect(output.flatMap((p) => p.issues)).toEqual([]);
   }
 }
@@ -96,7 +99,7 @@ async function evidence(page: Page, name: string, before: unknown) {
   );
 }
 
-async function pdf(page: Page, name: string) {
+async function pdf(page: Page, name: string, expectedPages = 1) {
   await mkdir("artifacts/one-page-fit", { recursive: true });
   await page.getByRole("button", { name: "Download", exact: true }).click();
   const downloadPromise = page.waitForEvent("download");
@@ -108,15 +111,65 @@ async function pdf(page: Page, name: string) {
   const task = getDocument({ data: new Uint8Array(await readFile(path)), disableFontFace: true });
   const result = await task.promise;
   try {
-    expect(result.numPages).toBe(1);
-    const content = await (await result.getPage(1)).getTextContent();
-    return content.items.map((item) => ("str" in item ? item.str : "")).join(" ");
+    expect(result.numPages).toBe(expectedPages);
+    const texts = [];
+    for (let i = 1; i <= result.numPages; i++) {
+      const content = await (await result.getPage(i)).getTextContent();
+      texts.push(content.items.map((item) => ("str" in item ? item.str : "")).join(" "));
+    }
+    return texts.join(" ");
   } finally {
     await task.destroy();
   }
 }
 
 for (const layout of ["classic", "modern"]) {
+  test(`page-fit ${layout}: one and two buttons preserve content and typography through repeated switches`, async ({
+    page,
+  }) => {
+    const data = fixture();
+    await load(page, data, layout, { bodyScale: 1.04, headingScale: 1.06, titleScale: 1.08 });
+    const before = await saved(page);
+    await checkOutput(page);
+    await fit(page, "two");
+    await checkOutput(page, 2);
+    const two = await saved(page);
+    expect(two.design).toEqual(before.design);
+    expect({ ...two.data, sectionLayouts: undefined }).toEqual({
+      ...before.data,
+      sectionLayouts: undefined,
+    });
+    const markers = [data.person.nachname, data.erfahrung[0].titel, "Französisch"];
+    const twoText = await pdf(page, `switch-${layout}-two`, 2);
+    for (const marker of markers) expect(twoText).toContain(marker);
+    await fit(page);
+    await checkOutput(page);
+    const one = await saved(page);
+    expect(one.design).toEqual(before.design);
+    expect({ ...one.data, sectionLayouts: undefined }).toEqual({
+      ...before.data,
+      sectionLayouts: undefined,
+    });
+    for (const key of cvSectionOrder(data)) {
+      expect(one.data.sectionLayouts[key].page).toBe(1);
+      expect(one.data.sectionLayouts[key].width).toBe("full");
+      expect(one.data.sectionLayouts[key].packing).toBe("rows");
+    }
+    await fit(page);
+    expect(await saved(page)).toEqual(one);
+    await fit(page, "two");
+    expect(await saved(page)).toEqual(two);
+    await fit(page);
+    expect(await saved(page)).toEqual(one);
+    await page.reload();
+    await waitEditorReady(page);
+    await expect.poll(() => saved(page)).toEqual(one);
+    await checkOutput(page);
+    const oneText = await pdf(page, `switch-${layout}-one`);
+    for (const marker of markers) expect(oneText).toContain(marker);
+    await evidence(page, `switch-${layout}`, before);
+  });
+
   test(`one-page ${layout}: already fitting preserves design and layout exactly`, async ({
     page,
   }) => {
@@ -137,6 +190,55 @@ for (const layout of ["classic", "modern"]) {
     expect(await saved(page)).toEqual(before);
   });
 }
+
+test("one-page classic: a small overflow compacts only one pair instead of every short rubric", async ({
+  page,
+}) => {
+  const data = withExperienceCount(6);
+  const calibration: { scale: number; pages: number }[] = [];
+  const count = async (scale: number) => {
+    const root = await load(page, data, "classic", { bodyScale: scale / 100 });
+    const pages = await root.locator("[data-cv-page]").count();
+    calibration.push({ scale, pages });
+    return pages;
+  };
+  let low = 80,
+    high = 100;
+  expect(await count(low)).toBe(1);
+  expect(await count(high)).toBeGreaterThan(1);
+  while (low < high) {
+    const middle = Math.floor((low + high) / 2);
+    if ((await count(middle)) > 1) high = middle;
+    else low = middle + 1;
+  }
+  await count(low);
+  const before = await saved(page);
+  await fit(page);
+  await checkOutput(page);
+  const after = await saved(page);
+  expect(after.design).toEqual(before.design);
+  const compact = ["sprachen", "hobbys", "staerken"].filter(
+    (key) => after.data.sectionLayouts[key]?.packing === "masonry",
+  );
+  expect(compact).toHaveLength(2);
+  expect({ ...after.data, sectionLayouts: undefined }).toEqual({
+    ...before.data,
+    sectionLayouts: undefined,
+  });
+  await fit(page);
+  expect(await saved(page)).toEqual(after);
+  await page.reload();
+  await waitEditorReady(page);
+  await expect.poll(() => saved(page)).toEqual(after);
+  await checkOutput(page);
+  const text = await pdf(page, "minimal-pair-classic");
+  for (let i = 1; i <= 6; i++) expect(text).toContain(`Praxiserfahrung ${i}`);
+  await evidence(page, "minimal-pair-classic", before);
+  await writeFile(
+    "artifacts/one-page-fit/minimal-pair-calibration.json",
+    JSON.stringify(calibration, null, 2),
+  );
+});
 
 test("one-page Sidebar: removes page assignments without changing typography or width", async ({
   page,

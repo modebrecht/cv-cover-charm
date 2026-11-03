@@ -1,10 +1,11 @@
 import { useEffect, useState, type RefObject } from "react";
 import {
-  buildCvPageFitPlan,
+  buildCvOnePageCompactTrials,
   consumeCvPageFitMode,
   getCvPageFitMode,
   getCvPageFitRevision,
   measureCvOnePageDemand,
+  cvOnePageTrialFits,
   type CvPageFitMode,
 } from "./page-fit";
 import {
@@ -31,6 +32,7 @@ type Attempt = {
   compact: boolean;
   reduction: number;
   unpacked?: { data: CvData; demand: number };
+  compactTrials?: CvData[];
 };
 
 /** Trial layouts stay local. Only the first measured fit is saved to the CV. */
@@ -106,12 +108,22 @@ export function useMeasuredOnePageFit({
         );
         return;
       }
-      // Narrower columns can wrap more text. Keep them only if they save real space.
-      if (active.reduction === 0 && active.unpacked && demand >= active.unpacked.demand) {
-        setAttempt({ ...active, data: active.unpacked.data, unpacked: undefined });
+      const fits = demand <= 1 && cvOnePageTrialFits(scope.current);
+      // Try smaller groups first, retaining the least demanding failed trial
+      // for the later font search. A narrower column can also make wrapping worse.
+      if (active.reduction === 0 && active.unpacked && !fits) {
+        const best =
+          demand < active.unpacked.demand ? { data: active.data, demand } : active.unpacked;
+        const [next, ...remaining] = active.compactTrials ?? [];
+        setAttempt({
+          ...active,
+          data: next ?? best.data,
+          compactTrials: next ? remaining : undefined,
+          unpacked: next ? best : undefined,
+        });
         return;
       }
-      if (demand <= 1) {
+      if (fits) {
         const layoutChanged = cvSectionOrder(data).some(
           (key) =>
             JSON.stringify(cvSectionLayout(data, key)) !==
@@ -134,18 +146,13 @@ export function useMeasuredOnePageFit({
       }
       // First reclaim space with safe short rubrics, keeping the user's fonts.
       if (!active.compact && classic) {
-        const plan = buildCvPageFitPlan(active.data, "one", { allowHalfWidth: true });
-        const sectionLayouts = { ...active.data.sectionLayouts };
-        for (const key of cvSectionOrder(active.data)) {
-          const layout = cvSectionLayout(active.data, key);
-          if (layout.positioning === "flow" && plan.packingBySection[key] === "masonry")
-            sectionLayouts[key] = { ...layout, width: "half", packing: "masonry" };
-        }
+        const [next, ...remaining] = buildCvOnePageCompactTrials(active.data);
         setAttempt({
           ...active,
-          data: { ...active.data, sectionLayouts },
+          data: next ?? active.data,
           compact: true,
-          unpacked: { data: active.data, demand },
+          compactTrials: remaining,
+          unpacked: next ? { data: active.data, demand } : undefined,
         });
         return;
       }
