@@ -1,0 +1,525 @@
+{
+  "verified_at": "2026-11-03T07:11:40.715912+01:00",
+  "implementation_commit": "0f8628710682c646520a132fcf0391bf474f75b3",
+  "verified_commit": "f5771fcd27135e8ec09b7318979cacddcbe7f420",
+  "issue_scope": "Targeted oversized-rubric continuation fix; issue #205 remains broader.",
+  "local_checks": {
+    "units": {
+      "passed": 1502,
+      "failed": 0,
+      "files": 284,
+      "assertions": 27454
+    },
+    "application_typescript": "pass",
+    "qa_typescript": "pass",
+    "changed_file_eslint": "pass",
+    "changed_file_prettier": "pass",
+    "diff_check": "pass"
+  },
+  "page_fit_ci": {
+    "run_id": 41586317402,
+    "job_id": 125752531834,
+    "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/41586317402",
+    "conclusion": "success",
+    "artifact_id": 13208157487,
+    "artifact_sha256": "77b34158329274f925f09ba96ab63372fd4e49bfdc08d0904808e7b76426357a",
+    "reports": [
+      {
+        "path": "one-page-fit/results.json",
+        "sha256": "1ae2bf0bab6ab189835f95a663cc72eab42e6f129eb3e075ee5547a4fc96a72c",
+        "stats": {
+          "startTime": "2026-11-03T05:54:34.397Z",
+          "duration": 50769.717,
+          "expected": 10,
+          "skipped": 0,
+          "unexpected": 0,
+          "flaky": 0
+        },
+        "cases": [
+          {
+            "title": "one-page classic: already fitting preserves design and layout exactly",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 7184
+          },
+          {
+            "title": "one-page modern: already fitting preserves design and layout exactly",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 3179
+          },
+          {
+            "title": "one-page Sidebar: removes page assignments without changing typography or width",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 2580
+          },
+          {
+            "title": "one-page classic: packs only when necessary and keeps the original font sizes",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 6311
+          },
+          {
+            "title": "one-page Sidebar: a small measured overflow only needs a small reduction",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 6189
+          },
+          {
+            "title": "one-page classic: preserves existing half-width layout when it already fits",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 2057
+          },
+          {
+            "title": "one-page: impossible fit discards trials and repeated clicks cannot keep shrinking",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 6250
+          },
+          {
+            "title": "one-page: preserves free sections on page two without shrinking the remaining CV",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 1855
+          },
+          {
+            "title": "one-page mobile mirrored Sidebar: measures in document coordinates and stays idempotent",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 2934
+          },
+          {
+            "title": "one-page imported dossier: native DOCX keeps all fields and the original photo",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 4613
+          }
+        ]
+      },
+      {
+        "path": "smart-fit-29okt/results.json",
+        "sha256": "5f23cf758e59fa9f943e787c36edb80759895fc466b0ffa8b8d2264a7613b02b",
+        "stats": {
+          "startTime": "2026-11-03T05:53:01.630Z",
+          "duration": 91797.193,
+          "expected": 22,
+          "skipped": 0,
+          "unexpected": 0,
+          "flaky": 0
+        },
+        "cases": [
+          {
+            "title": "smart fit left desktop: short split Sidebar returns to one page and survives reload",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 9838
+          },
+          {
+            "title": "smart fit left mobile: short split Sidebar returns to one page and survives reload",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 4185
+          },
+          {
+            "title": "smart fit left: a long Sidebar is not consolidated onto one page",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 2959
+          },
+          {
+            "title": "smart fit left: long main text still uses two pages",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 2865
+          },
+          {
+            "title": "smart fit left: imported dossier still exports a native CV DOCX after fitting",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 4721
+          },
+          {
+            "title": "smart fit right desktop: short split Sidebar returns to one page and survives reload",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 5696
+          },
+          {
+            "title": "smart fit right mobile: short split Sidebar returns to one page and survives reload",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 4168
+          },
+          {
+            "title": "smart fit right: a long Sidebar is not consolidated onto one page",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 2947
+          },
+          {
+            "title": "smart fit right: long main text still uses two pages",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 2460
+          },
+          {
+            "title": "smart fit right: imported dossier still exports a native CV DOCX after fitting",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 4206
+          },
+          {
+            "title": "smart fit measures a custom Sidebar rubric even when it starts on page two",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 2284
+          },
+          {
+            "title": "smart fit measures Sidebar rubrics at the full widths its resulting layout will use",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 2863
+          },
+          {
+            "title": "smart fit respects reduced first-page capacity from saved page margins",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 2789
+          },
+          {
+            "title": "smart fit includes the automatic portrait in Sidebar capacity and preserves its bytes",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 2279
+          },
+          {
+            "title": "smart fit keeps an explicitly positioned second-page rubric and its coordinates",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 2712
+          },
+          {
+            "title": "smart fit still consolidates a short standard CV without changing content or typography",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 2263
+          },
+          {
+            "title": "smart fit compact classic rows desktop: complete flow returns to one page without repacking",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 5688
+          },
+          {
+            "title": "smart fit compact classic rows mobile: complete flow returns to one page without repacking",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 4164
+          },
+          {
+            "title": "smart fit compact classic masonry desktop: complete flow returns to one page without repacking",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 5574
+          },
+          {
+            "title": "smart fit compact classic masonry mobile: complete flow returns to one page without repacking",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 4186
+          },
+          {
+            "title": "smart fit long compact classic content stays on two pages without shrinking",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 2493
+          },
+          {
+            "title": "smart fit compact classic keeps a freely placed second-page reference",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 2554
+          }
+        ]
+      },
+      {
+        "path": "two-page-fit/results.json",
+        "sha256": "7cc35b80e692fa8252136d46f18a36266a87750a64e990aa31c353c5a1f1c6de",
+        "stats": {
+          "startTime": "2026-11-03T05:51:53.208Z",
+          "duration": 67458.844,
+          "expected": 11,
+          "skipped": 0,
+          "unexpected": 0,
+          "flaky": 0
+        },
+        "cases": [
+          {
+            "title": "two-page: prior Masonry must not change the resulting full-width split",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 8660
+          },
+          {
+            "title": "two-page classic: an oversized experience rubric reuses page one and continues on page two",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 6671
+          },
+          {
+            "title": "two-page modern: an oversized experience rubric reuses page one and continues on page two",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 6155
+          },
+          {
+            "title": "two-page classic: preserves custom typography and source order, repeats and exports PDF",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 6701
+          },
+          {
+            "title": "two-page modern: preserves custom typography and source order, repeats and exports PDF",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 5938
+          },
+          {
+            "title": "two-page long Sidebar desktop left: balances separately with automatic photo",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 4445
+          },
+          {
+            "title": "two-page long Sidebar mobile right: balances separately with automatic photo",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 4428
+          },
+          {
+            "title": "two-page: custom continuation top and section spacing are measured and preserved",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 4487
+          },
+          {
+            "title": "two-page: an impossible fit retains the source instead of clipping or shrinking",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 2467
+          },
+          {
+            "title": "two-page: protects a free second-page rubric and its coordinates",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 2737
+          },
+          {
+            "title": "two-page: native DOCX retains its explicit-page guard and explains the PDF alternative",
+            "status": "passed",
+            "retry": 0,
+            "duration_ms": 4866
+          }
+        ]
+      }
+    ]
+  },
+  "actual_editor_pdf_downloads": [
+    {
+      "path": "two-page-fit/continued-classic.pdf",
+      "sha256": "77fb4d7e6c221a8eb7f7363c34456564c75e0a023b79e1f87280cb94e07eb671",
+      "pages": 2,
+      "source_pages": 3,
+      "measured_source_rubric_px": 1355.953125,
+      "measured_source_person_px": 150.78125,
+      "markers_found": 20,
+      "markers_expected": 20,
+      "source_content_preserved": true,
+      "design_preserved": true,
+      "final_rubric_start_page": 1,
+      "web_and_canonical_geometry": "zero issues required by passing browser case",
+      "repeat_and_reload": "exact saved state equality required by passing browser case",
+      "visual_review": "Both PDF pages rendered and inspected; no clipping, missing entries, overlapping text or orphan heading.",
+      "entry_titles_by_page": [
+        ["Praxis01", "Praxis02", "Praxis03", "Praxis04", "Praxis05", "Praxis06"],
+        ["Praxis07", "Praxis08", "Praxis09", "Praxis10"]
+      ]
+    },
+    {
+      "path": "two-page-fit/continued-modern.pdf",
+      "sha256": "2748d57cab2bd32b040962ed3d4c12e675b3f0d3eb20711e45ce0d78eaa403d1",
+      "pages": 2,
+      "source_pages": 3,
+      "measured_source_rubric_px": 1730.140625,
+      "measured_source_person_px": 91.53125,
+      "markers_found": 20,
+      "markers_expected": 20,
+      "source_content_preserved": true,
+      "design_preserved": true,
+      "final_rubric_start_page": 1,
+      "web_and_canonical_geometry": "zero issues required by passing browser case",
+      "repeat_and_reload": "exact saved state equality required by passing browser case",
+      "visual_review": "Both PDF pages rendered and inspected; no clipping, missing entries, overlapping text or orphan heading.",
+      "entry_titles_by_page": [
+        ["Praxis01", "Praxis02", "Praxis03", "Praxis04", "Praxis05"],
+        ["Praxis06", "Praxis07", "Praxis08", "Praxis09", "Praxis10"]
+      ]
+    }
+  ],
+  "initial_fixture_calibration": {
+    "run_id": 41585968094,
+    "artifact_id": 13207404688,
+    "artifact_sha256": "0be26577a8076b306e1c672b5afeb159580e51072b728743f221e5bacee641fb",
+    "existing_two_page_cases_passed": 9,
+    "new_cases_failed": 2,
+    "cause": "Seven repeated sentences per entry made the synthetic source exceed two-page capacity. Only fixture length changed, to four repetitions; product source and rendered-trial guard stayed unchanged."
+  },
+  "scope": {
+    "branch": "dev",
+    "main": "44d7eb950b4fe972d6e890a72b6d3256ce365bc9",
+    "render": "1fe6dbe59184a759d97f9c393353a8a3d9e1f89a",
+    "historical_branches": "unchanged",
+    "dependencies_and_lockfile": "unchanged",
+    "workflow_configuration": "unchanged",
+    "native_word_explicit_page_guard": "unchanged"
+  },
+  "ci_fast_checks": {
+    "run_id": 41586317403,
+    "job_id": 125753033079,
+    "conclusion": "success",
+    "full_production_build": "pass; client, SSR and server phases completed",
+    "units_passed": 1502,
+    "units_failed": 0,
+    "assertions": 27454
+  },
+  "verified_workflow_runs": [
+    {
+      "id": 41586317403,
+      "name": "Dossier Regression",
+      "head_sha": "f5771fcd27135e8ec09b7318979cacddcbe7f420",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/41586317403"
+    },
+    {
+      "id": 41586317402,
+      "name": "CV measured page fit",
+      "head_sha": "f5771fcd27135e8ec09b7318979cacddcbe7f420",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/41586317402"
+    },
+    {
+      "id": 41586317415,
+      "name": "Dossier Visual Parity",
+      "head_sha": "f5771fcd27135e8ec09b7318979cacddcbe7f420",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/41586317415"
+    },
+    {
+      "id": 41586316725,
+      "name": "pages build and deployment",
+      "head_sha": "f5771fcd27135e8ec09b7318979cacddcbe7f420",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/41586316725"
+    },
+    {
+      "id": 41585968137,
+      "name": "Template Contact Integrity",
+      "head_sha": "0f8628710682c646520a132fcf0391bf474f75b3",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/41585968137"
+    }
+  ],
+  "general_regression_jobs": [
+    {
+      "id": 125753033079,
+      "name": "fast-checks",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 125753359441,
+      "name": "Browser smoke - dossier-flow",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 125753359469,
+      "name": "Browser smoke - cv-pdf-dom",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 125753359470,
+      "name": "Browser smoke - letter-m1-m5",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 125753359478,
+      "name": "Browser smoke - m9-responsive",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 125753359494,
+      "name": "Browser smoke - cv-pdf-parity",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 125753359501,
+      "name": "Browser smoke - letter-m8-edge",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 125753359502,
+      "name": "Browser smoke - templates-layout",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 125753359515,
+      "name": "Browser smoke - cv-pdf-paint",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 125753359521,
+      "name": "Browser smoke - cv-m9-pagination",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 125753359523,
+      "name": "Browser smoke - cv-pdf-core",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 125753359526,
+      "name": "Browser smoke - fresh-dossier-templates",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 125753360424,
+      "name": "native-print-benchmark",
+      "status": "completed",
+      "conclusion": "skipped"
+    },
+    {
+      "id": 125758386608,
+      "name": "publish-regression-status",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ]
+}
