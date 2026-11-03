@@ -424,7 +424,61 @@ test("corrupt CV rubric layouts are rejected before confirmation and preserve th
   ).toBe(false);
 });
 
-test("confirmed project settings survive reload, a real JSON download and reimport", async ({
+test("corrupt typography and letter image geometry are rejected without touching the previous draft", async ({
+  page,
+}) => {
+  await boot(page);
+  await seed(page);
+  const before = await page.evaluate(() => ({ ...localStorage }));
+  const dialogs: { type: string; message: string }[] = [];
+  page.on("dialog", async (dialog) => {
+    dialogs.push({ type: dialog.type(), message: dialog.message() });
+    await dialog.dismiss();
+  });
+  const files = [
+    { ...project, cv: { ...project.cv, design: { bodyScale: "broken" } } },
+    { ...project, cv: { ...project.cv, data: { person: { nameStyle: { bold: "false" } } } } },
+    { ...project, letter: { ...project.letter, design: { subjectTypography: [] } } },
+    { ...project, letter: { ...project.letter, design: { bodyFontSizePt: "broken" } } },
+    {
+      ...project,
+      letter: { ...project.letter, data: { images: [{ src: photo, widthMm: "broken" }] } },
+    },
+    {
+      ...project,
+      letter: {
+        ...project.letter,
+        data: { images: [{ src: photo, placement: "free", xMm: "31" }] },
+      },
+    },
+    {
+      ...project,
+      letter: { ...project.letter, data: { images: [{ src: photo, placement: "absolute" }] } },
+    },
+    { ...project, letter: { ...project.letter, data: { unterschriftAbstandMm: false } } },
+  ];
+  for (const [index, value] of files.entries()) {
+    await page.locator('input[type="file"][accept*="json"]').setInputFiles({
+      name: `corrupt-appearance-${index}.json`,
+      mimeType: "application/json",
+      buffer: Buffer.from(JSON.stringify(value)),
+    });
+    await expect.poll(() => dialogs.length).toBe(index + 1);
+    expect(dialogs[index].type).toBe("alert");
+    expect(dialogs[index].message).toContain("Dossier");
+    expect(await page.evaluate(() => ({ ...localStorage }))).toEqual(before);
+  }
+  expect(
+    await page.evaluate(() => localStorage.getItem("cv-cover-charm:import-journal:v1")),
+  ).toBeNull();
+  expect(
+    await page.evaluate(async () =>
+      (await indexedDB.databases()).some((db) => db.name === "cv-cover-charm-import-backup-v1"),
+    ),
+  ).toBe(false);
+});
+
+test("confirmed project settings survive reload, both editors, a real JSON download and reimport", async ({
   page,
 }) => {
   await boot(page);
@@ -473,6 +527,17 @@ test("confirmed project settings survive reload, a real JSON download and reimpo
       ...project.cv,
       data: {
         ...project.cv.data,
+        person: {
+          ...project.cv.data.person,
+          nameStyle: {
+            font: "serif",
+            fontSizePt: 27,
+            color: "#123456",
+            bold: false,
+            italic: true,
+            underline: false,
+          },
+        },
         erfahrung: [
           {
             id: "layout-entry",
@@ -485,10 +550,71 @@ test("confirmed project settings survive reload, a real JSON download and reimpo
         sprachen: [{ id: "layout-language", name: "Deutsch", niveau: "Muttersprache" }],
         sectionLayouts,
       },
+      design: {
+        ...project.cv.design,
+        titleScale: 1.05,
+        headingScale: 0.95,
+        bodyScale: 1,
+        docTitleFontSizePx: 25,
+        docTitleBold: false,
+        sectionTitleFontSizePx: 15,
+        sectionTitleItalic: true,
+      },
       portableState: {
         ...project.cv.portableState,
         photoStyle: { shape: "portrait", zoom: 1.6, x: 30, y: 70, borderWidth: 0.6 },
         photoPlacement: { mode: "frei", xMm: 150, yMm: 20, widthMm: 32, frameColor: "#123456" },
+      },
+    },
+    letter: {
+      ...project.letter,
+      data: {
+        ...project.letter.data,
+        grussAbstandMm: 6.5,
+        unterschriftAbstandMm: 12,
+        images: [
+          {
+            id: "photo",
+            src: photo,
+            side: "left",
+            placement: "free",
+            xMm: 31.5,
+            topMm: 8,
+            widthMm: 37,
+            gapMm: 3,
+          },
+          {
+            id: "legacy-photo",
+            src: photo,
+            side: "left",
+            xMm: 120,
+            topMm: "12",
+            widthMm: "34",
+            gapMm: "4",
+          },
+        ],
+      },
+      design: {
+        ...project.letter.design,
+        headerInlineSeparator: "pipe",
+        senderTypography: {
+          font: "serif",
+          fontSizePt: 12.5,
+          color: "#123456",
+          bold: false,
+          italic: true,
+          underline: false,
+        },
+        recipientTypography: { font: "sans", fontSizePt: 11, bold: true },
+        subjectTypography: { font: "humanist", fontSizePt: 14, color: "#654321", underline: true },
+        bodyFont: "sans",
+        bodyFontSizePt: 11.5,
+        dateFont: "serif",
+        dateFontSizePt: 10,
+        closingFontSizePt: 11,
+        signatureFontSizePt: 12,
+        attachmentsFontSizePt: 9.5,
+        continuationTopMarginMm: null,
       },
     },
   };
@@ -500,6 +626,46 @@ test("confirmed project settings survive reload, a real JSON download and reimpo
   });
   await firstReload;
   await expect(page.getByRole("button", { name: "Dossier laden", exact: true })).toBeVisible();
+  await page.goto(`${BASE}/anschreiben`);
+  await expect(page.getByRole("button", { name: "Download", exact: true })).toHaveAttribute(
+    "data-editor-ready",
+    "true",
+  );
+  await expect(page.locator('[data-letter-flow-image="photo"]').first()).toHaveAttribute(
+    "data-letter-image-placement",
+    "free",
+  );
+  await expect(page.locator('[data-letter-flow-image="photo"]').first()).toHaveAttribute(
+    "data-x-mm",
+    "31.5",
+  );
+  await expect(page.locator('[data-letter-flow-image="legacy-photo"]').first()).toHaveAttribute(
+    "data-letter-image-placement",
+    "left",
+  );
+  await expect(page.locator('[data-letter-flow-image="legacy-photo"]').first()).toHaveAttribute(
+    "data-x-mm",
+    "0",
+  );
+  // This default is absent from the imported file, so it proves the editor's
+  // debounced normalization/save ran before the reload (rather than just reading the input).
+  await expect
+    .poll(async () =>
+      page.evaluate(() => JSON.parse(localStorage.getItem("anschreiben:v1")!).design.bgOpacity),
+    )
+    .toBe(0.25);
+  await expect
+    .poll(async () =>
+      page.evaluate(
+        () => JSON.parse(localStorage.getItem("anschreiben:v1")!).design.senderTypography,
+      ),
+    )
+    .toEqual(value.letter.design.senderTypography);
+  await page.reload();
+  await expect(page.getByRole("button", { name: "Download", exact: true })).toHaveAttribute(
+    "data-editor-ready",
+    "true",
+  );
   await page.goto(`${BASE}/lebenslauf`);
   const button = page.getByRole("button", { name: "Download", exact: true });
   await expect(button).toHaveAttribute("data-editor-ready", "true");
@@ -517,6 +683,12 @@ test("confirmed project settings survive reload, a real JSON download and reimpo
   expect(exported.cv.data.sectionLayouts).toEqual(sectionLayouts);
   expect(exported.cv.data.erfahrung).toEqual(value.cv.data.erfahrung);
   expect(exported.cv.data.sprachen).toEqual(value.cv.data.sprachen);
+  expect(exported.cv.data.person.nameStyle).toEqual(value.cv.data.person.nameStyle);
+  expect(exported.cv.design).toMatchObject(value.cv.design);
+  expect(exported.letter.design).toMatchObject(value.letter.design);
+  expect(exported.letter.data.images).toEqual(value.letter.data.images);
+  expect(exported.letter.data.grussAbstandMm).toBe(6.5);
+  expect(exported.letter.data.unterschriftAbstandMm).toBe(12);
   expect(exported.cover.data.foto).toBe(photo);
   expect(exported.cv.data.person.foto).toBe(photo);
   expect(exported.letter.data.images[0].src).toBe(photo);
@@ -551,6 +723,12 @@ test("confirmed project settings survive reload, a real JSON download and reimpo
   expect(JSON.parse(stored["lebenslauf:v1"]).data.erfahrung).toEqual(value.cv.data.erfahrung);
   expect(JSON.parse(stored["lebenslauf:v1"]).data.sprachen).toEqual(value.cv.data.sprachen);
   expect(JSON.parse(stored["anschreiben:v1"]).data.images[0].src).toBe(photo);
+  expect(JSON.parse(stored["lebenslauf:v1"]).data.person.nameStyle).toEqual(
+    value.cv.data.person.nameStyle,
+  );
+  expect(JSON.parse(stored["lebenslauf:v1"]).design).toMatchObject(value.cv.design);
+  expect(JSON.parse(stored["anschreiben:v1"]).design).toMatchObject(value.letter.design);
+  expect(JSON.parse(stored["anschreiben:v1"]).data.images).toEqual(value.letter.data.images);
   expect(stored["unrelated-app"]).toBe("must survive");
 });
 

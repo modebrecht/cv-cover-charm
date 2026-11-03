@@ -1,3 +1,5 @@
+import { FONT_LABELS } from "@/components/cover/types";
+
 const record = (value: unknown): value is Record<string, unknown> =>
   !!value && typeof value === "object" && !Array.isArray(value);
 const optional = (value: unknown, accepts: (value: unknown) => boolean) =>
@@ -184,6 +186,134 @@ function portableCvSettings(value: unknown): boolean {
   );
 }
 
+const fontChoice = choice(...Object.keys(FONT_LABELS));
+const roleColor = (value: unknown) =>
+  text(value) && /^#[\da-f]{6}$/i.test((value as string).trim());
+
+function roleTypography(value: unknown): boolean {
+  return (
+    record(value) &&
+    optional(value.font, fontChoice) &&
+    optional(value.fontSizePt, finiteNumber) &&
+    optional(value.color, roleColor) &&
+    fields(value, ["bold", "italic", "underline"], bool)
+  );
+}
+
+function cvAppearance(value: Record<string, unknown>): boolean {
+  return (
+    optional(
+      value.design,
+      (design) =>
+        record(design) &&
+        fields(
+          design,
+          [
+            "titleScale",
+            "headingScale",
+            "bodyScale",
+            "bgOpacity",
+            "sidebarPct",
+            "docTitleFontSizePx",
+            "docTitleMarginBottomPx",
+            "sectionTitleFontSizePx",
+            "sectionTitleMarginBottomPx",
+            "sectionTitleOffsetMm",
+            "sectionContentIndentMm",
+            "citrusRubricOffsetMm",
+            "citrusContentIndentMm",
+          ],
+          finiteNumber,
+        ) &&
+        fields(
+          design,
+          [
+            "useElements",
+            "personalInfoColons",
+            "personalInfoAligned",
+            "showDocumentTitle",
+            "docTitleBold",
+            "docTitleItalic",
+            "docTitleUnderline",
+            "sectionTitleBold",
+            "sectionTitleItalic",
+            "sectionTitleUnderline",
+            "sectionTitlePill",
+            "citrusRubricPill",
+          ],
+          bool,
+        ) &&
+        optional(design.headingRule, choice("none", "short", "full")) &&
+        fields(design, ["docTitleColor", "sectionTitleColor"]) &&
+        optional(design.paperColor, nullable(text)),
+    ) &&
+    (!record(value.data) ||
+      !record(value.data.person) ||
+      optional(value.data.person.nameStyle, nullable(roleTypography)))
+  );
+}
+
+function letterAppearance(value: Record<string, unknown>): boolean {
+  return (
+    optional(
+      value.design,
+      (design) =>
+        record(design) &&
+        fields(
+          design,
+          ["senderTypography", "recipientTypography", "subjectTypography"],
+          nullable(roleTypography),
+        ) &&
+        fields(
+          design,
+          [
+            "dateFont",
+            "salutationFont",
+            "bodyFont",
+            "closingFont",
+            "signatureFont",
+            "attachmentsFont",
+          ],
+          fontChoice,
+        ) &&
+        fields(
+          design,
+          [
+            "dateFontSizePt",
+            "salutationFontSizePt",
+            "bodyFontSizePt",
+            "closingFontSizePt",
+            "signatureFontSizePt",
+            "attachmentsFontSizePt",
+            "bgOpacity",
+          ],
+          finiteNumber,
+        ) &&
+        optional(design.fontOverride, nullable(fontChoice)) &&
+        fields(design, ["paperColor", "textColor"], nullable(text)) &&
+        optional(design.continuationTopMarginMm, nullable(finiteNumber)) &&
+        fields(design, ["senderAlign", "recipientAlign", "dateAlign"], choice("left", "right")) &&
+        fields(design, ["ruleAfterSender", "ruleAfterRecipient", "ruleAfterSubject"], bool),
+    ) &&
+    (!record(value.data) ||
+      (fields(value.data, ["grussAbstandMm", "unterschriftAbstandMm"], finiteNumber) &&
+        optional(value.data.showBeilagen, bool) &&
+        optional(
+          value.data.images,
+          (images) =>
+            records(images) &&
+            (images as Record<string, unknown>[]).every(
+              (image) =>
+                optional(image.side, choice("left", "right")) &&
+                optional(image.placement, choice("left", "right", "free")) &&
+                // These three historic dimensions use Number(); free x is strictly numeric.
+                fields(image, ["widthMm", "topMm", "gapMm"], numericInput) &&
+                optional(image.xMm, finiteNumber),
+            ),
+        )))
+  );
+}
+
 /** File imports must reject corrupt supplied settings before normalization can
  * discard them and a full replacement clears the existing choices. Missing
  * legacy extensions and unknown additive fields remain supported. Browser
@@ -212,7 +342,9 @@ export function validDossierProjectSettings(value: Record<string, unknown>): boo
       (state) =>
         record(state) && versionOne(state) && fields(state, ["cv", "letter"], typographyBucket),
     ) &&
-    (!record(value.cv) || optional(value.cv.portableState, portableCvSettings))
+    (!record(value.cv) ||
+      (optional(value.cv.portableState, portableCvSettings) && cvAppearance(value.cv))) &&
+    (!record(value.letter) || letterAppearance(value.letter))
   );
 }
 
