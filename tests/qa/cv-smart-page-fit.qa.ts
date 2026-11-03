@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-import { DEMO_CV, cvSectionOrder, type CvData } from "../../src/components/cv/types";
+import { DEMO_CV, cvSectionOrder, type CvData, type CvDesign } from "../../src/components/cv/types";
 import { BASE_URL, waitEditorReady } from "../e2e/support/dossier-gallery-shared";
 import { collectDocument, documentRoots } from "./pagination-browser";
 import { readFile, mkdir, writeFile } from "node:fs/promises";
@@ -25,17 +25,24 @@ async function load(
   layout = "modern",
   side = "left",
   extraStorage: Record<string, string> = {},
+  design: Partial<CvDesign> = {},
 ) {
   await page.goto(`${BASE_URL}/fonts/Cabin-OFL.txt`);
   await page.evaluate(
-    ({ data, layout, side, extraStorage }) => {
+    ({ data, layout, side, extraStorage, design }) => {
       localStorage.clear();
       localStorage.setItem(
         "lebenslauf:v1",
         JSON.stringify({
           version: 2,
           data,
-          design: { template: "modern", colors: {}, bgOpacity: 0.06, useElements: false },
+          design: {
+            template: "modern",
+            colors: {},
+            bgOpacity: 0.06,
+            useElements: false,
+            ...design,
+          },
           elements: [],
         }),
       );
@@ -47,7 +54,7 @@ async function load(
       );
       for (const [key, value] of Object.entries(extraStorage)) localStorage.setItem(key, value);
     },
-    { data, layout, side, extraStorage },
+    { data, layout, side, extraStorage, design },
   );
   await page.goto(`${BASE_URL}/lebenslauf`);
   await waitEditorReady(page);
@@ -71,6 +78,116 @@ async function autoFit(page: Page) {
 async function saved(page: Page) {
   return page.evaluate(() => JSON.parse(localStorage.getItem("lebenslauf:v1")!));
 }
+
+function denseFixture(count: number) {
+  const data = splitFixture();
+  data.schule = data.schule.slice(0, 1);
+  data.erfahrung = Array.from({ length: count }, (_, index) => ({
+    ...data.erfahrung[0],
+    id: `retained-experience-${index}`,
+    titel: `Praxiserfahrung ${index + 1}`,
+    beschreibung:
+      "Zusammenarbeit und selbstständige Planung und Dokumentation von Aufgaben. ".repeat(2),
+  }));
+  for (const layout of Object.values(data.sectionLayouts!)) layout!.page = 1;
+  return data;
+}
+
+async function unchangedOnePage(
+  page: Page,
+  before: Awaited<ReturnType<typeof saved>>,
+  name: string,
+) {
+  await autoFit(page);
+  await expect.poll(() => saved(page)).toEqual(before);
+  await autoFit(page);
+  expect(await saved(page)).toEqual(before);
+  await page.reload();
+  await waitEditorReady(page);
+  await page.evaluate(() => document.fonts.ready);
+  await expect.poll(() => saved(page)).toEqual(before);
+  for (const selector of [documentRoots("cv").web, documentRoots("cv").canonical]) {
+    const output = await collectDocument(page, selector, "cv");
+    expect(output).toHaveLength(1);
+    expect(output.flatMap((p) => p.issues)).toEqual([]);
+    for (const entry of before.data.erfahrung) expect(output[0].text).toContain(entry.titel);
+  }
+  await page.getByRole("button", { name: "Download", exact: true }).click();
+  const downloading = page.waitForEvent("download");
+  await page.getByRole("menuitem", { name: "PDF", exact: true }).click();
+  const directory = "artifacts/smart-fit-29okt";
+  await mkdir(directory, { recursive: true });
+  const path = resolve(`${directory}/${name}.pdf`);
+  await (await downloading).saveAs(path);
+  const { getDocument } = await import("pdfjs-dist/legacy/build/pdf.mjs");
+  const task = getDocument({ data: new Uint8Array(await readFile(path)), disableFontFace: true });
+  const pdf = await task.promise;
+  try {
+    expect(pdf.numPages).toBe(1);
+    const content = await (await pdf.getPage(1)).getTextContent();
+    const text = content.items.map((item) => ("str" in item ? item.str : "")).join(" ");
+    for (const entry of before.data.erfahrung) expect(text).toContain(entry.titel);
+    expect(text).toContain("Herr Thomas Weber");
+  } finally {
+    await task.destroy();
+  }
+  await writeFile(
+    `${directory}/${name}.json`,
+    JSON.stringify({ before, after: await saved(page) }, null, 2),
+  );
+}
+
+for (const layout of ["classic", "modern"]) {
+  test(`smart fit ${layout}: a verified almost-full single page stays exactly unchanged`, async ({
+    page,
+  }) => {
+    if (layout === "modern") await page.setViewportSize({ width: 390, height: 844 });
+    const data = denseFixture(layout === "classic" ? 6 : 7);
+    const root = await load(
+      page,
+      data,
+      layout,
+      "right",
+      {},
+      {
+        bodyScale: layout === "classic" ? 0.92 : 0.99,
+      },
+    );
+    await expect(root.locator("[data-cv-page]")).toHaveCount(1);
+    const demand = await root.evaluate(async (root) => {
+      const path = "/src/components/cv/page-fit.ts";
+      return (await import(path)).measureCvOnePageDemand(root.parentElement);
+    });
+    expect(demand).toBeGreaterThan(0.9);
+    expect(demand).toBeLessThanOrEqual(1);
+    const before = await saved(page);
+    await unchangedOnePage(page, before, `retained-${layout}`);
+    await writeFile(
+      `artifacts/smart-fit-29okt/retained-${layout}-demand.json`,
+      JSON.stringify({ demand }),
+    );
+  });
+}
+
+test("smart fit keeps the minimally compact result of the explicit one-page action", async ({
+  page,
+}) => {
+  const root = await load(page, denseFixture(6), "classic", "left", {}, { bodyScale: 0.93 });
+  await expect(root.locator("[data-cv-page]")).toHaveCount(2);
+  await page.getByRole("button", { name: "Menü", exact: true }).click();
+  await page.getByRole("button", { name: "Alles auf 1 Seite", exact: true }).click();
+  await page.keyboard.press("Escape");
+  await expect(page.locator('[data-cv-page-fit-mode="one"]')).toHaveCount(0);
+  await expect(root.locator("[data-cv-page]")).toHaveCount(1);
+  await expect(page.locator('[role="status"][title="Automatisch gespeichert"]')).toBeVisible();
+  const before = await saved(page);
+  expect(
+    Object.values(before.data.sectionLayouts as NonNullable<CvData["sectionLayouts"]>).filter(
+      (layout) => layout?.packing === "masonry",
+    ),
+  ).toHaveLength(2);
+  await unchangedOnePage(page, before, "retained-minimal-pair");
+});
 
 for (const side of ["left", "right"]) {
   for (const mobile of [false, true]) {

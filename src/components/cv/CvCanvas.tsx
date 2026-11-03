@@ -40,6 +40,7 @@ import {
   measureCvPageFitCapacityPx,
   measureCvPageFitSidebarFits,
   measureCvOnePageDemand,
+  cvOnePageTrialFits,
   chooseCvSmartPageFitMode,
   cvPageFitKeepsManualPosition,
   consumeCvPageFitMode,
@@ -369,87 +370,115 @@ export function CvCanvas({
   const appliedPageFit = useRef<string | null>(null);
   useEffect(() => {
     if (twoPageMode) return;
-    if (!pageFitPlan || props.exportMode || !props.onSectionLayout) {
+    const onSectionLayout = props.onSectionLayout;
+    if (!pageFitPlan || props.exportMode || !onSectionLayout) {
       if (!pageFitPlan) appliedPageFit.current = null;
       return;
     }
-    const heights = measureCvPageFitSectionHeights(geometryScopeRef.current);
-    // The paginator measures grouped rows as a whole. Keep authored compact
-    // widths/packing when using that complete demand instead of inventing
-    // separate rubric heights. Free content needs its own geometric contract.
-    const preserveClassicPacking =
-      pageFitLayout === "classic" &&
-      cvSectionOrder(props.data).some((key) => cvSectionLayout(props.data, key).width === "half");
-    const measuredCompactFlow =
-      preserveClassicPacking &&
-      !props.design.useElements &&
-      cvSectionOrder(props.data).every(
-        (key) => cvSectionLayout(props.data, key).positioning === "flow",
-      );
-    const chosenMode =
-      pageFitMode === "auto"
-        ? chooseCvSmartPageFitMode(
-            props.data,
-            heights,
-            measureCvPageFitCapacityPx(geometryScopeRef.current),
-            geometryScopeRef.current?.querySelectorAll("[data-cv-page]").length === 1,
-            pageFitLayout === "modern"
-              ? {
-                  mainSectionKeys: cvSectionOrder(props.data).filter(
-                    (key) =>
-                      key === "person" ||
-                      resolveCvPlacement(presentation.placements, key) === "main",
-                  ),
-                  sidebarFitsFirstPage:
-                    measureCvPageFitSidebarFits(geometryScopeRef.current) === true,
-                }
-              : measuredCompactFlow
-                ? { measuredFlowDemand: measureCvOnePageDemand(geometryScopeRef.current) }
-                : undefined,
+    let cancelled = false;
+    let frame = 0;
+    const evaluate = () => {
+      if (cancelled || getCvPageFitMode() !== "auto" || getCvPageFitRevision() !== pageFitRevision)
+        return;
+      // The rendered result is authoritative. A good one-page CV must not be
+      // expanded merely because the conservative planning reserve is smaller.
+      const currentDemand = measureCvOnePageDemand(geometryScopeRef.current);
+      if (
+        currentDemand !== null &&
+        currentDemand <= 1 &&
+        cvOnePageTrialFits(geometryScopeRef.current)
+      ) {
+        consumeCvPageFitMode("auto");
+        return;
+      }
+      const heights = measureCvPageFitSectionHeights(geometryScopeRef.current);
+      // The paginator measures grouped rows as a whole. Keep authored compact
+      // widths/packing when using that complete demand instead of inventing
+      // separate rubric heights. Free content needs its own geometric contract.
+      const preserveClassicPacking =
+        pageFitLayout === "classic" &&
+        cvSectionOrder(props.data).some((key) => cvSectionLayout(props.data, key).width === "half");
+      const measuredCompactFlow =
+        preserveClassicPacking &&
+        !props.design.useElements &&
+        cvSectionOrder(props.data).every(
+          (key) => cvSectionLayout(props.data, key).positioning === "flow",
+        );
+      const chosenMode =
+        pageFitMode === "auto"
+          ? chooseCvSmartPageFitMode(
+              props.data,
+              heights,
+              measureCvPageFitCapacityPx(geometryScopeRef.current),
+              geometryScopeRef.current?.querySelectorAll("[data-cv-page]").length === 1,
+              pageFitLayout === "modern"
+                ? {
+                    mainSectionKeys: cvSectionOrder(props.data).filter(
+                      (key) =>
+                        key === "person" ||
+                        resolveCvPlacement(presentation.placements, key) === "main",
+                    ),
+                    sidebarFitsFirstPage:
+                      measureCvPageFitSidebarFits(geometryScopeRef.current) === true,
+                  }
+                : measuredCompactFlow
+                  ? { measuredFlowDemand: measureCvOnePageDemand(geometryScopeRef.current) }
+                  : undefined,
+            )
+          : pageFitPlan.mode;
+      if (chosenMode === "two") {
+        setAutoTwoRevision(pageFitRevision);
+        return;
+      }
+      const measuredPlan = buildCvPageFitPlan(props.data, "one", {
+        // Short CVs have enough space without shrinking or forcing
+        // small sections into half-width masonry. Existing manually
+        // compacted layouts stay compact on a repeated auto action.
+        allowHalfWidth:
+          pageFitMode === "auto" &&
+          !Object.values(props.data.sectionLayouts ?? {}).some(
+            (layout) => layout?.packing === "masonry",
           )
-        : pageFitPlan.mode;
-    if (chosenMode === "two") {
-      setAutoTwoRevision(pageFitRevision);
-      return;
-    }
-    const measuredPlan = buildCvPageFitPlan(props.data, "one", {
-      // Short CVs have enough space without shrinking or forcing
-      // small sections into half-width masonry. Existing manually
-      // compacted layouts stay compact on a repeated auto action.
-      allowHalfWidth:
-        pageFitMode === "auto" &&
-        !Object.values(props.data.sectionLayouts ?? {}).some(
-          (layout) => layout?.packing === "masonry",
-        )
-          ? false
-          : pageFitLayout === "classic",
-    });
-    const requestKey = `${pageFitRevision}:${measuredPlan.assignmentSignature}`;
-    if (appliedPageFit.current === requestKey) return;
-    appliedPageFit.current = requestKey;
-
-    for (const key of Object.keys(measuredPlan.pageBySection) as CvLayoutSectionKey[]) {
-      // Absolute user-positioned sections must never be reset by a preset.
-      if (cvPageFitKeepsManualPosition(props.data, key)) continue;
-      const page = measuredPlan.pageBySection[key];
-      if (!page) continue;
-      props.onSectionLayout(key, {
-        page,
-        width: preserveClassicPacking
-          ? cvSectionLayout(props.data, key).width
-          : (measuredPlan.widthBySection[key] ?? "full"),
-        positioning: "flow",
-        packing: preserveClassicPacking
-          ? cvSectionLayout(props.data, key).packing
-          : (measuredPlan.packingBySection[key] ?? "rows"),
-        x: null,
-        y: null,
-        widthMm: null,
-        heightMm: null,
+            ? false
+            : pageFitLayout === "classic",
       });
-    }
+      const requestKey = `${pageFitRevision}:${measuredPlan.assignmentSignature}`;
+      if (appliedPageFit.current === requestKey) return;
+      appliedPageFit.current = requestKey;
 
-    consumeCvPageFitMode(pageFitMode!);
+      for (const key of Object.keys(measuredPlan.pageBySection) as CvLayoutSectionKey[]) {
+        // Absolute user-positioned sections must never be reset by a preset.
+        if (cvPageFitKeepsManualPosition(props.data, key)) continue;
+        const page = measuredPlan.pageBySection[key];
+        if (!page) continue;
+        onSectionLayout(key, {
+          page,
+          width: preserveClassicPacking
+            ? cvSectionLayout(props.data, key).width
+            : (measuredPlan.widthBySection[key] ?? "full"),
+          positioning: "flow",
+          packing: preserveClassicPacking
+            ? cvSectionLayout(props.data, key).packing
+            : (measuredPlan.packingBySection[key] ?? "rows"),
+          x: null,
+          y: null,
+          widthMm: null,
+          heightMm: null,
+        });
+      }
+
+      consumeCvPageFitMode(pageFitMode!);
+    };
+    void document.fonts.ready.then(() => {
+      if (!cancelled)
+        frame = requestAnimationFrame(() => {
+          frame = requestAnimationFrame(evaluate);
+        });
+    });
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(frame);
+    };
   }, [
     pageFitPlan,
     pageFitMode,
@@ -457,7 +486,7 @@ export function CvCanvas({
     pageFitRevision,
     presentation.placements,
     props.data,
-    props.design.useElements,
+    props.design,
     props.exportMode,
     props.onSectionLayout,
     twoPageMode,
