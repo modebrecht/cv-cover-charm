@@ -129,14 +129,23 @@ export function normalizeDossierCoverLayout(
   const template = normalizeActiveTemplateId(cover.template ?? fallbackTemplate);
   // Flat snapshots include resolved defaults. Only differences should become
   // user overrides, which take precedence over template CSS and Word defaults.
-  const blocks = coverPdfDocumentFromSaved({ ...cover, template, layout: {}, customs: [] })?.blocks;
+  const blocks = coverPdfDocumentFromSaved({
+    ...cover,
+    template,
+    layout: {},
+    customs: [],
+    font: null,
+  })?.blocks;
   const defaults = new Map(blocks?.map(({ id, style }) => [id, new Map(Object.entries(style))]));
   const overrides = Object.entries(cover.layout).flatMap(([id, style]) => {
     if (!isRecord(style)) return [];
     const baseline = defaults.get(id);
-    const changes = Object.entries(style).filter(
-      ([key, value]) => !Object.is(baseline?.get(key), value),
-    );
+    const changes = Object.entries(style).filter(([key, value]) => {
+      // A resolved snapshot can carry either the template font or the document
+      // font. Neither is proof that the user set a font on the individual block.
+      const inheritedFont = baseline && key === "font" && value === cover.font;
+      return !inheritedFont && !Object.is(baseline?.get(key), value);
+    });
     return changes.length ? [[id, Object.fromEntries(changes)]] : [];
   });
   return { ...cover, layout: { [template]: Object.fromEntries(overrides) } };

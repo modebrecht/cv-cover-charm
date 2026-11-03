@@ -51,6 +51,21 @@ describe("project file settings validation before replacement", () => {
     });
   });
 
+  test("flat template defaults cannot cancel the saved title-page font", () => {
+    const cover = { ...reviewedProject.cover, font: "serif" };
+    const parsed = parseDossierProject({ ...reviewedProject, cover });
+    expect(parsed?.cover?.font).toBe("serif");
+    expect(parsed?.cover?.layout).toEqual({ modern: {} });
+
+    const authored = {
+      ...cover,
+      layout: { ...cover.layout, name: { ...cover.layout.name, font: "humanist" } },
+    };
+    expect(parseDossierProject({ ...reviewedProject, cover: authored })?.cover?.layout).toEqual({
+      modern: { name: { font: "humanist" } },
+    });
+  });
+
   test("corrupt shared settings cannot silently disappear or become defaults", () => {
     for (const bad of [
       { chrome: [] },
