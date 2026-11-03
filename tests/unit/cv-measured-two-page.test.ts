@@ -4,6 +4,7 @@ import {
   type CvTwoPageMeasurement,
 } from "../../src/components/cv/page-fit";
 import { DEMO_CV } from "../../src/components/cv/types";
+import { paginateCvFlow, type CvFlowRow } from "../../src/components/cv/flow-pagination";
 
 const measurement = (): CvTwoPageMeasurement => ({
   main: {
@@ -23,6 +24,49 @@ const measurement = (): CvTwoPageMeasurement => ({
 });
 
 describe("full-width measured two-page CV planning", () => {
+  test("starts an oversized rubric on page one so its real rows can continue onto page two", () => {
+    const data = structuredClone(DEMO_CV);
+    data.schule = [];
+    data.sprachen = [];
+    data.hobbys = [];
+    data.staerken = [];
+    data.referenzen = [];
+    data.customSections = [];
+    const before = JSON.stringify(data);
+    const measured = measurement();
+    measured.main = { person: 140, erfahrung: 1240 };
+    const plan = planCvMeasuredTwoPages(data, measured)!;
+    const minPage = plan.erfahrung === 2 ? 1 : 0;
+    const rows: CvFlowRow[] = [
+      { id: "person", node: null },
+      { id: "heading", node: null, heading: true, minPage },
+      ...Array.from({ length: 6 }, (_, i) => ({ id: `entry-${i}`, node: null, minPage })),
+    ];
+    const pages = paginateCvFlow(
+      rows,
+      () => 900,
+      (row) => (row.id === "person" ? 140 : row.heading ? 40 : 200),
+    );
+    expect(pages).toHaveLength(2);
+    expect(plan.erfahrung).toBe(1);
+    expect(pages.flat().map((row) => row.id)).toEqual(rows.map((row) => row.id));
+    expect(JSON.stringify(data)).toBe(before);
+  });
+
+  test("an oversized Sidebar rubric also uses both pages rather than starting on page two", () => {
+    const data = structuredClone(DEMO_CV);
+    data.schule = [];
+    data.hobbys = [];
+    data.staerken = [];
+    data.referenzen = [];
+    data.customSections = [];
+    const measured = measurement();
+    measured.main = { person: 140, erfahrung: 200 };
+    measured.sidebar = { sprachen: 1200 };
+    measured.sidebarFixed = [150, 0];
+    expect(planCvMeasuredTwoPages(data, measured, ["sprachen"])!.sprachen).toBe(1);
+  });
+
   test("uses measured section heights and preserves the source", () => {
     const data = structuredClone(DEMO_CV),
       before = JSON.stringify(data);

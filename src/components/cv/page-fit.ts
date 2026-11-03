@@ -450,18 +450,39 @@ export function planCvMeasuredTwoPages(
     (key) =>
       cvSectionLayout(data, key).positioning === "free" && cvSectionLayout(data, key).page === 2,
   );
+  // A rubric that is taller than a complete continuation page must start on
+  // page one and let the existing row paginator continue it. Treating it as one
+  // indivisible page-two block would unnecessarily require a third page.
+  const mainContinues = main.some((key) => measurement.main[key]! > measurement.mainCapacity[1]);
+  const sideContinues = side.some(
+    (key) =>
+      measurement.sidebar[key]! > measurement.sidebarCapacity[1] - measurement.sidebarFixed[1],
+  );
+  const naturalSecondPage =
+    (mainContinues &&
+      (measurement.main.person ?? 0) + main.reduce((sum, key) => sum + measurement.main[key]!, 0) >
+        measurement.mainCapacity[0]) ||
+    (sideContinues &&
+      measurement.sidebarFixed[0] + side.reduce((sum, key) => sum + measurement.sidebar[key]!, 0) >
+        measurement.sidebarCapacity[0]);
   const demands = (
     keys: CvLayoutSectionKey[],
     heights: Partial<Record<CvLayoutSectionKey, number>>,
     split: number,
     fixed: [number, number],
     capacity: [number, number],
+    continues: boolean,
   ) => {
     const one = fixed[0] + keys.slice(0, split).reduce((sum, key) => sum + heights[key]!, 0);
     const two = fixed[1] + keys.slice(split).reduce((sum, key) => sum + heights[key]!, 0);
-    const fills = [one / capacity[0], two / capacity[1]];
+    const spill = continues ? Math.max(0, one - capacity[0]) : 0;
+    const fills = [
+      continues ? Math.min(1, one / capacity[0]) : one / capacity[0],
+      (two + spill) / capacity[1],
+    ];
+    const fixedOverflow = continues ? Math.max(0, fixed[0] / capacity[0] - 1) : 0;
     return (
-      1000 * fills.reduce((sum, fill) => sum + Math.max(0, fill - 1), 0) +
+      1000 * (fixedOverflow + fills.reduce((sum, fill) => sum + Math.max(0, fill - 1), 0)) +
       Math.abs(0.45 * fills[0] - 0.55 * fills[1])
     );
   };
@@ -469,7 +490,14 @@ export function planCvMeasuredTwoPages(
   let cost = Infinity;
   for (let a = 0; a <= main.length; a++)
     for (let b = 0; b <= side.length; b++) {
-      if (active.length && !hasFixedSecondPage && a === main.length && b === side.length) continue;
+      if (
+        active.length &&
+        !hasFixedSecondPage &&
+        !naturalSecondPage &&
+        a === main.length &&
+        b === side.length
+      )
+        continue;
       const next =
         demands(
           main,
@@ -477,6 +505,7 @@ export function planCvMeasuredTwoPages(
           a,
           [measurement.main.person ?? 0, 0],
           measurement.mainCapacity,
+          mainContinues,
         ) +
         (side.length
           ? demands(
@@ -485,6 +514,7 @@ export function planCvMeasuredTwoPages(
               b,
               measurement.sidebarFixed,
               measurement.sidebarCapacity,
+              sideContinues,
             )
           : 0);
       if (next < cost) {

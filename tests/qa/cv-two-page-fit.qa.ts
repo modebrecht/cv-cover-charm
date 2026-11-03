@@ -125,7 +125,7 @@ async function repeatAndReload(page: Page) {
   await checkedOutput(page);
 }
 
-async function actualPdf(page: Page, name: string) {
+async function actualPdf(page: Page, name: string, markers = ["Herr Thomas Weber", "Französisch"]) {
   await page.getByRole("button", { name: "Download", exact: true }).click();
   const downloading = page.waitForEvent("download");
   await page.getByRole("menuitem", { name: "PDF", exact: true }).click();
@@ -143,11 +143,85 @@ async function actualPdf(page: Page, name: string) {
       const content = await (await pdf.getPage(i)).getTextContent();
       text.push(content.items.map((item) => ("str" in item ? item.str : "")).join(" "));
     }
-    expect(text.join(" ")).toContain("Herr Thomas Weber");
-    expect(text.join(" ")).toContain("Französisch");
+    for (const marker of markers) expect(text.join(" ")).toContain(marker);
   } finally {
     await task.destroy();
   }
+}
+
+for (const layout of ["classic", "modern"]) {
+  test(`two-page ${layout}: an oversized experience rubric reuses page one and continues on page two`, async ({
+    page,
+  }) => {
+    const data = structuredClone(DEMO_CV);
+    data.person.foto = "";
+    data.schule = [];
+    data.sprachen = [];
+    data.hobbys = [];
+    data.staerken = [];
+    data.referenzen = [];
+    data.customSections = [];
+    data.erfahrung = Array.from({ length: 10 }, (_, index) => ({
+      ...DEMO_CV.erfahrung[0],
+      id: `continued-experience-${index}`,
+      titel: `Praxis${String(index + 1).padStart(2, "0")}`,
+      ort: "Beispiel AG",
+      beschreibung:
+        "Selbstständige Planung, Zusammenarbeit und Dokumentation von Aufgaben. ".repeat(7) +
+        ` EndePraxis${String(index + 1).padStart(2, "0")}`,
+    }));
+    data.sectionLayouts = { erfahrung: { page: 2, width: "full", positioning: "flow" } };
+    const root = await load(page, data, layout, {
+      bodyScale: 1.04,
+      headingScale: 1.06,
+      titleScale: 1.1,
+    });
+    const initial = await snapshot(page);
+    const before = initial.saved;
+    await mkdir("artifacts/two-page-fit", { recursive: true });
+    await writeFile(
+      `artifacts/two-page-fit/continued-${layout}-before.json`,
+      JSON.stringify(initial, null, 2),
+    );
+    await expect(root.locator("[data-cv-page]")).toHaveCount(3);
+    await two(page);
+    await expect(root.locator("[data-cv-page]")).toHaveCount(2);
+    await expect
+      .poll(async () => (await snapshot(page)).saved.data.sectionLayouts.erfahrung.page)
+      .toBe(1);
+    const after = (await snapshot(page)).saved;
+    expect(after.design).toEqual(before.design);
+    expect({ ...after.data, sectionLayouts: undefined }).toEqual({
+      ...before.data,
+      sectionLayouts: undefined,
+    });
+    const markers = data.erfahrung.flatMap((entry, index) => [
+      entry.titel,
+      `EndePraxis${String(index + 1).padStart(2, "0")}`,
+    ]);
+    const check = async () => {
+      for (const selector of [documentRoots("cv").web, documentRoots("cv").canonical]) {
+        const pages = await collectDocument(page, selector, "cv");
+        expect(pages).toHaveLength(2);
+        expect(pages.flatMap((page) => page.issues)).toEqual([]);
+        const text = pages.map((page) => page.text).join(" ");
+        for (const marker of markers) expect(text).toContain(marker);
+      }
+    };
+    await check();
+    await two(page);
+    expect((await snapshot(page)).saved).toEqual(after);
+    await page.reload();
+    await waitEditorReady(page);
+    await page.evaluate(() => document.fonts.ready);
+    await expect.poll(async () => (await snapshot(page)).saved).toEqual(after);
+    await check();
+    await actualPdf(page, `continued-${layout}`, markers);
+    await writeFile(
+      `artifacts/two-page-fit/continued-${layout}.json`,
+      JSON.stringify({ before, after, markers }, null, 2),
+    );
+  });
 }
 
 for (const layout of ["classic", "modern"]) {
