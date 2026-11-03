@@ -1,0 +1,213 @@
+{
+  "checked_source_commit": "141d05fd32b033313804921407c41ead3616ea3a",
+  "baseline_commit": "0c97867f1e6c4262341fef8850b72aa30e95506f",
+  "issue": 207,
+  "scope": "Reject corrupt supplied project settings before replacement. Keep supported legacy defaults and normalized settings; no all-format or all-Word acceptance.",
+  "unit_tests": 1500,
+  "focused_project_test_groups": 13,
+  "malformed_settings_variants": 30,
+  "existing_project_fixtures": {
+    "count": 67,
+    "catalog": "tests/fixtures/import/historical-projects-28okt.json",
+    "catalog_sha256": "571880c8a4d5b22555096c96d31bede08d19a2e27a045a91b431d9e89739b88a",
+    "individual_source_hashes_verified": true,
+    "all_accepted": true,
+    "fixtures_changed": false
+  },
+  "browser_ci": {
+    "run": 41573029128,
+    "job": 125710099778,
+    "artifact_id": 13202147915,
+    "artifact_sha256": "48e7ec1d680a2f747d6fac3d1dab45c2b1fa4ae4c1c2397c400784d28ac1897e",
+    "report_sha256": "0a3c52e8cec8c031d03735aa64ca1e1356845d0de7fd304e2e8e0ab41f6a69f4",
+    "stats": {
+      "startTime": "2026-11-03T03:35:53.527Z",
+      "duration": 57689.495,
+      "expected": 27,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "tests": [
+      {
+        "title": "successful full replacement retains every imported photo and commits before reload",
+        "outcome": "expected",
+        "attempts": ["passed"]
+      },
+      {
+        "title": "a valid empty project remains loadable as an explicitly selected full replacement",
+        "outcome": "expected",
+        "attempts": ["passed"]
+      },
+      {
+        "title": "one failed native write rolls back exact raw state: titelblatt:v3",
+        "outcome": "expected",
+        "attempts": ["passed"]
+      },
+      {
+        "title": "one failed native write rolls back exact raw state: anschreiben:v1",
+        "outcome": "expected",
+        "attempts": ["passed"]
+      },
+      {
+        "title": "one failed native write rolls back exact raw state: lebenslauf:v1",
+        "outcome": "expected",
+        "attempts": ["passed"]
+      },
+      {
+        "title": "one failed native write rolls back exact raw state: lebenslauf:layout:v1",
+        "outcome": "expected",
+        "attempts": ["passed"]
+      },
+      {
+        "title": "one failed native write rolls back exact raw state: lebenslauf:text-align:v1",
+        "outcome": "expected",
+        "attempts": ["passed"]
+      },
+      {
+        "title": "one failed native write rolls back exact raw state: bewerbungsdossier:chrome:v1",
+        "outcome": "expected",
+        "attempts": ["passed"]
+      },
+      {
+        "title": "one failed native write rolls back exact raw state: bewerbungsdossier:hyphenation:v1",
+        "outcome": "expected",
+        "attempts": ["passed"]
+      },
+      {
+        "title": "aborted IndexedDB pending transaction never accepts partial import",
+        "outcome": "expected",
+        "attempts": ["passed"]
+      },
+      {
+        "title": "aborted IndexedDB committed transaction never accepts partial import",
+        "outcome": "expected",
+        "attempts": ["passed"]
+      },
+      {
+        "title": "startup honors a pending journal before any editor mounts",
+        "outcome": "expected",
+        "attempts": ["passed"]
+      },
+      {
+        "title": "startup honors a committed journal before any editor mounts",
+        "outcome": "expected",
+        "attempts": ["passed"]
+      },
+      {
+        "title": "missing journal backup blocks editors and preserves all remaining state",
+        "outcome": "expected",
+        "attempts": ["passed"]
+      },
+      {
+        "title": "malformed supplied part and future format cannot create a backup or alter state",
+        "outcome": "expected",
+        "attempts": ["passed"]
+      },
+      {
+        "title": "corrupt settings are rejected through the real file input before confirmation or storage writes",
+        "outcome": "expected",
+        "attempts": ["passed"]
+      },
+      {
+        "title": "confirmed project settings survive reload, a real JSON download and reimport",
+        "outcome": "expected",
+        "attempts": ["passed"]
+      },
+      {
+        "title": "large existing image strings are backed up in IndexedDB without a second localStorage copy",
+        "outcome": "expected",
+        "attempts": ["passed"]
+      },
+      {
+        "title": "failed rollback keeps the backup and blocks editors until recovery succeeds",
+        "outcome": "expected",
+        "attempts": ["passed"]
+      },
+      {
+        "title": "legacy cover loads through the real file input, persists immediately and survives reload",
+        "outcome": "expected",
+        "attempts": ["passed"]
+      },
+      {
+        "title": "legacy cv loads through the real file input, persists immediately and survives reload",
+        "outcome": "expected",
+        "attempts": ["passed"]
+      },
+      {
+        "title": "home file input uses full replacement and removes absent documents",
+        "outcome": "expected",
+        "attempts": ["passed"]
+      },
+      {
+        "title": "titelblatt project input preserves absent neighbours and reloads imported data",
+        "outcome": "expected",
+        "attempts": ["passed"]
+      },
+      {
+        "title": "lebenslauf project input preserves absent neighbours and reloads imported data",
+        "outcome": "expected",
+        "attempts": ["passed"]
+      },
+      {
+        "title": "anschreiben project input preserves absent neighbours and reloads imported data",
+        "outcome": "expected",
+        "attempts": ["passed"]
+      },
+      {
+        "title": "another tab holding the import lock delays mutation until the lock is released",
+        "outcome": "expected",
+        "attempts": ["passed"]
+      },
+      {
+        "title": "rollback restores cached photo, placement, typography and chrome as well as raw storage",
+        "outcome": "expected",
+        "attempts": ["passed"]
+      }
+    ],
+    "full_units_types_qa_types_lint_build": "PASS"
+  },
+  "initial_compatibility_counterexample": {
+    "source_commit": "a0e0e139577aefa5533bce3d10290c88598b6ea4",
+    "dedicated_import_run": 41572223958,
+    "dedicated_browser_cases_passed": 27,
+    "broader_smoke_run": 41572223793,
+    "broader_smoke_failed_cases": 5,
+    "cause": "Reviewed source encodes automatic section spacing as null. Initial file guard rejected it; current guard explicitly accepts that existing automatic/default sentinel. The actual source fixture remains unchanged.",
+    "regression": "Actual reviewed file plus all 67 pinned existing projects; malformed arrays/types/choices still reject."
+  },
+  "ci_scope": {
+    "existing_workflow": "dossier-import-recovery.yml",
+    "jobs": 1,
+    "direct_dev_push": "limited import-related paths only",
+    "new_workflows": 0,
+    "new_jobs": 0,
+    "product_dependencies_changed": false
+  },
+  "data": "Only synthetic existing/new fixture data; all three test images remain exact original data URLs.",
+  "bounded_native_smoke": {
+    "run": 41573029290,
+    "source_commit": "141d05fd32b033313804921407c41ead3616ea3a",
+    "conclusion": "success",
+    "jobs": 2,
+    "scope": "Existing bounded Modern/Word QA; no original/candidate, source or export guard change."
+  },
+  "ordinary_regression": {
+    "run": 41573029139,
+    "source_commit": "141d05fd32b033313804921407c41ead3616ea3a",
+    "conclusion": "success",
+    "browser_groups": 11,
+    "fast_checks": "PASS: all 1500 units, release formatting, TypeScript, lint, build",
+    "status_publisher": "success",
+    "native_print_benchmark": "existing opt-in skip; not enabled"
+  },
+  "contact_integrity": {
+    "run": 41573029272,
+    "conclusion": "success"
+  },
+  "preserved_refs": {
+    "render": "1fe6dbe59184a759d97f9c393353a8a3d9e1f89a",
+    "main": "44d7eb950b4fe972d6e890a72b6d3256ce365bc9"
+  },
+  "branch_cleanup": "Not pursued; old branches retained per user direction. Work is on the current product, directly on dev."
+}
