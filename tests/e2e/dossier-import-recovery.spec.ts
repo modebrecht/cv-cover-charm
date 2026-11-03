@@ -1,5 +1,11 @@
 import { expect, test, type Page } from "@playwright/test";
+import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
+import { basename } from "node:path";
+import { readZipEntries } from "../../src/lib/docx-next/zip";
+import historicalProjects from "../fixtures/import/historical-projects-28okt.json" with { type: "json" };
+import modernSidebar from "../fixtures/import/modern-sidebar-from-23okt.json" with { type: "json" };
+import { expectUnreviewedDocxBlocked } from "./support/native-docx-fixture";
 
 const BASE = "http://127.0.0.1:4173";
 const photo =
@@ -731,6 +737,275 @@ test("confirmed project settings survive reload, both editors, a real JSON downl
   expect(JSON.parse(stored["anschreiben:v1"]).data.images).toEqual(value.letter.data.images);
   expect(stored["unrelated-app"]).toBe("must survive");
 });
+
+const historicalFixturePath =
+  "docs/qa/docx-next-design-fidelity-16okt/audit/freundlich/project.json";
+const roundtripFixtures = [
+  {
+    label: "reviewed Modern Sidebar",
+    path: "tests/fixtures/import/modern-sidebar-from-23okt.json",
+    sha256: "7dd6742da656b72391b9411c72ef298f767eb068cc8f9f3c4af0a80ad51b2b51",
+    word: true,
+  },
+  {
+    label: "historical Freundlich",
+    ...historicalProjects.find((fixture) => fixture.path === historicalFixturePath)!,
+    word: false,
+  },
+];
+
+const sha256 = (bytes: Uint8Array) => createHash("sha256").update(bytes).digest("hex");
+const withoutWhitespace = (text: string) => text.replace(/\s+/g, "");
+const partKeys = {
+  cover: "titelblatt:v3",
+  letter: "anschreiben:v1",
+  cv: "lebenslauf:v1",
+} as const;
+
+async function confirmProjectFile(page: Page, name: string, buffer: Buffer) {
+  const confirmation = page.waitForEvent("dialog");
+  const reload = page.waitForEvent("domcontentloaded");
+  await page.locator('input[type="file"][accept*="json"]').setInputFiles({
+    name,
+    mimeType: "application/json",
+    buffer,
+  });
+  const dialog = await confirmation;
+  const message = dialog.message();
+  const type = dialog.type();
+  await dialog.accept();
+  expect(type).toBe("confirm");
+  expect(message).toContain("Titelblatt, Motivationsschreiben, Lebenslauf");
+  await reload;
+  await expect(page.getByRole("button", { name: "Dossier laden", exact: true })).toBeVisible();
+}
+
+async function expectRestoredParts(page: Page, input: typeof modernSidebar) {
+  const stored = await page.evaluate((keys) => {
+    const read = (key: string) => JSON.parse(localStorage.getItem(key) ?? "null");
+    return {
+      cover: read(keys.cover),
+      letter: read(keys.letter),
+      cv: read(keys.cv),
+      journal: localStorage.getItem("cv-cover-charm:import-journal:v1"),
+      unrelated: localStorage.getItem("unrelated-app"),
+    };
+  }, partKeys);
+  for (const part of ["cover", "letter", "cv"] as const) {
+    expect(stored[part].data, `${part} data after confirmed import`).toEqual(input[part].data);
+  }
+  expect(stored.journal).toBeNull();
+  expect(stored.unrelated).toBe("must survive");
+}
+
+const dossierFormats = {
+  pdf: ["Fertiges Dossier (PDF)", "PDF herunterladen"],
+  docx: ["Bearbeitbares Dossier (DOCX)", "DOCX herunterladen"],
+  json: ["Projektdatei (JSON) – Projekt speichern", "Projekt speichern"],
+} as const;
+
+async function downloadRestoredDossier(
+  page: Page,
+  format: keyof typeof dossierFormats,
+  phase: string,
+  word: boolean,
+) {
+  await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
+  const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
+  if (!word) await expectUnreviewedDocxBlocked(page);
+  const [option, action] = dossierFormats[format];
+  await dialog.getByRole("radio", { name: option, exact: true }).click();
+  const button = dialog.getByRole("button", { name: action, exact: true });
+  await expect(button).toBeEnabled({ timeout: 30_000 });
+  const [download] = await Promise.all([
+    Promise.race([
+      page.waitForEvent("download", { timeout: 60_000 }),
+      dialog
+        .getByRole("alert")
+        .waitFor({ timeout: 60_000 })
+        .then(async () => {
+          throw new Error(
+            `${format} download failed: ${await dialog.getByRole("alert").innerText()}`,
+          );
+        }),
+    ]),
+    button.click(),
+  ]);
+  const path = test.info().outputPath(`${phase}.${format}`);
+  await download.saveAs(path);
+  await expect(dialog).toBeHidden();
+  const filename = download.suggestedFilename();
+  expect(filename).toMatch(new RegExp(`\\.${format}$`, "i"));
+  return { bytes: await readFile(path), filename };
+}
+
+async function inspectRestoredPdf(bytes: Buffer, input: typeof modernSidebar, subject: string) {
+  const { getDocument, OPS } = await import("pdfjs-dist/legacy/build/pdf.mjs");
+  const task = getDocument({ data: new Uint8Array(bytes), disableFontFace: true });
+  try {
+    const pdf = await task.promise;
+    expect(pdf.numPages).toBeGreaterThanOrEqual(3);
+    const pages = [];
+    for (let index = 1; index <= pdf.numPages; index += 1) {
+      const page = await pdf.getPage(index);
+      const content = await page.getTextContent();
+      const operators = await page.getOperatorList();
+      const images = operators.fnArray.filter(
+        (op) => op === OPS.paintImageXObject || op === OPS.paintInlineImageXObject,
+      ).length;
+      expect(images, `PDF page ${index} contains its rendered artwork`).toBeGreaterThan(0);
+      pages.push({
+        text: content.items.map((item) => ("str" in item ? item.str : "")).join(" "),
+        images,
+      });
+    }
+    // The app produces the cover as a raster page. Text assertions start on the letter.
+    expect(withoutWhitespace(pages[1].text)).toContain(withoutWhitespace(subject));
+    const cvText = withoutWhitespace(
+      pages
+        .slice(2)
+        .map(({ text }) => text)
+        .join(" "),
+    );
+    for (const marker of [
+      input.cv.data.erfahrung[0].titel,
+      input.cv.data.referenzen[0].funktion,
+      input.cv.data.referenzen[0].kontakt,
+    ]) {
+      expect(cvText).toContain(withoutWhitespace(marker));
+    }
+    return pages;
+  } finally {
+    await task.destroy();
+  }
+}
+
+function inspectRestoredDocx(bytes: Buffer, input: typeof modernSidebar, subject: string) {
+  const entries = readZipEntries(bytes);
+  const xml = new TextDecoder().decode(
+    entries.find(({ name }) => name === "word/document.xml")!.bytes,
+  );
+  const text = [...xml.matchAll(/<w:t(?: [^>]*)?>([^<]*)<\/w:t>/g)].map((run) => run[1]).join(" ");
+  const markers = [
+    input.cover.data.beruf,
+    subject,
+    input.cv.data.erfahrung[0].titel,
+    input.cv.data.referenzen[0].funktion,
+    input.cv.data.referenzen[0].kontakt,
+  ];
+  for (const marker of markers)
+    expect(withoutWhitespace(text)).toContain(withoutWhitespace(marker));
+  expect(xml.match(/<w:sectPr>/g)).toHaveLength(3);
+  const photoMarkup = xml.match(/<pic:cNvPr[^>]*name="cv\.person\.photo".*?<\/pic:pic>/)?.[0];
+  expect(photoMarkup).toContain("<a:srcRect");
+  const imageId = photoMarkup?.match(/r:embed="([^"]+)"/)?.[1];
+  const rels = new TextDecoder().decode(
+    entries.find(({ name }) => name === "word/_rels/document.xml.rels")!.bytes,
+  );
+  const imageTarget = rels.match(
+    new RegExp(`<Relationship Id="${imageId}"[^>]*Target="(media/[^"]+)"`),
+  )?.[1];
+  expect(imageTarget).toBeDefined();
+  expect(entries.find(({ name }) => name === `word/${imageTarget}`)?.bytes.length).toBeGreaterThan(
+    0,
+  );
+  expect(xml).toContain("<w:headerReference");
+  expect(xml).toContain("<w:footerReference");
+  // Compare package parts, excluding outer ZIP metadata.
+  return Object.fromEntries(entries.map(({ name, bytes }) => [name, sha256(bytes)]));
+}
+
+for (const fixture of roundtripFixtures) {
+  test(`${fixture.label}: confirmed restore survives save, downloads and JSON reimport`, async ({
+    page,
+  }) => {
+    test.setTimeout(240_000);
+    const raw = await readFile(fixture.path);
+    expect(sha256(raw)).toBe(fixture.sha256);
+    const input: typeof modernSidebar = JSON.parse(raw.toString("utf8"));
+    await boot(page);
+    await seed(page);
+    await confirmProjectFile(page, basename(fixture.path), raw);
+    await expectRestoredParts(page, input);
+
+    // Exercise an actual editor save and track a unique value in the downstream downloads.
+    await page.goto(`${BASE}/anschreiben`);
+    const subjectField = page.getByRole("textbox", { name: "Titel / Betreff", exact: true });
+    await expect(subjectField).toHaveValue(input.letter.data.betreff);
+    const subject = "Bewerbung Informatik EFZ – Projektprüfung";
+    await subjectField.fill(subject);
+    await expect
+      .poll(() =>
+        page.evaluate(() => JSON.parse(localStorage.getItem("anschreiben:v1")!).data.betreff),
+      )
+      .toBe(subject);
+    await page.reload();
+    await expect(subjectField).toHaveValue(subject);
+    await boot(page);
+
+    const beforePdf = await downloadRestoredDossier(page, "pdf", "before", fixture.word);
+    const pdfPages = await inspectRestoredPdf(beforePdf.bytes, input, subject);
+    const docxParts = fixture.word
+      ? inspectRestoredDocx(
+          (await downloadRestoredDossier(page, "docx", "before", true)).bytes,
+          input,
+          subject,
+        )
+      : undefined;
+    const json = await downloadRestoredDossier(page, "json", "before", fixture.word);
+    const exported: typeof modernSidebar = JSON.parse(json.bytes.toString("utf8"));
+    expect(exported.cover).toMatchObject(input.cover);
+    expect(exported.letter.data).toMatchObject({ ...input.letter.data, betreff: subject });
+    expect(exported.cv.data).toEqual(input.cv.data);
+    expect(exported.cv.design).toMatchObject(input.cv.design);
+    expect(exported.letter.design).toMatchObject({
+      template: input.letter.design.template,
+      colors: input.letter.design.colors,
+      font: input.letter.design.font,
+      headerMode: input.letter.design.headerMode,
+      footerMode: input.letter.design.footerMode,
+    });
+    if (fixture.word) {
+      expect({
+        ...exported.cv.portableState,
+        sectionGapMm: exported.cv.portableState.sectionGapMm ?? null,
+      }).toMatchObject(input.cv.portableState);
+      expect(exported.chrome).toEqual(input.chrome);
+      expect(exported.pageMargins ?? {}).toEqual(input.pageMargins);
+    }
+
+    await seed(page);
+    await boot(page);
+    await confirmProjectFile(page, json.filename, json.bytes);
+    await expectRestoredParts(page, exported);
+
+    const afterPdf = await downloadRestoredDossier(page, "pdf", "after", fixture.word);
+    expect(await inspectRestoredPdf(afterPdf.bytes, input, subject)).toEqual(pdfPages);
+    if (fixture.word) {
+      const afterDocx = await downloadRestoredDossier(page, "docx", "after", true);
+      expect(inspectRestoredDocx(afterDocx.bytes, input, subject)).toEqual(docxParts);
+    }
+    const afterJson = await downloadRestoredDossier(page, "json", "after", fixture.word);
+    // Import projects canonical chrome into the legacy letter design. The
+    // editor may omit these aliases when their effective values live in chrome.
+    const chrome = exported.chrome.sync ? exported.chrome.shared : exported.chrome.letter;
+    expect(JSON.parse(afterJson.bytes.toString("utf8"))).toEqual({
+      ...exported,
+      savedAt: expect.any(String),
+      letter: {
+        ...exported.letter,
+        design: {
+          ...exported.letter.design,
+          headerGapMm: chrome.headerGapMm,
+          chromeHeaderTextColor: chrome.headerTextColor,
+          chromeFooterTextColor: chrome.footerTextColor,
+          chromeHeaderFontSizePt: chrome.headerFontSizePt,
+          chromeFooterFontSizePt: chrome.footerFontSizePt,
+        },
+      },
+    });
+  });
+}
 
 test("large existing image strings are backed up in IndexedDB without a second localStorage copy", async ({
   page,
