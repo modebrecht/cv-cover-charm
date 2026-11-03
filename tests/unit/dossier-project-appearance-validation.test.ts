@@ -217,6 +217,41 @@ describe("project file typography and letter image boundary", () => {
     ).not.toBeNull();
   });
 
+  test("rejects malformed document-specific header and footer content for both editors", () => {
+    for (const chromeContent of [
+      [],
+      "broken",
+      false,
+      { headerTitle: [] },
+      { headerText: {} },
+      { footerTitle: true },
+      { footerText: 1 },
+      { headerTitleEnabled: "false" },
+      { headerTextEnabled: null },
+      { footerTitleEnabled: 0 },
+      { footerTextEnabled: [] },
+    ]) {
+      const part = { design: { chromeContent } };
+      expect(parseDossierProject(project(part))).toBeNull();
+      expect(parseDossierProject(project({}, part))).toBeNull();
+    }
+  });
+
+  test("preserves disabled text, partial content settings and absent legacy settings", () => {
+    const cv = {
+      design: {
+        chromeContent: { headerTitleEnabled: false, headerTitle: "Für später", footerText: "" },
+      },
+    };
+    const letter = {
+      design: { chromeContent: { footerTitleEnabled: true, footerTitle: "Brief" } },
+    };
+    const value = project(cv, letter);
+    expect(parseDossierProject(value)?.cv).toEqual(value.cv);
+    expect(parseDossierProject(value)?.letter).toEqual(value.letter);
+    expect(parseDossierProject(project({ design: { chromeContent: null } }))).not.toBeNull();
+  });
+
   test("saved browser readers keep their existing tolerant normalization", () => {
     expect(
       cvPdfDocumentFromSaved({ data: { person: {} }, design: { bodyScale: "broken" } })?.design

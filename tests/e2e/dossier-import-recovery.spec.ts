@@ -430,7 +430,7 @@ test("corrupt CV rubric layouts are rejected before confirmation and preserve th
   ).toBe(false);
 });
 
-test("corrupt typography and letter image geometry are rejected without touching the previous draft", async ({
+test("corrupt appearance settings are rejected without touching the previous draft", async ({
   page,
 }) => {
   await boot(page);
@@ -462,6 +462,14 @@ test("corrupt typography and letter image geometry are rejected without touching
       letter: { ...project.letter, data: { images: [{ src: photo, placement: "absolute" }] } },
     },
     { ...project, letter: { ...project.letter, data: { unterschriftAbstandMm: false } } },
+    { ...project, cv: { ...project.cv, design: { chromeContent: [] } } },
+    {
+      ...project,
+      letter: {
+        ...project.letter,
+        design: { chromeContent: { footerText: "Eigener Text", footerTextEnabled: "false" } },
+      },
+    },
   ];
   for (const [index, value] of files.entries()) {
     await page.locator('input[type="file"][accept*="json"]').setInputFiles({
@@ -518,7 +526,7 @@ test("confirmed project settings survive reload, both editors, a real JSON downl
       version: 1,
       sync: false,
       shared: { headerMode: "contact" },
-      cv: { headerMode: "none", footerMode: "compact", headerGapMm: 8 },
+      cv: { headerMode: "contact", footerMode: "compact", headerGapMm: 8 },
       letter: { headerMode: "contact", footerMode: "details", headerInlineSeparator: "pipe" },
     },
     pageMargins: { letter: { top: 24, right: 22, bottom: 26, left: 20 } },
@@ -565,6 +573,16 @@ test("confirmed project settings survive reload, both editors, a real JSON downl
         docTitleBold: false,
         sectionTitleFontSizePx: 15,
         sectionTitleItalic: true,
+        chromeContent: {
+          headerTitleEnabled: true,
+          headerTitle: "Eigener CV-Kopf",
+          headerTextEnabled: false,
+          headerText: "Ausgeblendeter CV-Kopftext",
+          footerTitleEnabled: false,
+          footerTitle: "Ausgeblendeter CV-Fusstitel",
+          footerTextEnabled: true,
+          footerText: "Eigener CV-Fuss",
+        },
       },
       portableState: {
         ...project.cv.portableState,
@@ -621,6 +639,16 @@ test("confirmed project settings survive reload, both editors, a real JSON downl
         signatureFontSizePt: 12,
         attachmentsFontSizePt: 9.5,
         continuationTopMarginMm: null,
+        chromeContent: {
+          headerTitleEnabled: false,
+          headerTitle: "Ausgeblendeter Brieftitel",
+          headerTextEnabled: true,
+          headerText: "Eigener Briefkopf",
+          footerTitleEnabled: true,
+          footerTitle: "Eigener Brieffuss",
+          footerTextEnabled: false,
+          footerText: "Ausgeblendeter Brief-Fusstext",
+        },
       },
     },
   };
@@ -653,6 +681,10 @@ test("confirmed project settings survive reload, both editors, a real JSON downl
     "data-x-mm",
     "0",
   );
+  const letterChrome = page.locator('[data-dossier-chrome="letter"]').first();
+  await expect(letterChrome).toContainText("Eigener Briefkopf");
+  await expect(letterChrome).toContainText("Eigener Brieffuss");
+  await expect(letterChrome).not.toContainText("Ausgeblendeter Brief");
   // This default is absent from the imported file, so it proves the editor's
   // debounced normalization/save ran before the reload (rather than just reading the input).
   await expect
@@ -673,6 +705,10 @@ test("confirmed project settings survive reload, both editors, a real JSON downl
     "true",
   );
   await page.goto(`${BASE}/lebenslauf`);
+  const cvChrome = page.locator('[data-dossier-chrome="cv"]').first();
+  await expect(cvChrome).toContainText("Eigener CV-Kopf");
+  await expect(cvChrome).toContainText("Eigener CV-Fuss");
+  await expect(cvChrome).not.toContainText("Ausgeblendeter CV");
   const button = page.getByRole("button", { name: "Download", exact: true });
   await expect(button).toHaveAttribute("data-editor-ready", "true");
   await button.click();
@@ -692,6 +728,8 @@ test("confirmed project settings survive reload, both editors, a real JSON downl
   expect(exported.cv.data.person.nameStyle).toEqual(value.cv.data.person.nameStyle);
   expect(exported.cv.design).toMatchObject(value.cv.design);
   expect(exported.letter.design).toMatchObject(value.letter.design);
+  expect(exported.cv.design.chromeContent).toEqual(value.cv.design.chromeContent);
+  expect(exported.letter.design.chromeContent).toEqual(value.letter.design.chromeContent);
   expect(exported.letter.data.images).toEqual(value.letter.data.images);
   expect(exported.letter.data.grussAbstandMm).toBe(6.5);
   expect(exported.letter.data.unterschriftAbstandMm).toBe(12);
@@ -734,6 +772,12 @@ test("confirmed project settings survive reload, both editors, a real JSON downl
   );
   expect(JSON.parse(stored["lebenslauf:v1"]).design).toMatchObject(value.cv.design);
   expect(JSON.parse(stored["anschreiben:v1"]).design).toMatchObject(value.letter.design);
+  expect(JSON.parse(stored["lebenslauf:v1"]).design.chromeContent).toEqual(
+    value.cv.design.chromeContent,
+  );
+  expect(JSON.parse(stored["anschreiben:v1"]).design.chromeContent).toEqual(
+    value.letter.design.chromeContent,
+  );
   expect(JSON.parse(stored["anschreiben:v1"]).data.images).toEqual(value.letter.data.images);
   expect(stored["unrelated-app"]).toBe("must survive");
 });

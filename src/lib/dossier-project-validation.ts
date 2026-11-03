@@ -200,12 +200,25 @@ function roleTypography(value: unknown): boolean {
   );
 }
 
+function chromeDocumentContent(value: unknown): boolean {
+  return (
+    record(value) &&
+    fields(value, ["headerTitle", "headerText", "footerTitle", "footerText"]) &&
+    fields(
+      value,
+      ["headerTitleEnabled", "headerTextEnabled", "footerTitleEnabled", "footerTextEnabled"],
+      bool,
+    )
+  );
+}
+
 function cvAppearance(value: Record<string, unknown>): boolean {
   return (
     optional(
       value.design,
       (design) =>
         record(design) &&
+        optional(design.chromeContent, nullable(chromeDocumentContent)) &&
         fields(
           design,
           [
@@ -259,6 +272,7 @@ function letterAppearance(value: Record<string, unknown>): boolean {
       value.design,
       (design) =>
         record(design) &&
+        optional(design.chromeContent, nullable(chromeDocumentContent)) &&
         fields(
           design,
           ["senderTypography", "recipientTypography", "subjectTypography"],
