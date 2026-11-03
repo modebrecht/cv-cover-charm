@@ -167,7 +167,7 @@ for (const layout of ["classic", "modern"]) {
       titel: `Praxis${String(index + 1).padStart(2, "0")}`,
       ort: "Beispiel AG",
       beschreibung:
-        "Selbstständige Planung, Zusammenarbeit und Dokumentation von Aufgaben. ".repeat(7) +
+        "Selbstständige Planung, Zusammenarbeit und Dokumentation von Aufgaben. ".repeat(4) +
         ` EndePraxis${String(index + 1).padStart(2, "0")}`,
     }));
     data.sectionLayouts = { erfahrung: { page: 2, width: "full", positioning: "flow" } };
