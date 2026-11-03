@@ -1,0 +1,416 @@
+{
+  "verified_at": "2026-11-03T12:35:51.779818+01:00",
+  "checked_code_commit": "6f91977df9d7d4fe43a0a075b5e5a37bcabf4c23",
+  "baseline_commit": "a51f1ae5f2441eb0e662638658b002b5817d773f",
+  "issue": 207,
+  "scope": "CV rubric layout validation before project replacement; not complete issue closure",
+  "baseline_reproduction": {
+    "project_accepted": true,
+    "supplied_layout": {
+      "page": 2,
+      "positioning": "free",
+      "x": "broken",
+      "y": 44
+    },
+    "rendered_x": null,
+    "new_unit_before_fix": {
+      "passed": 1,
+      "failed": 1
+    }
+  },
+  "units": {
+    "passed": 1507,
+    "failed": 0,
+    "files": 286,
+    "assertions": 27503,
+    "focused_project_groups": 15,
+    "malformed_layout_variants": 22
+  },
+  "local_types_lint_format_diff": "pass",
+  "existing_project_fixtures": {
+    "count": 67,
+    "catalog": "tests/fixtures/import/historical-projects-28okt.json",
+    "catalog_sha256": "571880c8a4d5b22555096c96d31bede08d19a2e27a045a91b431d9e89739b88a",
+    "original_fixture_hashes_verified": true,
+    "all_accepted": true,
+    "fixtures_changed": false
+  },
+  "import_browser_ci": {
+    "run_id": 41623286260,
+    "job_id": 125874161971,
+    "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/41623286260",
+    "conclusion": "success",
+    "artifact_id": 13224717186,
+    "artifact_sha256": "b8a94f501fe1d9801332bc667634d4ff686f804d2b74d98ed39f4e7079d2ce94",
+    "report_sha256": "802d8a1fb31cb58da67bc97266d4e40d59edb9af400845d92ee1967249a65cae",
+    "stats": {
+      "startTime": "2026-11-03T10:56:40.545Z",
+      "duration": 40359.431000000004,
+      "expected": 28,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "cases": [
+      {
+        "title": "successful full replacement retains every imported photo and commits before reload",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 3832
+      },
+      {
+        "title": "a valid empty project remains loadable as an explicitly selected full replacement",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 1022
+      },
+      {
+        "title": "one failed native write rolls back exact raw state: titelblatt:v3",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 1508
+      },
+      {
+        "title": "one failed native write rolls back exact raw state: anschreiben:v1",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 1512
+      },
+      {
+        "title": "one failed native write rolls back exact raw state: lebenslauf:v1",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 1011
+      },
+      {
+        "title": "one failed native write rolls back exact raw state: lebenslauf:layout:v1",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 1015
+      },
+      {
+        "title": "one failed native write rolls back exact raw state: lebenslauf:text-align:v1",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 1004
+      },
+      {
+        "title": "one failed native write rolls back exact raw state: bewerbungsdossier:chrome:v1",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 1020
+      },
+      {
+        "title": "one failed native write rolls back exact raw state: bewerbungsdossier:hyphenation:v1",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 993
+      },
+      {
+        "title": "aborted IndexedDB pending transaction never accepts partial import",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 562
+      },
+      {
+        "title": "aborted IndexedDB committed transaction never accepts partial import",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 560
+      },
+      {
+        "title": "startup honors a pending journal before any editor mounts",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 1471
+      },
+      {
+        "title": "startup honors a committed journal before any editor mounts",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 988
+      },
+      {
+        "title": "missing journal backup blocks editors and preserves all remaining state",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 893
+      },
+      {
+        "title": "malformed supplied part and future format cannot create a backup or alter state",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 535
+      },
+      {
+        "title": "corrupt settings are rejected through the real file input before confirmation or storage writes",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 948
+      },
+      {
+        "title": "corrupt CV rubric layouts are rejected before confirmation and preserve the existing draft",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 1160
+      },
+      {
+        "title": "confirmed project settings survive reload, a real JSON download and reimport",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 2483
+      },
+      {
+        "title": "large existing image strings are backed up in IndexedDB without a second localStorage copy",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 724
+      },
+      {
+        "title": "failed rollback keeps the backup and blocks editors until recovery succeeds",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 666
+      },
+      {
+        "title": "legacy cover loads through the real file input, persists immediately and survives reload",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 1702
+      },
+      {
+        "title": "legacy cv loads through the real file input, persists immediately and survives reload",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 1537
+      },
+      {
+        "title": "home file input uses full replacement and removes absent documents",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 949
+      },
+      {
+        "title": "titelblatt project input preserves absent neighbours and reloads imported data",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 1361
+      },
+      {
+        "title": "lebenslauf project input preserves absent neighbours and reloads imported data",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 1501
+      },
+      {
+        "title": "anschreiben project input preserves absent neighbours and reloads imported data",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 2304
+      },
+      {
+        "title": "another tab holding the import lock delays mutation until the lock is released",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 1105
+      },
+      {
+        "title": "rollback restores cached photo, placement, typography and chrome as well as raw storage",
+        "status": "passed",
+        "retry": 0,
+        "duration_ms": 571
+      }
+    ]
+  },
+  "new_real_file_input_case": {
+    "malformed_files": 6,
+    "confirmation_dialogs": 0,
+    "alert_dialogs": 6,
+    "complete_local_storage": "unchanged",
+    "import_journal": "absent",
+    "indexeddb_backup_database": "not created"
+  },
+  "confirmed_real_json_roundtrip": {
+    "reload_editor_download_reimport": "pass",
+    "experience_content_and_language_content": "exact equality required",
+    "three_original_photo_strings": "exact equality required",
+    "section_layouts": {
+      "erfahrung": {
+        "page": 2,
+        "width": "half",
+        "positioning": "free",
+        "packing": "rows",
+        "x": 31.25,
+        "y": 44.75,
+        "widthMm": 78,
+        "heightMm": 42
+      },
+      "sprachen": {
+        "page": 1,
+        "width": "half",
+        "positioning": "flow",
+        "packing": "masonry",
+        "x": null,
+        "y": null,
+        "widthMm": null,
+        "heightMm": null
+      }
+    }
+  },
+  "unchanged_contracts": [
+    "browser storage normalizers",
+    "project version",
+    "renderer dimension clamping",
+    "native Word gates",
+    "dependencies and lockfile",
+    "workflow configuration",
+    "retained historical fixtures"
+  ],
+  "verified_workflow_runs": [
+    {
+      "id": 41623286331,
+      "name": "Dossier Regression",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/41623286331",
+      "head_sha": "6f91977df9d7d4fe43a0a075b5e5a37bcabf4c23",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 41623286391,
+      "name": "Dossier Visual Parity",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/41623286391",
+      "head_sha": "6f91977df9d7d4fe43a0a075b5e5a37bcabf4c23",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 41623286260,
+      "name": "Dossier JSON import recovery",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/41623286260",
+      "head_sha": "6f91977df9d7d4fe43a0a075b5e5a37bcabf4c23",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 41623286286,
+      "name": "Template Contact Integrity",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/41623286286",
+      "head_sha": "6f91977df9d7d4fe43a0a075b5e5a37bcabf4c23",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 41623285905,
+      "name": "pages build and deployment",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/41623285905",
+      "head_sha": "6f91977df9d7d4fe43a0a075b5e5a37bcabf4c23",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "general_regression_jobs": [
+    {
+      "id": 125874161691,
+      "name": "fast-checks",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 125874672622,
+      "name": "Browser smoke - templates-layout",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 125874672627,
+      "name": "Browser smoke - letter-m1-m5",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 125874672628,
+      "name": "Browser smoke - dossier-flow",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 125874672642,
+      "name": "Browser smoke - fresh-dossier-templates",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 125874672649,
+      "name": "Browser smoke - cv-pdf-dom",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 125874672656,
+      "name": "Browser smoke - cv-pdf-parity",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 125874672717,
+      "name": "Browser smoke - cv-m9-pagination",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 125874672723,
+      "name": "Browser smoke - cv-pdf-paint",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 125874672725,
+      "name": "Browser smoke - letter-m8-edge",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 125874672796,
+      "name": "Browser smoke - m9-responsive",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 125874672806,
+      "name": "Browser smoke - cv-pdf-core",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 125874674622,
+      "name": "native-print-benchmark",
+      "status": "completed",
+      "conclusion": "skipped"
+    },
+    {
+      "id": 125882035446,
+      "name": "publish-regression-status",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "bounded_native_jobs": [
+    {
+      "id": 125874162523,
+      "name": "Visual parity source batch 0",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 125874962965,
+      "name": "Compare native outputs",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "preserved_refs": {
+    "main": "44d7eb950b4fe972d6e890a72b6d3256ce365bc9",
+    "render": "1fe6dbe59184a759d97f9c393353a8a3d9e1f89a",
+    "historical_branches": "untouched"
+  }
+}
