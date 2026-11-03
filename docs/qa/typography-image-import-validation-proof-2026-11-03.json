@@ -1,0 +1,561 @@
+{
+  "checkedAt": "2026-11-03T14:55:07.082941+01:00",
+  "repository": "modebrecht/cv-cover-charm",
+  "branch": "dev",
+  "baselineCommit": "995fe8600db1a89dc853edd4052e2d3f931b814f",
+  "codeCommit": "1b2235ea29fd05e2f4d274e102058b6480ca3259",
+  "codeTree": "037eabd83854abc8565641e4959795b577ffb35f",
+  "baselineReproduction": {
+    "accepted": true,
+    "cvBodyScale": null,
+    "letterSubject": null,
+    "imageWidth": 34
+  },
+  "redTests": {
+    "pass": 2,
+    "fail": 4
+  },
+  "localUnits": {
+    "pass": 1513,
+    "fail": 0,
+    "files": 287,
+    "assertions": 27628
+  },
+  "newUnitGroups": 6,
+  "malformedVariants": 118,
+  "compatibility": {
+    "frozenProjects": 67,
+    "catalogSha256": "571880c8a4d5b22555096c96d31bede08d19a2e27a045a91b431d9e89739b88a"
+  },
+  "boundaries": {
+    "strictWholeProjectFileImport": true,
+    "browserReadersUnchanged": true,
+    "renderRangesUnchanged": true,
+    "dependenciesUnchanged": true,
+    "workflowsUnchanged": true
+  },
+  "preservedRefs": {
+    "main": "44d7eb950b4fe972d6e890a72b6d3256ce365bc9",
+    "render": "1fe6dbe59184a759d97f9c393353a8a3d9e1f89a"
+  },
+  "scopeLimit": "Concrete typography/image import subset of P1 #207; no complete historical-format or Word acceptance claim.",
+  "importBrowser": {
+    "artifactId": 13233659859,
+    "artifactSha256": "d056b4cddc08c8cc17a84f3080736de22066598b7cd9d3a8a36d08ee89755314",
+    "reportSha256": "52d04fe5cbdcef7f5f8b86868a7b3c98bbdca249b326b64037ad804541343222",
+    "stats": {
+      "startTime": "2026-11-03T13:39:26.514Z",
+      "duration": 74015.182,
+      "expected": 29,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "cases": [
+      {
+        "title": "successful full replacement retains every imported photo and commits before reload",
+        "ok": true,
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "retry": 0,
+            "duration": 5354
+          }
+        ]
+      },
+      {
+        "title": "a valid empty project remains loadable as an explicitly selected full replacement",
+        "ok": true,
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "retry": 0,
+            "duration": 1118
+          }
+        ]
+      },
+      {
+        "title": "one failed native write rolls back exact raw state: titelblatt:v3",
+        "ok": true,
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "retry": 0,
+            "duration": 1695
+          }
+        ]
+      },
+      {
+        "title": "one failed native write rolls back exact raw state: anschreiben:v1",
+        "ok": true,
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "retry": 0,
+            "duration": 1702
+          }
+        ]
+      },
+      {
+        "title": "one failed native write rolls back exact raw state: lebenslauf:v1",
+        "ok": true,
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "retry": 0,
+            "duration": 1691
+          }
+        ]
+      },
+      {
+        "title": "one failed native write rolls back exact raw state: lebenslauf:layout:v1",
+        "ok": true,
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "retry": 0,
+            "duration": 1690
+          }
+        ]
+      },
+      {
+        "title": "one failed native write rolls back exact raw state: lebenslauf:text-align:v1",
+        "ok": true,
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "retry": 0,
+            "duration": 1667
+          }
+        ]
+      },
+      {
+        "title": "one failed native write rolls back exact raw state: bewerbungsdossier:chrome:v1",
+        "ok": true,
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "retry": 0,
+            "duration": 1679
+          }
+        ]
+      },
+      {
+        "title": "one failed native write rolls back exact raw state: bewerbungsdossier:hyphenation:v1",
+        "ok": true,
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "retry": 0,
+            "duration": 1673
+          }
+        ]
+      },
+      {
+        "title": "aborted IndexedDB pending transaction never accepts partial import",
+        "ok": true,
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "retry": 0,
+            "duration": 1192
+          }
+        ]
+      },
+      {
+        "title": "aborted IndexedDB committed transaction never accepts partial import",
+        "ok": true,
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "retry": 0,
+            "duration": 1217
+          }
+        ]
+      },
+      {
+        "title": "startup honors a pending journal before any editor mounts",
+        "ok": true,
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "retry": 0,
+            "duration": 3112
+          }
+        ]
+      },
+      {
+        "title": "startup honors a committed journal before any editor mounts",
+        "ok": true,
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "retry": 0,
+            "duration": 1890
+          }
+        ]
+      },
+      {
+        "title": "missing journal backup blocks editors and preserves all remaining state",
+        "ok": true,
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "retry": 0,
+            "duration": 1527
+          }
+        ]
+      },
+      {
+        "title": "malformed supplied part and future format cannot create a backup or alter state",
+        "ok": true,
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "retry": 0,
+            "duration": 1130
+          }
+        ]
+      },
+      {
+        "title": "corrupt settings are rejected through the real file input before confirmation or storage writes",
+        "ok": true,
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "retry": 0,
+            "duration": 1586
+          }
+        ]
+      },
+      {
+        "title": "corrupt CV rubric layouts are rejected before confirmation and preserve the existing draft",
+        "ok": true,
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "retry": 0,
+            "duration": 1799
+          }
+        ]
+      },
+      {
+        "title": "corrupt typography and letter image geometry are rejected without touching the previous draft",
+        "ok": true,
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "retry": 0,
+            "duration": 2024
+          }
+        ]
+      },
+      {
+        "title": "confirmed project settings survive reload, both editors, a real JSON download and reimport",
+        "ok": true,
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "retry": 0,
+            "duration": 6584
+          }
+        ]
+      },
+      {
+        "title": "large existing image strings are backed up in IndexedDB without a second localStorage copy",
+        "ok": true,
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "retry": 0,
+            "duration": 1588
+          }
+        ]
+      },
+      {
+        "title": "failed rollback keeps the backup and blocks editors until recovery succeeds",
+        "ok": true,
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "retry": 0,
+            "duration": 1345
+          }
+        ]
+      },
+      {
+        "title": "legacy cover loads through the real file input, persists immediately and survives reload",
+        "ok": true,
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "retry": 0,
+            "duration": 3162
+          }
+        ]
+      },
+      {
+        "title": "legacy cv loads through the real file input, persists immediately and survives reload",
+        "ok": true,
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "retry": 0,
+            "duration": 3193
+          }
+        ]
+      },
+      {
+        "title": "home file input uses full replacement and removes absent documents",
+        "ok": true,
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "retry": 0,
+            "duration": 1576
+          }
+        ]
+      },
+      {
+        "title": "titelblatt project input preserves absent neighbours and reloads imported data",
+        "ok": true,
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "retry": 0,
+            "duration": 2340
+          }
+        ]
+      },
+      {
+        "title": "lebenslauf project input preserves absent neighbours and reloads imported data",
+        "ok": true,
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "retry": 0,
+            "duration": 3017
+          }
+        ]
+      },
+      {
+        "title": "anschreiben project input preserves absent neighbours and reloads imported data",
+        "ok": true,
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "retry": 0,
+            "duration": 3005
+          }
+        ]
+      },
+      {
+        "title": "another tab holding the import lock delays mutation until the lock is released",
+        "ok": true,
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "retry": 0,
+            "duration": 2317
+          }
+        ]
+      },
+      {
+        "title": "rollback restores cached photo, placement, typography and chrome as well as raw storage",
+        "ok": true,
+        "status": "expected",
+        "results": [
+          {
+            "status": "passed",
+            "retry": 0,
+            "duration": 1208
+          }
+        ]
+      }
+    ],
+    "runId": 41646014800,
+    "jobId": 125951418815,
+    "invalidFiles": 8,
+    "invalidFileEffects": {
+      "alerts": 8,
+      "confirmations": 0,
+      "localStorageChanges": 0,
+      "journalCreated": false,
+      "indexedDbBackupCreated": false
+    },
+    "roundtripAssertions": [
+      "both live editors opened",
+      "actual normalized letter autosave before reload",
+      "free image x=31.5, placement=free",
+      "legacy left image x=0 despite stale stored x=120",
+      "downloaded editor JSON bytes reimported",
+      "CV name/title/rubric typography retained",
+      "letter role typography and font sizes retained",
+      "closing and signature spacing retained",
+      "both image objects retained exactly",
+      "existing free/Masonry layouts, content, sidecars and original image bytes retained"
+    ]
+  },
+  "ci": {
+    "runs": [
+      {
+        "id": 41646014800,
+        "name": "Dossier JSON import recovery",
+        "conclusion": "success",
+        "headSha": "1b2235ea29fd05e2f4d274e102058b6480ca3259",
+        "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/41646014800"
+      },
+      {
+        "id": 41646015172,
+        "name": "Dossier Visual Parity",
+        "conclusion": "success",
+        "headSha": "1b2235ea29fd05e2f4d274e102058b6480ca3259",
+        "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/41646015172"
+      },
+      {
+        "id": 41646014941,
+        "name": "Template Contact Integrity",
+        "conclusion": "success",
+        "headSha": "1b2235ea29fd05e2f4d274e102058b6480ca3259",
+        "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/41646014941"
+      },
+      {
+        "id": 41646014372,
+        "name": "pages build and deployment",
+        "conclusion": "success",
+        "headSha": "1b2235ea29fd05e2f4d274e102058b6480ca3259",
+        "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/41646014372"
+      },
+      {
+        "id": 41646015037,
+        "name": "Dossier Regression",
+        "conclusion": "success",
+        "headSha": "1b2235ea29fd05e2f4d274e102058b6480ca3259",
+        "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/41646015037"
+      }
+    ],
+    "regressionJobs": [
+      {
+        "id": 125951420578,
+        "name": "fast-checks",
+        "conclusion": "success"
+      },
+      {
+        "id": 125951915497,
+        "name": "Browser smoke - letter-m8-edge",
+        "conclusion": "success"
+      },
+      {
+        "id": 125951915537,
+        "name": "Browser smoke - letter-m1-m5",
+        "conclusion": "success"
+      },
+      {
+        "id": 125951915573,
+        "name": "Browser smoke - dossier-flow",
+        "conclusion": "success"
+      },
+      {
+        "id": 125951915589,
+        "name": "Browser smoke - cv-pdf-core",
+        "conclusion": "success"
+      },
+      {
+        "id": 125951915622,
+        "name": "Browser smoke - m9-responsive",
+        "conclusion": "success"
+      },
+      {
+        "id": 125951915636,
+        "name": "Browser smoke - cv-pdf-dom",
+        "conclusion": "success"
+      },
+      {
+        "id": 125951915645,
+        "name": "Browser smoke - cv-m9-pagination",
+        "conclusion": "success"
+      },
+      {
+        "id": 125951915648,
+        "name": "Browser smoke - cv-pdf-paint",
+        "conclusion": "success"
+      },
+      {
+        "id": 125951915664,
+        "name": "Browser smoke - cv-pdf-parity",
+        "conclusion": "success"
+      },
+      {
+        "id": 125951915709,
+        "name": "Browser smoke - templates-layout",
+        "conclusion": "success"
+      },
+      {
+        "id": 125951915899,
+        "name": "Browser smoke - fresh-dossier-templates",
+        "conclusion": "success"
+      },
+      {
+        "id": 125951918119,
+        "name": "native-print-benchmark",
+        "conclusion": "skipped"
+      },
+      {
+        "id": 125959934586,
+        "name": "publish-regression-status",
+        "conclusion": "success"
+      }
+    ],
+    "visualJobs": [
+      {
+        "id": 125951420914,
+        "name": "Visual parity source batch 0",
+        "conclusion": "success"
+      },
+      {
+        "id": 125952010382,
+        "name": "Compare native outputs",
+        "conclusion": "success"
+      }
+    ],
+    "cvPdfCore": {
+      "jobId": 125951915589,
+      "passed": 33,
+      "durationMinutes": 14.3
+    }
+  },
+  "scopeExclusions": [
+    "strict nested chromeContent validation",
+    "custom-element geometry",
+    "individual legacy-editor file checks",
+    "complete historical-format or Word acceptance in #207"
+  ]
+}
