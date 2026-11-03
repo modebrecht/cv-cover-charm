@@ -372,12 +372,86 @@ test("corrupt settings are rejected through the real file input before confirmat
   ).toBe(false);
 });
 
+test("corrupt CV rubric layouts are rejected before confirmation and preserve the existing draft", async ({
+  page,
+}) => {
+  await boot(page);
+  const oldCv = JSON.parse(oldEntries["lebenslauf:v1"]);
+  oldCv.data.sectionLayouts = {
+    erfahrung: { page: 2, positioning: "free", width: "half", x: 31.25, y: 44.75, widthMm: 78 },
+  };
+  await seed(page, { ...oldEntries, "lebenslauf:v1": JSON.stringify(oldCv) });
+  const before = await page.evaluate(() => ({ ...localStorage }));
+  const dialogs: { type: string; message: string }[] = [];
+  page.on("dialog", async (dialog) => {
+    dialogs.push({ type: dialog.type(), message: dialog.message() });
+    await dialog.dismiss();
+  });
+  const layouts = [
+    [],
+    { erfahrung: [] },
+    { erfahrung: { page: 3 } },
+    { erfahrung: { width: "narrow" } },
+    { erfahrung: { page: 2, positioning: "free", x: "broken", y: 44 } },
+    { "custom:skills": { packing: "grid" } },
+  ];
+  for (const [index, sectionLayouts] of layouts.entries()) {
+    await page.locator('input[type="file"][accept*="json"]').setInputFiles({
+      name: `corrupt-cv-layout-${index}.json`,
+      mimeType: "application/json",
+      buffer: Buffer.from(
+        JSON.stringify({
+          ...project,
+          cv: {
+            ...project.cv,
+            data: { ...project.cv.data, sectionLayouts },
+          },
+        }),
+      ),
+    });
+    await expect.poll(() => dialogs.length).toBe(index + 1);
+    expect(dialogs[index].type).toBe("alert");
+    expect(dialogs[index].message).toContain("Dossier");
+    expect(await page.evaluate(() => ({ ...localStorage }))).toEqual(before);
+  }
+  expect(
+    await page.evaluate(() => localStorage.getItem("cv-cover-charm:import-journal:v1")),
+  ).toBeNull();
+  expect(
+    await page.evaluate(async () =>
+      (await indexedDB.databases()).some((db) => db.name === "cv-cover-charm-import-backup-v1"),
+    ),
+  ).toBe(false);
+});
+
 test("confirmed project settings survive reload, a real JSON download and reimport", async ({
   page,
 }) => {
   await boot(page);
   await seed(page);
   page.on("dialog", (dialog) => dialog.accept());
+  const sectionLayouts = {
+    erfahrung: {
+      page: 2,
+      width: "half",
+      positioning: "free",
+      packing: "rows",
+      x: 31.25,
+      y: 44.75,
+      widthMm: 78,
+      heightMm: 42,
+    },
+    sprachen: {
+      page: 1,
+      width: "half",
+      positioning: "flow",
+      packing: "masonry",
+      x: null,
+      y: null,
+      widthMm: null,
+      heightMm: null,
+    },
+  };
   const value = {
     ...project,
     chrome: {
@@ -397,6 +471,20 @@ test("confirmed project settings survive reload, a real JSON download and reimpo
     },
     cv: {
       ...project.cv,
+      data: {
+        ...project.cv.data,
+        erfahrung: [
+          {
+            id: "layout-entry",
+            zeit: "2026",
+            titel: "Layout-Probe",
+            ort: "QA",
+            beschreibung: "Unveränderter Inhalt.",
+          },
+        ],
+        sprachen: [{ id: "layout-language", name: "Deutsch", niveau: "Muttersprache" }],
+        sectionLayouts,
+      },
       portableState: {
         ...project.cv.portableState,
         photoStyle: { shape: "portrait", zoom: 1.6, x: 30, y: 70, borderWidth: 0.6 },
@@ -426,6 +514,9 @@ test("confirmed project settings survive reload, a real JSON download and reimpo
   expect(exported.pageMargins.letter).toEqual(value.pageMargins.letter);
   expect(exported.fieldTypography).toEqual(value.fieldTypography);
   expect(exported.cv.portableState).toMatchObject(value.cv.portableState);
+  expect(exported.cv.data.sectionLayouts).toEqual(sectionLayouts);
+  expect(exported.cv.data.erfahrung).toEqual(value.cv.data.erfahrung);
+  expect(exported.cv.data.sprachen).toEqual(value.cv.data.sprachen);
   expect(exported.cover.data.foto).toBe(photo);
   expect(exported.cv.data.person.foto).toBe(photo);
   expect(exported.letter.data.images[0].src).toBe(photo);
@@ -456,6 +547,9 @@ test("confirmed project settings survive reload, a real JSON download and reimpo
   expect(stored["lebenslauf:section-gap:v1"]).toBe("8");
   expect(JSON.parse(stored["titelblatt:v3"]).data.foto).toBe(photo);
   expect(JSON.parse(stored["lebenslauf:v1"]).data.person.foto).toBe(photo);
+  expect(JSON.parse(stored["lebenslauf:v1"]).data.sectionLayouts).toEqual(sectionLayouts);
+  expect(JSON.parse(stored["lebenslauf:v1"]).data.erfahrung).toEqual(value.cv.data.erfahrung);
+  expect(JSON.parse(stored["lebenslauf:v1"]).data.sprachen).toEqual(value.cv.data.sprachen);
   expect(JSON.parse(stored["anschreiben:v1"]).data.images[0].src).toBe(photo);
   expect(stored["unrelated-app"]).toBe("must survive");
 });

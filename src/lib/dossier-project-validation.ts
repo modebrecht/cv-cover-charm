@@ -126,6 +126,26 @@ function typographyBucket(value: unknown): boolean {
   );
 }
 
+function cvSectionLayouts(value: unknown): boolean {
+  return (
+    record(value) &&
+    Object.values(value).every((layout) =>
+      optional(
+        layout,
+        nullable(
+          (entry) =>
+            record(entry) &&
+            optional(entry.page, (page) => page === 1 || page === 2) &&
+            optional(entry.width, choice("full", "half")) &&
+            optional(entry.positioning, choice("flow", "free")) &&
+            optional(entry.packing, choice("rows", "masonry")) &&
+            fields(entry, ["x", "y", "widthMm", "heightMm"], nullable(finiteNumber)),
+        ),
+      ),
+    )
+  );
+}
+
 function portableCvSettings(value: unknown): boolean {
   return (
     record(value) &&
@@ -311,6 +331,9 @@ export function validDossierProjectPart(kind: "cover" | "letter" | "cv", value: 
   if (!["hobbys", "staerken", "sectionOrder"].every((key) => optional(data[key], strings)))
     return false;
   return (
+    // Null/missing legacy layouts mean automatic placement. Supplied choices
+    // and coordinates must be usable, rather than silently becoming defaults.
+    optional(data.sectionLayouts, nullable(cvSectionLayouts)) &&
     optional(data.labels, stringMap) &&
     optional(
       data.hidden,
