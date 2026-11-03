@@ -1,4 +1,5 @@
 import { downloadBlob, safeFileName } from "@/lib/download";
+import { validDossierProjectPart, validDossierProjectSettings } from "./dossier-project-validation";
 import {
   COVER_STORAGE_KEY,
   CV_STORAGE_KEY,
@@ -16,13 +17,28 @@ function stringField(value: unknown): string {
   return typeof value === "string" ? value.trim() : "";
 }
 
-/** Older individual editor JSON has no project kind, but still has object data. */
-export function parseLegacyDossierPart(value: unknown): Record<string, unknown> | null {
-  return isRecord(value) &&
-    !Object.prototype.hasOwnProperty.call(value, "kind") &&
-    isRecord(value.data)
-    ? value
-    : null;
+/** Older editor files lack a format identifier. Validate before their
+ * editor-specific migrations can replace invalid values with defaults. */
+export function parseLegacyDossierPart(
+  value: unknown,
+  part: "cover" | "cv",
+): Record<string, unknown> | null {
+  if (!isRecord(value) || Object.hasOwn(value, "kind") || !isRecord(value.data)) return null;
+  const data = value.data;
+  const foreignFields =
+    part === "cover"
+      ? ["person", "schule", "erfahrung", "absenderName", "betreff"]
+      : ["vorname", "nachname", "beruf", "lehrbeginn", "absenderName", "betreff"];
+  if (foreignFields.some((key) => Object.hasOwn(data, key))) return null;
+  if (!validDossierProjectPart(part, value)) return null;
+  if (
+    part === "cv" &&
+    !validDossierProjectSettings({
+      cv: { ...value, portableState: value.portableState ?? undefined },
+    })
+  )
+    return null;
+  return value;
 }
 
 function projectPersonName(project: DossierProject): string {

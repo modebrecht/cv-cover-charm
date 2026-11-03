@@ -1173,6 +1173,58 @@ for (const [route, part, expectedName] of [
   });
 }
 
+for (const [route, part, foreignFile, malformedFile] of [
+  [
+    "titelblatt",
+    "cover",
+    project.cv,
+    { ...project.cover, data: { ...project.cover.data, beilagen: "kaputt" } },
+  ],
+  ["lebenslauf", "cv", project.cover, { ...project.cv, data: { ...project.cv.data, person: [] } }],
+] as const) {
+  test(`legacy ${part} rejects the wrong editor file and malformed data without a backup`, async ({
+    page,
+  }) => {
+    const letter = JSON.stringify({
+      ...JSON.parse(oldEntries["anschreiben:v1"]),
+      design: { template: "brief", font: "freundlich" },
+    });
+    await boot(page);
+    await seed(page, { ...oldEntries, "anschreiben:v1": letter });
+    for (const [name, contents] of [
+      ["wrong-editor.json", foreignFile],
+      ["malformed.json", malformedFile],
+    ] as const) {
+      await page.goto(`${BASE}/${route}`);
+      await page.getByRole("button", { name: "Menü", exact: true }).click();
+      const fileInput = page.locator('input[type="file"][accept*="json"]').first();
+      await expect(fileInput).toBeAttached();
+      await fileInput.setInputFiles({
+        name,
+        mimeType: "application/json",
+        buffer: Buffer.from(JSON.stringify(contents)),
+      });
+      await expect(
+        page.getByRole("banner").getByText(/Datei konnte nicht sicher geladen werden/),
+      ).toBeVisible();
+      const storage = await page.evaluate(async () => ({
+        cover: JSON.parse(localStorage.getItem("titelblatt:v3")!).data.vorname,
+        cv: JSON.parse(localStorage.getItem("lebenslauf:v1")!).data.person.vorname,
+        letter: localStorage.getItem("anschreiben:v1"),
+        journal: localStorage.getItem("cv-cover-charm:import-journal:v1"),
+        databases: (await indexedDB.databases()).map(({ name }) => name),
+      }));
+      expect(storage).toEqual({
+        cover: "Bisherige",
+        cv: "Bisherige",
+        letter,
+        journal: null,
+        databases: [],
+      });
+    }
+  });
+}
+
 test("home file input uses full replacement and removes absent documents", async ({ page }) => {
   await boot(page);
   await seed(page);

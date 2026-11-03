@@ -939,7 +939,7 @@ function Titelblatt() {
       const parsed: unknown = JSON.parse(await file.text());
       let project = parseDossierProject(parsed);
       if (!project) {
-        const legacy = parseLegacyDossierPart(parsed);
+        const legacy = parseLegacyDossierPart(parsed, "cover");
         if (!legacy) throw new Error("kein Titelblatt-Entwurf");
         project = {
           kind: "cv-cover-charm-dossier",

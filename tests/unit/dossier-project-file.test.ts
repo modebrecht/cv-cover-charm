@@ -88,18 +88,40 @@ describe("dossier JSON project files", () => {
   });
 
   test("legacy editor files need record data and cannot disguise foreign project formats", () => {
-    expect(parseLegacyDossierPart({ data: { vorname: "Lea" } })).toEqual({
-      data: { vorname: "Lea" },
-    });
-    for (const bad of [
-      [],
-      null,
-      { data: [] },
-      { kind: "future", data: {} },
-      { kind: "cv-cover-charm-dossier", version: 99, data: {} },
-    ]) {
-      expect(parseLegacyDossierPart(bad)).toBeNull();
+    for (const part of ["cover", "cv"] as const) {
+      for (const bad of [
+        [],
+        null,
+        { data: [] },
+        { kind: "future", data: {} },
+        { kind: "cv-cover-charm-dossier", version: 99, data: {} },
+      ]) {
+        expect(parseLegacyDossierPart(bad, part)).toBeNull();
+      }
     }
+  });
+
+  test("legacy editor files are validated before normalization", () => {
+    const cover = { version: 3, data: { vorname: "Lea" } };
+    const cv = {
+      version: 2,
+      data: { person: { vorname: "Lea" } },
+      design: { bgOpacity: 0.06, template: "modern" },
+      portableState: null,
+    };
+    expect(parseLegacyDossierPart(cover, "cover")).toEqual(cover);
+    expect(parseLegacyDossierPart(cv, "cv")).toEqual(cv);
+    expect(parseLegacyDossierPart({ data: {} }, "cover")).toEqual({ data: {} });
+    expect(parseLegacyDossierPart(cv, "cover")).toBeNull();
+    expect(parseLegacyDossierPart(cover, "cv")).toBeNull();
+
+    const letter = { data: { absenderName: "Lea", betreff: "Bewerbung" } };
+    expect(parseLegacyDossierPart(letter, "cover")).toBeNull();
+    expect(parseLegacyDossierPart(letter, "cv")).toBeNull();
+    expect(parseLegacyDossierPart({ data: { beilagen: "kaputt" } }, "cover")).toBeNull();
+    expect(parseLegacyDossierPart({ ...cv, data: { person: [] } }, "cv")).toBeNull();
+    expect(parseLegacyDossierPart({ ...cv, portableState: [] }, "cv")).toBeNull();
+    expect(parseLegacyDossierPart({ ...cv, design: { titleScale: "kaputt" } }, "cv")).toBeNull();
   });
 
   test("full replacement migrates legacy letter chrome while explicit project chrome wins", () => {

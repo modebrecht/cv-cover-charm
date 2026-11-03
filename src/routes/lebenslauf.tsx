@@ -833,7 +833,7 @@ function Lebenslauf() {
       const parsed: unknown = JSON.parse(await file.text());
       let project = parseDossierProject(parsed);
       if (!project) {
-        const legacy = parseLegacyDossierPart(parsed);
+        const legacy = parseLegacyDossierPart(parsed, "cv");
         if (!legacy) throw new Error("kein Lebenslauf");
         const saved = legacy as Partial<Saved>;
         project = {
