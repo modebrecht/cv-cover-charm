@@ -4,7 +4,10 @@ import {
   readPortableCvState,
   type PortableCvState,
 } from "@/components/cv/portable-state";
-import { validDossierProjectPart } from "@/lib/dossier-project-validation";
+import {
+  validDossierProjectPart,
+  validDossierProjectSettings,
+} from "@/lib/dossier-project-validation";
 import {
   applyPortableDossierChromeState,
   dossierChromeStateFromLegacyLetter,
@@ -126,6 +129,7 @@ export function parseDossierProject(value: unknown): DossierProject | null {
       return null;
     }
   }
+  if (!validDossierProjectSettings(value)) return null;
 
   const cover = isRecord(value.cover) && isRecord(value.cover.data) ? value.cover : undefined;
   const letter = isRecord(value.letter) && isRecord(value.letter.data) ? value.letter : undefined;

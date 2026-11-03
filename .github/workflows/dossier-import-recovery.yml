@@ -1,6 +1,21 @@
 name: Dossier JSON import recovery
 
 on:
+  push:
+    branches: [dev]
+    paths:
+      - "src/lib/dossier-project*.ts"
+      - "src/lib/dossier-import.ts"
+      - "src/lib/dossier-storage-write.ts"
+      - "src/components/cv/portable-state.ts"
+      - "src/components/dossier/ProjectFileControls.tsx"
+      - "tests/e2e/dossier-import-recovery.spec.ts"
+      - "tests/unit/dossier-project*.test.ts"
+      - "tests/qa/playwright.import-recovery.config.ts"
+      - ".github/workflows/dossier-import-recovery.yml"
+      - "scripts/qa-browser-setup.sh"
+      - "package.json"
+      - "bun.lock"
   pull_request:
     branches: [dev]
     paths:
@@ -24,7 +39,7 @@ concurrency:
 
 jobs:
   verify:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
@@ -39,7 +54,8 @@ jobs:
           bun install --frozen-lockfile
           npm install --prefix "$RUNNER_TEMP/cvcc-browser-tools" --no-package-lock --no-audit --no-fund @playwright/test@1.56.1
           ln -s "$RUNNER_TEMP/cvcc-browser-tools/node_modules/@playwright" node_modules/@playwright
-          "$RUNNER_TEMP/cvcc-browser-tools/node_modules/.bin/playwright" install --with-deps chromium
+          ln -s "$RUNNER_TEMP/cvcc-browser-tools/node_modules/.bin/playwright" node_modules/.bin/playwright
+          bash scripts/qa-browser-setup.sh
       - name: Units, types, lint and build
         run: |
           bun test tests/unit

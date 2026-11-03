@@ -1,4 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
+import { readFile } from "node:fs/promises";
 
 const BASE = "http://127.0.0.1:4173";
 const photo =
@@ -327,6 +328,136 @@ test("malformed supplied part and future format cannot create a backup or alter 
   expect(result.errors).toHaveLength(3);
   expect(result.after).toEqual(result.before);
   expect(result.databases.some((db) => db.name === "cv-cover-charm-import-backup-v1")).toBe(false);
+});
+
+test("corrupt settings are rejected through the real file input before confirmation or storage writes", async ({
+  page,
+}) => {
+  await boot(page);
+  await seed(page, {
+    ...oldEntries,
+    "lebenslauf:photo:v2": '{"shape":"circle","zoom":1.7,"x":30,"y":70,"borderWidth":1}',
+    "bewerbungsdossier:page-margins:v1": '{"letter":{"top":24,"right":22,"bottom":24,"left":22}}',
+  });
+  const before = await page.evaluate(() => ({ ...localStorage }));
+  const dialogs: { type: string; message: string }[] = [];
+  page.on("dialog", async (dialog) => {
+    dialogs.push({ type: dialog.type(), message: dialog.message() });
+    await dialog.dismiss();
+  });
+  const files = [
+    { ...project, chrome: [] },
+    { ...project, pageMargins: { letter: { top: "broken", right: 10, bottom: 10, left: 10 } } },
+    { ...project, fieldTypography: { cv: [] } },
+    { ...project, cv: { ...project.cv, portableState: { photoStyle: [] } } },
+  ];
+  for (const [index, value] of files.entries()) {
+    await page.locator('input[type="file"][accept*="json"]').setInputFiles({
+      name: `corrupt-settings-${index}.json`,
+      mimeType: "application/json",
+      buffer: Buffer.from(JSON.stringify(value)),
+    });
+    await expect.poll(() => dialogs.length).toBe(index + 1);
+    expect(dialogs[index].type).toBe("alert");
+    expect(dialogs[index].message).toContain("Dossier");
+    expect(await page.evaluate(() => ({ ...localStorage }))).toEqual(before);
+  }
+  expect(
+    await page.evaluate(() => localStorage.getItem("cv-cover-charm:import-journal:v1")),
+  ).toBeNull();
+  expect(
+    await page.evaluate(async () =>
+      (await indexedDB.databases()).some((db) => db.name === "cv-cover-charm-import-backup-v1"),
+    ),
+  ).toBe(false);
+});
+
+test("confirmed project settings survive reload, a real JSON download and reimport", async ({
+  page,
+}) => {
+  await boot(page);
+  await seed(page);
+  page.on("dialog", (dialog) => dialog.accept());
+  const value = {
+    ...project,
+    chrome: {
+      version: 1,
+      sync: false,
+      shared: { headerMode: "contact" },
+      cv: { headerMode: "none", footerMode: "compact", headerGapMm: 8 },
+      letter: { headerMode: "contact", footerMode: "details", headerInlineSeparator: "pipe" },
+    },
+    pageMargins: { letter: { top: 24, right: 22, bottom: 26, left: 20 } },
+    fieldTypography: {
+      version: 1,
+      cv: {
+        person: { section: "Person", label: "Vorname", value: "Neue", style: { bold: true } },
+      },
+      letter: {},
+    },
+    cv: {
+      ...project.cv,
+      portableState: {
+        ...project.cv.portableState,
+        photoStyle: { shape: "portrait", zoom: 1.6, x: 30, y: 70, borderWidth: 0.6 },
+        photoPlacement: { mode: "frei", xMm: 150, yMm: 20, widthMm: 32, frameColor: "#123456" },
+      },
+    },
+  };
+  const firstReload = page.waitForEvent("domcontentloaded");
+  await page.locator('input[type="file"][accept*="json"]').setInputFiles({
+    name: "complete-settings.json",
+    mimeType: "application/json",
+    buffer: Buffer.from(JSON.stringify(value)),
+  });
+  await firstReload;
+  await expect(page.getByRole("button", { name: "Dossier laden", exact: true })).toBeVisible();
+  await page.goto(`${BASE}/lebenslauf`);
+  const button = page.getByRole("button", { name: "Download", exact: true });
+  await expect(button).toHaveAttribute("data-editor-ready", "true");
+  await button.click();
+  const [download] = await Promise.all([
+    page.waitForEvent("download"),
+    page.getByRole("menuitem", { name: "Dossier JSON", exact: true }).click(),
+  ]);
+  const bytes = await readFile((await download.path())!);
+  const exported = JSON.parse(bytes.toString("utf8"));
+  expect(exported.chrome).toMatchObject(value.chrome);
+  expect(exported.pageMargins.letter).toEqual(value.pageMargins.letter);
+  expect(exported.fieldTypography).toEqual(value.fieldTypography);
+  expect(exported.cv.portableState).toMatchObject(value.cv.portableState);
+  expect(exported.cover.data.foto).toBe(photo);
+  expect(exported.cv.data.person.foto).toBe(photo);
+  expect(exported.letter.data.images[0].src).toBe(photo);
+  await page.goto(BASE);
+  await seed(page);
+  const secondReload = page.waitForEvent("domcontentloaded");
+  await page.locator('input[type="file"][accept*="json"]').setInputFiles({
+    name: download.suggestedFilename(),
+    mimeType: "application/json",
+    buffer: bytes,
+  });
+  await secondReload;
+  await expect(page.getByRole("button", { name: "Dossier laden", exact: true })).toBeVisible();
+  const stored = await page.evaluate(() => ({ ...localStorage }));
+  expect(JSON.parse(stored["bewerbungsdossier:chrome:v1"])).toEqual(exported.chrome);
+  expect(JSON.parse(stored["bewerbungsdossier:page-margins:v1"]).letter).toEqual(
+    value.pageMargins.letter,
+  );
+  expect(JSON.parse(stored["bewerbungsdossier:field-typography:v1"])).toEqual(
+    value.fieldTypography,
+  );
+  expect(JSON.parse(stored["lebenslauf:photo:v2"])).toEqual(value.cv.portableState.photoStyle);
+  expect(JSON.parse(stored["lebenslauf:photo-place:v1"])).toEqual(
+    value.cv.portableState.photoPlacement,
+  );
+  expect(stored["lebenslauf:layout-mirror:v1"]).toBe("true");
+  expect(stored["lebenslauf:text-align:v1"]).toBe("justify");
+  expect(stored["lebenslauf:section-gap:v1"]).toBe("8");
+  expect(JSON.parse(stored["titelblatt:v3"]).data.foto).toBe(photo);
+  expect(JSON.parse(stored["lebenslauf:v1"]).data.person.foto).toBe(photo);
+  expect(JSON.parse(stored["anschreiben:v1"]).data.images[0].src).toBe(photo);
+  expect(stored["unrelated-app"]).toBe("must survive");
 });
 
 test("large existing image strings are backed up in IndexedDB without a second localStorage copy", async ({

@@ -6,8 +6,11 @@ const text = (value: unknown) => typeof value === "string";
 const image = (value: unknown) => value === null || text(value);
 const strings = (value: unknown) => Array.isArray(value) && value.every(text);
 const records = (value: unknown) => Array.isArray(value) && value.every(record);
-const fields = (value: Record<string, unknown>, keys: string[], accepts = text) =>
-  keys.every((key) => optional(value[key], accepts));
+const fields = (
+  value: Record<string, unknown>,
+  keys: string[],
+  accepts: (value: unknown) => boolean = text,
+) => keys.every((key) => optional(value[key], accepts));
 const stringMap = (value: unknown) => record(value) && Object.values(value).every(text);
 const entryList = (value: unknown) =>
   records(value) &&
@@ -32,6 +35,161 @@ const elements = (value: unknown) =>
     (entry) =>
       fields(entry, ["id", "label", "text", "kind", "shape", "path"]) && optional(entry.src, image),
   );
+
+const bool = (value: unknown) => typeof value === "boolean";
+const finiteNumber = (value: unknown) => typeof value === "number" && Number.isFinite(value);
+// Earlier chrome/margin normalizers accepted numeric strings. Preserve that
+// compatibility without letting arrays, booleans or broken text become numbers.
+const numericInput = (value: unknown) =>
+  finiteNumber(value) ||
+  (text(value) && (value as string).trim() !== "" && Number.isFinite(Number(value)));
+const nullable = (accepts: (value: unknown) => boolean) => (value: unknown) =>
+  value === null || accepts(value);
+const versionOne = (value: Record<string, unknown>) => optional(value.version, (v) => v === 1);
+const choice =
+  (...values: string[]) =>
+  (value: unknown) =>
+    text(value) && values.includes(value as string);
+
+function chromeOptions(value: unknown): boolean {
+  return (
+    record(value) &&
+    fields(value, ["headerMode", "headerContinuationMode"], choice("compact", "contact", "none")) &&
+    optional(value.footerMode, choice("compact", "details", "none")) &&
+    fields(value, ["headerTextLayout", "footerTextLayout"], choice("stacked", "inline")) &&
+    optional(value.headerInlineSeparator, choice("dot", "icons", "slash", "pipe", "space")) &&
+    fields(
+      value,
+      [
+        "headerShowName",
+        "headerShowAddress",
+        "headerShowPhone",
+        "headerShowEmail",
+        "headerDifferentFirstPage",
+        "borderEnabled",
+      ],
+      bool,
+    ) &&
+    fields(
+      value,
+      [
+        "headerHeightMm",
+        "headerGapMm",
+        "headerContentOffsetYMm",
+        "letterRecipientOffsetYMm",
+        "headerFontSizePt",
+        "footerHeightMm",
+        "footerContentOffsetYMm",
+        "footerFontSizePt",
+        "borderWidthMm",
+      ],
+      nullable(numericInput),
+    ) &&
+    fields(
+      value,
+      [
+        "headerBackgroundColor",
+        "headerGradientColor",
+        "headerTextColor",
+        "footerBackgroundColor",
+        "footerGradientColor",
+        "footerTextColor",
+        "borderColor",
+        "textFont",
+      ],
+      nullable(text),
+    )
+  );
+}
+
+function margins(value: unknown): boolean {
+  return (
+    record(value) && ["top", "right", "bottom", "left"].every((key) => numericInput(value[key]))
+  );
+}
+
+function typographyBucket(value: unknown): boolean {
+  return (
+    record(value) &&
+    Object.values(value).every(
+      (entry) =>
+        record(entry) &&
+        fields(entry, ["section", "label", "value", "fieldId"]) &&
+        optional(entry.contextValues, strings) &&
+        optional(
+          entry.docxOccurrence,
+          (v) => finiteNumber(v) && Number.isInteger(v) && Number(v) >= 0,
+        ) &&
+        record(entry.style) &&
+        fields(entry.style, ["bold", "italic", "underline"], bool),
+    )
+  );
+}
+
+function portableCvSettings(value: unknown): boolean {
+  return (
+    record(value) &&
+    optional(
+      value.layout,
+      choice("classic", "modern", "minimal", "timeline", "editorial", "executive"),
+    ) &&
+    optional(value.infoPosition, choice("standard", "mirrored")) &&
+    optional(value.textAlign, choice("left", "justify")) &&
+    optional(value.mirrored, bool) &&
+    fields(value, ["sectionGapMm", "continuationTopMarginMm", "continuationGapMm"], finiteNumber) &&
+    optional(
+      value.placements,
+      (placements) => record(placements) && Object.values(placements).every(choice("side", "main")),
+    ) &&
+    optional(
+      value.photoStyle,
+      (style) =>
+        record(style) &&
+        optional(style.shape, choice("rect", "square", "portrait", "circle")) &&
+        fields(style, ["zoom", "x", "y", "borderWidth"], numericInput),
+    ) &&
+    optional(
+      value.photoPlacement,
+      (placement) =>
+        record(placement) &&
+        optional(placement.mode, choice("auto", "left", "right", "frei")) &&
+        fields(placement, ["xMm", "yMm", "widthMm"], numericInput) &&
+        optional(placement.frameColor, nullable(text)),
+    )
+  );
+}
+
+/** File imports must reject corrupt supplied settings before normalization can
+ * discard them and a full replacement clears the existing choices. Missing
+ * legacy extensions and unknown additive fields remain supported. Browser
+ * storage readers retain their existing tolerant normalization policy. */
+export function validDossierProjectSettings(value: Record<string, unknown>): boolean {
+  return (
+    optional(
+      value.chrome,
+      (chrome) =>
+        record(chrome) &&
+        versionOne(chrome) &&
+        optional(chrome.sync, bool) &&
+        fields(chrome, ["shared", "cv", "letter"], chromeOptions),
+    ) &&
+    optional(
+      value.hyphenation,
+      (state) =>
+        bool(state) || (record(state) && versionOne(state) && optional(state.enabled, bool)),
+    ) &&
+    optional(
+      value.pageMargins,
+      (state) => record(state) && fields(state, ["cv", "letter"], margins),
+    ) &&
+    optional(
+      value.fieldTypography,
+      (state) =>
+        record(state) && versionOne(state) && fields(state, ["cv", "letter"], typographyBucket),
+    ) &&
+    (!record(value.cv) || optional(value.cv.portableState, portableCvSettings))
+  );
+}
 
 /** Validate supplied structures that editors consume as strings/arrays. Missing
  * historical fields and unknown additive fields remain compatible. This is a

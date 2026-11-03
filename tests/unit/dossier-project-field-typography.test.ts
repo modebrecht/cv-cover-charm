@@ -40,7 +40,7 @@ describe("dossier project field typography", () => {
     });
   });
 
-  test("drops malformed typography buckets without rejecting the project", () => {
+  test("rejects corrupt file typography before full replacement can discard it", () => {
     const project = parseDossierProject({
       kind: DOSSIER_PROJECT_KIND,
       version: DOSSIER_PROJECT_VERSION,
@@ -60,7 +60,6 @@ describe("dossier project field typography", () => {
       },
     });
 
-    expect(project).not.toBeNull();
-    expect(project?.fieldTypography).toBeUndefined();
+    expect(project).toBeNull();
   });
 });
