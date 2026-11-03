@@ -136,7 +136,12 @@ function portableCvSettings(value: unknown): boolean {
     optional(value.infoPosition, choice("standard", "mirrored")) &&
     optional(value.textAlign, choice("left", "justify")) &&
     optional(value.mirrored, bool) &&
-    fields(value, ["sectionGapMm", "continuationTopMarginMm", "continuationGapMm"], finiteNumber) &&
+    // Older exported projects use null for automatic/default spacing.
+    fields(
+      value,
+      ["sectionGapMm", "continuationTopMarginMm", "continuationGapMm"],
+      nullable(finiteNumber),
+    ) &&
     optional(
       value.placements,
       (placements) => record(placements) && Object.values(placements).every(choice("side", "main")),

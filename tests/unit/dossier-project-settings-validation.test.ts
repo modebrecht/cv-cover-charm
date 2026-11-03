@@ -1,5 +1,9 @@
 import { describe, expect, test } from "bun:test";
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
 import { parseDossierProject } from "../../src/lib/dossier-project";
+import reviewedProject from "../fixtures/import/modern-sidebar-from-23okt.json" with { type: "json" };
+import existingProjects from "../fixtures/import/historical-projects-28okt.json" with { type: "json" };
 
 const base = {
   kind: "cv-cover-charm-dossier",
@@ -9,6 +13,28 @@ const base = {
 };
 
 describe("project file settings validation before replacement", () => {
+  test("all 67 existing project fixtures retain file compatibility at their frozen hashes", () => {
+    expect(existingProjects).toHaveLength(67);
+    for (const fixture of existingProjects) {
+      const bytes = readFileSync(new URL(`../../${fixture.path}`, import.meta.url));
+      expect(createHash("sha256").update(bytes).digest("hex")).toBe(fixture.sha256);
+      if (!parseDossierProject(JSON.parse(bytes.toString("utf8")) as unknown))
+        throw new Error(`Supported project rejected: ${fixture.path}`);
+    }
+  });
+  test("the reviewed project retains legacy automatic spacing encoded as null", () => {
+    expect(reviewedProject.cv.portableState.sectionGapMm).toBeNull();
+    expect(parseDossierProject(reviewedProject)).not.toBeNull();
+    expect(
+      parseDossierProject({
+        ...base,
+        cv: {
+          ...base.cv,
+          portableState: { continuationGapMm: null, continuationTopMarginMm: null },
+        },
+      }),
+    ).not.toBeNull();
+  });
   test("corrupt shared settings cannot silently disappear or become defaults", () => {
     for (const bad of [
       { chrome: [] },
