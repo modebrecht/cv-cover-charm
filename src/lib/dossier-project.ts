@@ -1,3 +1,4 @@
+import { normalizeActiveTemplateId } from "@/components/cover/fresh-templates";
 import {
   applyPortableCvState,
   clearPortableCvState,
@@ -5,9 +6,11 @@ import {
   type PortableCvState,
 } from "@/components/cv/portable-state";
 import {
+  isFlatCoverLayout,
   validDossierProjectPart,
   validDossierProjectSettings,
 } from "@/lib/dossier-project-validation";
+import { coverPdfDocumentFromSaved } from "@/lib/dossier-pdf-document";
 import {
   applyPortableDossierChromeState,
   dossierChromeStateFromLegacyLetter,
@@ -117,6 +120,28 @@ export function createDossierProject(parts: {
   };
 }
 
+/** Maps the legacy block table to the template-keyed layout used by editors and exports. */
+export function normalizeDossierCoverLayout(
+  cover: Record<string, unknown>,
+  fallbackTemplate?: string,
+): Record<string, unknown> {
+  if (!isFlatCoverLayout(cover.layout)) return cover;
+  const template = normalizeActiveTemplateId(cover.template ?? fallbackTemplate);
+  // Flat snapshots include resolved defaults. Only differences should become
+  // user overrides, which take precedence over template CSS and Word defaults.
+  const blocks = coverPdfDocumentFromSaved({ ...cover, template, layout: {}, customs: [] })?.blocks;
+  const defaults = new Map(blocks?.map(({ id, style }) => [id, new Map(Object.entries(style))]));
+  const overrides = Object.entries(cover.layout).flatMap(([id, style]) => {
+    if (!isRecord(style)) return [];
+    const baseline = defaults.get(id);
+    const changes = Object.entries(style).filter(
+      ([key, value]) => !Object.is(baseline?.get(key), value),
+    );
+    return changes.length ? [[id, Object.fromEntries(changes)]] : [];
+  });
+  return { ...cover, layout: { [template]: Object.fromEntries(overrides) } };
+}
+
 /** Erkennt das gemeinsame Format; additive Felder bleiben für alte v1-Dateien optional. */
 export function parseDossierProject(value: unknown): DossierProject | null {
   if (!isRecord(value)) return null;
@@ -131,7 +156,10 @@ export function parseDossierProject(value: unknown): DossierProject | null {
   }
   if (!validDossierProjectSettings(value)) return null;
 
-  const cover = isRecord(value.cover) && isRecord(value.cover.data) ? value.cover : undefined;
+  const cover =
+    isRecord(value.cover) && isRecord(value.cover.data)
+      ? normalizeDossierCoverLayout(value.cover)
+      : undefined;
   const letter = isRecord(value.letter) && isRecord(value.letter.data) ? value.letter : undefined;
   const cv = isRecord(value.cv) && isRecord(value.cv.data) ? value.cv : undefined;
   const chrome = isRecord(value.chrome) ? normalizeDossierChromeState(value.chrome) : undefined;

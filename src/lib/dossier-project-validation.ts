@@ -1,4 +1,4 @@
-import { FONT_LABELS } from "@/components/cover/types";
+import { FONT_LABELS, TEMPLATES } from "@/components/cover/types";
 
 const record = (value: unknown): value is Record<string, unknown> =>
   !!value && typeof value === "object" && !Array.isArray(value);
@@ -52,6 +52,58 @@ const choice =
   (...values: string[]) =>
   (value: unknown) =>
     text(value) && values.includes(value as string);
+
+function elementOverrides(value: unknown): boolean {
+  return (
+    record(value) &&
+    Object.values(value).every(
+      nullable(
+        (style) =>
+          record(style) &&
+          fields(
+            style,
+            ["x", "y", "w", "h", "ratio", "gap", "imgZoom", "imgX", "imgY"],
+            finiteNumber,
+          ) &&
+          fields(style, ["anchorBottom", "lockRatio"], bool) &&
+          fields(style, ["follows", "above"], nullable(text)) &&
+          optional(style.layer, choice("back", "front")),
+      ),
+    )
+  );
+}
+
+// Older cover snapshots can store the active template's blocks directly.
+export function isFlatCoverLayout(value: unknown): value is Record<string, unknown> {
+  return (
+    record(value) &&
+    !TEMPLATES.some(({ id }) => Object.hasOwn(value, id)) &&
+    Object.values(value).some(
+      (style) =>
+        record(style) &&
+        ["x", "y", "w", "h", "ratio", "size", "color", "hidden", "imgZoom"].some((key) =>
+          Object.hasOwn(style, key),
+        ),
+    )
+  );
+}
+
+function coverLayout(value: unknown): boolean {
+  if (!record(value)) return false;
+  if (!isFlatCoverLayout(value)) return Object.values(value).every(elementOverrides);
+  return (
+    elementOverrides(value) &&
+    Object.values(value).every(
+      (style) =>
+        style === null ||
+        (record(style) &&
+          Object.values(style).every(
+            (setting) =>
+              setting === null || text(setting) || finiteNumber(setting) || bool(setting),
+          )),
+    )
+  );
+}
 
 function chromeOptions(value: unknown): boolean {
   return (
@@ -356,8 +408,24 @@ export function validDossierProjectSettings(value: Record<string, unknown>): boo
       (state) =>
         record(state) && versionOne(state) && fields(state, ["cv", "letter"], typographyBucket),
     ) &&
+    (!record(value.cover) || optional(value.cover.layout, nullable(coverLayout))) &&
     (!record(value.cv) ||
-      (optional(value.cv.portableState, portableCvSettings) && cvAppearance(value.cv))) &&
+      (optional(value.cv.portableState, portableCvSettings) &&
+        optional(value.cv.elementStyles, elementOverrides) &&
+        optional(
+          value.cv.elements,
+          (elements) =>
+            Array.isArray(elements) &&
+            elements.every(
+              (element) =>
+                record(element) &&
+                optional(
+                  element.page,
+                  nullable((page) => page === 1 || page === 2),
+                ),
+            ),
+        ) &&
+        cvAppearance(value.cv))) &&
     (!record(value.letter) || letterAppearance(value.letter))
   );
 }

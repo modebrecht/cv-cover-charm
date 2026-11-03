@@ -24,7 +24,9 @@ describe("project file settings validation before replacement", () => {
   });
   test("the reviewed project retains legacy automatic spacing encoded as null", () => {
     expect(reviewedProject.cv.portableState.sectionGapMm).toBeNull();
-    expect(parseDossierProject(reviewedProject)).not.toBeNull();
+    const parsed = parseDossierProject(reviewedProject);
+    expect(parsed?.cover?.layout).toEqual({ modern: {} });
+    expect(parseDossierProject(parsed)).toEqual(parsed);
     expect(
       parseDossierProject({
         ...base,
@@ -35,6 +37,20 @@ describe("project file settings validation before replacement", () => {
       }),
     ).not.toBeNull();
   });
+  test("migrates only actual changes in a flat snapshot to authored cover overrides", () => {
+    const cover = {
+      ...reviewedProject.cover,
+      layout: {
+        ...reviewedProject.cover.layout,
+        name: { ...reviewedProject.cover.layout.name, x: 23.5 },
+        "custom-text": { x: 12.25, y: 101, w: 64 },
+      },
+    };
+    expect(parseDossierProject({ ...reviewedProject, cover })?.cover?.layout).toEqual({
+      modern: { name: { x: 23.5 }, "custom-text": { x: 12.25, y: 101, w: 64 } },
+    });
+  });
+
   test("corrupt shared settings cannot silently disappear or become defaults", () => {
     for (const bad of [
       { chrome: [] },
@@ -77,6 +93,72 @@ describe("project file settings validation before replacement", () => {
     ]) {
       expect(parseDossierProject({ ...base, cv: { ...base.cv, portableState } })).toBeNull();
     }
+  });
+
+  test("rejects broken position, size and crop data in cover and CV element layouts", () => {
+    for (const override of [
+      [],
+      "broken",
+      { x: "25" },
+      { y: Infinity },
+      { w: {} },
+      { h: false },
+      { ratio: [] },
+      { gap: "broken" },
+      { imgZoom: "2" },
+      { imgX: {} },
+      { imgY: false },
+      { anchorBottom: "false" },
+      { lockRatio: 0 },
+      { follows: [] },
+    ]) {
+      expect(
+        parseDossierProject({
+          ...base,
+          cover: { data: {}, layout: { brief: { element: override } } },
+        }),
+      ).toBeNull();
+      expect(
+        parseDossierProject({ ...base, cv: { ...base.cv, elementStyles: { element: override } } }),
+      ).toBeNull();
+    }
+    for (const layout of [
+      [],
+      "broken",
+      { brief: [] },
+      { brief: null },
+      { brief: { x: 25 } },
+      { "custom-text": { x: {} } },
+      { "custom-text": { x: 25, invalidNested: {} } },
+    ]) {
+      expect(parseDossierProject({ ...base, cover: { data: {}, layout } })).toBeNull();
+    }
+    for (const page of [0, 3, "2", false, {}]) {
+      expect(parseDossierProject({ ...base, cv: { ...base.cv, elements: [{ page }] } })).toBeNull();
+    }
+  });
+
+  test("preserves fractional geometry, off-page coordinates and older automatic defaults", () => {
+    const style = {
+      x: -1.25,
+      y: 210.75,
+      w: 31.5,
+      ratio: 1.2,
+      imgZoom: 1.6,
+      imgX: 20,
+      imgY: 70,
+      follows: null,
+      lockRatio: false,
+    };
+    const cv = {
+      ...base.cv,
+      elements: [{ id: "old" }, { id: "second", page: 2 }, { id: "automatic", page: null }],
+      elementStyles: { old: null, second: style },
+    };
+    const cover = { data: {}, layout: { brief: { second: style }, modern: {} } };
+    const parsed = parseDossierProject({ ...base, cover, cv });
+    expect(parsed?.cover).toEqual(cover);
+    expect(parsed?.cv).toEqual(cv);
   });
 
   test("legacy missing extensions and supported partial settings stay readable", () => {

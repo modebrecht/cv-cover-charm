@@ -470,6 +470,18 @@ test("corrupt appearance settings are rejected without touching the previous dra
         design: { chromeContent: { footerText: "Eigener Text", footerTextEnabled: "false" } },
       },
     },
+    {
+      ...project,
+      cover: { ...project.cover, layout: { brief: { "custom-cover": { x: "broken" } } } },
+    },
+    {
+      ...project,
+      cv: { ...project.cv, elementStyles: { "custom-cv": { imgZoom: {} } } },
+    },
+    {
+      ...project,
+      cv: { ...project.cv, elements: [{ id: "custom-cv", page: "2" }] },
+    },
   ];
   for (const [index, value] of files.entries()) {
     await page.locator('input[type="file"][accept*="json"]').setInputFiles({
@@ -824,6 +836,89 @@ async function confirmProjectFile(page: Page, name: string, buffer: Buffer) {
   await expect(page.getByRole("button", { name: "Dossier laden", exact: true })).toBeVisible();
 }
 
+test("free element geometry and the CV page survive a real JSON roundtrip", async ({ page }) => {
+  const coverText = {
+    id: "custom-cover-position",
+    label: "QA-Text",
+    text: "Frei platziert",
+    kind: "text",
+  };
+  const cvImage = {
+    id: "custom-cv-image",
+    label: "QA-Bild",
+    text: "",
+    kind: "image",
+    src: photo,
+    page: 2,
+  };
+  const layout = {
+    brief: { [coverText.id]: { x: 41.25, y: 111.5, w: 59.75, h: 9.5, layer: "back" } },
+    modern: { [coverText.id]: { x: 92, y: 100, w: 65 } },
+  };
+  const elementStyles = {
+    [cvImage.id]: { x: 36.5, y: 99.25, w: 29.5, ratio: 1.2, imgZoom: 1.5, imgX: 20, imgY: 70 },
+  };
+  const value = {
+    ...project,
+    cover: { ...project.cover, customs: [coverText], layout },
+    cv: {
+      ...project.cv,
+      design: { ...project.cv.design, useElements: true },
+      elements: [cvImage],
+      elementStyles,
+    },
+  };
+  await boot(page);
+  await seed(page);
+  await confirmProjectFile(page, "free-elements.json", Buffer.from(JSON.stringify(value)));
+
+  async function expectGeometry() {
+    await page.goto(`${BASE}/titelblatt`);
+    const cover = page
+      .locator(`[data-dossier-document="cover"] [data-block-id="${coverText.id}"]`)
+      .first();
+    await expect(cover).toBeVisible();
+    await expect(cover).toContainText(coverText.text);
+    await expect(cover).toHaveAttribute("data-element-layer", "back");
+    expect(
+      await cover.evaluate((node) => [node.style.left, node.style.top, node.style.width]),
+    ).toEqual(["41.25mm", "111.5mm", "59.75mm"]);
+
+    await page.goto(`${BASE}/lebenslauf`);
+    const cv = page.locator(`[data-cv-page="1"] [data-block-id="${cvImage.id}"]`).first();
+    await expect(cv).toBeVisible();
+    await expect(page.locator(`[data-cv-page="0"] [data-block-id="${cvImage.id}"]`)).toHaveCount(0);
+    expect(
+      await cv.evaluate((node) => [node.style.left, node.style.top, node.style.width]),
+    ).toEqual(["36.5mm", "99.25mm", "29.5mm"]);
+    const image = cv.locator("img");
+    await expect(image).toHaveAttribute("src", photo);
+    expect(
+      await image.evaluate((node) => [node.style.width, node.style.left, node.style.top]),
+    ).toEqual(["150%", "-10%", "-35%"]);
+  }
+
+  await expectGeometry();
+  const button = page.getByRole("button", { name: "Download", exact: true });
+  await expect(button).toHaveAttribute("data-editor-ready", "true");
+  await button.click();
+  const [download] = await Promise.all([
+    page.waitForEvent("download"),
+    page.getByRole("menuitem", { name: "Dossier JSON", exact: true }).click(),
+  ]);
+  const bytes = await readFile((await download.path())!);
+  const restored = JSON.parse(bytes.toString("utf8"));
+  expect(restored.cover.layout).toMatchObject(layout);
+  expect(restored.cover.customs).toEqual([coverText]);
+  expect(restored.cv.elements).toEqual([cvImage]);
+  expect(restored.cv.elementStyles).toEqual(elementStyles);
+
+  await boot(page);
+  await seed(page);
+  await confirmProjectFile(page, download.suggestedFilename(), bytes);
+  await expectGeometry();
+});
+
 async function expectRestoredParts(page: Page, input: typeof modernSidebar) {
   const stored = await page.evaluate((keys) => {
     const read = (key: string) => JSON.parse(localStorage.getItem(key) ?? "null");
@@ -998,7 +1093,9 @@ for (const fixture of roundtripFixtures) {
       : undefined;
     const json = await downloadRestoredDossier(page, "json", "before", fixture.word);
     const exported: typeof modernSidebar = JSON.parse(json.bytes.toString("utf8"));
-    expect(exported.cover).toMatchObject(input.cover);
+    expect(exported.cover).toMatchObject(
+      fixture.word ? { ...input.cover, layout: { modern: {} } } : input.cover,
+    );
     expect(exported.letter.data).toMatchObject({ ...input.letter.data, betreff: subject });
     expect(exported.cv.data).toEqual(input.cv.data);
     expect(exported.cv.design).toMatchObject(input.cv.design);
@@ -1163,6 +1260,8 @@ for (const [route, part, expectedName] of [
             ...project.cover,
             data: { ...project.cover.data, vorname: expectedName },
             font: "freundlich",
+            customs: [{ id: "custom-legacy", label: "Legacy", text: "Legacy-Text" }],
+            layout: { "custom-legacy": { x: 37.5, y: 103, w: 42 } },
           }
         : {
             ...project.cv,
@@ -1203,6 +1302,13 @@ for (const [route, part, expectedName] of [
     );
     expect(content.photo).toBe(photo);
     expect(content.font).toBe("freundlich");
+    if (part === "cover") {
+      const element = page
+        .locator('[data-dossier-document="cover"] [data-block-id="custom-legacy"]')
+        .first();
+      await expect(element).toBeVisible();
+      expect(await element.evaluate((node) => node.style.left)).toBe("37.5mm");
+    }
     await page.reload();
     await expect(page.getByRole("button", { name: "Menü", exact: true })).toBeVisible();
     expect(

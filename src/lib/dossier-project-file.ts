@@ -31,13 +31,9 @@ export function parseLegacyDossierPart(
       : ["vorname", "nachname", "beruf", "lehrbeginn", "absenderName", "betreff"];
   if (foreignFields.some((key) => Object.hasOwn(data, key))) return null;
   if (!validDossierProjectPart(part, value)) return null;
-  if (
-    part === "cv" &&
-    !validDossierProjectSettings({
-      cv: { ...value, portableState: value.portableState ?? undefined },
-    })
-  )
-    return null;
+  const settings =
+    part === "cv" ? { ...value, portableState: value.portableState ?? undefined } : value;
+  if (!validDossierProjectSettings({ [part]: settings })) return null;
   return value;
 }
 

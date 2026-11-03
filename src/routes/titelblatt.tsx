@@ -59,6 +59,7 @@ import {
   COVER_STORAGE_KEY,
   CV_STORAGE_KEY,
   createDossierProject,
+  normalizeDossierCoverLayout,
   parseDossierProject,
   readStoredDossierPart,
 } from "@/lib/dossier-project";
@@ -958,7 +959,9 @@ function Titelblatt() {
             },
             layout: {
               ...layoutByTemplate,
-              ...(legacy.layout as Partial<Record<TemplateId, StyleOverrides>> | undefined),
+              ...(normalizeDossierCoverLayout(legacy, template).layout as
+                | Partial<Record<TemplateId, StyleOverrides>>
+                | undefined),
             },
             customs: sanitizeCustoms(legacy.customs),
             fontScale: typeof legacy.fontScale === "number" ? legacy.fontScale : fontScale,
