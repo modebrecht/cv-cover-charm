@@ -18,6 +18,7 @@ import { briefFontTextSupported } from "./docx-next/brief-fonts.browser";
 import { interiorMetricsKey } from "./docx-next/interior-metrics";
 import { compositeTextColor } from "./docx-next/colors";
 import { cvWordLayout } from "./docx-next/layouts";
+import { CV_TWO_PAGE_PREVIEW_ERROR, DocxDownloadError } from "./docx-next/download-error";
 import type { CvSidebarTextMetrics } from "./docx-next/cv-sidebar-text-metrics";
 import type { DossierAppSnapshot } from "./docx-next/source";
 
@@ -66,10 +67,11 @@ function sidebarColor(el: HTMLElement): string {
   return compositeTextColor(color, base.color, (rgba[3] ?? 1) * Number(s.opacity));
 }
 
-/** Measure effective authored text styles, never positions, page counts or fragments. */
+/** Measure authored styles and, on request, the page containing each semantic field. */
 export async function captureCvSidebarTextMetrics(
   source: DossierAppSnapshot,
   profile: string,
+  captureTwoPages = false,
 ): Promise<CvSidebarTextMetrics> {
   if (
     cvWordLayout(source.settings.cvLayout) !== "sidebar" ||
@@ -329,6 +331,25 @@ export async function captureCvSidebarTextMetrics(
       result.referenceGapMm =
         mm(number(getComputedStyle(references).columnGap)) * cvDocumentZoom(references);
     const pages = host.querySelectorAll<HTMLElement>("[data-cv-page]");
+    if (captureTwoPages) {
+      if (pages.length !== 2) throw new DocxDownloadError(CV_TWO_PAGE_PREVIEW_ERROR);
+      const membership: NonNullable<CvSidebarTextMetrics["fieldPages"]> = Object.create(null);
+      pages.forEach((page, index) => {
+        const number = index === 0 ? 1 : 2;
+        for (const field of page.querySelectorAll<HTMLElement>(
+          "[data-cv-name], [data-dossier-field-id]",
+        )) {
+          if (!field.closest("[data-cv-main], [data-cv-sidebar]") || !field.textContent?.trim())
+            continue;
+          const id = field.hasAttribute("data-cv-name")
+            ? "cv.person.name"
+            : field.dataset.dossierFieldId!;
+          const previous = membership[id];
+          membership[id] = previous === undefined || previous === number ? number : "ambiguous";
+        }
+      });
+      result.fieldPages = membership;
+    }
     for (const [index, repeat] of ["first", "continuation"].entries()) {
       const page = pages[Math.min(index, pages.length - 1)];
       const rail = page?.querySelector<HTMLElement>("[data-cv-sidebar]");

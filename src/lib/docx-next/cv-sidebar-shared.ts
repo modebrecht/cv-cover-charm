@@ -15,6 +15,7 @@ export function composeSharedCvSidebar(
   opacity: number,
   automaticSidePhotoWidthMm?: number,
   ordinaryPicture = false,
+  twoPagePreview = false,
 ): void {
   if (part.layout.mode !== "sidebar") throw Error("DOCX Next shared grid requires Sidebar");
   const { rail, mainText, sideText } = first;
@@ -148,7 +149,10 @@ export function composeSharedCvSidebar(
   }
   // Retain the existing independent-story behavior: paragraphs can split naturally.
   for (const block of walkBlocks([...side, ...main])) {
-    if ((block.kind === "section" || block.kind === "group") && block.startPage === 2)
+    if (
+      (block.kind === "group" || (block.kind === "section" && !twoPagePreview)) &&
+      block.startPage === 2
+    )
       throw new DocxDownloadError(CV_EXPLICIT_SECOND_PAGE_ERROR);
     if (
       block.kind === "column-flow" ||

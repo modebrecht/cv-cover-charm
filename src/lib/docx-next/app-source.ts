@@ -32,6 +32,11 @@ import type { DocumentPart } from "./model";
 
 export { DocxDownloadError } from "./download-error";
 
+export type AppDocxNextOptions = {
+  /** Explicit QA path pending acceptance in Desktop Word. */
+  cvTwoPagePreview?: true;
+};
+
 /** Keep implementation diagnostics out of the ordinary download interface. */
 export function docxDownloadErrorMessage(error: unknown): string {
   return error instanceof DocxDownloadError
@@ -40,7 +45,12 @@ export function docxDownloadErrorMessage(error: unknown): string {
 }
 
 /** Only populated blocks create explicit page assignments in the Word model. */
-function hasExplicitSecondCvPage({ data, design, elements, elementStyles }: DossierCvSource) {
+export function hasExplicitSecondCvPage({
+  data,
+  design,
+  elements,
+  elementStyles,
+}: DossierCvSource) {
   const hasSecondPageRubric = cvSectionOrder(data).some((key) => {
     if (cvSectionLayout(data, key).page !== 2) return false;
     if (key === "person") {
@@ -70,6 +80,7 @@ function hasExplicitSecondCvPage({ data, design, elements, elementStyles }: Doss
 export function assertAppDocxNextSource(
   source: DossierAppSnapshot,
   part?: DocumentPart["id"],
+  options?: AppDocxNextOptions,
 ): void {
   const includes = (id: DocumentPart["id"]) => !part || part === id;
   if (
@@ -138,11 +149,18 @@ export function assertAppDocxNextSource(
           ? "Bitte im Brief eine Kopfzeile mit Kontaktdaten und eine kompakte Fusszeile wählen."
           : "Bitte in Brief und Lebenslauf eine Kopfzeile mit Kontaktdaten und eine kompakte Fusszeile wählen.",
     );
-  if (includes("cv") && hasExplicitSecondCvPage(source.cv))
+  if (
+    includes("cv") &&
+    hasExplicitSecondCvPage(source.cv) &&
+    (!options?.cvTwoPagePreview || source.cv.design.useElements)
+  )
     throw new DocxDownloadError(CV_EXPLICIT_SECOND_PAGE_ERROR);
 }
 
-export function captureSavedAppDocxNextSource(part?: DocumentPart["id"]): DossierAppSnapshot {
+export function captureSavedAppDocxNextSource(
+  part?: DocumentPart["id"],
+  options?: AppDocxNextOptions,
+): DossierAppSnapshot {
   // Optional documents can still supply the existing synchronized contact and
   // palette intent. Unreadable unrelated content is never rendered or saved.
   const read = <T>(id: DocumentPart["id"], capture: () => T): T | null => {
@@ -183,7 +201,7 @@ export function captureSavedAppDocxNextSource(part?: DocumentPart["id"]): Dossie
     {},
     part,
   );
-  assertAppDocxNextSource(source, part);
+  assertAppDocxNextSource(source, part, options);
   return source;
 }
 

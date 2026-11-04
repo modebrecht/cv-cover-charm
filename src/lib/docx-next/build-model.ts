@@ -50,6 +50,7 @@ import { applyContinuationMargin, applyFlowPageTops } from "./continuation-margi
 import { composeCvSidebar } from "./cv-sidebar-composition";
 import { composeSharedCvSidebar } from "./cv-sidebar-shared";
 import { applyCvSidebarTypography } from "./cv-sidebar-typography";
+import { composeTwoPageCvSidebar } from "./cv-sidebar-two-page";
 import type { CvSidebarTextMetrics } from "./cv-sidebar-text-metrics";
 import { cvSidebarGeometry, cvSidebarPhotoWidthMm } from "@/components/cv/sidebar-geometry";
 import { sidebarPlan } from "@/components/cv/intelligence";
@@ -119,6 +120,8 @@ export type BuildModelOptions = {
   cvPhotoComposition?: "ordinary-picture";
   /** Fresh source-bound Web typography; internal shared Sidebar candidate only. */
   cvSidebarTextMetrics?: CvSidebarTextMetrics;
+  /** Explicit QA only. Requires fresh semantic page membership for the Sidebar body. */
+  cvTwoPagePreview?: true;
   /** Unaccepted native identity separation for first-page header/footer stories. */
   chromeFirstPageIdentity?: "distinct-stories";
 };
@@ -143,6 +146,11 @@ export function buildDossierDocModel(
     includeCv = includes("cv");
   const capturedInteriorMetrics = options.interiorTextMetrics;
   const capturedSidebarMetrics = options.cvSidebarTextMetrics;
+  const twoPageMembership = options.cvTwoPagePreview
+    ? capturedSidebarMetrics?.fieldPages
+    : undefined;
+  if (options.cvTwoPagePreview && (!includeCv || !twoPageMembership))
+    throw Error("DOCX Next two-page preview requires measured CV pages");
   const personalMetrics = options.cvPersonalHeaderMetrics;
   if (
     personalMetrics &&
@@ -1843,6 +1851,7 @@ export function buildDossierDocModel(
             )
           : undefined,
         options.cvPhotoComposition === "ordinary-picture",
+        twoPageMembership !== undefined,
       );
     } else {
       composeCvSidebar(
@@ -1975,6 +1984,7 @@ export function buildDossierDocModel(
     cvPart.blocks = scaleCvReadingFlow(cvPart, capturedInteriorMetrics.cvFlowScale);
   if (includeCv && options.cvSidebarTextMetrics)
     applyCvSidebarTypography(cvPart, input, options.cvSidebarTextMetrics);
+  if (twoPageMembership) composeTwoPageCvSidebar(cvPart, twoPageMembership);
   if (options.letterFlowComposition && includeLetter) {
     if (options.letterFlowComposition !== "source-lines")
       throw Error("DOCX Next invalid Letter flow composition");

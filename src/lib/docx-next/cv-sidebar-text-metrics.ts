@@ -1,10 +1,12 @@
 import type { TextStyle } from "./model";
 
-/** Fresh effective CSS styles. No page counts, field rectangles or text heights. */
+/** Fresh effective CSS styles and optional semantic page membership for the explicit QA export. */
 export type CvSidebarTextMetrics = {
   version: 3;
   sourceKey: string;
   profile: string;
+  /** A field on both sheets is ambiguous and cannot be used to split native rows. */
+  fieldPages?: Record<string, 1 | 2 | "ambiguous">;
   /** Contact paint/text stays owned by the existing measured-header composition. */
   contactHeaders?: true;
   fields: Record<

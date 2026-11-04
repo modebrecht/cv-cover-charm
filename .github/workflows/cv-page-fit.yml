@@ -5,8 +5,11 @@ on:
     branches: [dev, render]
     paths:
       - "src/components/cv/**"
+      - "src/components/dossier-theme.css"
       - "src/routes/lebenslauf.tsx"
       - "src/lib/docx-next/**"
+      - "src/lib/docx-next-sidebar-metrics.browser.tsx"
+      - "src/lib/dossier-docx-next-export.ts"
       - "tests/qa/cv-*page-fit.qa.ts"
       - "tests/qa/playwright.*page-fit.config.ts"
       - ".github/workflows/cv-page-fit.yml"
@@ -57,6 +60,7 @@ jobs:
           path: |
             artifacts/two-page-fit/*.json
             artifacts/two-page-fit/*.pdf
+            artifacts/two-page-fit/*.docx
             artifacts/one-page-fit/*.json
             artifacts/one-page-fit/*.pdf
             artifacts/one-page-fit/*.docx

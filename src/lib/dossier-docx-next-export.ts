@@ -9,6 +9,8 @@ import {
   assertAppDocxNextSource,
   captureSavedAppDocxNextSource,
   DocxDownloadError,
+  hasExplicitSecondCvPage,
+  type AppDocxNextOptions,
 } from "./docx-next/app-source";
 import { prepareBriefFontProfile } from "./docx-next/brief-fonts.browser";
 import { captureCoverBadgeAdvances } from "./docx-next/cover-badges.browser";
@@ -30,11 +32,12 @@ export function buildAppDocxNextModel(
     interior?: InteriorTextMetrics;
   },
   part?: DocumentPart["id"],
+  options?: AppDocxNextOptions,
 ): DossierDocModel {
   const includeCover = !part || part === "cover",
     includeLetter = !part || part === "letter",
     includeCv = !part || part === "cv";
-  assertAppDocxNextSource(source, part);
+  assertAppDocxNextSource(source, part, options);
   if (includeCover && !measured.cover)
     throw new Error("DOCX Next: Titelblatt-Schriftmesswerte fehlen.");
   if (includeCv && !measured.sidebar) throw new Error("DOCX Next: CV-Schriftmesswerte fehlen.");
@@ -49,6 +52,9 @@ export function buildAppDocxNextModel(
           cvSidebarComposition: "shared-body-stories",
           cvSidebarTextMetrics: measured.sidebar,
           cvPhotoComposition: "ordinary-picture",
+          ...(options?.cvTwoPagePreview && hasExplicitSecondCvPage(source.cv)
+            ? { cvTwoPagePreview: true }
+            : {}),
         }
       : {}),
     ...(includeLetter || includeCv ? { interiorTextMetrics: measured.interior } : {}),
@@ -80,11 +86,14 @@ export function buildAppDocxNextModel(
 }
 
 /** Fresh saved inputs and actual browser measurements; no fixture or frozen asset replay. */
-export async function createSavedDossierDocxNext(part?: DocumentPart["id"]) {
-  const source = captureSavedAppDocxNextSource(part);
+export async function createSavedDossierDocxNext(
+  part?: DocumentPart["id"],
+  options?: AppDocxNextOptions,
+) {
+  const source = captureSavedAppDocxNextSource(part, options);
   const key = JSON.stringify(source);
   const unchanged = () => {
-    if (JSON.stringify(captureSavedAppDocxNextSource(part)) !== key)
+    if (JSON.stringify(captureSavedAppDocxNextSource(part, options)) !== key)
       throw new DocxDownloadError(
         "Der Entwurf wurde während des Exports geändert. Bitte erneut herunterladen.",
       );
@@ -164,11 +173,15 @@ export async function createSavedDossierDocxNext(part?: DocumentPart["id"]) {
           })
         : undefined;
     const sidebar = includeCv
-      ? await captureCvSidebarTextMetrics(source, fonts.profile)
+      ? await captureCvSidebarTextMetrics(
+          source,
+          fonts.profile,
+          options?.cvTwoPagePreview === true && hasExplicitSecondCvPage(source.cv),
+        )
       : undefined;
     unchanged();
     fonts.verify();
-    const model = buildAppDocxNextModel(source, { cover, interior, sidebar }, part);
+    const model = buildAppDocxNextModel(source, { cover, interior, sidebar }, part, options);
     const blob = await renderDossierDocx(model, {
       part,
       allowUnacceptedModelIssues: true,
@@ -186,8 +199,11 @@ export async function createSavedDossierDocxNext(part?: DocumentPart["id"]) {
   }
 }
 
-export async function downloadSavedDossierDocxNext(part?: DocumentPart["id"]) {
-  const { blob, source } = await createSavedDossierDocxNext(part);
+export async function downloadSavedDossierDocxNext(
+  part?: DocumentPart["id"],
+  options?: AppDocxNextOptions,
+) {
+  const { blob, source } = await createSavedDossierDocxNext(part, options);
   const person = part === "cv" ? source.cv.data.person : source.cover.data;
   const name =
     part === "letter"

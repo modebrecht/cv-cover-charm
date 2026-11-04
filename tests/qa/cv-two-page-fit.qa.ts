@@ -5,6 +5,7 @@ import { collectDocument, documentRoots } from "./pagination-browser";
 import { mkdir, writeFile, readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import approvedProject from "../fixtures/import/modern-sidebar-from-23okt.json" with { type: "json" };
+import { readZipEntries } from "../../src/lib/docx-next/zip";
 
 async function load(
   page: Page,
@@ -347,22 +348,26 @@ test("two-page: protects a free second-page rubric and its coordinates", async (
   );
 });
 
-test("two-page: Word menus explain the PDF alternative before download and after reload", async ({
-  page,
-}) => {
+async function loadWordProject(page: Page, input: typeof approvedProject) {
   page.on("dialog", (dialog) => dialog.accept());
   await page.goto(BASE_URL);
   const reloaded = page.waitForEvent("domcontentloaded", { timeout: 20_000 });
   await page.locator('input[type="file"][accept*="json"]').setInputFiles({
     name: "two-page.json",
     mimeType: "application/json",
-    buffer: Buffer.from(JSON.stringify(approvedProject)),
+    buffer: Buffer.from(JSON.stringify(input)),
   });
   await reloaded;
   await page.goto(`${BASE_URL}/lebenslauf`);
   await waitEditorReady(page);
   await page.evaluate(() => document.fonts.ready);
   await expect(page.locator('[role="status"][title="Automatisch gespeichert"]')).toBeVisible();
+}
+
+test("two-page: Word menus explain the PDF alternative before download and after reload", async ({
+  page,
+}) => {
+  await loadWordProject(page, approvedProject);
   await two(page);
   await checkedOutput(page);
   const before = (await snapshot(page)).saved;
@@ -393,3 +398,73 @@ test("two-page: Word menus explain the PDF alternative before download and after
   await dialog.getByText(/Was fehlt noch\?/).click();
   await expect(dialog.getByText(reason, { exact: false })).toBeVisible();
 });
+
+for (const { label, mirrored, width, long } of [
+  { label: "left", mirrored: false },
+  { label: "right", mirrored: true },
+  { label: "narrow", mirrored: false, width: 0.22 },
+  { label: "wide", mirrored: true, width: 0.5 },
+  { label: "long", mirrored: false, long: true },
+]) {
+  test(`two-page Word preview: ${label} preserves semantic fields in two native tables`, async ({
+    page,
+  }) => {
+    const input = structuredClone(approvedProject);
+    input.cv.portableState.infoPosition = mirrored ? "mirrored" : "standard";
+    input.cv.portableState.mirrored = mirrored;
+    if (width) input.cv.design.sidebarPct = width;
+    if (long)
+      input.cv.data.erfahrung.push(
+        ...Array.from({ length: 7 }, (_, index) => ({
+          ...input.cv.data.erfahrung[0],
+          id: `probe-praxis-${index + 1}`,
+          titel: `Praxiseinsatz ${index + 1}`,
+          ort: "Beispielbetrieb",
+          beschreibung:
+            "Planung und Dokumentation von Aufgaben. Zusammenarbeit im Team. ".repeat(3) +
+            `Abschluss ${index + 1}.`,
+        })),
+      );
+    await loadWordProject(page, input);
+    await two(page);
+    await checkedOutput(page);
+    const saved = (await snapshot(page)).saved;
+    await page.reload();
+    await waitEditorReady(page);
+    await expect.poll(async () => (await snapshot(page)).saved).toEqual(saved);
+    const downloading = page.waitForEvent("download");
+    await page.evaluate(async () => {
+      const exporter = "/src/lib/dossier-docx-next-export.ts";
+      await (
+        await import(exporter)
+      ).downloadSavedDossierDocxNext("cv", {
+        cvTwoPagePreview: true,
+      });
+    });
+    expect((await snapshot(page)).saved).toEqual(saved);
+
+    const download = await downloading;
+    await mkdir("artifacts/two-page-fit", { recursive: true });
+    const filename = `artifacts/two-page-fit/word-preview-${label}.docx`;
+    await download.saveAs(filename);
+    const bytes = await readFile(filename);
+    const entry = readZipEntries(bytes).find((entry) => entry.name === "word/document.xml");
+    const xml = new TextDecoder().decode(entry?.bytes);
+    const split = '<w:br w:type="page"/>';
+    const pages = xml.split(split);
+    expect(pages).toHaveLength(2);
+    expect(pages[0]).toContain('w:val="cv.sidebar"');
+    expect(pages[0]).toContain('name="cv.person.photo"');
+    expect(pages[1]).toContain('w:val="cv.sidebar.continuation"');
+    expect(pages[1]).toContain("Herr Thomas Weber");
+    expect(pages[1]).not.toContain('name="cv.person.photo"');
+    const fieldIds = Array.from(xml.matchAll(/<w:tag w:val="([^"]+)"\/>/g), ([, id]) => id);
+    expect(new Set(fieldIds).size).toBe(fieldIds.length);
+    expect(fieldIds).toHaveLength(long ? 71 : 43);
+    if (long)
+      for (let index = 1; index <= 7; index++) {
+        const field = `w:val="cv.entry.erfahrung:probe-praxis-${index}.title"`;
+        expect(pages[index <= 3 ? 0 : 1]).toContain(field);
+      }
+  });
+}

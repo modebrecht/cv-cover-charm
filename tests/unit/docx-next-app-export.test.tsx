@@ -8,6 +8,7 @@ import {
   DocxDownloadError,
 } from "../../src/lib/docx-next/app-source";
 import { buildDossierDocModel } from "../../src/lib/docx-next/build-model";
+import { composeTwoPageCvSidebar } from "../../src/lib/docx-next/cv-sidebar-two-page";
 import { walkBlocks } from "../../src/lib/docx-next/model";
 import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
 import { readZipEntries } from "../../src/lib/docx-next/zip";
@@ -134,6 +135,25 @@ test("app export rejects changed inputs with stale browser measurements", () => 
   const { source, measured } = setup();
   source.cv.data.person.vorname = "Changed after measurement";
   expect(() => buildAppDocxNextModel(source, measured)).toThrow(/veraltet/);
+});
+
+test("the Word preview refuses a page boundary through one native entry without mutating the model", () => {
+  const { source, measured } = setup();
+  const { cv } = buildAppDocxNextModel(source, measured, "cv");
+  const blocks = walkBlocks(cv.blocks);
+  const fields: NonNullable<CvSidebarTextMetrics["fieldPages"]> = Object.fromEntries(
+    blocks.filter((block) => block.kind === "paragraph").map(({ id }) => [id, 1]),
+  );
+  const entry = blocks.find(
+    (block) => block.kind === "entry" && block.id.startsWith("cv.entry.erfahrung:"),
+  );
+  if (entry?.kind !== "entry") throw Error("Missing measured experience entry");
+  const [first, second] = walkBlocks(entry.blocks).filter((block) => block.kind === "paragraph");
+  expect(fields[first.id]).toBe(1);
+  fields[second.id] = 2;
+  const before = structuredClone(cv);
+  expect(() => composeTwoPageCvSidebar(cv, fields)).toThrow(/nicht sicher aufgeteilt/);
+  expect(cv).toEqual(before);
 });
 
 test("availability keeps other templates, classic layouts and unmeasured font/header modes explicit", () => {
