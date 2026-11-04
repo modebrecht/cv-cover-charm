@@ -223,6 +223,32 @@ test("Word availability shares the existing source-letter layout gate", () => {
   }
 });
 
+test("explicit second-page CV content only blocks Word downloads that include the CV", () => {
+  const { source } = setup();
+  const data = source.cv.data;
+  const secondPage = { page: 2, positioning: "flow", width: "full" } as const;
+  data.sectionLayouts = { hobbys: secondPage, schule: secondPage };
+  data.hidden.schule = true;
+  const hobbies = data.hobbys;
+  data.hobbys = ["  "];
+  expect(() => assertAppDocxNextSource(source)).not.toThrow();
+
+  data.hobbys = hobbies;
+  for (const part of [undefined, "cv"] as const) {
+    expect(() => assertAppDocxNextSource(source, part)).toThrow(/Seite 2.*PDF-Download/);
+  }
+  for (const part of ["cover", "letter"] as const) {
+    expect(() => assertAppDocxNextSource(source, part)).not.toThrow();
+  }
+
+  data.sectionLayouts = {};
+  source.cv.elements = [{ id: "page-two", label: "Hinweis", text: "Text", page: 2 }];
+  source.cv.design.useElements = true;
+  expect(() => assertAppDocxNextSource(source, "cv")).toThrow(/Seite 2.*PDF-Download/);
+  source.cv.elementStyles["page-two"] = { hidden: true };
+  expect(() => assertAppDocxNextSource(source, "cv")).not.toThrow();
+});
+
 test("CV-only model retains the reviewed CV when other document templates and typography are unsupported", () => {
   const { source, measured } = setup();
   const baseline = buildAppDocxNextModel(source, measured);

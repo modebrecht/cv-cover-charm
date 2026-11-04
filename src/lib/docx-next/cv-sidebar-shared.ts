@@ -3,7 +3,7 @@ import type { CellDecoration, DocBlock, DocumentPart, TableBlock } from "./model
 import { walkBlocks } from "./model";
 import { imageZoneExtent } from "./image-zone";
 import { compositeTextColor } from "./colors";
-import { DocxDownloadError } from "./download-error";
+import { CV_EXPLICIT_SECOND_PAGE_ERROR, DocxDownloadError } from "./download-error";
 
 /** Two complete native stories on the authored page grid. No browser pagination. */
 export function composeSharedCvSidebar(
@@ -149,9 +149,7 @@ export function composeSharedCvSidebar(
   // Retain the existing independent-story behavior: paragraphs can split naturally.
   for (const block of walkBlocks([...side, ...main])) {
     if ((block.kind === "section" || block.kind === "group") && block.startPage === 2)
-      throw new DocxDownloadError(
-        "Fest auf Seite 2 zugewiesene CV-Rubriken sind im Word-Download noch nicht unterstützt. Bitte verwende den PDF-Download.",
-      );
+      throw new DocxDownloadError(CV_EXPLICIT_SECOND_PAGE_ERROR);
     if (
       block.kind === "column-flow" ||
       block.kind === "parallel-flow" ||

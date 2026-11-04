@@ -347,7 +347,7 @@ test("two-page: protects a free second-page rubric and its coordinates", async (
   );
 });
 
-test("two-page: native DOCX retains its explicit-page guard and explains the PDF alternative", async ({
+test("two-page: Word menus explain the PDF alternative before download and after reload", async ({
   page,
 }) => {
   page.on("dialog", (dialog) => dialog.accept());
@@ -365,12 +365,31 @@ test("two-page: native DOCX retains its explicit-page guard and explains the PDF
   await expect(page.locator('[role="status"][title="Automatisch gespeichert"]')).toBeVisible();
   await two(page);
   await checkedOutput(page);
-  await page.getByRole("button", { name: "Download", exact: true }).click();
   const before = (await snapshot(page)).saved;
-  await page.getByRole("menuitem", { name: "DOCX", exact: true }).click();
-  await expect(page.getByRole("alert").last()).toContainText(
-    "Fest auf Seite 2 zugewiesene CV-Rubriken sind im Word-Download noch nicht unterstützt.",
-  );
+  const reason =
+    "Fest auf Seite 2 zugewiesene CV-Rubriken sind im Word-Download noch nicht unterstützt. Bitte verwende den PDF-Download.";
+  for (const reload of [false, true]) {
+    if (reload) {
+      await page.reload();
+      await waitEditorReady(page);
+      await expect.poll(async () => (await snapshot(page)).saved).toEqual(before);
+    }
+    await page.getByRole("button", { name: "Download", exact: true }).click();
+    const menu = page.getByRole("menu");
+    for (const name of ["DOCX", "Dossier DOCX"])
+      await expect(menu.getByRole("menuitem", { name, exact: true })).toBeDisabled();
+    await expect(menu.getByText(reason, { exact: false })).toBeVisible();
+    await expect(menu.getByRole("menuitem", { name: "PDF", exact: true })).toBeEnabled();
+    await page.keyboard.press("Escape");
+  }
+  await actualPdf(page, "native-two-page-pdf-alternative");
   expect((await snapshot(page)).saved).toEqual(before);
   expect(before.data.person.foto).toBe(approvedProject.cv.data.person.foto);
+  await page.goto(BASE_URL);
+  await page.getByRole("button").filter({ hasText: "Gesamtdossier herunterladen" }).click();
+  const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
+  await expect(dialog.getByRole("radio", { name: "Bearbeitbares Dossier (DOCX)" })).toBeDisabled();
+  await expect(dialog.getByRole("radio", { name: "Fertiges Dossier (PDF)" })).toBeEnabled();
+  await dialog.getByText(/Was fehlt noch\?/).click();
+  await expect(dialog.getByText(reason, { exact: false })).toBeVisible();
 });

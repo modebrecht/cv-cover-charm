@@ -1,5 +1,14 @@
-import { lineText } from "@/components/cover/types";
+import { customKind, lineText } from "@/components/cover/types";
+import {
+  customSectionForKey,
+  cvSectionLayout,
+  cvSectionOrder,
+  entryFilled,
+  isCustomSectionKey,
+} from "@/components/cv/types";
 import { letterReadiness } from "@/components/letter/preflight";
+import { cvPersonalInfoRows } from "@/lib/cv-personal-info";
+import { referenceHasContent } from "@/lib/dossier-semantic-fields";
 import {
   coverPdfDocumentFromSaved,
   coverPdfHasContent,
@@ -16,8 +25,8 @@ import {
 import { resolveDossierChromeSnapshot } from "@/lib/dossier-resolved-chrome";
 import { DEFAULT_DOSSIER_CHROME_STATE } from "@/lib/dossier-chrome";
 import { captureDossierDocxNextSnapshot } from "./snapshot";
-import type { DossierAppSnapshot } from "./source";
-import { DocxDownloadError } from "./download-error";
+import type { DossierAppSnapshot, DossierCvSource } from "./source";
+import { CV_EXPLICIT_SECOND_PAGE_ERROR, DocxDownloadError } from "./download-error";
 import { sourceLetterFlowInputIssue } from "./letter-source-flow";
 import type { DocumentPart } from "./model";
 
@@ -28,6 +37,33 @@ export function docxDownloadErrorMessage(error: unknown): string {
   return error instanceof DocxDownloadError
     ? error.message
     : "Die DOCX-Datei konnte mit diesen Einstellungen nicht erstellt werden. Bitte prüfe dein Dossier.";
+}
+
+/** Only populated blocks create explicit page assignments in the Word model. */
+function hasExplicitSecondCvPage({ data, design, elements, elementStyles }: DossierCvSource) {
+  const hasSecondPageRubric = cvSectionOrder(data).some((key) => {
+    if (cvSectionLayout(data, key).page !== 2) return false;
+    if (key === "person") {
+      const { adresse, plzOrt, telefon, email } = data.person;
+      return (
+        [adresse, plzOrt, telefon, email].some((value) => value.trim()) ||
+        cvPersonalInfoRows(data.person).length > 0
+      );
+    }
+    if (isCustomSectionKey(key)) return customSectionForKey(data, key)?.entries.some(entryFilled);
+    if (data.hidden[key]) return false;
+    if (key === "schule" || key === "erfahrung") return data[key].some(entryFilled);
+    if (key === "sprachen")
+      return data[key].some(({ name, niveau }) => name.trim() || niveau.trim());
+    if (key === "referenzen") return data[key].some(referenceHasContent);
+    return data[key].some((value) => value.trim());
+  });
+  if (hasSecondPageRubric || !design.useElements) return hasSecondPageRubric;
+  return elements.some((element) => {
+    if (element.page !== 2 || elementStyles[element.id]?.hidden) return false;
+    const kind = customKind(element);
+    return kind === "shape" || !!element.src || (kind === "text" && !!element.text?.trim());
+  });
 }
 
 /** The reviewed application composition, independently of the older URL-only trials. */
@@ -102,6 +138,8 @@ export function assertAppDocxNextSource(
           ? "Bitte im Brief eine Kopfzeile mit Kontaktdaten und eine kompakte Fusszeile wählen."
           : "Bitte in Brief und Lebenslauf eine Kopfzeile mit Kontaktdaten und eine kompakte Fusszeile wählen.",
     );
+  if (includes("cv") && hasExplicitSecondCvPage(source.cv))
+    throw new DocxDownloadError(CV_EXPLICIT_SECOND_PAGE_ERROR);
 }
 
 export function captureSavedAppDocxNextSource(part?: DocumentPart["id"]): DossierAppSnapshot {
