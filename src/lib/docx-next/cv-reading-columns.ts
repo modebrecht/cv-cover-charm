@@ -4,7 +4,8 @@ import { parallelFlowTable } from "./parallel-flow";
 import { walkBlocks, type DocBlock, type DocumentPart, type SectionBlock } from "./model";
 
 /** Lower the saved compact sections to existing native cells, never page images.
- * The shared Web assignment counts a heading and one row per semantic record.
+ * This native candidate uses semantic row estimates. Web/PDF refine Masonry
+ * with browser-measured rubric heights once the layout is available.
  */
 export function composeCvReadingColumns(part: DocumentPart, data: CvData) {
   const layouts = new Map(

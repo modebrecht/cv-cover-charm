@@ -42,7 +42,7 @@ const fields = (model: ReturnType<typeof buildDossierDocModel>) =>
     )
     .sort(([a], [b]) => (a ?? "").localeCompare(b ?? ""));
 
-test("Web and native flow share stable column assignment including ties and empty rows", () => {
+test("Row-count fallback shares stable initial Web/native columns including ties and empty rows", () => {
   const rows = [
     { id: "a", rows: 4 },
     { id: "b", rows: 4 },

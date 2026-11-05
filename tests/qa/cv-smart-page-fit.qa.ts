@@ -1,5 +1,11 @@
 import { expect, test, type Page } from "@playwright/test";
-import { DEMO_CV, cvSectionOrder, type CvData, type CvDesign } from "../../src/components/cv/types";
+import {
+  DEMO_CV,
+  CV_SECTION_ORDER,
+  cvSectionOrder,
+  type CvData,
+  type CvDesign,
+} from "../../src/components/cv/types";
 import { BASE_URL, waitEditorReady } from "../e2e/support/dossier-gallery-shared";
 import { collectDocument, documentRoots } from "./pagination-browser";
 import { readFile, mkdir, writeFile } from "node:fs/promises";
@@ -91,6 +97,153 @@ function denseFixture(count: number) {
   }));
   for (const layout of Object.values(data.sectionLayouts!)) layout!.page = 1;
   return data;
+}
+
+function unevenMasonryFixture(targetPage: 1 | 2 = 1) {
+  const data = structuredClone(DEMO_CV);
+  data.person.foto = "";
+  data.hidden = Object.fromEntries(CV_SECTION_ORDER.map((key) => [key, true]));
+  data.customSections = [
+    {
+      id: "tall-a",
+      title: "Ausführliches Projekt",
+      description: "Planung und Dokumentation gemeinsamer Aufgaben. ".repeat(16),
+    },
+    { id: "short-b", title: "Kurzes Projekt", description: "Kurzer Eintrag." },
+    { id: "short-c", title: "Weiteres Projekt", description: "Zusammenarbeit im Team. ".repeat(3) },
+  ].map(({ id, title, description }) => ({
+    id,
+    title,
+    entries: [{ id: `${id}-entry`, zeit: "", titel: title, ort: "", beschreibung: description }],
+  }));
+  data.sectionOrder = ["person", "custom:tall-a", "custom:short-b", "custom:short-c"];
+  data.sectionLayouts = Object.fromEntries(
+    data.customSections.map(({ id }) => [
+      `custom:${id}`,
+      { page: targetPage, width: "half", positioning: "flow", packing: "masonry" },
+    ]),
+  );
+  if (targetPage === 2) {
+    data.hidden.referenzen = false;
+    data.sectionLayouts.referenzen = {
+      page: 1,
+      width: "full",
+      packing: "rows",
+      positioning: "free",
+      x: 24,
+      y: 120,
+      widthMm: 150,
+      heightMm: 45,
+    };
+  }
+  return data;
+}
+
+for (const targetPage of [1, 2] as const) {
+  test(`Masonry measured heights: ${targetPage === 1 ? "desktop page one" : "mobile page two with free reference"}`, async ({
+    page,
+  }) => {
+    if (targetPage === 2) await page.setViewportSize({ width: 390, height: 844 });
+    const data = unevenMasonryFixture(targetPage);
+    const root = await load(page, data, "classic");
+    const thirdInColumn = (column: number) =>
+      root.locator(
+        `[data-cv-measure-page] [data-cv-masonry-column="${column}"] [data-cv-rubric="custom:short-c"]`,
+      );
+    await expect(thirdInColumn(2)).toHaveCount(1);
+    const before = await saved(page);
+    const outputs = [];
+    for (const selector of [documentRoots("cv").web, documentRoots("cv").canonical]) {
+      const output = await collectDocument(page, selector, "cv");
+      expect(output).toHaveLength(targetPage);
+      expect(output.flatMap((p) => p.issues)).toEqual([]);
+      if (targetPage === 2) expect(output[0].text).toContain("Herr Thomas Weber");
+      const sheet = page
+        .locator(selector)
+        .first()
+        .locator("[data-cv-page]")
+        .nth(targetPage - 1);
+      for (const section of data.customSections!)
+        await expect(
+          sheet.locator(
+            `[data-dossier-field-id="cv.entry.custom:${section.id}:${section.id}-entry.description"]`,
+          ),
+        ).toHaveText(section.entries[0].beschreibung.trim());
+      const geometry = await sheet.evaluate((el) => {
+        const columns = Array.from(el.querySelectorAll<HTMLElement>("[data-cv-masonry-column]"));
+        return columns.map((column) =>
+          Array.from(column.querySelectorAll<HTMLElement>("[data-cv-rubric]")).map((node) => ({
+            key: node.dataset.cvRubric,
+            top: node.getBoundingClientRect().top,
+            bottom: node.getBoundingClientRect().bottom,
+            height: node.getBoundingClientRect().height,
+          })),
+        );
+      });
+      expect(geometry.map((column) => column.map((node) => node.key))).toEqual([
+        ["custom:tall-a"],
+        ["custom:short-b", "custom:short-c"],
+      ]);
+      expect(geometry[1][1].top).toBeGreaterThanOrEqual(geometry[1][0].bottom - 0.5);
+      const [a, b, c] = [geometry[0][0].height, geometry[1][0].height, geometry[1][1].height];
+      const savedHeight = Math.max(a + c, b) - Math.max(a, b + c);
+      expect(savedHeight).toBeGreaterThan(c - 1);
+      outputs.push({ selector, output, geometry, savedHeight });
+    }
+    expect(await saved(page)).toEqual(before);
+    await page.getByRole("button", { name: "Download", exact: true }).click();
+    const downloading = page.waitForEvent("download");
+    await page.getByRole("menuitem", { name: "PDF", exact: true }).click();
+    const directory = "artifacts/smart-fit-29okt";
+    await mkdir(directory, { recursive: true });
+    const filename = resolve(`${directory}/measured-masonry-page-${targetPage}.pdf`);
+    await (await downloading).saveAs(filename);
+    const { getDocument } = await import("pdfjs-dist/legacy/build/pdf.mjs");
+    const task = getDocument({
+      data: new Uint8Array(await readFile(filename)),
+      disableFontFace: true,
+    });
+    const pdf = await task.promise;
+    try {
+      expect(pdf.numPages).toBe(targetPage);
+      const content = await (await pdf.getPage(targetPage)).getTextContent();
+      const items = content.items.filter((item) => "str" in item);
+      for (const title of ["Ausführliches Projekt", "Kurzes Projekt", "Weiteres Projekt"])
+        expect(items.filter((item) => item.str === title)).toHaveLength(1);
+      const a = items.find((item) => item.str === "Ausführliches Projekt")!;
+      const b = items.find((item) => item.str === "Kurzes Projekt")!;
+      const c = items.find((item) => item.str === "Weiteres Projekt")!;
+      expect(c.transform[4]).toBeGreaterThan(a.transform[4] + 50);
+      expect(c.transform[4]).toBeCloseTo(b.transform[4], 0);
+      expect(c.transform[5]).toBeLessThan(b.transform[5]);
+    } finally {
+      await task.destroy();
+    }
+    // A live text edit reverses the height imbalance. Re-measure the moved
+    // nodes as well as the initial ones; an observer of detached nodes can
+    // otherwise restore the obsolete assignment or oscillate between columns.
+    const section = page.locator('[data-editor-section-title="Ausführliches Projekt"]');
+    await section.locator("[data-editor-section-toggle]").click();
+    await section
+      .locator('input[data-dossier-field-id="cv.entry.custom:tall-a:tall-a-entry.description"]')
+      .fill("Kurzer Eintrag.");
+    await expect(thirdInColumn(1)).toHaveCount(1);
+    await expect
+      .poll(async () => (await saved(page)).data.customSections[0].entries[0].beschreibung)
+      .toBe("Kurzer Eintrag.");
+    const after = await saved(page);
+    const expected = structuredClone(before);
+    expected.data.customSections[0].entries[0].beschreibung = "Kurzer Eintrag.";
+    expect(after).toEqual(expected);
+    await page.reload();
+    await waitEditorReady(page);
+    await expect(thirdInColumn(1)).toHaveCount(1);
+    await expect.poll(() => saved(page)).toEqual(after);
+    await writeFile(
+      `${directory}/measured-masonry-page-${targetPage}.json`,
+      JSON.stringify({ before, after, outputs }, null, 2),
+    );
+  });
 }
 
 async function unchangedOnePage(

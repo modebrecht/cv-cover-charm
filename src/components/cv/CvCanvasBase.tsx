@@ -223,6 +223,9 @@ export function CvCanvas({
     Partial<Record<CvLayoutSectionKey, FreeSectionLiveBox>>
   >({});
   const canvasRef = useRef<HTMLDivElement>(null);
+  const [masonryHeights, setMasonryHeights] = useState<Partial<Record<CvLayoutSectionKey, number>>>(
+    {},
+  );
 
   /** Vom Nutzer einstellbare Typografie und Spaltenbreite. */
   const headingRule = design.headingRule ?? CV_TYPE_DEFAULTS.headingRule;
@@ -1199,7 +1202,8 @@ export function CvCanvas({
   /**
    * Flow-Packing keeps ordinary half-width sections in safe rows. Consecutive
    * Masonry sections instead form two independent vertical columns; each next
-   * section is assigned to the currently shorter estimated column.
+   * section is assigned to the currently shorter measured column. Row counts
+   * provide the initial assignment until every rubric in the group is measured.
    */
   const packSectionUnits = (units: SectionUnit[]): Row[] => {
     const packed: Row[] = [];
@@ -1261,7 +1265,10 @@ export function CvCanvas({
         masonry = [];
         return;
       }
-      const columns = cvFlowColumns(masonry, (item) => item.rows.length);
+      const measured = masonry.every((item) => (masonryHeights[item.key] ?? 0) > 0);
+      const columns = cvFlowColumns(masonry, (item) =>
+        measured ? masonryHeights[item.key]! : item.rows.length,
+      );
       const render = (parts: Row[][]) => (
         <div
           data-cv-section-masonry
@@ -1596,23 +1603,51 @@ export function CvCanvas({
   useLayoutEffect(() => {
     const box = measureRef.current;
     if (!box || typeof ResizeObserver === "undefined") return;
+    let active = true;
+    const rubrics = Array.from(
+      box.querySelectorAll<HTMLElement>("[data-cv-section-masonry] [data-cv-rubric]"),
+    );
     const total = () =>
       Array.from(box.children).reduce(
         (sum, child) => sum + (child as HTMLElement).getBoundingClientRect().height,
         0,
       );
     const check = () => {
+      if (!active) return;
       const now = total();
-      if (Math.abs(now - lastTotal.current) < 0.5) return;
+      const scale = box.getBoundingClientRect().width / (box.offsetWidth || 1) || 1;
+      const heights: Partial<Record<CvLayoutSectionKey, number>> = {};
+      for (const rubric of rubrics) {
+        const key = rubric.dataset.cvRubric as CvLayoutSectionKey;
+        const height = rubric.getBoundingClientRect().height / scale;
+        if (Number.isFinite(height) && height > 0) heights[key] = height;
+      }
+      const keys = new Set([...Object.keys(masonryHeights), ...Object.keys(heights)]);
+      const changed = Array.from(keys).some(
+        (key) =>
+          Math.abs(
+            (masonryHeights[key as CvLayoutSectionKey] ?? 0) -
+              (heights[key as CvLayoutSectionKey] ?? 0),
+          ) >= 0.5,
+      );
+      if (!changed && Math.abs(now - lastTotal.current) < 0.5) return;
+      if (changed) setMasonryHeights(heights);
       lastTotal.current = now;
       setMeasuredAt((n) => n + 1);
     };
     const observer = new ResizeObserver(check);
     observer.observe(box);
     for (const child of Array.from(box.children)) observer.observe(child);
+    // Rebind when measured packing moves a rubric to another column: its old
+    // DOM node may be detached even though the section/row shape is unchanged.
+    for (const rubric of rubrics) observer.observe(rubric);
+    check();
     document.fonts?.ready.then(check).catch(() => {});
-    return () => observer.disconnect();
-  }, [shape]);
+    return () => {
+      active = false;
+      observer.disconnect();
+    };
+  }, [shape, masonryHeights]);
 
   useLayoutEffect(() => {
     const box = measureRef.current;
