@@ -103,6 +103,13 @@ jobs:
               tests/e2e/dossier-docx-studio3.spec.ts
               tests/e2e/dossier-docx-family-gallery.spec.ts
               tests/e2e/dossier-docx-v2-shadow.spec.ts
+          - group: pdf-consent
+            # Direct dev pushes do not trigger the opt-in preflight matrix.
+            # This focused suite owns Vite through its existing QA config.
+            ownsServer: true
+            files: >-
+              --config=tests/qa/playwright.preflight-core.config.ts
+              tests/qa/pdf-consent-boundaries.qa.ts
           - group: letter-m1-m5
             files: >-
               tests/e2e/letter-header-modes.spec.ts
@@ -188,6 +195,7 @@ jobs:
         run: bash scripts/qa-browser-setup.sh
 
       - name: Start application
+        if: ${{ !matrix.ownsServer }}
         shell: bash
         run: |
           bun run dev -- --host 127.0.0.1 --port 4173 > /tmp/cv-cover-charm.log 2>&1 &
@@ -205,7 +213,7 @@ jobs:
 
       - name: Run ${{ matrix.group }} regressions
         env:
-          PLAYWRIGHT_JSON_OUTPUT_NAME: artifacts/regression/${{ matrix.group }}.json
+          PLAYWRIGHT_JSON_OUTPUT_NAME: ${{ github.workspace }}/artifacts/regression/${{ matrix.group }}.json
         run: npx playwright test ${{ matrix.files }} --reporter=line,json --workers=1
 
       - name: Upload regression result
@@ -214,6 +222,15 @@ jobs:
         with:
           name: regression-${{ matrix.group }}-${{ github.sha }}
           path: artifacts/regression/${{ matrix.group }}.json
+          retention-days: 14
+
+      - name: Upload PDF consent evidence
+        if: matrix.group == 'pdf-consent' && always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pdf-consent-evidence-${{ github.sha }}
+          path: test-results/pdf-core-recovery
+          if-no-files-found: warn
           retention-days: 14
 
       - name: Upload DOCX references
@@ -275,7 +292,7 @@ jobs:
         run: cat /tmp/cv-cover-charm.log || true
 
       - name: Stop application
-        if: always()
+        if: ${{ always() && !matrix.ownsServer }}
         shell: bash
         run: |
           if [ -f /tmp/cv-cover-charm.pid ]; then
