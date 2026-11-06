@@ -30,8 +30,9 @@ zusätzlich unabhängig vor dem Download und während des Exports.
   Text, `display:none` und gelöschte Prüfmetadaten. Sie prüfen tatsächliche
   Dialogsperre, direkte Generator-API mit null Downloads, unveränderten
   lokalen Speicher und die Rückkehr zum gültigen Zustand nach Neuladen.
-- Die bestehende direkte-dev-Prüfgruppe führt jetzt insgesamt **14 Fälle** aus;
-  lokal alle bestanden, keine Wiederholung oder Auslassung.
+- Die bestehende direkte-dev-Prüfgruppe führt jetzt insgesamt **15 Fälle** aus.
+  Die bisherigen 14 und der zusätzliche Rasterklon-Fall bestanden lokal;
+  automatische Wiederholungen und Auslassungen waren ausgeschaltet.
 - Vier neue Units prüfen den Quellvertrag für alle **39** Produktionsvorlagen,
   Rich Text, leere Zeilen, bewusst ausgeblendete Inhalte, optionale Empfänger/
   Beilagen und beschädigte oder doppelte Metadaten. Das ist eine Prüfung der
@@ -44,11 +45,25 @@ zusätzlich unabhängig vor dem Download und während des Exports.
   erfolgreich **zwölf PDF-Seiten**. Web-/PDF-Text und physische Seiten stimmen,
   der Test meldet null Findings. Er lief lokal auf dem geänderten Code; sein
   Protokoll nennt deshalb die Ausgangs-SHA und `sourceDirty=true`.
-  PDF-SHA-256: `212fb8d043ae1fb96dac74fb51dcc9955e3f56f7e0471ea28627ae7f29225b9b`.
+  PDF-SHA-256: `39c4f3e77f43fa3958382d4ed54dea4e8c38083f02384aad91f0275526b45de3`.
 
 Die vier neuen Browserfälle liegen im bereits regulär ausgeführten
 `pdf-consent-boundaries.qa.ts`; ihre Prüfprotokolle werden mit den bestehenden
 Artefakten `regression-pdf-consent-<SHA>` und `pdf-consent-evidence-<SHA>` archiviert.
+
+## Ergänzung: tatsächlicher PDF-Rasterklon
+
+Der zusätzliche Browserfall verwendet eine normale CSS-Medienregel, die den
+Namen erst im 794 Pixel breiten html2canvas-iframe ausblendet. Der sichtbare
+1800-Pixel-Drucksatz bleibt dabei vollständig und meldet weiterhin `pass`.
+Ohne Klon-Abgleich läuft der Generator durch (`UNSAFE SUCCESS`).
+
+Der Generator hält nun den ursprünglichen Textvertrag vor Beginn der Aufnahme
+fest und prüft auch den normalisierten Rasterklon dagegen. Geänderte
+Prüfmetadaten im Klon ersetzen diese Quelle nicht. Der Fehlerfall stoppt vor dem
+Download, während die unveränderte Live-Ansicht weiterhin gültig bleibt.
+Auch danach besteht der vollständige Zwölfseiten-Kontrollexport. App-/QA-Typen,
+1’526 Units, Lint der geänderten Dateien und Build wurden erneut geprüft.
 
 ## Verbleibende Grenze
 

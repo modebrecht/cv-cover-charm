@@ -7,7 +7,11 @@ import { normalizeCssZoomForHtml2Canvas } from "@/lib/html2canvas-export";
 import { downloadBlob } from "@/lib/download";
 import { registerCabinPdfFonts } from "@/lib/pdf-fonts";
 import { fittedPdfHorizontalScale } from "@/lib/pdf-text-width";
-import { beginPdfSafetyValidation, type PdfAdvisoryConsent } from "@/lib/pdf-preflight";
+import {
+  assertCoverPdfTextContent,
+  beginPdfSafetyValidation,
+  type PdfAdvisoryConsent,
+} from "@/lib/pdf-preflight";
 
 export type DossierPdfMeta = {
   title: string;
@@ -323,6 +327,8 @@ async function addRasterPage(
   page: HTMLElement,
   rebuildLetterVectors = false,
 ) {
+  const isCover = page.dataset.dossierDocument === "cover";
+  const coverTextSource = page.dataset.coverTextContract;
   const canvas = await html2canvas(page, {
     scale: PDF.SCALE,
     backgroundColor: "#ffffff",
@@ -336,6 +342,7 @@ async function addRasterPage(
     onclone: (_clonedDocument, clonedPage) => {
       normalizeCssZoomForHtml2Canvas(clonedPage as HTMLElement);
       normalizeCvRubricPillsForPdf(clonedPage as HTMLElement);
+      if (isCover) assertCoverPdfTextContent(clonedPage as HTMLElement, coverTextSource);
       if (
         rebuildLetterVectors
           ? letterPageOverflows(clonedPage as HTMLElement)

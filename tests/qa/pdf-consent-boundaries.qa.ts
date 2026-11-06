@@ -334,3 +334,43 @@ for (const fault of ["removed-block", "empty-line", "hidden-text", "missing-cont
     await attach(info, { fault, result, failure, downloads, recovered: true });
   });
 }
+
+test("combined cover text missing only in raster clone cannot download", async ({ page }, info) => {
+  await loadLetter(page, false);
+  await page.goto("http://127.0.0.1:4173");
+  await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
+  const root = page.locator("[data-dossier-pdf-canvas]");
+  const inspect = () =>
+    root.evaluate(async (node) => {
+      const path = "/src/lib/pdf-preflight.ts";
+      return (await import(path)).inspectPdfPreflight(node as HTMLElement, "dossier");
+    });
+  await expect.poll(async () => (await inspect()).status).toBe("pass");
+  // The live viewport is 1800px; the production raster iframe is 794px wide.
+  // This ordinary media query removes text only in that actual export clone.
+  await page.addStyleTag({
+    content:
+      '@media (max-width:800px){[data-dossier-document="cover"] [data-block-id="name"]{display:none!important}}',
+  });
+  expect((await inspect()).status).toBe("pass");
+  const downloads: string[] = [];
+  page.on("download", (download) => downloads.push(download.suggestedFilename()));
+  const failure = await root.evaluate(async (node) => {
+    const path = "/src/lib/dossier-pdf.ts";
+    try {
+      await (
+        await import(path)
+      ).downloadCombinedDossierPdf(node as HTMLElement, "must-not-download.pdf", {
+        title: "QA",
+        author: "QA",
+      });
+      return "UNSAFE SUCCESS";
+    } catch (error) {
+      return String(error);
+    }
+  });
+  expect(failure).toContain("Titelblatt");
+  expect(downloads).toEqual([]);
+  expect((await inspect()).status).toBe("pass");
+  await attach(info, { failure, downloads, liveStatus: "pass", cloneText: "missing" });
+});

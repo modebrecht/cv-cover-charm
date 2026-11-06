@@ -117,8 +117,8 @@ function missingLetterSemantics(
   return missing;
 }
 
-function missingCoverText(cover: HTMLElement): string[] | null {
-  const expected = readCoverPdfTextContract(cover.dataset.coverTextContract);
+function missingCoverText(cover: HTMLElement, sourceContract: string | undefined): string[] | null {
+  const expected = readCoverPdfTextContract(sourceContract);
   if (!expected) return null;
   const missing: string[] = [];
   for (const block of expected) {
@@ -141,6 +141,15 @@ function missingCoverText(cover: HTMLElement): string[] | null {
     }
   }
   return missing;
+}
+
+/** The raster clone must retain the original page's complete source text too. */
+export function assertCoverPdfTextContent(cover: HTMLElement, sourceContract: string | undefined) {
+  const missing = missingCoverText(cover, sourceContract);
+  if (missing === null || missing.length)
+    throw new Error(
+      "Text des Titelblatts fehlt in der PDF-Rasteransicht oder ist unsichtbar. Bitte das Layout prüfen.",
+    );
 }
 
 /** One safety policy for menu eligibility, explicit consent and final export. */
@@ -230,7 +239,7 @@ export function inspectPdfPreflight(
     );
   if (kind === "dossier") {
     if (cover) {
-      const missing = missingCoverText(cover);
+      const missing = missingCoverText(cover, cover.dataset.coverTextContract);
       if (missing === null)
         add(
           "cover-content-contract",
