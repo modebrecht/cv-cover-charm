@@ -18,8 +18,13 @@ export function cvPdfTextContract(
     const text = (value ?? "").replace(/\s+/g, "");
     if (text) fields.push({ id, text, ...(split ? { split } : {}) });
   };
-  for (const [key, id] of Object.entries(CV_PERSON_FIELD_IDS))
+  // Keep the existing single name text node: native Chromium PDF may merge
+  // inline fragments, while print geometry probes need the whole authored run.
+  add("cv.person.name", [data.person.vorname, data.person.nachname].filter(Boolean).join(" "));
+  for (const [key, id] of Object.entries(CV_PERSON_FIELD_IDS)) {
+    if (key === "vorname" || key === "nachname") continue;
     add(id, data.person[key as keyof typeof CV_PERSON_FIELD_IDS]);
+  }
   if (design.showDocumentTitle !== false) add("cv.documentTitle", data.titel?.trim());
   const heading = (key: keyof typeof CV_BLOCK_LABELS) =>
     add(`cv.section.${key}.heading`, data.labels[key]?.trim() || CV_BLOCK_LABELS[key]);

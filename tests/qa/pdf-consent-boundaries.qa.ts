@@ -375,7 +375,13 @@ test("combined cover text missing only in raster clone cannot download", async (
   await attach(info, { failure, downloads, liveStatus: "pass", cloneText: "missing" });
 });
 
-for (const fault of ["removed-entry", "hidden-text", "missing-contract", "missing-root"] as const) {
+for (const fault of [
+  "removed-entry",
+  "hidden-text",
+  "missing-contract",
+  "missing-root",
+  "missing-name",
+] as const) {
   test(`combined CV source text blocks ${fault} and recovers after reload`, async ({
     page,
   }, info) => {
@@ -396,9 +402,14 @@ for (const fault of ["removed-entry", "hidden-text", "missing-contract", "missin
     const downloads: string[] = [];
     page.on("download", (download) => downloads.push(download.suggestedFilename()));
     await root
-      .locator('[data-cv-page] [data-dossier-field-id="cv.entry.erfahrung:qa-work-0.title"]')
+      .locator(
+        fault === "missing-name"
+          ? "[data-cv-page] [data-cv-name]"
+          : '[data-cv-page] [data-dossier-field-id="cv.entry.erfahrung:qa-work-0.title"]',
+      )
       .evaluate((node, fault) => {
-        if (fault === "removed-entry") node.closest("[data-cv-entry]")!.remove();
+        if (fault === "missing-name") node.remove();
+        else if (fault === "removed-entry") node.closest("[data-cv-entry]")!.remove();
         else if (fault === "hidden-text") (node as HTMLElement).style.color = "transparent";
         else
           node

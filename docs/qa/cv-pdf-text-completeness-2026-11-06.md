@@ -27,8 +27,8 @@ CV-Seiten. Die Messansicht kann fehlenden Drucktext nicht ersetzen. Beschreibung
 dürfen in der richtigen Reihenfolge über mehrere Seiten verteilt sein. Stabile
 Zeilen- und Eintragskennungen bleiben erhalten. Bei Familienrubriken folgt der
 Vertrag der vorhandenen Doppelpunkt-Einstellung; deren altes Datumsfeld wird
-absichtlich nicht gedruckt. Der bereits vorhandene Namensaufbau mit einzelnen
-semantischen Feldern wird nun tatsächlich in allen vier CV-Köpfen verwendet.
+absichtlich nicht gedruckt. Die bestehenden Namensblöcke erhalten die gemeinsame
+semantische Kennung `cv.person.name`; ihre vollständigen Textknoten bleiben erhalten.
 
 Fehlender oder unsichtbarer Quelltext sowie fehlende/ungültige Prüfmetadaten
 sperren den Dialog und die direkte Generator-API. Vor jeder CV-Rasteraufnahme
@@ -38,10 +38,10 @@ abweichende Medienbreite kann Inhalte nicht unbemerkt entfernen.
 
 ## Lokale Verifikation
 
-- **21/21 Browserfälle**, keine Wiederholungen, Auslassungen oder Flaky-Erfolge:
-  die bisherigen 15 Fälle und sechs neue CV-Fälle. Vier prüfen entfernten Eintrag,
-  transparente Schrift, fehlenden Textvertrag und fehlende CV-Wurzelkennung,
-  jeweils mit Dialogsperre, direkter API, null Downloads, unverändertem Speicher
+- **22/22 Browserfälle**, keine Wiederholungen, Auslassungen oder Flaky-Erfolge:
+  die bisherigen 15 Fälle und sieben neue CV-Fälle. Fünf prüfen entfernten Eintrag,
+  transparente Schrift, fehlenden Textvertrag, fehlende CV-Wurzelkennung und
+  vollständig entfernten Namen, jeweils mit Dialogsperre, direkter API, null Downloads, unverändertem Speicher
   und Wiederherstellung nach Neuladen. Ein weiterer Fall prüft eine lange,
   aufgeteilte Beschreibung, weiterhin vollständige Messkopie, Sidebar-Werte,
   Familienrubrik und Reparatur. Der letzte blendet Text ausschliesslich im echten
@@ -54,13 +54,31 @@ abweichende Medienbreite kann Inhalte nicht unbemerkt entfernen.
   Produktionsbuild bestanden.
 - Echter UI-Download `joint-ledger-masonry-long-word-margins`: **zwölf PDF-Seiten**,
   null Findings im vorhandenen Web-/PDF-Inhalts- und Geometrievergleich.
-  SHA-256: `41a994e06597dade0a964b88cbdcca2f4c91ca9e2a380d9a188dbed85727c1a6`.
-  Dieser Lauf nennt die Ausgangs-SHA und `sourceDirty=true`, da er vor dem Commit
-  auf dem geänderten Code ausgeführt wurde.
+  SHA-256: `02fa6401cd109c67e2842f5e5a9d8015f36583d2067c25e9fe5963a26639740b`.
+  Dieser erneute Lauf nennt `sourceSha=7019fc5` und `sourceDirty=true`, da er vor
+  dem Korrektur-Commit auf dem geänderten Code ausgeführt wurde.
 
-Die sechs CV-Fälle erweitern die bestehende reguläre `pdf-consent`-Prüfgruppe.
+Die sieben CV-Fälle erweitern die bestehende reguläre `pdf-consent`-Prüfgruppe.
 Der direkte `dev`-Workflow archiviert ihre JSON-Protokolle und PDF-Evidenz mit
 der jeweiligen Commit-SHA. Dies ist keine neue visuelle 39-Vorlagen-Abnahme.
+
+## Ergänzung: Namensmarkierung und Browserdruck
+
+Der erste CI-Lauf auf `7019fc5` bestand die 21 damaligen Textschutzfälle, scheiterte
+aber an zwei vorhandenen Druck-Geometriefällen (`glow` und `violetPulse`). Der
+zwischenzeitlich in Vor- und Nachnamen-Spans geteilte Name lieferte der Messprobe
+nur den ersten Textknoten „Lea“, während Chromium im PDF den ganzen Namen in einem
+Textlauf zusammenfasste. Die exakte Markerzuordnung der Geometrieprüfung schlug
+fehl. Die übrigen 31 Fälle der CV-PDF-Kerngruppe bestanden.
+
+Die Korrektur markiert den vorhandenen vollständigen Namensblock und vergleicht
+Vor- und Nachnamen gemeinsam mit der Quelle. Sie erhält dessen ursprünglichen
+Textknoten; die bestehenden Geometrieprüfungen und Grenzwerte wurden nicht
+verändert. Beide betroffenen Fälle bestehen danach lokal, einschliesslich ihrer
+Gegenproben für Glyphengrösse, Position und A4-Einpassung. Zusätzlich sperrt ein
+neuer Browserfall den Export bei vollständig entferntem CV-Namen. Die gesamten
+22 Textschutzfälle und der zwölfseitige Kontrollexport wurden auf der korrigierten
+Fassung erneut erfolgreich ausgeführt.
 
 ## Verbleibende Grenze und nächster Schritt
 

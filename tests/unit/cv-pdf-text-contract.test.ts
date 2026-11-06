@@ -14,8 +14,8 @@ test("CV contract retains source fields, stable line IDs and split descriptions 
   data.erfahrung[0].beschreibung = "Anfang\n" + "mehrseitiger Text ".repeat(60) + "Ende";
   const before = JSON.stringify(data);
   const fields = read(data);
-  expect(fields.find((f) => f.id === "cv.person.firstName")?.text).toBe(
-    data.person.vorname.replace(/\s+/g, ""),
+  expect(fields.find((f) => f.id === "cv.person.name")?.text).toBe(
+    [data.person.vorname, data.person.nachname].filter(Boolean).join("").replace(/\s+/g, ""),
   );
   expect(fields.find((f) => f.id === "cv.entry.hobbys:saved")?.text).toBe("MusikundSport");
   expect(fields.some((f) => f.id === "cv.entry.hobbys:empty")).toBe(false);
@@ -56,7 +56,7 @@ test("explicitly hidden sections, hidden document title and header-owned body co
     "cv.person.email",
   ])
     expect(fields.some((f) => f.id === id)).toBe(false);
-  expect(fields.some((f) => f.id === "cv.person.firstName")).toBe(true);
+  expect(fields.some((f) => f.id === "cv.person.name")).toBe(true);
 });
 
 test("family omits its legacy date, while custom entries and explicit reference suffixes remain required", () => {

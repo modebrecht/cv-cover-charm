@@ -313,17 +313,6 @@ export function CvCanvas({
 
   const p = cvBodyData(data, chromeOptions).person;
   const name = [p.vorname, p.nachname].filter(Boolean).join(" ");
-  const nameContent = [
-    [CV_PERSON_FIELD_IDS.vorname, p.vorname],
-    [CV_PERSON_FIELD_IDS.nachname, p.nachname],
-  ]
-    .filter(([, text]) => text)
-    .map(([fieldId, text], index) => (
-      <Fragment key={fieldId}>
-        {index ? " " : ""}
-        <span data-dossier-field-id={fieldId}>{text}</span>
-      </Fragment>
-    ));
   const contactPairs = [
     { key: "address", left: p.adresse, right: p.plzOrt },
     { key: "contact", left: p.telefon, right: p.email },
@@ -1123,6 +1112,7 @@ export function CvCanvas({
             {docTitle(pal.muted)}
             <div
               data-cv-name
+              data-dossier-field-id="cv.person.name"
               style={{
                 fontSize: `${nameSize}pt`,
                 fontWeight: 750,
@@ -1132,7 +1122,7 @@ export function CvCanvas({
                 overflowWrap: "anywhere",
               }}
             >
-              {name ? nameContent : "Dein Name"}
+              {name || "Dein Name"}
             </div>
             {p.untertitel && (
               <div
@@ -1363,6 +1353,7 @@ export function CvCanvas({
             {withName && (
               <div
                 data-cv-name
+                data-dossier-field-id="cv.person.name"
                 style={{
                   fontSize: `${nameSize}pt`,
                   fontWeight: 750,
@@ -1372,7 +1363,7 @@ export function CvCanvas({
                   overflowWrap: "anywhere",
                 }}
               >
-                {name ? nameContent : "Dein Name"}
+                {name || "Dein Name"}
               </div>
             )}
             {withName && p.untertitel && (
@@ -1434,6 +1425,7 @@ export function CvCanvas({
               {docTitle(pal.muted)}
               <div
                 data-cv-name
+                data-dossier-field-id="cv.person.name"
                 style={{
                   fontSize: `${nameSize}pt`,
                   fontWeight: 760,
@@ -1443,7 +1435,7 @@ export function CvCanvas({
                   overflowWrap: "anywhere",
                 }}
               >
-                {name ? nameContent : "Dein Name"}
+                {name || "Dein Name"}
               </div>
               {p.untertitel && (
                 <div
@@ -3013,6 +3005,7 @@ export function CvCanvas({
             >
               <div
                 data-cv-name
+                data-dossier-field-id="cv.person.name"
                 style={{
                   fontSize: `${Math.min(12.5, smartNameSize(name, "modern") * 0.44) * TYPE_BASE * titleScale}pt`,
                   fontWeight: 750,
@@ -3061,6 +3054,7 @@ export function CvCanvas({
             {docTitle(roles.muted)}
             <div
               data-cv-name
+              data-dossier-field-id="cv.person.name"
               style={{
                 fontSize: `${nameSize}pt`,
                 fontWeight: 750,
@@ -3070,7 +3064,7 @@ export function CvCanvas({
                 overflowWrap: "anywhere",
               }}
             >
-              {name ? nameContent : "Dein Name"}
+              {name || "Dein Name"}
             </div>
             {p.untertitel && (
               <div
