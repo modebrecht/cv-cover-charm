@@ -665,7 +665,11 @@ export function BlockLayer({
               >
                 {b.src && <img src={b.src} alt="" draggable={false} style={crop(st)} />}
                 {b.lines.map((l, i) => (
-                  <div key={i} style={b.src ? { position: "relative" } : undefined}>
+                  <div
+                    key={i}
+                    data-block-text-line={i}
+                    style={b.src ? { position: "relative" } : undefined}
+                  >
                     {hasBadge ? (
                       <span
                         style={{

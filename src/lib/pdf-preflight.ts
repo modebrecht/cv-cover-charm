@@ -1,4 +1,5 @@
 import { letterPageOverflows, printableTextClips } from "@/components/letter/preflight";
+import { readCoverPdfTextContract } from "@/lib/cover-pdf-text-contract";
 
 export type PdfPreflightStatus = "pending" | "pass" | "advisory" | "blocked";
 export type PdfDocumentKind = "letter" | "dossier";
@@ -116,6 +117,32 @@ function missingLetterSemantics(
   return missing;
 }
 
+function missingCoverText(cover: HTMLElement): string[] | null {
+  const expected = readCoverPdfTextContract(cover.dataset.coverTextContract);
+  if (!expected) return null;
+  const missing: string[] = [];
+  for (const block of expected) {
+    const matches = cover.querySelectorAll<HTMLElement>(
+      `[data-block-id="${CSS.escape(block.id)}"]`,
+    );
+    if (matches.length !== 1) {
+      missing.push(block.id);
+      continue;
+    }
+    for (const [index, text] of block.lines.entries()) {
+      if (!text) continue;
+      const lines = matches[0].querySelectorAll<HTMLElement>(`[data-block-text-line="${index}"]`);
+      // List markers are renderer-owned prefixes; the complete authored line
+      // still has to be visible, including rich text segments, in this block.
+      if (lines.length !== 1 || !semanticText(lines[0], cover).endsWith(text)) {
+        missing.push(block.id);
+        break;
+      }
+    }
+  }
+  return missing;
+}
+
 /** One safety policy for menu eligibility, explicit consent and final export. */
 export function inspectPdfPreflight(
   root: HTMLElement | null,
@@ -202,6 +229,26 @@ export function inspectPdfPreflight(
       "Die Briefseiten sind nicht vollständig. Bitte den Seitenumbruch abwarten.",
     );
   if (kind === "dossier") {
+    if (cover) {
+      const missing = missingCoverText(cover);
+      if (missing === null)
+        add(
+          "cover-content-contract",
+          "blocked",
+          "Die Textprüfung des Titelblatts fehlt. Bitte die Exportansicht erneut öffnen.",
+          "cover",
+          0,
+        );
+      else if (missing.length)
+        add(
+          "cover-content-missing",
+          "blocked",
+          "Text des Titelblatts fehlt im Drucksatz oder ist unsichtbar. Bitte die Exportansicht erneut öffnen.",
+          "cover",
+          0,
+          missing.join(","),
+        );
+    }
     const actualOrder = Array.from(
       root.querySelectorAll<HTMLElement>(
         '[data-dossier-document="cover"], [data-letter-document-pages] [data-letter-page], [data-cv-page]',

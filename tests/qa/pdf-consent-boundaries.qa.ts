@@ -266,3 +266,71 @@ test("the explicit UI override downloads once without saving an override across 
     expectedSegments: fixture.segments.letter,
   });
 });
+
+for (const fault of ["removed-block", "empty-line", "hidden-text", "missing-contract"] as const) {
+  test(`combined cover source text blocks ${fault} and recovers after reload`, async ({
+    page,
+  }, info) => {
+    await loadLetter(page, false);
+    await page.goto("http://127.0.0.1:4173");
+    await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
+    const root = page.locator("[data-dossier-pdf-canvas]");
+    const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
+    const downloadButton = dialog.getByRole("button", {
+      name: /^(PDF herunterladen|Dossier herunterladen)$/,
+    });
+    const inspect = () =>
+      root.evaluate(async (node) => {
+        const path = "/src/lib/pdf-preflight.ts";
+        const { inspectPdfPreflight } = await import(path);
+        return inspectPdfPreflight(node as HTMLElement, "dossier");
+      });
+    await expect.poll(async () => (await inspect()).status).toBe("pass");
+    await expect(downloadButton).toBeEnabled();
+    const before = await page.evaluate(() => ({ ...localStorage }));
+    const downloads: string[] = [];
+    page.on("download", (download) => downloads.push(download.suggestedFilename()));
+    await root
+      .locator('[data-dossier-document="cover"] [data-block-id="name"]')
+      .evaluate((node, fault) => {
+        if (fault === "missing-contract")
+          node
+            .closest('[data-dossier-document="cover"]')!
+            .removeAttribute("data-cover-text-contract");
+        else if (fault === "removed-block") node.remove();
+        else if (fault === "empty-line") node.textContent = "";
+        else (node as HTMLElement).style.display = "none";
+      }, fault);
+    await expect.poll(async () => (await inspect()).status).toBe("blocked");
+    const result = await inspect();
+    expect(
+      result.issues.some(
+        (issue: { code: string }) =>
+          issue.code ===
+          (fault === "missing-contract" ? "cover-content-contract" : "cover-content-missing"),
+      ),
+    ).toBe(true);
+    await expect(downloadButton).toBeDisabled();
+    const failure = await root.evaluate(async (node) => {
+      const path = "/src/lib/dossier-pdf.ts";
+      const { downloadCombinedDossierPdf } = await import(path);
+      try {
+        await downloadCombinedDossierPdf(node as HTMLElement, "must-not-download.pdf", {
+          title: "QA",
+          author: "QA",
+        });
+        return "UNSAFE SUCCESS";
+      } catch (error) {
+        return String(error);
+      }
+    });
+    expect(failure).toContain("Titelblatt");
+    expect(downloads).toEqual([]);
+    expect(await page.evaluate(() => ({ ...localStorage }))).toEqual(before);
+    await page.reload();
+    await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
+    await expect.poll(async () => (await inspect()).status).toBe("pass");
+    await expect(downloadButton).toBeEnabled();
+    await attach(info, { fault, result, failure, downloads, recovered: true });
+  });
+}

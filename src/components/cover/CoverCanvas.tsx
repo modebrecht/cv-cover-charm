@@ -7,6 +7,7 @@ import { BlockLayer, type Point } from "./BlockLayer";
 import { hasUserStyle } from "./user-style-precedence";
 import { PAGE } from "@/default-config";
 import { resolveBackgroundPaint } from "@/lib/dossier-background-paint";
+import { coverPdfTextContract } from "@/lib/cover-pdf-text-contract";
 import {
   dossierDefaultFontKey,
   dossierThemeCssVariables,
@@ -228,6 +229,7 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
       data-dossier-document="cover"
       data-dossier-template={template}
       data-cover-template={template}
+      data-cover-text-contract={coverPdfTextContract(renderBlocks)}
       data-cover-text-override={coverTextOverride ? "true" : undefined}
       data-dossier-font-source={resolvedOverride ? "override" : "family"}
       data-dossier-footer-sync={automaticFooterPair ? "automatic" : "manual"}
