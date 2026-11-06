@@ -1,3 +1,4 @@
+import { cvPdfTextContract } from "@/lib/cv-pdf-text-contract";
 import {
   CV_PERSON_FIELD_IDS,
   cvLineFieldId,
@@ -1131,7 +1132,7 @@ export function CvCanvas({
                 overflowWrap: "anywhere",
               }}
             >
-              {name || "Dein Name"}
+              {name ? nameContent : "Dein Name"}
             </div>
             {p.untertitel && (
               <div
@@ -1371,7 +1372,7 @@ export function CvCanvas({
                   overflowWrap: "anywhere",
                 }}
               >
-                {name || "Dein Name"}
+                {name ? nameContent : "Dein Name"}
               </div>
             )}
             {withName && p.untertitel && (
@@ -1442,7 +1443,7 @@ export function CvCanvas({
                   overflowWrap: "anywhere",
                 }}
               >
-                {name || "Dein Name"}
+                {name ? nameContent : "Dein Name"}
               </div>
               {p.untertitel && (
                 <div
@@ -3069,7 +3070,7 @@ export function CvCanvas({
                 overflowWrap: "anywhere",
               }}
             >
-              {name || "Dein Name"}
+              {name ? nameContent : "Dein Name"}
             </div>
             {p.untertitel && (
               <div
@@ -3139,6 +3140,7 @@ export function CvCanvas({
       ref={canvasRef}
       className="flex flex-col items-center gap-4"
       data-dossier-document="cv"
+      data-cv-text-contract={cvPdfTextContract({ ...data, person: p }, design)}
       data-cv-template={design.template}
       data-cv-header-mode={chromeOptions.headerMode}
       data-cv-layout={layout}

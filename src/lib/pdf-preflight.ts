@@ -1,4 +1,5 @@
 import { letterPageOverflows, printableTextClips } from "@/components/letter/preflight";
+import { readCvPdfTextContract } from "@/lib/cv-pdf-text-contract";
 import { readCoverPdfTextContract } from "@/lib/cover-pdf-text-contract";
 
 export type PdfPreflightStatus = "pending" | "pass" | "advisory" | "blocked";
@@ -152,6 +153,53 @@ export function assertCoverPdfTextContent(cover: HTMLElement, sourceContract: st
     );
 }
 
+/** Only physical pages count: the full, invisible measurement tree cannot
+ * establish that source text made it into the actual paginated document. */
+function missingCvText(cv: HTMLElement): string[] | null {
+  const expected = readCvPdfTextContract(cv.dataset.cvTextContract);
+  if (!expected) return null;
+  const pages = Array.from(cv.querySelectorAll<HTMLElement>("[data-cv-page]"));
+  return expected
+    .filter((field) => {
+      const actual = pages.flatMap((page) =>
+        Array.from(
+          page.querySelectorAll<HTMLElement>(`[data-dossier-field-id="${CSS.escape(field.id)}"]`),
+        ).map((node) => semanticText(node, page)),
+      );
+      // Labels (e.g. birth date) may precede a value. Descriptions can be split
+      // across physical pages, but every source character must survive in order.
+      return (
+        !actual.some((text) => text.endsWith(field.text)) &&
+        !(field.split && actual.join("") === field.text)
+      );
+    })
+    .map((field) => field.id);
+}
+
+/** Capture each page's validated, visible fragments before html2canvas creates
+ * its iframe. A clone must retain those fragments, including repeated headings. */
+export function cvPdfPageTextSnapshot(page: HTMLElement): Array<{ id: string; text: string }> {
+  return Array.from(page.querySelectorAll<HTMLElement>("[data-dossier-field-id]"))
+    .map((node) => ({ id: node.dataset.dossierFieldId!, text: semanticText(node, page) }))
+    .filter((field) => field.text.length > 0);
+}
+
+export function assertCvPdfPageTextContent(
+  page: HTMLElement,
+  expected: ReturnType<typeof cvPdfPageTextSnapshot>,
+) {
+  const actual = cvPdfPageTextSnapshot(page);
+  if (
+    actual.length !== expected.length ||
+    expected.some(
+      (field, index) => actual[index]?.id !== field.id || actual[index]?.text !== field.text,
+    )
+  )
+    throw new Error(
+      "Text des Lebenslaufs fehlt in der PDF-Rasteransicht oder ist unsichtbar. Bitte das Layout prüfen.",
+    );
+}
+
 /** One safety policy for menu eligibility, explicit consent and final export. */
 export function inspectPdfPreflight(
   root: HTMLElement | null,
@@ -255,6 +303,26 @@ export function inspectPdfPreflight(
           "Text des Titelblatts fehlt im Drucksatz oder ist unsichtbar. Bitte die Exportansicht erneut öffnen.",
           "cover",
           0,
+          missing.join(","),
+        );
+    }
+    const cv = root.querySelector<HTMLElement>('[data-dossier-document="cv"]');
+    if (root.dataset.dossierCvReady === "true") {
+      const missing = cv ? missingCvText(cv) : null;
+      if (missing === null)
+        add(
+          "cv-content-contract",
+          "blocked",
+          "Die Textprüfung des Lebenslaufs fehlt. Bitte die Exportansicht erneut öffnen.",
+          "cv",
+        );
+      else if (missing.length)
+        add(
+          "cv-content-missing",
+          "blocked",
+          "Text des Lebenslaufs fehlt im Drucksatz oder ist unsichtbar. Bitte die Exportansicht erneut öffnen.",
+          "cv",
+          undefined,
           missing.join(","),
         );
     }

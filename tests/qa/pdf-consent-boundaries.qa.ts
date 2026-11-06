@@ -374,3 +374,193 @@ test("combined cover text missing only in raster clone cannot download", async (
   expect((await inspect()).status).toBe("pass");
   await attach(info, { failure, downloads, liveStatus: "pass", cloneText: "missing" });
 });
+
+for (const fault of ["removed-entry", "hidden-text", "missing-contract", "missing-root"] as const) {
+  test(`combined CV source text blocks ${fault} and recovers after reload`, async ({
+    page,
+  }, info) => {
+    await loadLetter(page, false);
+    await page.goto("http://127.0.0.1:4173");
+    await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
+    const root = page.locator("[data-dossier-pdf-canvas]");
+    const downloadButton = page
+      .getByRole("dialog", { name: "Dossier herunterladen" })
+      .getByRole("button", { name: /^(PDF herunterladen|Dossier herunterladen)$/ });
+    const inspect = () =>
+      root.evaluate(async (node) => {
+        const path = "/src/lib/pdf-preflight.ts";
+        return (await import(path)).inspectPdfPreflight(node as HTMLElement, "dossier");
+      });
+    await expect.poll(async () => (await inspect()).status).toBe("pass");
+    const before = await page.evaluate(() => ({ ...localStorage }));
+    const downloads: string[] = [];
+    page.on("download", (download) => downloads.push(download.suggestedFilename()));
+    await root
+      .locator('[data-cv-page] [data-dossier-field-id="cv.entry.erfahrung:qa-work-0.title"]')
+      .evaluate((node, fault) => {
+        if (fault === "removed-entry") node.closest("[data-cv-entry]")!.remove();
+        else if (fault === "hidden-text") (node as HTMLElement).style.color = "transparent";
+        else
+          node
+            .closest('[data-dossier-document="cv"]')!
+            .removeAttribute(
+              fault === "missing-root" ? "data-dossier-document" : "data-cv-text-contract",
+            );
+      }, fault);
+    await expect.poll(async () => (await inspect()).status).toBe("blocked");
+    const result = await inspect();
+    expect(
+      result.issues.some(
+        (issue: { code: string }) =>
+          issue.code ===
+          (["missing-contract", "missing-root"].includes(fault)
+            ? "cv-content-contract"
+            : "cv-content-missing"),
+      ),
+    ).toBe(true);
+    await expect(downloadButton).toBeDisabled();
+    const failure = await root.evaluate(async (node) => {
+      const path = "/src/lib/dossier-pdf.ts";
+      try {
+        await (
+          await import(path)
+        ).downloadCombinedDossierPdf(node as HTMLElement, "must-not-download.pdf", {
+          title: "QA",
+          author: "QA",
+        });
+        return "UNSAFE SUCCESS";
+      } catch (error) {
+        return String(error);
+      }
+    });
+    expect(failure).toContain("Lebenslauf");
+    expect(downloads).toEqual([]);
+    expect(await page.evaluate(() => ({ ...localStorage }))).toEqual(before);
+    await page.reload();
+    await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
+    await expect.poll(async () => (await inspect()).status).toBe("pass");
+    await expect(downloadButton).toBeEnabled();
+    await attach(info, { fault, result, failure, downloads, recovered: true });
+  });
+}
+
+test("CV split descriptions and sidebar values are checked on physical pages, never their measurement copies", async ({
+  page,
+}, info) => {
+  const fixture = paginationFixture("brief", {
+    layout: "modern",
+    descriptionRepeats: 30,
+    paragraphs: 2,
+  });
+  const cv = JSON.parse(fixture.storage["lebenslauf:v1"]);
+  cv.data.customSections.push({
+    id: "family",
+    title: "Familie",
+    preset: "familie",
+    entries: [
+      {
+        id: "parent",
+        zeit: "legacy date omitted",
+        titel: "Vater",
+        ort: "Markus Beispiel",
+        beschreibung: "Lehrer",
+      },
+    ],
+  });
+  fixture.storage["lebenslauf:v1"] = JSON.stringify(cv);
+  await loadFixture(page, fixture, "letter");
+  await page.goto("http://127.0.0.1:4173");
+  await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
+  const root = page.locator("[data-dossier-pdf-canvas]");
+  const inspect = () =>
+    root.evaluate(async (node) => {
+      const path = "/src/lib/pdf-preflight.ts";
+      return (await import(path)).inspectPdfPreflight(node as HTMLElement, "dossier");
+    });
+  await expect.poll(async () => (await inspect()).status, { timeout: 30_000 }).toBe("pass");
+  const result = await root.evaluate(async (node) => {
+    const path = "/src/lib/pdf-preflight.ts";
+    const { inspectPdfPreflight } = await import(path);
+    const selector = '[data-dossier-field-id="cv.entry.erfahrung:qa-work-0.description"]';
+    const fragments = Array.from(node.querySelectorAll<HTMLElement>(`[data-cv-page] ${selector}`));
+    const measure = node.querySelector<HTMLElement>(`[data-cv-measure-page] ${selector}`)!;
+    const last = fragments.at(-1)!;
+    const oldText = last.textContent;
+    last.textContent = "";
+    const missingFragment = inspectPdfPreflight(node as HTMLElement, "dossier");
+    last.textContent = oldText;
+    const repaired = inspectPdfPreflight(node as HTMLElement, "dossier");
+    const sidebar = node.querySelector<HTMLElement>(
+      '[data-cv-page] [data-cv-sidebar] [data-dossier-field-id^="cv.entry.sprachen:"]',
+    )!;
+    const sidebarId = sidebar.dataset.dossierFieldId!;
+    sidebar.style.visibility = "hidden";
+    const hiddenSidebar = inspectPdfPreflight(node as HTMLElement, "dossier");
+    sidebar.style.removeProperty("visibility");
+    return {
+      fragmentCount: fragments.length,
+      measurementRetained: Boolean(measure?.textContent),
+      missingFragment,
+      repaired,
+      sidebarId,
+      hiddenSidebar,
+      recovered: inspectPdfPreflight(node as HTMLElement, "dossier"),
+    };
+  });
+  expect(result.fragmentCount).toBeGreaterThan(1);
+  expect(result.measurementRetained).toBe(true);
+  expect(
+    result.missingFragment.issues.some(
+      (issue: { code: string }) => issue.code === "cv-content-missing",
+    ),
+  ).toBe(true);
+  expect(result.repaired.status).toBe("pass");
+  expect(
+    result.hiddenSidebar.issues.some(
+      (issue: { code: string; element: string }) =>
+        issue.code === "cv-content-missing" && issue.element.includes(result.sidebarId),
+    ),
+  ).toBe(true);
+  expect(result.recovered.status).toBe("pass");
+  await attach(info, result);
+});
+
+test("combined CV text missing only in raster clone cannot download", async ({ page }, info) => {
+  await loadLetter(page, false);
+  await page.goto("http://127.0.0.1:4173");
+  await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
+  const root = page.locator("[data-dossier-pdf-canvas]");
+  const inspect = () =>
+    root.evaluate(async (node) => {
+      const path = "/src/lib/pdf-preflight.ts";
+      return (await import(path)).inspectPdfPreflight(node as HTMLElement, "dossier");
+    });
+  await expect.poll(async () => (await inspect()).status).toBe("pass");
+  await page.addStyleTag({
+    content:
+      '@media (max-width:800px){[data-cv-page] [data-dossier-field-id="cv.entry.erfahrung:qa-work-0.title"]{display:none!important}}',
+  });
+  expect((await inspect()).status).toBe("pass");
+  const before = await page.evaluate(() => ({ ...localStorage }));
+  const downloads: string[] = [];
+  page.on("download", (download) => downloads.push(download.suggestedFilename()));
+  const failure = await root.evaluate(async (node) => {
+    const path = "/src/lib/dossier-pdf.ts";
+    try {
+      await (
+        await import(path)
+      ).downloadCombinedDossierPdf(node as HTMLElement, "must-not-download.pdf", {
+        title: "QA",
+        author: "QA",
+      });
+      return "UNSAFE SUCCESS";
+    } catch (error) {
+      return String(error);
+    }
+  });
+  expect(failure).toContain("Lebenslauf");
+  expect(downloads).toEqual([]);
+  expect(await page.evaluate(() => ({ ...localStorage }))).toEqual(before);
+  expect((await inspect()).status).toBe("pass");
+  await attach(info, { failure, downloads, liveStatus: "pass", cloneText: "missing" });
+});
