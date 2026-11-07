@@ -1,5 +1,9 @@
 import { expect, test, type Page, type TestInfo } from "@playwright/test";
-import { paginationFixture } from "./pagination-fixtures";
+import { paginationFixture, type PaginationFixture } from "./pagination-fixtures";
+import {
+  DEFAULT_DOSSIER_CHROME_STATE,
+  DOSSIER_CHROME_STORAGE_KEY,
+} from "../../src/lib/dossier-chrome";
 import { collectDocument, loadFixture, runtimeProvenance } from "./pagination-browser";
 
 const exportRoot = "[data-letter-standalone-export] [data-letter-document-root]";
@@ -651,6 +655,10 @@ async function openAssetDossier(page: Page) {
     "custom-qa-hidden": { hidden: true },
   };
   fixture.storage["lebenslauf:v1"] = JSON.stringify(cv);
+  return openCombinedDossier(page, fixture);
+}
+
+async function openCombinedDossier(page: Page, fixture: PaginationFixture) {
   await loadFixture(page, fixture, "letter");
   await page.goto("http://127.0.0.1:4173");
   await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
@@ -678,9 +686,19 @@ async function openAssetDossier(page: Page) {
         return String(error);
       }
     });
-  await expect.poll(async () => (await inspect()).status).toBe("pass");
+  const waitForPass = () =>
+    expect
+      .poll(
+        async () => {
+          const result = await inspect();
+          return result.status === "pass" ? result.status : JSON.stringify(result.issues);
+        },
+        { timeout: 20_000 },
+      )
+      .toBe("pass");
+  await waitForPass();
   await expect(button).toBeEnabled();
-  return { root, button, inspect, download };
+  return { root, button, inspect, download, waitForPass };
 }
 
 test("combined PDF requires authored photos, images and free CV blocks on their assigned pages", async ({
@@ -845,6 +863,175 @@ test("combined raster clone preserves images and free shapes before a valid down
   await button.click();
   const file = await pending;
   await file.saveAs(info.outputPath("complete-dossier-assets.pdf"));
+  expect(await file.failure()).toBeNull();
+  expect(downloads).toHaveLength(1);
+  expect(await page.evaluate(() => ({ ...localStorage }))).toEqual(storage);
+  await attach(info, { evidence, downloads, recovered: true });
+});
+
+async function openChromeDossier(page: Page) {
+  const fixture = paginationFixture("brief", { paragraphs: 9 });
+  const chrome = structuredClone(DEFAULT_DOSSIER_CHROME_STATE);
+  chrome.sync = false;
+  chrome.cv = {
+    ...chrome.cv,
+    headerMode: "contact",
+    headerDifferentFirstPage: true,
+    headerGapMm: 6,
+    footerMode: "compact",
+    footerHeightMm: 8,
+  };
+  chrome.letter = {
+    ...chrome.letter,
+    headerMode: "contact",
+    headerDifferentFirstPage: true,
+    headerContinuationMode: "none",
+    headerGapMm: 6,
+    footerMode: "details",
+    footerHeightMm: 18,
+  };
+  fixture.storage[DOSSIER_CHROME_STORAGE_KEY] = JSON.stringify(chrome);
+  const cv = JSON.parse(fixture.storage["lebenslauf:v1"]);
+  cv.data.sectionLayouts = { erfahrung: { page: 2, width: "full", positioning: "flow" } };
+  cv.design.chromeContent = {
+    headerTitleEnabled: true,
+    headerTitle: "QA CV-Kopf",
+    footerTitleEnabled: true,
+    footerTitle: "QA CV-Fuss",
+    footerTextEnabled: true,
+    footerText: "QA CV-Fussangabe",
+  };
+  fixture.storage["lebenslauf:v1"] = JSON.stringify(cv);
+  const letter = JSON.parse(fixture.storage["anschreiben:v1"]);
+  letter.design.chromeContent = { headerTextEnabled: true, headerText: "QA Brief-Kopfangabe" };
+  fixture.storage["anschreiben:v1"] = JSON.stringify(letter);
+  return openCombinedDossier(page, fixture);
+}
+
+test("combined PDF requires the configured chrome text on each physical page", async ({
+  page,
+}, info) => {
+  const { root, button, inspect, download, waitForPass } = await openChromeDossier(page);
+  const storage = await page.evaluate(() => ({ ...localStorage }));
+  const downloads: string[] = [];
+  page.on("download", (file) => downloads.push(file.suggestedFilename()));
+  await expect(root.locator('[data-cv-page="1"] [data-dossier-continuation-contact]')).toHaveCount(
+    1,
+  );
+  await expect(
+    root.locator('[data-cv-page="1"] [data-dossier-contact-field="address"]'),
+  ).toHaveCount(0);
+  await expect(root.locator('[data-cv-page="1"] [data-dossier-header-title]')).toHaveCount(0);
+  await expect(
+    root.locator(
+      '[data-letter-page][data-letter-final-page="true"] [data-dossier-integrated-contact]',
+    ),
+  ).toHaveCount(0);
+  await expect(
+    root.locator(
+      '[data-letter-page][data-letter-final-page="false"] [data-letter-footer-attachments]',
+    ),
+  ).toHaveCount(0);
+  const finalLetter = root.locator('[data-letter-page][data-letter-final-page="true"]');
+  await expect(finalLetter.locator("[data-letter-footer-attachments]")).toHaveCount(1);
+  const finalLetterIndex = Number(await finalLetter.getAttribute("data-letter-page-index"));
+  expect(finalLetterIndex).toBeGreaterThan(0);
+  const faults = [
+    {
+      selector:
+        '[data-cv-page="1"] [data-dossier-continuation-contact] [data-dossier-contact-field="email"]',
+      kind: "cv",
+      pageIndex: 1,
+      label: "Lebenslauf",
+    },
+    {
+      selector: '[data-cv-page="0"] [data-dossier-field-id="cv.footer.text"]',
+      kind: "cv",
+      pageIndex: 0,
+      label: "Lebenslauf",
+    },
+    {
+      selector:
+        '[data-letter-page][data-letter-final-page="true"] [data-letter-footer-attachments]',
+      kind: "letter",
+      pageIndex: finalLetterIndex,
+      label: "Motivationsschreiben",
+    },
+    {
+      selector: '[data-letter-page][data-letter-page-index="0"] [data-dossier-chrome="letter"]',
+      kind: "letter",
+      pageIndex: 0,
+      label: "Motivationsschreiben",
+    },
+  ];
+  const evidence = [];
+  for (const fault of faults) {
+    const removed = await root.locator(fault.selector).evaluateHandle((node) => {
+      const place = document.createComment("chrome under test");
+      node.replaceWith(place);
+      return { node, place };
+    });
+    const result = await inspect();
+    expect(result.status, fault.selector).toBe("blocked");
+    expect(
+      result.issues.some(
+        (issue: { code: string; documentKind: string; pageIndex: number }) =>
+          issue.code === "chrome-content-missing" &&
+          issue.documentKind === fault.kind &&
+          issue.pageIndex === fault.pageIndex,
+      ),
+    ).toBe(true);
+    await expect(button).toBeDisabled();
+    const failure = await download();
+    expect(failure).toContain(fault.label);
+    evidence.push({ fault, result, failure });
+    await removed.evaluate(({ node, place }) => place.replaceWith(node));
+    await removed.dispose();
+    await waitForPass();
+    await expect(button).toBeEnabled();
+  }
+  expect(downloads).toEqual([]);
+  expect(await page.evaluate(() => ({ ...localStorage }))).toEqual(storage);
+  await attach(info, { evidence, downloads, recovered: true });
+});
+
+test("combined raster clone preserves page chrome before a valid download", async ({
+  page,
+}, info) => {
+  const { button, inspect, download } = await openChromeDossier(page);
+  const storage = await page.evaluate(() => ({ ...localStorage }));
+  const downloads: string[] = [];
+  page.on("download", (file) => downloads.push(file.suggestedFilename()));
+  const faults = [
+    {
+      selector:
+        '[data-letter-page][data-letter-final-page="true"] [data-letter-footer-attachments]',
+      label: "Motivationsschreiben",
+    },
+    {
+      selector:
+        '[data-cv-page="1"] [data-dossier-continuation-contact] [data-dossier-contact-field="email"]',
+      label: "Lebenslauf",
+    },
+  ];
+  const evidence = [];
+  for (const fault of faults) {
+    const style = await page.addStyleTag({
+      content: `@media(max-width:800px){${fault.selector}{opacity:0!important}}`,
+    });
+    expect((await inspect()).status).toBe("pass");
+    await expect(button).toBeEnabled();
+    const failure = await download();
+    expect(failure).toContain("Im PDF-Raster fehlen Kopf- oder Fusszeilenangaben");
+    expect(failure).toContain(fault.label);
+    expect(downloads).toEqual([]);
+    evidence.push({ ...fault, failure });
+    await style.evaluate((node) => node.parentNode?.removeChild(node));
+  }
+  const pending = page.waitForEvent("download", { timeout: 90_000 });
+  await button.click();
+  const file = await pending;
+  await file.saveAs(info.outputPath("complete-dossier-chrome.pdf"));
   expect(await file.failure()).toBeNull();
   expect(downloads).toHaveLength(1);
   expect(await page.evaluate(() => ({ ...localStorage }))).toEqual(storage);

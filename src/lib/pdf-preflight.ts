@@ -1,4 +1,5 @@
 import { letterPageOverflows, printableTextClips } from "@/components/letter/preflight";
+import { readPdfChromeTextContract, type PdfChromeTextField } from "@/lib/pdf-chrome-text-contract";
 import { readCvPdfTextContract } from "@/lib/cv-pdf-text-contract";
 import { readCoverPdfTextContract } from "@/lib/cover-pdf-text-contract";
 
@@ -329,6 +330,49 @@ export function assertCvPdfPageTextContent(
     );
 }
 
+function chromeScope(page: HTMLElement) {
+  if (page.hasAttribute("data-cv-page")) return "cv";
+  if (page.hasAttribute("data-letter-canvas")) return "letter";
+  return null;
+}
+
+function chromeRoot(page: HTMLElement, scope: "cv" | "letter") {
+  const nodes = page.querySelectorAll<HTMLElement>("[data-dossier-chrome]");
+  return nodes.length === 1 && nodes[0].dataset.dossierChrome === scope ? nodes[0] : null;
+}
+
+function missingChromeText(
+  page: HTMLElement,
+  scope: "cv" | "letter",
+  expected: readonly PdfChromeTextField[] | null,
+) {
+  if (!expected || !chromeRoot(page, scope)) return ["chrome-source"];
+  return expected
+    .filter(({ selector, text }) => {
+      try {
+        const nodes = page.querySelectorAll<HTMLElement>(selector);
+        return nodes.length !== 1 || semanticText(nodes[0], page) !== text;
+      } catch {
+        return true;
+      }
+    })
+    .map(({ selector }) => selector);
+}
+
+/** Validate the raster clone against the original page's authored chrome. */
+export function pdfChromeCloneGuard(page: HTMLElement) {
+  const scope = chromeScope(page);
+  if (!scope) return null;
+  const source = readPdfChromeTextContract(chromeRoot(page, scope)?.dataset.pdfChromeText);
+  return (clone: HTMLElement) => {
+    if (!missingChromeText(clone, scope, source).length) return;
+    const label = scope === "cv" ? "Lebenslauf" : "Motivationsschreiben";
+    throw new Error(
+      `Im PDF-Raster fehlen Kopf- oder Fusszeilenangaben für ${label}. Bitte das Layout prüfen.`,
+    );
+  };
+}
+
 /** One safety policy for menu eligibility, explicit consent and final export. */
 export function inspectPdfPreflight(
   root: HTMLElement | null,
@@ -358,9 +402,8 @@ export function inspectPdfPreflight(
       documentKind,
       pageIndex,
       element,
-      // The Letter has a complete body/image contract plus semantic source
-      // probes. Cover and CV lack an equivalent full source contract (including
-      // sidebar/free elements), so combined uncertainty cannot be consented away.
+      // The confirmed exception covers a complete standalone Letter fallback.
+      // Combined export approval requires its own product contract.
       overridePermitted: severity === "advisory" && kind === "letter",
     });
   if (!root || !root.isConnected)
@@ -595,6 +638,22 @@ export function inspectPdfPreflight(
         documentKind,
         pageIndex,
       );
+    const scope = chromeScope(sheet);
+    if (scope) {
+      const source = readPdfChromeTextContract(chromeRoot(sheet, scope)?.dataset.pdfChromeText);
+      const missing = missingChromeText(sheet, scope, source);
+      if (missing.length) {
+        const label = scope === "cv" ? "Lebenslauf" : "Motivationsschreiben";
+        add(
+          "chrome-content-missing",
+          "blocked",
+          `Bei ${label} auf Seite ${pageIndex + 1} fehlen Kopf- oder Fusszeilenangaben. Bitte die Exportansicht erneut öffnen.`,
+          scope,
+          pageIndex,
+          missing.join(","),
+        );
+      }
+    }
     for (const image of sheet.querySelectorAll<HTMLImageElement>("img")) {
       for (let ancestor: HTMLElement | null = image; ancestor; ancestor = ancestor.parentElement) {
         const css = styleFor(ancestor);

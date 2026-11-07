@@ -458,6 +458,22 @@ export function LetterCanvas({
         footerHeightMm={geometry.footer.height}
         footerLabel="Beilagen"
         footerDetails={geometry.footer.showAttachments ? beilagen : []}
+        pageText={
+          warmCompactHeader
+            ? [
+                {
+                  selector: '[data-letter-warm-sender] [data-letter-pdf-text="sender"]',
+                  text: [
+                    data.absenderName,
+                    data.absenderAdresse,
+                    data.absenderPlzOrt,
+                    data.absenderTelefon,
+                    data.absenderEmail,
+                  ].join(""),
+                },
+              ]
+            : undefined
+        }
         headerFontOverride={senderTypography?.font}
         footerFontOverride={design.attachmentsFont}
       />

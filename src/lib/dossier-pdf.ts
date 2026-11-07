@@ -10,6 +10,7 @@ import { fittedPdfHorizontalScale } from "@/lib/pdf-text-width";
 import {
   assertCoverPdfTextContent,
   pdfVisualCloneGuard,
+  pdfChromeCloneGuard,
   assertCvPdfPageTextContent,
   cvPdfPageTextSnapshot,
   beginPdfSafetyValidation,
@@ -334,6 +335,7 @@ async function addRasterPage(
   const coverTextSource = page.dataset.coverTextContract;
   const cvTextSource = page.hasAttribute("data-cv-page") ? cvPdfPageTextSnapshot(page) : null;
   const checkVisualClone = pdfVisualCloneGuard(page);
+  const checkChromeClone = pdfChromeCloneGuard(page);
   const canvas = await html2canvas(page, {
     scale: PDF.SCALE,
     backgroundColor: "#ffffff",
@@ -348,6 +350,7 @@ async function addRasterPage(
       normalizeCssZoomForHtml2Canvas(clonedPage as HTMLElement);
       normalizeCvRubricPillsForPdf(clonedPage as HTMLElement);
       if (isCover) assertCoverPdfTextContent(clonedPage as HTMLElement, coverTextSource);
+      checkChromeClone?.(clonedPage as HTMLElement);
       if (cvTextSource) assertCvPdfPageTextContent(clonedPage as HTMLElement, cvTextSource);
       await checkVisualClone(clonedPage as HTMLElement);
       if (

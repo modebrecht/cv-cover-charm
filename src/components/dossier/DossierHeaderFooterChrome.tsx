@@ -14,6 +14,7 @@ import {
 import { getDossierPageMargins } from "@/lib/dossier-page-margins";
 import type { DossierChromeDocumentContent } from "@/lib/dossier-chrome-content";
 import { resolveTemplateChromeOptions } from "@/lib/template-chrome";
+import { pdfChromeTextContract, type PdfChromeTextField } from "@/lib/pdf-chrome-text-contract";
 import { dossierChromeFieldId } from "@/lib/dossier-semantic-fields";
 import { automaticBorderColor } from "@/lib/dossier-chrome-colors";
 import "./chrome-policy.css";
@@ -80,6 +81,7 @@ export function DossierHeaderFooterChrome({
   footerLeft,
   footerRight,
   documentContent,
+  pageText = [],
   headerFontOverride,
   footerFontOverride,
 }: {
@@ -95,6 +97,7 @@ export function DossierHeaderFooterChrome({
   footerLeft?: string;
   footerRight?: string;
   documentContent?: DossierChromeDocumentContent;
+  pageText?: readonly PdfChromeTextField[];
   headerFontOverride?: FontKey;
   footerFontOverride?: FontKey;
 }) {
@@ -230,6 +233,42 @@ export function DossierHeaderFooterChrome({
   const footerValues = [resolvedFooterLeft, resolvedFooterRight].filter(
     (value): value is string => !!value?.trim(),
   );
+  const requiredText = [...pageText];
+  if (headerMode === "contact") {
+    const contactSelector = continuationContact
+      ? "[data-dossier-continuation-contact]"
+      : "[data-dossier-integrated-contact]";
+    for (const row of continuationContact ? continuationRows : contactRows)
+      requiredText.push({
+        selector: `[data-dossier-chrome] ${contactSelector} [data-dossier-contact-field="${row.key}"]`,
+        text: row.value,
+      });
+  }
+  if (headerMode !== "none" && !continuationContact)
+    requiredText.push(
+      {
+        selector: `[data-dossier-chrome] [data-dossier-field-id="${dossierChromeFieldId(scope, "header", "title")}"]`,
+        text: headerTitle,
+      },
+      {
+        selector: `[data-dossier-chrome] [data-dossier-field-id="${dossierChromeFieldId(scope, "header", "text")}"]`,
+        text: headerText,
+      },
+    );
+  if (options.footerMode === "compact")
+    requiredText.push({
+      selector: "[data-dossier-chrome] [data-dossier-footer-custom-content]",
+      text: footerCustomValues.join("·"),
+    });
+  if (options.footerMode === "details") {
+    const separator = options.footerTextLayout === "stacked" ? "" : "·";
+    const text = footerCustomValues.length
+      ? footerCustomValues.join(separator)
+      : footerLabel && footerDetails.length
+        ? footerLabel + footerDetails.join(options.footerTextLayout === "inline" ? "·" : "")
+        : footerValues.join(separator);
+    requiredText.push({ selector: '[data-dossier-chrome] [data-dossier-footer="details"]', text });
+  }
   const stackedHeader = options.headerTextLayout === "stacked";
   /**
    * IMPORTANT — USER-APPROVED WARM CONTRACT, DO NOT NORMALIZE OR REMOVE:
@@ -252,6 +291,7 @@ export function DossierHeaderFooterChrome({
   return (
     <div
       data-dossier-chrome={scope}
+      data-pdf-chrome-text={pdfChromeTextContract(requiredText)}
       data-dossier-template-chrome={template}
       data-dossier-header-custom-surface={headerHasCustomSurface ? "true" : "false"}
       data-dossier-footer-custom-surface={
