@@ -221,6 +221,7 @@ export type Block = {
   id: string;
   label: string;
   kind: BlockKind;
+  custom?: true;
   lines: Line[];
   style: BlockStyle;
   /** nur für kind === "shape" */

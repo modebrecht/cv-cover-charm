@@ -9,6 +9,7 @@ import { registerCabinPdfFonts } from "@/lib/pdf-fonts";
 import { fittedPdfHorizontalScale } from "@/lib/pdf-text-width";
 import {
   assertCoverPdfTextContent,
+  pdfVisualCloneGuard,
   assertCvPdfPageTextContent,
   cvPdfPageTextSnapshot,
   beginPdfSafetyValidation,
@@ -332,6 +333,7 @@ async function addRasterPage(
   const isCover = page.dataset.dossierDocument === "cover";
   const coverTextSource = page.dataset.coverTextContract;
   const cvTextSource = page.hasAttribute("data-cv-page") ? cvPdfPageTextSnapshot(page) : null;
+  const checkVisualClone = pdfVisualCloneGuard(page);
   const canvas = await html2canvas(page, {
     scale: PDF.SCALE,
     backgroundColor: "#ffffff",
@@ -342,11 +344,12 @@ async function addRasterPage(
     windowHeight: PAGE.HEIGHT,
     scrollX: 0,
     scrollY: 0,
-    onclone: (_clonedDocument, clonedPage) => {
+    onclone: async (_clonedDocument, clonedPage) => {
       normalizeCssZoomForHtml2Canvas(clonedPage as HTMLElement);
       normalizeCvRubricPillsForPdf(clonedPage as HTMLElement);
       if (isCover) assertCoverPdfTextContent(clonedPage as HTMLElement, coverTextSource);
       if (cvTextSource) assertCvPdfPageTextContent(clonedPage as HTMLElement, cvTextSource);
+      await checkVisualClone(clonedPage as HTMLElement);
       if (
         rebuildLetterVectors
           ? letterPageOverflows(clonedPage as HTMLElement)

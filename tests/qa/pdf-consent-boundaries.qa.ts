@@ -575,3 +575,278 @@ test("combined CV text missing only in raster clone cannot download", async ({ p
   expect((await inspect()).status).toBe("pass");
   await attach(info, { failure, downloads, liveStatus: "pass", cloneText: "missing" });
 });
+
+async function openAssetDossier(page: Page) {
+  const fixture = paginationFixture("brief", { paragraphs: 2 });
+  const photo =
+    "data:image/svg+xml," +
+    encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" width="80" height="100"><rect width="80" height="100" fill="#84655a"/></svg>',
+    );
+  const letter = JSON.parse(fixture.storage["anschreiben:v1"]);
+  letter.data.images = [
+    {
+      id: "qa-letter-image",
+      src: photo.replace("84655a", "2878bd"),
+      side: "right",
+      topMm: 0,
+      widthMm: 18,
+      gapMm: 4,
+    },
+  ];
+  fixture.storage["anschreiben:v1"] = JSON.stringify(letter);
+  const cover = JSON.parse(fixture.storage["titelblatt:v3"]);
+  cover.data.foto = photo;
+  cover.customs = [
+    { id: "custom-qa-cover-image", kind: "image", label: "Testbild", text: "", src: photo },
+    {
+      id: "qa-legacy-shape",
+      shape: "path",
+      path: "M0 0 L95 10 L65 95 Z",
+      label: "Testform",
+      text: "",
+    },
+  ];
+  cover.layout = {
+    brief: {
+      "custom-qa-cover-image": { x: 162, y: 150, w: 21, ratio: 1 },
+      "qa-legacy-shape": { x: 162, y: 185, w: 20, ratio: 1, fill: "#d55187", opacity: 1 },
+    },
+  };
+  fixture.storage["titelblatt:v3"] = JSON.stringify(cover);
+  const cv = JSON.parse(fixture.storage["lebenslauf:v1"]);
+  cv.data.person.foto = photo;
+  cv.design.useElements = true;
+  cv.elements = [
+    {
+      id: "custom-qa-cv-shape",
+      kind: "shape",
+      shape: "rect",
+      label: "Testform",
+      text: "",
+      page: 2,
+    },
+    { id: "custom-qa-cv-text", kind: "text", label: "Testtext", text: "Freier CV-Text", page: 2 },
+    {
+      id: "custom-qa-cv-image",
+      kind: "image",
+      label: "Testbild",
+      text: "",
+      page: 2,
+      src: photo.replace("84655a", "27a08c"),
+    },
+    {
+      id: "custom-qa-hidden",
+      kind: "shape",
+      shape: "rect",
+      label: "Ausgeblendete Form",
+      text: "",
+      page: 2,
+    },
+  ];
+  cv.elementStyles = {
+    "custom-qa-cv-shape": { x: 35, y: 95, w: 20, ratio: 0.5, fill: "#8062a3", opacity: 1 },
+    "custom-qa-cv-text": { x: 35, y: 145, w: 54 },
+    "custom-qa-cv-image": { x: 35, y: 185, w: 24, ratio: 1 },
+    "custom-qa-hidden": { hidden: true },
+  };
+  fixture.storage["lebenslauf:v1"] = JSON.stringify(cv);
+  await loadFixture(page, fixture, "letter");
+  await page.goto("http://127.0.0.1:4173");
+  await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
+  const root = page.locator("[data-dossier-pdf-canvas]");
+  const button = page
+    .getByRole("dialog", { name: "Dossier herunterladen" })
+    .getByRole("button", { name: /^(PDF herunterladen|Dossier herunterladen)$/ });
+  const inspect = () =>
+    root.evaluate(async (node) => {
+      const path = "/src/lib/pdf-preflight.ts";
+      return (await import(path)).inspectPdfPreflight(node as HTMLElement, "dossier");
+    });
+  const download = () =>
+    root.evaluate(async (node) => {
+      const path = "/src/lib/dossier-pdf.ts";
+      try {
+        await (
+          await import(path)
+        ).downloadCombinedDossierPdf(node as HTMLElement, "qa-dossier-assets.pdf", {
+          title: "QA",
+          author: "QA",
+        });
+        return "downloaded";
+      } catch (error) {
+        return String(error);
+      }
+    });
+  await expect.poll(async () => (await inspect()).status).toBe("pass");
+  await expect(button).toBeEnabled();
+  return { root, button, inspect, download };
+}
+
+test("combined PDF requires authored photos, images and free CV blocks on their assigned pages", async ({
+  page,
+}, info) => {
+  const { root, button, inspect, download } = await openAssetDossier(page);
+  const downloads: string[] = [];
+  page.on("download", (file) => downloads.push(file.suggestedFilename()));
+  const storage = await page.evaluate(() => ({ ...localStorage }));
+  const faults = [
+    {
+      selector: '[data-letter-page] [data-letter-flow-image="qa-letter-image"] img',
+      kind: "letter",
+      id: "qa-letter-image",
+    },
+    {
+      selector: '[data-dossier-document="cover"] [data-block-id="foto"]',
+      kind: "cover",
+      id: "foto",
+    },
+    {
+      selector: '[data-dossier-document="cover"] [data-block-id="custom-qa-cover-image"] img',
+      kind: "cover",
+      id: "custom-qa-cover-image",
+    },
+    {
+      selector: '[data-dossier-document="cover"] [data-block-id="qa-legacy-shape"] path',
+      kind: "cover",
+      id: "qa-legacy-shape",
+    },
+    { selector: "[data-cv-page] [data-cv-photo]", kind: "cv", id: "portrait" },
+    {
+      selector: '[data-cv-page="1"] [data-block-id="custom-qa-cv-image"] img',
+      kind: "cv",
+      id: "custom-qa-cv-image",
+    },
+    {
+      selector: '[data-cv-page="1"] [data-block-id="custom-qa-cv-shape"]',
+      kind: "cv",
+      id: "custom-qa-cv-shape",
+    },
+    {
+      selector: '[data-cv-page="1"] [data-block-id="custom-qa-cv-text"] [data-block-text-line]',
+      kind: "cv",
+      id: "custom-qa-cv-text",
+    },
+  ];
+  const evidence = [];
+  for (const fault of faults) {
+    const removed = await root.locator(fault.selector).evaluateHandle((node) => {
+      const place = document.createComment("asset under test");
+      node.replaceWith(place);
+      return { node, place };
+    });
+    const result = await inspect();
+    expect(result.status, fault.id).toBe("blocked");
+    expect(
+      result.issues.some(
+        (issue: { code: string; documentKind: string; element?: string }) =>
+          issue.code ===
+            (fault.kind === "letter" ? "image-content-missing" : "visual-content-missing") &&
+          issue.documentKind === fault.kind &&
+          issue.element?.includes(fault.id),
+      ),
+    ).toBe(true);
+    await expect(button).toBeDisabled();
+    const failure = await download();
+    expect(failure).toContain(
+      fault.kind === "letter"
+        ? "Motivationsschreiben"
+        : fault.kind === "cv"
+          ? "Lebenslauf"
+          : "Titelblatt",
+    );
+    evidence.push({ fault, result, failure });
+    await removed.evaluate(({ node, place }) => place.replaceWith(node));
+    await removed.dispose();
+    await expect.poll(async () => (await inspect()).status).toBe("pass");
+    await expect(button).toBeEnabled();
+  }
+  const swapped = await root
+    .locator('[data-block-id="custom-qa-cover-image"] img')
+    .evaluateHandle(async (node) => {
+      const image = node as HTMLImageElement;
+      const source = image.getAttribute("src")!;
+      image.src = source.replace("84655a", "33a0cc");
+      await image.decode();
+      return { image, source };
+    });
+  const wrongImage = await inspect();
+  expect(
+    wrongImage.issues.some(
+      (issue: { code: string; element?: string }) =>
+        issue.code === "visual-content-missing" && issue.element?.includes("custom-qa-cover-image"),
+    ),
+  ).toBe(true);
+  await swapped.evaluate(async ({ image, source }) => {
+    image.src = source;
+    await image.decode();
+  });
+  await swapped.dispose();
+  await expect.poll(async () => (await inspect()).status).toBe("pass");
+  const moved = await root
+    .locator('[data-cv-page="1"] [data-block-id="custom-qa-cv-shape"]')
+    .evaluateHandle((node) => {
+      const place = document.createComment("original element page");
+      node.replaceWith(place);
+      document.querySelector('[data-dossier-pdf-canvas] [data-cv-page="0"]')!.append(node);
+      return { node, place };
+    });
+  const wrongPage = await inspect();
+  expect(
+    wrongPage.issues.some(
+      (issue: { code: string; element?: string }) =>
+        issue.code === "visual-content-missing" && issue.element?.includes("custom-qa-cv-shape"),
+    ),
+  ).toBe(true);
+  await moved.evaluate(({ node, place }) => place.replaceWith(node));
+  await moved.dispose();
+  await expect.poll(async () => (await inspect()).status).toBe("pass");
+  expect(downloads).toEqual([]);
+  expect(await page.evaluate(() => ({ ...localStorage }))).toEqual(storage);
+  await attach(info, { evidence, wrongPage, wrongImage, downloads, recovered: true });
+});
+
+test("combined raster clone preserves images and free shapes before a valid download", async ({
+  page,
+}, info) => {
+  const { button, inspect, download } = await openAssetDossier(page);
+  const storage = await page.evaluate(() => ({ ...localStorage }));
+  const downloads: string[] = [];
+  page.on("download", (file) => downloads.push(file.suggestedFilename()));
+  const faults = [
+    {
+      selector: '[data-letter-page] [data-letter-flow-image="qa-letter-image"] img',
+      label: "Motivationsschreiben",
+    },
+    {
+      selector: '[data-dossier-document="cover"] [data-block-id="custom-qa-cover-image"] img',
+      label: "Titelblatt",
+    },
+    {
+      selector: '[data-cv-page="1"] [data-block-id="custom-qa-cv-shape"] > :first-child',
+      label: "Lebenslauf",
+    },
+  ];
+  const evidence = [];
+  for (const fault of faults) {
+    const style = await page.addStyleTag({
+      content: `@media(max-width:800px){${fault.selector}{display:none!important}}`,
+    });
+    expect((await inspect()).status).toBe("pass");
+    await expect(button).toBeEnabled();
+    const failure = await download();
+    expect(failure).toContain("PDF-Raster");
+    expect(failure).toContain(fault.label);
+    expect(downloads).toEqual([]);
+    evidence.push({ ...fault, failure });
+    await style.evaluate((node) => node.parentNode?.removeChild(node));
+  }
+  const pending = page.waitForEvent("download", { timeout: 90_000 });
+  await button.click();
+  const file = await pending;
+  await file.saveAs(info.outputPath("complete-dossier-assets.pdf"));
+  expect(await file.failure()).toBeNull();
+  expect(downloads).toHaveLength(1);
+  expect(await page.evaluate(() => ({ ...localStorage }))).toEqual(storage);
+  await attach(info, { evidence, downloads, recovered: true });
+});

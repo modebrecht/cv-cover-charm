@@ -1,3 +1,4 @@
+import { pdfVisualContract } from "@/lib/pdf-visual-contract";
 import { TEMPLATES } from "./types";
 import { normalizedCoverLabels } from "./presentation";
 import { forwardRef, useLayoutEffect, useMemo, useRef } from "react";
@@ -127,6 +128,13 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
     () => normalizedCoverLabels(blocks, data.labelKontakt),
     [blocks, data.labelKontakt],
   );
+  const visualContract = useMemo(
+    () =>
+      rest.editable === false
+        ? pdfVisualContract({ kind: "cover", blocks: renderBlocks, photo: data.foto })
+        : undefined,
+    [rest.editable, renderBlocks, data.foto],
+  );
   const automaticFooterPair = usesAutomaticFooterPair(renderBlocks);
   const synchronizeFooterPair =
     automaticFooterPair &&
@@ -230,6 +238,7 @@ export const CoverCanvas = forwardRef<HTMLDivElement, Props>(function CoverCanva
       data-dossier-template={template}
       data-cover-template={template}
       data-cover-text-contract={coverPdfTextContract(renderBlocks)}
+      data-pdf-visual-contract={visualContract}
       data-cover-text-override={coverTextOverride ? "true" : undefined}
       data-dossier-font-source={resolvedOverride ? "override" : "family"}
       data-dossier-footer-sync={automaticFooterPair ? "automatic" : "manual"}

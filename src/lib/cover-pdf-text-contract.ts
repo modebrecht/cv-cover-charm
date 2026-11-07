@@ -2,16 +2,17 @@ import { lineText, type Block } from "@/components/cover/types";
 
 export type CoverPdfTextBlock = { id: string; lines: string[] };
 
+export function pdfBlockTextLines(block: Block): string[] {
+  return block.lines.map((line) => lineText(line).replace(/\s+/g, ""));
+}
+
 /** Expected material text comes from the renderer input, never the painted DOM. */
 export function coverPdfTextContract(blocks: readonly Block[]): string {
   return JSON.stringify({
     version: 1,
     blocks: blocks
       .filter((block) => block.kind === "text" && !block.style.hidden)
-      .map((block) => ({
-        id: block.id,
-        lines: block.lines.map((line) => lineText(line).replace(/\s+/g, "")),
-      }))
+      .map((block) => ({ id: block.id, lines: pdfBlockTextLines(block) }))
       .filter((block) => block.lines.some(Boolean)),
   });
 }

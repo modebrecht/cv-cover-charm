@@ -38,6 +38,7 @@ export function ShapeElement({ shape, path, style: st, colors }: Props) {
   if (shape === "line") {
     return (
       <div
+        data-pdf-shape
         style={{
           width: "100%",
           height: `${Math.max(strokeMm, 0.2)}mm`,
@@ -55,6 +56,7 @@ export function ShapeElement({ shape, path, style: st, colors }: Props) {
     const angle = ((st.gradAngle ?? 135) * Math.PI) / 180;
     return (
       <svg
+        data-pdf-shape
         viewBox="0 0 100 100"
         preserveAspectRatio="none"
         style={{ width: "100%", height: `${heightMm}mm`, opacity: st.opacity, display: "block" }}
@@ -97,6 +99,7 @@ export function ShapeElement({ shape, path, style: st, colors }: Props) {
 
   return (
     <div
+      data-pdf-shape
       style={{
         width: "100%",
         height: `${heightMm}mm`,

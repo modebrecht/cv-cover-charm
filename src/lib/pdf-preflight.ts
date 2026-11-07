@@ -2,6 +2,13 @@ import { letterPageOverflows, printableTextClips } from "@/components/letter/pre
 import { readCvPdfTextContract } from "@/lib/cv-pdf-text-contract";
 import { readCoverPdfTextContract } from "@/lib/cover-pdf-text-contract";
 
+import {
+  pdfImageSourceKey,
+  readPdfVisualContract,
+  type PdfVisualBlock,
+  type PdfVisualContract,
+} from "@/lib/pdf-visual-contract";
+
 export type PdfPreflightStatus = "pending" | "pass" | "advisory" | "blocked";
 export type PdfDocumentKind = "letter" | "dossier";
 export type PdfPreflightIssue = {
@@ -118,30 +125,152 @@ function missingLetterSemantics(
   return missing;
 }
 
+function blockTextMatches(block: HTMLElement, page: HTMLElement, lines: readonly string[]) {
+  return lines.every((text, index) => {
+    if (!text) return true;
+    const nodes = block.querySelectorAll<HTMLElement>(`[data-block-text-line="${index}"]`);
+    // List markers are renderer-owned prefixes. The entire authored line is required.
+    return nodes.length === 1 && semanticText(nodes[0], page).endsWith(text);
+  });
+}
+
+function matchingBlock(
+  page: HTMLElement,
+  id: string,
+  marker = "data-block-id",
+): HTMLElement | null {
+  const nodes = page.querySelectorAll<HTMLElement>(`[${marker}="${CSS.escape(id)}"]`);
+  return nodes.length === 1 ? nodes[0] : null;
+}
+
 function missingCoverText(cover: HTMLElement, sourceContract: string | undefined): string[] | null {
   const expected = readCoverPdfTextContract(sourceContract);
   if (!expected) return null;
-  const missing: string[] = [];
-  for (const block of expected) {
-    const matches = cover.querySelectorAll<HTMLElement>(
-      `[data-block-id="${CSS.escape(block.id)}"]`,
-    );
-    if (matches.length !== 1) {
-      missing.push(block.id);
-      continue;
-    }
-    for (const [index, text] of block.lines.entries()) {
-      if (!text) continue;
-      const lines = matches[0].querySelectorAll<HTMLElement>(`[data-block-text-line="${index}"]`);
-      // List markers are renderer-owned prefixes; the complete authored line
-      // still has to be visible, including rich text segments, in this block.
-      if (lines.length !== 1 || !semanticText(lines[0], cover).endsWith(text)) {
-        missing.push(block.id);
-        break;
-      }
+  return expected
+    .filter(({ id, lines }) => {
+      const block = matchingBlock(cover, id);
+      return !block || !blockTextMatches(block, cover, lines);
+    })
+    .map(({ id }) => id);
+}
+
+function assetIsVisible(node: Element, page: HTMLElement) {
+  for (let ancestor: Element | null = node; ancestor; ancestor = ancestor.parentElement) {
+    const css = getComputedStyle(ancestor);
+    if (css.display === "none" || css.visibility !== "visible" || Number(css.opacity) === 0)
+      return false;
+    if (ancestor === page) return true;
+  }
+  return false;
+}
+
+function assetHasBox(node: Element, page: HTMLElement) {
+  const rect = node.getBoundingClientRect();
+  return rect.width > 0 && rect.height > 0 && assetIsVisible(node, page);
+}
+
+function requiredImageMatches(
+  container: HTMLElement,
+  selector: string,
+  source: string,
+  page: HTMLElement,
+  raster: boolean,
+) {
+  const images = container.querySelectorAll<HTMLImageElement>(selector);
+  if (images.length !== 1) return false;
+  const image = images[0];
+  const url = image.getAttribute("src");
+  return (
+    !!url &&
+    pdfImageSourceKey(url) === source &&
+    assetHasBox(image, page) &&
+    (!raster || (image.complete && image.naturalWidth > 0))
+  );
+}
+
+function visualBlockMatches(
+  page: HTMLElement | undefined,
+  expected: PdfVisualBlock,
+  raster = false,
+  marker = "data-block-id",
+) {
+  if (!page) return false;
+  const block = matchingBlock(page, expected.id, marker);
+  if (!block) return false;
+  if (expected.lines && !blockTextMatches(block, page, expected.lines)) return false;
+  if (expected.image && !requiredImageMatches(block, "img", expected.image, page, raster))
+    return false;
+  if (expected.shape) {
+    const shape = block.querySelector(":scope > [data-pdf-shape]");
+    if (!shape || !assetHasBox(shape, page)) return false;
+    if (expected.shape === "path") {
+      const path = shape.querySelector('path[d]:not([d=""])');
+      if (!path || !assetIsVisible(path, page)) return false;
     }
   }
+  return true;
+}
+
+const cvPortraitSelector = "[data-cv-photo] img";
+
+function missingPdfVisuals(pages: readonly HTMLElement[], contract: PdfVisualContract) {
+  const missing = contract.blocks
+    .filter((block) => !visualBlockMatches(pages[block.page], block))
+    .map((block) => block.id);
+  const { portrait } = contract;
+  if (
+    portrait &&
+    !pages.some((page) => requiredImageMatches(page, cvPortraitSelector, portrait, page, false))
+  )
+    missing.push("portrait");
   return missing;
+}
+
+/** Capture expectations from the live source before the raster iframe exists. */
+export function pdfVisualCloneGuard(page: HTMLElement) {
+  const letter = page.hasAttribute("data-letter-page");
+  const cv = page.hasAttribute("data-cv-page");
+  const label = letter ? "das Motivationsschreiben" : cv ? "den Lebenslauf" : "das Titelblatt";
+  const marker = letter ? "data-letter-flow-image" : "data-block-id";
+  const error = () =>
+    new Error(
+      `Im PDF-Raster für ${label} fehlen Bilder oder freie Elemente. Bitte das Layout prüfen.`,
+    );
+  let blocks: PdfVisualBlock[];
+  let portrait: string | null = null;
+  if (letter) {
+    // The live preflight already verified the source IDs across physical pages.
+    // Keep each page's actual image source when projecting them into the clone.
+    blocks = Array.from(
+      page.querySelectorAll<HTMLElement>("[data-letter-flow-image]"),
+      (block) => ({
+        id: block.dataset.letterFlowImage ?? "",
+        page: 0,
+        image: pdfImageSourceKey(block.querySelector("img")?.getAttribute("src") ?? ""),
+      }),
+    );
+  } else {
+    const root = cv ? page.closest<HTMLElement>('[data-dossier-document="cv"]') : page;
+    const contract = readPdfVisualContract(root?.dataset.pdfVisualContract);
+    if (!contract) throw error();
+    const index = cv ? Array.from(root?.querySelectorAll("[data-cv-page]") ?? []).indexOf(page) : 0;
+    blocks = contract.blocks.filter((block) => block.page === index);
+    if (cv && page.querySelector(cvPortraitSelector)) portrait = contract.portrait;
+  }
+  return async (clone: HTMLElement) => {
+    if (portrait || blocks.some((block) => block.image)) {
+      await Promise.all(
+        Array.from(clone.querySelectorAll<HTMLImageElement>("img"), (image) =>
+          image.complete ? undefined : image.decode().catch(() => undefined),
+        ),
+      );
+    }
+    if (
+      blocks.some((block) => !visualBlockMatches(clone, block, true, marker)) ||
+      (portrait && !requiredImageMatches(clone, cvPortraitSelector, portrait, clone, true))
+    )
+      throw error();
+  };
 }
 
 /** The raster clone must retain the original page's complete source text too. */
@@ -286,7 +415,31 @@ export function inspectPdfPreflight(
       "Die Briefseiten sind nicht vollständig. Bitte den Seitenumbruch abwarten.",
     );
   if (kind === "dossier") {
+    const checkVisuals = (document: HTMLElement, sheets: HTMLElement[], kind: "cover" | "cv") => {
+      const contract = readPdfVisualContract(document.dataset.pdfVisualContract);
+      const label = kind === "cover" ? "das Titelblatt" : "den Lebenslauf";
+      if (!contract) {
+        add(
+          "visual-content-contract",
+          "blocked",
+          `Die Bild- und Elementprüfung für ${label} fehlt. Bitte die Exportansicht erneut öffnen.`,
+          kind,
+        );
+        return;
+      }
+      const missing = missingPdfVisuals(sheets, contract);
+      if (missing.length)
+        add(
+          "visual-content-missing",
+          "blocked",
+          `Im Drucksatz für ${label} fehlen Bilder oder freie Elemente. Bitte die Exportansicht erneut öffnen.`,
+          kind,
+          undefined,
+          missing.join(","),
+        );
+    };
     if (cover) {
+      checkVisuals(cover, [cover], "cover");
       const missing = missingCoverText(cover, cover.dataset.coverTextContract);
       if (missing === null)
         add(
@@ -308,6 +461,7 @@ export function inspectPdfPreflight(
     }
     const cv = root.querySelector<HTMLElement>('[data-dossier-document="cv"]');
     if (root.dataset.dossierCvReady === "true") {
+      if (cv) checkVisuals(cv, cvPages, "cv");
       const missing = cv ? missingCvText(cv) : null;
       if (missing === null)
         add(
@@ -573,13 +727,19 @@ export function inspectPdfPreflight(
       );
     const expected = JSON.parse(letter.dataset.letterRequiredImages ?? "[]") as string[];
     const actual = pages.flatMap((sheet) =>
-      Array.from(
-        sheet.querySelectorAll<HTMLElement>("[data-letter-flow-image]"),
-        (node) => node.dataset.letterFlowImage,
-      ),
+      Array.from(sheet.querySelectorAll<HTMLElement>("[data-letter-flow-image]"))
+        .filter((block) => block.querySelectorAll('img[src]:not([src=""])').length === 1)
+        .map((block) => block.dataset.letterFlowImage),
     );
     if (JSON.stringify([...expected].sort()) !== JSON.stringify(actual.sort()))
-      add("image-content-missing", "blocked", "Ein erforderliches Briefbild fehlt im Drucksatz.");
+      add(
+        "image-content-missing",
+        "blocked",
+        "Ein erforderliches Bild des Motivationsschreibens fehlt im Drucksatz.",
+        "letter",
+        undefined,
+        expected.filter((id) => !actual.includes(id)).join(","),
+      );
   }
   const warning = letter?.dataset.letterPaginationWarning;
   // Only the measured complete fallback from a failed capacity probe is

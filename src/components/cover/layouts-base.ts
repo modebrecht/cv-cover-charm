@@ -3510,6 +3510,7 @@ export function buildCustomBlocks(
       id: c.id,
       label: c.label || (kind === "shape" ? "Form" : kind === "image" ? "Bild" : "Eigenes Feld"),
       kind,
+      custom: true,
       shape: c.shape,
       path: c.path,
       src: c.src,

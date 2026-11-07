@@ -1,3 +1,4 @@
+import { pdfVisualContract } from "@/lib/pdf-visual-contract";
 import { cvPdfTextContract } from "@/lib/cv-pdf-text-contract";
 import {
   CV_PERSON_FIELD_IDS,
@@ -1707,15 +1708,27 @@ export function CvCanvas({
     );
   }, [design.template, design.font, elements, elementStyles, slots]);
 
+  const elementsByPage = useMemo(() => {
+    if (!design.useElements) return [[], []];
+    return [0, 1].map((page) => {
+      const ids = new Set(
+        elements
+          .filter((element) => (element.page === 2 ? 1 : 0) === page)
+          .map((element) => element.id),
+      );
+      return elementBlocks.filter((block) => ids.has(block.id));
+    });
+  }, [design.useElements, elements, elementBlocks]);
+  const visualContract = useMemo(
+    () =>
+      exportMode
+        ? pdfVisualContract({ kind: "cv", pages: elementsByPage, photo: p.foto })
+        : undefined,
+    [exportMode, elementsByPage, p.foto],
+  );
+
   const elementLayer = (pageIndex: number) => {
-    const idsOnPage = new Set(
-      elements
-        .filter((element) => (element.page === 2 ? 1 : 0) === pageIndex)
-        .map((element) => element.id),
-    );
-    const shown = design.useElements
-      ? elementBlocks.filter((block) => idsOnPage.has(block.id))
-      : [];
+    const shown = elementsByPage[pageIndex] ?? [];
     if (shown.length === 0 && !drawing) return null;
     const editable = !exportMode && !!onMoveElement;
     return (
@@ -3135,6 +3148,7 @@ export function CvCanvas({
       className="flex flex-col items-center gap-4"
       data-dossier-document="cv"
       data-cv-text-contract={cvPdfTextContract({ ...data, person: p }, design)}
+      data-pdf-visual-contract={visualContract}
       data-cv-template={design.template}
       data-cv-header-mode={chromeOptions.headerMode}
       data-cv-layout={layout}
