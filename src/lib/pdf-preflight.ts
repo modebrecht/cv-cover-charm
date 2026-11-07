@@ -44,6 +44,10 @@ const outside = (a: DOMRect, b: DOMRect) =>
 const transparentInk = (color: string) =>
   /^rgba\([^)]*,\s*0(?:\.0+)?\)$|\/\s*0(?:\.0+)?\s*\)$/.test(color);
 
+function letterBodyText(sheet: HTMLElement) {
+  return sheet.querySelector<HTMLElement>('[data-letter-pdf-richtext="body"]')?.innerText ?? "";
+}
+
 function requiredLetterTextIsHidden(sheet: HTMLElement) {
   for (const container of sheet.querySelectorAll<HTMLElement>(
     '[data-letter-pdf-richtext="body"], [data-letter-footer-attachments]',
@@ -124,6 +128,35 @@ function missingLetterSemantics(
     }
   }
   return missing;
+}
+
+export function pdfLetterCloneGuard(page: HTMLElement) {
+  const letter = page.closest<HTMLElement>("[data-letter-document-root]");
+  const index = Number(page.dataset.letterPageIndex);
+  const final = page.dataset.letterFinalPage === "true";
+  const bodyHash = pdfContentHash(letterBodyText(page));
+  return (clone: HTMLElement) => {
+    if (
+      pdfContentHash(letterBodyText(clone)) !== bodyHash ||
+      requiredLetterTextIsHidden(clone) ||
+      (letter && missingLetterSemantics(letter, clone, index, final).length)
+    )
+      throw new Error(
+        "Im PDF-Raster fehlen erforderliche Angaben des Motivationsschreibens. Bitte das Layout prüfen.",
+      );
+  };
+}
+
+function requiredLetterImages(source: string | undefined): string[] | null {
+  if (source === undefined) return null;
+  try {
+    const ids: unknown = JSON.parse(source);
+    return Array.isArray(ids) && ids.every((id) => typeof id === "string" && id.length > 0)
+      ? ids
+      : null;
+  } catch {
+    return null;
+  }
 }
 
 function blockTextMatches(block: HTMLElement, page: HTMLElement, lines: readonly string[]) {
@@ -402,9 +435,7 @@ export function inspectPdfPreflight(
       documentKind,
       pageIndex,
       element,
-      // The confirmed exception covers a complete standalone Letter fallback.
-      // Combined export approval requires its own product contract.
-      overridePermitted: severity === "advisory" && kind === "letter",
+      overridePermitted: code === "measurement-advisory" && severity === "advisory",
     });
   if (!root || !root.isConnected)
     return {
@@ -430,6 +461,8 @@ export function inspectPdfPreflight(
       );
   const cover =
     kind === "dossier" ? root.querySelector<HTMLElement>('[data-dossier-document="cover"]') : null;
+  const cv =
+    kind === "dossier" ? root.querySelector<HTMLElement>('[data-dossier-document="cv"]') : null;
   const cvPages =
     kind === "dossier" ? Array.from(root.querySelectorAll<HTMLElement>("[data-cv-page]")) : [];
   const physical = [...(cover ? [cover] : []), ...pages, ...cvPages];
@@ -502,7 +535,6 @@ export function inspectPdfPreflight(
           missing.join(","),
         );
     }
-    const cv = root.querySelector<HTMLElement>('[data-dossier-document="cv"]');
     if (root.dataset.dossierCvReady === "true") {
       if (cv) checkVisuals(cv, cvPages, "cv");
       const missing = cv ? missingCvText(cv) : null;
@@ -771,26 +803,34 @@ export function inspectPdfPreflight(
           );
     }
   }
-  if (letter?.dataset.letterContentHash && letter.dataset.letterPaginationReady === "true") {
-    const bodyText = pages
-      .map(
-        (sheet) =>
-          sheet.querySelector<HTMLElement>('[data-letter-pdf-richtext="body"]')?.innerText ?? "",
-      )
-      .join("");
-    if (pdfContentHash(bodyText) !== letter.dataset.letterContentHash)
+  if (letter) {
+    if (!letter.dataset.letterContentHash)
+      add(
+        "letter-content-contract",
+        "blocked",
+        "Die Textprüfung des Motivationsschreibens fehlt. Bitte die Exportansicht erneut öffnen.",
+      );
+    else if (
+      pdfContentHash(pages.map(letterBodyText).join("")) !== letter.dataset.letterContentHash
+    )
       add(
         "content-missing",
         "blocked",
         "Der Brieftext ist im Drucksatz nicht vollständig. Bitte den Brief erneut prüfen.",
       );
-    const expected = JSON.parse(letter.dataset.letterRequiredImages ?? "[]") as string[];
+    const expected = requiredLetterImages(letter.dataset.letterRequiredImages);
     const actual = pages.flatMap((sheet) =>
       Array.from(sheet.querySelectorAll<HTMLElement>("[data-letter-flow-image]"))
         .filter((block) => block.querySelectorAll('img[src]:not([src=""])').length === 1)
         .map((block) => block.dataset.letterFlowImage),
     );
-    if (JSON.stringify([...expected].sort()) !== JSON.stringify(actual.sort()))
+    if (!expected)
+      add(
+        "letter-image-contract",
+        "blocked",
+        "Die Bildprüfung des Motivationsschreibens fehlt oder ist ungültig. Bitte die Exportansicht erneut öffnen.",
+      );
+    else if (JSON.stringify([...expected].sort()) !== JSON.stringify(actual.sort()))
       add(
         "image-content-missing",
         "blocked",
@@ -801,16 +841,15 @@ export function inspectPdfPreflight(
       );
   }
   const warning = letter?.dataset.letterPaginationWarning;
-  // Only the measured complete fallback from a failed capacity probe is
-  // defensible. Oversized images/blocks and unknown algorithm codes stay hard.
+  // Only the complete single-page fallback can be confirmed. The status still
+  // gives hard errors and pending resources priority across the whole export.
+  const completeFallback = warning === "measurement-failed" && pages.length === 1;
   if (warning)
     add(
-      warning === "measurement-failed" ? "measurement-advisory" : "pagination-unsafe",
-      warning === "measurement-failed" ? "advisory" : "blocked",
-      warning === "measurement-failed"
-        ? kind === "letter"
-          ? `Briefseite 1: Die Umbruchmessung war uneindeutig. Der vollständige Drucksatz passt sichtbar; bitte die Vorschau prüfen.`
-          : `Briefseite 1: Die Umbruchmessung war uneindeutig. Für das Gesamtdossier ist diese Warnung nicht übersteuerbar. Bitte die Ansicht erneut öffnen oder Abstände/Inhalt anpassen und die neue Messung abwarten.`
+      completeFallback ? "measurement-advisory" : "pagination-unsafe",
+      completeFallback ? "advisory" : "blocked",
+      completeFallback
+        ? "Briefseite 1: Die Umbruchmessung war uneindeutig. Der vollständige Brief passt auf eine A4-Seite. Bitte prüfe die Vorschau vor dem Download."
         : letter?.dataset.letterPaginationWarningMessage || "Die Seitenaufteilung ist unsicher.",
       "letter",
       0,
@@ -827,7 +866,7 @@ export function inspectPdfPreflight(
       sheet,
       ...Array.from(
         sheet.querySelectorAll<HTMLElement>(
-          "[data-letter-text-layer], [data-letter-pdf-text], [data-letter-pdf-richtext], [data-letter-pdf-richtext] *, [data-letter-chrome] *, [data-dossier-field-id], [data-dossier-header], [data-dossier-footer], [data-cv-main], [data-cv-sidebar], [data-cv-entry], [data-cv-body], [data-cv-photo], [data-block-id], [data-block-id] *, img",
+          "[data-letter-text-layer], [data-letter-pdf-text], [data-letter-pdf-richtext], [data-letter-pdf-richtext] *, [data-letter-chrome] *, [data-dossier-chrome] *, [data-dossier-field-id], [data-dossier-header], [data-dossier-footer], [data-cv-main], [data-cv-sidebar], [data-cv-entry], [data-cv-body], [data-cv-photo], [data-block-id], [data-block-id] *, img",
         ),
       ),
     ])
@@ -868,6 +907,8 @@ export function inspectPdfPreflight(
     letter?.dataset,
     root.dataset.dossierCvReady,
     root.dataset.dossierCvPageCount,
+    cv?.dataset.cvTextContract,
+    cv?.dataset.pdfVisualContract,
     issues,
   ]);
   return { status, issues, signature };

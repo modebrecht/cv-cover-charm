@@ -658,14 +658,20 @@ async function openAssetDossier(page: Page) {
   return openCombinedDossier(page, fixture);
 }
 
-async function openCombinedDossier(page: Page, fixture: PaginationFixture) {
+async function openCombinedDossier(
+  page: Page,
+  fixture: PaginationFixture,
+  expectedStatus: "pass" | "advisory" = "pass",
+) {
   await loadFixture(page, fixture, "letter");
   await page.goto("http://127.0.0.1:4173");
   await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
   const root = page.locator("[data-dossier-pdf-canvas]");
-  const button = page
-    .getByRole("dialog", { name: "Dossier herunterladen" })
-    .getByRole("button", { name: /^(PDF herunterladen|Dossier herunterladen)$/ });
+  const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
+  const button = dialog.getByRole("button", {
+    name: /^(PDF herunterladen|Dossier herunterladen)$/,
+  });
+  const confirm = dialog.getByRole("button", { name: "PDF trotzdem herunterladen", exact: true });
   const inspect = () =>
     root.evaluate(async (node) => {
       const path = "/src/lib/pdf-preflight.ts";
@@ -686,20 +692,217 @@ async function openCombinedDossier(page: Page, fixture: PaginationFixture) {
         return String(error);
       }
     });
-  const waitForPass = () =>
+  const waitForStatus = (status: "pass" | "advisory") =>
     expect
       .poll(
         async () => {
           const result = await inspect();
-          return result.status === "pass" ? result.status : JSON.stringify(result.issues);
+          return result.status === status ? result.status : JSON.stringify(result.issues);
         },
         { timeout: 20_000 },
       )
-      .toBe("pass");
-  await waitForPass();
-  await expect(button).toBeEnabled();
-  return { root, button, inspect, download, waitForPass };
+      .toBe(status);
+  await waitForStatus(expectedStatus);
+  if (expectedStatus === "pass") await expect(button).toBeEnabled();
+  return { root, button, confirm, inspect, download, waitForPass: () => waitForStatus("pass") };
 }
+
+test("combined PDF requires explicit confirmation for the complete one-page letter fallback", async ({
+  page,
+}, info) => {
+  const fixture = await loadLetter(page);
+  const { root, button, confirm, inspect, download } = await openCombinedDossier(
+    page,
+    fixture,
+    "advisory",
+  );
+  await expect(button).toBeDisabled();
+  await expect(confirm).toBeEnabled();
+  await expect(confirm).toHaveAccessibleDescription(/Umbruchmessung war uneindeutig/);
+  const { issues } = await inspect();
+  expect(issues).toMatchObject([{ code: "measurement-advisory", overridePermitted: true }]);
+  await expect(root.locator("[data-letter-document-pages] [data-letter-page]")).toHaveCount(1);
+  const storage = await page.evaluate(() => ({ ...localStorage }));
+  const downloads: string[] = [];
+  page.on("download", (file) => downloads.push(file.suggestedFilename()));
+  expect(await download()).toContain("Umbruchmessung war uneindeutig");
+  expect(downloads).toEqual([]);
+  const pending = Promise.race([
+    page.waitForEvent("download", { timeout: 90_000 }),
+    page
+      .getByRole("status")
+      .filter({ hasText: /^(?!Gesamtdossier wurde als PDF erstellt)/ })
+      .textContent({ timeout: 90_000 })
+      .then((message) => {
+        throw new Error(`Dossier download failed: ${message}`);
+      }),
+  ]);
+  await confirm.click();
+  const file = await pending;
+  await file.saveAs(info.outputPath("confirmed-combined-dossier.pdf"));
+  expect(await file.failure()).toBeNull();
+  expect(downloads).toHaveLength(1);
+  expect(await page.evaluate(() => ({ ...localStorage }))).toEqual(storage);
+  for (const reload of [false, true]) {
+    if (reload) await page.reload();
+    await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
+    await expect(button).toBeDisabled();
+    await expect(confirm).toBeEnabled();
+    await page.getByRole("button", { name: "Zurück zum Bearbeiten" }).click();
+  }
+  await attach(info, {
+    issues,
+    downloads,
+    unchangedStorage: true,
+    expectedLetter: fixture.segments.letter,
+  });
+});
+
+test("combined confirmation expires and cannot bypass faults alongside a measurement warning", async ({
+  page,
+}, info) => {
+  const fixture = await loadLetter(page);
+  const { root, button, confirm, inspect } = await openCombinedDossier(page, fixture, "advisory");
+  const downloads: string[] = [];
+  page.on("download", (file) => downloads.push(file.suggestedFilename()));
+  const faults = [
+    {
+      selector: "[data-letter-document-root]",
+      attribute: "data-letter-pagination-ready",
+      value: "false",
+      code: "pagination-pending",
+    },
+    {
+      selector: "[data-letter-document-root]",
+      attribute: "data-letter-content-hash",
+      value: null,
+      code: "letter-content-contract",
+    },
+    {
+      selector: "[data-letter-document-root]",
+      attribute: "data-letter-required-images",
+      value: "{",
+      code: "letter-image-contract",
+    },
+    {
+      selector: "[data-letter-document-root]",
+      attribute: "data-letter-pagination-warning",
+      value: "unknown",
+      code: "pagination-unsafe",
+    },
+    {
+      selector: '[data-dossier-document="cover"] [data-block-id="name"]',
+      attribute: "hidden",
+      value: "",
+      code: "cover-content-missing",
+    },
+    {
+      selector: "[data-letter-page]",
+      attribute: "data-letter-final-page",
+      value: "false",
+      code: "page-structure",
+    },
+    {
+      selector: '[data-letter-page] [data-letter-pdf-richtext="body"]',
+      attribute: "style",
+      value: "transform: translateY(300mm)",
+      code: "physical-overflow",
+    },
+  ];
+  const evidence = [];
+  for (const fault of faults) {
+    await expect(confirm).toBeEnabled();
+    const original = await root.locator(fault.selector).evaluate((node, { attribute, value }) => {
+      const old = node.getAttribute(attribute);
+      if (value === null) node.removeAttribute(attribute);
+      else node.setAttribute(attribute, value);
+      return old;
+    }, fault);
+    await expect(confirm).toHaveCount(0);
+    await expect(button).toBeDisabled();
+    const { status, issues } = await inspect();
+    expect(status).toBe(fault.code === "pagination-pending" ? "pending" : "blocked");
+    expect(issues).toEqual(expect.arrayContaining([expect.objectContaining({ code: fault.code })]));
+    await root.locator(fault.selector).evaluate(
+      (node, { attribute, original }) => {
+        if (original === null) node.removeAttribute(attribute);
+        else node.setAttribute(attribute, original);
+      },
+      { attribute: fault.attribute, original },
+    );
+    evidence.push({ code: fault.code, status });
+  }
+  await expect(confirm).toBeEnabled();
+  const result = await root.evaluate(async (node) => {
+    const policyPath = "/src/lib/pdf-preflight.ts";
+    const exporterPath = "/src/lib/dossier-pdf.ts";
+    const { createPdfAdvisoryConsent } = await import(policyPath);
+    const { downloadCombinedDossierPdf } = await import(exporterPath);
+    const root = node as HTMLElement;
+    const consent = createPdfAdvisoryConsent(root, "dossier");
+    const body = root.querySelector<HTMLElement>(
+      '[data-letter-page] [data-letter-pdf-richtext="body"]',
+    )!;
+    const request = async () => {
+      try {
+        await downloadCombinedDossierPdf(
+          root,
+          "must-not-download.pdf",
+          { title: "QA", author: "QA" },
+          consent,
+        );
+        return "UNSAFE SUCCESS";
+      } catch (error) {
+        return String(error);
+      }
+    };
+    body.style.color = "#182950";
+    const changed = await request();
+    body.style.removeProperty("color");
+    const replay = await request();
+    return { changed, replay };
+  });
+  expect(result.changed).toContain("abgelaufen");
+  expect(result.replay).toContain("abgelaufen");
+  expect(downloads).toEqual([]);
+  await attach(info, { evidence, result, downloads });
+});
+
+test("combined confirmation rejects letter text lost only in the raster clone", async ({
+  page,
+}, info) => {
+  const fixture = await loadLetter(page);
+  const { root, confirm, inspect } = await openCombinedDossier(page, fixture, "advisory");
+  await page.addStyleTag({
+    content:
+      '@media (max-width:800px){[data-letter-page] [data-letter-pdf-richtext="body"]{display:none!important}}',
+  });
+  expect((await inspect()).status).toBe("advisory");
+  await expect(confirm).toBeEnabled();
+  const downloads: string[] = [];
+  page.on("download", (file) => downloads.push(file.suggestedFilename()));
+  const failure = await root.evaluate(async (node) => {
+    const policyPath = "/src/lib/pdf-preflight.ts";
+    const exporterPath = "/src/lib/dossier-pdf.ts";
+    const { createPdfAdvisoryConsent } = await import(policyPath);
+    const { downloadCombinedDossierPdf } = await import(exporterPath);
+    const root = node as HTMLElement;
+    try {
+      await downloadCombinedDossierPdf(
+        root,
+        "must-not-download.pdf",
+        { title: "QA", author: "QA" },
+        createPdfAdvisoryConsent(root, "dossier"),
+      );
+      return "UNSAFE SUCCESS";
+    } catch (error) {
+      return String(error);
+    }
+  });
+  expect(failure).toContain("Im PDF-Raster fehlen erforderliche Angaben des Motivationsschreibens");
+  expect(downloads).toEqual([]);
+  await attach(info, { failure, downloads, liveStatus: "advisory" });
+});
 
 test("combined PDF requires authored photos, images and free CV blocks on their assigned pages", async ({
   page,

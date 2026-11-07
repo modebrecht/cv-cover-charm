@@ -204,6 +204,7 @@ export function DossierExportDialog({
     letterState.readyToSend &&
     preflight?.status === "advisory" &&
     preflight.issues.every((issue) => issue.overridePermitted);
+  const pdfAdvisory = preflight?.status === "advisory" ? preflight.issues[0] : undefined;
   const overrideDownload = () => {
     try {
       const root = document.querySelector<HTMLElement>("[data-dossier-pdf-canvas]");
@@ -467,6 +468,12 @@ export function DossierExportDialog({
           </div>
         </details>
 
+        {format === "pdf" && pdfAdvisory ? (
+          <p id="dossier-pdf-advisory" className="mt-3 text-sm text-muted-foreground">
+            {pdfAdvisory.message}
+          </p>
+        ) : null}
+
         {nativePrintUiEnabled() && onNativePrint ? (
           <div className="mt-3 rounded-lg border px-3 py-2">
             <div className="flex flex-wrap items-center justify-between gap-2">
@@ -499,6 +506,7 @@ export function DossierExportDialog({
             <button
               type="button"
               onClick={overrideDownload}
+              aria-describedby="dossier-pdf-advisory"
               className="rounded-md border border-input px-4 py-2 text-sm hover:bg-accent"
             >
               PDF trotzdem herunterladen

@@ -11,6 +11,7 @@ import {
   assertCoverPdfTextContent,
   pdfVisualCloneGuard,
   pdfChromeCloneGuard,
+  pdfLetterCloneGuard,
   assertCvPdfPageTextContent,
   cvPdfPageTextSnapshot,
   beginPdfSafetyValidation,
@@ -336,6 +337,7 @@ async function addRasterPage(
   const cvTextSource = page.hasAttribute("data-cv-page") ? cvPdfPageTextSnapshot(page) : null;
   const checkVisualClone = pdfVisualCloneGuard(page);
   const checkChromeClone = pdfChromeCloneGuard(page);
+  const checkLetterClone = rebuildLetterVectors ? pdfLetterCloneGuard(page) : null;
   const canvas = await html2canvas(page, {
     scale: PDF.SCALE,
     backgroundColor: "#ffffff",
@@ -351,6 +353,7 @@ async function addRasterPage(
       normalizeCvRubricPillsForPdf(clonedPage as HTMLElement);
       if (isCover) assertCoverPdfTextContent(clonedPage as HTMLElement, coverTextSource);
       checkChromeClone?.(clonedPage as HTMLElement);
+      checkLetterClone?.(clonedPage as HTMLElement);
       if (cvTextSource) assertCvPdfPageTextContent(clonedPage as HTMLElement, cvTextSource);
       await checkVisualClone(clonedPage as HTMLElement);
       if (
