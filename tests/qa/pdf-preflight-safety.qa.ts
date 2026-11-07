@@ -417,30 +417,34 @@ test("combined advisory and hard CV clipping share the final policy", async ({ p
   ).toBeVisible({ timeout: 30000 });
   await expect(
     dialog.getByRole("button", { name: "PDF trotzdem herunterladen", exact: true }),
-  ).toHaveCount(0);
+  ).toBeEnabled();
   await expect(
     dialog.getByRole("button", { name: "PDF herunterladen", exact: true }),
   ).toBeDisabled();
-  const consentFailure = await page.locator("[data-dossier-pdf-canvas]").evaluate(async (root) => {
+  expect(await directExportFailure(page, "dossier")).toContain("Umbruchmessung");
+  const confirmedExport = await page.locator("[data-dossier-pdf-canvas]").evaluate(async (root) => {
     const path = "/src/lib/pdf-preflight.ts";
+    const exportPath = "/src/lib/dossier-pdf.ts";
     const policy = await import(path);
-    const result = policy.inspectPdfPreflight(root, "dossier");
+    const { downloadCombinedDossierPdf } = await import(exportPath);
+    const consent = policy.createPdfAdvisoryConsent(root, "dossier");
+    const style = document.createElement("style");
+    style.textContent =
+      "[data-dossier-pdf-canvas] [data-cv-main]{transform:translateY(1200px)!important}";
+    document.head.append(style);
     try {
-      policy.createPdfAdvisoryConsent(root, "dossier");
-      return { status: result.status, issues: result.issues, error: "UNSAFE CONSENT" };
+      await downloadCombinedDossierPdf(
+        root,
+        "must-not-download.pdf",
+        { title: "Safety test", author: "QA" },
+        consent,
+      );
+      return "UNSAFE SUCCESS";
     } catch (e) {
-      return { status: result.status, issues: result.issues, error: String(e) };
+      return String(e);
     }
   });
-  expect(consentFailure.status).toBe("advisory");
-  expect(consentFailure.issues.every((issue: PdfPreflightIssue) => !issue.overridePermitted)).toBe(
-    true,
-  );
-  expect(consentFailure.error).not.toBe("UNSAFE CONSENT");
-  expect(await directExportFailure(page, "dossier")).not.toBe("UNSAFE SUCCESS");
-  await page.addStyleTag({
-    content: "[data-dossier-pdf-canvas] [data-cv-main]{transform:translateY(1200px)!important}",
-  });
+  expect(confirmedExport).toContain("Lebenslauf");
   expect((await verdict(page, "dossier")).status).toBe("blocked");
   expect(await directExportFailure(page, "dossier")).toContain("Lebenslauf");
   await expect(
