@@ -22,3 +22,27 @@ Beim erneuten JSON-Export wird `savedAt` neu gesetzt. Der Import ergänzt im äl
 - SHA-256 des lokalen Browserberichts `b36c053803cc1f86b2dbec660c9383b90b99b313d521a8feab80fa7e5f5da3de`.
 
 Der Nachweis deckt diese beiden Projekte und den vorhandenen Modern-Word-Guard ab. Die übrigen historischen Varianten und eine allgemeine Word-Freigabe liegen ausserhalb dieser Stichprobe. Der DOCX-Nachweis prüft den Paketinhalt.
+
+## Ergänzung vom 09.11.2026
+
+Die Import-Regression enthält jetzt drei vollständige Wiederherstellungsfälle.
+Der dritte verwendet das unveränderte [Projekt «Modern – Eigene Werte und Referenzen» vom 19. Oktober](docx-next-word-feedback-19okt-v2/05-Modern-Eigene-Werte-Referenzen-project.json)
+aus dem historischen Katalog. Es enthält Brief- und CV-Ränder, explizit
+gespeicherte Kopf- und Fusszeileneinstellungen und zwei Referenzen. Eine
+Referenz enthält eine Telefonnummer, die andere eine E-Mail-Adresse.
+
+- Die Originaldatei ist im Katalog per SHA-256 fixiert. Der Test bestätigt den
+  echten Dateiimport und prüft anschliessend die Inhalte aller drei Teile.
+- Ein geänderter Briefbetreff übersteht Autosave, Neuladen, PDF- und JSON-Export
+  sowie einen weiteren bestätigten Import in einen anderen gespeicherten Stand.
+- Der JSON-Export erhält die separaten Ränder einschliesslich 1 mm CV-Fussrand,
+  die gespeicherten Chrome- und Briefdesignwerte und beide Referenzen. Beide
+  Referenzen sind auch im PDF-Suchtext vollständig nachweisbar.
+- Beim lokalen Vergleich waren Titelblatt, Brief und CV im PDF vor und nach dem
+  Reimport sichtbar. Jedes der drei A4-Seitenpaare war bei 90 DPI pixelgleich.
+- Der historische Stand hat keine gespeicherte Sidebar. Der Dialog zeigt die
+  erwartete DOCX-Beschränkung und ermöglicht PDF und JSON.
+
+Beim bestehenden Freundlich-Fall prüft der Test jetzt zusätzlich die alten
+Briefdesignwerte. Die bisherige Migration von `icons` zu `dot` im Kopfbereich
+wird ausdrücklich erwartet.

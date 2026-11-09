@@ -794,8 +794,11 @@ test("confirmed project settings survive reload, both editors, a real JSON downl
   expect(stored["unrelated-app"]).toBe("must survive");
 });
 
-const historicalFixturePath =
-  "docs/qa/docx-next-design-fidelity-16okt/audit/freundlich/project.json";
+const historicalFixturePaths = {
+  freundlich: "docs/qa/docx-next-design-fidelity-16okt/audit/freundlich/project.json",
+  customMargins:
+    "docs/qa/docx-next-word-feedback-19okt-v2/05-Modern-Eigene-Werte-Referenzen-project.json",
+};
 const roundtripFixtures = [
   {
     label: "reviewed Modern Sidebar",
@@ -805,10 +808,22 @@ const roundtripFixtures = [
   },
   {
     label: "historical Freundlich",
-    ...historicalProjects.find((fixture) => fixture.path === historicalFixturePath)!,
+    ...historicalProjects.find((fixture) => fixture.path === historicalFixturePaths.freundlich)!,
+    word: false,
+  },
+  {
+    label: "historical Modern with custom margins and two references",
+    ...historicalProjects.find((fixture) => fixture.path === historicalFixturePaths.customMargins)!,
     word: false,
   },
 ];
+
+type RoundtripParts = Pick<typeof modernSidebar, "cover" | "letter" | "cv">;
+type RoundtripInput = RoundtripParts & {
+  chrome?: typeof modernSidebar.chrome;
+  pageMargins?: typeof modernSidebar.pageMargins;
+  hyphenation?: { version: 1; enabled: boolean };
+};
 
 const sha256 = (bytes: Uint8Array) => createHash("sha256").update(bytes).digest("hex");
 const withoutWhitespace = (text: string) => text.replace(/\s+/g, "");
@@ -919,7 +934,7 @@ test("free element geometry and the CV page survive a real JSON roundtrip", asyn
   await expectGeometry();
 });
 
-async function expectRestoredParts(page: Page, input: typeof modernSidebar) {
+async function expectRestoredParts(page: Page, input: RoundtripParts) {
   const stored = await page.evaluate((keys) => {
     const read = (key: string) => JSON.parse(localStorage.getItem(key) ?? "null");
     return {
@@ -978,7 +993,7 @@ async function downloadRestoredDossier(
   return { bytes: await readFile(path), filename };
 }
 
-async function inspectRestoredPdf(bytes: Buffer, input: typeof modernSidebar, subject: string) {
+async function inspectRestoredPdf(bytes: Buffer, input: RoundtripParts, subject: string) {
   const { getDocument, OPS } = await import("pdfjs-dist/legacy/build/pdf.mjs");
   const task = getDocument({ data: new Uint8Array(bytes), disableFontFace: true });
   try {
@@ -1008,8 +1023,9 @@ async function inspectRestoredPdf(bytes: Buffer, input: typeof modernSidebar, su
     );
     for (const marker of [
       input.cv.data.erfahrung[0].titel,
-      input.cv.data.referenzen[0].funktion,
-      input.cv.data.referenzen[0].kontakt,
+      ...input.cv.data.referenzen.flatMap(({ name, funktion, kontakt, email }) =>
+        [name, funktion, kontakt, email].filter(Boolean),
+      ),
     ]) {
       expect(cvText).toContain(withoutWhitespace(marker));
     }
@@ -1019,7 +1035,7 @@ async function inspectRestoredPdf(bytes: Buffer, input: typeof modernSidebar, su
   }
 }
 
-function inspectRestoredDocx(bytes: Buffer, input: typeof modernSidebar, subject: string) {
+function inspectRestoredDocx(bytes: Buffer, input: RoundtripParts, subject: string) {
   const entries = readZipEntries(bytes);
   const xml = new TextDecoder().decode(
     entries.find(({ name }) => name === "word/document.xml")!.bytes,
@@ -1061,7 +1077,7 @@ for (const fixture of roundtripFixtures) {
     test.setTimeout(240_000);
     const raw = await readFile(fixture.path);
     expect(sha256(raw)).toBe(fixture.sha256);
-    const input: typeof modernSidebar = JSON.parse(raw.toString("utf8"));
+    const input: RoundtripInput = JSON.parse(raw.toString("utf8"));
     await boot(page);
     await seed(page);
     await confirmProjectFile(page, basename(fixture.path), raw);
@@ -1092,28 +1108,41 @@ for (const fixture of roundtripFixtures) {
         )
       : undefined;
     const json = await downloadRestoredDossier(page, "json", "before", fixture.word);
-    const exported: typeof modernSidebar = JSON.parse(json.bytes.toString("utf8"));
+    const exported: typeof modernSidebar & Pick<RoundtripInput, "hyphenation"> = JSON.parse(
+      json.bytes.toString("utf8"),
+    );
     expect(exported.cover).toMatchObject(
       fixture.word ? { ...input.cover, layout: { modern: {} } } : input.cover,
     );
     expect(exported.letter.data).toMatchObject({ ...input.letter.data, betreff: subject });
     expect(exported.cv.data).toEqual(input.cv.data);
-    expect(exported.cv.design).toMatchObject(input.cv.design);
-    expect(exported.letter.design).toMatchObject({
-      template: input.letter.design.template,
-      colors: input.letter.design.colors,
-      font: input.letter.design.font,
-      headerMode: input.letter.design.headerMode,
-      footerMode: input.letter.design.footerMode,
-    });
     if (fixture.word) {
+      expect(exported.cv.design).toMatchObject(input.cv.design);
+      expect(exported.letter.design).toMatchObject({
+        template: input.letter.design.template,
+        colors: input.letter.design.colors,
+        font: input.letter.design.font,
+        headerMode: input.letter.design.headerMode,
+        footerMode: input.letter.design.footerMode,
+      });
       expect({
         ...exported.cv.portableState,
         sectionGapMm: exported.cv.portableState.sectionGapMm ?? null,
       }).toMatchObject(input.cv.portableState);
       expect(exported.chrome).toEqual(input.chrome);
-      expect(exported.pageMargins ?? {}).toEqual(input.pageMargins);
+    } else {
+      expect(exported.cv).toMatchObject(input.cv);
+      // Legacy icon separators are stored as dots by the shared chrome migration.
+      expect(exported.letter.design).toMatchObject({
+        ...input.letter.design,
+        ...(input.letter.design.headerInlineSeparator === "icons"
+          ? { headerInlineSeparator: "dot" }
+          : {}),
+      });
+      if (input.chrome) expect(exported.chrome).toMatchObject(input.chrome);
     }
+    if (input.pageMargins) expect(exported.pageMargins ?? {}).toEqual(input.pageMargins);
+    if (input.hyphenation) expect(exported.hyphenation).toEqual(input.hyphenation);
 
     await seed(page);
     await boot(page);
