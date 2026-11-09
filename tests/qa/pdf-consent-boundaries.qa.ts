@@ -1,10 +1,20 @@
 import { expect, test, type Page, type TestInfo } from "@playwright/test";
+import { copyFile } from "node:fs/promises";
+import { join } from "node:path";
 import { paginationFixture, type PaginationFixture } from "./pagination-fixtures";
 import {
   DEFAULT_DOSSIER_CHROME_STATE,
   DOSSIER_CHROME_STORAGE_KEY,
 } from "../../src/lib/dossier-chrome";
-import { collectDocument, loadFixture, runtimeProvenance } from "./pagination-browser";
+import { normalizeContent } from "./pagination-assertions";
+import {
+  auditDocument,
+  collectDocument,
+  documentRoots,
+  evidenceDir,
+  loadFixture,
+  runtimeProvenance,
+} from "./pagination-browser";
 
 const exportRoot = "[data-letter-standalone-export] [data-letter-document-root]";
 async function loadLetter(page: Page, advisory = true) {
@@ -43,6 +53,77 @@ async function status(page: Page) {
     return (await import(path)).inspectPdfPreflight(root, "letter").status;
   });
 }
+
+test("two-page letter exports the same split paragraph, header and final attachments as the editor", async ({
+  page,
+}, info) => {
+  const fixture = paginationFixture("brief", { paragraphs: 9 });
+  const letter = JSON.parse(fixture.storage["anschreiben:v1"]);
+  const paragraph = fixture.segments.letter.join(" ");
+  letter.data.text = paragraph;
+  letter.data.empfaengerFirma = "QAEMPFAENGER001 Beispiel AG";
+  letter.data.betreff = "QABETREFF001 Bewerbung um eine Lehrstelle";
+  letter.design.chromeContent = { headerTextEnabled: true, headerText: "QAKOPF001 Lehrstelle" };
+  fixture.storage["anschreiben:v1"] = JSON.stringify(letter);
+  fixture.markers.letter.push("QAEMPFAENGER001", "QABETREFF001");
+  // Page chrome interrupts the paragraph in extracted PDF text. Check the
+  // authored body by itself, then compare the complete text per physical page.
+  fixture.segments.letter = [];
+
+  const chrome = structuredClone(DEFAULT_DOSSIER_CHROME_STATE);
+  chrome.sync = false;
+  chrome.letter = {
+    ...chrome.letter,
+    headerMode: "contact",
+    headerDifferentFirstPage: true,
+    headerContinuationMode: "compact",
+    headerGapMm: 6,
+    footerMode: "details",
+    footerHeightMm: 18,
+  };
+  fixture.storage[DOSSIER_CHROME_STORAGE_KEY] = JSON.stringify(chrome);
+  await loadFixture(page, fixture, "letter");
+  const roots = documentRoots("letter");
+  const webPages = page.locator(`${roots.web} ${roots.pages}`);
+  await expect(webPages).toHaveCount(2);
+  const bodies = await webPages.locator('[data-letter-pdf-richtext="body"]').allTextContents();
+  expect(bodies).toHaveLength(2);
+  expect(bodies.every((text) => text.trim().length > 0)).toBe(true);
+  expect(normalizeContent(bodies.join(""))).toBe(normalizeContent(paragraph));
+  for (const [index, headerMode] of ["contact", "compact"].entries()) {
+    const sheet = webPages.nth(index);
+    await expect(sheet.locator('[data-dossier-chrome="letter"]')).toHaveAttribute(
+      "data-dossier-effective-header-mode",
+      headerMode,
+    );
+    await expect(sheet.locator("[data-dossier-header-custom-text]")).toHaveText(
+      "QAKOPF001 Lehrstelle",
+    );
+    await expect(sheet.locator("[data-letter-footer-attachments]")).toHaveCount(index);
+    await sheet.screenshot({ path: info.outputPath(`two-page-letter-web-${index + 1}.png`) });
+  }
+  await expect.poll(() => status(page)).toBe("pass");
+  const name = "two-page-letter-brief-chrome";
+  const result = await auditDocument(page, fixture, "letter", name);
+  expect(result.findings).toEqual([]);
+  expect(result.pdf?.pages.map(({ text }) => normalizeContent(text))).toEqual(
+    result.web.map(({ text }) => normalizeContent(text)),
+  );
+  expect(result.pdf?.pages.map(({ markers }) => markers.filter((m) => m === "QAKOPF001"))).toEqual([
+    ["QAKOPF001"],
+    ["QAKOPF001"],
+  ]);
+  expect(
+    result.pdf?.pages.map(({ markers }) =>
+      markers.filter((m) => /^(QAEMPFAENGER|QABETREFF|QAATTACHMENT|QACLOSING|QASIGNATURE)/.test(m)),
+    ),
+  ).toEqual([
+    ["QAEMPFAENGER001", "QABETREFF001"],
+    ["QACLOSING001", "QASIGNATURE001", "QAATTACHMENT001", "QAATTACHMENT002"],
+  ]);
+  await copyFile(join(evidenceDir, `${name}.pdf`), info.outputPath(`${name}.pdf`));
+  await attach(info, result);
+});
 
 test("fabricated consent cannot call the actual PDF API", async ({ page }, info) => {
   await loadLetter(page);
