@@ -4,6 +4,7 @@ import { cvDefaultContentBox, cvFrameFor } from "@/components/cv/archetype";
 import { cvPalette, onColorRoles } from "@/components/cv/palette";
 import type { LetterTemplateId } from "@/components/letter/types";
 import { MODERN_SHEET_CIRCLE } from "./sheet-geometry";
+import { neonSheetBackground } from "@/lib/neon-sheet-background";
 
 /**
  * One visual sheet background for the complete dossier. CV and Anschreiben
@@ -664,9 +665,12 @@ export function DossierSheetBackground({
         <MotifLayer>
           {template === "neon" && (
             <div
+              data-dossier-neon-background
+              data-neon-primary={primary}
+              data-neon-secondary={secondary}
               className="absolute inset-0"
               style={{
-                background: `radial-gradient(circle at 18% 18%, ${primary} 0, transparent 34%), radial-gradient(circle at 82% 78%, ${secondary} 0, transparent 34%), ${color(colors, "bg")}`,
+                background: neonSheetBackground(primary, secondary, color(colors, "bg")),
               }}
             />
           )}

@@ -14,6 +14,7 @@ from dossier_visual_parity import analysis_arrays, normalize_image, rasterize_pd
 PHOTO_SSIM_MIN = 0.95
 PAGE_REVIEW_SSIM = 0.95
 PHOTO_SMOOTHING_PX = 0.4
+NEON_BACKGROUND_CHANNEL_DELTA_MAX = 3
 
 
 def image_score(first, second):
@@ -58,6 +59,8 @@ def main():
             pdf_image = Image.open(images[kind]).convert("RGB")
             photo_score = None
             photo_raw = None
+            background_delta = None
+            background_probes = None
             if expected["photo"]:
                 x, y, width, height = expected["photo"]
                 # Include the outer frame as well as the cropped image.
@@ -76,8 +79,29 @@ def main():
                     web_photo.filter(ImageFilter.GaussianBlur(PHOTO_SMOOTHING_PX)),
                     pdf_photo.filter(ImageFilter.GaussianBlur(PHOTO_SMOOTHING_PX)),
                 )
+                if data["template"] == "neon" and kind == "cv":
+                    # The upper corners of this fixed circular-photo fixture
+                    # contain only the hero background, away from text/edges.
+                    # SSIM alone allowed a visible grey/pink colour drift here.
+                    background_probes = []
+                    for fraction in (0.06, 0.94):
+                        px = round((x + fraction * width) * 794 / 210)
+                        py = round((y + 0.06 * height) * 1123 / 297)
+                        patch = (px - 2, py - 2, px + 3, py + 3)
+                        samples = [
+                            np.asarray(image.crop(patch), dtype=float).mean(axis=(0, 1))
+                            for image in (web_image, pdf_image)
+                        ]
+                        background_probes.append({
+                            "web_rgb": samples[0].tolist(),
+                            "pdf_rgb": samples[1].tolist(),
+                            "max_channel_delta": float(np.abs(samples[0] - samples[1]).max()),
+                        })
+                    background_delta = max(probe["max_channel_delta"] for probe in background_probes)
             failed = delta > data["geometryToleranceMm"] or (
                 photo_score is not None and photo_score < PHOTO_SSIM_MIN
+            ) or (
+                background_delta is not None and background_delta > NEON_BACKGROUND_CHANNEL_DELTA_MAX
             )
             review = rgb < PAGE_REVIEW_SSIM or (
                 photo_raw is not None and photo_raw < PHOTO_SSIM_MIN
@@ -87,6 +111,8 @@ def main():
                 "template": data["template"], "page": kind, "status": status,
                 "rgb_ssim": rgb, "layout_ssim": layout,
                 "photo_ssim": photo_score, "photo_raw_ssim": photo_raw, "geometry_delta_mm": delta,
+                "background_max_channel_delta": background_delta,
+                "background_probes": background_probes,
                 "pdf_sha256": hashlib.sha256(pdf.read_bytes()).hexdigest(),
             })
             pair = Image.new("RGB", (794 * 3, 1123), "white")
@@ -105,6 +131,7 @@ def main():
         "status": status, "templates": len(files), "page_pairs": len(rows),
         "photo_ssim_min": PHOTO_SSIM_MIN, "photo_smoothing_px": PHOTO_SMOOTHING_PX,
         "page_review_ssim": PAGE_REVIEW_SSIM,
+        "neon_background_channel_delta_max": NEON_BACKGROUND_CHANNEL_DELTA_MAX,
         "browser": results["stats"], "pages": rows,
     }
     (report / "report.json").write_text(json.dumps(output, indent=2) + "\n")
@@ -119,15 +146,17 @@ def main():
         f"**{status}** · {len(files)}/39 templates · {len(rows)}/117 page pairs", "",
         "Geometry tolerance is 0.3 mm. Photo and frame RGB SSIM must reach 0.95 after 0.4 px smoothing.",
         "Raw photo scores and whole-page RGB SSIM below 0.95 require visual review.",
+        "Neon CV background probes beside the circular photo must differ by at most 3 RGB levels per channel.",
         "Each comparison image shows Web, PDF and their pixel difference.", "",
-        "| Template | Part | Result | RGB SSIM | Photo SSIM | Geometry mm |",
-        "| --- | --- | --- | --- | --- | --- |",
+        "| Template | Part | Result | RGB SSIM | Photo SSIM | Geometry mm | Background RGB delta |",
+        "| --- | --- | --- | --- | --- | --- | --- |",
     ]
     for row in rows:
         photo = "" if row["photo_ssim"] is None else f"{row['photo_ssim']:.4f}"
+        background = "" if row["background_max_channel_delta"] is None else f"{row['background_max_channel_delta']:.2f}"
         lines.append(
             f"| {row['template']} | {row['page']} | {row['status']} | "
-            f"{row['rgb_ssim']:.4f} | {photo} | {row['geometry_delta_mm']:.4f} |"
+            f"{row['rgb_ssim']:.4f} | {photo} | {row['geometry_delta_mm']:.4f} | {background} |"
         )
     (report / "REPORT.md").write_text("\n".join(lines) + "\n")
     print(json.dumps({key: output[key] for key in ("status", "templates", "page_pairs")}))

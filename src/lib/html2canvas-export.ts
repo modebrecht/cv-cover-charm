@@ -1,3 +1,5 @@
+import { NEON_SHEET_FADE, NEON_SHEET_SPOTS } from "./neon-sheet-background";
+
 const JPEG_DATA_URL = /^data:image\/jpe?g(?:;|,)/i;
 const JPEG_HEADER_SCAN_BYTES = 64 * 1024;
 const ICC_MARKER = "ICC_PROFILE";
@@ -438,6 +440,58 @@ function normalizeCoverImageFramesForHtml2Canvas(root: HTMLElement, view: Window
   }
 }
 
+/**
+ * CSS composites Neon's complete motif before applying its group opacity.
+ * html2canvas instead applies that opacity to each background paint, darkening
+ * the base and both radial layers separately. Precompose just this marked
+ * background, retaining its original box and all ancestor opacity settings.
+ */
+function normalizeNeonBackgroundsForHtml2Canvas(root: HTMLElement, view: Window) {
+  for (const element of root.querySelectorAll<HTMLElement>("[data-dossier-neon-background]")) {
+    const style = view.getComputedStyle(element);
+    const width = parseFloat(style.width),
+      height = parseFloat(style.height);
+    const colors = [element.dataset.neonPrimary, element.dataset.neonSecondary];
+    if (!(width > 0 && height > 0) || colors.some((color) => !color)) continue;
+    const canvas = element.ownerDocument.createElement("canvas");
+    canvas.width = Math.ceil(width * 2);
+    canvas.height = Math.ceil(height * 2);
+    const context = canvas.getContext("2d");
+    if (!context) continue;
+    context.scale(2, 2);
+    // Canvas gradients interpolate unpremultiplied colour. Fade each stop to
+    // its own transparent RGB, matching CSS's premultiplied interpolation.
+    const transparentColors = colors.map((color) => {
+      context.clearRect(0, 0, 1, 1);
+      context.fillStyle = color!;
+      context.fillRect(0, 0, 1, 1);
+      const [r, g, b] = context.getImageData(0, 0, 1, 1).data;
+      return `rgba(${r}, ${g}, ${b}, 0)`;
+    });
+    context.clearRect(0, 0, width, height);
+    context.fillStyle = style.backgroundColor;
+    context.fillRect(0, 0, width, height);
+    for (let index = NEON_SHEET_SPOTS.length - 1; index >= 0; index--) {
+      const x = NEON_SHEET_SPOTS[index].x * width;
+      const y = NEON_SHEET_SPOTS[index].y * height;
+      const radius = Math.hypot(Math.max(x, width - x), Math.max(y, height - y)) * NEON_SHEET_FADE;
+      const gradient = context.createRadialGradient(x, y, 0, x, y, radius);
+      gradient.addColorStop(0, colors[index]!);
+      gradient.addColorStop(1, transparentColors[index]);
+      context.fillStyle = gradient;
+      context.fillRect(0, 0, width, height);
+    }
+    element.style.setProperty(
+      "background-image",
+      `url(${canvas.toDataURL("image/png")})`,
+      "important",
+    );
+    element.style.setProperty("background-color", "transparent", "important");
+    element.style.setProperty("background-size", "100% 100%", "important");
+    element.style.setProperty("background-repeat", "no-repeat", "important");
+  }
+}
+
 export function normalizeCssZoomForHtml2Canvas(root: HTMLElement) {
   // Every PDF path already runs this hook on html2canvas' cloned document.
   // Resolve the document-local template there before any computed-style reads,
@@ -449,6 +503,7 @@ export function normalizeCssZoomForHtml2Canvas(root: HTMLElement) {
 
   const view = root.ownerDocument.defaultView;
   if (!view) return;
+  normalizeNeonBackgroundsForHtml2Canvas(root, view);
   normalizeCoverImageFramesForHtml2Canvas(root, view);
 
   // Snapshot every zoomed box before changing an ancestor. CSS zoom contributes

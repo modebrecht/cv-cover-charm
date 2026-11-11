@@ -7,6 +7,8 @@ on:
     paths:
       - "src/components/cover/**"
       - "src/lib/html2canvas-export.ts"
+      - "src/lib/neon-sheet-background.ts"
+      - "src/components/dossier/DossierSheetBackground.tsx"
       - "tests/qa/web-pdf-gallery.qa.ts"
       - "tests/qa/playwright.web-pdf-gallery.config.ts"
       - "scripts/web_pdf_gallery_report.py"
