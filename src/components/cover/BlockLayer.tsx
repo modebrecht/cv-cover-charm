@@ -571,6 +571,7 @@ export function BlockLayer({
               />
             ) : isImage ? (
               <div
+                data-cover-image-frame
                 style={{
                   position: "relative",
                   width: "100%",
@@ -602,6 +603,7 @@ export function BlockLayer({
             ) : isPhoto ? (
               data!.foto ? (
                 <div
+                  data-cover-image-frame
                   style={{
                     position: "relative",
                     width: "100%",

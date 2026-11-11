@@ -1,0 +1,61 @@
+name: Web PDF photo gallery
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [dev]
+    paths:
+      - "src/components/cover/**"
+      - "src/lib/html2canvas-export.ts"
+      - "tests/qa/web-pdf-gallery.qa.ts"
+      - "tests/qa/playwright.web-pdf-gallery.config.ts"
+      - "scripts/web_pdf_gallery_report.py"
+      - ".github/workflows/web-pdf-gallery.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: web-pdf-gallery-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  compare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.13
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install application and browser
+        run: |
+          bun install --frozen-lockfile
+          npm install --prefix "$RUNNER_TEMP/browser-tools" --no-package-lock --no-audit --no-fund @playwright/test@1.56.1
+          ln -s "$RUNNER_TEMP/browser-tools/node_modules/@playwright" node_modules/@playwright
+          ln -s "$RUNNER_TEMP/browser-tools/node_modules/.bin/playwright" node_modules/.bin/playwright
+          bash scripts/qa-browser-setup.sh
+      - name: Capture the 39 Web and PDF references
+        run: node_modules/.bin/playwright test --config tests/qa/playwright.web-pdf-gallery.config.ts
+      - name: Install image comparison dependencies
+        if: always()
+        run: |
+          python3 -m venv .web-pdf-venv
+          .web-pdf-venv/bin/pip install pillow==11.3.0 numpy==2.2.6 scikit-image==0.25.2 pymupdf==1.26.4
+      - name: Compare geometry, photo frames and raster output
+        if: always()
+        run: .web-pdf-venv/bin/python scripts/web_pdf_gallery_report.py
+      - name: Publish comparison
+        if: always()
+        run: cat artifacts/web-pdf-gallery/comparison/REPORT.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: web-pdf-gallery-${{ github.sha }}
+          path: |
+            artifacts/web-pdf-gallery
+            test-results/web-pdf-gallery
+          retention-days: 14

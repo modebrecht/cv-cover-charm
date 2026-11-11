@@ -397,6 +397,47 @@ function snapshotZoomedLines(roots: HTMLElement[], view: Window) {
   return lines;
 }
 
+/** html2canvas omits box shadows. Paint the cover's zero-blur photo rings as borders. */
+function normalizeCoverImageFramesForHtml2Canvas(root: HTMLElement, view: Window) {
+  for (const image of root.querySelectorAll<HTMLElement>("[data-cover-image-frame]")) {
+    const style = view.getComputedStyle(image);
+    if (style.boxShadow === "none") continue;
+    const shadows = style.boxShadow.split(/,(?![^(]*\))/).map((shadow) => {
+      const parts = shadow.trim().match(/rgba?\([^)]*\)|-?[\d.]+px/g) ?? [];
+      const [color, x, y, blur, spread] = parts;
+      return {
+        color,
+        x: parseFloat(x),
+        y: parseFloat(y),
+        blur: parseFloat(blur),
+        spread: parseFloat(spread),
+      };
+    });
+    if (
+      shadows.some(
+        ({ color, x, y, blur, spread }) =>
+          !color || x !== 0 || y !== 0 || blur !== 0 || !Number.isFinite(spread) || spread <= 0,
+      )
+    )
+      continue;
+    for (const { color, spread } of shadows.reverse()) {
+      const ring = image.ownerDocument.createElement("div");
+      ring.dataset.pdfImageFrame = "true";
+      Object.assign(ring.style, {
+        position: "absolute",
+        pointerEvents: "none",
+        opacity: style.opacity,
+        inset: `-${spread}px`,
+        boxSizing: "border-box",
+        border: `${spread}px solid ${color}`,
+        borderRadius: `${parseFloat(style.borderTopLeftRadius) + spread}px`,
+      });
+      image.parentElement?.append(ring);
+    }
+    image.style.boxShadow = "none";
+  }
+}
+
 export function normalizeCssZoomForHtml2Canvas(root: HTMLElement) {
   // Every PDF path already runs this hook on html2canvas' cloned document.
   // Resolve the document-local template there before any computed-style reads,
@@ -408,6 +449,7 @@ export function normalizeCssZoomForHtml2Canvas(root: HTMLElement) {
 
   const view = root.ownerDocument.defaultView;
   if (!view) return;
+  normalizeCoverImageFramesForHtml2Canvas(root, view);
 
   // Snapshot every zoomed box before changing an ancestor. CSS zoom contributes
   // to used width and normal-flow height; transforms only affect painting.
