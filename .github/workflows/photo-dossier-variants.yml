@@ -1,0 +1,84 @@
+name: Photo dossier variants
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [dev]
+    paths:
+      - "src/components/cv/**"
+      - "src/components/dossier/**"
+      - "src/components/dossier-theme.css"
+      - "src/lib/html2canvas-export.ts"
+      - "src/lib/dossier-pdf.ts"
+      - "src/lib/dossier-photo.ts"
+      - "tests/qa/pagination-combined.qa.ts"
+      - "tests/qa/pagination-fixtures.ts"
+      - "tests/qa/pagination-browser.ts"
+      - "tests/qa/web-pdf-gallery.qa.ts"
+      - "tests/qa/photo-circle-raster.qa.ts"
+      - "tests/qa/playwright.photo-circle.config.ts"
+      - "scripts/photo_variant_report.py"
+      - ".github/workflows/photo-dossier-variants.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: photo-dossier-variants-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.13
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install application and browser
+        run: |
+          bun install --frozen-lockfile
+          npm install --prefix "$RUNNER_TEMP/browser-tools" --no-package-lock --no-audit --no-fund @playwright/test@1.56.1
+          ln -s "$RUNNER_TEMP/browser-tools/node_modules/@playwright" node_modules/@playwright
+          ln -s "$RUNNER_TEMP/browser-tools/node_modules/.bin/playwright" node_modules/.bin/playwright
+          bash scripts/qa-browser-setup.sh
+      - name: Check QA types and formatting
+        run: |
+          node_modules/.bin/tsc --noEmit -p tests/qa/tsconfig.json
+          node_modules/.bin/prettier --check tests/qa/pagination-combined.qa.ts tests/qa/photo-circle-raster.qa.ts tests/qa/playwright.photo-circle.config.ts
+          node_modules/.bin/eslint tests/qa/pagination-combined.qa.ts tests/qa/photo-circle-raster.qa.ts tests/qa/playwright.photo-circle.config.ts
+      - name: Download the three standard references
+        run: node_modules/.bin/playwright test --config tests/qa/playwright.web-pdf-gallery.config.ts -g ' (terracotta|studio3|neon)$'
+      - name: Capture the 288 dpi circle comparison
+        run: node_modules/.bin/playwright test --config tests/qa/playwright.photo-circle.config.ts
+      - name: Download the two mirrored long photo dossiers
+        run: node_modules/.bin/playwright test --config tests/qa/playwright.combined.config.ts -g 'photo-crop'
+      - name: Install image comparison dependencies
+        run: |
+          python3 -m venv .photo-venv
+          .photo-venv/bin/pip install pillow==11.3.0 numpy==2.2.6 scikit-image==0.25.2 pymupdf==1.26.4
+      - name: Compare actual PDF photos and retain contour reviews
+        run: .photo-venv/bin/python scripts/photo_variant_report.py
+      - name: Publish comparison
+        if: always()
+        run: |
+          if test -f artifacts/photo-variants-report/REPORT.md; then
+            cat artifacts/photo-variants-report/REPORT.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: photo-dossier-variants-${{ github.sha }}
+          path: |
+            artifacts/web-pdf-gallery
+            artifacts/photo-circle-raster
+            artifacts/pagination-2page-combined
+            artifacts/photo-variants-report
+            test-results/web-pdf-gallery
+            test-results/photo-circle-raster
+            test-results/pagination-combined
+          retention-days: 14

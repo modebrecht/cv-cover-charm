@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Locator } from "@playwright/test";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { createHash } from "node:crypto";
@@ -13,7 +13,20 @@ import {
 import { contentFindings, distributionFindings, normalizeContent } from "./pagination-assertions";
 
 const directory = process.env.PAGINATION_COMBINED_QA_DIR ?? "artifacts/pagination-2page-combined";
-const cases: [string, string, FixtureOptions][] = [
+async function photoBoxMm(sheet: Locator) {
+  return sheet.evaluate((sheet) => {
+    const page = sheet.getBoundingClientRect();
+    const image = sheet.querySelector("[data-cv-photo]")!.getBoundingClientRect();
+    return [
+      ((image.x - page.x) * 210) / page.width,
+      ((image.y - page.y) * 297) / page.height,
+      (image.width * 210) / page.width,
+      (image.height * 297) / page.height,
+    ];
+  });
+}
+type CombinedOptions = FixtureOptions & { photo?: "circle" | "portrait" };
+const cases: [string, string, CombinedOptions][] = [
   "studio3",
   "studio2",
   "ledger",
@@ -23,6 +36,19 @@ const cases: [string, string, FixtureOptions][] = [
   "terracotta",
 ].map((template) => [template, template, { works: 8, schools: 4, paragraphs: 10 }]);
 cases.push(
+  ...(["terracotta", "studio3"] as const).map((template): [string, string, CombinedOptions] => [
+    `joint-${template}-mirrored-photo-crop`,
+    template,
+    {
+      works: 12,
+      schools: 6,
+      paragraphs: 14,
+      layout: "modern",
+      mirrored: true,
+      custom: true,
+      photo: template === "terracotta" ? "circle" : "portrait",
+    },
+  ]),
   [
     "joint-brief-large-entry-long-word-margins",
     "brief",
@@ -76,6 +102,37 @@ for (const [name, template, options] of cases) {
     test.setTimeout(180_000);
     await mkdir(directory, { recursive: true });
     const fixture = paginationFixture(template, options);
+    if (options.photo) {
+      await page.goto(`${BASE_URL}/fonts/Cabin-OFL.txt`);
+      const photo = await page.evaluate(() => {
+        const canvas = document.createElement("canvas");
+        canvas.width = 160;
+        canvas.height = 200;
+        const context = canvas.getContext("2d")!;
+        context.fillStyle = "#c94838";
+        context.fillRect(0, 0, 160, 200);
+        context.fillStyle = "#246baf";
+        context.fillRect(80, 0, 80, 200);
+        context.fillStyle = "#e5c551";
+        context.fillRect(0, 140, 160, 60);
+        context.fillStyle = "#172c39";
+        context.beginPath();
+        context.arc(47, 62, 26, 0, 2 * Math.PI);
+        context.fill();
+        return canvas.toDataURL();
+      });
+      const cv = JSON.parse(fixture.storage["lebenslauf:v1"]);
+      cv.data.person.foto = photo;
+      fixture.storage["lebenslauf:v1"] = JSON.stringify(cv);
+      fixture.storage["lebenslauf:photo-place:v1"] = JSON.stringify({ mode: "auto" });
+      fixture.storage["lebenslauf:photo:v2"] = JSON.stringify({
+        shape: options.photo,
+        zoom: options.photo === "circle" ? 1.35 : 1.65,
+        x: options.photo === "circle" ? 30 : 85,
+        y: options.photo === "circle" ? 70 : 20,
+        borderWidth: options.photo === "circle" ? 0.3 : 1.2,
+      });
+    }
     // These positives stress Letter/CV fragmentation with one common safe
     // production Cover. Original unsafe covers have separate hard-negative QA.
     const cover = JSON.parse(fixture.storage["titelblatt:v3"]);
@@ -83,6 +140,18 @@ for (const [name, template, options] of cases) {
     fixture.storage["titelblatt:v3"] = JSON.stringify(cover);
     await loadFixture(page, fixture, "cv");
     const webCv = await collectDocument(page, documentRoots("cv").web, "cv");
+    const photoBox = options.photo
+      ? await photoBoxMm(page.locator(`${documentRoots("cv").web} [data-cv-page="0"]`))
+      : null;
+    if (options.photo) {
+      const webRoot = page.locator(documentRoots("cv").web);
+      await expect(webRoot).toHaveAttribute("data-cv-mirrored", "true");
+      await expect(webRoot.locator("[data-cv-photo] img")).toHaveCount(1);
+      await webRoot.locator('[data-cv-page="0"]').screenshot({
+        path: join(directory, `${name}--cv-web.png`),
+        animations: "disabled",
+      });
+    }
     await loadFixture(page, fixture, "letter");
     const webLetter = await collectDocument(page, documentRoots("letter").web, "letter");
     await page.goto(BASE_URL, { waitUntil: "networkidle" });
@@ -102,6 +171,16 @@ for (const [name, template, options] of cases) {
       '[data-dossier-document="letter"] [data-letter-document-root]',
       "letter",
     );
+    let canonicalPhotoBox: number[] | null = null;
+    if (options.photo) {
+      const root = page.locator('[data-dossier-document="cv"][data-export-mode="true"]');
+      await expect(root).toHaveAttribute("data-cv-mirrored", "true");
+      await expect(root).toHaveAttribute("data-cv-photo-shape", options.photo);
+      await expect(root.locator("[data-cv-photo] img")).toHaveCount(1);
+      canonicalPhotoBox = await photoBoxMm(root.locator('[data-cv-page="0"]'));
+      for (const [axis, value] of canonicalPhotoBox.entries())
+        expect(Math.abs(value - photoBox![axis])).toBeLessThanOrEqual(0.3);
+    }
     const findings = [
       ...distributionFindings(webCv, cv, "combined CV"),
       ...distributionFindings(webLetter, letter, "combined letter"),
@@ -190,6 +269,15 @@ for (const [name, template, options] of cases) {
           letter,
           pdfPages,
           pdfSha256: createHash("sha256").update(bytes).digest("hex"),
+          photo: photoBox
+            ? {
+                boxMm: photoBox,
+                canonicalBoxMm: canonicalPhotoBox,
+                pdfPageIndex: 1 + letter.length,
+                webPng: `${name}--cv-web.png`,
+                style: JSON.parse(fixture.storage["lebenslauf:photo:v2"]),
+              }
+            : null,
           findings,
         },
         null,

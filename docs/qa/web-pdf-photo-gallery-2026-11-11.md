@@ -121,3 +121,8 @@ CI-Artefakte enthalten den exakten Quell-SHA; die lokalen Werte oben wurden
 auf dem Änderungskandidaten mit Basis `a371791` ermittelt. Der Workflow wird
 nun auch bei Änderungen am gemeinsamen Neon-Hintergrund und am
 `DossierSheetBackground` ausgelöst.
+
+Die [Fortsetzung vom 12.11.2026](photo-circles-long-dossiers-2026-11-12.md)
+enthält die hochauflösende Kreisdiagnose sowie zwei zusätzliche gespiegelte
+Langdossiers mit zugeschnittenen Fotos. Die zwei Standard-Kreisfälle bleiben
+als REVIEW ausgewiesen.
