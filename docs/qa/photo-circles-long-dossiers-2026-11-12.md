@@ -93,3 +93,7 @@ DOCX- oder Word-Freigabe behauptet.
 
 Weitere Vorlagen, freie Fotos an Seitenrändern, zusätzliche historische
 Projekte und Speichern/Wiederöffnen in Microsoft Desktop Word bleiben offen.
+
+Die [anschliessende Randprüfung](free-photo-edges-2026-11-12.md) ergänzt fünf
+gültige freie Fotopositionen und vier harte Sperrfälle. Die Grenzen dieser
+Langdossier- und Kreisprüfung bleiben davon unberührt.

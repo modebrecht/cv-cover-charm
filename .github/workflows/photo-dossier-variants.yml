@@ -17,7 +17,10 @@ on:
       - "tests/qa/web-pdf-gallery.qa.ts"
       - "tests/qa/photo-circle-raster.qa.ts"
       - "tests/qa/playwright.photo-circle.config.ts"
+      - "tests/qa/free-photo-edges.qa.ts"
+      - "tests/qa/playwright.free-photo-edges.config.ts"
       - "scripts/photo_variant_report.py"
+      - "scripts/free_photo_edge_report.py"
       - ".github/workflows/photo-dossier-variants.yml"
 
 permissions:
@@ -49,25 +52,32 @@ jobs:
       - name: Check QA types and formatting
         run: |
           node_modules/.bin/tsc --noEmit -p tests/qa/tsconfig.json
-          node_modules/.bin/prettier --check tests/qa/pagination-combined.qa.ts tests/qa/photo-circle-raster.qa.ts tests/qa/playwright.photo-circle.config.ts
-          node_modules/.bin/eslint tests/qa/pagination-combined.qa.ts tests/qa/photo-circle-raster.qa.ts tests/qa/playwright.photo-circle.config.ts
+          node_modules/.bin/prettier --check tests/qa/pagination-combined.qa.ts tests/qa/photo-circle-raster.qa.ts tests/qa/playwright.photo-circle.config.ts tests/qa/free-photo-edges.qa.ts tests/qa/playwright.free-photo-edges.config.ts
+          node_modules/.bin/eslint tests/qa/pagination-combined.qa.ts tests/qa/photo-circle-raster.qa.ts tests/qa/playwright.photo-circle.config.ts tests/qa/free-photo-edges.qa.ts tests/qa/playwright.free-photo-edges.config.ts
       - name: Download the three standard references
         run: node_modules/.bin/playwright test --config tests/qa/playwright.web-pdf-gallery.config.ts -g ' (terracotta|studio3|neon)$'
       - name: Capture the 288 dpi circle comparison
         run: node_modules/.bin/playwright test --config tests/qa/playwright.photo-circle.config.ts
       - name: Download the two mirrored long photo dossiers
         run: node_modules/.bin/playwright test --config tests/qa/playwright.combined.config.ts -g 'photo-crop'
+      - name: Check free photos at A4 edges and hard rejections
+        run: node_modules/.bin/playwright test --config tests/qa/playwright.free-photo-edges.config.ts
       - name: Install image comparison dependencies
         run: |
           python3 -m venv .photo-venv
           .photo-venv/bin/pip install pillow==11.3.0 numpy==2.2.6 scikit-image==0.25.2 pymupdf==1.26.4
       - name: Compare actual PDF photos and retain contour reviews
-        run: .photo-venv/bin/python scripts/photo_variant_report.py
+        run: |
+          .photo-venv/bin/python scripts/photo_variant_report.py
+          .photo-venv/bin/python scripts/free_photo_edge_report.py
       - name: Publish comparison
         if: always()
         run: |
           if test -f artifacts/photo-variants-report/REPORT.md; then
             cat artifacts/photo-variants-report/REPORT.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+          if test -f artifacts/free-photo-edges/comparison/REPORT.md; then
+            cat artifacts/free-photo-edges/comparison/REPORT.md >> "$GITHUB_STEP_SUMMARY"
           fi
       - uses: actions/upload-artifact@v4
         if: always()
@@ -78,7 +88,9 @@ jobs:
             artifacts/photo-circle-raster
             artifacts/pagination-2page-combined
             artifacts/photo-variants-report
+            artifacts/free-photo-edges
             test-results/web-pdf-gallery
             test-results/photo-circle-raster
             test-results/pagination-combined
+            test-results/free-photo-edges
           retention-days: 14
