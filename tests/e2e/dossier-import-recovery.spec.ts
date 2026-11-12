@@ -1,6 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 import { createHash } from "node:crypto";
-import { readFile } from "node:fs/promises";
+import { execFileSync } from "node:child_process";
+import { readFile, writeFile } from "node:fs/promises";
 import { basename } from "node:path";
 import { readZipEntries } from "../../src/lib/docx-next/zip";
 import historicalProjects from "../fixtures/import/historical-projects-28okt.json" with { type: "json" };
@@ -795,6 +796,9 @@ test("confirmed project settings survive reload, both editors, a real JSON downl
 });
 
 const historicalFixturePaths = {
+  neonSaved: "docs/qa/docx-next-shared-settings-18okt/cohort/neon-saved/project.json",
+  twoCvPages: "docs/qa/docx-next-word-feedback-19okt-v2/02-Modern-Zwei-CV-Seiten-project.json",
+  portraitPhoto: "docs/qa/docx-next-word-feedback-19okt-v2/10-Brief-Foto-Hochformat-project.json",
   freundlich: "docs/qa/docx-next-design-fidelity-16okt/audit/freundlich/project.json",
   customMargins:
     "docs/qa/docx-next-word-feedback-19okt-v2/05-Modern-Eigene-Werte-Referenzen-project.json",
@@ -816,6 +820,15 @@ const roundtripFixtures = [
     ...historicalProjects.find((fixture) => fixture.path === historicalFixturePaths.customMargins)!,
     word: false,
   },
+  ...[
+    ["historical Neon with saved spacing", historicalFixturePaths.neonSaved],
+    ["historical Modern with two CV pages", historicalFixturePaths.twoCvPages],
+    ["historical Brief with portrait photo", historicalFixturePaths.portraitPhoto],
+  ].map(([label, path]) => ({
+    label,
+    ...historicalProjects.find((fixture) => fixture.path === path)!,
+    word: false,
+  })),
 ];
 
 type RoundtripParts = Pick<typeof modernSidebar, "cover" | "letter" | "cv">;
@@ -1096,10 +1109,21 @@ for (const fixture of roundtripFixtures) {
       .toBe(subject);
     await page.reload();
     await expect(subjectField).toHaveValue(subject);
+    if (fixture.path === historicalFixturePaths.neonSaved) {
+      expect(input.letter.design).toMatchObject({ font: "freundlich", fontOverride: "sans" });
+      expect(input.cv.design.font).toBe("sans");
+      await expect(page.locator("[data-letter-canvas]").first()).toHaveAttribute(
+        "data-letter-font",
+        "sans",
+      );
+    }
     await boot(page);
 
     const beforePdf = await downloadRestoredDossier(page, "pdf", "before", fixture.word);
     const pdfPages = await inspectRestoredPdf(beforePdf.bytes, input, subject);
+    if (fixture.path === historicalFixturePaths.twoCvPages) {
+      expect(pdfPages, "historical two-page CV must retain both CV pages").toHaveLength(4);
+    }
     const docxParts = fixture.word
       ? inspectRestoredDocx(
           (await downloadRestoredDossier(page, "docx", "before", true)).bytes,
@@ -1135,6 +1159,9 @@ for (const fixture of roundtripFixtures) {
       // Legacy icon separators are stored as dots by the shared chrome migration.
       expect(exported.letter.design).toMatchObject({
         ...input.letter.design,
+        // Existing shared-font reconciliation uses the explicit CV font as
+        // tie-breaker. Neon's effective sans override remains unchanged.
+        ...(fixture.path === historicalFixturePaths.neonSaved ? { font: "sans" } : {}),
         ...(input.letter.design.headerInlineSeparator === "icons"
           ? { headerInlineSeparator: "dot" }
           : {}),
@@ -1148,6 +1175,14 @@ for (const fixture of roundtripFixtures) {
     await boot(page);
     await confirmProjectFile(page, json.filename, json.bytes);
     await expectRestoredParts(page, exported);
+    if (fixture.path === historicalFixturePaths.neonSaved) {
+      await page.goto(`${BASE}/anschreiben`);
+      await expect(page.locator("[data-letter-canvas]").first()).toHaveAttribute(
+        "data-letter-font",
+        "sans",
+      );
+      await boot(page);
+    }
 
     const afterPdf = await downloadRestoredDossier(page, "pdf", "after", fixture.word);
     expect(await inspectRestoredPdf(afterPdf.bytes, input, subject)).toEqual(pdfPages);
@@ -1174,6 +1209,27 @@ for (const fixture of roundtripFixtures) {
         },
       },
     });
+    await writeFile(
+      test.info().outputPath("roundtrip-evidence.json"),
+      JSON.stringify(
+        {
+          label: fixture.label,
+          fixture: fixture.path,
+          fixtureSha256: fixture.sha256,
+          word: fixture.word,
+          pdfPages: pdfPages.length,
+          pdfSha256: { before: sha256(beforePdf.bytes), after: sha256(afterPdf.bytes) },
+          jsonSha256: { before: sha256(json.bytes), after: sha256(afterJson.bytes) },
+          status: "PASS",
+          sourceSha: execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim(),
+          sourceDirty: !!execFileSync("git", ["status", "--porcelain"], {
+            encoding: "utf8",
+          }).trim(),
+        },
+        null,
+        2,
+      ),
+    );
   });
 }
 

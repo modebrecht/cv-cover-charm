@@ -12,6 +12,7 @@ on:
       - "tests/e2e/dossier-import-recovery.spec.ts"
       - "tests/unit/dossier-project*.test.ts"
       - "tests/qa/playwright.import-recovery.config.ts"
+      - "scripts/historical_roundtrip_report.py"
       - ".github/workflows/dossier-import-recovery.yml"
       - "scripts/qa-browser-setup.sh"
       - "package.json"
@@ -24,6 +25,7 @@ on:
         "tests/e2e/dossier-import-recovery.spec.ts",
         "tests/unit/dossier-project-file.test.ts",
         "tests/qa/playwright.import-recovery.config.ts",
+        "scripts/historical_roundtrip_report.py",
         ".github/workflows/dossier-import-recovery.yml",
         "package.json",
         "bun.lock",
@@ -65,11 +67,17 @@ jobs:
           bun run build
       - name: Native browser import and recovery
         run: '"$RUNNER_TEMP/cvcc-browser-tools/node_modules/.bin/playwright" test --config tests/qa/playwright.import-recovery.config.ts'
+      - name: Compare all downloaded PDF pages before and after restore
+        run: |
+          python3 -m venv .import-venv
+          .import-venv/bin/pip install pillow==11.3.0 pymupdf==1.26.4
+          .import-venv/bin/python scripts/historical_roundtrip_report.py
+          cat artifacts/import-recovery/comparison/REPORT.md >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: dossier-import-${{ github.sha }}
           path: |
-            artifacts/import-recovery/results.json
+            artifacts/import-recovery
             test-results/import-recovery
           retention-days: 14

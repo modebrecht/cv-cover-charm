@@ -46,3 +46,66 @@ Referenz enthält eine Telefonnummer, die andere eine E-Mail-Adresse.
 Beim bestehenden Freundlich-Fall prüft der Test jetzt zusätzlich die alten
 Briefdesignwerte. Die bisherige Migration von `icons` zu `dot` im Kopfbereich
 wird ausdrücklich erwartet.
+
+## Ergänzung vom 12.11.2026
+
+Drei weitere unveränderte Dateien aus dem SHA-256-fixierten 67er-Katalog
+durchlaufen jetzt denselben bestätigten Dateiimport, Betreff-Autosave,
+Neuladen, PDF-/JSON-Download und erneuten Import in einen anderen Browserstand.
+Der Produktcode wurde dafür nicht geändert.
+
+| Neues Originalprojekt | Erhaltene Einstellungen | PDF vor und nach Reimport |
+| --- | --- | --- |
+| `docx-next-shared-settings-18okt/cohort/neon-saved/project.json` | 12 mm Fortsetzungsrand, 18 px CV-Rubrikentitel, explizite Sans-Schrift und Chrome | Je 5 Seiten: Titelblatt, 2 Briefseiten, 2 CV-Seiten |
+| `docx-next-word-feedback-19okt-v2/02-Modern-Zwei-CV-Seiten-project.json` | Gespeicherte Designs und vollständige CV-Daten | Je 4 Seiten; beide CV-Seiten ausdrücklich erforderlich |
+| `docx-next-word-feedback-19okt-v2/10-Brief-Foto-Hochformat-project.json` | Unverändertes synthetisches Hochformatfoto und gespeicherte Cover-Geometrie | Je 3 Seiten; Foto und Rahmen im Titelblatt sichtbar |
+
+Die Pfade in der Tabelle liegen unter `docs/qa/`. Alle drei Originaldateien
+bleiben bytegleich. Für sie wird vor und nach dem Reimport die bestehende
+DOCX-Beschränkung erwartet. Der unterstützte Modern-Sidebar-Kontrollfall lädt
+weiter zwei echte DOCX-Dateien herunter und vergleicht sämtliche Paketbestandteile,
+Bildbeziehungen, Ausschnitt und Inhalte.
+
+### Ergebnisse und Nachweise
+
+- Lokal **38/38 Browserfälle** in 3,7 Minuten bestanden, ohne übersprungene,
+  fehlgeschlagene oder wiederholte Fälle. Dazu gehören sechs vollständige
+  Download-/Reimportabläufe: fünf historische Originale und eine Sidebar-Kontrolle.
+- **12 tatsächliche PDF-Downloads mit insgesamt 42 Seiten**. Sämtliche
+  **21 Seitenpaare waren bei 90 DPI pixelgleich**, ohne Masken oder Glättung.
+  Die 21 restaurierten Seiten wurden zusätzlich als Seitenübersichten visuell geprüft.
+- QA-TypeScript, ESLint der geänderten Testdatei, Prettier für Test und Workflow,
+  Python-Syntax und `git diff --check` bestanden.
+- Der lokale Lauf verwendet Anwendungscode von `990c05f` mit uncommittierten
+  QA-Änderungen. Die Ergebnisdateien kennzeichnen diesen Stand ausdrücklich als
+  `sourceDirty: true`. Der CI-Lauf erzeugt denselben Nachweis für seinen eigenen
+  Commit und protokolliert SHA und Dirty-Status.
+- Pro vollständigem Ablauf enthält `roundtrip-evidence.json` Originalpfad,
+  Original-SHA-256, Download-SHA-256 und Seitenzahl. Der neue unabhängige
+  `scripts/historical_roundtrip_report.py` verifiziert diese Dateien erneut,
+  rendert alle PDF-Seiten und schreibt `artifacts/import-recovery/comparison/`.
+  Der bestehende Import-CI lädt Browserbericht, Downloads und Bilder gemeinsam hoch.
+
+Im ersten gezielten Probelauf bestand Neon die Datenprüfung, scheiterte aber
+an einer zu strengen Erwartung für den alten Briefwert `font: freundlich`.
+Die Datei speichert zugleich `fontOverride: sans` und im CV `font: sans`.
+`reconcileStoredDossierFonts()` gleicht diesen alten Alias bereits beim Start
+auf den expliziten CV-Wert ab. Die wirksame Schrift bleibt Sans. Der Test
+erwartet genau diese bestehende Vereinheitlichung für diese Datei und prüft
+`data-letter-font="sans"` im Briefeditor vor und nach dem Reimport.
+Der übrige Designvergleich bleibt unverändert streng.
+
+### Prüfgrenzen und nächster Schritt
+
+Der frühere 67er-Lauf prüfte JSON-Import und Wiederherstellung aller Originale.
+Der zusätzliche vollständige PDF-/Autosave-/Downloadablauf ist jetzt für
+**5/67 Originale** sowie die separate Sidebar-Kontrolle nachgewiesen.
+Pixelgleichheit vor und nach Reimport belegt Wiederherstellungskonsistenz;
+sie belegt keine Übereinstimmung mit alten Word-Referenzdokumenten und keine
+allgemeine Abnahme aller historischen Layouts. Die beiden Kreisrand-REVIEWS
+und Desktop-Word-Speichern/Wiederöffnen bleiben offen.
+
+Als nächster gezielter Block eignen sich die historischen 115-%-Langfassungen
+und die senkrechte Kontaktvariante mit 40 mm Fortsetzungsrand. Bereits
+abgeschlossene Galerie-, Randfoto- und Branch-Prüfungen müssen dafür nicht
+wiederholt werden.
