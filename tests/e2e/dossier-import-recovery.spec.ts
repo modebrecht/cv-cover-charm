@@ -796,6 +796,22 @@ test("confirmed project settings survive reload, both editors, a real JSON downl
 });
 
 const historicalFixturePaths = {
+  unsyncedChrome:
+    "docs/qa/docx-next-modern-contact-colors-18okt/header-inline-unsynced-project.json",
+  spacing20: "docs/qa/docx-next-modern-cv-spacing-settings-18okt/project.json",
+  spacing12: "docs/qa/docx-next-modern-defaults-footer-18okt/override-project.json",
+  briefSaved: "docs/qa/docx-next-shared-settings-18okt/cohort/brief-saved/project.json",
+  verlaufSaved: "docs/qa/docx-next-shared-settings-18okt/cohort/verlauf-saved/project.json",
+  noHeader: "docs/qa/docx-next-shared-settings-18okt/no-header-proof/project.json",
+  longModernLegacy:
+    "docs/qa/docx-next-word-batch-19okt/07-Modern-Lang-115-Prozent/input-project.json",
+  longBriefLegacy:
+    "docs/qa/docx-next-word-batch-19okt/09-Brief-Lang-115-Prozent/input-project.json",
+  longModernV2: "docs/qa/docx-next-word-feedback-19okt-v2/07-Modern-Lang-115-Prozent-project.json",
+  longBriefV2: "docs/qa/docx-next-word-feedback-19okt-v2/09-Brief-Lang-115-Prozent-project.json",
+  longBriefV3: "docs/qa/docx-next-word-spacing-19okt-v3/09-Brief-Lang-115-Prozent-project.json",
+  continuation40:
+    "docs/qa/docx-next-word-spacing-19okt-v3/04-Modern-Kontakt-senkrecht-project.json",
   neonSaved: "docs/qa/docx-next-shared-settings-18okt/cohort/neon-saved/project.json",
   twoCvPages: "docs/qa/docx-next-word-feedback-19okt-v2/02-Modern-Zwei-CV-Seiten-project.json",
   portraitPhoto: "docs/qa/docx-next-word-feedback-19okt-v2/10-Brief-Foto-Hochformat-project.json",
@@ -824,12 +840,63 @@ const roundtripFixtures = [
     ["historical Neon with saved spacing", historicalFixturePaths.neonSaved],
     ["historical Modern with two CV pages", historicalFixturePaths.twoCvPages],
     ["historical Brief with portrait photo", historicalFixturePaths.portraitPhoto],
+    ["historical long Modern legacy 115 percent", historicalFixturePaths.longModernLegacy],
+    ["historical long Brief legacy 115 percent", historicalFixturePaths.longBriefLegacy],
+    ["historical long Modern v2 115 percent", historicalFixturePaths.longModernV2],
+    ["historical long Brief v2 115 percent", historicalFixturePaths.longBriefV2],
+    ["historical long Brief v3 115 percent", historicalFixturePaths.longBriefV3],
+    ["historical contact with 40 mm continuation", historicalFixturePaths.continuation40],
+    ["historical separate letter and CV chrome", historicalFixturePaths.unsyncedChrome],
+    ["historical Modern with 20 mm spacing", historicalFixturePaths.spacing20],
+    ["historical Modern with 12 mm spacing", historicalFixturePaths.spacing12],
+    ["historical Brief with saved reading settings", historicalFixturePaths.briefSaved],
+    ["historical Verlauf with saved reading settings", historicalFixturePaths.verlaufSaved],
+    ["historical Brief without header", historicalFixturePaths.noHeader],
   ].map(([label, path]) => ({
     label,
     ...historicalProjects.find((fixture) => fixture.path === path)!,
     word: false,
   })),
 ];
+
+const legacyFontFixtures: string[] = [
+  historicalFixturePaths.neonSaved,
+  historicalFixturePaths.longModernLegacy,
+  historicalFixturePaths.longBriefLegacy,
+  historicalFixturePaths.unsyncedChrome,
+  historicalFixturePaths.spacing20,
+  historicalFixturePaths.spacing12,
+  historicalFixturePaths.briefSaved,
+  historicalFixturePaths.verlaufSaved,
+];
+
+async function inspectContinuation40(page: Page) {
+  await page.goto(`${BASE}/lebenslauf`);
+  await expect(page.getByRole("button", { name: "Download", exact: true })).toHaveAttribute(
+    "data-editor-ready",
+    "true",
+  );
+  const sheets = page.locator('[data-export-mode="false"] [data-cv-page]');
+  await expect(sheets).toHaveCount(2);
+  await page.evaluate(() => document.fonts.ready);
+  const geometry = await sheets.nth(1).evaluate((sheet) => {
+    const paper = sheet.getBoundingClientRect();
+    const main = sheet.querySelector<HTMLElement>("[data-cv-main]")!;
+    return {
+      topMm: ((main.getBoundingClientRect().top - paper.top) * 297) / paper.height,
+      cssTop: main.style.top,
+      text: main.textContent,
+    };
+  });
+  expect(geometry.cssTop).toBe("40mm");
+  expect(geometry.topMm).toBeCloseTo(40, 1);
+  expect(geometry.text).toContain("Referenzen");
+  await expect
+    .poll(() => page.evaluate(() => localStorage.getItem("lebenslauf:continuation-top-margin:v1")))
+    .toBe("40");
+  await boot(page);
+  return geometry;
+}
 
 type RoundtripParts = Pick<typeof modernSidebar, "cover" | "letter" | "cv">;
 type RoundtripInput = RoundtripParts & {
@@ -839,7 +906,7 @@ type RoundtripInput = RoundtripParts & {
 };
 
 const sha256 = (bytes: Uint8Array) => createHash("sha256").update(bytes).digest("hex");
-const withoutWhitespace = (text: string) => text.replace(/\s+/g, "");
+const withoutWhitespace = (text: string) => text.replace(/[\s\u00ad\u200b]+/g, "");
 const partKeys = {
   cover: "titelblatt:v3",
   letter: "anschreiben:v1",
@@ -1035,7 +1102,9 @@ async function inspectRestoredPdf(bytes: Buffer, input: RoundtripParts, subject:
         .join(" "),
     );
     for (const marker of [
-      input.cv.data.erfahrung[0].titel,
+      ...[...input.cv.data.schule, ...input.cv.data.erfahrung].flatMap(
+        ({ titel, ort, beschreibung }) => [titel, ort, beschreibung].filter(Boolean),
+      ),
       ...input.cv.data.referenzen.flatMap(({ name, funktion, kontakt, email }) =>
         [name, funktion, kontakt, email].filter(Boolean),
       ),
@@ -1109,7 +1178,7 @@ for (const fixture of roundtripFixtures) {
       .toBe(subject);
     await page.reload();
     await expect(subjectField).toHaveValue(subject);
-    if (fixture.path === historicalFixturePaths.neonSaved) {
+    if (legacyFontFixtures.includes(fixture.path)) {
       expect(input.letter.design).toMatchObject({ font: "freundlich", fontOverride: "sans" });
       expect(input.cv.design.font).toBe("sans");
       await expect(page.locator("[data-letter-canvas]").first()).toHaveAttribute(
@@ -1117,11 +1186,18 @@ for (const fixture of roundtripFixtures) {
         "sans",
       );
     }
+    const continuationBefore =
+      fixture.path === historicalFixturePaths.continuation40
+        ? await inspectContinuation40(page)
+        : undefined;
     await boot(page);
 
     const beforePdf = await downloadRestoredDossier(page, "pdf", "before", fixture.word);
     const pdfPages = await inspectRestoredPdf(beforePdf.bytes, input, subject);
-    if (fixture.path === historicalFixturePaths.twoCvPages) {
+    if (
+      fixture.path === historicalFixturePaths.twoCvPages ||
+      fixture.path === historicalFixturePaths.continuation40
+    ) {
       expect(pdfPages, "historical two-page CV must retain both CV pages").toHaveLength(4);
     }
     const docxParts = fixture.word
@@ -1160,13 +1236,39 @@ for (const fixture of roundtripFixtures) {
       expect(exported.letter.design).toMatchObject({
         ...input.letter.design,
         // Existing shared-font reconciliation uses the explicit CV font as
-        // tie-breaker. Neon's effective sans override remains unchanged.
-        ...(fixture.path === historicalFixturePaths.neonSaved ? { font: "sans" } : {}),
+        // tie-breaker. The effective sans selection remains unchanged.
+        ...(legacyFontFixtures.includes(fixture.path) ? { font: "sans" } : {}),
+        ...([
+          historicalFixturePaths.longBriefLegacy,
+          historicalFixturePaths.briefSaved,
+          historicalFixturePaths.noHeader,
+        ].includes(fixture.path)
+          ? { fontOverride: null }
+          : {}),
+        ...(fixture.path === historicalFixturePaths.unsyncedChrome
+          ? {
+              headerMode: "contact",
+              headerTextLayout: "inline",
+              headerBackgroundColor: "#183447",
+              footerBackgroundColor: "#315665",
+              chromeTextFont: "sans",
+            }
+          : {}),
+        ...(fixture.path === historicalFixturePaths.noHeader ? { headerMode: "none" } : {}),
         ...(input.letter.design.headerInlineSeparator === "icons"
           ? { headerInlineSeparator: "dot" }
           : {}),
       });
-      if (input.chrome) expect(exported.chrome).toMatchObject(input.chrome);
+      if (input.chrome) {
+        const expectedChrome = structuredClone(input.chrome);
+        if (fixture.path === historicalFixturePaths.unsyncedChrome) {
+          for (const scope of ["shared", "cv", "letter"] as const) {
+            expect(expectedChrome[scope].headerInlineSeparator).toBe("icons");
+            expectedChrome[scope].headerInlineSeparator = "dot";
+          }
+        }
+        expect(exported.chrome).toMatchObject(expectedChrome);
+      }
     }
     if (input.pageMargins) expect(exported.pageMargins ?? {}).toEqual(input.pageMargins);
     if (input.hyphenation) expect(exported.hyphenation).toEqual(input.hyphenation);
@@ -1175,7 +1277,7 @@ for (const fixture of roundtripFixtures) {
     await boot(page);
     await confirmProjectFile(page, json.filename, json.bytes);
     await expectRestoredParts(page, exported);
-    if (fixture.path === historicalFixturePaths.neonSaved) {
+    if (legacyFontFixtures.includes(fixture.path)) {
       await page.goto(`${BASE}/anschreiben`);
       await expect(page.locator("[data-letter-canvas]").first()).toHaveAttribute(
         "data-letter-font",
@@ -1183,6 +1285,11 @@ for (const fixture of roundtripFixtures) {
       );
       await boot(page);
     }
+    const continuationAfter =
+      fixture.path === historicalFixturePaths.continuation40
+        ? await inspectContinuation40(page)
+        : undefined;
+    expect(continuationAfter).toEqual(continuationBefore);
 
     const afterPdf = await downloadRestoredDossier(page, "pdf", "after", fixture.word);
     expect(await inspectRestoredPdf(afterPdf.bytes, input, subject)).toEqual(pdfPages);
@@ -1206,6 +1313,11 @@ for (const fixture of roundtripFixtures) {
           chromeFooterTextColor: chrome.footerTextColor,
           chromeHeaderFontSizePt: chrome.headerFontSizePt,
           chromeFooterFontSizePt: chrome.footerFontSizePt,
+          // This original stores the explicit continuation mode only in
+          // canonical chrome. Reimport also projects it into the legacy alias.
+          ...(fixture.path === historicalFixturePaths.noHeader
+            ? { headerContinuationMode: "none" }
+            : {}),
         },
       },
     });
@@ -1217,6 +1329,10 @@ for (const fixture of roundtripFixtures) {
           fixture: fixture.path,
           fixtureSha256: fixture.sha256,
           word: fixture.word,
+          fixtureKind: fixture.word ? "derived-sidebar-control" : "historical-original",
+          coverFontScale: exported.cover.fontScale,
+          continuation: continuationAfter,
+          chrome: exported.chrome,
           pdfPages: pdfPages.length,
           pdfSha256: { before: sha256(beforePdf.bytes), after: sha256(afterPdf.bytes) },
           jsonSha256: { before: sha256(json.bytes), after: sha256(afterJson.bytes) },

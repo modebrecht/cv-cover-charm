@@ -1,5 +1,7 @@
 # Dossier-Import mit erneutem Export
 
+Aktuelle Erweiterung: [repräsentativer Prüfblock vom 13.11.2026](historical-restore-release-gate-2026-11-13.md).
+
 Stand 03.11.2026 · [Issue #207](https://github.com/modebrecht/cv-cover-charm/issues/207) · Prüfstufe für zwei repräsentative Dateien
 
 Geprüfter Testcommit [`03a5e9fc0776`](https://github.com/modebrecht/cv-cover-charm/commit/03a5e9fc077649ae8002a4c9b8ac52c0ad4a7d0f). Zwei Fälle ergänzen `tests/e2e/dossier-import-recovery.spec.ts` im bestehenden Import-Workflow. Der Produktcode blieb unverändert.
