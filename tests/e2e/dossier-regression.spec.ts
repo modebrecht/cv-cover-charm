@@ -1081,9 +1081,25 @@ test.describe("M5.8 dossier regression", () => {
     await expect(body.locator(":scope > div").nth(1)).toHaveAttribute("data-align", "left");
 
     await page.getByRole("button", { name: "Tabelle" }).click();
-    await expect(page.getByRole("grid", { name: "Tabellengrösse auswählen" })).toBeVisible();
+    const tableGrid = page.getByRole("grid", { name: "Tabellengrösse auswählen" });
+    await expect(tableGrid).toBeVisible();
+    const gridWidth = (await tableGrid.boundingBox())!.width;
     await page.getByRole("gridcell", { name: "Tabelle 2 × 3 einfügen" }).focus();
     await expect(page.getByText("2 × 3 Tabelle")).toBeVisible();
+    expect((await tableGrid.boundingBox())!.width).toBeCloseTo(gridWidth, 1);
+    const columnGaps = await tableGrid
+      .getByRole("gridcell")
+      .evaluateAll((cells) =>
+        cells
+          .slice(1, 8)
+          .map(
+            (cell, index) =>
+              cell.getBoundingClientRect().left - cells[index].getBoundingClientRect().right,
+          ),
+      );
+    expect(Math.min(...columnGaps), "Table picker cells must not overlap").toBeGreaterThanOrEqual(
+      0,
+    );
     await page.getByRole("gridcell", { name: "Tabelle 2 × 3 einfügen" }).click();
 
     const previewBody = preview.locator('[data-letter-pdf-richtext="body"]');

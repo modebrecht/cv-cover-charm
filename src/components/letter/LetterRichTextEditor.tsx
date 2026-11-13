@@ -759,7 +759,7 @@ export function LetterRichTextEditor({
               <Table2 className="h-4 w-4" />
             </button>
             {tableOpen ? (
-              <div className="absolute left-0 top-full z-30 mt-1 rounded-md border bg-popover p-2 shadow-lg">
+              <div className="absolute left-0 top-full z-30 mt-1 w-max rounded-md border bg-popover p-2 shadow-lg">
                 <div className="mb-2 whitespace-nowrap text-center text-[11px] font-medium text-foreground">
                   {tableHover
                     ? `${tableHover.rows} × ${tableHover.columns} Tabelle`
