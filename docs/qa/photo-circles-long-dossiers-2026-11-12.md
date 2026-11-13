@@ -97,3 +97,7 @@ Projekte und Speichern/Wiederöffnen in Microsoft Desktop Word bleiben offen.
 Die [anschliessende Randprüfung](free-photo-edges-2026-11-12.md) ergänzt fünf
 gültige freie Fotopositionen und vier harte Sperrfälle. Die Grenzen dieser
 Langdossier- und Kreisprüfung bleiben davon unberührt.
+
+Die [Kodierungsdiagnose vom 13.11.2026](photo-circle-encoding-2026-11-13.md)
+reproduziert die tatsächlichen PDF-Fotoausschnitte pixelgleich und schliesst
+JPEG-Kompression als Hauptursache aus. Die beiden Kreis-REVIEWs bleiben offen.

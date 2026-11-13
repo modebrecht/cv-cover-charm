@@ -20,6 +20,7 @@ on:
       - "tests/qa/free-photo-edges.qa.ts"
       - "tests/qa/playwright.free-photo-edges.config.ts"
       - "scripts/photo_variant_report.py"
+      - "scripts/photo_circle_encoding_report.py"
       - "scripts/free_photo_edge_report.py"
       - ".github/workflows/photo-dossier-variants.yml"
 
@@ -69,6 +70,7 @@ jobs:
       - name: Compare actual PDF photos and retain contour reviews
         run: |
           .photo-venv/bin/python scripts/photo_variant_report.py
+          .photo-venv/bin/python scripts/photo_circle_encoding_report.py
           .photo-venv/bin/python scripts/free_photo_edge_report.py
       - name: Publish comparison
         if: always()
@@ -79,6 +81,9 @@ jobs:
           if test -f artifacts/free-photo-edges/comparison/REPORT.md; then
             cat artifacts/free-photo-edges/comparison/REPORT.md >> "$GITHUB_STEP_SUMMARY"
           fi
+          if test -f artifacts/photo-circle-encoding/REPORT.md; then
+            cat artifacts/photo-circle-encoding/REPORT.md >> "$GITHUB_STEP_SUMMARY"
+          fi
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -88,6 +93,7 @@ jobs:
             artifacts/photo-circle-raster
             artifacts/pagination-2page-combined
             artifacts/photo-variants-report
+            artifacts/photo-circle-encoding
             artifacts/free-photo-edges
             test-results/web-pdf-gallery
             test-results/photo-circle-raster

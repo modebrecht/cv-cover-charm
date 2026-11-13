@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
+import { jsPDF } from "jspdf";
 import {
   applyGalleryCase,
   BASE_URL,
@@ -58,9 +59,28 @@ for (const id of ["terracotta", "studio3"]) {
         logging: false,
         onclone: (_document: Document, clone: HTMLElement) => normalize(clone),
       });
-      return canvas.toDataURL("image/png");
+      return {
+        png: canvas.toDataURL("image/png"),
+        jpeg94: canvas.toDataURL("image/jpeg", 0.94),
+        jpeg100: canvas.toDataURL("image/jpeg", 1),
+      };
     });
-    await writeFile(join(out, `${id}-raster3.png`), Buffer.from(raster.split(",")[1], "base64"));
+    await writeFile(
+      join(out, `${id}-raster3.png`),
+      Buffer.from(raster.png.split(",")[1], "base64"),
+    );
+    // Isolate encoding from HTML rasterization: every variant owns the same
+    // canvas and A4 placement. The report checks JPEG94 against the real UI PDF.
+    for (const [encoding, data] of Object.entries(raster)) {
+      const format = encoding === "png" ? "PNG" : "JPEG";
+      const pdf = new jsPDF({ unit: "mm", format: "a4" });
+      pdf.addImage(data, format, 0, 0, 210, 297, undefined, "FAST");
+      await writeFile(
+        join(out, `${id}-${encoding}.${encoding === "png" ? "png" : "jpg"}`),
+        Buffer.from(data.split(",")[1], "base64"),
+      );
+      await writeFile(join(out, `${id}-${encoding}.pdf`), Buffer.from(pdf.output("arraybuffer")));
+    }
     await writeFile(
       join(out, `${id}.json`),
       JSON.stringify({ template: id, dpi: 288, web, ...runtimeProvenance() }, null, 2),
