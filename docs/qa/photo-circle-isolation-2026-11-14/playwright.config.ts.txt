@@ -1,0 +1,11 @@
+import { defineConfig } from "@playwright/test";
+import pagination from "./playwright.pagination.config";
+export default defineConfig({
+  ...pagination,
+  testMatch: "photo-origin-diagnostic.qa.ts",
+  workers: 1,
+  retries: 0,
+  use: { ...pagination.use, viewport: { width: 1800, height: 1600 }, deviceScaleFactor: 3 },
+  reporter: [["line"], ["json", { outputFile: "artifacts/photo-components/results.json" }]],
+  outputDir: "test-results/photo-origin",
+});

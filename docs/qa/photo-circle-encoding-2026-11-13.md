@@ -73,3 +73,8 @@ und archiviert alle Varianten sowie Vergleichsbilder.
 Die historische Wiederherstellung ist im [abgeschlossenen repräsentativen Prüfblock](historical-restore-release-gate-2026-11-13.md)
 nachgewiesen. Speichern und Wiederöffnen in Microsoft Desktop Word bleiben
 eine separate, hier mangels Microsoft Word nicht ausführbare Abnahme.
+
+Die [anschliessende Rahmen-/Beschnittdiagnose vom 14.11.](photo-circle-isolation-2026-11-14.md)
+schliesst diesen gezielten Untersuchungsblock ab. Keine der geprüften
+Ersatzzeichnungen rechtfertigt eine Anwendungskorrektur für beide Vorlagen;
+die zwei optischen REVIEWs bleiben offen. Nächste praktische Abnahme: Desktop Word.

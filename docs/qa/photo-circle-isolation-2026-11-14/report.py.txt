@@ -1,0 +1,86 @@
+"""Rebuild the bounded frame-isolation record from the archived browser probe."""
+import hashlib
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+import numpy as np
+import PIL
+from PIL import Image, ImageChops
+
+sys.path.insert(0, str(Path.cwd() / "scripts"))
+from photo_variant_report import pair_image
+from web_pdf_gallery_report import image_score, PHOTO_SSIM_MIN
+
+SOURCE = Path("artifacts/photo-components")
+OUT = Path("docs/qa/photo-circle-isolation-2026-11-14")
+MODES = ("circle-frame", "circle-plain", "box-frame", "box-plain",
+         "circle-svg-frame", "circle-separate-frame")
+
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def main():
+    # Playwright resolves this opt-in config's relative reporter path beside it.
+    stats = json.loads(Path("tests/qa/artifacts/photo-components/results.json").read_text())["stats"]
+    assert stats["expected"] == 2 and all(
+        stats[key] == 0 for key in ("unexpected", "skipped", "flaky")
+    ), "Incomplete browser probe"
+    OUT.mkdir(parents=True, exist_ok=True)
+    rows = []
+    for template in ("terracotta", "studio3"):
+        data = json.loads((SOURCE / f"{template}.json").read_text())
+        assert [item["mode"] for item in data["components"]] == list(MODES)
+        assert data["canonicalOrigin"]["page"] == [0, 0, 794, 1123]
+        assert not any(path.startswith(("src/", "public/")) or path in ("package.json", "bun.lock")
+                       for path in data["runtimeDiff"]), "Uncommitted application changes"
+        x, y, w, h = data["original"]["photo"]
+        bounds = (round(x*3)-9, round(y*3)-9, round((x+w)*3)+9, round((y+h)*3)+9)
+
+        def crop(path):
+            return Image.open(path).convert("RGB").crop(bounds)
+
+        native_web = crop(SOURCE / f"{template}-web-original.png")
+        native_export = crop(SOURCE / f"{template}-canonical-origin.png")
+        dom_score = image_score(native_web, native_export)
+        assert dom_score > 0.99, "Native export DOM does not reproduce the visible preview"
+        pair_image(native_web, native_export, OUT / f"{template}-native-dom.png")
+        variants = []
+        for mode in MODES:
+            native_path = SOURCE / f"{template}-{mode}-native.png"
+            raster_path = SOURCE / f"{template}-{mode}-raster.png"
+            native, raster = crop(native_path), crop(raster_path)
+            raw = image_score(native, raster)
+            negative = image_score(native, ImageChops.offset(raster, 12, 0))
+            assert negative < PHOTO_SSIM_MIN, "Displaced-photo negative control escaped"
+            comparison = OUT / f"{template}-{mode}.png"
+            pair_image(native, raster, comparison)
+            variants.append({"mode": mode, "raw_rgb_ssim_288dpi": raw,
+                             "displaced_negative_ssim": negative,
+                             "native_sha256": sha(native_path), "raster_sha256": sha(raster_path),
+                             "comparison": comparison.name, "comparison_sha256": sha(comparison)})
+        rows.append({"template": template, "native_web_export_ssim": dom_score,
+                     "bounds_288dpi": bounds, "variants": variants, "browser_evidence": data})
+    assert len({row["browser_evidence"]["sourceSha"] for row in rows}) == 1
+    assert rows[0]["browser_evidence"]["runtimeBlobs"] == rows[1]["browser_evidence"]["runtimeBlobs"]
+    record = {"status": "REVIEW", "scope": "Pre-JPEG isolation; no production fix or gate change",
+              "browser_stats": stats, "cases": rows,
+              "fixture_sha256": sha(Path("artifacts/web-pdf-gallery/fixture.json")),
+              "probe_sha256": sha(OUT / "probe.qa.ts.txt"),
+              "config_sha256": sha(OUT / "playwright.config.ts.txt"),
+              "normalizer_blob": subprocess.check_output(
+                  ["git", "hash-object", "src/lib/html2canvas-export.ts"], text=True).strip(),
+              "versions": {"numpy": np.__version__, "pillow": PIL.__version__},
+              "limits": {"photo_ssim": PHOTO_SSIM_MIN, "dpi": 288, "crop_padding_px": 9}}
+    (OUT / "evidence.json").write_text(json.dumps(record, indent=2) + "\n")
+    for row in rows:
+        print(row["template"], "native DOM", f"{row['native_web_export_ssim']:.5f}")
+        for variant in row["variants"]:
+            print(" ", variant["mode"], f"{variant['raw_rgb_ssim_288dpi']:.5f}")
+
+
+if __name__ == "__main__":
+    main()

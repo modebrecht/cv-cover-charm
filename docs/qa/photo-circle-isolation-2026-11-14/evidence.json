@@ -1,0 +1,545 @@
+{
+  "status": "REVIEW",
+  "scope": "Pre-JPEG isolation; no production fix or gate change",
+  "browser_stats": {
+    "startTime": "2026-11-14T02:37:37.687Z",
+    "duration": 71690.81599999999,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "cases": [
+    {
+      "template": "terracotta",
+      "native_web_export_ssim": 0.9995972818874129,
+      "bounds_288dpi": [
+        104,
+        263,
+        451,
+        610
+      ],
+      "variants": [
+        {
+          "mode": "circle-frame",
+          "raw_rgb_ssim_288dpi": 0.9420050549252835,
+          "displaced_negative_ssim": 0.8175125410108595,
+          "native_sha256": "6c4d9a907553fd72659e60095bfc0ff6ccdc0c2cbc49d6bf0877a8944a088db3",
+          "raster_sha256": "cb8954ea223667b928522fa8d4f42c150c1960491ad9c048563299b519c4db5c",
+          "comparison": "terracotta-circle-frame.png",
+          "comparison_sha256": "2216443c7908bf027cb6f299b0432c97dc2a50e2f4166702b42ffcf78c8a7f31"
+        },
+        {
+          "mode": "circle-plain",
+          "raw_rgb_ssim_288dpi": 0.9652100367557311,
+          "displaced_negative_ssim": 0.8667445942386959,
+          "native_sha256": "6f30d3f14dffa18ac61d716033eb7b0b3480b57953229ad65f974867d8da91e0",
+          "raster_sha256": "1fe531b6f3b57f4bb7e4dd873c08c28129b3c95fe74a644a060d9b6e518dcff1",
+          "comparison": "terracotta-circle-plain.png",
+          "comparison_sha256": "589dc2175944cd09b83c08e41de0925be6c257c628a49c378676084080b6cda7"
+        },
+        {
+          "mode": "box-frame",
+          "raw_rgb_ssim_288dpi": 0.9389661700111307,
+          "displaced_negative_ssim": 0.8321993781713942,
+          "native_sha256": "58333ebd8228a25f6087e13b0dd1ef906c7501828d735973f0722c8d9b20f225",
+          "raster_sha256": "6b99a9bbfe36c136b2afc7466d85bb8a77c18022d33e57a6a5bad739c87424c5",
+          "comparison": "terracotta-box-frame.png",
+          "comparison_sha256": "6eab6f95a0616f2e8089b754f4a0c54bf02e0884feb5063d6e8baddb90bf4145"
+        },
+        {
+          "mode": "box-plain",
+          "raw_rgb_ssim_288dpi": 0.9603671230178324,
+          "displaced_negative_ssim": 0.8789689022725402,
+          "native_sha256": "8c099d32fe0989b236bc30860a237a608531e3dc256b5c845ac3c7d648388fd3",
+          "raster_sha256": "526fca6258fad2e35439f02bb5edde500c43e5dd56b0bd3d9fdd3e6ff40feddb",
+          "comparison": "terracotta-box-plain.png",
+          "comparison_sha256": "16ad4d06772e696090697c7a9b7772cf156e98ce3a99b06a6b07dcc2e5a16f8f"
+        },
+        {
+          "mode": "circle-svg-frame",
+          "raw_rgb_ssim_288dpi": 0.9474566379220527,
+          "displaced_negative_ssim": 0.821616237423595,
+          "native_sha256": "6c4d9a907553fd72659e60095bfc0ff6ccdc0c2cbc49d6bf0877a8944a088db3",
+          "raster_sha256": "41b47628aa24d57c1454554c6207d3505e744afd80fdbfba393d949a0d09b56a",
+          "comparison": "terracotta-circle-svg-frame.png",
+          "comparison_sha256": "d516455c2f50088bf22c8ecce307cf24cb4113f004efb8e40d6621064bfc5f55"
+        },
+        {
+          "mode": "circle-separate-frame",
+          "raw_rgb_ssim_288dpi": 0.9398600192441716,
+          "displaced_negative_ssim": 0.8174005127946958,
+          "native_sha256": "6c4d9a907553fd72659e60095bfc0ff6ccdc0c2cbc49d6bf0877a8944a088db3",
+          "raster_sha256": "980f3eb951ac8b00c8e14ca60a9281485996263c662220942cff4071657e3a97",
+          "comparison": "terracotta-circle-separate-frame.png",
+          "comparison_sha256": "5297727111716f7eca2c3e357f552de69aa7aa2afc3596b88bf29c0105563096"
+        }
+      ],
+      "browser_evidence": {
+        "original": {
+          "page": [
+            733,
+            77,
+            794,
+            1123
+          ],
+          "photo": [
+            37.78125,
+            90.703125,
+            109.59375,
+            109.59375
+          ]
+        },
+        "origin": {
+          "page": [
+            733,
+            77,
+            794,
+            1123
+          ],
+          "photo": [
+            37.78125,
+            90.703125,
+            109.59375,
+            109.59375
+          ]
+        },
+        "canonical": {
+          "page": [
+            -20000,
+            2246,
+            794,
+            1123
+          ],
+          "photo": [
+            37.78125,
+            90.703125,
+            109.59375,
+            109.59375
+          ]
+        },
+        "canonicalOrigin": {
+          "page": [
+            0,
+            0,
+            794,
+            1123
+          ],
+          "photo": [
+            37.78125,
+            90.703125,
+            109.59375,
+            109.59375
+          ]
+        },
+        "components": [
+          {
+            "mode": "circle-frame",
+            "photo": [
+              37.78125,
+              90.703125,
+              109.59375,
+              109.59375
+            ],
+            "image": [
+              26.28125,
+              63.859375,
+              147.9375,
+              147.9375
+            ],
+            "filter": "contrast(1.03) saturate(1)",
+            "objectFit": "cover",
+            "objectPosition": "50% 50%",
+            "border": "1px",
+            "radius": "9999px"
+          },
+          {
+            "mode": "circle-plain",
+            "photo": [
+              37.78125,
+              90.703125,
+              109.59375,
+              109.59375
+            ],
+            "image": [
+              26.28125,
+              63.859375,
+              147.9375,
+              147.9375
+            ],
+            "filter": "contrast(1.03) saturate(1)",
+            "objectFit": "cover",
+            "objectPosition": "50% 50%",
+            "border": "0px",
+            "radius": "9999px"
+          },
+          {
+            "mode": "box-frame",
+            "photo": [
+              37.78125,
+              90.703125,
+              109.59375,
+              109.59375
+            ],
+            "image": [
+              26.28125,
+              63.859375,
+              147.9375,
+              147.9375
+            ],
+            "filter": "contrast(1.03) saturate(1)",
+            "objectFit": "cover",
+            "objectPosition": "50% 50%",
+            "border": "1px",
+            "radius": "0px"
+          },
+          {
+            "mode": "box-plain",
+            "photo": [
+              37.78125,
+              90.703125,
+              109.59375,
+              109.59375
+            ],
+            "image": [
+              26.28125,
+              63.859375,
+              147.9375,
+              147.9375
+            ],
+            "filter": "contrast(1.03) saturate(1)",
+            "objectFit": "cover",
+            "objectPosition": "50% 50%",
+            "border": "0px",
+            "radius": "0px"
+          },
+          {
+            "mode": "circle-svg-frame",
+            "photo": [
+              37.78125,
+              90.703125,
+              109.59375,
+              109.59375
+            ],
+            "image": [
+              26.28125,
+              63.859375,
+              147.9375,
+              147.9375
+            ],
+            "filter": "contrast(1.03) saturate(1)",
+            "objectFit": "cover",
+            "objectPosition": "50% 50%",
+            "border": "1px",
+            "radius": "9999px"
+          },
+          {
+            "mode": "circle-separate-frame",
+            "photo": [
+              37.78125,
+              90.703125,
+              109.59375,
+              109.59375
+            ],
+            "image": [
+              26.28125,
+              63.859375,
+              147.9375,
+              147.9375
+            ],
+            "filter": "contrast(1.03) saturate(1)",
+            "objectFit": "cover",
+            "objectPosition": "50% 50%",
+            "border": "1px",
+            "radius": "9999px"
+          }
+        ],
+        "sourceSha": "2ebfa4ed7423524350d3c2778f296377312912a7",
+        "sourceDirty": false,
+        "runtimeDiff": [],
+        "runtimeBlobs": {
+          "src/lib/dossier-pdf.ts": "9d89a4ae563f3e1f308063f37b136c4a35a28db5",
+          "src/lib/pdf-preflight.ts": "8c9b6be3a6b6e13973502ba69903703104abe954",
+          "src/components/letter/preflight.ts": "ac1543c561781cefbb6408e7edd2bd8ef02b1ac2",
+          "src/components/letter/LetterDocument.tsx": "96267a5b9dee3ed2afd97addf4758eb9c18f6b6f",
+          "src/components/letter/letter-pagination.ts": "a2e7573121c6f89545c0512ba25a33ea7f778c46",
+          "src/components/letter/letter-pagination.css": "0e5af5645830b43f9a2fcdf4d18a28a6ea03ddc7",
+          "src/components/cv/CvCanvasBase.tsx": "29d4ae90a51a0792262640ab833bfc3d31370f97",
+          "src/components/cv/flow-pagination.ts": "687974cb6192fc9b269e24142568e06c39eb9ff4"
+        }
+      }
+    },
+    {
+      "template": "studio3",
+      "native_web_export_ssim": 0.9997332977721118,
+      "bounds_288dpi": [
+        218,
+        422,
+        599,
+        803
+      ],
+      "variants": [
+        {
+          "mode": "circle-frame",
+          "raw_rgb_ssim_288dpi": 0.9422958312669735,
+          "displaced_negative_ssim": 0.825200084103848,
+          "native_sha256": "ba112cd546cbcb010aa18de0674d1b51e61b1e9019782279a7dc0f4846273404",
+          "raster_sha256": "af54853307d0bdde1745281441b5f1cb2588a4c981ad25e328cc526496159c07",
+          "comparison": "studio3-circle-frame.png",
+          "comparison_sha256": "abe9b6f920bd798a81b720fd428a2e7c84ab506652124b024c04fba0adeb540e"
+        },
+        {
+          "mode": "circle-plain",
+          "raw_rgb_ssim_288dpi": 0.9632126647622264,
+          "displaced_negative_ssim": 0.8619560598300743,
+          "native_sha256": "69145ab522ba6c7d58b7e7e8fe5a6bd02342425910d5f200aef9c271df3ac737",
+          "raster_sha256": "9c1f87ade111e228ebafb2c835d309f4207254ceba44074e8741b6706319c3eb",
+          "comparison": "studio3-circle-plain.png",
+          "comparison_sha256": "88b89eebebdbae1da0cade79662e470ffecf2f657e4423b5cc7a919d0d66a3f5"
+        },
+        {
+          "mode": "box-frame",
+          "raw_rgb_ssim_288dpi": 0.9233519491116473,
+          "displaced_negative_ssim": 0.8322933146745184,
+          "native_sha256": "2d4a8021ea10f5ed68ec7b7da7875c6cb3f19115b444eb3aa160ad2418e44cbb",
+          "raster_sha256": "d377df992783f965950d9f06022cf0a8d573251231a89ddd4dd153a18792252b",
+          "comparison": "studio3-box-frame.png",
+          "comparison_sha256": "dfd701d34b5b712c38a6b27a7b65e5f5b7022c16a7b5460097442c83c7a433e4"
+        },
+        {
+          "mode": "box-plain",
+          "raw_rgb_ssim_288dpi": 0.9532850933205376,
+          "displaced_negative_ssim": 0.8708063761861883,
+          "native_sha256": "f330ee6e863ebca362a185e7ac2a57f72c80dcbed5f3bf460fec263ab2835323",
+          "raster_sha256": "773803530331abe14d7b130f1e5a77ff169b07bf5c5489bde62d88f26afb9b66",
+          "comparison": "studio3-box-plain.png",
+          "comparison_sha256": "e63c3a0961875b96277978b5580e0dd483d3bd0f7155fbec7211d545bef5fa62"
+        },
+        {
+          "mode": "circle-svg-frame",
+          "raw_rgb_ssim_288dpi": 0.9426033566843754,
+          "displaced_negative_ssim": 0.8212243902783564,
+          "native_sha256": "ba112cd546cbcb010aa18de0674d1b51e61b1e9019782279a7dc0f4846273404",
+          "raster_sha256": "40ea343fdf139db242c9e394011c0544dae500e3db0daafb7042d0ead65b3269",
+          "comparison": "studio3-circle-svg-frame.png",
+          "comparison_sha256": "2e741a6b4893954f1bc87d7bd47c76622c4d7736855be8797513ef157d1ecc75"
+        },
+        {
+          "mode": "circle-separate-frame",
+          "raw_rgb_ssim_288dpi": 0.9423071716495537,
+          "displaced_negative_ssim": 0.824785599690681,
+          "native_sha256": "ba112cd546cbcb010aa18de0674d1b51e61b1e9019782279a7dc0f4846273404",
+          "raster_sha256": "b0c36104c99f3599ae7a7f671d09aa74918aa1c521b11ac78fdaf4efa74d1b30",
+          "comparison": "studio3-circle-separate-frame.png",
+          "comparison_sha256": "d5e4d95a4c8cb3b7543220f334d64c33058cb2f3b4e36fe776b8f0c902edc0e9"
+        }
+      ],
+      "browser_evidence": {
+        "original": {
+          "page": [
+            733,
+            77,
+            794,
+            1123
+          ],
+          "photo": [
+            75.578125,
+            143.609375,
+            120.9375,
+            120.9375
+          ]
+        },
+        "origin": {
+          "page": [
+            733,
+            77,
+            794,
+            1123
+          ],
+          "photo": [
+            75.578125,
+            143.609375,
+            120.9375,
+            120.9375
+          ]
+        },
+        "canonical": {
+          "page": [
+            -20000,
+            2246,
+            794,
+            1123
+          ],
+          "photo": [
+            75.578125,
+            143.609375,
+            120.9375,
+            120.9375
+          ]
+        },
+        "canonicalOrigin": {
+          "page": [
+            0,
+            0,
+            794,
+            1123
+          ],
+          "photo": [
+            75.578125,
+            143.609375,
+            120.9375,
+            120.9375
+          ]
+        },
+        "components": [
+          {
+            "mode": "circle-frame",
+            "photo": [
+              75.578125,
+              143.609375,
+              120.9375,
+              120.9375
+            ],
+            "image": [
+              62.890625,
+              113.984375,
+              163.265625,
+              163.265625
+            ],
+            "filter": "contrast(1.03) saturate(1)",
+            "objectFit": "cover",
+            "objectPosition": "50% 50%",
+            "border": "1px",
+            "radius": "9999px"
+          },
+          {
+            "mode": "circle-plain",
+            "photo": [
+              75.578125,
+              143.609375,
+              120.9375,
+              120.9375
+            ],
+            "image": [
+              62.890625,
+              113.984375,
+              163.265625,
+              163.265625
+            ],
+            "filter": "contrast(1.03) saturate(1)",
+            "objectFit": "cover",
+            "objectPosition": "50% 50%",
+            "border": "0px",
+            "radius": "9999px"
+          },
+          {
+            "mode": "box-frame",
+            "photo": [
+              75.578125,
+              143.609375,
+              120.9375,
+              120.9375
+            ],
+            "image": [
+              62.890625,
+              113.984375,
+              163.265625,
+              163.265625
+            ],
+            "filter": "contrast(1.03) saturate(1)",
+            "objectFit": "cover",
+            "objectPosition": "50% 50%",
+            "border": "1px",
+            "radius": "0px"
+          },
+          {
+            "mode": "box-plain",
+            "photo": [
+              75.578125,
+              143.609375,
+              120.9375,
+              120.9375
+            ],
+            "image": [
+              62.890625,
+              113.984375,
+              163.265625,
+              163.265625
+            ],
+            "filter": "contrast(1.03) saturate(1)",
+            "objectFit": "cover",
+            "objectPosition": "50% 50%",
+            "border": "0px",
+            "radius": "0px"
+          },
+          {
+            "mode": "circle-svg-frame",
+            "photo": [
+              75.578125,
+              143.609375,
+              120.9375,
+              120.9375
+            ],
+            "image": [
+              62.890625,
+              113.984375,
+              163.265625,
+              163.265625
+            ],
+            "filter": "contrast(1.03) saturate(1)",
+            "objectFit": "cover",
+            "objectPosition": "50% 50%",
+            "border": "1px",
+            "radius": "9999px"
+          },
+          {
+            "mode": "circle-separate-frame",
+            "photo": [
+              75.578125,
+              143.609375,
+              120.9375,
+              120.9375
+            ],
+            "image": [
+              62.890625,
+              113.984375,
+              163.265625,
+              163.265625
+            ],
+            "filter": "contrast(1.03) saturate(1)",
+            "objectFit": "cover",
+            "objectPosition": "50% 50%",
+            "border": "1px",
+            "radius": "9999px"
+          }
+        ],
+        "sourceSha": "2ebfa4ed7423524350d3c2778f296377312912a7",
+        "sourceDirty": false,
+        "runtimeDiff": [],
+        "runtimeBlobs": {
+          "src/lib/dossier-pdf.ts": "9d89a4ae563f3e1f308063f37b136c4a35a28db5",
+          "src/lib/pdf-preflight.ts": "8c9b6be3a6b6e13973502ba69903703104abe954",
+          "src/components/letter/preflight.ts": "ac1543c561781cefbb6408e7edd2bd8ef02b1ac2",
+          "src/components/letter/LetterDocument.tsx": "96267a5b9dee3ed2afd97addf4758eb9c18f6b6f",
+          "src/components/letter/letter-pagination.ts": "a2e7573121c6f89545c0512ba25a33ea7f778c46",
+          "src/components/letter/letter-pagination.css": "0e5af5645830b43f9a2fcdf4d18a28a6ea03ddc7",
+          "src/components/cv/CvCanvasBase.tsx": "29d4ae90a51a0792262640ab833bfc3d31370f97",
+          "src/components/cv/flow-pagination.ts": "687974cb6192fc9b269e24142568e06c39eb9ff4"
+        }
+      }
+    }
+  ],
+  "fixture_sha256": "058087b038999879d4794d1b1885be50ceb2eb2a1a2fd9c4e8e71392b5aa3b4b",
+  "probe_sha256": "187530347b675c5dcce391d5f6773eadb21a94da6900ac1764a14460ab143585",
+  "config_sha256": "e3fb93f701536ba9a46f63c4cade83e25fa3c9ba578434565327ef1ec8d6fc9c",
+  "normalizer_blob": "92e1e2a19b4e2453b42f59f42cba3f49e8ed77a5",
+  "versions": {
+    "numpy": "2.3.5",
+    "pillow": "13.0.0"
+  },
+  "limits": {
+    "photo_ssim": 0.95,
+    "dpi": 288,
+    "crop_padding_px": 9
+  }
+}

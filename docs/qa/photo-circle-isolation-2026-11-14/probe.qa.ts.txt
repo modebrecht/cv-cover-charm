@@ -1,0 +1,169 @@
+import { expect, test } from "@playwright/test";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { join } from "node:path";
+import {
+  applyGalleryCase,
+  BASE_URL,
+  GALLERY_CASES,
+  waitEditorReady,
+} from "../e2e/support/dossier-gallery-shared";
+import { runtimeProvenance } from "./pagination-browser";
+
+const out = "artifacts/photo-components";
+for (const id of ["terracotta", "studio3"]) {
+  test(`photo origin diagnostic ${id}`, async ({ page }) => {
+    await mkdir(out, { recursive: true });
+    const stored = JSON.parse(await readFile("artifacts/web-pdf-gallery/fixture.json", "utf8"));
+    await applyGalleryCase(page, stored, GALLERY_CASES.find((item) => item.id === id)!);
+    await page.evaluate(() => {
+      localStorage.setItem(
+        "lebenslauf:photo:v2",
+        JSON.stringify({ shape: "circle", zoom: 1.35, x: 30, y: 70, borderWidth: 0.3 }),
+      );
+      localStorage.setItem("lebenslauf:photo-place:v1", JSON.stringify({ mode: "auto" }));
+    });
+    await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "networkidle" });
+    await waitEditorReady(page);
+    await page.evaluate(() => document.fonts.ready);
+    const web = page.locator('[data-export-mode="false"] [data-cv-page]').first();
+    const measure = async (sheet: typeof web) =>
+      sheet.evaluate((sheet) => {
+        const p = sheet.getBoundingClientRect(),
+          photo = sheet.querySelector("[data-cv-photo]")!.getBoundingClientRect();
+        return {
+          page: [p.x, p.y, p.width, p.height],
+          photo: [photo.x - p.x, photo.y - p.y, photo.width, photo.height],
+        };
+      });
+    const original = await measure(web);
+    await web.screenshot({ path: join(out, `${id}-web-original.png`), animations: "disabled" });
+    await web.evaluate((sheet) => {
+      sheet.style.cssText +=
+        ";position:fixed!important;left:0!important;top:0!important;margin:0!important;transform:none!important;z-index:2147483647!important";
+    });
+    const origin = await measure(web);
+    await web.screenshot({ path: join(out, `${id}-web-origin.png`), animations: "disabled" });
+    await page.goto(BASE_URL, { waitUntil: "networkidle" });
+    await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
+    const source = page.locator("[data-dossier-pdf-canvas] [data-cv-page]").first();
+    await expect(source.locator("[data-cv-photo] img")).toHaveCount(1);
+    const canonical = await measure(source);
+    async function raster(name: string, variant = "") {
+      const data = await source.evaluate(async (source, variant) => {
+        const mod = "/src/lib/html2canvas-export.ts",
+          h2c = "/node_modules/.vite/deps/html2canvas-pro.js";
+        const normalize = (await import(mod)).normalizeCssZoomForHtml2Canvas;
+        const canvas = await (
+          await import(h2c)
+        ).default(source, {
+          scale: 3,
+          width: 794,
+          height: 1123,
+          windowWidth: 794,
+          windowHeight: 1123,
+          scrollX: 0,
+          scrollY: 0,
+          backgroundColor: "#ffffff",
+          logging: false,
+          onclone: (_d: Document, c: HTMLElement) => {
+            normalize(c);
+            if (variant === "circle-svg-frame")
+              for (const photo of c.querySelectorAll<HTMLElement>("[data-cv-photo]")) {
+                const s = _d.defaultView!.getComputedStyle(photo, "::after"),
+                  r = photo.getBoundingClientRect(),
+                  b = parseFloat(s.borderTopWidth);
+                const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${r.width * 3}" height="${r.height * 3}" viewBox="0 0 ${r.width} ${r.height}"><ellipse cx="${r.width / 2}" cy="${r.height / 2}" rx="${(r.width - b) / 2}" ry="${(r.height - b) / 2}" fill="none" stroke="${s.borderTopColor}" stroke-width="${b}"/></svg>`;
+                photo.style.setProperty("--cv-photo-border-width", "0px", "important");
+                for (const child of Array.from(photo.children))
+                  if (child.localName === "html2canvaspseudoelement") child.remove();
+                const ring = _d.createElement("div");
+                ring.style.cssText = `position:absolute;inset:0;z-index:2;pointer-events:none;background-image:url("data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}");background-size:100% 100%;background-repeat:no-repeat`;
+                photo.append(ring);
+              }
+            if (variant === "circle-separate-frame")
+              for (const photo of c.querySelectorAll<HTMLElement>("[data-cv-photo]")) {
+                const img = photo.querySelector(":scope > img");
+                if (!img) continue;
+                const radius = _d.defaultView!.getComputedStyle(photo).borderRadius;
+                const clip = _d.createElement("div");
+                clip.style.cssText = `position:absolute;inset:0;overflow:hidden;border-radius:${radius};`;
+                photo.style.setProperty("overflow", "visible", "important");
+                photo.append(clip);
+                clip.append(img);
+              }
+          },
+        });
+        return canvas.toDataURL("image/png");
+      }, variant);
+      await writeFile(join(out, `${id}-${name}.png`), Buffer.from(data.split(",")[1], "base64"));
+    }
+    await raster("raster-original");
+    await page.locator("[data-dossier-native-print-root]").evaluate((root) => {
+      root.style.cssText += ";left:0!important;top:0!important;z-index:2147483647!important";
+    });
+    await source.evaluate((sheet) => {
+      sheet.style.cssText +=
+        ";position:fixed!important;left:0!important;top:0!important;margin:0!important;transform:none!important;z-index:2147483647!important";
+    });
+    const canonicalOrigin = await measure(source);
+    await source.screenshot({
+      path: join(out, `${id}-canonical-origin.png`),
+      animations: "disabled",
+    });
+    await raster("raster-origin");
+    const components = [];
+    for (const mode of [
+      "circle-frame",
+      "circle-plain",
+      "box-frame",
+      "box-plain",
+      "circle-svg-frame",
+      "circle-separate-frame",
+    ]) {
+      const photo = source.locator("[data-cv-photo]").first();
+      await photo.evaluate((photo, mode) => {
+        photo.style.setProperty(
+          "border-radius",
+          mode.startsWith("circle") ? "9999px" : "0px",
+          "important",
+        );
+        photo.style.setProperty(
+          "--cv-photo-border-width",
+          mode.endsWith("plain") ? "0mm" : ".3mm",
+          "important",
+        );
+      }, mode);
+      const detail = await photo.evaluate((photo) => {
+        const img = photo.querySelector("img")!,
+          p = photo.getBoundingClientRect(),
+          i = img.getBoundingClientRect(),
+          s = getComputedStyle(img),
+          a = getComputedStyle(photo, "::after");
+        return {
+          photo: [p.x, p.y, p.width, p.height],
+          image: [i.x, i.y, i.width, i.height],
+          filter: s.filter,
+          objectFit: s.objectFit,
+          objectPosition: s.objectPosition,
+          border: a.borderWidth,
+          radius: a.borderRadius,
+        };
+      });
+      expect(detail.photo).toEqual(original.photo);
+      await source.screenshot({
+        path: join(out, `${id}-${mode}-native.png`),
+        animations: "disabled",
+      });
+      await raster(`${mode}-raster`, mode);
+      components.push({ mode, ...detail });
+    }
+    await writeFile(
+      join(out, `${id}.json`),
+      JSON.stringify(
+        { original, origin, canonical, canonicalOrigin, components, ...runtimeProvenance() },
+        null,
+        2,
+      ),
+    );
+  });
+}
