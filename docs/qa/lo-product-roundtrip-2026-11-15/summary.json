@@ -1,0 +1,760 @@
+{
+  "source_sha": "8aafb50b2cb4f3a2eb6735e3e18313249cbeb2b3",
+  "status": "INCOMPATIBLE",
+  "word_acceptance": "UNVERIFIED",
+  "office_version": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+  "runtime_manifest": {
+    "name": "libreoffice-headless",
+    "version": "26.8.0.0.alpha0-codex.1",
+    "upstreamVersion": "26.8.0.0.alpha0",
+    "codexPatchRevision": 1,
+    "targetPlatform": "linux",
+    "targetArch": "x64",
+    "sourceRef": "2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+    "patchSha256": "fe0099293114337cd5d6ed7809d874fc28efa0fac981689e14e44a81b8dbea69",
+    "runtimeDebianPackages": [
+      "libcurl4t64",
+      "libfontconfig1",
+      "libfreetype6",
+      "liblcms2-2",
+      "libnspr4",
+      "libnss3"
+    ]
+  },
+  "browser_stats": {
+    "startTime": "2026-11-15T18:04:57.721Z",
+    "duration": 31777.984000000004,
+    "expected": 4,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "rendered_pages": 21,
+  "original_to_save_equal_pairs": 6,
+  "original_to_save_pairs": 14,
+  "goldens": {
+    "dossier-source.docx": {
+      "sha256": "be34bf99bc7e964cbdf8ef81eaf9afe586b92f12a093f8aa70850bbd3993e167",
+      "bytes": 358387
+    },
+    "dossier-save1.docx": {
+      "sha256": "a3d62af422056b52c43e4bc96e856f405a54193db17556c1da3aee33497f9579",
+      "bytes": 148885
+    },
+    "dossier-save2.docx": {
+      "sha256": "c94ff1333b2b65a56c91c91240dc9fb151f7e7dedac3b97b8935f3afcdd61114",
+      "bytes": 149484
+    }
+  },
+  "comparison_bounds_96dpi": [
+    438,
+    128,
+    728,
+    420
+  ],
+  "full_report_gzip_sha256": "5e1967827840c84fa95053b5dceca13704b1d1368e98c1147438dfdcd05ea1af",
+  "findings": [
+    "cv-left phase 1: original photo pixels lost",
+    "cv-left phase 1: field controls rewritten",
+    "cv-left phase 2: original photo pixels lost",
+    "cv-left phase 2: field controls rewritten",
+    "cv-right phase 1: original photo pixels lost",
+    "cv-right phase 1: field controls rewritten",
+    "cv-right phase 2: original photo pixels lost",
+    "cv-right phase 2: field controls rewritten",
+    "letter-two-pages phase 1: field controls rewritten",
+    "letter-two-pages phase 2: field controls rewritten",
+    "dossier phase 1: original photo pixels lost",
+    "dossier phase 1: field controls rewritten",
+    "dossier phase 2: original photo pixels lost",
+    "dossier phase 2: field controls rewritten"
+  ],
+  "cases": [
+    {
+      "name": "cv-left",
+      "source_docx_sha256": "709042fedb7371937abf4cad6ab2f90ec37f8cfe1eee870ee0dbcc30eaabc376",
+      "phases": [
+        {
+          "phase": 0,
+          "docx_sha256": "709042fedb7371937abf4cad6ab2f90ec37f8cfe1eee870ee0dbcc30eaabc376",
+          "pdf_sha256": "44cc4e25e5706edbe72bf10a8ec872cbfe35613c1f2bb9fa822a39886e38456c",
+          "png_sha256": [
+            "548bbc4f02f605a22050539a816969a8ee914e0edf0602e734375b4010be2ff2"
+          ],
+          "pdf_pages": 1,
+          "pdf_fonts": [
+            "BAAAAA+LiberationSans-Bold",
+            "CAAAAA+LiberationSans",
+            "DAAAAA+LiberationSans-Bold",
+            "EAAAAA+LiberationSans",
+            "FAAAAA+LiberationSans-Bold",
+            "GAAAAA+LiberationSans-Bold",
+            "HAAAAA+LiberationSans",
+            "IAAAAA+LiberationSans-Bold",
+            "JAAAAA+LiberationSans-Bold",
+            "KAAAAA+LiberationSans-Bold",
+            "LAAAAA+LiberationSans"
+          ],
+          "missing_xml_text": [],
+          "missing_pdf_text": [],
+          "photos": [
+            {
+              "name": "cv.person.photo",
+              "matches": 1,
+              "pixels_equal": true,
+              "crop_equal": true,
+              "pixels_present_in_active_drawings": true,
+              "pixels_present_in_package": true,
+              "source_pixels": {
+                "width": 160,
+                "height": 200,
+                "rgbaSha256": "9d709df178028f6158338f3f90cb518fcf17fbb95df65094ddcc4f02c892595b"
+              },
+              "saved_pixels": {
+                "width": 160,
+                "height": 200,
+                "rgbaSha256": "9d709df178028f6158338f3f90cb518fcf17fbb95df65094ddcc4f02c892595b"
+              },
+              "source_container": "native-picture",
+              "saved_container": "native-picture"
+            }
+          ],
+          "field_bindings_missing_or_changed": 0,
+          "field_owner_nesting_changed": 0,
+          "rendered_page_pairs_equal": [],
+          "rendered_page_pairs_equal_previous_phase": []
+        },
+        {
+          "phase": 1,
+          "docx_sha256": "b0bd759a97da7b3a3d6958e184b5046d3a32ea8057aeba130725148154215e4c",
+          "pdf_sha256": "34ddc2db1292a14e15915e87e5c6158eff7f377245ae1a29ba89ebeb5a4bed5b",
+          "png_sha256": [
+            "ab2b0ff21581b28f90e416ffa07ab4517418cb8daf0c66311c537b3da7b222eb"
+          ],
+          "pdf_pages": 1,
+          "pdf_fonts": [
+            "BAAAAA+LiberationSans-Bold",
+            "CAAAAA+LiberationSans",
+            "DAAAAA+LiberationSans-Bold",
+            "EAAAAA+LiberationSans",
+            "FAAAAA+LiberationSans-Bold",
+            "GAAAAA+LiberationSans",
+            "HAAAAA+OpenSymbol",
+            "IAAAAA+LiberationSans-Bold",
+            "JAAAAA+LiberationSans-Bold",
+            "KAAAAA+LiberationSans",
+            "LAAAAA+LiberationSans-Bold",
+            "MAAAAA+LiberationSans-Bold"
+          ],
+          "missing_xml_text": [],
+          "missing_pdf_text": [],
+          "photos": [
+            {
+              "name": "cv.person.photo",
+              "matches": 1,
+              "pixels_equal": false,
+              "crop_equal": null,
+              "pixels_present_in_active_drawings": false,
+              "pixels_present_in_package": false,
+              "source_pixels": {
+                "width": 160,
+                "height": 200,
+                "rgbaSha256": "9d709df178028f6158338f3f90cb518fcf17fbb95df65094ddcc4f02c892595b"
+              },
+              "saved_pixels": {
+                "width": 119,
+                "height": 119,
+                "rgbaSha256": "731f0a69b16f5e8aba422bd6e209e06a369998424c813466524c79104536067b"
+              },
+              "source_container": "native-picture",
+              "saved_container": "drawing-shape-fill"
+            }
+          ],
+          "field_bindings_missing_or_changed": 49,
+          "field_owner_nesting_changed": 59,
+          "rendered_page_pairs_equal": [
+            false
+          ],
+          "rendered_page_pairs_equal_previous_phase": [
+            false
+          ]
+        },
+        {
+          "phase": 2,
+          "docx_sha256": "7f548f833404b188461ae9bce4c8b6b51792b3ccadc288f48936804e8c1af77e",
+          "pdf_sha256": "d3ed6faa78f57e7706a3ce5f42b2de7ec5160e48d8253aa96fc0b0c9b44adbfb",
+          "png_sha256": [
+            "ab2b0ff21581b28f90e416ffa07ab4517418cb8daf0c66311c537b3da7b222eb"
+          ],
+          "pdf_pages": 1,
+          "pdf_fonts": [
+            "BAAAAA+LiberationSans-Bold",
+            "CAAAAA+LiberationSans",
+            "DAAAAA+LiberationSans-Bold",
+            "EAAAAA+LiberationSans",
+            "FAAAAA+LiberationSans-Bold",
+            "GAAAAA+LiberationSans",
+            "HAAAAA+OpenSymbol",
+            "IAAAAA+LiberationSans-Bold",
+            "JAAAAA+LiberationSans-Bold",
+            "KAAAAA+LiberationSans",
+            "LAAAAA+LiberationSans-Bold",
+            "MAAAAA+LiberationSans-Bold"
+          ],
+          "missing_xml_text": [],
+          "missing_pdf_text": [],
+          "photos": [
+            {
+              "name": "cv.person.photo",
+              "matches": 1,
+              "pixels_equal": false,
+              "crop_equal": null,
+              "pixels_present_in_active_drawings": false,
+              "pixels_present_in_package": false,
+              "source_pixels": {
+                "width": 160,
+                "height": 200,
+                "rgbaSha256": "9d709df178028f6158338f3f90cb518fcf17fbb95df65094ddcc4f02c892595b"
+              },
+              "saved_pixels": {
+                "width": 119,
+                "height": 119,
+                "rgbaSha256": "731f0a69b16f5e8aba422bd6e209e06a369998424c813466524c79104536067b"
+              },
+              "source_container": "native-picture",
+              "saved_container": "drawing-shape-fill"
+            }
+          ],
+          "field_bindings_missing_or_changed": 49,
+          "field_owner_nesting_changed": 59,
+          "rendered_page_pairs_equal": [
+            false
+          ],
+          "rendered_page_pairs_equal_previous_phase": [
+            true
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cv-right",
+      "source_docx_sha256": "8de966782e425ad2d28f665e5997e3bc476fa8edb64e0aeb26c3b9ffb41ea330",
+      "phases": [
+        {
+          "phase": 0,
+          "docx_sha256": "8de966782e425ad2d28f665e5997e3bc476fa8edb64e0aeb26c3b9ffb41ea330",
+          "pdf_sha256": "e9086b744b6ff93c89b41de92fff63c2e664025fe304fa76e5a5a310ad98e393",
+          "png_sha256": [
+            "9ea934e36bd7752fbaf7e39baa0ec8ced37943f9867912b37a732a4031c82e6b"
+          ],
+          "pdf_pages": 1,
+          "pdf_fonts": [
+            "BAAAAA+LiberationSans-Bold",
+            "CAAAAA+LiberationSans-Bold",
+            "DAAAAA+LiberationSans-Bold",
+            "EAAAAA+LiberationSans",
+            "FAAAAA+LiberationSans",
+            "GAAAAA+LiberationSans-Bold",
+            "HAAAAA+LiberationSans-Bold",
+            "IAAAAA+LiberationSans-Bold",
+            "JAAAAA+LiberationSans",
+            "KAAAAA+LiberationSans-Bold",
+            "LAAAAA+LiberationSans"
+          ],
+          "missing_xml_text": [],
+          "missing_pdf_text": [],
+          "photos": [
+            {
+              "name": "cv.person.photo",
+              "matches": 1,
+              "pixels_equal": true,
+              "crop_equal": true,
+              "pixels_present_in_active_drawings": true,
+              "pixels_present_in_package": true,
+              "source_pixels": {
+                "width": 160,
+                "height": 200,
+                "rgbaSha256": "9d709df178028f6158338f3f90cb518fcf17fbb95df65094ddcc4f02c892595b"
+              },
+              "saved_pixels": {
+                "width": 160,
+                "height": 200,
+                "rgbaSha256": "9d709df178028f6158338f3f90cb518fcf17fbb95df65094ddcc4f02c892595b"
+              },
+              "source_container": "native-picture",
+              "saved_container": "native-picture"
+            }
+          ],
+          "field_bindings_missing_or_changed": 0,
+          "field_owner_nesting_changed": 0,
+          "rendered_page_pairs_equal": [],
+          "rendered_page_pairs_equal_previous_phase": []
+        },
+        {
+          "phase": 1,
+          "docx_sha256": "5c8b36e926af4d7c928be9a40f7bf427693cbdf73b1a059ea1f0e3082e83e91a",
+          "pdf_sha256": "2a1458ac1bf5bbf19cf87ccb7d054251422d74d088096c141a95f4c6b1d5fca5",
+          "png_sha256": [
+            "212b985c49eb86142872608727d5b992d6e5a1ebac6f836bacb0ebd1271cef7b"
+          ],
+          "pdf_pages": 1,
+          "pdf_fonts": [
+            "BAAAAA+LiberationSans-Bold",
+            "CAAAAA+LiberationSans",
+            "DAAAAA+LiberationSans-Bold",
+            "EAAAAA+LiberationSans-Bold",
+            "FAAAAA+LiberationSans-Bold",
+            "GAAAAA+LiberationSans",
+            "HAAAAA+LiberationSans",
+            "IAAAAA+LiberationSans-Bold",
+            "JAAAAA+LiberationSans-Bold",
+            "KAAAAA+LiberationSans-Bold",
+            "LAAAAA+LiberationSans",
+            "MAAAAA+OpenSymbol"
+          ],
+          "missing_xml_text": [],
+          "missing_pdf_text": [],
+          "photos": [
+            {
+              "name": "cv.person.photo",
+              "matches": 1,
+              "pixels_equal": false,
+              "crop_equal": null,
+              "pixels_present_in_active_drawings": false,
+              "pixels_present_in_package": false,
+              "source_pixels": {
+                "width": 160,
+                "height": 200,
+                "rgbaSha256": "9d709df178028f6158338f3f90cb518fcf17fbb95df65094ddcc4f02c892595b"
+              },
+              "saved_pixels": {
+                "width": 97,
+                "height": 121,
+                "rgbaSha256": "7de8d5b25ad5bafec034d7cc9c3204517811873dfea8164b1c5ff29d8edfc9ab"
+              },
+              "source_container": "native-picture",
+              "saved_container": "drawing-shape-fill"
+            }
+          ],
+          "field_bindings_missing_or_changed": 47,
+          "field_owner_nesting_changed": 59,
+          "rendered_page_pairs_equal": [
+            false
+          ],
+          "rendered_page_pairs_equal_previous_phase": [
+            false
+          ]
+        },
+        {
+          "phase": 2,
+          "docx_sha256": "ee51386047be74855a873f4c094c30c36d35e6bbcdacc3c3ac55d7cd4b1694a7",
+          "pdf_sha256": "6642b50102151a336c1d7ef2434c0f5b71d008e1ce19af2dbe4a1f86c2432f14",
+          "png_sha256": [
+            "212b985c49eb86142872608727d5b992d6e5a1ebac6f836bacb0ebd1271cef7b"
+          ],
+          "pdf_pages": 1,
+          "pdf_fonts": [
+            "BAAAAA+LiberationSans-Bold",
+            "CAAAAA+LiberationSans",
+            "DAAAAA+LiberationSans-Bold",
+            "EAAAAA+LiberationSans-Bold",
+            "FAAAAA+LiberationSans-Bold",
+            "GAAAAA+LiberationSans",
+            "HAAAAA+LiberationSans",
+            "IAAAAA+LiberationSans-Bold",
+            "JAAAAA+LiberationSans-Bold",
+            "KAAAAA+LiberationSans-Bold",
+            "LAAAAA+LiberationSans",
+            "MAAAAA+OpenSymbol"
+          ],
+          "missing_xml_text": [],
+          "missing_pdf_text": [],
+          "photos": [
+            {
+              "name": "cv.person.photo",
+              "matches": 1,
+              "pixels_equal": false,
+              "crop_equal": null,
+              "pixels_present_in_active_drawings": false,
+              "pixels_present_in_package": false,
+              "source_pixels": {
+                "width": 160,
+                "height": 200,
+                "rgbaSha256": "9d709df178028f6158338f3f90cb518fcf17fbb95df65094ddcc4f02c892595b"
+              },
+              "saved_pixels": {
+                "width": 97,
+                "height": 121,
+                "rgbaSha256": "7de8d5b25ad5bafec034d7cc9c3204517811873dfea8164b1c5ff29d8edfc9ab"
+              },
+              "source_container": "native-picture",
+              "saved_container": "drawing-shape-fill"
+            }
+          ],
+          "field_bindings_missing_or_changed": 47,
+          "field_owner_nesting_changed": 59,
+          "rendered_page_pairs_equal": [
+            false
+          ],
+          "rendered_page_pairs_equal_previous_phase": [
+            true
+          ]
+        }
+      ]
+    },
+    {
+      "name": "letter-two-pages",
+      "source_docx_sha256": "bbf5b0a4cd1b8d33f9e88039d553b5634cffac7e47f408b4da0f81af1ddae411",
+      "phases": [
+        {
+          "phase": 0,
+          "docx_sha256": "bbf5b0a4cd1b8d33f9e88039d553b5634cffac7e47f408b4da0f81af1ddae411",
+          "pdf_sha256": "a162e55384f5780c58966f610240140175e590d274cab2582e2d455b9a4994f4",
+          "png_sha256": [
+            "605fe60c9c3d28e81ce9927fac152811592732d26c6f41cd7003596a033029a3",
+            "cfb712860b862551ce38ec227f565b2558a13b1d2f0e79791b5a3aba7d1437d7"
+          ],
+          "pdf_pages": 2,
+          "pdf_fonts": [
+            "BAAAAA+LiberationSans",
+            "CAAAAA+LiberationSans",
+            "DAAAAA+LiberationSans-Bold",
+            "EAAAAA+LiberationSans",
+            "FAAAAA+LiberationSans-Bold",
+            "GAAAAA+LiberationSans",
+            "HAAAAA+LiberationSans-Bold"
+          ],
+          "missing_xml_text": [],
+          "missing_pdf_text": [],
+          "photos": [],
+          "field_bindings_missing_or_changed": 0,
+          "field_owner_nesting_changed": 0,
+          "rendered_page_pairs_equal": [],
+          "rendered_page_pairs_equal_previous_phase": []
+        },
+        {
+          "phase": 1,
+          "docx_sha256": "2a452496ae1260e54e52b0e0b2b9e8b8f03edfccc0f710c08bd919e4b7d16486",
+          "pdf_sha256": "fc8bda6a121c67373c83930dc14a582d439e26987a9309447d8402389ee8bb75",
+          "png_sha256": [
+            "605fe60c9c3d28e81ce9927fac152811592732d26c6f41cd7003596a033029a3",
+            "cfb712860b862551ce38ec227f565b2558a13b1d2f0e79791b5a3aba7d1437d7"
+          ],
+          "pdf_pages": 2,
+          "pdf_fonts": [
+            "BAAAAA+LiberationSans-Bold",
+            "CAAAAA+LiberationSans",
+            "DAAAAA+LiberationSans",
+            "EAAAAA+LiberationSans",
+            "FAAAAA+LiberationSans-Bold",
+            "GAAAAA+LiberationSans",
+            "HAAAAA+LiberationSans-Bold"
+          ],
+          "missing_xml_text": [],
+          "missing_pdf_text": [],
+          "photos": [],
+          "field_bindings_missing_or_changed": 6,
+          "field_owner_nesting_changed": 43,
+          "rendered_page_pairs_equal": [
+            true,
+            true
+          ],
+          "rendered_page_pairs_equal_previous_phase": [
+            true,
+            true
+          ]
+        },
+        {
+          "phase": 2,
+          "docx_sha256": "dc59e354c26013bca12ec50dcb8888c178d16ebf8b1937e5eefb24d2565dc9da",
+          "pdf_sha256": "9c0b3af36b120c36ff79e22619df763c4e480ff553a160a0277f3e6935171e45",
+          "png_sha256": [
+            "605fe60c9c3d28e81ce9927fac152811592732d26c6f41cd7003596a033029a3",
+            "cfb712860b862551ce38ec227f565b2558a13b1d2f0e79791b5a3aba7d1437d7"
+          ],
+          "pdf_pages": 2,
+          "pdf_fonts": [
+            "BAAAAA+LiberationSans-Bold",
+            "CAAAAA+LiberationSans",
+            "DAAAAA+LiberationSans",
+            "EAAAAA+LiberationSans",
+            "FAAAAA+LiberationSans-Bold",
+            "GAAAAA+LiberationSans",
+            "HAAAAA+LiberationSans-Bold"
+          ],
+          "missing_xml_text": [],
+          "missing_pdf_text": [],
+          "photos": [],
+          "field_bindings_missing_or_changed": 6,
+          "field_owner_nesting_changed": 43,
+          "rendered_page_pairs_equal": [
+            true,
+            true
+          ],
+          "rendered_page_pairs_equal_previous_phase": [
+            true,
+            true
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dossier",
+      "source_docx_sha256": "be34bf99bc7e964cbdf8ef81eaf9afe586b92f12a093f8aa70850bbd3993e167",
+      "phases": [
+        {
+          "phase": 0,
+          "docx_sha256": "be34bf99bc7e964cbdf8ef81eaf9afe586b92f12a093f8aa70850bbd3993e167",
+          "pdf_sha256": "371d3ed401d049d0ea960f740d59bdc3c3a7892df933dac8259b145fa6c9bbcc",
+          "png_sha256": [
+            "a8b91fdb81ed3835c877e74aa7017b75012bd2e83f73b7b364c0655d2212d79c",
+            "3817a90036e97300e13313f895fc94a832802464323e2f51ed6ca2724ab7046b",
+            "548bbc4f02f605a22050539a816969a8ee914e0edf0602e734375b4010be2ff2"
+          ],
+          "pdf_pages": 3,
+          "pdf_fonts": [
+            "BAAAAA+LiberationSans-Bold",
+            "CAAAAA+LiberationSans",
+            "DAAAAA+LiberationSans-Bold",
+            "EAAAAA+LiberationSans-Bold",
+            "FAAAAA+LiberationSans-Bold",
+            "GAAAAA+LiberationSans",
+            "HAAAAA+LiberationSans-Bold",
+            "IAAAAA+LiberationSans",
+            "JAAAAA+LiberationSans",
+            "KAAAAA+LiberationSans-Bold",
+            "LAAAAA+LiberationSans",
+            "MAAAAA+LiberationSans-Bold",
+            "NAAAAA+LiberationSans",
+            "OAAAAA+LiberationSans",
+            "PAAAAA+LiberationSans-Bold",
+            "QAAAAA+LiberationSans-Bold",
+            "RAAAAA+LiberationSans-Bold"
+          ],
+          "missing_xml_text": [],
+          "missing_pdf_text": [],
+          "photos": [
+            {
+              "name": "cover.photo",
+              "matches": 1,
+              "pixels_equal": true,
+              "crop_equal": true,
+              "pixels_present_in_active_drawings": true,
+              "pixels_present_in_package": true,
+              "source_pixels": {
+                "width": 160,
+                "height": 200,
+                "rgbaSha256": "9d709df178028f6158338f3f90cb518fcf17fbb95df65094ddcc4f02c892595b"
+              },
+              "saved_pixels": {
+                "width": 160,
+                "height": 200,
+                "rgbaSha256": "9d709df178028f6158338f3f90cb518fcf17fbb95df65094ddcc4f02c892595b"
+              },
+              "source_container": "native-picture",
+              "saved_container": "native-picture"
+            },
+            {
+              "name": "cv.person.photo",
+              "matches": 1,
+              "pixels_equal": true,
+              "crop_equal": true,
+              "pixels_present_in_active_drawings": true,
+              "pixels_present_in_package": true,
+              "source_pixels": {
+                "width": 160,
+                "height": 200,
+                "rgbaSha256": "9d709df178028f6158338f3f90cb518fcf17fbb95df65094ddcc4f02c892595b"
+              },
+              "saved_pixels": {
+                "width": 160,
+                "height": 200,
+                "rgbaSha256": "9d709df178028f6158338f3f90cb518fcf17fbb95df65094ddcc4f02c892595b"
+              },
+              "source_container": "native-picture",
+              "saved_container": "native-picture"
+            }
+          ],
+          "field_bindings_missing_or_changed": 0,
+          "field_owner_nesting_changed": 0,
+          "rendered_page_pairs_equal": [],
+          "rendered_page_pairs_equal_previous_phase": []
+        },
+        {
+          "phase": 1,
+          "docx_sha256": "a3d62af422056b52c43e4bc96e856f405a54193db17556c1da3aee33497f9579",
+          "pdf_sha256": "aef6ed73f5b8585ef3e02541414a40ee23c0db0998207f0324236de7f045693a",
+          "png_sha256": [
+            "537087a2babfef1df2cc451aa3f09b49425c16ed7ceac0b0842b1a427fe3ca28",
+            "3817a90036e97300e13313f895fc94a832802464323e2f51ed6ca2724ab7046b",
+            "ab2b0ff21581b28f90e416ffa07ab4517418cb8daf0c66311c537b3da7b222eb"
+          ],
+          "pdf_pages": 3,
+          "pdf_fonts": [
+            "BAAAAA+LiberationSans-Bold",
+            "CAAAAA+LiberationSans",
+            "DAAAAA+LiberationSans-Bold",
+            "EAAAAA+LiberationSans-Bold",
+            "FAAAAA+LiberationSans-Bold",
+            "GAAAAA+LiberationSans",
+            "HAAAAA+LiberationSans-Bold",
+            "IAAAAA+LiberationSans-Bold",
+            "JAAAAA+LiberationSans",
+            "KAAAAA+LiberationSans",
+            "LAAAAA+LiberationSans",
+            "MAAAAA+LiberationSans-Bold",
+            "NAAAAA+LiberationSans",
+            "OAAAAA+LiberationSans",
+            "PAAAAA+LiberationSans-Bold",
+            "QAAAAA+OpenSymbol",
+            "RAAAAA+LiberationSans-Bold",
+            "SAAAAA+LiberationSans-Bold"
+          ],
+          "missing_xml_text": [],
+          "missing_pdf_text": [],
+          "photos": [
+            {
+              "name": "cover.photo",
+              "matches": 1,
+              "pixels_equal": false,
+              "crop_equal": null,
+              "pixels_present_in_active_drawings": false,
+              "pixels_present_in_package": false,
+              "source_pixels": {
+                "width": 160,
+                "height": 200,
+                "rgbaSha256": "9d709df178028f6158338f3f90cb518fcf17fbb95df65094ddcc4f02c892595b"
+              },
+              "saved_pixels": {
+                "width": 160,
+                "height": 160,
+                "rgbaSha256": "67fe449daa1ecbde1dda984b5e390233e972b728e3c74824f0a9037c709ad4a6"
+              },
+              "source_container": "native-picture",
+              "saved_container": "drawing-shape-fill"
+            },
+            {
+              "name": "cv.person.photo",
+              "matches": 1,
+              "pixels_equal": false,
+              "crop_equal": null,
+              "pixels_present_in_active_drawings": false,
+              "pixels_present_in_package": false,
+              "source_pixels": {
+                "width": 160,
+                "height": 200,
+                "rgbaSha256": "9d709df178028f6158338f3f90cb518fcf17fbb95df65094ddcc4f02c892595b"
+              },
+              "saved_pixels": {
+                "width": 119,
+                "height": 119,
+                "rgbaSha256": "731f0a69b16f5e8aba422bd6e209e06a369998424c813466524c79104536067b"
+              },
+              "source_container": "native-picture",
+              "saved_container": "drawing-shape-fill"
+            }
+          ],
+          "field_bindings_missing_or_changed": 55,
+          "field_owner_nesting_changed": 92,
+          "rendered_page_pairs_equal": [
+            false,
+            true,
+            false
+          ],
+          "rendered_page_pairs_equal_previous_phase": [
+            false,
+            true,
+            false
+          ]
+        },
+        {
+          "phase": 2,
+          "docx_sha256": "c94ff1333b2b65a56c91c91240dc9fb151f7e7dedac3b97b8935f3afcdd61114",
+          "pdf_sha256": "85a441190d83e4bcc23bfa89e115ed6e5d77305515d72c368d06821ddf664d34",
+          "png_sha256": [
+            "3ae27c129c2bc1651e185ed9c20d482d77dd5faa0c0884c2d874cf5ef7e5887c",
+            "3817a90036e97300e13313f895fc94a832802464323e2f51ed6ca2724ab7046b",
+            "ab2b0ff21581b28f90e416ffa07ab4517418cb8daf0c66311c537b3da7b222eb"
+          ],
+          "pdf_pages": 3,
+          "pdf_fonts": [
+            "BAAAAA+LiberationSans-Bold",
+            "CAAAAA+LiberationSans",
+            "DAAAAA+LiberationSans-Bold",
+            "EAAAAA+LiberationSans-Bold",
+            "FAAAAA+LiberationSans-Bold",
+            "GAAAAA+LiberationSans",
+            "HAAAAA+LiberationSans-Bold",
+            "IAAAAA+LiberationSans-Bold",
+            "JAAAAA+LiberationSans",
+            "KAAAAA+LiberationSans",
+            "LAAAAA+LiberationSans",
+            "MAAAAA+LiberationSans-Bold",
+            "NAAAAA+LiberationSans",
+            "OAAAAA+LiberationSans",
+            "PAAAAA+LiberationSans-Bold",
+            "QAAAAA+OpenSymbol",
+            "RAAAAA+LiberationSans-Bold",
+            "SAAAAA+LiberationSans-Bold"
+          ],
+          "missing_xml_text": [],
+          "missing_pdf_text": [],
+          "photos": [
+            {
+              "name": "cover.photo",
+              "matches": 1,
+              "pixels_equal": false,
+              "crop_equal": null,
+              "pixels_present_in_active_drawings": false,
+              "pixels_present_in_package": false,
+              "source_pixels": {
+                "width": 160,
+                "height": 200,
+                "rgbaSha256": "9d709df178028f6158338f3f90cb518fcf17fbb95df65094ddcc4f02c892595b"
+              },
+              "saved_pixels": {
+                "width": 160,
+                "height": 160,
+                "rgbaSha256": "67fe449daa1ecbde1dda984b5e390233e972b728e3c74824f0a9037c709ad4a6"
+              },
+              "source_container": "native-picture",
+              "saved_container": "drawing-shape-fill"
+            },
+            {
+              "name": "cv.person.photo",
+              "matches": 1,
+              "pixels_equal": false,
+              "crop_equal": null,
+              "pixels_present_in_active_drawings": false,
+              "pixels_present_in_package": false,
+              "source_pixels": {
+                "width": 160,
+                "height": 200,
+                "rgbaSha256": "9d709df178028f6158338f3f90cb518fcf17fbb95df65094ddcc4f02c892595b"
+              },
+              "saved_pixels": {
+                "width": 119,
+                "height": 119,
+                "rgbaSha256": "731f0a69b16f5e8aba422bd6e209e06a369998424c813466524c79104536067b"
+              },
+              "source_container": "native-picture",
+              "saved_container": "drawing-shape-fill"
+            }
+          ],
+          "field_bindings_missing_or_changed": 56,
+          "field_owner_nesting_changed": 92,
+          "rendered_page_pairs_equal": [
+            false,
+            true,
+            false
+          ],
+          "rendered_page_pairs_equal_previous_phase": [
+            false,
+            true,
+            true
+          ]
+        }
+      ]
+    }
+  ]
+}
