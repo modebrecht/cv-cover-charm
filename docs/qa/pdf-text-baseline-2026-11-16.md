@@ -38,6 +38,13 @@ Cabin-Schriftgrössen. Der tatsächliche Abstand einer Inline-Grundlinienmarke
 wird gegen die gemessene Fontmetrik geprüft. Die unbearbeiteten Browser-PNGs
 werden anschliessend direkt mit den Canvas-Pixeln verglichen.
 
+Die synthetische Kontrollfläche erhält dafür eine eigene Compositing-Ebene
+(`translateZ(0)`). So zeichnet auch der Browser ihre Schrift in Graustufen
+wie die Canvas-Zeichenfläche. Das ursprüngliche Browserbild wird vorher
+separat gesichert; Elementgrösse, Position und Grundlinie müssen durch die
+Ebene exakt gleich bleiben. Produktdokumente und ihre vollständigen
+Web-/PDF-Vergleiche erhalten diese Testeinstellung nicht.
+
 Alle acht korrigierten Proben sind **pixelgleich** mit ihrem Browserbild.
 Die unberichtigte Kontrollausgabe weicht in den sieben Proben mit unterschiedlicher
 Schriftgrösse und Grundlinienhöhe ab; die bereits korrekte 14-px-Cabin-Probe
@@ -104,6 +111,30 @@ ist getrennt auf `3f7ffae` gesichert; alle vier Workflows dieses Stands sind
 erfolgreich. Bestehende Foto-Kreisrand-Befunde bleiben getrennte QA-Punkte.
 
 ## Reproduktion
+
+### CI-Rastermodus: Diagnose nach `f5260c0`
+
+Die erste CI-Ausführung besteht in sechs Workflows einschliesslich der
+39-Vorlagen-Galerie, scheitert aber an der neuen isolierten Pixelprobe.
+Das archivierte 40-px-Monospace-Browserbild enthält **1’915 farbige
+Subpixel-Kantenpixel**; das Canvas-Bild enthält keine. Nach dem belegten
+7-px-Grundlinienausgleich bleiben **1’987 unterschiedliche Pixel**,
+bei identischen vertikalen Tintengrenzen (Zeile 10 bis 47). Der ursprüngliche
+lokale Browser verwendete bereits Graustufen. Beide Läufe verwenden
+Playwright 1.56.1 / Chromium 141.0.7390.37; ein Versionsfehler ist damit
+nicht belegt.
+
+Die Compositing-Ebene begrenzt die Pixelprobe auf denselben Rastermodus,
+ohne ihre Null-Pixel-Schwelle zu ändern. Alle acht Proben und beide realen
+Einzeldownloads bestehen lokal erneut. Auch TypeScript und ESLint bestehen.
+Bei einem erneuten Fehler werden das korrigierte PNG und die jeweiligen
+Messwerte jetzt vor der Assertion gesichert. Das Produkt bleibt auf dem
+unveränderten Rasteradapter von `f5260c0`.
+
+[Diagnosewerte, lokale Proben und Dateihashes](pdf-text-baseline-2026-11-16/raster-mode-check.json) ·
+[ursprüngliches CI-Browserbild mit LCD-Kanten](pdf-text-baseline-2026-11-16/mono40-ci-lcd.png).
+
+### Befehle
 
 ```sh
 playwright test --config tests/qa/playwright.text-baseline.config.ts

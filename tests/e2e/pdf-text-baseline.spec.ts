@@ -77,6 +77,27 @@ test("measured browser ascent corrects PDF glyph baselines without changing the 
       { family, size, weight, style },
     );
     expect(geometry.canvasAscent).toBe(geometry.rangeAscent);
+    // Linux may paint ordinary DOM text with LCD (coloured subpixel) AA,
+    // while canvas always uses grayscale AA. Keep that native evidence, then
+    // give only this synthetic specimen its own compositing layer so the
+    // exact-pixel assertion isolates glyph placement in the same raster mode.
+    await page.locator("#baseline-specimen").screenshot({ path: `${out}/${key}-native.png` });
+    const composited = await page.evaluate(() => {
+      const box = document.getElementById("baseline-specimen")!;
+      const before = box.getBoundingClientRect().toJSON();
+      box.style.transform = "translateZ(0)";
+      const range = document.createRange();
+      range.selectNode(box.firstChild!);
+      return {
+        before,
+        after: box.getBoundingClientRect().toJSON(),
+        rangeAscent:
+          box.lastElementChild!.getBoundingClientRect().top - range.getBoundingClientRect().top,
+        sourceHtml: box.outerHTML,
+      };
+    });
+    expect(composited.after).toEqual(composited.before);
+    expect(composited.rangeAscent).toBe(geometry.rangeAscent);
     const webImage = await page
       .locator("#baseline-specimen")
       .screenshot({ path: `${out}/${key}-web.png` });
@@ -137,19 +158,23 @@ test("measured browser ascent corrects PDF glyph baselines without changing the 
         },
         { corrected, webImage: `data:image/png;base64,${webImage.toString("base64")}` },
       );
-      expect(result.sourceHtml).toBe(geometry.sourceHtml);
-      expect(result.ownFill).toBe(false);
-      expect(result.ownStroke).toBe(false);
-      if (corrected) expect(result.differentPixels).toBe(0);
-      else if (geometry.size === geometry.rangeAscent) expect(result.differentPixels).toBe(0);
-      else expect(result.differentPixels).toBeGreaterThan(0);
       comparisons.push({ corrected, differentPixels: result.differentPixels });
       await writeFile(
         `${out}/${key}-${corrected ? "corrected" : "default"}.png`,
         Buffer.from(result.png.split(",")[1], "base64"),
       );
+      await writeFile(
+        `${out}/${key}-metrics.json`,
+        JSON.stringify({ key, geometry, composited, comparisons }, null, 2),
+      );
+      expect(result.sourceHtml, key).toBe(composited.sourceHtml);
+      expect(result.ownFill, key).toBe(false);
+      expect(result.ownStroke, key).toBe(false);
+      if (corrected) expect(result.differentPixels, key).toBe(0);
+      else if (geometry.size === geometry.rangeAscent) expect(result.differentPixels, key).toBe(0);
+      else expect(result.differentPixels, key).toBeGreaterThan(0);
     }
-    rows.push({ key, geometry, comparisons });
+    rows.push({ key, geometry, composited, comparisons });
   }
   await writeFile(`${out}/metrics.json`, JSON.stringify(rows, null, 2));
 });
