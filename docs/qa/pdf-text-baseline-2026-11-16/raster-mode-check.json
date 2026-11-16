@@ -384,5 +384,268 @@
     "unexpected": 0,
     "flaky": 0
   },
-  "testScope": "Only the synthetic specimen receives an identity compositing transform; native images retained. Product source and raw full-page comparisons unchanged."
+  "testScope": "Only the synthetic specimen receives an identity compositing transform; native images retained. Product source and raw full-page comparisons unchanged.",
+  "compositingAttemptCI": {
+    "commit": "16eae146a2be40891076eabacd74b182a1f73b42",
+    "run": 43961703847,
+    "job": 133630995790,
+    "artifact": 14273408725,
+    "status": "FAILED; identity transform removed",
+    "nativeColouredPixels": 1915,
+    "correctedCanvasColouredPixels": 0,
+    "correctedDifferentPixels": 1987,
+    "metrics": {
+      "key": "mono40",
+      "geometry": {
+        "font": "bold 40px \"Courier New\", Courier, monospace",
+        "size": 40,
+        "rangeAscent": 33,
+        "canvasAscent": 33,
+        "sourceHtml": "<div id=\"baseline-specimen\" style=\"position: absolute; left: 0px; top: 0px; width: 600px; height: 100px; background: white; color: black; font-family: &quot;Courier New&quot;, Courier, monospace; font-size: 40px; font-weight: 700; font-style: normal; line-height: 1.5; z-index: 999999;\">Hg Lea M\u00fcller<span style=\"display: inline-block; width: 0px; height: 0px; padding: 0px; margin: 0px; vertical-align: baseline;\"></span></div>"
+      },
+      "composited": {
+        "before": {
+          "x": 0,
+          "y": 0,
+          "width": 600,
+          "height": 100,
+          "top": 0,
+          "right": 600,
+          "bottom": 100,
+          "left": 0
+        },
+        "after": {
+          "x": 0,
+          "y": 0,
+          "width": 600,
+          "height": 100,
+          "top": 0,
+          "right": 600,
+          "bottom": 100,
+          "left": 0
+        },
+        "rangeAscent": 33,
+        "sourceHtml": "<div id=\"baseline-specimen\" style=\"position: absolute; left: 0px; top: 0px; width: 600px; height: 100px; background: white; color: black; font-family: &quot;Courier New&quot;, Courier, monospace; font-size: 40px; font-weight: 700; font-style: normal; line-height: 1.5; z-index: 999999; transform: translateZ(0px);\">Hg Lea M\u00fcller<span style=\"display: inline-block; width: 0px; height: 0px; padding: 0px; margin: 0px; vertical-align: baseline;\"></span></div>"
+      },
+      "comparisons": [
+        {
+          "corrected": false,
+          "differentPixels": 4375
+        },
+        {
+          "corrected": true,
+          "differentPixels": 1987
+        }
+      ]
+    },
+    "files": [
+      {
+        "path": "artifacts/ci-baseline-compositing-attempt/mono40-corrected.png",
+        "sha256": "4f173b90b7b07df5af8af7785edfd0b52b0411acfc89ff8cd39e259ec0940013"
+      },
+      {
+        "path": "artifacts/ci-baseline-compositing-attempt/mono40-default.png",
+        "sha256": "7bbd36bfd94d57f0652a47aae649feb516d9d04f76f64d2dec1627829673fd3e"
+      },
+      {
+        "path": "artifacts/ci-baseline-compositing-attempt/mono40-metrics.json",
+        "sha256": "85957cfb75f544f44bc9c54fcd413204514374e8c046fc1c2249f4277307f1f6"
+      },
+      {
+        "path": "artifacts/ci-baseline-compositing-attempt/mono40-native.png",
+        "sha256": "1eaa166f97c83b8e3af695f3724131b7a797cfaa75074cbc6b5c8e81a6b4449c"
+      },
+      {
+        "path": "artifacts/ci-baseline-compositing-attempt/mono40-web.png",
+        "sha256": "1eaa166f97c83b8e3af695f3724131b7a797cfaa75074cbc6b5c8e81a6b4449c"
+      }
+    ]
+  },
+  "finalLocalGrayscaleSpecimens": [
+    {
+      "key": "mono40",
+      "geometry": {
+        "font": "bold 40px \"Courier New\", Courier, monospace",
+        "size": 40,
+        "rangeAscent": 33,
+        "canvasAscent": 33,
+        "sourceHtml": "<div id=\"baseline-specimen\" style=\"position: absolute; left: 0px; top: 0px; width: 600px; height: 100px; background: white; color: black; font-family: &quot;Courier New&quot;, Courier, monospace; font-size: 40px; font-weight: 700; font-style: normal; line-height: 1.5; z-index: 999999;\">Hg Lea M\u00fcller<span style=\"display: inline-block; width: 0px; height: 0px; padding: 0px; margin: 0px; vertical-align: baseline;\"></span></div>"
+      },
+      "comparisons": [
+        {
+          "corrected": false,
+          "differentPixels": 3597,
+          "colouredReferencePixels": 0
+        },
+        {
+          "corrected": true,
+          "differentPixels": 0,
+          "colouredReferencePixels": 0
+        }
+      ]
+    },
+    {
+      "key": "mono14",
+      "geometry": {
+        "font": "14px \"Courier New\", Courier, monospace",
+        "size": 14,
+        "rangeAscent": 12,
+        "canvasAscent": 12,
+        "sourceHtml": "<div id=\"baseline-specimen\" style=\"position: absolute; left: 0px; top: 0px; width: 600px; height: 100px; background: white; color: black; font-family: &quot;Courier New&quot;, Courier, monospace; font-size: 14px; font-weight: 400; font-style: normal; line-height: 1.5; z-index: 999999;\">Hg Lea M\u00fcller<span style=\"display: inline-block; width: 0px; height: 0px; padding: 0px; margin: 0px; vertical-align: baseline;\"></span></div>"
+      },
+      "comparisons": [
+        {
+          "corrected": false,
+          "differentPixels": 513,
+          "colouredReferencePixels": 0
+        },
+        {
+          "corrected": true,
+          "differentPixels": 0,
+          "colouredReferencePixels": 0
+        }
+      ]
+    },
+    {
+      "key": "mono14italic",
+      "geometry": {
+        "font": "italic 14px \"Courier New\", Courier, monospace",
+        "size": 14,
+        "rangeAscent": 12,
+        "canvasAscent": 12,
+        "sourceHtml": "<div id=\"baseline-specimen\" style=\"position: absolute; left: 0px; top: 0px; width: 600px; height: 100px; background: white; color: black; font-family: &quot;Courier New&quot;, Courier, monospace; font-size: 14px; font-weight: 400; font-style: italic; line-height: 1.5; z-index: 999999;\">Hg Lea M\u00fcller<span style=\"display: inline-block; width: 0px; height: 0px; padding: 0px; margin: 0px; vertical-align: baseline;\"></span></div>"
+      },
+      "comparisons": [
+        {
+          "corrected": false,
+          "differentPixels": 672,
+          "colouredReferencePixels": 0
+        },
+        {
+          "corrected": true,
+          "differentPixels": 0,
+          "colouredReferencePixels": 0
+        }
+      ]
+    },
+    {
+      "key": "sans40",
+      "geometry": {
+        "font": "bold 40px Arial, sans-serif",
+        "size": 40,
+        "rangeAscent": 36,
+        "canvasAscent": 36,
+        "sourceHtml": "<div id=\"baseline-specimen\" style=\"position: absolute; left: 0px; top: 0px; width: 600px; height: 100px; background: white; color: black; font-family: Arial, sans-serif; font-size: 40px; font-weight: 700; font-style: normal; line-height: 1.5; z-index: 999999;\">Hg Lea M\u00fcller<span style=\"display: inline-block; width: 0px; height: 0px; padding: 0px; margin: 0px; vertical-align: baseline;\"></span></div>"
+      },
+      "comparisons": [
+        {
+          "corrected": false,
+          "differentPixels": 2869,
+          "colouredReferencePixels": 0
+        },
+        {
+          "corrected": true,
+          "differentPixels": 0,
+          "colouredReferencePixels": 0
+        }
+      ]
+    },
+    {
+      "key": "cabin40",
+      "geometry": {
+        "font": "bold 40px Cabin, sans-serif",
+        "size": 40,
+        "rangeAscent": 39,
+        "canvasAscent": 39,
+        "sourceHtml": "<div id=\"baseline-specimen\" style=\"position: absolute; left: 0px; top: 0px; width: 600px; height: 100px; background: white; color: black; font-family: Cabin, sans-serif; font-size: 40px; font-weight: 700; font-style: normal; line-height: 1.5; z-index: 999999;\">Hg Lea M\u00fcller<span style=\"display: inline-block; width: 0px; height: 0px; padding: 0px; margin: 0px; vertical-align: baseline;\"></span></div>"
+      },
+      "comparisons": [
+        {
+          "corrected": false,
+          "differentPixels": 1340,
+          "colouredReferencePixels": 0
+        },
+        {
+          "corrected": true,
+          "differentPixels": 0,
+          "colouredReferencePixels": 0
+        }
+      ]
+    },
+    {
+      "key": "cabin14",
+      "geometry": {
+        "font": "14px Cabin, sans-serif",
+        "size": 14,
+        "rangeAscent": 14,
+        "canvasAscent": 14,
+        "sourceHtml": "<div id=\"baseline-specimen\" style=\"position: absolute; left: 0px; top: 0px; width: 600px; height: 100px; background: white; color: black; font-family: Cabin, sans-serif; font-size: 14px; font-weight: 400; font-style: normal; line-height: 1.5; z-index: 999999;\">Hg Lea M\u00fcller<span style=\"display: inline-block; width: 0px; height: 0px; padding: 0px; margin: 0px; vertical-align: baseline;\"></span></div>"
+      },
+      "comparisons": [
+        {
+          "corrected": false,
+          "differentPixels": 0,
+          "colouredReferencePixels": 0
+        },
+        {
+          "corrected": true,
+          "differentPixels": 0,
+          "colouredReferencePixels": 0
+        }
+      ]
+    },
+    {
+      "key": "cabin145",
+      "geometry": {
+        "font": "14.5px Cabin, sans-serif",
+        "size": 14.5,
+        "rangeAscent": 14,
+        "canvasAscent": 14,
+        "sourceHtml": "<div id=\"baseline-specimen\" style=\"position: absolute; left: 0px; top: 0px; width: 600px; height: 100px; background: white; color: black; font-family: Cabin, sans-serif; font-size: 14.5px; font-weight: 400; font-style: normal; line-height: 1.5; z-index: 999999;\">Hg Lea M\u00fcller<span style=\"display: inline-block; width: 0px; height: 0px; padding: 0px; margin: 0px; vertical-align: baseline;\"></span></div>"
+      },
+      "comparisons": [
+        {
+          "corrected": false,
+          "differentPixels": 496,
+          "colouredReferencePixels": 0
+        },
+        {
+          "corrected": true,
+          "differentPixels": 0,
+          "colouredReferencePixels": 0
+        }
+      ]
+    },
+    {
+      "key": "cabin34",
+      "geometry": {
+        "font": "bold 34.0157px Cabin, sans-serif",
+        "size": 34.0157,
+        "rangeAscent": 33,
+        "canvasAscent": 33,
+        "sourceHtml": "<div id=\"baseline-specimen\" style=\"position: absolute; left: 0px; top: 0px; width: 600px; height: 100px; background: white; color: black; font-family: Cabin, sans-serif; font-size: 34.0157px; font-weight: 700; font-style: normal; line-height: 1.5; z-index: 999999;\">Hg Lea M\u00fcller<span style=\"display: inline-block; width: 0px; height: 0px; padding: 0px; margin: 0px; vertical-align: baseline;\"></span></div>"
+      },
+      "comparisons": [
+        {
+          "corrected": false,
+          "differentPixels": 1169,
+          "colouredReferencePixels": 0
+        },
+        {
+          "corrected": true,
+          "differentPixels": 0,
+          "colouredReferencePixels": 0
+        }
+      ]
+    }
+  ],
+  "finalLocalBrowserStats": {
+    "startTime": "2026-11-16T21:40:48.059Z",
+    "duration": 39377.821,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "finalTestScope": "Separate Chromium with --disable-lcd-text only for synthetic specimens; assert zero coloured reference pixels and zero corrected pixel differences. Real download test and all product code unchanged."
 }

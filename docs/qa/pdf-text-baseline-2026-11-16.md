@@ -38,12 +38,11 @@ Cabin-Schriftgrössen. Der tatsächliche Abstand einer Inline-Grundlinienmarke
 wird gegen die gemessene Fontmetrik geprüft. Die unbearbeiteten Browser-PNGs
 werden anschliessend direkt mit den Canvas-Pixeln verglichen.
 
-Die synthetische Kontrollfläche erhält dafür eine eigene Compositing-Ebene
-(`translateZ(0)`). So zeichnet auch der Browser ihre Schrift in Graustufen
-wie die Canvas-Zeichenfläche. Das ursprüngliche Browserbild wird vorher
-separat gesichert; Elementgrösse, Position und Grundlinie müssen durch die
-Ebene exakt gleich bleiben. Produktdokumente und ihre vollständigen
-Web-/PDF-Vergleiche erhalten diese Testeinstellung nicht.
+Die acht synthetischen Kontrollflächen laufen in einem eigens gestarteten
+Chromium mit `--disable-lcd-text`. So zeichnet auch der Browser ihre Schrift
+in Graustufen wie die Canvas-Zeichenfläche; dies wird zusätzlich an allen
+Referenzpixeln geprüft. Die echten Einzel-PDF-Downloads und vollständigen
+Web-/PDF-Vergleiche behalten ihre gewöhnliche Browserumgebung.
 
 Alle acht korrigierten Proben sind **pixelgleich** mit ihrem Browserbild.
 Die unberichtigte Kontrollausgabe weicht in den sieben Proben mit unterschiedlicher
@@ -79,6 +78,15 @@ Textenden oder verlorenen Inhalte wurden beobachtet.
 
 Der abschliessende vollständige Lauf besteht mit **1’539 Unit-Tests in 290
 Dateien**, App-/QA-TypeScript, gezieltem ESLint, Prettier und Produktionsbuild.
+
+Die anschliessende vollständige Web-/PDF-Galerie auf `f5260c0` besteht mit
+**39/39 Browserfällen, 115 Seitenpaaren PASS, 2 REVIEW und keinem FAIL**.
+Neon-CV ist PASS; die maximale gemessene Hintergrund-Kanalabweichung beträgt
+1,08 bei einer Grenze von 3. Die beiden REVIEW betreffen weiterhin die
+Foto-Kreisränder in Terracotta-CV und Studio-3-CV. Sie sind unabhängig vom
+zusätzlichen Cabin-CV-REVIEW in der Acht-Schriften-Matrix.
+
+[Vollständiger CI-Galeriebericht mit allen 117 Seitenpaaren](pdf-text-baseline-2026-11-16/gallery-ci-f5260c0.json).
 
 Die Schriftmatrix bleibt insgesamt **REVIEW**. Der Cabin-CV-Rohvergleich wird
 leicht schlechter und bleibt offen; er wird nicht durch Glättung, Ausmaskieren,
@@ -124,12 +132,20 @@ lokale Browser verwendete bereits Graustufen. Beide Läufe verwenden
 Playwright 1.56.1 / Chromium 141.0.7390.37; ein Versionsfehler ist damit
 nicht belegt.
 
-Die Compositing-Ebene begrenzt die Pixelprobe auf denselben Rastermodus,
-ohne ihre Null-Pixel-Schwelle zu ändern. Alle acht Proben und beide realen
-Einzeldownloads bestehen lokal erneut. Auch TypeScript und ESLint bestehen.
-Bei einem erneuten Fehler werden das korrigierte PNG und die jeweiligen
-Messwerte jetzt vor der Assertion gesichert. Das Produkt bleibt auf dem
-unveränderten Rasteradapter von `f5260c0`.
+Eine versuchte eigene Compositing-Ebene auf `16eae14` ändert den CI-Modus
+nicht: Auch das nun gesicherte korrigierte PNG hat die richtige vertikale
+Position, während das Browserbild seine LCD-Kanten behält. Diese unwirksame
+Testeinstellung wird entfernt. Stattdessen startet ausschliesslich der
+isolierte Grundlinienfall seinen Browser ausdrücklich ohne LCD-Text.
+Die Null-Pixel-Schwelle bleibt gleich, und eine zusätzliche Assertion
+verlangt tatsächlich graue Referenzpixel. Der Browser wird auch bei einem
+Fehler geschlossen. Die beiden echten Downloads nutzen weiterhin den
+gewöhnlichen Playwright-Browser.
+
+Alle acht Proben und beide realen Einzeldownloads bestehen lokal erneut.
+Auch TypeScript und ESLint bestehen. Bei einem Fehler werden das korrigierte
+PNG und die jeweiligen Messwerte vor der Assertion gesichert. Das Produkt
+bleibt auf dem unveränderten Rasteradapter von `f5260c0`.
 
 [Diagnosewerte, lokale Proben und Dateihashes](pdf-text-baseline-2026-11-16/raster-mode-check.json) ·
 [ursprüngliches CI-Browserbild mit LCD-Kanten](pdf-text-baseline-2026-11-16/mono40-ci-lcd.png).

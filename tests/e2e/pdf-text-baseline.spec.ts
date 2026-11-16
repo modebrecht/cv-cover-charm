@@ -12,171 +12,170 @@ const out = "artifacts/pdf-text-baseline";
 test.describe.configure({ timeout: 90_000 });
 
 test("measured browser ascent corrects PDF glyph baselines without changing the source", async ({
-  page,
+  playwright,
 }) => {
-  await mkdir(out, { recursive: true });
-  await page.goto("http://127.0.0.1:4173/", { waitUntil: "networkidle" });
-  const rows = [];
-  for (const [key, family, size, weight, style] of [
-    ["mono40", '"Courier New",Courier,monospace', 40, 700, "normal"],
-    ["mono14", '"Courier New",Courier,monospace', 14, 400, "normal"],
-    ["mono14italic", '"Courier New",Courier,monospace', 14, 400, "italic"],
-    ["sans40", "Arial,sans-serif", 40, 700, "normal"],
-    ["cabin40", "Cabin,sans-serif", 40, 700, "normal"],
-    ["cabin14", "Cabin,sans-serif", 14, 400, "normal"],
-    ["cabin145", "Cabin,sans-serif", 14.5, 400, "normal"],
-    ["cabin34", "Cabin,sans-serif", 34.0157, 700, "normal"],
-  ] as const) {
-    const geometry = await page.evaluate(
-      async ({ family, size, weight, style }) => {
-        await document.fonts.load(`${style} ${weight} ${size}px ${family}`, "Hg Lea Müller");
-        await document.fonts.ready;
-        document.getElementById("baseline-specimen")?.remove();
-        const box = document.createElement("div");
-        box.id = "baseline-specimen";
-        Object.assign(box.style, {
-          position: "absolute",
-          left: "0",
-          top: "0",
-          width: "600px",
-          height: "100px",
-          background: "white",
-          color: "black",
-          fontFamily: family,
-          fontSize: `${size}px`,
-          fontWeight: String(weight),
-          fontStyle: style,
-          lineHeight: "1.5",
-          zIndex: "999999",
-        });
-        box.appendChild(document.createTextNode("Hg Lea Müller"));
-        const marker = document.createElement("span");
-        Object.assign(marker.style, {
-          display: "inline-block",
-          width: "0",
-          height: "0",
-          padding: "0",
-          margin: "0",
-          verticalAlign: "baseline",
-        });
-        box.appendChild(marker);
-        document.body.appendChild(box);
-        const range = document.createRange();
-        range.selectNode(box.firstChild!);
-        const rect = range.getBoundingClientRect();
-        const context = document.createElement("canvas").getContext("2d")!;
-        context.font = getComputedStyle(box).font;
-        return {
-          font: context.font,
-          size,
-          rangeAscent: marker.getBoundingClientRect().top - rect.top,
-          canvasAscent: context.measureText("Hg Lea Müller").fontBoundingBoxAscent,
-          sourceHtml: box.outerHTML,
-        };
-      },
-      { family, size, weight, style },
-    );
-    expect(geometry.canvasAscent).toBe(geometry.rangeAscent);
-    // Linux may paint ordinary DOM text with LCD (coloured subpixel) AA,
-    // while canvas always uses grayscale AA. Keep that native evidence, then
-    // give only this synthetic specimen its own compositing layer so the
-    // exact-pixel assertion isolates glyph placement in the same raster mode.
-    await page.locator("#baseline-specimen").screenshot({ path: `${out}/${key}-native.png` });
-    const composited = await page.evaluate(() => {
-      const box = document.getElementById("baseline-specimen")!;
-      const before = box.getBoundingClientRect().toJSON();
-      box.style.transform = "translateZ(0)";
-      const range = document.createRange();
-      range.selectNode(box.firstChild!);
-      return {
-        before,
-        after: box.getBoundingClientRect().toJSON(),
-        rangeAscent:
-          box.lastElementChild!.getBoundingClientRect().top - range.getBoundingClientRect().top,
-        sourceHtml: box.outerHTML,
-      };
-    });
-    expect(composited.after).toEqual(composited.before);
-    expect(composited.rangeAscent).toBe(geometry.rangeAscent);
-    const webImage = await page
-      .locator("#baseline-specimen")
-      .screenshot({ path: `${out}/${key}-web.png` });
-    const comparisons = [];
-    for (const corrected of [false, true]) {
-      const result = await page.evaluate(
-        async ({ corrected, webImage }) => {
-          const path = "/node_modules/.vite/deps/html2canvas-pro.js";
-          const html2canvas = (await import(path)).default;
-          const modulePath = "/src/lib/pdf-raster.ts";
-          const { renderPdfRaster } = await import(modulePath);
-          const element = document.getElementById("baseline-specimen")!;
-          const options = {
-            width: 600,
-            height: 100,
-            scale: 1,
-            scrollX: 0,
-            scrollY: 0,
-            backgroundColor: "#ffffff",
-            logging: false,
-          };
-          const canvas = await (corrected
-            ? renderPdfRaster(html2canvas, element, options)
-            : html2canvas(element, options));
-          const context = canvas.getContext("2d")!;
-          const image = new Image();
-          image.src = webImage;
-          await image.decode();
-          const reference = document.createElement("canvas");
-          reference.width = image.naturalWidth;
-          reference.height = image.naturalHeight;
-          const referenceContext = reference.getContext("2d")!;
-          referenceContext.drawImage(image, 0, 0);
-          const expected = referenceContext.getImageData(
-            0,
-            0,
-            reference.width,
-            reference.height,
-          ).data;
-          const actual = context.getImageData(0, 0, canvas.width, canvas.height).data;
-          let differentPixels = 0;
-          if (expected.length !== actual.length) throw new Error("Raster dimensions changed");
-          for (let i = 0; i < actual.length; i += 4)
-            if (
-              actual[i] !== expected[i] ||
-              actual[i + 1] !== expected[i + 1] ||
-              actual[i + 2] !== expected[i + 2] ||
-              actual[i + 3] !== expected[i + 3]
-            )
-              differentPixels++;
+  // DOM text may use Linux LCD subpixel AA; canvas text uses grayscale AA.
+  // Isolate only these synthetic specimens. Real downloads below retain the
+  // ordinary browser, and all pixel comparisons retain their zero threshold.
+  const browser = await playwright.chromium.launch({ args: ["--disable-lcd-text"] });
+  try {
+    const page = await browser.newPage({ viewport: { width: 1280, height: 720 } });
+    await mkdir(out, { recursive: true });
+    await page.goto("http://127.0.0.1:4173/", { waitUntil: "networkidle" });
+    const rows = [];
+    for (const [key, family, size, weight, style] of [
+      ["mono40", '"Courier New",Courier,monospace', 40, 700, "normal"],
+      ["mono14", '"Courier New",Courier,monospace', 14, 400, "normal"],
+      ["mono14italic", '"Courier New",Courier,monospace', 14, 400, "italic"],
+      ["sans40", "Arial,sans-serif", 40, 700, "normal"],
+      ["cabin40", "Cabin,sans-serif", 40, 700, "normal"],
+      ["cabin14", "Cabin,sans-serif", 14, 400, "normal"],
+      ["cabin145", "Cabin,sans-serif", 14.5, 400, "normal"],
+      ["cabin34", "Cabin,sans-serif", 34.0157, 700, "normal"],
+    ] as const) {
+      const geometry = await page.evaluate(
+        async ({ family, size, weight, style }) => {
+          await document.fonts.load(`${style} ${weight} ${size}px ${family}`, "Hg Lea Müller");
+          await document.fonts.ready;
+          document.getElementById("baseline-specimen")?.remove();
+          const box = document.createElement("div");
+          box.id = "baseline-specimen";
+          Object.assign(box.style, {
+            position: "absolute",
+            left: "0",
+            top: "0",
+            width: "600px",
+            height: "100px",
+            background: "white",
+            color: "black",
+            fontFamily: family,
+            fontSize: `${size}px`,
+            fontWeight: String(weight),
+            fontStyle: style,
+            lineHeight: "1.5",
+            zIndex: "999999",
+          });
+          box.appendChild(document.createTextNode("Hg Lea Müller"));
+          const marker = document.createElement("span");
+          Object.assign(marker.style, {
+            display: "inline-block",
+            width: "0",
+            height: "0",
+            padding: "0",
+            margin: "0",
+            verticalAlign: "baseline",
+          });
+          box.appendChild(marker);
+          document.body.appendChild(box);
+          const range = document.createRange();
+          range.selectNode(box.firstChild!);
+          const rect = range.getBoundingClientRect();
+          const context = document.createElement("canvas").getContext("2d")!;
+          context.font = getComputedStyle(box).font;
           return {
-            png: canvas.toDataURL("image/png"),
-            sourceHtml: element.outerHTML,
-            ownFill: Object.hasOwn(context, "fillText"),
-            ownStroke: Object.hasOwn(context, "strokeText"),
-            differentPixels,
+            font: context.font,
+            size,
+            rangeAscent: marker.getBoundingClientRect().top - rect.top,
+            canvasAscent: context.measureText("Hg Lea Müller").fontBoundingBoxAscent,
+            sourceHtml: box.outerHTML,
           };
         },
-        { corrected, webImage: `data:image/png;base64,${webImage.toString("base64")}` },
+        { family, size, weight, style },
       );
-      comparisons.push({ corrected, differentPixels: result.differentPixels });
-      await writeFile(
-        `${out}/${key}-${corrected ? "corrected" : "default"}.png`,
-        Buffer.from(result.png.split(",")[1], "base64"),
-      );
-      await writeFile(
-        `${out}/${key}-metrics.json`,
-        JSON.stringify({ key, geometry, composited, comparisons }, null, 2),
-      );
-      expect(result.sourceHtml, key).toBe(composited.sourceHtml);
-      expect(result.ownFill, key).toBe(false);
-      expect(result.ownStroke, key).toBe(false);
-      if (corrected) expect(result.differentPixels, key).toBe(0);
-      else if (geometry.size === geometry.rangeAscent) expect(result.differentPixels, key).toBe(0);
-      else expect(result.differentPixels, key).toBeGreaterThan(0);
+      expect(geometry.canvasAscent).toBe(geometry.rangeAscent);
+      const webImage = await page
+        .locator("#baseline-specimen")
+        .screenshot({ path: `${out}/${key}-web.png` });
+      const comparisons = [];
+      for (const corrected of [false, true]) {
+        const result = await page.evaluate(
+          async ({ corrected, webImage }) => {
+            const path = "/node_modules/.vite/deps/html2canvas-pro.js";
+            const html2canvas = (await import(path)).default;
+            const modulePath = "/src/lib/pdf-raster.ts";
+            const { renderPdfRaster } = await import(modulePath);
+            const element = document.getElementById("baseline-specimen")!;
+            const options = {
+              width: 600,
+              height: 100,
+              scale: 1,
+              scrollX: 0,
+              scrollY: 0,
+              backgroundColor: "#ffffff",
+              logging: false,
+            };
+            const canvas = await (corrected
+              ? renderPdfRaster(html2canvas, element, options)
+              : html2canvas(element, options));
+            const context = canvas.getContext("2d")!;
+            const image = new Image();
+            image.src = webImage;
+            await image.decode();
+            const reference = document.createElement("canvas");
+            reference.width = image.naturalWidth;
+            reference.height = image.naturalHeight;
+            const referenceContext = reference.getContext("2d")!;
+            referenceContext.drawImage(image, 0, 0);
+            const expected = referenceContext.getImageData(
+              0,
+              0,
+              reference.width,
+              reference.height,
+            ).data;
+            const actual = context.getImageData(0, 0, canvas.width, canvas.height).data;
+            let differentPixels = 0;
+            let colouredReferencePixels = 0;
+            for (let i = 0; i < expected.length; i += 4)
+              if (expected[i] !== expected[i + 1] || expected[i] !== expected[i + 2])
+                colouredReferencePixels++;
+            if (expected.length !== actual.length) throw new Error("Raster dimensions changed");
+            for (let i = 0; i < actual.length; i += 4)
+              if (
+                actual[i] !== expected[i] ||
+                actual[i + 1] !== expected[i + 1] ||
+                actual[i + 2] !== expected[i + 2] ||
+                actual[i + 3] !== expected[i + 3]
+              )
+                differentPixels++;
+            return {
+              png: canvas.toDataURL("image/png"),
+              sourceHtml: element.outerHTML,
+              ownFill: Object.hasOwn(context, "fillText"),
+              ownStroke: Object.hasOwn(context, "strokeText"),
+              differentPixels,
+              colouredReferencePixels,
+            };
+          },
+          { corrected, webImage: `data:image/png;base64,${webImage.toString("base64")}` },
+        );
+        comparisons.push({
+          corrected,
+          differentPixels: result.differentPixels,
+          colouredReferencePixels: result.colouredReferencePixels,
+        });
+        await writeFile(
+          `${out}/${key}-${corrected ? "corrected" : "default"}.png`,
+          Buffer.from(result.png.split(",")[1], "base64"),
+        );
+        await writeFile(
+          `${out}/${key}-metrics.json`,
+          JSON.stringify({ key, geometry, comparisons }, null, 2),
+        );
+        expect(result.colouredReferencePixels, `${key}: grayscale reference`).toBe(0);
+        expect(result.sourceHtml, key).toBe(geometry.sourceHtml);
+        expect(result.ownFill, key).toBe(false);
+        expect(result.ownStroke, key).toBe(false);
+        if (corrected) expect(result.differentPixels, key).toBe(0);
+        else if (geometry.size === geometry.rangeAscent)
+          expect(result.differentPixels, key).toBe(0);
+        else expect(result.differentPixels, key).toBeGreaterThan(0);
+      }
+      rows.push({ key, geometry, comparisons });
     }
-    rows.push({ key, geometry, composited, comparisons });
+    await writeFile(`${out}/metrics.json`, JSON.stringify(rows, null, 2));
+  } finally {
+    await browser.close();
   }
-  await writeFile(`${out}/metrics.json`, JSON.stringify(rows, null, 2));
 });
 
 test("Maschine uses the same baseline correction in single CV and cover downloads", async ({
