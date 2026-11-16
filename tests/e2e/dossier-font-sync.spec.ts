@@ -58,7 +58,10 @@ test.describe("shared CV and motivation-letter font", () => {
         .toBe("times");
 
       const initialLetterPage = page.locator("[data-letter-page]").first();
-      await expect(initialLetterPage).toHaveAttribute("data-letter-font", "times");
+      await expect(initialLetterPage).toHaveAttribute(
+        "data-letter-font",
+        template === "modern" ? "freundlich" : "times",
+      );
 
       await page.goto(`${BASE_URL}/lebenslauf`, { waitUntil: "domcontentloaded" });
       await page.locator('button[data-editor-ready="true"]').waitFor({ state: "visible" });

@@ -3,6 +3,12 @@
 Stand 16.11.2026 · [#199](https://github.com/modebrecht/cv-cover-charm/issues/199)
 · Ausgangsstand `81b57436ae3177375d4f5458f198196a18d25f40`
 
+**Spätere CI-Korrektur:** Die automatische Reparatur gespeicherter konkreter
+Overrides wird durch die [Abgrenzung zwischen Laden und Benutzerwechsel](font-loading-ownership-2026-11-16.md)
+ersetzt. Unterschiedliche eigene Briefschriften dürfen beim Laden nicht vom CV
+überschrieben werden. Der folgende Bericht beschreibt den ursprünglichen
+geprüften Stand; die Rastermessungen bleiben erhalten.
+
 Bei einem gestalteten Motivationsschreiben konnte eine Schriftänderung im CV
 scheinbar gespeichert sein, während Briefvorschau und PDF weiterhin die alte
 Schrift verwendeten. Der normale Modern-Ablauf reproduziert das: Nach Auswahl

@@ -1,0 +1,637 @@
+{
+  "source_head": "7b0ae881a64422d02c681b5ff3230f44dc89c989",
+  "date": "2026-11-16",
+  "correction": "Preserve explicit letter font overrides on load; update them only for actual subsequent shared-font changes.",
+  "predecessor_ci": {
+    "run_id": 43946950504,
+    "dossier_flow": {
+      "passed": 90,
+      "failed": 1,
+      "failed_case": "letter downloads independently of unsupported CV and other-document designs"
+    },
+    "other_workflows_passed": [
+      "Dossier Visual Parity",
+      "Template Contact Integrity",
+      "pages build and deployment"
+    ]
+  },
+  "source_sha256": {
+    "src/lib/dossier-font-sync.ts": "3cd532d00bfdb7eaa8cd19c9ebb178b8753356e4f8d9f8c51aa5526421249db4",
+    "tests/unit/dossier-font-sync.test.ts": "6cdaeeca2016ce412e0155fc2e4539a7883ba8661197fb18861bb2eee62f04e1",
+    "tests/e2e/dossier-font-sync.spec.ts": "79b1e832b13f4b962c42d98a8499a2d4d57d8b9300434eb5a62f154cd1af9293"
+  },
+  "browser_result": {
+    "config": {
+      "configFile": "/workspace/scratch/4feb972cdba5/cv-cover-charm-dev/artifacts/font-independence.config.ts",
+      "rootDir": "/workspace/scratch/4feb972cdba5/cv-cover-charm-dev/tests/e2e",
+      "forbidOnly": false,
+      "fullyParallel": true,
+      "globalSetup": null,
+      "globalTeardown": null,
+      "globalTimeout": 0,
+      "grep": {},
+      "grepInvert": null,
+      "maxFailures": 0,
+      "metadata": {
+        "actualWorkers": 1
+      },
+      "preserveOutput": "always",
+      "reporter": [
+        ["line", null],
+        [
+          "json",
+          {
+            "outputFile": "/workspace/scratch/4feb972cdba5/cv-cover-charm-dev/artifacts/font-independence/results.json"
+          }
+        ]
+      ],
+      "reportSlowTests": {
+        "max": 5,
+        "threshold": 300000
+      },
+      "quiet": false,
+      "projects": [
+        {
+          "outputDir": "/workspace/scratch/4feb972cdba5/cv-cover-charm-dev/test-results/font-independence",
+          "repeatEach": 1,
+          "retries": 0,
+          "metadata": {
+            "actualWorkers": 1
+          },
+          "id": "",
+          "name": "",
+          "testDir": "/workspace/scratch/4feb972cdba5/cv-cover-charm-dev/tests/e2e",
+          "testIgnore": [],
+          "testMatch": ["dossier-font-sync.spec.ts", "dossier-docx-part-independent.spec.ts"],
+          "timeout": 120000
+        }
+      ],
+      "shard": null,
+      "updateSnapshots": "missing",
+      "updateSourceMethod": "patch",
+      "version": "1.56.1",
+      "workers": 1,
+      "webServer": {
+        "command": "node_modules/.bin/vite dev --host 127.0.0.1 --port 4173",
+        "cwd": "/workspace/scratch/4feb972cdba5/cv-cover-charm-dev",
+        "url": "http://127.0.0.1:4173/lebenslauf",
+        "timeout": 60000,
+        "reuseExistingServer": false
+      }
+    },
+    "suites": [
+      {
+        "title": "dossier-docx-part-independent.spec.ts",
+        "file": "dossier-docx-part-independent.spec.ts",
+        "column": 0,
+        "line": 0,
+        "specs": [
+          {
+            "title": "cover downloads independently of unsupported CV and other-document designs",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 120000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "",
+                "projectName": "",
+                "results": [
+                  {
+                    "workerIndex": 0,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 14818,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-11-16T20:34:31.512Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "df83dbf544922f8d0094-07357833af4969083526",
+            "file": "dossier-docx-part-independent.spec.ts",
+            "line": 52,
+            "column": 3
+          },
+          {
+            "title": "cover downloads with absent other parts and leaves them absent",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 120000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "",
+                "projectName": "",
+                "results": [
+                  {
+                    "workerIndex": 0,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 6825,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-11-16T20:34:47.291Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "df83dbf544922f8d0094-94f0ad93a97a6b3363d7",
+            "file": "dossier-docx-part-independent.spec.ts",
+            "line": 71,
+            "column": 3
+          },
+          {
+            "title": "cover downloads with corrupt unrelated JSON without overwriting it",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 120000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "",
+                "projectName": "",
+                "results": [
+                  {
+                    "workerIndex": 0,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 9102,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-11-16T20:34:54.148Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "df83dbf544922f8d0094-cdebe080193a1407ca17",
+            "file": "dossier-docx-part-independent.spec.ts",
+            "line": 91,
+            "column": 3
+          },
+          {
+            "title": "cover downloads with unreadable unrelated structures without changing them",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 120000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "",
+                "projectName": "",
+                "results": [
+                  {
+                    "workerIndex": 0,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 6209,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-11-16T20:35:03.271Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "df83dbf544922f8d0094-8154f43828e504518621",
+            "file": "dossier-docx-part-independent.spec.ts",
+            "line": 111,
+            "column": 3
+          },
+          {
+            "title": "cover keeps its own unsupported setting blocked",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 120000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "",
+                "projectName": "",
+                "results": [
+                  {
+                    "workerIndex": 0,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 7846,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-11-16T20:35:09.512Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "df83dbf544922f8d0094-b14e9373ca39f816da0b",
+            "file": "dossier-docx-part-independent.spec.ts",
+            "line": 148,
+            "column": 3
+          },
+          {
+            "title": "cover cannot download an empty selected document",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 120000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "",
+                "projectName": "",
+                "results": [
+                  {
+                    "workerIndex": 0,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 7269,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-11-16T20:35:17.377Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "df83dbf544922f8d0094-91a3784cc9e91747272e",
+            "file": "dossier-docx-part-independent.spec.ts",
+            "line": 169,
+            "column": 3
+          },
+          {
+            "title": "letter downloads independently of unsupported CV and other-document designs",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 120000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "",
+                "projectName": "",
+                "results": [
+                  {
+                    "workerIndex": 0,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 26098,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-11-16T20:35:24.666Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "df83dbf544922f8d0094-3b30a7fb55ba6d4f1f40",
+            "file": "dossier-docx-part-independent.spec.ts",
+            "line": 52,
+            "column": 3
+          },
+          {
+            "title": "letter downloads with absent other parts and leaves them absent",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 120000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "",
+                "projectName": "",
+                "results": [
+                  {
+                    "workerIndex": 0,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 22361,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-11-16T20:35:50.843Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "df83dbf544922f8d0094-e6b6ef99c6c750474d2f",
+            "file": "dossier-docx-part-independent.spec.ts",
+            "line": 71,
+            "column": 3
+          },
+          {
+            "title": "letter downloads with corrupt unrelated JSON without overwriting it",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 120000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "",
+                "projectName": "",
+                "results": [
+                  {
+                    "workerIndex": 0,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 15780,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-11-16T20:36:13.263Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "df83dbf544922f8d0094-5ed5fe0f54132c360202",
+            "file": "dossier-docx-part-independent.spec.ts",
+            "line": 91,
+            "column": 3
+          },
+          {
+            "title": "letter downloads with unreadable unrelated structures without changing them",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 120000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "",
+                "projectName": "",
+                "results": [
+                  {
+                    "workerIndex": 0,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 11430,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-11-16T20:36:29.074Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "df83dbf544922f8d0094-cd189e091d9323e2e3da",
+            "file": "dossier-docx-part-independent.spec.ts",
+            "line": 111,
+            "column": 3
+          },
+          {
+            "title": "letter keeps its own unsupported setting blocked",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 120000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "",
+                "projectName": "",
+                "results": [
+                  {
+                    "workerIndex": 0,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 13496,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-11-16T20:36:40.559Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "df83dbf544922f8d0094-e8929dee2aa8dc741592",
+            "file": "dossier-docx-part-independent.spec.ts",
+            "line": 148,
+            "column": 3
+          },
+          {
+            "title": "letter cannot download an empty selected document",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 120000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "",
+                "projectName": "",
+                "results": [
+                  {
+                    "workerIndex": 0,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 17737,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-11-16T20:36:54.082Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "df83dbf544922f8d0094-8ce67c4179d728f7891d",
+            "file": "dossier-docx-part-independent.spec.ts",
+            "line": 169,
+            "column": 3
+          }
+        ]
+      },
+      {
+        "title": "dossier-font-sync.spec.ts",
+        "file": "dossier-font-sync.spec.ts",
+        "column": 0,
+        "line": 0,
+        "specs": [],
+        "suites": [
+          {
+            "title": "shared CV and motivation-letter font",
+            "file": "dossier-font-sync.spec.ts",
+            "line": 3,
+            "column": 6,
+            "specs": [
+              {
+                "title": "propagates the dossier font from CV into the brief motivation letter",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 120000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "",
+                    "projectName": "",
+                    "results": [
+                      {
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 12652,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-11-16T20:37:11.876Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "72a13ff2423e8fdb535c-8caba9026d040fb9a1b8",
+                "file": "dossier-font-sync.spec.ts",
+                "line": 5,
+                "column": 5
+              },
+              {
+                "title": "propagates the dossier font from CV into the modern motivation letter",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 120000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "",
+                    "projectName": "",
+                    "results": [
+                      {
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 12204,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-11-16T20:37:24.554Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "72a13ff2423e8fdb535c-9e27b08a6282630c55cb",
+                "file": "dossier-font-sync.spec.ts",
+                "line": 5,
+                "column": 5
+              },
+              {
+                "title": "new cover, CV and letter native text all render in Cabin",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 120000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "",
+                    "projectName": "",
+                    "results": [
+                      {
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 11550,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-11-16T20:37:36.790Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "72a13ff2423e8fdb535c-bddf0d18b86105628f1c",
+                "file": "dossier-font-sync.spec.ts",
+                "line": 100,
+                "column": 3
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "errors": [],
+    "stats": {
+      "startTime": "2026-11-16T20:34:01.470Z",
+      "duration": 227229.338,
+      "expected": 15,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    }
+  },
+  "unit_tests": {
+    "passed": 1536,
+    "failed": 0,
+    "files": 289,
+    "log_sha256": "2553c2b8a60e98b5da2ff2802bdcd05563386a9a509c16f5a92bcdbec2cad29b"
+  },
+  "checks": ["App TypeScript", "scoped ESLint", "Prettier", "git diff --check"],
+  "limits": "No rasterization, native export gate, Writer runtime or Word acceptance change."
+}

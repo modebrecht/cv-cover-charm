@@ -8,11 +8,34 @@ import { FONT_LABELS, FONT_STACKS } from "../../src/components/cover/types";
 import { effectiveDossierFont } from "../../src/lib/dossier-theme";
 import {
   dossierFontFromSerialized,
+  propagateDossierFontFrom,
   reconcileDossierFontTexts,
 } from "../../src/lib/dossier-font-sync";
+import { CV_STORAGE_KEY, LETTER_STORAGE_KEY } from "../../src/lib/dossier-project";
 
 function fontOf(text: string | null) {
   return dossierFontFromSerialized(text);
+}
+
+function propagateToLetter(cv: string, letter: string) {
+  const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
+  const values = new Map([[LETTER_STORAGE_KEY, letter]]);
+  Object.defineProperty(globalThis, "window", {
+    configurable: true,
+    value: {
+      localStorage: {
+        getItem: (key: string) => values.get(key) ?? null,
+        setItem: (key: string, value: string) => values.set(key, value),
+      },
+    },
+  });
+  try {
+    propagateDossierFontFrom(CV_STORAGE_KEY, cv);
+    return values.get(LETTER_STORAGE_KEY)!;
+  } finally {
+    if (originalWindow) Object.defineProperty(globalThis, "window", originalWindow);
+    else Reflect.deleteProperty(globalThis, "window");
+  }
 }
 
 describe("CV and motivation-letter font sync", () => {
@@ -103,8 +126,7 @@ describe("CV and motivation-letter font sync", () => {
           dateFont: "serif",
         },
       });
-      const result = reconcileDossierFontTexts(cv, letter);
-      const saved = JSON.parse(result.letter!);
+      const saved = JSON.parse(propagateToLetter(cv, letter));
       const design = normalizeLetterDesign(saved.design);
       expect(letterFontSelection(design)).toBe("times");
       expect(effectiveDossierFont(design.template, design.fontOverride)).toBe(FONT_STACKS.times);
@@ -127,7 +149,7 @@ describe("CV and motivation-letter font sync", () => {
     );
   });
 
-  test("repairs the already saved stale override left by an earlier font synchronization", () => {
+  test("loading preserves an explicit letter override even when its base matches the CV", () => {
     const cv = JSON.stringify({ version: 6, design: { font: "sans" } });
     const letter = JSON.stringify({
       version: 1,
@@ -135,8 +157,24 @@ describe("CV and motivation-letter font sync", () => {
     });
     const result = reconcileDossierFontTexts(cv, letter);
     const design = normalizeLetterDesign(JSON.parse(result.letter!).design);
+    expect(result.letter).toBe(letter);
+    expect(letterFontSelection(design)).toBe("freundlich");
+    expect(effectiveDossierFont(design.template, design.fontOverride)).toBe(FONT_STACKS.freundlich);
+    expect(reconcileDossierFontTexts(result.cv, result.letter)).toEqual(result);
+  });
+
+  test("loading an unsupported CV keeps the independently selected Sans letter usable", () => {
+    const cv = JSON.stringify({ version: 6, design: { template: "citrus", font: "serif" } });
+    const letter = JSON.stringify({
+      version: 1,
+      design: { template: "modern", font: "sans", fontOverride: "sans" },
+    });
+    const result = reconcileDossierFontTexts(cv, letter);
+    const design = normalizeLetterDesign(JSON.parse(result.letter!).design);
+    expect(result.cv).toBe(cv);
     expect(letterFontSelection(design)).toBe("sans");
     expect(effectiveDossierFont(design.template, design.fontOverride)).toBe(FONT_STACKS.sans);
-    expect(reconcileDossierFontTexts(result.cv, result.letter)).toEqual(result);
+    const changed = normalizeLetterDesign(JSON.parse(propagateToLetter(cv, letter)).design);
+    expect(letterFontSelection(changed)).toBe("serif");
   });
 });

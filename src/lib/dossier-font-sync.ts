@@ -26,7 +26,12 @@ export function dossierFontFromSerialized(text: string | null): FontKey | null {
   return validFont(design?.font);
 }
 
-function withFont(text: string | null, storageKey: string, font: FontKey): string | null {
+function withFont(
+  text: string | null,
+  storageKey: string,
+  font: FontKey,
+  explicitChange = false,
+): string | null {
   const saved = parseSaved(text);
   if (!saved && text) return null;
 
@@ -38,11 +43,11 @@ function withFont(text: string | null, storageKey: string, font: FontKey): strin
     storageKey === LETTER_STORAGE_KEY &&
     typeof design.template === "string" &&
     design.template !== "brief";
-  const override = designedLetter ? validFont(design.fontOverride) : null;
-  // Repair stale concrete overrides, but retain a matching draft's deliberate
-  // template inheritance (null). Only a changed shared font replaces that.
-  if (validFont(design.font) === font && (!override || override === font))
-    return text ?? JSON.stringify(base);
+  // Loading a saved pair must preserve its independently chosen letter font.
+  // Only an actual shared-font edit replaces the rendered letter override.
+  const changeOverride =
+    explicitChange && designedLetter && validFont(design.fontOverride) !== font;
+  if (validFont(design.font) === font && !changeOverride) return text ?? JSON.stringify(base);
 
   return JSON.stringify({
     ...base,
@@ -51,7 +56,7 @@ function withFont(text: string | null, storageKey: string, font: FontKey): strin
       font,
       // Designed letters render their document font from fontOverride. A new
       // shared choice must update it too; per-role fonts stay independent.
-      ...(designedLetter ? { fontOverride: font } : {}),
+      ...(explicitChange && designedLetter ? { fontOverride: font } : {}),
     },
   });
 }
@@ -116,7 +121,7 @@ export function propagateDossierFontFrom(storageKey: string, serialized: string)
   const targetKey = storageKey === CV_STORAGE_KEY ? LETTER_STORAGE_KEY : CV_STORAGE_KEY;
   try {
     const current = window.localStorage.getItem(targetKey);
-    const next = withFont(current, targetKey, font);
+    const next = withFont(current, targetKey, font, true);
     if (next !== null && next !== current) window.localStorage.setItem(targetKey, next);
   } catch {
     // Storage can be blocked or malformed; autosave itself must remain usable.
