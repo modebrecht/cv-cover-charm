@@ -34,13 +34,24 @@ function withFont(text: string | null, storageKey: string, font: FontKey): strin
     version: storageKey === CV_STORAGE_KEY ? 6 : 1,
   };
   const design = isRecord(base.design) ? base.design : {};
-  if (validFont(design.font) === font) return text ?? JSON.stringify(base);
+  const designedLetter =
+    storageKey === LETTER_STORAGE_KEY &&
+    typeof design.template === "string" &&
+    design.template !== "brief";
+  const override = designedLetter ? validFont(design.fontOverride) : null;
+  // Repair stale concrete overrides, but retain a matching draft's deliberate
+  // template inheritance (null). Only a changed shared font replaces that.
+  if (validFont(design.font) === font && (!override || override === font))
+    return text ?? JSON.stringify(base);
 
   return JSON.stringify({
     ...base,
     design: {
       ...design,
       font,
+      // Designed letters render their document font from fontOverride. A new
+      // shared choice must update it too; per-role fonts stay independent.
+      ...(designedLetter ? { fontOverride: font } : {}),
     },
   });
 }

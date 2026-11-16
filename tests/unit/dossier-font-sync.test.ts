@@ -1,6 +1,11 @@
 import { describe, expect, test } from "bun:test";
-import { emptyLetterDesign } from "../../src/components/letter/types";
+import {
+  emptyLetterDesign,
+  letterFontSelection,
+  normalizeLetterDesign,
+} from "../../src/components/letter/types";
 import { FONT_LABELS, FONT_STACKS } from "../../src/components/cover/types";
+import { effectiveDossierFont } from "../../src/lib/dossier-theme";
 import {
   dossierFontFromSerialized,
   reconcileDossierFontTexts,
@@ -82,5 +87,56 @@ describe("CV and motivation-letter font sync", () => {
     expect(reconciled.font).toBe("freundlich");
     expect(fontOf(reconciled.cv)).toBe("freundlich");
     expect(fontOf(reconciled.letter)).toBe("freundlich");
+  });
+
+  for (const template of ["modern", "pastell", "klassisch"] as const) {
+    test(`renders the synchronized font in a designed ${template} letter while retaining role fonts`, () => {
+      const cv = JSON.stringify({ version: 6, design: { font: "times" } });
+      const letter = JSON.stringify({
+        version: 1,
+        data: { text: "Inhalt unverändert" },
+        design: {
+          template,
+          font: "freundlich",
+          fontOverride: "freundlich",
+          bodyFont: "maschine",
+          dateFont: "serif",
+        },
+      });
+      const result = reconcileDossierFontTexts(cv, letter);
+      const saved = JSON.parse(result.letter!);
+      const design = normalizeLetterDesign(saved.design);
+      expect(letterFontSelection(design)).toBe("times");
+      expect(effectiveDossierFont(design.template, design.fontOverride)).toBe(FONT_STACKS.times);
+      expect(design.bodyFont).toBe("maschine");
+      expect(design.dateFont).toBe("serif");
+      expect(saved.data.text).toBe("Inhalt unverändert");
+    });
+  }
+
+  test("retains an untouched matching pair's deliberate template typography", () => {
+    const cv = JSON.stringify({ version: 6, design: { font: "times" } });
+    const letter = JSON.stringify({
+      version: 1,
+      design: { template: "modern", font: "times", fontOverride: null },
+    });
+    const result = reconcileDossierFontTexts(cv, letter);
+    expect(result.letter).toBe(letter);
+    expect(letterFontSelection(normalizeLetterDesign(JSON.parse(result.letter!).design))).toBe(
+      "template",
+    );
+  });
+
+  test("repairs the already saved stale override left by an earlier font synchronization", () => {
+    const cv = JSON.stringify({ version: 6, design: { font: "sans" } });
+    const letter = JSON.stringify({
+      version: 1,
+      design: { template: "modern", font: "sans", fontOverride: "freundlich" },
+    });
+    const result = reconcileDossierFontTexts(cv, letter);
+    const design = normalizeLetterDesign(JSON.parse(result.letter!).design);
+    expect(letterFontSelection(design)).toBe("sans");
+    expect(effectiveDossierFont(design.template, design.fontOverride)).toBe(FONT_STACKS.sans);
+    expect(reconcileDossierFontTexts(result.cv, result.letter)).toEqual(result);
   });
 });

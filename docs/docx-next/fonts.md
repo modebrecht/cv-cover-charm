@@ -1,5 +1,12 @@
 # DOCX Next font policy
 
+**Application follow-up — 16 November 2026:** The
+[current dossier-font synchronization correction and eight-choice Web/PDF matrix](../qa/dossier-font-choice-2026-11-16.md)
+fix stale designed-letter font overrides and record actual browser fallback families.
+The visual matrix remains REVIEW; it is not a new DOCX/Word font acceptance or
+an expansion of the supported native export profile. The Word-oriented policy
+below remains unchanged.
+
 Font selection is semantic model data, resolved before Word XML. `fonts.ts` owns allowed families, mappings, alternatives, family/pitch metadata and selection evidence. `styles.ts` builds the central font table from fonts actually used in native runs. No template owns a font loader, renderer or XML replacement pass.
 
 ## Inventory
