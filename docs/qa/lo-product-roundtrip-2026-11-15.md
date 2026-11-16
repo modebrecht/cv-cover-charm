@@ -39,12 +39,12 @@ pauschale Aussage über stabile LibreOffice-Versionen und kein Word-Befund.
 mit gleichem Feldtext und derselben kanonischen Dokument-/Headerrolle eindeutig
 zuordenbar. Das ist von weiterhin vorhandenem Klartext zu unterscheiden.
 
-| Datei | Seiten Quelle / Save 1 / Save 2 | Originalfoto nach Save | Feldbindungen verändert Save 1 / Save 2 |
-| --- | --- | --- | --- |
-| CV links | 1 / 1 / 1 | 160 × 200 → 119 × 119 | 49/59 · 49/59 |
-| CV rechts | 1 / 1 / 1 | 160 × 200 → 97 × 121 | 47/59 · 47/59 |
-| Zweiseitiger Brief | 2 / 2 / 2 | kein Foto | 6/43 · 6/43 |
-| Gesamtdossier | 3 / 3 / 3 | Cover 160 × 160; CV 119 × 119 | 55/102 · 56/102 |
+| Datei              | Seiten Quelle / Save 1 / Save 2 | Originalfoto nach Save        | Feldbindungen verändert Save 1 / Save 2 |
+| ------------------ | ------------------------------- | ----------------------------- | --------------------------------------- |
+| CV links           | 1 / 1 / 1                       | 160 × 200 → 119 × 119         | 49/59 · 49/59                           |
+| CV rechts          | 1 / 1 / 1                       | 160 × 200 → 97 × 121          | 47/59 · 47/59                           |
+| Zweiseitiger Brief | 2 / 2 / 2                       | kein Foto                     | 6/43 · 6/43                             |
+| Gesamtdossier      | 3 / 3 / 3                       | Cover 160 × 160; CV 119 × 119 | 55/102 · 56/102                         |
 
 Die ursprünglichen 160 × 200 Fotopixel sind in den zurückgespeicherten Paketen
 nicht mehr enthalten, auch nicht als unbenutztes Bildasset. Die Bilder bleiben
@@ -141,7 +141,11 @@ DOCX-Ausgabe wird nicht für diesen Alpha-Renderer umgebaut; eine Erweiterung
 der unterstützten Familien oder eine Word-Freigabe wird nicht abgeleitet.
 Die zwei unabhängigen Web/PDF-Kreis-REVIEWs bleiben bestehen.
 
-Nächster gezielter Schritt ist eine Gegenprüfung der erhaltenen Pakete in einer
-stabilen Writer-Version, sofern deren normaler CLI-Gesundheitstest funktioniert.
-Die zuvor dokumentierten Engine-Grenzen werden dafür nicht durch Binärpatches
-oder eine erneute allgemeine Forschungsserie umgangen.
+**Fortsetzung am 16. November:** Die
+[begrenzte stabile Gegenprobe mit LibreOffice 26.8.3](lo-stable-health-2026-11-16.md)
+scheitert bereits am normalen Text-zu-PDF-Gesundheitstest: Exit 1, keine PDF,
+keine Diagnose. Es wurden keine stabilen Produkt-DOCX-Speichervergleiche
+ausgeführt. Laufzeitdebugging hier beendet; stabile Writer- und Desktop-Word-
+Nachweise bleiben offen. Alle drei CI-Läufe von `56c8f3d` sind inzwischen grün.
+Eine weitere Gegenprobe benötigt eine funktionierende Office-Umgebung und
+verwendet dieselben erhaltenen Produktdateien; kein neues Benutzer-Prüfpaket.

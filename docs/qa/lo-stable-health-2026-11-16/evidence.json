@@ -1,0 +1,267 @@
+{
+  "schema_version": 1,
+  "date_utc": "2026-11-16",
+  "source_head": "56c8f3df1e456858c2465f684b091654b97049db",
+  "scope": "Bounded stable-runtime health check only; no product DOCX opened, saved or rendered with this runtime.",
+  "status": "RUNTIME_UNAVAILABLE",
+  "stable_product_roundtrips_completed": 0,
+  "stable_writer_fidelity": "UNVERIFIED",
+  "microsoft_desktop_word": "UNVERIFIED",
+  "environment": {
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "os_release": {
+      "NAME": "Debian GNU/Linux",
+      "ID": "debian",
+      "PRETTY_NAME": "Debian GNU/Linux 13 (trixie)",
+      "VERSION_ID": "13",
+      "VERSION": "13 (trixie)",
+      "VERSION_CODENAME": "trixie",
+      "DEBIAN_VERSION_FULL": "13.6",
+      "HOME_URL": "https://www.debian.org/",
+      "SUPPORT_URL": "https://www.debian.org/support",
+      "BUG_REPORT_URL": "https://bugs.debian.org/"
+    },
+    "installation": "All 42 official DEB payloads extracted in isolated scratch; no system install or post-install scripts."
+  },
+  "official_mirrorlist": "https://download.documentfoundation.org/libreoffice/stable/26.8.3/deb/x86_64/LibreOffice_26.8.3_Linux_x86-64_deb.tar.gz.mirrorlist",
+  "runtime": {
+    "url": "https://download.documentfoundation.org/libreoffice/stable/26.8.3/deb/x86_64/LibreOffice_26.8.3_Linux_x86-64_deb.tar.gz",
+    "final_url": "https://ftp.fau.de/tdf/libreoffice/stable/26.8.3/deb/x86_64/LibreOffice_26.8.3_Linux_x86-64_deb.tar.gz",
+    "official_sha256": "e7cd3538e85818ff9dd9bb65386769fde927011242aace5a144989f4000dcabf",
+    "actual_sha256": "e7cd3538e85818ff9dd9bb65386769fde927011242aace5a144989f4000dcabf",
+    "bytes": 221377373,
+    "packages": [
+      {
+        "file": "libobasis26.8-draw_26.8.3.1-1_amd64.deb",
+        "sha256": "95fe82e2f279b282414077cfc81a4c9ded346307a17955cac01a8ed9ca8ef3be"
+      },
+      {
+        "file": "libobasis26.8-postgresql-sdbc_26.8.3.1-1_amd64.deb",
+        "sha256": "38a339ef7ed491ee1fa9c894f48846957c06c4bdda0a1f3542909d9b520eacd8"
+      },
+      {
+        "file": "libobasis26.8-core_26.8.3.1-1_amd64.deb",
+        "sha256": "24ee2e1652840f16ee00f214226514231ba38eabced048389a531f8a20df81a7"
+      },
+      {
+        "file": "libobasis26.8-writer_26.8.3.1-1_amd64.deb",
+        "sha256": "0487734f5d2d2ff57f2d9f1c6b62cfe420c607be9968e7f9531c0f58470f4ca4"
+      },
+      {
+        "file": "libreoffice26.8-ure_26.8.3.1-1_amd64.deb",
+        "sha256": "a0e1049c10861f9eff1e010712e34390c3f0d006562029b53bffda6e367b8953"
+      },
+      {
+        "file": "libobasis26.8-extension-beanshell-script-provider_26.8.3.1-1_amd64.deb",
+        "sha256": "ce328d9a13d50378bdcd5a1a5bae857972ae7a59af422c6d738a79aba8c600a3"
+      },
+      {
+        "file": "libreoffice26.8_26.8.3.1-1_amd64.deb",
+        "sha256": "ba2e6065b45fe7b25348759e21e2b8fdb3c0f92d8efe075230d4062d91206c0b"
+      },
+      {
+        "file": "libreoffice26.8-calc_26.8.3.1-1_amd64.deb",
+        "sha256": "57e4ab542f6e3831db7881a3937c6dd109b7b8539c9f41afd38328a830609960"
+      },
+      {
+        "file": "libreoffice26.8-writer_26.8.3.1-1_amd64.deb",
+        "sha256": "f7306bdda076ee452c111600bc758fae3557a98756b06acc743132ef13d2e743"
+      },
+      {
+        "file": "libobasis26.8-onlineupdate_26.8.3.1-1_amd64.deb",
+        "sha256": "46f7437497f8542afd773f6fde4e80921b8ceecb3f4941adbe2b098bc3b71c88"
+      },
+      {
+        "file": "libobasis26.8-math_26.8.3.1-1_amd64.deb",
+        "sha256": "0fc6faa62179301d3b5ec080ea99f583e6b0ef8f7a4ffc915be33c759d61a42b"
+      },
+      {
+        "file": "libobasis26.8-images_26.8.3.1-1_amd64.deb",
+        "sha256": "e1b7367a2a0012a23ae9a49e830e417d513730c82370dbf2cce91070e4ec96fb"
+      },
+      {
+        "file": "libobasis26.8-ooolinguistic_26.8.3.1-1_amd64.deb",
+        "sha256": "281de71817e3d0f99b49510aa9e69946c27e9766df83afba8fbc5978ed9c9b5b"
+      },
+      {
+        "file": "libreoffice26.8-dict-fr_26.8.3.1-1_amd64.deb",
+        "sha256": "4c93a50be4a38c53f1e22050ecf89c76cb77581573967fa2cbebcaf47bfacd16"
+      },
+      {
+        "file": "libobasis26.8-xsltfilter_26.8.3.1-1_amd64.deb",
+        "sha256": "911bd4c227d02a5fd685dd1e3a971499af791f7fc681d31a29ef10ec4f7ef89c"
+      },
+      {
+        "file": "libobasis26.8-kde-integration_26.8.3.1-1_amd64.deb",
+        "sha256": "8e5dce1970608b07f0868a9346d6af765019da0869cf82f3a109f583a9a71272"
+      },
+      {
+        "file": "libobasis26.8-gnome-integration_26.8.3.1-1_amd64.deb",
+        "sha256": "e1e3b669a58f23c093c616230fac5b0426e3c1daf0df6b2f1731bf33ea8e62fd"
+      },
+      {
+        "file": "libreoffice26.8-base_26.8.3.1-1_amd64.deb",
+        "sha256": "13039de66fd61e88ca9a1a68565ed6e4ced57796065c36c8583808026e863485"
+      },
+      {
+        "file": "libobasis26.8-base_26.8.3.1-1_amd64.deb",
+        "sha256": "d0bbe3948e778ebf09df3b0c5c2fd63275451f36cee9bcf22707d66c948ab788"
+      },
+      {
+        "file": "libobasis26.8-en-us_26.8.3.1-1_amd64.deb",
+        "sha256": "5e8903cd7b8c49f694e9fe3f4fcbe4c74626ec910bca95dcb00f74c88e094b84"
+      },
+      {
+        "file": "libreoffice26.8-impress_26.8.3.1-1_amd64.deb",
+        "sha256": "5d1f7a2e0a1bb8332414eced98d11fc1617455186feea9fd58faa3895bd3f333"
+      },
+      {
+        "file": "libreoffice26.8-dict-en_26.8.3.1-1_amd64.deb",
+        "sha256": "f12d96095c041dc395ea56b2a342a48d7e8fdc74065bedb9db7d3f4f56f282ca"
+      },
+      {
+        "file": "libobasis26.8-extension-report-builder_26.8.3.1-1_amd64.deb",
+        "sha256": "ecc6f55add330ce7795f00551ecd71cf11da854ecc96f23bf9c0edec98f7cd39"
+      },
+      {
+        "file": "libobasis26.8-extension-nlpsolver_26.8.3.1-1_amd64.deb",
+        "sha256": "46e32ff01d67b4b687b0e88717ed19b447c2a5c8bb0fa52dae17eab528256e0c"
+      },
+      {
+        "file": "libobasis26.8-librelogo_26.8.3.1-1_amd64.deb",
+        "sha256": "6968c51ac535a3971ceeb28729bd7715d80ec129830de81399d52c7a9d37ea70"
+      },
+      {
+        "file": "libreoffice26.8-debian-menus_26.8.3-1_all.deb",
+        "sha256": "e2e289bc957072660e91abdd3b08c6e155a2e34c1365701bbfcef2b8081a0a6f"
+      },
+      {
+        "file": "libobasis26.8-extension-mediawiki-publisher_26.8.3.1-1_amd64.deb",
+        "sha256": "f42197e9b1ba7a2340ab665ee268f2cb0c74d9a7dfa7e895dc7df11eb68b05c3"
+      },
+      {
+        "file": "libreoffice26.8-en-us_26.8.3.1-1_amd64.deb",
+        "sha256": "63a46b18e77dda2d32241af197ba1b3688fcd5a20d39010b93bb19820b064794"
+      },
+      {
+        "file": "libobasis26.8-libreofficekit-data_26.8.3.1-1_amd64.deb",
+        "sha256": "9700fba656bd3e75153263c2c5859be56bb03efce2034323786928b0ef81ea69"
+      },
+      {
+        "file": "libobasis26.8-ogltrans_26.8.3.1-1_amd64.deb",
+        "sha256": "25ad239ef403c11ee0f524907e73a07e9968b93ff7ab39445999d6c870d85c64"
+      },
+      {
+        "file": "libobasis26.8-extension-javascript-script-provider_26.8.3.1-1_amd64.deb",
+        "sha256": "d431990c59faf2b6043b7a0436b7c44c1df8b57438ca96f3bda18b0c66698d21"
+      },
+      {
+        "file": "libobasis26.8-pyuno_26.8.3.1-1_amd64.deb",
+        "sha256": "23c81ddb67571c43f7a542a7e13bb57a8a11b33bfd2b91d1b5ab43ef067b8a45"
+      },
+      {
+        "file": "libobasis26.8-ooofonts_26.8.3.1-1_amd64.deb",
+        "sha256": "fcdddd47bf41d433beaa06e6314479f44c08d48ba0dc0ef530d1e43a75de75fa"
+      },
+      {
+        "file": "libobasis26.8-extension-pdf-import_26.8.3.1-1_amd64.deb",
+        "sha256": "58ce5b4d28dc0a75e2e09c01643e77766089a906bb2555569bd59e8838732d7f"
+      },
+      {
+        "file": "libreoffice26.8-draw_26.8.3.1-1_amd64.deb",
+        "sha256": "0c615f6e9afcea2cb5e5bc2600ebf28a5c3ea6591e72871d12458dd3fc2f565c"
+      },
+      {
+        "file": "libobasis26.8-impress_26.8.3.1-1_amd64.deb",
+        "sha256": "81853044648709f5b49b8b4b9394a8a6720f371f10d503ed4446135106250e13"
+      },
+      {
+        "file": "libobasis26.8-calc_26.8.3.1-1_amd64.deb",
+        "sha256": "ef10d4e316b90068af9c530088ee66506cdfe8420977d45a72ae30fa3f7c3df0"
+      },
+      {
+        "file": "libreoffice26.8-dict-es_26.8.3.1-1_amd64.deb",
+        "sha256": "4546845ccfd5e2028204921eaf8c3f3da63f6d827e4cff1cdd8699f918263da1"
+      },
+      {
+        "file": "libreoffice26.8-math_26.8.3.1-1_amd64.deb",
+        "sha256": "d5f7c76ab650c330c9a0d58eedd28618b85cedca62dc62067e5ce61c00474e86"
+      },
+      {
+        "file": "libobasis26.8-graphicfilter_26.8.3.1-1_amd64.deb",
+        "sha256": "fd7382f5f9d432ffbff56f695f6af3cef947835eb29c0152eff97341b81b1257"
+      },
+      {
+        "file": "libobasis26.8-python-script-provider_26.8.3.1-1_amd64.deb",
+        "sha256": "33d8fdd92aba3513df3a9d8c0e3701ee4734337eb539b92746e0e1e225f58c45"
+      },
+      {
+        "file": "libobasis26.8-firebird_26.8.3.1-1_amd64.deb",
+        "sha256": "72a46b9847f4181acdf84b808ed091deb6b55b8bdc7feead798b5e881b348e04"
+      }
+    ],
+    "program": "/workspace/scratch/4feb972cdba5/cv-cover-charm-dev/artifacts/lo-stable-26.8.3/runtime/opt/libreoffice26.8/program/soffice",
+    "version": {
+      "exit_code": 0,
+      "stdout": "LibreOffice 26.8.3.1 861effc5289d539f15c4c18d1ba8579ffd78728b\n\n",
+      "stderr": ""
+    },
+    "binary_sha256": {
+      "soffice.bin": "9ceb3439812e6196b181d362903d835ebfc0bff09bcc85617f6d5f0cb54bc947",
+      "libmergedlo.so": "c26bba443113346b1116cae5db5eebe6552e29799f74bd5f8866b2e3cacfa5d7"
+    }
+  },
+  "health": {
+    "command": [
+      "/workspace/scratch/4feb972cdba5/cv-cover-charm-dev/artifacts/lo-stable-26.8.3/runtime/opt/libreoffice26.8/program/soffice",
+      "--headless",
+      "-env:UserInstallation=file:///workspace/scratch/4feb972cdba5/cv-cover-charm-dev/artifacts/lo-stable-26.8.3/health/profile",
+      "--convert-to",
+      "pdf:writer_pdf_Export",
+      "--outdir",
+      "/workspace/scratch/4feb972cdba5/cv-cover-charm-dev/artifacts/lo-stable-26.8.3/health/pdf",
+      "/workspace/scratch/4feb972cdba5/cv-cover-charm-dev/artifacts/lo-stable-26.8.3/health/health.txt"
+    ],
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "",
+    "elapsed_seconds": 0.491699753999967,
+    "input_sha256": "7ad4c7055cacd7d08ce214c1db4206afe2e67c3b1df133dd7a577d45c7e7b26a",
+    "pdf_exists": false,
+    "binaries_unchanged": true,
+    "status": "RUNTIME_UNAVAILABLE"
+  },
+  "preserved_dossier_docx_sha256": {
+    "dossier-save1.docx": "a3d62af422056b52c43e4bc96e856f405a54193db17556c1da3aee33497f9579",
+    "dossier-save2.docx": "c94ff1333b2b65a56c91c91240dc9fb151f7e7dedac3b97b8935f3afcdd61114",
+    "dossier-source.docx": "be34bf99bc7e964cbdf8ef81eaf9afe586b92f12a093f8aa70850bbd3993e167"
+  },
+  "predecessor_ci": [
+    {
+      "name": "Dossier Visual Parity",
+      "id": 43748932159,
+      "head_sha": "56c8f3df1e456858c2465f684b091654b97049db",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/43748932159"
+    },
+    {
+      "name": "Dossier Regression",
+      "id": 43748932127,
+      "head_sha": "56c8f3df1e456858c2465f684b091654b97049db",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/43748932127"
+    },
+    {
+      "name": "pages build and deployment",
+      "id": 43748931823,
+      "head_sha": "56c8f3df1e456858c2465f684b091654b97049db",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/43748931823"
+    }
+  ],
+  "decision": "Stop runtime debugging here. No additional versions, LibreOfficeKit adapters, engine patches, or exporter changes. Any future stable save and render must use the same stable executable.",
+  "validation": "Evidence JSON parses; all 42 package hashes and both engine binary hashes match the acquisition manifest; input hash matches; no PDF exists. Product suites not rerun for documentation-only changes."
+}

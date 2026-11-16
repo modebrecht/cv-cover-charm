@@ -1,0 +1,2 @@
+CVCC stable runtime health check
+Synthetic plain text without images or controls.
