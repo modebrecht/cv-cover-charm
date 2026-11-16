@@ -6,6 +6,7 @@ import { normalizeCvRubricPillsForPdf } from "@/lib/cv-pdf-rubric";
 import { normalizeCssZoomForHtml2Canvas } from "@/lib/html2canvas-export";
 import { downloadBlob } from "@/lib/download";
 import { registerCabinPdfFonts } from "@/lib/pdf-fonts";
+import { renderPdfRaster } from "@/lib/pdf-raster";
 import { fittedPdfHorizontalScale } from "@/lib/pdf-text-width";
 import {
   assertCoverPdfTextContent,
@@ -338,7 +339,7 @@ async function addRasterPage(
   const checkVisualClone = pdfVisualCloneGuard(page);
   const checkChromeClone = pdfChromeCloneGuard(page);
   const checkLetterClone = rebuildLetterVectors ? pdfLetterCloneGuard(page) : null;
-  const canvas = await html2canvas(page, {
+  const canvas = await renderPdfRaster(html2canvas, page, {
     scale: PDF.SCALE,
     backgroundColor: "#ffffff",
     useCORS: true,

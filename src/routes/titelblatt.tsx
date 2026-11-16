@@ -55,6 +55,7 @@ import { downloadBlob, safeFileName } from "@/lib/download";
 import { downloadCombinedDossierPdf } from "@/lib/dossier-pdf";
 import type { PdfAdvisoryConsent } from "@/lib/pdf-preflight";
 import { normalizeCssZoomForHtml2Canvas } from "@/lib/html2canvas-export";
+import { renderPdfRaster } from "@/lib/pdf-raster";
 import {
   COVER_STORAGE_KEY,
   CV_STORAGE_KEY,
@@ -857,7 +858,7 @@ function Titelblatt() {
         import("html2canvas-pro"),
         import("jspdf"),
       ]);
-      const canvas = await html2canvas(exportRef.current, {
+      const canvas = await renderPdfRaster(html2canvas, exportRef.current, {
         scale: PDF.SCALE,
         backgroundColor: colors.bg ?? "#ffffff",
         useCORS: true,

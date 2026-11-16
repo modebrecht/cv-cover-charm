@@ -7,6 +7,10 @@ on:
     paths:
       - "src/components/cover/**"
       - "src/lib/html2canvas-export.ts"
+      - "src/lib/pdf-raster.ts"
+      - "src/lib/dossier-pdf.ts"
+      - "src/routes/lebenslauf.tsx"
+      - "src/routes/titelblatt.tsx"
       - "src/lib/neon-sheet-background.ts"
       - "src/components/dossier/DossierSheetBackground.tsx"
       - "tests/qa/web-pdf-gallery.qa.ts"

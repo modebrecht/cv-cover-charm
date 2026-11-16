@@ -140,7 +140,9 @@ jobs:
           - group: cv-pdf-dom
             files: tests/e2e/cv-gallery-dom-parity.spec.ts
           - group: cv-pdf-paint
-            files: tests/e2e/cv-pdf-paint-parity.spec.ts
+            files: >-
+              tests/e2e/cv-pdf-paint-parity.spec.ts
+              tests/e2e/pdf-text-baseline.spec.ts
           - group: cv-m9-pagination
             files: >-
               tests/e2e/cv-demo-pagination.spec.ts
@@ -221,7 +223,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: regression-${{ matrix.group }}-${{ github.sha }}
-          path: artifacts/regression/${{ matrix.group }}.json
+          path: |
+            artifacts/regression/${{ matrix.group }}.json
+            artifacts/pdf-text-baseline
           retention-days: 14
 
       - name: Upload PDF consent evidence

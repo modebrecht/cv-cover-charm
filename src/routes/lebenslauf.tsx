@@ -120,6 +120,7 @@ import { downloadBlob, safeFileName } from "@/lib/download";
 import { downloadCombinedDossierPdf } from "@/lib/dossier-pdf";
 import type { PdfAdvisoryConsent } from "@/lib/pdf-preflight";
 import { registerCabinPdfFonts } from "@/lib/pdf-fonts";
+import { renderPdfRaster } from "@/lib/pdf-raster";
 import {
   emitPdfRasterCanvasDiagnostic,
   normalizeCssZoomForHtml2Canvas,
@@ -912,7 +913,7 @@ function Lebenslauf() {
       });
 
       for (let i = 0; i < pages.length; i++) {
-        const canvas = await html2canvas(pages[i], {
+        const canvas = await renderPdfRaster(html2canvas, pages[i], {
           scale: PDF.SCALE,
           backgroundColor: "#ffffff",
           useCORS: true,

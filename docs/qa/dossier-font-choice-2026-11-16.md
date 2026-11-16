@@ -9,6 +9,10 @@ ersetzt. Unterschiedliche eigene Briefschriften dürfen beim Laden nicht vom CV
 überschrieben werden. Der folgende Bericht beschreibt den ursprünglichen
 geprüften Stand; die Rastermessungen bleiben erhalten.
 
+**PDF-Fortsetzung:** Die [gezielte Grundlinienkorrektur](pdf-text-baseline-2026-11-16.md)
+behandelt den unten beschriebenen Maschine-Versatz mit gemessenen Browser-
+Fontmetriken. Der historische 6-PASS-/18-REVIEW-Bericht wird dafür nicht ersetzt.
+
 Bei einem gestalteten Motivationsschreiben konnte eine Schriftänderung im CV
 scheinbar gespeichert sein, während Briefvorschau und PDF weiterhin die alte
 Schrift verwendeten. Der normale Modern-Ablauf reproduziert das: Nach Auswahl
