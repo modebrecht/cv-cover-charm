@@ -178,59 +178,177 @@ test("measured browser ascent corrects PDF glyph baselines without changing the 
   }
 });
 
-test("Maschine uses the same baseline correction in single CV and cover downloads", async ({
-  page,
+test("zoom normalization preserves native Cabin glyphs at the used font size", async ({
+  playwright,
 }) => {
-  const stored = await seedCanonicalDossier(page);
-  await applyGalleryCase(page, stored, GALLERY_CASES.find((item) => item.id === "modern")!);
-  const results = [];
-  for (const [part, route, section, selector] of [
-    ["cv", "lebenslauf", "Schrift", '[data-export-mode="false"] [data-cv-page]'],
-    ["cover", "titelblatt", "Schrift und Layout", 'main [data-dossier-document="cover"]'],
-  ] as const) {
-    await page.goto(`${BASE_URL}/${route}`, { waitUntil: "networkidle" });
-    await waitEditorReady(page);
-    const toggle = page.locator(
-      `[data-editor-section-title="${section}"] [data-editor-section-toggle]`,
-    );
-    if ((await toggle.getAttribute("aria-expanded")) !== "true") await toggle.click();
-    await page.getByLabel(/Schriftart gesamtes Dossier/).selectOption("maschine");
-    const storageKey = part === "cv" ? "lebenslauf:v1" : "titelblatt:v3";
-    await expect
-      .poll(() =>
-        page.evaluate(
-          ({ key, part }) => {
-            const saved = JSON.parse(localStorage.getItem(key)!);
-            return part === "cv" ? saved.design.font : saved.font;
-          },
-          { key: storageKey, part },
-        ),
-      )
-      .toBe("maschine");
-    await page.evaluate(() => document.fonts.ready);
-    const sheet = page.locator(selector);
-    await expect(sheet).toHaveCount(1);
-    await sheet.screenshot({ path: `${out}/single-${part}-web.png`, animations: "disabled" });
-    const before = await page.evaluate(() => ({
-      cv: localStorage.getItem("lebenslauf:v1"),
-      cover: localStorage.getItem("titelblatt:v3"),
-      letter: localStorage.getItem("anschreiben:v1"),
-    }));
-    await page.getByRole("button", { name: "Download", exact: true }).click();
-    const action = page.getByRole("menuitem", { name: "PDF", exact: true });
-    await expect(action).toBeEnabled();
-    const pending = page.waitForEvent("download");
-    await action.click();
-    const download = await pending;
-    await download.saveAs(`${out}/single-${part}.pdf`);
-    expect(
-      await page.evaluate(() => ({
+  const browser = await playwright.chromium.launch({ args: ["--disable-lcd-text"] });
+  try {
+    const page = await browser.newPage({ viewport: { width: 1280, height: 720 } });
+    await mkdir(out, { recursive: true });
+    await page.goto(`${BASE_URL}/`, { waitUntil: "networkidle" });
+    const rows = [];
+    for (const [key, family, size, weight, zoom, outerZoom] of [
+      ["cabin-small", "Cabin", 15.52, 400, 0.9, 1],
+      ["cabin-body", "Cabin", 15.84, 400, 0.9, 1],
+      ["cabin-bold", "Cabin", 17.28, 650, 0.9, 1],
+      ["cabin-name", "Cabin", 43.2, 800, 0.9, 1],
+      ["cabin-nested", "Cabin", 17.28, 650, 0.9, 0.8],
+      ["cabin-unity", "Cabin", 15.84, 400, 1, 1],
+      ["cabin-enlarged", "Cabin", 15.84, 400, 1.2, 1],
+      ["sans-body", "Arial,sans-serif", 15.84, 400, 0.9, 1],
+    ] as const) {
+      await page.evaluate(
+        async ({ family, size, weight, zoom, outerZoom }) => {
+          await document.fonts.load(`${weight} ${size}px ${family}`, "Hg Thomas Müller");
+          await document.fonts.ready;
+          document.getElementById("zoom-specimen")?.remove();
+          const root = document.createElement("div");
+          root.id = "zoom-specimen";
+          root.style.cssText =
+            "position:absolute;left:0;top:0;width:600px;height:100px;background:white;color:black;z-index:999999";
+          const outer = document.createElement("div");
+          outer.style.zoom = String(outerZoom);
+          const text = document.createElement("div");
+          text.style.cssText = `width:600px;height:100px;font:${weight} ${size}px ${family};line-height:1.5;zoom:${zoom}`;
+          text.textContent = "Hg Thomas Müller";
+          outer.append(text);
+          root.append(outer);
+          document.body.append(root);
+        },
+        { family, size, weight, zoom, outerZoom },
+      );
+      const web = await page.locator("#zoom-specimen").screenshot({
+        path: `${out}/${key}-zoom-web.png`,
+      });
+      const result = await page.evaluate(
+        async (webImage) => {
+          const rendererPath = "/node_modules/.vite/deps/html2canvas-pro.js";
+          const { default: html2canvas } = await import(rendererPath);
+          const rasterPath = "/src/lib/pdf-raster.ts";
+          const { renderPdfRaster } = await import(rasterPath);
+          const normalizationPath = "/src/lib/html2canvas-export.ts";
+          const { normalizeCssZoomForHtml2Canvas } = await import(normalizationPath);
+          const root = document.getElementById("zoom-specimen")!;
+          const source = root.outerHTML;
+          const canvas = await renderPdfRaster(html2canvas, root, {
+            width: 600,
+            height: 100,
+            scale: 1,
+            logging: false,
+            scrollX: 0,
+            scrollY: 0,
+            onclone: (_document: Document, clone: HTMLElement) =>
+              normalizeCssZoomForHtml2Canvas(clone),
+          });
+          const reference = document.createElement("canvas");
+          reference.width = 600;
+          reference.height = 100;
+          const context = reference.getContext("2d")!;
+          const image = new Image();
+          image.src = webImage;
+          await image.decode();
+          context.drawImage(image, 0, 0);
+          const expected = context.getImageData(0, 0, 600, 100).data;
+          const actual = canvas.getContext("2d")!.getImageData(0, 0, 600, 100).data;
+          let differentPixels = 0;
+          let colouredReferencePixels = 0;
+          for (let i = 0; i < expected.length; i += 4) {
+            if (expected[i] !== expected[i + 1] || expected[i] !== expected[i + 2])
+              colouredReferencePixels++;
+            if (
+              expected[i] !== actual[i] ||
+              expected[i + 1] !== actual[i + 1] ||
+              expected[i + 2] !== actual[i + 2] ||
+              expected[i + 3] !== actual[i + 3]
+            )
+              differentPixels++;
+          }
+          return {
+            png: canvas.toDataURL(),
+            sourceUnchanged: source === root.outerHTML,
+            differentPixels,
+            colouredReferencePixels,
+          };
+        },
+        `data:image/png;base64,${web.toString("base64")}`,
+      );
+      const row = {
+        key,
+        differentPixels: result.differentPixels,
+        colouredReferencePixels: result.colouredReferencePixels,
+        sourceUnchanged: result.sourceUnchanged,
+      };
+      rows.push(row);
+      await writeFile(
+        `${out}/${key}-zoom-canvas.png`,
+        Buffer.from(result.png.split(",")[1], "base64"),
+      );
+      await writeFile(`${out}/zoom-metrics.json`, JSON.stringify(rows, null, 2));
+      expect(row.sourceUnchanged, key).toBe(true);
+      expect(row.colouredReferencePixels, key).toBe(0);
+      expect(row.differentPixels, key).toBe(0);
+    }
+  } finally {
+    await browser.close();
+  }
+});
+
+for (const font of ["maschine", "freundlich"] as const) {
+  test(`${font} preserves glyphs in single CV and cover downloads`, async ({ page }) => {
+    const stored = await seedCanonicalDossier(page);
+    await applyGalleryCase(page, stored, GALLERY_CASES.find((item) => item.id === "modern")!);
+    const results = [];
+    for (const [part, route, section, selector] of [
+      ["cv", "lebenslauf", "Schrift", '[data-export-mode="false"] [data-cv-page]'],
+      ["cover", "titelblatt", "Schrift und Layout", 'main [data-dossier-document="cover"]'],
+    ] as const) {
+      await page.goto(`${BASE_URL}/${route}`, { waitUntil: "networkidle" });
+      await waitEditorReady(page);
+      const toggle = page.locator(
+        `[data-editor-section-title="${section}"] [data-editor-section-toggle]`,
+      );
+      if ((await toggle.getAttribute("aria-expanded")) !== "true") await toggle.click();
+      await page.getByLabel(/Schriftart gesamtes Dossier/).selectOption(font);
+      const storageKey = part === "cv" ? "lebenslauf:v1" : "titelblatt:v3";
+      await expect
+        .poll(() =>
+          page.evaluate(
+            ({ key, part }) => {
+              const saved = JSON.parse(localStorage.getItem(key)!);
+              return part === "cv" ? saved.design.font : saved.font;
+            },
+            { key: storageKey, part },
+          ),
+        )
+        .toBe(font);
+      await page.evaluate(() => document.fonts.ready);
+      const sheet = page.locator(selector);
+      await expect(sheet).toHaveCount(1);
+      await sheet.screenshot({
+        path: `${out}/single-${font}-${part}-web.png`,
+        animations: "disabled",
+      });
+      const before = await page.evaluate(() => ({
         cv: localStorage.getItem("lebenslauf:v1"),
         cover: localStorage.getItem("titelblatt:v3"),
         letter: localStorage.getItem("anschreiben:v1"),
-      })),
-    ).toEqual(before);
-    results.push({ part, filename: download.suggestedFilename() });
-  }
-  await writeFile(`${out}/single-downloads.json`, JSON.stringify(results, null, 2));
-});
+      }));
+      await page.getByRole("button", { name: "Download", exact: true }).click();
+      const action = page.getByRole("menuitem", { name: "PDF", exact: true });
+      await expect(action).toBeEnabled();
+      const pending = page.waitForEvent("download");
+      await action.click();
+      const download = await pending;
+      await download.saveAs(`${out}/single-${font}-${part}.pdf`);
+      expect(
+        await page.evaluate(() => ({
+          cv: localStorage.getItem("lebenslauf:v1"),
+          cover: localStorage.getItem("titelblatt:v3"),
+          letter: localStorage.getItem("anschreiben:v1"),
+        })),
+      ).toEqual(before);
+      results.push({ part, filename: download.suggestedFilename() });
+    }
+    await writeFile(`${out}/single-${font}-downloads.json`, JSON.stringify(results, null, 2));
+  });
+}

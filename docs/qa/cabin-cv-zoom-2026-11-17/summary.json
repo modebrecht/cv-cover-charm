@@ -1,0 +1,561 @@
+{
+  "status": "PASS",
+  "source_sha": "26ab4acf34115563500f62dd1c9674a6c3ad88a8",
+  "source_diff_sha256": "5d8ba55ce8a9e34e4d8bb6ce79663cd0ee9c16eef575a96320d71dc64fb65e95",
+  "scope": "Eight explicit font selections; Modern short three-part dossier; one Chromium/Linux environment. Not an all-template, long-content or Windows/Word acceptance.",
+  "pdf_visuals": "Browser-rasterized glyphs; PDF text extraction fonts are not proof of the visible font.",
+  "complete": true,
+  "browser_stats": {
+    "startTime": "2026-11-17T02:13:19.012Z",
+    "duration": 113108.529,
+    "expected": 8,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "counts": {
+    "PASS": 24,
+    "REVIEW": 0,
+    "FAIL": 0
+  },
+  "inputs": {
+    "freundlich": {
+      "metadata_sha256": "06b6750539fceee1c363e0ef180f932d0ad4bb4b8d14f17664847d4327e2c534",
+      "pdf_sha256": "65b68eaeb62f8cc07a871de105d889ba72cd809232e63bd1c0c0c36eac229a9e"
+    },
+    "humanist": {
+      "metadata_sha256": "f987aba9683d703ddf244cb73014bb7a1025e36f2c15e8aa41f470e63d88bc68",
+      "pdf_sha256": "75bbfd5aa6b3a471ba97b17188a8803cb5ff3932ec44ce5c15143d7f0080b66f"
+    },
+    "maschine": {
+      "metadata_sha256": "3a6eb4c69055c8b5f0df753f1d754baa16bdd68cf182286fb6732357f5c42446",
+      "pdf_sha256": "c0a98fad22bd727c50f5a02b939ad2c6c42f4d36fae835ecd27cc43cf872cab6"
+    },
+    "plakativ": {
+      "metadata_sha256": "ffa25c13c4fa8ec4fe3d2ddacd5109261cf79f2758633bd8acd42076a0dfc697",
+      "pdf_sha256": "ee38ddc9da8b0235247f4f8de61a68091327b40afa1a2aaf710bda6db0b15c2c"
+    },
+    "sans": {
+      "metadata_sha256": "fff9b14a94773b475ba430de601709f254b491b2fda30970008e83d6dcf68fcc",
+      "pdf_sha256": "0e678b458bf1186df086cc68c0ecc59a7fc6fad4f45bb5d914f85f7836e446c9"
+    },
+    "schmal": {
+      "metadata_sha256": "1069c363a0fecdb7f26b2aa485b813159da3b630d77f1606c89c233b52452fc9",
+      "pdf_sha256": "c7bf9bce389be9e4b5f65bcc929d59ba744388c60edc604f33716fe23b9ebab1"
+    },
+    "serif": {
+      "metadata_sha256": "c5526e16ccb5586ea619be74d2855582d1904e8d8f883dd8542b373afe60a083",
+      "pdf_sha256": "12aa9250a2060545a4dec9887e5db7b284eefc7a5e07301f903d34b15658c6e0"
+    },
+    "times": {
+      "metadata_sha256": "34694d753b7f92452874448c5ec4bae390a7fdbf3b22a5f0cf0cd9743b65df9c",
+      "pdf_sha256": "fc88ce23ed94fb94f15ec0f03653ad88818dcb4b5a3d38121ba3779b6dfe49f5"
+    }
+  },
+  "rows": [
+    {
+      "font": "freundlich",
+      "part": "cover",
+      "status": "PASS",
+      "rgb_ssim": 0.9889937239060314,
+      "geometry_delta_mm": 0.0,
+      "text_nodes": 17,
+      "platform_fonts_for_sample": [
+        {
+          "familyName": "Cabin",
+          "postScriptName": "Cabin-Bold",
+          "isCustomFont": true,
+          "glyphCount": 9
+        }
+      ],
+      "css_sample_family": "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+      "pdf_text_characters": 0,
+      "web_png_sha256": "73ba8e6a655924980591ec0212f2bdebc31bc67d9a2c46b67da5228990fb56e0",
+      "pdf_png_sha256": "d9e62f3c753e9185536cf1161e6fcd50d524d5df4eda823bb160934c2d61a254",
+      "diff_png_sha256": "fe1d46a5ca925fbb953229892240f8564ba2653986f2df05400c55da0945b43c"
+    },
+    {
+      "font": "freundlich",
+      "part": "letter",
+      "status": "PASS",
+      "rgb_ssim": 0.979817076671129,
+      "geometry_delta_mm": 0.0,
+      "text_nodes": 22,
+      "platform_fonts_for_sample": [
+        {
+          "familyName": "Cabin",
+          "postScriptName": "Cabin-Regular",
+          "isCustomFont": true,
+          "glyphCount": 10
+        }
+      ],
+      "css_sample_family": "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+      "pdf_text_characters": 841,
+      "web_png_sha256": "d800e39c3030bd23cba2f92f2f0d10cb742940fb7ce47eb0d6523e4027f22879",
+      "pdf_png_sha256": "b10c3405d9a45f6e3c66b77f2f936538fda48e87485bbd2463d62ff3d2c0e82d",
+      "diff_png_sha256": "5d83821cbbbf5c9920c4bc7389e618cbfa75d763054919396fe1f5265122d8b4"
+    },
+    {
+      "font": "freundlich",
+      "part": "cv",
+      "status": "PASS",
+      "rgb_ssim": 0.9656175083104038,
+      "geometry_delta_mm": 0.0,
+      "text_nodes": 54,
+      "platform_fonts_for_sample": [
+        {
+          "familyName": "Cabin",
+          "postScriptName": "Cabin-Bold",
+          "isCustomFont": true,
+          "glyphCount": 10
+        }
+      ],
+      "css_sample_family": "Cabin, \"Trebuchet MS\", \"Segoe UI\", Tahoma, sans-serif",
+      "pdf_text_characters": 1011,
+      "web_png_sha256": "9fa7985d8f888e4468f1372bdce8f451030f28d250ff706a4a051ed43a6cca3a",
+      "pdf_png_sha256": "13bfc9200c1995f7ad294b6abfbf2c489cc8b07b7196b8074979ba4dc8a9b790",
+      "diff_png_sha256": "c8f7c5b6d8396ae97fd02f27e970ffe8251901ef1e3bb20d80a1a09a23067a8d"
+    },
+    {
+      "font": "humanist",
+      "part": "cover",
+      "status": "PASS",
+      "rgb_ssim": 0.9897001122750363,
+      "geometry_delta_mm": 0.0,
+      "text_nodes": 17,
+      "platform_fonts_for_sample": [
+        {
+          "familyName": "DejaVu Sans",
+          "postScriptName": "DejaVuSans-Bold",
+          "isCustomFont": false,
+          "glyphCount": 9
+        }
+      ],
+      "css_sample_family": "Verdana, Geneva, \"DejaVu Sans\", sans-serif",
+      "pdf_text_characters": 0,
+      "web_png_sha256": "eef46c4fb6e931f175d608369da7842f13985645c5527cdb0b92bac594cefc9b",
+      "pdf_png_sha256": "59dbc68a8dc0c620a573bb4eb9be018b67d4a1a0cdf785a05bf56926ecbf4c2a",
+      "diff_png_sha256": "3b648d483edb2477341a9f7367247b695909c91ecb229a8f6c341e2632425415"
+    },
+    {
+      "font": "humanist",
+      "part": "letter",
+      "status": "PASS",
+      "rgb_ssim": 0.984545032280591,
+      "geometry_delta_mm": 0.0,
+      "text_nodes": 22,
+      "platform_fonts_for_sample": [
+        {
+          "familyName": "DejaVu Sans",
+          "postScriptName": "DejaVuSans",
+          "isCustomFont": false,
+          "glyphCount": 10
+        }
+      ],
+      "css_sample_family": "Verdana, Geneva, \"DejaVu Sans\", sans-serif",
+      "pdf_text_characters": 845,
+      "web_png_sha256": "9559e313cd3ae9be8710b8f2d02c0183d2bc6e689ecfba5b85d85b84832d5f61",
+      "pdf_png_sha256": "61c07db71c4585579c6b274b4d06bfacaa623095e8582dafdb6e3bf4f58ed5e0",
+      "diff_png_sha256": "298ee89ba3b50f0de961232054120a03f95d4645da8931e659e825c4dad5c31b"
+    },
+    {
+      "font": "humanist",
+      "part": "cv",
+      "status": "PASS",
+      "rgb_ssim": 0.9739046200907845,
+      "geometry_delta_mm": 0.0,
+      "text_nodes": 54,
+      "platform_fonts_for_sample": [
+        {
+          "familyName": "DejaVu Sans",
+          "postScriptName": "DejaVuSans-Bold",
+          "isCustomFont": false,
+          "glyphCount": 10
+        }
+      ],
+      "css_sample_family": "Verdana, Geneva, \"DejaVu Sans\", sans-serif",
+      "pdf_text_characters": 1010,
+      "web_png_sha256": "c7b6faa33c77ba604a3368c33d6afa8880ca73476c11add92a1a63f88f8ad812",
+      "pdf_png_sha256": "a03b30ec82f7483cddf554ab0336ebb16ba53ba1c1edbafa6c5a2745a9dfcdb1",
+      "diff_png_sha256": "056ee75fa4c829422c2fdc5961cdcc904e590e804afde32fe259f74283f3533a"
+    },
+    {
+      "font": "maschine",
+      "part": "cover",
+      "status": "PASS",
+      "rgb_ssim": 0.9899790495113246,
+      "geometry_delta_mm": 0.0,
+      "text_nodes": 17,
+      "platform_fonts_for_sample": [
+        {
+          "familyName": "Liberation Mono",
+          "postScriptName": "LiberationMono-Bold",
+          "isCustomFont": false,
+          "glyphCount": 9
+        }
+      ],
+      "css_sample_family": "\"Courier New\", Courier, \"DejaVu Sans Mono\", monospace",
+      "pdf_text_characters": 0,
+      "web_png_sha256": "afc16173a4818ef48da0541a99a3d1f33f1d80fe553a5f20c3274930915b3811",
+      "pdf_png_sha256": "6b9c0c372e3922df753c9939387a5f71d04924a5f6ab51677e48781acce2bc90",
+      "diff_png_sha256": "37e2aa3a20f1ea873d1423adaf0e758d2597e9e40fb4e6043251f22bc7de194b"
+    },
+    {
+      "font": "maschine",
+      "part": "letter",
+      "status": "PASS",
+      "rgb_ssim": 0.9832353129491085,
+      "geometry_delta_mm": 0.0,
+      "text_nodes": 22,
+      "platform_fonts_for_sample": [
+        {
+          "familyName": "Liberation Mono",
+          "postScriptName": "LiberationMono",
+          "isCustomFont": false,
+          "glyphCount": 10
+        }
+      ],
+      "css_sample_family": "\"Courier New\", Courier, \"DejaVu Sans Mono\", monospace",
+      "pdf_text_characters": 846,
+      "web_png_sha256": "16abdb1c7652bd5a8e3bb0ab737987f8ae288b73f6d1ce60936ed617615d3b8d",
+      "pdf_png_sha256": "bd71fd238fc01faa5559c1b43989ad57d0f28cefeaf3daf6e99602337b28eb99",
+      "diff_png_sha256": "72ec7153cd58b92b8d020a5456d92a1936cc11c43c466875745cbb8af12c9eac"
+    },
+    {
+      "font": "maschine",
+      "part": "cv",
+      "status": "PASS",
+      "rgb_ssim": 0.9728602773602937,
+      "geometry_delta_mm": 0.0,
+      "text_nodes": 54,
+      "platform_fonts_for_sample": [
+        {
+          "familyName": "Liberation Mono",
+          "postScriptName": "LiberationMono-Bold",
+          "isCustomFont": false,
+          "glyphCount": 10
+        }
+      ],
+      "css_sample_family": "\"Courier New\", Courier, \"DejaVu Sans Mono\", monospace",
+      "pdf_text_characters": 1011,
+      "web_png_sha256": "d6985769a4c984174ff105797993899c1ef0263c7f0a1afb77af9798d75609a4",
+      "pdf_png_sha256": "135bd1b7ba226dce1e8eb678cf118cea41b7dc054687433c80e88cae20e6fb5d",
+      "diff_png_sha256": "7a36d0a52ba1082e34ca4f5927c4aafe400ff363c9358cdafb2d0ed2e01475ef"
+    },
+    {
+      "font": "plakativ",
+      "part": "cover",
+      "status": "PASS",
+      "rgb_ssim": 0.9928922187039904,
+      "geometry_delta_mm": 0.0,
+      "text_nodes": 17,
+      "platform_fonts_for_sample": [
+        {
+          "familyName": "Liberation Sans",
+          "postScriptName": "LiberationSans-Bold",
+          "isCustomFont": false,
+          "glyphCount": 9
+        }
+      ],
+      "css_sample_family": "Impact, Haettenschweiler, \"Arial Black\", \"Franklin Gothic Bold\", sans-serif",
+      "pdf_text_characters": 0,
+      "web_png_sha256": "884cdcc72081471542635ef3ccdc9c27c51468c10c14a1a753d1087abfbb7588",
+      "pdf_png_sha256": "c7988a36b51187f5fd450f87485c5cea7e325ddc109d46d64e636696a0d17815",
+      "diff_png_sha256": "f28bbe88045d71a50ae0eb75a6fa8c4b52a71b860eac3247b4fee18834bf4c9c"
+    },
+    {
+      "font": "plakativ",
+      "part": "letter",
+      "status": "PASS",
+      "rgb_ssim": 0.9858568582835056,
+      "geometry_delta_mm": 0.0,
+      "text_nodes": 22,
+      "platform_fonts_for_sample": [
+        {
+          "familyName": "Liberation Sans",
+          "postScriptName": "LiberationSans",
+          "isCustomFont": false,
+          "glyphCount": 10
+        }
+      ],
+      "css_sample_family": "Impact, Haettenschweiler, \"Arial Black\", \"Franklin Gothic Bold\", sans-serif",
+      "pdf_text_characters": 845,
+      "web_png_sha256": "0b5ddee4e4b7cee8ecde596fce1bf9c5ece0db6eae601cc40101ef91e77fb240",
+      "pdf_png_sha256": "34fab7c17569f38b4cafc597c906281f305376d2080a4682492339d16112f7ae",
+      "diff_png_sha256": "59193ed6e8ae741c9a458eba16a03beb62e7c63860a04dae46e408d1dbe21768"
+    },
+    {
+      "font": "plakativ",
+      "part": "cv",
+      "status": "PASS",
+      "rgb_ssim": 0.9765324688935056,
+      "geometry_delta_mm": 0.0,
+      "text_nodes": 54,
+      "platform_fonts_for_sample": [
+        {
+          "familyName": "Liberation Sans",
+          "postScriptName": "LiberationSans-Bold",
+          "isCustomFont": false,
+          "glyphCount": 10
+        }
+      ],
+      "css_sample_family": "Impact, Haettenschweiler, \"Arial Black\", \"Franklin Gothic Bold\", sans-serif",
+      "pdf_text_characters": 1009,
+      "web_png_sha256": "7b756ce0538a49113820614e46dbf40a98dfab3af7474b9d05d4a327bc1de4e6",
+      "pdf_png_sha256": "577ac452c3e4acbfe2baa8b67e264d7b060ef1775f92a1d74f58a5d026602df0",
+      "diff_png_sha256": "315aa51038eca355e2d38757311bf5f3f9973165f7471f0de9d3d7c53f3c7eed"
+    },
+    {
+      "font": "sans",
+      "part": "cover",
+      "status": "PASS",
+      "rgb_ssim": 0.9928922187039904,
+      "geometry_delta_mm": 0.0,
+      "text_nodes": 17,
+      "platform_fonts_for_sample": [
+        {
+          "familyName": "Liberation Sans",
+          "postScriptName": "LiberationSans-Bold",
+          "isCustomFont": false,
+          "glyphCount": 9
+        }
+      ],
+      "css_sample_family": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "pdf_text_characters": 0,
+      "web_png_sha256": "884cdcc72081471542635ef3ccdc9c27c51468c10c14a1a753d1087abfbb7588",
+      "pdf_png_sha256": "c7988a36b51187f5fd450f87485c5cea7e325ddc109d46d64e636696a0d17815",
+      "diff_png_sha256": "f28bbe88045d71a50ae0eb75a6fa8c4b52a71b860eac3247b4fee18834bf4c9c"
+    },
+    {
+      "font": "sans",
+      "part": "letter",
+      "status": "PASS",
+      "rgb_ssim": 0.9858568582835056,
+      "geometry_delta_mm": 0.0,
+      "text_nodes": 22,
+      "platform_fonts_for_sample": [
+        {
+          "familyName": "Liberation Sans",
+          "postScriptName": "LiberationSans",
+          "isCustomFont": false,
+          "glyphCount": 10
+        }
+      ],
+      "css_sample_family": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "pdf_text_characters": 845,
+      "web_png_sha256": "0b5ddee4e4b7cee8ecde596fce1bf9c5ece0db6eae601cc40101ef91e77fb240",
+      "pdf_png_sha256": "34fab7c17569f38b4cafc597c906281f305376d2080a4682492339d16112f7ae",
+      "diff_png_sha256": "59193ed6e8ae741c9a458eba16a03beb62e7c63860a04dae46e408d1dbe21768"
+    },
+    {
+      "font": "sans",
+      "part": "cv",
+      "status": "PASS",
+      "rgb_ssim": 0.9765324688935056,
+      "geometry_delta_mm": 0.0,
+      "text_nodes": 54,
+      "platform_fonts_for_sample": [
+        {
+          "familyName": "Liberation Sans",
+          "postScriptName": "LiberationSans-Bold",
+          "isCustomFont": false,
+          "glyphCount": 10
+        }
+      ],
+      "css_sample_family": "\"Helvetica Neue\", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif",
+      "pdf_text_characters": 1009,
+      "web_png_sha256": "7b756ce0538a49113820614e46dbf40a98dfab3af7474b9d05d4a327bc1de4e6",
+      "pdf_png_sha256": "577ac452c3e4acbfe2baa8b67e264d7b060ef1775f92a1d74f58a5d026602df0",
+      "diff_png_sha256": "315aa51038eca355e2d38757311bf5f3f9973165f7471f0de9d3d7c53f3c7eed"
+    },
+    {
+      "font": "schmal",
+      "part": "cover",
+      "status": "PASS",
+      "rgb_ssim": 0.9928922187039904,
+      "geometry_delta_mm": 0.0,
+      "text_nodes": 17,
+      "platform_fonts_for_sample": [
+        {
+          "familyName": "Liberation Sans",
+          "postScriptName": "LiberationSans-Bold",
+          "isCustomFont": false,
+          "glyphCount": 9
+        }
+      ],
+      "css_sample_family": "\"Arial Narrow\", \"Liberation Sans Narrow\", \"Helvetica Neue Condensed\", Arial, sans-serif",
+      "pdf_text_characters": 0,
+      "web_png_sha256": "884cdcc72081471542635ef3ccdc9c27c51468c10c14a1a753d1087abfbb7588",
+      "pdf_png_sha256": "c7988a36b51187f5fd450f87485c5cea7e325ddc109d46d64e636696a0d17815",
+      "diff_png_sha256": "f28bbe88045d71a50ae0eb75a6fa8c4b52a71b860eac3247b4fee18834bf4c9c"
+    },
+    {
+      "font": "schmal",
+      "part": "letter",
+      "status": "PASS",
+      "rgb_ssim": 0.9858568582835056,
+      "geometry_delta_mm": 0.0,
+      "text_nodes": 22,
+      "platform_fonts_for_sample": [
+        {
+          "familyName": "Liberation Sans",
+          "postScriptName": "LiberationSans",
+          "isCustomFont": false,
+          "glyphCount": 10
+        }
+      ],
+      "css_sample_family": "\"Arial Narrow\", \"Liberation Sans Narrow\", \"Helvetica Neue Condensed\", Arial, sans-serif",
+      "pdf_text_characters": 845,
+      "web_png_sha256": "0b5ddee4e4b7cee8ecde596fce1bf9c5ece0db6eae601cc40101ef91e77fb240",
+      "pdf_png_sha256": "34fab7c17569f38b4cafc597c906281f305376d2080a4682492339d16112f7ae",
+      "diff_png_sha256": "59193ed6e8ae741c9a458eba16a03beb62e7c63860a04dae46e408d1dbe21768"
+    },
+    {
+      "font": "schmal",
+      "part": "cv",
+      "status": "PASS",
+      "rgb_ssim": 0.9765324688935056,
+      "geometry_delta_mm": 0.0,
+      "text_nodes": 54,
+      "platform_fonts_for_sample": [
+        {
+          "familyName": "Liberation Sans",
+          "postScriptName": "LiberationSans-Bold",
+          "isCustomFont": false,
+          "glyphCount": 10
+        }
+      ],
+      "css_sample_family": "\"Arial Narrow\", \"Liberation Sans Narrow\", \"Helvetica Neue Condensed\", Arial, sans-serif",
+      "pdf_text_characters": 1009,
+      "web_png_sha256": "7b756ce0538a49113820614e46dbf40a98dfab3af7474b9d05d4a327bc1de4e6",
+      "pdf_png_sha256": "577ac452c3e4acbfe2baa8b67e264d7b060ef1775f92a1d74f58a5d026602df0",
+      "diff_png_sha256": "315aa51038eca355e2d38757311bf5f3f9973165f7471f0de9d3d7c53f3c7eed"
+    },
+    {
+      "font": "serif",
+      "part": "cover",
+      "status": "PASS",
+      "rgb_ssim": 0.9916923246344185,
+      "geometry_delta_mm": 0.0,
+      "text_nodes": 17,
+      "platform_fonts_for_sample": [
+        {
+          "familyName": "Liberation Serif",
+          "postScriptName": "LiberationSerif-Bold",
+          "isCustomFont": false,
+          "glyphCount": 9
+        }
+      ],
+      "css_sample_family": "Georgia, \"Times New Roman\", Times, serif",
+      "pdf_text_characters": 0,
+      "web_png_sha256": "1b85ceafaf6ef69c3e716f98da7586f2f95ace249bf81df02dca3729878bbec4",
+      "pdf_png_sha256": "d8f41e081925cb9d743b19c7665583d94c131737ac7201f853a905964be81620",
+      "diff_png_sha256": "5d5b1a7cf0e373b5b44e3cc786acad884be44f075c98911dd87dc46ca3480520"
+    },
+    {
+      "font": "serif",
+      "part": "letter",
+      "status": "PASS",
+      "rgb_ssim": 0.9849151943134608,
+      "geometry_delta_mm": 0.0,
+      "text_nodes": 22,
+      "platform_fonts_for_sample": [
+        {
+          "familyName": "Liberation Serif",
+          "postScriptName": "LiberationSerif",
+          "isCustomFont": false,
+          "glyphCount": 10
+        }
+      ],
+      "css_sample_family": "Georgia, \"Times New Roman\", Times, serif",
+      "pdf_text_characters": 844,
+      "web_png_sha256": "b5972c5018e4e403016a49f61e57527fa0eb480b78c4f47f415dcccea842189d",
+      "pdf_png_sha256": "af9378be7ca9e89f0683ec6f303c58d46d46d291cc31a144ad4750d94aecc1db",
+      "diff_png_sha256": "f3ad21f3fb5c459ad5b59b27b5415c7a1803bbf66557d66cd9ddde04ec35b962"
+    },
+    {
+      "font": "serif",
+      "part": "cv",
+      "status": "PASS",
+      "rgb_ssim": 0.9756852696957775,
+      "geometry_delta_mm": 0.0,
+      "text_nodes": 54,
+      "platform_fonts_for_sample": [
+        {
+          "familyName": "Liberation Serif",
+          "postScriptName": "LiberationSerif-Bold",
+          "isCustomFont": false,
+          "glyphCount": 10
+        }
+      ],
+      "css_sample_family": "Georgia, \"Times New Roman\", Times, serif",
+      "pdf_text_characters": 1009,
+      "web_png_sha256": "6b9716cb9d0acd3bf2de1cf498d13d42d4f62c29ec8b5491cae63495aef07b82",
+      "pdf_png_sha256": "dfa5f2c2120d2bbceeea56af27c59a4616f6c88a95acb82631fe283b958e24a1",
+      "diff_png_sha256": "09900db138aa22c98bb4fd2d1e5b9231200ec147c4f712c4e47e297eae70902d"
+    },
+    {
+      "font": "times",
+      "part": "cover",
+      "status": "PASS",
+      "rgb_ssim": 0.9916923246344185,
+      "geometry_delta_mm": 0.0,
+      "text_nodes": 17,
+      "platform_fonts_for_sample": [
+        {
+          "familyName": "Liberation Serif",
+          "postScriptName": "LiberationSerif-Bold",
+          "isCustomFont": false,
+          "glyphCount": 9
+        }
+      ],
+      "css_sample_family": "\"Times New Roman\", Times, Georgia, serif",
+      "pdf_text_characters": 0,
+      "web_png_sha256": "1b85ceafaf6ef69c3e716f98da7586f2f95ace249bf81df02dca3729878bbec4",
+      "pdf_png_sha256": "d8f41e081925cb9d743b19c7665583d94c131737ac7201f853a905964be81620",
+      "diff_png_sha256": "5d5b1a7cf0e373b5b44e3cc786acad884be44f075c98911dd87dc46ca3480520"
+    },
+    {
+      "font": "times",
+      "part": "letter",
+      "status": "PASS",
+      "rgb_ssim": 0.9849151943134608,
+      "geometry_delta_mm": 0.0,
+      "text_nodes": 22,
+      "platform_fonts_for_sample": [
+        {
+          "familyName": "Liberation Serif",
+          "postScriptName": "LiberationSerif",
+          "isCustomFont": false,
+          "glyphCount": 10
+        }
+      ],
+      "css_sample_family": "\"Times New Roman\", Times, Georgia, serif",
+      "pdf_text_characters": 844,
+      "web_png_sha256": "b5972c5018e4e403016a49f61e57527fa0eb480b78c4f47f415dcccea842189d",
+      "pdf_png_sha256": "af9378be7ca9e89f0683ec6f303c58d46d46d291cc31a144ad4750d94aecc1db",
+      "diff_png_sha256": "f3ad21f3fb5c459ad5b59b27b5415c7a1803bbf66557d66cd9ddde04ec35b962"
+    },
+    {
+      "font": "times",
+      "part": "cv",
+      "status": "PASS",
+      "rgb_ssim": 0.9756852696957775,
+      "geometry_delta_mm": 0.0,
+      "text_nodes": 54,
+      "platform_fonts_for_sample": [
+        {
+          "familyName": "Liberation Serif",
+          "postScriptName": "LiberationSerif-Bold",
+          "isCustomFont": false,
+          "glyphCount": 10
+        }
+      ],
+      "css_sample_family": "\"Times New Roman\", Times, Georgia, serif",
+      "pdf_text_characters": 1009,
+      "web_png_sha256": "6b9716cb9d0acd3bf2de1cf498d13d42d4f62c29ec8b5491cae63495aef07b82",
+      "pdf_png_sha256": "dfa5f2c2120d2bbceeea56af27c59a4616f6c88a95acb82631fe283b958e24a1",
+      "diff_png_sha256": "09900db138aa22c98bb4fd2d1e5b9231200ec147c4f712c4e47e297eae70902d"
+    }
+  ]
+}

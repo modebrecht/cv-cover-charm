@@ -1,0 +1,26 @@
+[
+  {
+    "font": "maschine",
+    "part": "cv",
+    "pages": 1,
+    "rgb_ssim": 0.972854869061793
+  },
+  {
+    "font": "maschine",
+    "part": "cover",
+    "pages": 1,
+    "rgb_ssim": 0.9899807559736421
+  },
+  {
+    "font": "freundlich",
+    "part": "cv",
+    "pages": 1,
+    "rgb_ssim": 0.9654931613425518
+  },
+  {
+    "font": "freundlich",
+    "part": "cover",
+    "pages": 1,
+    "rgb_ssim": 0.98899518357624
+  }
+]

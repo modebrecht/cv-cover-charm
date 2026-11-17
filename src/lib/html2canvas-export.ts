@@ -279,10 +279,11 @@ export function normalizeCssBackgroundsForHtml2Canvas(root: HTMLElement) {
 function snapshotZoomedLines(roots: HTMLElement[], view: Window) {
   const lines: {
     span: HTMLElement;
-    runs: { ink: HTMLElement; width: number; top: number; whitespace: boolean }[];
+    runs: { ink: HTMLElement; width: number; top: number; whitespace: boolean; zoom: number }[];
   }[] = [];
   const replacements: { element: HTMLElement; fragment: DocumentFragment; height: string }[] = [];
   const seen = new Set<HTMLElement>();
+  const zoomedRoots = new Set(roots);
   for (const root of roots) {
     for (const element of [root, ...root.querySelectorAll<HTMLElement>("*")]) {
       if (seen.has(element)) continue;
@@ -348,6 +349,16 @@ function snapshotZoomedLines(roots: HTMLElement[], view: Window) {
           if (value) span.style.setProperty(property, value, "important");
         }
       };
+      let zoom = 1;
+      for (
+        let ancestor: HTMLElement | null = element;
+        ancestor;
+        ancestor = ancestor.parentElement
+      ) {
+        if (!zoomedRoots.has(ancestor)) continue;
+        const value = Number.parseFloat(view.getComputedStyle(ancestor).zoom);
+        if (value > 0 && Number.isFinite(value)) zoom *= value;
+      }
       const fragment = element.ownerDocument.createDocumentFragment();
       let lineOffset = 0;
       for (const [index, part] of parts.entries()) {
@@ -381,7 +392,17 @@ function snapshotZoomedLines(roots: HTMLElement[], view: Window) {
             ink.style.whiteSpace = "normal";
             ink.style.height = "0px";
           }
-          return { ink, width, top: token.rect.top, whitespace: token.whitespace };
+          // CSS zoom shapes glyphs at the used font size. A transform alone
+          // shapes at the original size, then stretches a different glyph run.
+          // Retain that used size and cancel only the removed zoom below.
+          if (!token.whitespace && Math.abs(zoom - 1) > 0.0001) {
+            for (const property of ["font-size", "letter-spacing", "word-spacing"]) {
+              const value = Number.parseFloat(style.getPropertyValue(property));
+              if (Number.isFinite(value))
+                ink.style.setProperty(property, `${value * zoom}px`, "important");
+            }
+          }
+          return { ink, width, top: token.rect.top, whitespace: token.whitespace, zoom };
         });
         fragment.append(span);
         lines.push({ span, runs });
@@ -576,13 +597,21 @@ export function normalizeCssZoomForHtml2Canvas(root: HTMLElement) {
       return { ...run, scale, rect: range.getBoundingClientRect() };
     });
   });
-  for (const { ink, width, top, scale, rect, whitespace } of adjustments) {
+  for (const { ink, width, scale, rect, whitespace, zoom } of adjustments) {
     if (whitespace) ink.style.width = `${width / scale}px`;
     else if (rect.width > 0) {
       ink.style.marginRight = `${(width - rect.width) / scale}px`;
-      ink.style.transform = `scaleX(${width / rect.width})`;
+      ink.style.transform = `scale(${width / rect.width}, ${1 / zoom})`;
       ink.style.position = "relative";
-      ink.style.top = `${(top - rect.top) / scale}px`;
+    }
+  }
+  // Read vertical positions after counter-scaling the glyphs; their text
+  // ranges no longer have the original inline block's ascent.
+  for (const { ink, top, scale, whitespace } of adjustments) {
+    if (!whitespace) {
+      const range = ink.ownerDocument.createRange();
+      range.selectNodeContents(ink);
+      ink.style.top = `${(top - range.getBoundingClientRect().top) / scale}px`;
     }
   }
 }
