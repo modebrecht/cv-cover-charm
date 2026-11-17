@@ -1,0 +1,263 @@
+{
+  "productCommit": "45239090c89841057765eee1da0d3954141dd04e",
+  "runs": [
+    {
+      "id": 44085804437,
+      "name": "DOCX Next Stable Sidebar",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44085804437",
+      "head_sha": "45239090c89841057765eee1da0d3954141dd04e",
+      "run_attempt": 1
+    },
+    {
+      "id": 44085804450,
+      "name": "Dossier Visual Parity",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44085804450",
+      "head_sha": "45239090c89841057765eee1da0d3954141dd04e",
+      "run_attempt": 1
+    },
+    {
+      "id": 44085804485,
+      "name": "CV measured page fit",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44085804485",
+      "head_sha": "45239090c89841057765eee1da0d3954141dd04e",
+      "run_attempt": 1
+    },
+    {
+      "id": 44085804407,
+      "name": "Template Contact Integrity",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44085804407",
+      "head_sha": "45239090c89841057765eee1da0d3954141dd04e",
+      "run_attempt": 1
+    },
+    {
+      "id": 44085804461,
+      "name": "Dossier Regression",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44085804461",
+      "head_sha": "45239090c89841057765eee1da0d3954141dd04e",
+      "run_attempt": 2
+    },
+    {
+      "id": 44085802730,
+      "name": "pages build and deployment",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44085802730",
+      "head_sha": "45239090c89841057765eee1da0d3954141dd04e",
+      "run_attempt": 1
+    }
+  ],
+  "initialRegressionJobs": [
+    {
+      "id": 134047788866,
+      "name": "fast-checks",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134048436646,
+      "name": "Browser smoke - letter-m1-m5",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134048436659,
+      "name": "Browser smoke - templates-layout",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134048436684,
+      "name": "Browser smoke - cv-pdf-core",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134048436693,
+      "name": "Browser smoke - m9-responsive",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134048436707,
+      "name": "Browser smoke - cv-m9-pagination",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134048436709,
+      "name": "Browser smoke - cv-pdf-dom",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134048436711,
+      "name": "Browser smoke - fresh-dossier-templates",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134048436784,
+      "name": "Browser smoke - letter-m8-edge",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134048436787,
+      "name": "Browser smoke - word-default-chrome",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134048436797,
+      "name": "Browser smoke - pdf-consent",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134048436808,
+      "name": "Browser smoke - cv-pdf-paint",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134048436850,
+      "name": "Browser smoke - cv-pdf-parity",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134048436855,
+      "name": "Browser smoke - dossier-flow",
+      "status": "completed",
+      "conclusion": "failure"
+    },
+    {
+      "id": 134048439331,
+      "name": "native-print-benchmark",
+      "status": "completed",
+      "conclusion": "skipped"
+    },
+    {
+      "id": 134056761325,
+      "name": "publish-regression-status",
+      "status": "completed",
+      "conclusion": "failure"
+    }
+  ],
+  "finalRegressionJobs": [
+    {
+      "id": 134057383385,
+      "name": "native-print-benchmark",
+      "status": "completed",
+      "conclusion": "skipped"
+    },
+    {
+      "id": 134057383699,
+      "name": "Browser smoke - word-default-chrome",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134057383716,
+      "name": "Browser smoke - dossier-flow",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134057384836,
+      "name": "Browser smoke - templates-layout",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134057384878,
+      "name": "Browser smoke - letter-m1-m5",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134057384975,
+      "name": "Browser smoke - cv-pdf-parity",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134057385177,
+      "name": "Browser smoke - cv-pdf-dom",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134057385983,
+      "name": "Browser smoke - fresh-dossier-templates",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134057441284,
+      "name": "Browser smoke - cv-m9-pagination",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134057450012,
+      "name": "Browser smoke - letter-m8-edge",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134057452168,
+      "name": "fast-checks",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134057454130,
+      "name": "Browser smoke - cv-pdf-core",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134057462480,
+      "name": "Browser smoke - pdf-consent",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134057477246,
+      "name": "Browser smoke - cv-pdf-paint",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134057554040,
+      "name": "Browser smoke - m9-responsive",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134061271332,
+      "name": "publish-regression-status",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "commitStatuses": [
+    {
+      "context": "M6 Release Candidate",
+      "state": "success",
+      "description": "Unit, format, typecheck, lint, build and browser/PDF smokes passed"
+    }
+  ],
+  "note": "The first dossier-flow attempt had 90 pass / 1 fail; four focused unchanged local runs passed, then only the failed CI job and dependants were rerun. Original failure is retained."
+}

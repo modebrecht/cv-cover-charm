@@ -1,0 +1,6 @@
+(pass) canonical print uses the editor migration for absent, explicit and legacy saved design values [3.95ms]
+
+ 1545 pass
+ 0 fail
+ 28002 expect() calls
+Ran 1545 tests across 290 files. [30.58s]

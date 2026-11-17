@@ -1,0 +1,127 @@
+{
+  "scope": "Modern Sidebar with DEFAULT_DOSSIER_CHROME_STATE, real normal UI downloads",
+  "native_engine": "Supplementary LibreOffice via canonical render_docx.py; not Microsoft Word acceptance",
+  "files": {
+    "01_Modern_Sidebar_Standard-Kopf-Fuss.docx": {
+      "bytes": 341355,
+      "sha256": "aaf2f37ca498d4d4fb2c0f9a82daa921aa5b9fbf4d45f9ede1bdb8efce08a512"
+    },
+    "01_Modern_Sidebar_Standard-Kopf-Fuss.pdf": {
+      "bytes": 1326522,
+      "sha256": "e655392c198aba839c7a8cbe1d7ccd2037be6e97d004e9ffc7e28a4671169a34"
+    },
+    "01_Modern_Sidebar_Standard-Kopf-Fuss_Projekt.json": {
+      "bytes": 20545,
+      "sha256": "1c541c79b136e460f8276d44d06469a3e030fcd4e10ab97279135f5a99ac6167"
+    },
+    "single-cv-default.docx": {
+      "bytes": 162713,
+      "sha256": "7994c89a81dd9f5d0ef190ad14cdf94fb3ceba40fe319c1fe0bb20dd12ee86d6"
+    },
+    "single-letter-default.docx": {
+      "bytes": 116497,
+      "sha256": "178615d24510d804ee7429e32f41fedf8cb0dd84892c978431d0ee474e7de3bf"
+    }
+  },
+  "raster_bands": {
+    "app": {
+      "page_count": 3,
+      "letter_and_cv": [
+        {
+          "header_rgb": [
+            17,
+            24,
+            40
+          ],
+          "footer_rgb": [
+            17,
+            24,
+            40
+          ]
+        },
+        {
+          "header_rgb": [
+            17,
+            24,
+            40
+          ],
+          "footer_rgb": [
+            17,
+            24,
+            40
+          ]
+        }
+      ]
+    },
+    "native": {
+      "page_count": 3,
+      "letter_and_cv": [
+        {
+          "header_rgb": [
+            17,
+            24,
+            40
+          ],
+          "footer_rgb": [
+            17,
+            24,
+            40
+          ]
+        },
+        {
+          "header_rgb": [
+            17,
+            24,
+            40
+          ],
+          "footer_rgb": [
+            17,
+            24,
+            40
+          ]
+        }
+      ]
+    }
+  },
+  "docx_structure": {
+    "01_Modern_Sidebar_Standard-Kopf-Fuss.docx": {
+      "section_count": 3,
+      "parts": [
+        "cover",
+        "letter",
+        "cv"
+      ],
+      "media_count": 14
+    },
+    "single-letter-default.docx": {
+      "section_count": 1,
+      "parts": [
+        "letter"
+      ],
+      "media_count": 1
+    },
+    "single-cv-default.docx": {
+      "section_count": 1,
+      "parts": [
+        "cv"
+      ],
+      "media_count": 9
+    }
+  },
+  "native_source_docx_sha256": "aaf2f37ca498d4d4fb2c0f9a82daa921aa5b9fbf4d45f9ede1bdb8efce08a512",
+  "package": {
+    "filename": "Word_Pruefpaket_Modern_Standard_Kopf_Fuss_2026-11-17.zip",
+    "bytes": 1223894,
+    "sha256": "59f2a56141911d84e8ff0bcc95a4aa2b16dc2cdd73d63010f64d94821b0e0cd4"
+  },
+  "provenance": {
+    "generatedFromBaseSha": "7b52d3f58adafc4532a7f20bf3a08091a7f46ef9",
+    "productCommit": "45239090c89841057765eee1da0d3954141dd04e",
+    "productTree": "a2338bd7b0378c4e86ac2579810026ce015e594c",
+    "note": "UI downloads were generated before committing the verified product changes; source files are unchanged since those downloads."
+  },
+  "single_native_pages": {
+    "letter": 1,
+    "cv": 1
+  }
+}

@@ -1,0 +1,3 @@
+2026-11-17T13:02:00.8551096Z Running 91 tests using 1 worker
+2026-11-17T13:06:17.2940398Z [66/91] tests/e2e/dossier-regression.spec.ts:967:3 › M5.8 dossier regression › letter layout controls and Word-like formatting persist
+2026-11-17T13:07:51.6416369Z   91 passed (5.9m)

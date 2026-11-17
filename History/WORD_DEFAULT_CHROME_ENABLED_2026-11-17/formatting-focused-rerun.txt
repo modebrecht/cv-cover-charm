@@ -1,0 +1,13 @@
+
+Running 1 test using 1 worker
+
+(node:82) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:82) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] tests/e2e/dossier-regression.spec.ts:1054:3 › M5.8 dossier regression › letter layout controls and Word-like formatting persist
+  1 passed (25.9s)

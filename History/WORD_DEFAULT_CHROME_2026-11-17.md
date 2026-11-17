@@ -1,5 +1,10 @@
 # Word-Rückgabe und fehlender Default-Export – 17.11.2026
 
+**Fortschreibung:** Die unten diagnostizierte Word-Sperre ist mit `4523909`
+behoben. Echte Standard-DOCX-Downloads und das ersetzte Prüfpaket sind im
+[Umsetzungsnachweis](WORD_DEFAULT_CHROME_ENABLED_2026-11-17.md) dokumentiert.
+Der folgende Bericht beschreibt den Stand vor dieser Produktänderung.
+
 Produktstand unverändert: `6267572e53ccd4b6e5d8eb9cca4ccaa1134366e9`.
 Diese Fortsetzung ändert ausschliesslich Nachweise unter `History/`.
 
@@ -90,15 +95,8 @@ Die Benutzerdateien selbst werden nicht ins Repository kopiert. Der neue
 Default-PDF-Download wird getrennt als Referenz bereitgestellt; er ist kein
 neues Word-Prüfpaket.
 
-Die Diagnose ist bewusst opt-in archiviert. Zum Wiederholen mit dem gepinnten
-Playwright 1.56.1 / Chromium 141.0.7390.37:
-
-```sh
-cp History/WORD_DEFAULT_CHROME_2026-11-17/probe.qa.ts.txt tests/qa/word-default-chrome.qa.ts
-cp History/WORD_DEFAULT_CHROME_2026-11-17/playwright.config.ts.txt tests/qa/playwright.word-default-chrome.config.ts
-playwright test --config tests/qa/playwright.word-default-chrome.config.ts
-```
-
-Die temporären TS-Kopien nach der Prüfung entfernen. Die bestehenden produktiven
-Default-/Farbsynchronisationstests bleiben unverändert; es wird kein neuer
-allgemeiner CI-Lauf oder Produktfix behauptet.
+Die damalige Diagnose liegt als Textarchiv bei. Sie erwartet ausdrücklich den
+alten, gesperrten Export und gehört zum Produktstand `7b52d3f`. Die Textkopien
+nicht über die inzwischen vorhandenen Regressionstests schreiben. Der aktuelle
+Test läuft mit `playwright test --config tests/qa/playwright.word-default-chrome.config.ts`
+und erwartet einen verfügbaren, tatsächlichen Word-Download.

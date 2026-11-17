@@ -1,0 +1,118 @@
+{
+  "config": {
+    "configFile": "/workspace/scratch/a7e178f6a5ad/cv-cover-charm/tests/qa/playwright.word-default-chrome.config.ts",
+    "rootDir": "/workspace/scratch/a7e178f6a5ad/cv-cover-charm/tests/qa",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "line",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "/workspace/scratch/a7e178f6a5ad/cv-cover-charm/artifacts/word-default-chrome/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/workspace/scratch/a7e178f6a5ad/cv-cover-charm/test-results/word-default-chrome",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/workspace/scratch/a7e178f6a5ad/cv-cover-charm/tests/qa",
+        "testIgnore": [],
+        "testMatch": [
+          "word-default-chrome.qa.ts"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.56.1",
+    "workers": 1,
+    "webServer": {
+      "command": "node_modules/.bin/vite dev --host 127.0.0.1 --port 4173",
+      "cwd": "/workspace/scratch/a7e178f6a5ad/cv-cover-charm",
+      "url": "http://127.0.0.1:4173/lebenslauf",
+      "timeout": 60000,
+      "reuseExistingServer": false
+    }
+  },
+  "suites": [
+    {
+      "title": "word-default-chrome.qa.ts",
+      "file": "word-default-chrome.qa.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Modern default chrome exports through normal PDF, Word and JSON downloads",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 39175,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-17T12:37:31.289Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b5ec2219e22da3569c94-23bd8d54a0459d264314",
+          "file": "word-default-chrome.qa.ts",
+          "line": 13,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-17T12:37:13.333Z",
+    "duration": 57519.39,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

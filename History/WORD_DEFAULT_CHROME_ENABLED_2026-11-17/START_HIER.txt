@@ -1,0 +1,19 @@
+Word-Prüfpaket – Modern Sidebar – Standard-Kopf/Fuss – 17.11.2026
+
+Dieses Paket ersetzt den früheren Kontaktheader-Test mit 32 mm Kopfzeile.
+Brief und Lebenslauf verwenden jetzt die unveränderten Standardoptionen für
+Kopf- und Fusszeilen: kompakte Streifen, gleiche Farbe, volle Deckkraft.
+Die seitliche CV-Spalte bleibt eine ausdrücklich gewählte Modern-Variante.
+
+Wenn du den Word-Test später machen möchtest:
+1. 01_Modern_Sidebar_Standard-Kopf-Fuss.docx in Desktop Word öffnen.
+2. Speichern, schliessen, erneut öffnen und aus Word als PDF speichern.
+3. Prüfen: weiterhin drei Seiten, alle Texte/Fotos vorhanden, Kopf und Fuss
+   im Word-PDF gleichfarbig. Die beigefügte PDF ist die App-Referenz.
+
+Words blassere Anzeige inaktiver Kopf-/Fusszeilen ist normal. Entscheidend
+ist die Druck-/PDF-Farbe; die gespeicherten Farben nicht dagegen verändern.
+
+Einzeldokumente/ enthält zusätzlich die getrennten normalen Word-Downloads.
+Die Projekt-JSON kann über „Dossier laden“ in der App importiert werden.
+Alle Dateien verwenden synthetische Beispieldaten.

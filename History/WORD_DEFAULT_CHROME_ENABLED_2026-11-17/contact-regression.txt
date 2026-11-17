@@ -1,0 +1,15 @@
+
+Running 3 tests using 1 worker
+
+(node:80) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:80) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/3] tests/e2e/dossier-docx-reference.spec.ts:118:3 › DOCX reference download › complete Brief dossier keeps the unreviewed Word composition blocked
+[2/3] tests/e2e/dossier-docx-reference.spec.ts:125:3 › DOCX reference download › reviewed Modern Sidebar downloads a native DOCX package
+[3/3] tests/e2e/dossier-docx-reference.spec.ts:148:3 › DOCX reference download › DOCX stays disabled when dossier parts use different templates
+  3 passed (20.7s)

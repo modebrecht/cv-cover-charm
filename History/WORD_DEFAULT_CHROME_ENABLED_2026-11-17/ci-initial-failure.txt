@@ -1,0 +1,28 @@
+2026-11-17T12:51:41.0562151Z   1) tests/e2e/dossier-regression.spec.ts:967:3 › M5.8 dossier regression › letter layout controls and Word-like formatting persist 
+2026-11-17T12:51:41.0562770Z 
+2026-11-17T12:51:41.0563326Z     Error: expect(locator).toHaveCount(expected) failed
+2026-11-17T12:51:41.0563941Z 
+2026-11-17T12:51:41.0564498Z     Locator:  getByLabel('Vorschau Motivationsschreiben').locator('[data-letter-pdf-richtext="body"]').locator(':scope > div')
+2026-11-17T12:51:41.0565184Z     Expected: 3
+2026-11-17T12:51:41.0565973Z     Received: 2
+2026-11-17T12:51:41.0566335Z     Timeout:  5000ms
+2026-11-17T12:51:41.0566478Z 
+2026-11-17T12:51:41.0566654Z     Call log:
+2026-11-17T12:51:41.0567105Z       - Expect "toHaveCount" with timeout 5000ms
+2026-11-17T12:51:41.0568093Z       - waiting for getByLabel('Vorschau Motivationsschreiben').locator('[data-letter-pdf-richtext="body"]').locator(':scope > div')
+2026-11-17T12:51:41.0569139Z         9 × locator resolved to 2 elements
+2026-11-17T12:51:41.0569599Z           - unexpected value "2"
+2026-11-17T12:51:41.0569873Z 
+2026-11-17T12:51:41.0569879Z 
+2026-11-17T12:51:41.0570307Z       1108 |     const columnsBlock = previewBlocks.filter({ hasText: "Absatz zwei bleibt separat" });
+2026-11-17T12:51:41.0571332Z       1109 |     const continuationBlock = previewBlocks.filter({ hasText: /^\s*$/ });
+2026-11-17T12:51:41.0572044Z     > 1110 |     await expect(previewBlocks).toHaveCount(3);
+2026-11-17T12:51:41.0572429Z            |                                 ^
+2026-11-17T12:51:41.0572754Z       1111 |     await expect(bulletBlock).toHaveCount(1);
+2026-11-17T12:51:41.0573164Z       1112 |     await expect(columnsBlock).toHaveCount(1);
+2026-11-17T12:51:41.0573581Z       1113 |     await expect(continuationBlock).toHaveCount(1);
+2026-11-17T12:51:41.0574090Z         at /home/runner/work/cv-cover-charm/cv-cover-charm/tests/e2e/dossier-regression.spec.ts:1110:33
+2026-11-17T12:51:41.0574415Z 
+2026-11-17T12:51:41.0574784Z     Error Context: test-results/tests-e2e-dossier-regressi-1e3b8-ord-like-formatting-persist/error-context.md
+2026-11-17T12:52:57.0394764Z   1 failed
+2026-11-17T12:52:57.0396811Z   90 passed (5.3m)
