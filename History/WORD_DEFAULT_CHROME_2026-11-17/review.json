@@ -1,0 +1,362 @@
+{
+  "pdfs": [
+    {
+      "kind": "packet-original",
+      "sha256": "96713018c03177c009b0421923db9c642a7ce6f612272af65abe0d0c66270950",
+      "pages": 3,
+      "colors": [
+        {
+          "page": 2,
+          "header": [
+            17,
+            24,
+            40
+          ],
+          "footer": [
+            36,
+            74,
+            97
+          ]
+        },
+        {
+          "page": 3,
+          "header": [
+            17,
+            24,
+            40
+          ],
+          "footer": [
+            36,
+            74,
+            97
+          ]
+        }
+      ],
+      "creator": "Lea Müller",
+      "producer": "jsPDF 4.2.1"
+    },
+    {
+      "kind": "word-saved",
+      "sha256": "6664c00f232e56eb7a12793aa2621830ee4a3e823491cf9ac9e0407c5af8d887",
+      "pages": 3,
+      "colors": [
+        {
+          "page": 2,
+          "header": [
+            17,
+            24,
+            39
+          ],
+          "footer": [
+            36,
+            74,
+            97
+          ]
+        },
+        {
+          "page": 3,
+          "header": [
+            17,
+            24,
+            39
+          ],
+          "footer": [
+            36,
+            74,
+            97
+          ]
+        }
+      ],
+      "creator": "Microsoft® Word für Microsoft 365",
+      "producer": "Microsoft® Word für Microsoft 365"
+    },
+    {
+      "kind": "default-reference",
+      "sha256": "e52dfb2f446900e25a1169991f8e50bbdbd857e142b96f4c3ad1b8ebe8dcfac1",
+      "pages": 3,
+      "colors": [
+        {
+          "page": 2,
+          "header": [
+            17,
+            24,
+            40
+          ],
+          "footer": [
+            17,
+            24,
+            40
+          ]
+        },
+        {
+          "page": 3,
+          "header": [
+            17,
+            24,
+            40
+          ],
+          "footer": [
+            17,
+            24,
+            40
+          ]
+        }
+      ],
+      "creator": "Lea Müller",
+      "producer": "jsPDF 4.2.1"
+    }
+  ],
+  "savedDocxSha256": "59268048d3eb902c323fcbd9ff25819c914714caabe6a28dfe007b910c6b5b86",
+  "originalMediaCount": 14,
+  "allOriginalMediaPreserved": true,
+  "missingOriginalTagOccurrences": {},
+  "additionalWordTagOccurrences": {
+    "cv.person.name": 2,
+    "cv.header.first.row:0": 1,
+    "cv.header.first.row:1": 1,
+    "cv.person.address": 2,
+    "cv.person.place": 2,
+    "cv.header.first.row:2": 1,
+    "cv.person.phone": 2,
+    "cv.person.email": 2,
+    "letter.header.continuation.row:0": 1,
+    "letter.sender.name": 2,
+    "letter.header.continuation.row:1": 1,
+    "letter.sender.address": 2,
+    "letter.sender.place": 2,
+    "letter.header.continuation.row:2": 1,
+    "letter.sender.phone": 2,
+    "letter.sender.email": 2,
+    "letter.header.first.row:0": 1,
+    "letter.header.first.row:1": 1,
+    "letter.header.first.row:2": 1,
+    "cv.header.continuation.row:0": 1,
+    "cv.header.continuation.row:1": 1,
+    "cv.header.continuation.row:2": 1
+  },
+  "screenshotHeaderRgb": [
+    136,
+    140,
+    147
+  ],
+  "sourcePacketChrome": {
+    "version": 1,
+    "sync": true,
+    "shared": {
+      "headerMode": "contact",
+      "headerShowName": true,
+      "headerShowAddress": true,
+      "headerShowPhone": true,
+      "headerShowEmail": true,
+      "headerDifferentFirstPage": false,
+      "headerHeightMm": 32,
+      "headerGapMm": 12,
+      "headerContentOffsetYMm": 0,
+      "letterRecipientOffsetYMm": 0,
+      "headerTextLayout": "stacked",
+      "headerInlineSeparator": "dot",
+      "headerBackgroundColor": null,
+      "headerGradientColor": null,
+      "headerTextColor": null,
+      "headerFontSizePt": null,
+      "footerMode": "compact",
+      "footerHeightMm": null,
+      "footerContentOffsetYMm": 0,
+      "footerTextLayout": "inline",
+      "footerBackgroundColor": null,
+      "footerGradientColor": null,
+      "footerTextColor": null,
+      "footerFontSizePt": null,
+      "borderEnabled": false,
+      "borderColor": null,
+      "borderWidthMm": 0.6,
+      "textFont": null
+    },
+    "cv": {
+      "headerMode": "contact",
+      "headerShowName": true,
+      "headerShowAddress": true,
+      "headerShowPhone": true,
+      "headerShowEmail": true,
+      "headerDifferentFirstPage": false,
+      "headerHeightMm": 32,
+      "headerGapMm": 12,
+      "headerContentOffsetYMm": 0,
+      "letterRecipientOffsetYMm": 0,
+      "headerTextLayout": "stacked",
+      "headerInlineSeparator": "dot",
+      "headerBackgroundColor": null,
+      "headerGradientColor": null,
+      "headerTextColor": null,
+      "headerFontSizePt": null,
+      "footerMode": "compact",
+      "footerHeightMm": null,
+      "footerContentOffsetYMm": 0,
+      "footerTextLayout": "inline",
+      "footerBackgroundColor": null,
+      "footerGradientColor": null,
+      "footerTextColor": null,
+      "footerFontSizePt": null,
+      "borderEnabled": false,
+      "borderColor": null,
+      "borderWidthMm": 0.6,
+      "textFont": null
+    },
+    "letter": {
+      "headerMode": "contact",
+      "headerShowName": true,
+      "headerShowAddress": true,
+      "headerShowPhone": true,
+      "headerShowEmail": true,
+      "headerDifferentFirstPage": false,
+      "headerHeightMm": 32,
+      "headerGapMm": 12,
+      "headerContentOffsetYMm": 0,
+      "letterRecipientOffsetYMm": 0,
+      "headerTextLayout": "stacked",
+      "headerInlineSeparator": "dot",
+      "headerBackgroundColor": null,
+      "headerGradientColor": null,
+      "headerTextColor": null,
+      "headerFontSizePt": null,
+      "footerMode": "compact",
+      "footerHeightMm": null,
+      "footerContentOffsetYMm": 0,
+      "footerTextLayout": "inline",
+      "footerBackgroundColor": null,
+      "footerGradientColor": null,
+      "footerTextColor": null,
+      "footerFontSizePt": null,
+      "borderEnabled": false,
+      "borderColor": null,
+      "borderWidthMm": 0.6,
+      "textFont": null
+    }
+  },
+  "newDefaultEvidence": {
+    "sourceSha": "6267572e53ccd4b6e5d8eb9cca4ccaa1134366e9",
+    "scope": "Modern Sidebar with default header/footer options; Sidebar is an explicit supported Word layout, not the application default layout.",
+    "chrome": {
+      "version": 1,
+      "sync": true,
+      "shared": {
+        "headerMode": "compact",
+        "headerShowName": true,
+        "headerShowAddress": true,
+        "headerShowPhone": true,
+        "headerShowEmail": true,
+        "headerDifferentFirstPage": false,
+        "headerHeightMm": null,
+        "headerGapMm": 12,
+        "headerContentOffsetYMm": 0,
+        "letterRecipientOffsetYMm": 0,
+        "headerTextLayout": "stacked",
+        "headerInlineSeparator": "dot",
+        "headerBackgroundColor": null,
+        "headerGradientColor": null,
+        "headerTextColor": null,
+        "headerFontSizePt": null,
+        "footerMode": "compact",
+        "footerHeightMm": null,
+        "footerContentOffsetYMm": 0,
+        "footerTextLayout": "inline",
+        "footerBackgroundColor": null,
+        "footerGradientColor": null,
+        "footerTextColor": null,
+        "footerFontSizePt": null,
+        "borderEnabled": false,
+        "borderColor": null,
+        "borderWidthMm": 0.6,
+        "textFont": null
+      },
+      "cv": {
+        "headerMode": "compact",
+        "headerShowName": true,
+        "headerShowAddress": true,
+        "headerShowPhone": true,
+        "headerShowEmail": true,
+        "headerDifferentFirstPage": false,
+        "headerHeightMm": null,
+        "headerGapMm": 12,
+        "headerContentOffsetYMm": 0,
+        "letterRecipientOffsetYMm": 0,
+        "headerTextLayout": "stacked",
+        "headerInlineSeparator": "dot",
+        "headerBackgroundColor": null,
+        "headerGradientColor": null,
+        "headerTextColor": null,
+        "headerFontSizePt": null,
+        "footerMode": "compact",
+        "footerHeightMm": null,
+        "footerContentOffsetYMm": 0,
+        "footerTextLayout": "inline",
+        "footerBackgroundColor": null,
+        "footerGradientColor": null,
+        "footerTextColor": null,
+        "footerFontSizePt": null,
+        "borderEnabled": false,
+        "borderColor": null,
+        "borderWidthMm": 0.6,
+        "textFont": null
+      },
+      "letter": {
+        "headerMode": "compact",
+        "headerShowName": true,
+        "headerShowAddress": true,
+        "headerShowPhone": true,
+        "headerShowEmail": true,
+        "headerDifferentFirstPage": false,
+        "headerHeightMm": null,
+        "headerGapMm": 12,
+        "headerContentOffsetYMm": 0,
+        "letterRecipientOffsetYMm": 0,
+        "headerTextLayout": "stacked",
+        "headerInlineSeparator": "dot",
+        "headerBackgroundColor": null,
+        "headerGradientColor": null,
+        "headerTextColor": null,
+        "headerFontSizePt": null,
+        "footerMode": "compact",
+        "footerHeightMm": null,
+        "footerContentOffsetYMm": 0,
+        "footerTextLayout": "inline",
+        "footerBackgroundColor": null,
+        "footerGradientColor": null,
+        "footerTextColor": null,
+        "footerFontSizePt": null,
+        "borderEnabled": false,
+        "borderColor": null,
+        "borderWidthMm": 0.6,
+        "textFont": null
+      }
+    },
+    "wordAvailability": {
+      "available": false,
+      "reason": "Bitte in Brief und Lebenslauf eine Kopfzeile mit Kontaktdaten und eine kompakte Fusszeile wählen."
+    },
+    "web": [
+      {
+        "part": "letter",
+        "header": "rgb(17, 24, 39)",
+        "footer": "rgb(17, 24, 39)",
+        "opacity": "1"
+      },
+      {
+        "part": "cv",
+        "header": "rgb(17, 24, 39)",
+        "footer": "rgb(17, 24, 39)",
+        "opacity": "1"
+      }
+    ],
+    "browser": "141.0.7390.37",
+    "browserStats": {
+      "startTime": "2026-11-17T10:43:42.184Z",
+      "duration": 23865.013000000003,
+      "expected": 1,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    }
+  },
+  "limits": "No proof of close/reopen from filename alone; no general Word acceptance; native DOCX default compact chrome remains explicitly unsupported."
+}

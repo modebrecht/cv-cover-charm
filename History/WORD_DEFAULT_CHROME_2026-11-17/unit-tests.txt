@@ -1,0 +1,23 @@
+bun test v1.3.13 (bf2e2cec)
+
+tests/unit/template-chrome.test.ts:
+(pass) template-owned dossier chrome > Brief uses the shared compact header/footer fallback [0.08ms]
+(pass) template-owned dossier chrome > all normal visual templates default to compact headers [0.48ms]
+(pass) template-owned dossier chrome > Warm alone intentionally recommends the reviewed stacked contact header [0.07ms]
+(pass) template-owned dossier chrome > contact gradient families inherit both template colours when contact is explicit [0.12ms]
+(pass) template-owned dossier chrome > explicit contact background colours remain authoritative [0.03ms]
+(pass) template-owned dossier chrome > Modern mirrors compact header and footer without changing their geometry [0.17ms]
+(pass) template-owned dossier chrome > Modern compact pair follows customized template colours [0.03ms]
+(pass) template-owned dossier chrome > Modern never overrides explicit contact / none / details mode choices [0.05ms]
+(pass) template-owned dossier chrome > ordinary templates keep the shared chrome contract except for the dossier-wide header default [0.02ms]
+
+tests/unit/dossier-modern-contact-colors.test.tsx:
+(pass) Modern contact sync uses one actual header/footer/border palette despite differing document colours [13.81ms]
+(pass) explicit shared surface/text/gradient/border colours survive sync and JSON restore [0.64ms]
+(pass) sync off retains independent colours; compact and mixed templates share the Letter palette [0.32ms]
+(pass) restoring a legacy icon selection removes icons in all stored branches before export [0.42ms]
+
+ 13 pass
+ 0 fail
+ 204 expect() calls
+Ran 13 tests across 2 files. [133.00ms]

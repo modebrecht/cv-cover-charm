@@ -1,5 +1,7 @@
 # Cabin-CV abgeschlossen – 17.11.2026
 
+> Neuer Benutzerbefund: Das bisherige Word-Paket ist ein Kontakt-Header-Sonderfall. Standard-Kopf-/Fusszeilen sind im PDF korrekt, werden im normalen Word-Export aber noch gesperrt. Siehe [aktuelle Diagnose und nächster Entwicklungsauftrag](WORD_DEFAULT_CHROME_2026-11-17.md).
+
 Produktstand: [`e816f95027afe9a8de737a28e5ec1340a6b5a251`](https://github.com/modebrecht/cv-cover-charm/commit/e816f95027afe9a8de737a28e5ec1340a6b5a251), direkt auf `dev`.
 Dieser Abschluss ergänzt ausschliesslich Nachweise unter `History/`; er
 ändert den verifizierten Produktcode nicht.
