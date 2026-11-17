@@ -1,5 +1,6 @@
 # CV Cover Charm – gezielter Handoff, 17.11.2026
 
+> Abschluss: Die Cabin-CV-Abweichung ist auf `e816f95027afe9a8de737a28e5ec1340a6b5a251` behoben und vollständig in CI geprüft. Siehe [Abschluss und aktuelle Grenzen](CABIN_CV_COMPLETED_2026-11-17.md). Der folgende Text bleibt als ursprünglicher Übergabestand erhalten.
 ## Startauftrag
 
 Setze diesen Handoff fort. Arbeite direkt auf `dev` in `modebrecht/cv-cover-charm`. Der nächste fachliche Schwerpunkt ist ausschliesslich die verbleibende Cabin-CV-Web/PDF-Abweichung. Lies zuerst die unten verlinkten aktuellen Nachweise. Keine erneute allgemeine Inventur und keine Wiederholung bereits abgeschlossener Versuchsreihen.

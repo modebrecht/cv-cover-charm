@@ -1,0 +1,146 @@
+{
+  "product_commit": "e816f95027afe9a8de737a28e5ec1340a6b5a251",
+  "workflows": [
+    {
+      "id": 44003828791,
+      "name": "pages build and deployment",
+      "head_sha": "e816f95027afe9a8de737a28e5ec1340a6b5a251",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44003828791"
+    },
+    {
+      "id": 44003830497,
+      "name": "Template Contact Integrity",
+      "head_sha": "e816f95027afe9a8de737a28e5ec1340a6b5a251",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44003830497"
+    },
+    {
+      "id": 44003830505,
+      "name": "Dossier Visual Parity",
+      "head_sha": "e816f95027afe9a8de737a28e5ec1340a6b5a251",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44003830505"
+    },
+    {
+      "id": 44003830483,
+      "name": "Photo dossier variants",
+      "head_sha": "e816f95027afe9a8de737a28e5ec1340a6b5a251",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44003830483"
+    },
+    {
+      "id": 44003830500,
+      "name": "Web PDF photo gallery",
+      "head_sha": "e816f95027afe9a8de737a28e5ec1340a6b5a251",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44003830500"
+    },
+    {
+      "id": 44003830434,
+      "name": "Dossier Regression",
+      "head_sha": "e816f95027afe9a8de737a28e5ec1340a6b5a251",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44003830434"
+    }
+  ],
+  "regression_jobs": [
+    {
+      "id": 133774180947,
+      "name": "fast-checks",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44003830434/job/133774180947"
+    },
+    {
+      "id": 133774652331,
+      "name": "Browser smoke - pdf-consent",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44003830434/job/133774652331"
+    },
+    {
+      "id": 133774652341,
+      "name": "Browser smoke - dossier-flow",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44003830434/job/133774652341"
+    },
+    {
+      "id": 133774652343,
+      "name": "Browser smoke - letter-m1-m5",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44003830434/job/133774652343"
+    },
+    {
+      "id": 133774652346,
+      "name": "Browser smoke - fresh-dossier-templates",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44003830434/job/133774652346"
+    },
+    {
+      "id": 133774652350,
+      "name": "Browser smoke - cv-pdf-core",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44003830434/job/133774652350"
+    },
+    {
+      "id": 133774652374,
+      "name": "Browser smoke - letter-m8-edge",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44003830434/job/133774652374"
+    },
+    {
+      "id": 133774652411,
+      "name": "Browser smoke - cv-m9-pagination",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44003830434/job/133774652411"
+    },
+    {
+      "id": 133774652442,
+      "name": "Browser smoke - templates-layout",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44003830434/job/133774652442"
+    },
+    {
+      "id": 133774652448,
+      "name": "Browser smoke - cv-pdf-dom",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44003830434/job/133774652448"
+    },
+    {
+      "id": 133774652465,
+      "name": "Browser smoke - cv-pdf-paint",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44003830434/job/133774652465"
+    },
+    {
+      "id": 133774652468,
+      "name": "Browser smoke - m9-responsive",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44003830434/job/133774652468"
+    },
+    {
+      "id": 133774652593,
+      "name": "Browser smoke - cv-pdf-parity",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44003830434/job/133774652593"
+    },
+    {
+      "id": 133774654531,
+      "name": "native-print-benchmark",
+      "conclusion": "skipped",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44003830434/job/133774654531"
+    },
+    {
+      "id": 133779427648,
+      "name": "publish-regression-status",
+      "conclusion": "success",
+      "url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44003830434/job/133779427648"
+    }
+  ],
+  "scope": "CI product verification. native-print-benchmark skipped; no Desktop Word acceptance."
+}

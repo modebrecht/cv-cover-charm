@@ -1,0 +1,50 @@
+[
+  {
+    "key": "cabin-small",
+    "differentPixels": 0,
+    "colouredReferencePixels": 0,
+    "sourceUnchanged": true
+  },
+  {
+    "key": "cabin-body",
+    "differentPixels": 0,
+    "colouredReferencePixels": 0,
+    "sourceUnchanged": true
+  },
+  {
+    "key": "cabin-bold",
+    "differentPixels": 0,
+    "colouredReferencePixels": 0,
+    "sourceUnchanged": true
+  },
+  {
+    "key": "cabin-name",
+    "differentPixels": 0,
+    "colouredReferencePixels": 0,
+    "sourceUnchanged": true
+  },
+  {
+    "key": "cabin-nested",
+    "differentPixels": 0,
+    "colouredReferencePixels": 0,
+    "sourceUnchanged": true
+  },
+  {
+    "key": "cabin-unity",
+    "differentPixels": 0,
+    "colouredReferencePixels": 0,
+    "sourceUnchanged": true
+  },
+  {
+    "key": "cabin-enlarged",
+    "differentPixels": 0,
+    "colouredReferencePixels": 0,
+    "sourceUnchanged": true
+  },
+  {
+    "key": "sans-body",
+    "differentPixels": 0,
+    "colouredReferencePixels": 0,
+    "sourceUnchanged": true
+  }
+]
