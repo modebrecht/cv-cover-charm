@@ -1,5 +1,12 @@
 # Word: volle Farbbänder beim Schreiben – 17.11.2026
 
+**Word-Rückmeldung:** Diese erste Variante wurde wegen der seitenhohen
+Auswahlfläche zurückgewiesen. Die Farben sind kräftig, aber ein transparentes
+Bild über die ganze Seite erschwert das Klicken und kann die Seite grau
+hervorheben. Der [Klick-Fix mit zwei schmalen Grafikrahmen](word-body-click-fix-2026-11-17.md)
+ersetzt diese Prüfdatei unter derselben Identität, Version 1. Der folgende
+Bericht und sein Hash beschreiben die historische Version 0.
+
 **Konkrete Prüfdatei fertig; Word-Bearbeitungsansicht noch nicht abgenommen.**
 Die neue Variante ist ausdrücklich über `compactChromeBodyPaintPreview: true`
 im vorhandenen App-Export aufrufbar. Der normale Download wird erst nach einer
@@ -73,7 +80,7 @@ müssen noch in Desktop Word geprüft werden.
 
 ## Konkrete Datei und nächster Schritt
 
-[01_Word_Farben_beim_Schreiben.docx](https://chatgpt.com/library?file_id=libfile_7d23b55582f081918f191ed4e67e84e9&account_id=personal)
+[Prüfdatei-Identität, jetzt mit dem Klick-Fix](https://chatgpt.com/library?file_id=libfile_7d23b55582f081918f191ed4e67e84e9&account_id=personal)
 
 SHA-256: `4a1da56edda8dc0bf601f526dac3dec853fc0cd5435f764bcf72316f2e09bb5e`.
 Die bisherige Standard-Prüfdatei wird nicht überschrieben; die neue Variante

@@ -1,0 +1,118 @@
+{
+  "config": {
+    "configFile": "/workspace/scratch/a7e178f6a5ad/cv-cover-charm/tests/qa/playwright.word-body-paint.config.ts",
+    "rootDir": "/workspace/scratch/a7e178f6a5ad/cv-cover-charm/tests/qa",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "line",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "/workspace/scratch/a7e178f6a5ad/cv-cover-charm/artifacts/word-body-paint/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/workspace/scratch/a7e178f6a5ad/cv-cover-charm/test-results/word-body-paint",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/workspace/scratch/a7e178f6a5ad/cv-cover-charm/tests/qa",
+        "testIgnore": [],
+        "testMatch": [
+          "word-body-paint.qa.ts"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.56.1",
+    "workers": 1,
+    "webServer": {
+      "command": "node_modules/.bin/vite dev --host 127.0.0.1 --port 4173",
+      "cwd": "/workspace/scratch/a7e178f6a5ad/cv-cover-charm",
+      "url": "http://127.0.0.1:4173/lebenslauf",
+      "timeout": 60000,
+      "reuseExistingServer": false
+    }
+  },
+  "suites": [
+    {
+      "title": "word-body-paint.qa.ts",
+      "file": "word-body-paint.qa.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "compact first-page bands move into the body with identical text flow and semantic images",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5279,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-17T17:29:20.659Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a0f306eb4a2c0fcd2278-b5885aa67274b18ca6a7",
+          "file": "word-body-paint.qa.ts",
+          "line": 7,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-17T17:29:12.845Z",
+    "duration": 13325.385,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

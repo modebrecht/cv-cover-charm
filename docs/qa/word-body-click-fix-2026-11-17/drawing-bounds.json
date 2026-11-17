@@ -1,0 +1,29 @@
+{
+  "scope": "Modern Sidebar, default compact chrome, two tightly bounded first-page bands per interior document; no page-sized body graphic",
+  "semanticXmlEqual": true,
+  "semanticImagesByteIdentical": true,
+  "storedSourceUnchanged": true,
+  "bandBounds": [
+    {
+      "name": "letter.chrome-paint.first.header",
+      "heightMm": 4.000277777777778,
+      "yMm": 0
+    },
+    {
+      "name": "letter.chrome-paint.first.footer",
+      "heightMm": 4.000277777777778,
+      "yMm": 293.0209722222222
+    },
+    {
+      "name": "cv.chrome-paint.first.header",
+      "heightMm": 3.9979722222222223,
+      "yMm": 0
+    },
+    {
+      "name": "cv.chrome-paint.first.footer",
+      "heightMm": 3.9979722222222223,
+      "yMm": 293.02327777777776
+    }
+  ],
+  "browser": "141.0.7390.37"
+}

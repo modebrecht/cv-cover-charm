@@ -45,6 +45,7 @@ import {
   orderedPagePaint,
   compositePagePaint,
   nativePagePaintGeometry,
+  nativePagePaintFragmentGeometry,
   firstPageChromePaint,
 } from "./page-artwork";
 import {
@@ -222,16 +223,9 @@ export async function renderDossierDocx(
   const rasterize = options.rasterizeDecoration ?? rasterizeDecoration;
   const normalizeDecoration = imageCache((key) => rasterize(JSON.parse(key) as DecorationPaint));
   const composedPaint = new Map<string, DecorationPaint>();
-  const bodyPaintIds = new Set(
-    parts
-      .filter((part) => part.firstPageChromePaintOwner === "body")
-      .map((part) => `${part.id}.chrome-paint.first`),
-  );
-  const bodyCellPaintIds = new Set(
-    parts
-      .filter((part) => part.firstPageChromePaintOwner === "body" && part.layout.mode === "sidebar")
-      .map((part) => `${part.id}.chrome-paint.first`),
-  );
+  const bodyPaintIds = new Set<string>();
+  const bodyCellPaintIds = new Set<string>();
+  const bodyPaints = new Map<string, DecorationPaint[]>();
   for (const part of parts) {
     if (part.pagePaintComposition)
       for (const first of [false, true]) {
@@ -241,7 +235,14 @@ export async function renderDossierDocx(
             : undefined;
         const paint = split ? split.header : compositePagePaint(part, first);
         if (paint) composedPaint.set(paint.id, paint);
-        if (split) composedPaint.set(split.body.id, split.body);
+        if (split) {
+          bodyPaints.set(part.id, split.body);
+          for (const band of split.body) {
+            composedPaint.set(band.id, band);
+            bodyPaintIds.add(band.id);
+            if (part.layout.mode === "sidebar") bodyCellPaintIds.add(band.id);
+          }
+        }
       }
   }
   for (const part of parts)
@@ -431,9 +432,11 @@ export async function renderDossierDocx(
     const media = decorationIds.get(value.id);
     if (!media) return "";
     const { rid } = media;
-    const geometry = nativeCoverage
-      ? nativePagePaintGeometry(page)
-      : decorationPageGeometry(value, page);
+    const geometry = bodyPaintIds.has(value.id)
+      ? nativePagePaintFragmentGeometry(value, page)
+      : nativeCoverage
+        ? nativePagePaintGeometry(page)
+        : decorationPageGeometry(value, page);
     if (
       story !== "word/document.xml" &&
       !pkg.relationships.some((rel) => rel.source === story && rel.id === rid)
@@ -453,7 +456,7 @@ export async function renderDossierDocx(
         // The Sidebar's existing structural paragraph begins at the body top.
         // Use that known paragraph origin (as for its ordinary photo), rather
         // than relying on importers to honour a page-Y anchor inside a cell.
-        yMm: bodyCellPaintIds.has(value.id) ? -page.margins.top : geometry.yMm,
+        yMm: bodyCellPaintIds.has(value.id) ? geometry.yMm - page.margins.top : geometry.yMm,
         ...(bodyCellPaintIds.has(value.id) ? { verticalOrigin: "paragraph" as const } : {}),
         gapMm: 0,
         // The CV's structural anchor lives in its native table. Page paint
@@ -476,7 +479,7 @@ export async function renderDossierDocx(
       value.paintLayer,
       false,
       false,
-      bodyCellPaintIds.has(value.id),
+      bodyPaintIds.has(value.id),
     );
   }
   const paints = new Map<string, string>();
@@ -967,7 +970,7 @@ export async function renderDossierDocx(
         planned.columns.count;
       const bodyPaint =
         planned.logicalStart && part.firstPageChromePaintOwner === "body"
-          ? composedPaint.get(`${part.id}.chrome-paint.first`)
+          ? bodyPaints.get(part.id)
           : undefined;
       // Reuse the existing first body paragraph (or CV structural paragraph).
       // No new flow paragraph, text frame or manual page break is introduced.
@@ -986,7 +989,7 @@ export async function renderDossierDocx(
         bodyPaint
           ? [
               ...planned.blocks.slice(0, anchorIndex),
-              bodyPaint,
+              ...bodyPaint,
               ...planned.blocks.slice(anchorIndex),
             ]
           : planned.blocks,

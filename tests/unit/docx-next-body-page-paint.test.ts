@@ -8,7 +8,10 @@ import type { InteriorTextMetrics } from "../../src/lib/docx-next/interior-metri
 import { renderDossierDocx } from "../../src/lib/docx-next/renderer";
 import { validateDossierDocModel } from "../../src/lib/docx-next/validation";
 import { readZipEntries } from "../../src/lib/docx-next/zip";
-import { firstPageChromePaint } from "../../src/lib/docx-next/page-artwork";
+import {
+  firstPageChromePaint,
+  nativePagePaintFragmentGeometry,
+} from "../../src/lib/docx-next/page-artwork";
 
 function setup() {
   const source = structuredClone(fixture.snapshot) as unknown as DossierAppSnapshot;
@@ -38,14 +41,19 @@ test("body chrome excludes opaque paper so native rubric graphics stay visible",
   const { source, measured } = setup();
   const model = buildAppDocxNextModel(source, measured, "letter");
   const paint = firstPageChromePaint(model.letter);
-  expect(paint.body.layers?.some((layer) => layer.id.includes(".paper"))).toBe(false);
-  expect(paint.header?.layers?.some((layer) => layer.id.includes(".paper"))).toBe(true);
+  expect(paint.body).toHaveLength(2);
   expect(
-    paint.body.layers?.every((layer) => layer.yMm + layer.heightMm <= 4 || layer.yMm >= 293),
-  ).toBe(true);
+    paint.body.flatMap((band) => band.layers ?? []).some((layer) => layer.id.includes(".paper")),
+  ).toBe(false);
+  expect(paint.header?.layers?.some((layer) => layer.id.includes(".paper"))).toBe(true);
+  expect(paint.body.every((band) => band.yMm + band.heightMm <= 4 || band.yMm >= 293)).toBe(true);
+  for (const band of paint.body) {
+    expect(band.heightMm).toBeLessThanOrEqual(4);
+    expect(nativePagePaintFragmentGeometry(band, model.letter.page).heightMm).toBeLessThan(4.1);
+  }
 });
 
-test("first-page paint is body-owned at native page extents; recurring continuation paint remains in the header", async () => {
+test("first-page bands have narrow selection rectangles; continuation paint remains in the header", async () => {
   const { source, measured } = setup();
   const model = buildAppDocxNextModel(source, measured, "letter", {
     compactChromeBodyPaintPreview: true,
@@ -71,15 +79,20 @@ test("first-page paint is body-owned at native page extents; recurring continuat
   const baseline = structuredClone(model);
   delete baseline.letter.firstPageChromePaintOwner;
   const [a, b] = await Promise.all([packageFor(baseline), packageFor(model)]);
-  expect(b["word/document.xml"]).toContain('name="letter.chrome-paint.first"');
-  expect(b["word/letter-header-first.xml"]).not.toContain('name="letter.chrome-paint.first"');
+  expect(b["word/document.xml"]).toContain('name="letter.chrome-paint.first.header"');
+  expect(b["word/document.xml"]).toContain('name="letter.chrome-paint.first.footer"');
+  expect(b["word/letter-header-first.xml"]).not.toContain('name="letter.chrome-paint.first.');
   expect(b["word/letter-header.xml"]).toContain('name="letter.page-paint.continuation"');
-  expect(b["word/document.xml"]).toContain('cx="7560945" cy="10692765"');
-  const paintAnchor = b["word/document.xml"].match(
-    /<wp:anchor[^>]*>[\s\S]*?name="letter.chrome-paint.first"[\s\S]*?<\/wp:anchor>/,
-  )?.[0];
-  expect(paintAnchor).toContain('layoutInCell="0"');
-  expect(paintAnchor).toContain('behindDoc="1"');
+  const anchors = [...b["word/document.xml"].matchAll(/<wp:anchor\b[\s\S]*?<\/wp:anchor>/g)]
+    .map((m) => m[0])
+    .filter((anchor) => anchor.includes('name="letter.chrome-paint.first.'));
+  expect(anchors).toHaveLength(2);
+  for (const anchor of anchors) {
+    expect(anchor).toContain('layoutInCell="0"');
+    expect(anchor).toContain('behindDoc="1"');
+    expect(anchor).toContain("<wp:wrapNone/>");
+    expect(Number(anchor.match(/<wp:extent cx="\d+" cy="(\d+)"/)![1]) / 36000).toBeLessThan(4.1);
+  }
   const textFlow = (xml: string) =>
     xml.replace(/<w:r><w:drawing>[\s\S]*?<\/w:drawing><\/w:r>/g, "");
   expect(textFlow(b["word/document.xml"])).toBe(textFlow(a["word/document.xml"]));

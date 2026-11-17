@@ -1,0 +1,1 @@
+Final Library artifact SHA-256 unchanged after rendering. Three pages. All final rasters identical to the compared fixed file. PASS.

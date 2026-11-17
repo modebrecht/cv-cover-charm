@@ -61,23 +61,42 @@ test("compact first-page bands move into the body with identical text flow and s
     xml.replace(/<w:r><w:drawing>[\s\S]*?<\/w:drawing><\/w:r>/g, "");
   expect(textFlow(decode(b["word/document.xml"]))).toBe(textFlow(decode(a["word/document.xml"])));
   for (const part of ["letter", "cv"]) {
-    expect(decode(b["word/document.xml"])).toContain(`name="${part}.chrome-paint.first"`);
+    expect(decode(b["word/document.xml"])).toContain(`name="${part}.chrome-paint.first.header"`);
+    expect(decode(b["word/document.xml"])).toContain(`name="${part}.chrome-paint.first.footer"`);
     expect(decode(b[`word/${part}-header-first.xml`])).not.toContain(
-      `name="${part}.chrome-paint.first"`,
+      `name="${part}.chrome-paint.first.`,
     );
     expect(decode(b[`word/${part}-header.xml`])).toContain(
       `name="${part}.page-paint.continuation"`,
     );
+  }
+  const bandAnchors = [
+    ...decode(b["word/document.xml"]).matchAll(/<wp:anchor\b[\s\S]*?<\/wp:anchor>/g),
+  ]
+    .map((m) => m[0])
+    .filter((xml) => /name="(?:letter|cv)\.chrome-paint\.first\./.test(xml));
+  expect(bandAnchors).toHaveLength(4);
+  const bandBounds = bandAnchors.map((xml) => ({
+    name: xml.match(/<wp:docPr[^>]* name="([^"]+)"/)![1],
+    heightMm: Number(xml.match(/<wp:extent cx="\d+" cy="(\d+)"/)![1]) / 36000,
+    yMm:
+      Number(xml.match(/<wp:positionV[^>]*><wp:posOffset>(-?\d+)<\/wp:posOffset>/)![1]) / 36000 +
+      (xml.includes('<wp:positionV relativeFrom="paragraph">') ? baseline.cv.page.margins.top : 0),
+  }));
+  for (const band of bandBounds) {
+    expect(band.heightMm).toBeLessThan(4.1);
+    expect(band.yMm + band.heightMm <= 4.1 || band.yMm >= 293).toBe(true);
   }
   await writeFile(
     `${out}/evidence.json`,
     JSON.stringify(
       {
         scope:
-          "Modern Sidebar, default compact chrome, first-page bands in the body with transparent middle; other backgrounds and continuation header ownership unchanged",
+          "Modern Sidebar, default compact chrome, two tightly bounded first-page bands per interior document; no page-sized body graphic",
         semanticXmlEqual: true,
         semanticImagesByteIdentical: true,
         storedSourceUnchanged: true,
+        bandBounds,
         browser: page.context().browser()!.version(),
       },
       null,

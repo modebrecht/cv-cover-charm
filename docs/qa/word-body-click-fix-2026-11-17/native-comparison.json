@@ -1,0 +1,106 @@
+{
+  "engine": "canonical render_docx.py / LibreOffice; Word click behavior still requires the new file to be opened",
+  "cases": [
+    {
+      "case": "default",
+      "baseline_pages": 3,
+      "fixed_pages": 3,
+      "pages": [
+        {
+          "page": 1,
+          "text_and_geometry_identical": true,
+          "word_position_max_delta_pt": 0.0,
+          "different_pixels_all": 0,
+          "different_pixels_outside_6mm_edge_zones": 0
+        },
+        {
+          "page": 2,
+          "text_and_geometry_identical": true,
+          "word_position_max_delta_pt": 0.0,
+          "different_pixels_all": 42696,
+          "different_pixels_outside_6mm_edge_zones": 0
+        },
+        {
+          "page": 3,
+          "text_and_geometry_identical": true,
+          "word_position_max_delta_pt": 0.0,
+          "different_pixels_all": 41676,
+          "different_pixels_outside_6mm_edge_zones": 0
+        }
+      ]
+    },
+    {
+      "case": "no-photo",
+      "baseline_pages": 1,
+      "fixed_pages": 1,
+      "pages": [
+        {
+          "page": 1,
+          "text_and_geometry_identical": true,
+          "word_position_max_delta_pt": 0.0,
+          "different_pixels_all": 41676,
+          "different_pixels_outside_6mm_edge_zones": 0
+        }
+      ]
+    },
+    {
+      "case": "long-letter",
+      "baseline_pages": 3,
+      "fixed_pages": 3,
+      "pages": [
+        {
+          "page": 1,
+          "text_and_geometry_identical": true,
+          "word_position_max_delta_pt": 0.0,
+          "different_pixels_all": 42696,
+          "different_pixels_outside_6mm_edge_zones": 0
+        },
+        {
+          "page": 2,
+          "text_and_geometry_identical": true,
+          "word_position_max_delta_pt": 0.0,
+          "different_pixels_all": 0,
+          "different_pixels_outside_6mm_edge_zones": 0
+        },
+        {
+          "page": 3,
+          "text_and_geometry_identical": true,
+          "word_position_max_delta_pt": 0.0,
+          "different_pixels_all": 0,
+          "different_pixels_outside_6mm_edge_zones": 0
+        }
+      ]
+    }
+  ],
+  "deliverable": {
+    "file": "02_Word_Farben_Klicken_FIX.docx",
+    "sha256": "65f2f1168b3f7660bd977806859053222adb5983feb9832489b6b8d7acb6128c",
+    "bytes": 525986
+  },
+  "printed_bands_rgb": {
+    "letter": {
+      "header": [
+        17,
+        24,
+        39
+      ],
+      "footer": [
+        17,
+        24,
+        39
+      ]
+    },
+    "cv": {
+      "header": [
+        17,
+        24,
+        39
+      ],
+      "footer": [
+        17,
+        24,
+        39
+      ]
+    }
+  }
+}

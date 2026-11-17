@@ -14,6 +14,24 @@ export function nativePagePaintGeometry(page: DocumentPart["page"]) {
     heightMm: ((twips(page.heightMm) + 1) * 25.4) / 1440,
   };
 }
+/** Map a bounded piece of the same decorative canvas onto its native page grid.
+ * The drawing keeps the piece's real extent; transparent page-sized hit areas
+ * must never be used for body-owned bands. */
+export function nativePagePaintFragmentGeometry(
+  shape: DecorativeShape,
+  page: DocumentPart["page"],
+) {
+  const bounds = decorationPageGeometry(shape, page),
+    native = nativePagePaintGeometry(page);
+  const scaleX = native.widthMm / page.widthMm,
+    scaleY = native.heightMm / page.heightMm;
+  return {
+    xMm: bounds.xMm * scaleX,
+    yMm: bounds.yMm * scaleY,
+    widthMm: bounds.widthMm * scaleX,
+    heightMm: bounds.heightMm * scaleY,
+  };
+}
 export function artworkApplies(value: Pick<DecorativeArtwork, "repeat">, first: boolean): boolean {
   return value.repeat === undefined || value.repeat === (first ? "first" : "continuation");
 }
@@ -121,11 +139,11 @@ export function compositePagePaint(
   };
 }
 
-/** Split only source-owned compact bands. Keep paper/rail/motifs out of the
- * body layer so its transparent middle cannot cover native rubric artwork. */
+/** Two tightly bounded source-owned bands. A transparent middle would still
+ * create a page-sized selectable object in Word, so no body asset spans it. */
 export function firstPageChromePaint(part: DocumentPart): {
   header?: DecorationPaint;
-  body: DecorationPaint;
+  body: DecorationPaint[];
 } {
   const ids = new Set(
     ["compact", "artwork"].flatMap((owner) =>
@@ -143,6 +161,22 @@ export function firstPageChromePaint(part: DocumentPart): {
   if (!body) throw Error("DOCX Next compact body paint has no source-owned bands");
   return {
     header: compositePagePaint(select(false), true),
-    body: { ...body, id: `${part.id}.chrome-paint.first` },
+    body: ["header", "footer"].map((zone) => {
+      const layers = body.layers!.filter(
+        (layer) => layer.id.endsWith(`.${zone}`) || layer.id.endsWith(`.${zone}-edge`),
+      );
+      if (!layers.length) throw Error(`DOCX Next compact body paint is missing ${zone}`);
+      const top = Math.min(...layers.map((layer) => layer.yMm));
+      const bottom = Math.max(...layers.map((layer) => layer.yMm + layer.heightMm));
+      if (!(bottom > top) || bottom - top > part.page.heightMm / 4)
+        throw Error(`DOCX Next compact body paint has invalid ${zone} bounds`);
+      return {
+        ...body,
+        id: `${part.id}.chrome-paint.first.${zone}`,
+        yMm: top,
+        heightMm: bottom - top,
+        layers: layers.map((layer) => ({ ...layer, yMm: layer.yMm - top })),
+      };
+    }),
   };
 }
