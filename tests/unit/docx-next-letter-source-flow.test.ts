@@ -9,6 +9,7 @@ import { validateDossierDocModel } from "../../src/lib/docx-next/validation";
 import { walkBlocks, type Paragraph, type TableBlock } from "../../src/lib/docx-next/model";
 import type { DossierAppSnapshot } from "../../src/lib/docx-next/source";
 import type { BuildModelOptions } from "../../src/lib/docx-next/build-model";
+import { DEFAULT_DOSSIER_CHROME_STATE } from "../../src/lib/dossier-chrome";
 import {
   datedFlowAfterMm,
   NATIVE_BOUNDARY_HEIGHT_MM,
@@ -199,6 +200,40 @@ test("unsupported rich text, user typography, images and custom spacing fail clo
     assert.throws(() => composeSourceLetterFlow(part, input), /Source-Letter/);
     assert.deepEqual(part, old);
   }
+});
+
+test("compact chrome retains native sender fields in the body with the Web recipient gap", () => {
+  const { input } = setup();
+  input.settings.chrome = structuredClone(DEFAULT_DOSSIER_CHROME_STATE);
+  const before = structuredClone(input);
+  const model = buildDossierDocModel(input, {
+    exportPart: "letter",
+    coverComposition: "authored-frames",
+    compactChromeComposition: "source-bands",
+    letterFlowComposition: "source-lines",
+    chromeFirstPageIdentity: "distinct-stories",
+  });
+  const sender = walkBlocks(model.letter.blocks).filter(
+    (b): b is Paragraph => b.kind === "paragraph" && b.id.startsWith("letter.sender."),
+  );
+  assert.deepEqual(
+    sender.map((p) => p.runs.map((r) => r.text).join("")),
+    [
+      input.letter.data.absenderName,
+      input.letter.data.absenderAdresse,
+      input.letter.data.absenderPlzOrt,
+      input.letter.data.absenderTelefon,
+      input.letter.data.absenderEmail,
+    ].filter((value) => value.trim()),
+  );
+  assert.ok(sender.every((p) => p.runs.every((r) => r.style.sizePt === 9.5)));
+  assert.ok(sender.every((p) => p.afterMm === 0));
+  const gap = model.letter.blocks.find((b) => b.id === "letter.recipient.gap");
+  assert.equal(gap?.kind === "spacer" && gap.heightMm, 6);
+  assert.ok(model.letter.header.every((p) => p.runs.every((r) => !r.text.trim())));
+  assert.deepEqual(model.letter.footer, []);
+  assert.deepEqual(input, before);
+  validateDossierDocModel(model);
 });
 
 test("unknown paragraphs and recipient hard breaks do not get partially rewritten", () => {

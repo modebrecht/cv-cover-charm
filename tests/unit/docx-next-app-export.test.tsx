@@ -17,6 +17,7 @@ import type { DossierAppSnapshot } from "../../src/lib/docx-next/source";
 import type { CoverTextMetrics } from "../../src/components/cover/text-metrics";
 import type { CvSidebarTextMetrics } from "../../src/lib/docx-next/cv-sidebar-text-metrics";
 import type { InteriorTextMetrics } from "../../src/lib/docx-next/interior-metrics";
+import { DEFAULT_DOSSIER_CHROME_STATE } from "../../src/lib/dossier-chrome";
 
 function setup() {
   return {
@@ -168,13 +169,61 @@ test("availability keeps other templates, classic layouts and unmeasured font/he
       s.cv.design.font = "serif";
     },
     (s: DossierAppSnapshot) => {
-      s.settings.chrome!.shared.headerMode = "compact";
+      s.settings.chrome!.shared.headerMode = "none";
     },
   ]) {
     const { source } = setup();
     change(source);
     expect(() => assertAppDocxNextSource(source)).toThrow();
   }
+});
+
+for (const part of [undefined, "letter", "cv"] as const)
+  test(`default compact chrome is supported for ${part ?? "the dossier"}`, () => {
+    const { source } = setup();
+    source.settings.chrome = structuredClone(DEFAULT_DOSSIER_CHROME_STATE);
+    const before = structuredClone(source);
+    expect(() => assertAppDocxNextSource(source, part)).not.toThrow();
+    expect(source).toEqual(before);
+  });
+
+test("compact chrome keeps custom text, gradients and changing continuation headers blocked", () => {
+  for (const change of [
+    (source: DossierAppSnapshot) => {
+      source.letter.design.chromeContent = { headerTextEnabled: true, headerText: "Extra header" };
+    },
+    (source: DossierAppSnapshot) => {
+      source.settings.chrome!.shared.headerGradientColor = "#223344";
+    },
+    (source: DossierAppSnapshot) => {
+      source.settings.chrome!.shared.footerGradientColor = "#223344";
+    },
+    (source: DossierAppSnapshot) => {
+      source.settings.chrome!.shared.headerContinuationMode = "contact";
+    },
+    (source: DossierAppSnapshot) => {
+      source.settings.chrome!.shared.headerContentOffsetYMm = 2;
+    },
+    (source: DossierAppSnapshot) => {
+      source.settings.chrome!.shared.letterRecipientOffsetYMm = 2;
+    },
+  ]) {
+    const { source } = setup();
+    source.settings.chrome = structuredClone(DEFAULT_DOSSIER_CHROME_STATE);
+    change(source);
+    expect(() => assertAppDocxNextSource(source)).toThrow(/kompakte Kopf- und Fussstreifen/);
+  }
+});
+
+test("mixed dossier header modes stay blocked while independent single exports retain their own mode", () => {
+  const { source } = setup();
+  const chrome = source.settings.chrome!;
+  chrome.sync = false;
+  chrome.letter = { ...chrome.shared, headerMode: "compact" };
+  chrome.cv = { ...chrome.shared, headerMode: "contact" };
+  expect(() => assertAppDocxNextSource(source)).toThrow(/denselben Kopfzeilenmodus/);
+  expect(() => assertAppDocxNextSource(source, "letter")).not.toThrow();
+  expect(() => assertAppDocxNextSource(source, "cv")).not.toThrow();
 });
 
 test("normal export dialog offers one plainly labelled Word download without technical variants", () => {

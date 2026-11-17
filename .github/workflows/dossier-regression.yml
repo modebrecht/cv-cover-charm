@@ -110,6 +110,10 @@ jobs:
             files: >-
               --config=tests/qa/playwright.preflight-core.config.ts
               tests/qa/pdf-consent-boundaries.qa.ts
+          - group: word-default-chrome
+            ownsServer: true
+            files: >-
+              --config=tests/qa/playwright.word-default-chrome.config.ts
           - group: letter-m1-m5
             files: >-
               tests/e2e/letter-header-modes.spec.ts
@@ -226,6 +230,7 @@ jobs:
           path: |
             artifacts/regression/${{ matrix.group }}.json
             artifacts/pdf-text-baseline
+            artifacts/word-default-chrome
           retention-days: 14
 
       - name: Upload PDF consent evidence

@@ -43,6 +43,11 @@ export function buildAppDocxNextModel(
   if (includeCv && !measured.sidebar) throw new Error("DOCX Next: CV-Schriftmesswerte fehlen.");
   if ((includeLetter || includeCv) && !measured.interior)
     throw new Error("DOCX Next: Header-Schriftmesswerte fehlen.");
+  const compactChrome =
+    (includeLetter || includeCv) &&
+    resolveDossierChromeSnapshot(source, source.settings.chrome ?? DEFAULT_DOSSIER_CHROME_STATE)[
+      includeLetter ? "letter" : "cv"
+    ].options.headerMode === "compact";
   const model = buildDossierDocModel(source, {
     ...(part ? { exportPart: part } : {}),
     coverComposition: "authored-frames",
@@ -58,6 +63,7 @@ export function buildAppDocxNextModel(
         }
       : {}),
     ...(includeLetter || includeCv ? { interiorTextMetrics: measured.interior } : {}),
+    ...(compactChrome ? { compactChromeComposition: "source-bands" } : {}),
     chromeFirstPageIdentity: "distinct-stories",
     ...(includeLetter ? { letterFlowComposition: "source-lines" } : {}),
   });

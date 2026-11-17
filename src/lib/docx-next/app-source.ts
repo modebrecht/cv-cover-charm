@@ -139,15 +139,34 @@ export function assertAppDocxNextSource(
   );
   if (
     (part ? [chrome[part]] : [chrome.letter, chrome.cv]).some(
-      ({ options }) => options.headerMode !== "contact" || options.footerMode !== "compact",
+      ({ options }) =>
+        !["compact", "contact"].includes(options.headerMode) || options.footerMode !== "compact",
     )
   )
     throw new DocxDownloadError(
       part === "cv"
-        ? "Bitte im Lebenslauf eine Kopfzeile mit Kontaktdaten und eine kompakte Fusszeile wählen."
+        ? "Bitte im Lebenslauf eine kompakte Kopfzeile oder eine Kopfzeile mit Kontaktdaten und eine kompakte Fusszeile wählen."
         : part === "letter"
-          ? "Bitte im Brief eine Kopfzeile mit Kontaktdaten und eine kompakte Fusszeile wählen."
-          : "Bitte in Brief und Lebenslauf eine Kopfzeile mit Kontaktdaten und eine kompakte Fusszeile wählen.",
+          ? "Bitte im Brief eine kompakte Kopfzeile oder eine Kopfzeile mit Kontaktdaten und eine kompakte Fusszeile wählen."
+          : "Bitte in Brief und Lebenslauf eine kompakte Kopfzeile oder eine Kopfzeile mit Kontaktdaten und eine kompakte Fusszeile wählen.",
+    );
+  if (!part && chrome.letter.options.headerMode !== chrome.cv.options.headerMode)
+    throw new DocxDownloadError("Bitte in Brief und Lebenslauf denselben Kopfzeilenmodus wählen.");
+  if (
+    (part ? [chrome[part]] : [chrome.letter, chrome.cv]).some(
+      ({ options, content }) =>
+        options.headerMode === "compact" &&
+        (Object.values(content).some((value) => value?.trim()) ||
+          options.headerGradientColor ||
+          options.footerGradientColor ||
+          options.headerContentOffsetYMm ||
+          options.letterRecipientOffsetYMm ||
+          (options.headerContinuationMode !== undefined &&
+            options.headerContinuationMode !== "compact")),
+    )
+  )
+    throw new DocxDownloadError(
+      "Der Word-Download unterstützt kompakte Kopf- und Fussstreifen mit Vollfarben, ohne zusätzliche Kopf-/Fusszeilentexte und ohne verschobene Absender-/Empfängerblöcke.",
     );
   if (
     includes("cv") &&

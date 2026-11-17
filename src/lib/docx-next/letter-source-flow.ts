@@ -3,6 +3,8 @@ import type { DossierAppSnapshot } from "./source";
 import { nativeTextHeightMm } from "./layouts";
 import { resolveLetterPalette } from "@/components/letter/letter-paper";
 import { datedFlowAfterMm as tableFlowAfterMm, NATIVE_BOUNDARY_HEIGHT_MM } from "./flow-boundaries";
+import { resolveDossierChromeSnapshot } from "@/lib/dossier-resolved-chrome";
+import { DEFAULT_DOSSIER_CHROME_STATE } from "@/lib/dossier-chrome";
 
 /** The source-only part of the existing renderer gate also drives download availability. */
 export function sourceLetterFlowInputIssue(
@@ -52,12 +54,16 @@ export function sourceLetterFlowInputIssue(
 
 /** Internal Modern/Sans plain-letter trial. All line heights remain growable.
  * CSS div lines have no paragraph margin; explicit blank lines own their space.
- * Limited deliberately: customised typography/spacing, rich structures, sender
- * blocks and missing role content need other contracts. Recipient height grows
+ * Compact chrome keeps the plain sender in the body; contact chrome owns it
+ * in the header. Custom typography/spacing and rich structures remain gated.
+ * Recipient height grows
  * through a native minimum-height row; no text-width/line-count guess is used.
  */
 export function composeSourceLetterFlow(part: DocumentPart, source: DossierAppSnapshot): void {
   const { data, design } = source.letter;
+  const compact =
+    resolveDossierChromeSnapshot(source, source.settings.chrome ?? DEFAULT_DOSSIER_CHROME_STATE)
+      .letter.options.headerMode === "compact";
   const fail = (): never => {
     throw Error("DOCX Next: Source-Letter-Fluss unterstützt nur einfache Modern/Sans-Briefe.");
   };
@@ -67,12 +73,16 @@ export function composeSourceLetterFlow(part: DocumentPart, source: DossierAppSn
     part.blocks.some(
       (b) =>
         b.kind !== "paragraph" &&
-        !(b.kind === "spacer" && b.id === "letter.measured.firstPageLead"),
+        !(
+          b.kind === "spacer" &&
+          (b.id === "letter.measured.firstPageLead" || (compact && b.id === "letter.recipient.gap"))
+        ),
     )
   )
     fail();
   const paragraphs = part.blocks.filter((b): b is Paragraph => b.kind === "paragraph");
   const recipients = paragraphs.filter((p) => p.id.startsWith("letter.recipient."));
+  const senders = paragraphs.filter((p) => p.id.startsWith("letter.sender."));
   const recipientStart = part.blocks.findIndex((block) => block === recipients[0]);
   const bodies = paragraphs.filter((p) => p.id.startsWith("letter.body.paragraph:"));
   // Modern's band archetype uses 24/23 mm in LetterCanvas. The template's
@@ -83,13 +93,16 @@ export function composeSourceLetterFlow(part: DocumentPart, source: DossierAppSn
     !bodies.length ||
     recipients.some((p, index) => part.blocks[recipientStart + index] !== p) ||
     paragraphs.some(
-      (p) => p.id.startsWith("letter.sender.") || p.runs.some((r) => r.style.font !== "Arial"),
+      (p) =>
+        (!compact && p.id.startsWith("letter.sender.")) ||
+        p.runs.some((r) => r.style.font !== "Arial"),
     ) ||
-    recipients.some((p) => p.runs.some((r) => /[\n\t]/.test(r.text)))
+    [...recipients, ...senders].some((p) => p.runs.some((r) => /[\n\t]/.test(r.text)))
   )
     fail();
   // Check every eligible field before changing the model. No partial mutation on failure.
   const known = (id: string) =>
+    (compact && id.startsWith("letter.sender.")) ||
     id.startsWith("letter.recipient.") ||
     id.startsWith("letter.body.paragraph:") ||
     id.startsWith("letter.attachment:") ||
@@ -102,6 +115,14 @@ export function composeSourceLetterFlow(part: DocumentPart, source: DossierAppSn
       "letter.attachments-heading",
     ].includes(id);
   if (paragraphs.some((p) => !known(p.id))) fail();
+  const senderValues: Record<string, string> = {
+    "letter.sender.name": data.absenderName,
+    "letter.sender.address": data.absenderAdresse,
+    "letter.sender.place": data.absenderPlzOrt,
+    "letter.sender.phone": data.absenderTelefon,
+    "letter.sender.email": data.absenderEmail,
+  };
+  if (senders.some((p) => p.runs.map((r) => r.text).join("") !== senderValues[p.id])) fail();
   part.page.margins.left = 24;
   part.page.margins.right = 23;
   const attachments = paragraphs.some((p) => p.id === "letter.attachments-heading");
@@ -117,7 +138,8 @@ export function composeSourceLetterFlow(part: DocumentPart, source: DossierAppSn
     p.afterMm = afterMm;
   };
   for (const p of paragraphs) {
-    if (p.id.startsWith("letter.recipient.")) set(p, 10, 1.45);
+    if (p.id.startsWith("letter.sender.")) set(p, 9.5, 1.45);
+    else if (p.id.startsWith("letter.recipient.")) set(p, 10, 1.45);
     else if (p.id === "letter.date") {
       set(p, 9.5, 1.45, tableFlowAfterMm(4), 7);
       p.runs.forEach((r) => {
@@ -130,6 +152,12 @@ export function composeSourceLetterFlow(part: DocumentPart, source: DossierAppSn
     else if (p.id === "letter.signature") set(p, 10.5, 1.48, 1, attachments ? 9 : 0);
     else if (p.id === "letter.attachments-heading") set(p, 10, 1.45, 0, 1.5);
     else if (p.id.startsWith("letter.attachment:")) set(p, 10, 1.45);
+  }
+  if (compact) {
+    // LetterCanvas's body sender has no paragraph margins and is followed by
+    // a six-mm gap. Keep every field native and let long sender lines grow.
+    const gap = part.blocks.find((b) => b.kind === "spacer" && b.id === "letter.recipient.gap");
+    if (gap?.kind === "spacer") gap.heightMm = 6;
   }
   // Extend the template's existing short-tail keep policy by one ordinary
   // final paragraph. A long paragraph still splits naturally and cannot drag
