@@ -1,0 +1,8 @@
+(pass) shared dossier continuation headers > turning first-page-different off repeats the selected contact header [0.40ms]
+(pass) shared dossier continuation headers > legacy contact continuation respects the existing visibility switches [0.25ms]
+(pass) shared dossier continuation headers > none removes the header in both documents [0.25ms]
+
+ 1549 pass
+ 0 fail
+ 28032 expect() calls
+Ran 1549 tests across 291 files. [21.62s]

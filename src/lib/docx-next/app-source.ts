@@ -35,8 +35,9 @@ export { DocxDownloadError } from "./download-error";
 export type AppDocxNextOptions = {
   /** Explicit QA path pending acceptance in Desktop Word. */
   cvTwoPagePreview?: true;
-  /** Explicit Word visual trial for compact first-page decorative paint. */
-  compactChromeBodyPaintPreview?: true;
+  /** Development-only fallback for comparing the previous header-owned bands.
+   * No UI, URL or saved project setting exposes this option. */
+  devCompactChromeInHeader?: true;
 };
 
 /** Keep implementation diagnostics out of the ordinary download interface. */
@@ -139,17 +140,6 @@ export function assertAppDocxNextSource(
     source,
     source.settings.chrome ?? DEFAULT_DOSSIER_CHROME_STATE,
   );
-  if (
-    options?.compactChromeBodyPaintPreview &&
-    ((part ? [chrome[part]] : [chrome.letter, chrome.cv]).some(
-      ({ options }) => options.headerMode !== "compact",
-    ) ||
-      options.cvTwoPagePreview ||
-      (includes("cv") && hasExplicitSecondCvPage(source.cv)))
-  )
-    throw new DocxDownloadError(
-      "Die Farbansicht-Prüfung unterstützt kompakte Kopf-/Fussstreifen mit einem einseitigen Lebenslauf.",
-    );
   if (
     (part ? [chrome[part]] : [chrome.letter, chrome.cv]).some(
       ({ options }) =>

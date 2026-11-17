@@ -5,6 +5,7 @@ import { join } from "node:path";
 import project from "../fixtures/import/modern-sidebar-from-23okt.json" with { type: "json" };
 import { DEFAULT_DOSSIER_CHROME_STATE } from "../../src/lib/dossier-chrome";
 import { readZipEntries } from "../../src/lib/docx-next/zip";
+import { waitForNativeEditorSaved } from "../e2e/support/native-docx-fixture";
 
 const out = "artifacts/word-default-chrome";
 const base = "http://127.0.0.1:4173";
@@ -50,6 +51,7 @@ test("Modern default chrome exports through normal PDF, Word and JSON downloads"
       "data-editor-ready",
       "true",
     );
+    await waitForNativeEditorSaved(page);
     await page.evaluate(() => document.fonts.ready);
     const sheet = page.locator(selector);
     await expect(sheet).toHaveCount(1);
@@ -139,6 +141,16 @@ test("Modern default chrome exports through normal PDF, Word and JSON downloads"
       throw Error(`${outcome.error}: ${diagnostic}`);
     }
     await outcome.download.saveAs(join(out, filename));
+    if (format === "docx") {
+      const pkg = readZipEntries(await readFile(join(out, filename)));
+      const xml = new TextDecoder().decode(pkg.find((p) => p.name === "word/document.xml")!.bytes);
+      const bands = [...xml.matchAll(/<wp:anchor\b[\s\S]*?<\/wp:anchor>/g)]
+        .map((m) => m[0])
+        .filter((anchor) => /name="(?:letter|cv)\.chrome-paint\.first\./.test(anchor));
+      expect(bands).toHaveLength(4);
+      for (const band of bands)
+        expect(Number(band.match(/<wp:extent cx="\d+" cy="(\d+)"/)![1]) / 36000).toBeLessThan(4.1);
+    }
   }
   expect(
     await page.evaluate(() =>
@@ -159,6 +171,7 @@ test("Modern default chrome exports through normal PDF, Word and JSON downloads"
       "data-editor-ready",
       "true",
     );
+    await waitForNativeEditorSaved(page);
     const prior = await page.evaluate(() => ({
       cv: localStorage.getItem("lebenslauf:v1"),
       letter: localStorage.getItem("anschreiben:v1"),
@@ -178,6 +191,8 @@ test("Modern default chrome exports through normal PDF, Word and JSON downloads"
     );
     expect((xml.match(/<w:sectPr>/g) ?? []).length).toBe(1);
     expect(xml).toContain(`${part}.`);
+    expect(xml).toContain(`name="${part}.chrome-paint.first.header"`);
+    expect(xml).toContain(`name="${part}.chrome-paint.first.footer"`);
     expect(xml).not.toContain(part === "cv" ? "letter." : "cv.");
     expect(
       await page.evaluate(() => ({

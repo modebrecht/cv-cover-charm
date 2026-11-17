@@ -24,13 +24,13 @@ function setup() {
   return { source, measured: { interior } };
 }
 
-test("body-paint preview changes only the first-page paint owner, leaving source and semantic model intact", () => {
+test("compact default retains the old header composition only through the explicit development fallback", () => {
   const { source, measured } = setup(),
     before = structuredClone(source);
-  const baseline = buildAppDocxNextModel(source, measured, "letter");
-  const candidate = buildAppDocxNextModel(source, measured, "letter", {
-    compactChromeBodyPaintPreview: true,
+  const baseline = buildAppDocxNextModel(source, measured, "letter", {
+    devCompactChromeInHeader: true,
   });
+  const candidate = buildAppDocxNextModel(source, measured, "letter");
   expect(candidate.letter.firstPageChromePaintOwner).toBe("body");
   delete candidate.letter.firstPageChromePaintOwner;
   expect(candidate).toEqual(baseline);
@@ -55,9 +55,7 @@ test("body chrome excludes opaque paper so native rubric graphics stay visible",
 
 test("first-page bands have narrow selection rectangles; continuation paint remains in the header", async () => {
   const { source, measured } = setup();
-  const model = buildAppDocxNextModel(source, measured, "letter", {
-    compactChromeBodyPaintPreview: true,
-  });
+  const model = buildAppDocxNextModel(source, measured, "letter");
   const asset = {
     bytes: new Uint8Array([1, 2, 3]),
     widthPx: 2,
@@ -102,9 +100,7 @@ test("first-page bands have narrow selection rectangles; continuation paint rema
 
 test("body paint rejects semantic header content and invalid coverage instead of hiding it", () => {
   const { source, measured } = setup();
-  const candidate = buildAppDocxNextModel(source, measured, "letter", {
-    compactChromeBodyPaintPreview: true,
-  });
+  const candidate = buildAppDocxNextModel(source, measured, "letter");
   for (const kind of ["semantic", "coverage"] as const) {
     const bad = structuredClone(candidate);
     if (kind === "coverage") delete bad.letter.pagePaintCoverage;
@@ -125,6 +121,6 @@ test("body paint rejects semantic header content and invalid coverage instead of
   }
   source.settings.chrome!.shared.headerMode = "contact";
   expect(() =>
-    assertAppDocxNextSource(source, "letter", { compactChromeBodyPaintPreview: true }),
-  ).toThrow(/Farbansicht/);
+    assertAppDocxNextSource(source, "letter", { devCompactChromeInHeader: true }),
+  ).not.toThrow();
 });

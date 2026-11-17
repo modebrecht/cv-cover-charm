@@ -25,7 +25,7 @@ test("compact first-page bands move into the body with identical text flow and s
       const lib = await import(path);
       const { blob, model } = await lib.createSavedDossierDocxNext(
         undefined,
-        preview ? { compactChromeBodyPaintPreview: true } : undefined,
+        preview ? undefined : { devCompactChromeInHeader: true },
       );
       const href = URL.createObjectURL(blob),
         a = document.createElement("a");
@@ -107,7 +107,7 @@ test("compact first-page bands move into the body with identical text flow and s
 });
 
 for (const variant of ["no-photo-cv", "long-letter"] as const)
-  test(`${variant} retains its source flow and continuation paint in the body-paint trial`, async ({
+  test(`${variant} retains its source flow and continuation paint in the body-paint default`, async ({
     page,
   }) => {
     await importNativeDossier(page, (project) => {
@@ -132,7 +132,7 @@ for (const variant of ["no-photo-cv", "long-letter"] as const)
             await import(path)
           ).downloadSavedDossierDocxNext(
             part,
-            preview ? { compactChromeBodyPaintPreview: true } : undefined,
+            preview ? undefined : { devCompactChromeInHeader: true },
           );
         },
         { part, preview },

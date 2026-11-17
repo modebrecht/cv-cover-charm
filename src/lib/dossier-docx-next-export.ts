@@ -67,7 +67,14 @@ export function buildAppDocxNextModel(
     chromeFirstPageIdentity: "distinct-stories",
     ...(includeLetter ? { letterFlowComposition: "source-lines" } : {}),
   });
-  if (options?.compactChromeBodyPaintPreview)
+  // The accepted compact bands are ordinary body-owned drawings. Keep the
+  // previous header-owned version only as an explicit development fallback;
+  // the independent two-page CV experiment retains its existing composition.
+  if (
+    compactChrome &&
+    !options?.devCompactChromeInHeader &&
+    !(includeCv && options?.cvTwoPagePreview)
+  )
     for (const id of ["letter", "cv"] as const)
       if ((id === "letter" && includeLetter) || (id === "cv" && includeCv))
         model[id].firstPageChromePaintOwner = "body";

@@ -1,5 +1,10 @@
 # Word: Klickbereich der Farbbänder korrigiert – 17.11.2026
 
+**Abnahme:** Der Benutzer bestätigt «ohja viel besser». Die akzeptierte
+Variante wird [Standard, die alte bleibt nur als interner Dev-Rückfall](word-chrome-default-2026-11-17.md).
+Der folgende Prüfbericht beschreibt die Vorbereitung vor dieser Rückmeldung;
+ein gesonderter Speichern-/Wiederöffnen-Ablauf wird dadurch nicht behauptet.
+
 **Korrigierte Prüfdatei fertig; der tatsächliche Word-Klicktest steht noch aus.**
 Basis `28b72ac` auf `dev`. Dessen sechs automatische Workflows sind erfolgreich.
 Die neue Korrektur bleibt in der vorhandenen ausdrücklich aktivierten

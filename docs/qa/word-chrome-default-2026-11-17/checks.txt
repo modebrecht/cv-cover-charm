@@ -1,0 +1,4 @@
+App/QA TypeScript: PASS
+Changed-code ESLint: PASS
+Prettier: PASS
+No references to devCompactChromeInHeader in src/routes or src/components: PASS
