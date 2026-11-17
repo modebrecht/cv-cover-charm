@@ -67,6 +67,10 @@ export function buildAppDocxNextModel(
     chromeFirstPageIdentity: "distinct-stories",
     ...(includeLetter ? { letterFlowComposition: "source-lines" } : {}),
   });
+  if (options?.compactChromeBodyPaintPreview)
+    for (const id of ["letter", "cv"] as const)
+      if ((id === "letter" && includeLetter) || (id === "cv" && includeCv))
+        model[id].firstPageChromePaintOwner = "body";
   // The renderer's diagnostic switch also covers unrelated experiments. This
   // application entry admits exactly the composition above, never all issues.
   if (

@@ -4,7 +4,7 @@ import pagination from "./playwright.pagination.config";
 
 export default defineConfig({
   ...pagination,
-  testMatch: "word-default-chrome.qa.ts",
+  testMatch: ["word-default-chrome.qa.ts", "word-body-paint.qa.ts"],
   workers: 1,
   retries: 0,
   timeout: 180_000,

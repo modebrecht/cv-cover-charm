@@ -1,0 +1,78 @@
+{
+  "engine": "Supplementary canonical render_docx.py / LibreOffice, not Microsoft Word editing-view proof",
+  "cases": [
+    {
+      "case": "default",
+      "pages": 3,
+      "page_results": [
+        {
+          "page": 1,
+          "different_pixels_all": 0,
+          "different_pixels_outside_6mm_edge_zones": 0,
+          "text_and_word_geometry_identical": true,
+          "word_geometry_max_delta_pt": 0.0
+        },
+        {
+          "page": 2,
+          "different_pixels_all": 18201,
+          "different_pixels_outside_6mm_edge_zones": 0,
+          "text_and_word_geometry_identical": true,
+          "word_geometry_max_delta_pt": 0.0
+        },
+        {
+          "page": 3,
+          "different_pixels_all": 7166,
+          "different_pixels_outside_6mm_edge_zones": 0,
+          "text_and_word_geometry_identical": true,
+          "word_geometry_max_delta_pt": 0.0
+        }
+      ]
+    },
+    {
+      "case": "no-photo",
+      "pages": 1,
+      "page_results": [
+        {
+          "page": 1,
+          "different_pixels_all": 7166,
+          "different_pixels_outside_6mm_edge_zones": 0,
+          "text_and_word_geometry_identical": true,
+          "word_geometry_max_delta_pt": 0.0
+        }
+      ]
+    },
+    {
+      "case": "long-letter",
+      "pages": 3,
+      "page_results": [
+        {
+          "page": 1,
+          "different_pixels_all": 18201,
+          "different_pixels_outside_6mm_edge_zones": 0,
+          "text_and_word_geometry_identical": true,
+          "word_geometry_max_delta_pt": 0.0
+        },
+        {
+          "page": 2,
+          "different_pixels_all": 0,
+          "different_pixels_outside_6mm_edge_zones": 0,
+          "text_and_word_geometry_identical": true,
+          "word_geometry_max_delta_pt": 0.0
+        },
+        {
+          "page": 3,
+          "different_pixels_all": 0,
+          "different_pixels_outside_6mm_edge_zones": 0,
+          "text_and_word_geometry_identical": true,
+          "word_geometry_max_delta_pt": 0.0
+        }
+      ]
+    }
+  ],
+  "deliverable": {
+    "filename": "01_Word_Farben_beim_Schreiben.docx",
+    "sha256": "4a1da56edda8dc0bf601f526dac3dec853fc0cd5435f764bcf72316f2e09bb5e",
+    "bytes": 690708
+  },
+  "interior_exclusion_conservative_mm": 5.926666666666666
+}

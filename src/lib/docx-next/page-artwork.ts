@@ -120,3 +120,29 @@ export function compositePagePaint(
     layers,
   };
 }
+
+/** Split only source-owned compact bands. Keep paper/rail/motifs out of the
+ * body layer so its transparent middle cannot cover native rubric artwork. */
+export function firstPageChromePaint(part: DocumentPart): {
+  header?: DecorationPaint;
+  body: DecorationPaint;
+} {
+  const ids = new Set(
+    ["compact", "artwork"].flatMap((owner) =>
+      ["header", "footer", "header-edge", "footer-edge"].map(
+        (zone) => `${part.id}.${owner}.${zone}`,
+      ),
+    ),
+  );
+  const select = (bands: boolean) => ({
+    ...part,
+    artwork: part.artwork.filter((value) => ids.has(value.id) === bands),
+    headerShapes: (part.headerShapes ?? []).filter((value) => ids.has(value.id) === bands),
+  });
+  const body = compositePagePaint(select(true), true);
+  if (!body) throw Error("DOCX Next compact body paint has no source-owned bands");
+  return {
+    header: compositePagePaint(select(false), true),
+    body: { ...body, id: `${part.id}.chrome-paint.first` },
+  };
+}

@@ -45,6 +45,7 @@ import {
   orderedPagePaint,
   compositePagePaint,
   nativePagePaintGeometry,
+  firstPageChromePaint,
 } from "./page-artwork";
 import {
   control,
@@ -196,6 +197,8 @@ export async function renderDossierDocx(
     throw new Error("DOCX Next table identity carrier is unaccepted; diagnostic opt-in required");
   if (parts.some((part) => part.pagePaintCoverage) && !options.allowUnacceptedModelIssues)
     throw Error("DOCX Next native page coverage requires the explicit candidate gate");
+  if (parts.some((part) => part.firstPageChromePaintOwner) && !options.allowUnacceptedModelIssues)
+    throw Error("DOCX Next body page paint requires the explicit candidate gate");
   if (
     storyBlocks.some(
       (block) =>
@@ -219,11 +222,26 @@ export async function renderDossierDocx(
   const rasterize = options.rasterizeDecoration ?? rasterizeDecoration;
   const normalizeDecoration = imageCache((key) => rasterize(JSON.parse(key) as DecorationPaint));
   const composedPaint = new Map<string, DecorationPaint>();
+  const bodyPaintIds = new Set(
+    parts
+      .filter((part) => part.firstPageChromePaintOwner === "body")
+      .map((part) => `${part.id}.chrome-paint.first`),
+  );
+  const bodyCellPaintIds = new Set(
+    parts
+      .filter((part) => part.firstPageChromePaintOwner === "body" && part.layout.mode === "sidebar")
+      .map((part) => `${part.id}.chrome-paint.first`),
+  );
   for (const part of parts) {
     if (part.pagePaintComposition)
       for (const first of [false, true]) {
-        const paint = compositePagePaint(part, first);
+        const split =
+          first && part.firstPageChromePaintOwner === "body"
+            ? firstPageChromePaint(part)
+            : undefined;
+        const paint = split ? split.header : compositePagePaint(part, first);
         if (paint) composedPaint.set(paint.id, paint);
+        if (split) composedPaint.set(split.body.id, split.body);
       }
   }
   for (const part of parts)
@@ -432,8 +450,15 @@ export async function renderDossierDocx(
         placement: "free",
         coordinateOrigin: "page",
         xMm: geometry.xMm,
-        yMm: geometry.yMm,
+        // The Sidebar's existing structural paragraph begins at the body top.
+        // Use that known paragraph origin (as for its ordinary photo), rather
+        // than relying on importers to honour a page-Y anchor inside a cell.
+        yMm: bodyCellPaintIds.has(value.id) ? -page.margins.top : geometry.yMm,
+        ...(bodyCellPaintIds.has(value.id) ? { verticalOrigin: "paragraph" as const } : {}),
         gapMm: 0,
+        // The CV's structural anchor lives in its native table. Page paint
+        // must remain independent of that cell's bounds, like its ordinary photo.
+        ...(bodyPaintIds.has(value.id) ? { nativeOwner: "page-picture" as const } : {}),
       },
       rid,
       {
@@ -449,6 +474,9 @@ export async function renderDossierDocx(
       page,
       true,
       value.paintLayer,
+      false,
+      false,
+      bodyCellPaintIds.has(value.id),
     );
   }
   const paints = new Map<string, string>();
@@ -750,6 +778,7 @@ export async function renderDossierDocx(
         const drawings: string[] = [];
         let ownsPicture = false;
         let ordinaryPicture = false;
+        let bodyPaintAnchor = false;
         let cursor = index;
         while (
           values[cursor]?.kind === "decorative-shape" ||
@@ -757,6 +786,7 @@ export async function renderDossierDocx(
             (values[cursor] as ImageBlock).placement !== "inline")
         ) {
           const value = values[cursor];
+          if (bodyPaintIds.has(value.id)) bodyPaintAnchor = true;
           if (value.kind === "image" && value.nativeOwner === "page-picture")
             ordinaryPicture = true;
           if (
@@ -768,14 +798,14 @@ export async function renderDossierDocx(
             ownsPicture = true;
           drawings.push(
             value.kind === "decorative-shape"
-              ? decorationRun(value, page)
+              ? decorationRun(value, page, "word/document.xml", bodyPaintIds.has(value.id))
               : ownedImageRun(value as ImageBlock, widthMm, page),
           );
           cursor++;
         }
         const anchor = values[cursor];
         if (
-          ordinaryPicture &&
+          (ordinaryPicture || bodyPaintAnchor) &&
           anchor?.kind === "table" &&
           anchor.bodyBoundary === "section-start"
         ) {
@@ -935,7 +965,34 @@ export async function renderDossierDocx(
           part.page.margins.right -
           (planned.columns.count - 1) * planned.columns.gapMm) /
         planned.columns.count;
-      const content = renderBlocks(planned.blocks, widthMm, part.page);
+      const bodyPaint =
+        planned.logicalStart && part.firstPageChromePaintOwner === "body"
+          ? composedPaint.get(`${part.id}.chrome-paint.first`)
+          : undefined;
+      // Reuse the existing first body paragraph (or CV structural paragraph).
+      // No new flow paragraph, text frame or manual page break is introduced.
+      const anchorIndex = bodyPaint
+        ? planned.blocks.findIndex((block) => block.kind !== "spacer")
+        : -1;
+      if (
+        bodyPaint &&
+        (anchorIndex < 0 ||
+          !["paragraph", "image", "decorative-shape", "table"].includes(
+            planned.blocks[anchorIndex].kind,
+          ))
+      )
+        throw Error("DOCX Next body page paint has no supported first content anchor");
+      const content = renderBlocks(
+        bodyPaint
+          ? [
+              ...planned.blocks.slice(0, anchorIndex),
+              bodyPaint,
+              ...planned.blocks.slice(anchorIndex),
+            ]
+          : planned.blocks,
+        widthMm,
+        part.page,
+      );
       // A final cover made of positioned frames needs an ordinary closing
       // paragraph. In a dossier the section-break paragraph already provides
       // this boundary; without it Writer relocates the attachment heading.

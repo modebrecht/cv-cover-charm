@@ -313,6 +313,9 @@ export type DocumentPart = {
   /** Controlled chrome trial: cover the serialized native page plus one twip
    * of rounding allowance at its right/bottom edges. Semantic content is unchanged. */
   pagePaintCoverage?: "native-grid";
+  /** Guarded editing-view trial: only the first page's compact bands are
+   * anchored in the body. Backgrounds and continuation paint retain their header. */
+  firstPageChromePaintOwner?: "body";
   id: "cover" | "letter" | "cv";
   blocks: DocBlock[];
   page: {

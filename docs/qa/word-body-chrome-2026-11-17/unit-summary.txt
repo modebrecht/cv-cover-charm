@@ -1,0 +1,8 @@
+tests/unit/docx-next-first-footer.test.ts:
+(pass) first footers preserve source fields and styles while declaring distinct native identities [65.98ms]
+(pass) first footer stories reject missing first-page scope, duplicate identities and malformed options [13.05ms]
+
+ 1549 pass
+ 0 fail
+ 28020 expect() calls
+Ran 1549 tests across 291 files. [18.06s]

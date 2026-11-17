@@ -231,6 +231,7 @@ jobs:
             artifacts/regression/${{ matrix.group }}.json
             artifacts/pdf-text-baseline
             artifacts/word-default-chrome
+            artifacts/word-body-paint
           retention-days: 14
 
       - name: Upload PDF consent evidence

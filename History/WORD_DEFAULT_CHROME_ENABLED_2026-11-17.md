@@ -1,5 +1,11 @@
 # Standard-Kopf/Fuss im Word-Export – 17.11.2026
 
+**Aktueller Follow-up:** Die zurückgegebene Word-PDF bestätigt die vollen,
+gleichen Druckfarben. Für die blasse Bearbeitungsansicht existiert jetzt eine
+separate [Prüfdatei mit körperverankerten Farbbändern](../docs/qa/word-body-chrome-2026-11-17.md).
+Ihre Word-Ansicht bleibt bis zur Rückmeldung ungeprüft; der folgende Bericht
+beschreibt weiterhin die normale, vorher veröffentlichte Exportvariante.
+
 Produktcommit: [`45239090c89841057765eee1da0d3954141dd04e`](https://github.com/modebrecht/cv-cover-charm/commit/45239090c89841057765eee1da0d3954141dd04e), direkt auf `dev`.
 
 Der normale Word-Download unterstützt jetzt neben dem bisherigen Kontaktheader

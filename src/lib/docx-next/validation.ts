@@ -83,6 +83,20 @@ export function validateDossierDocModel(model: DossierDocModel): void {
     )
       throw new Error(`DOCX Next sidebar requires native parallel flow: ${part.id}`);
     const margins = part.page.margins;
+    if (
+      part.firstPageChromePaintOwner !== undefined &&
+      (part.firstPageChromePaintOwner !== "body" ||
+        part.id === "cover" ||
+        part.pagePaintComposition !== "single-asset" ||
+        part.pagePaintCoverage !== "native-grid" ||
+        !part.firstHeader ||
+        part.headerFrames?.length ||
+        part.headerImages?.length ||
+        [...part.header, ...part.firstHeader, ...part.footer, ...(part.firstFooter ?? [])].some(
+          (p) => p.runs.some((r) => r.text.trim()),
+        ))
+    )
+      throw Error("DOCX Next body page paint requires empty compact first-page chrome");
     if (part.pagePaintComposition !== undefined && part.pagePaintComposition !== "single-asset")
       throw new Error(`DOCX Next invalid page paint composition ${part.id}`);
     if (
