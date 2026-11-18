@@ -1,5 +1,5 @@
 import { useRef, useState, type ChangeEvent } from "react";
-import { dossierProjectPartLabels, parseDossierProjectText } from "@/lib/dossier-project-file";
+import { confirmDossierProjectImport, parseDossierProjectText } from "@/lib/dossier-project-file";
 import { importDossierProjectSafely } from "@/lib/dossier-import";
 
 function JsonFileIcon() {
@@ -53,11 +53,7 @@ export function ProjectLoadButton() {
         return;
       }
 
-      const parts = dossierProjectPartLabels(project);
-      const confirmed = window.confirm(
-        `Gespeichertes Dossier öffnen?\n\nIn der Datei gefunden: ${parts.join(", ")}.\n\nBeim Laden werden die gespeicherten Dossierdaten aus dieser Datei in diesem Browser geöffnet. Dein aktueller Stand in diesem Browser wird dadurch ersetzt.\n\nDie Datei wird nur auf diesem Gerät gelesen und nicht ins Internet hochgeladen.`,
-      );
-      if (!confirmed) return;
+      if (!confirmDossierProjectImport(project, { replace: true })) return;
 
       await importDossierProjectSafely(project, { replace: true });
       window.location.reload();

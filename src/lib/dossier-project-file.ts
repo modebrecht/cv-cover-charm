@@ -24,12 +24,6 @@ export function parseLegacyDossierPart(
   part: "cover" | "cv",
 ): Record<string, unknown> | null {
   if (!isRecord(value) || Object.hasOwn(value, "kind") || !isRecord(value.data)) return null;
-  const data = value.data;
-  const foreignFields =
-    part === "cover"
-      ? ["person", "schule", "erfahrung", "absenderName", "betreff"]
-      : ["vorname", "nachname", "beruf", "lehrbeginn", "absenderName", "betreff"];
-  if (foreignFields.some((key) => Object.hasOwn(data, key))) return null;
   if (!validDossierProjectPart(part, value)) return null;
   const settings =
     part === "cv" ? { ...value, portableState: value.portableState ?? undefined } : value;
@@ -94,4 +88,14 @@ export function dossierProjectPartLabels(project: DossierProject): string[] {
   if (project.letter) parts.push("Motivationsschreiben");
   if (project.cv) parts.push("Lebenslauf");
   return parts;
+}
+
+export function confirmDossierProjectImport(project: DossierProject, { replace = false } = {}) {
+  const parts = dossierProjectPartLabels(project).join(", ") || "keine Dossierteile";
+  const effect = replace
+    ? "Der aktuelle Dossierstand in diesem Browser wird vollständig durch die Datei ersetzt."
+    : "Die aufgeführten Teile ersetzen die entsprechenden Entwürfe. Enthaltene Dossier-Einstellungen werden übernommen.";
+  return window.confirm(
+    `Gespeichertes Dossier öffnen?\n\nIn der Datei: ${parts}.\n\n${effect}\n\nDie Datei wird nur auf diesem Gerät gelesen und nicht hochgeladen.`,
+  );
 }

@@ -257,6 +257,7 @@ test.describe("M7 dossier state roundtrip", () => {
     const fileInput = page.locator(
       '[data-editor-action-menu] input[type="file"][accept="application/json"]',
     );
+    page.once("dialog", (dialog) => dialog.accept());
     await fileInput.setInputFiles(projectPath ?? "");
 
     await expect

@@ -430,12 +430,19 @@ export function validDossierProjectSettings(value: Record<string, unknown>): boo
   );
 }
 
+const foreignPartFields = {
+  cover: ["person", "schule", "erfahrung", "absenderName", "betreff"],
+  letter: ["person", "schule", "erfahrung", "vorname", "nachname", "beruf", "lehrbeginn"],
+  cv: ["vorname", "nachname", "beruf", "lehrbeginn", "absenderName", "betreff"],
+};
+
 /** Validate supplied structures that editors consume as strings/arrays. Missing
  * historical fields and unknown additive fields remain compatible. This is a
  * file-load boundary, not a migration of the active browser storage format. */
 export function validDossierProjectPart(kind: "cover" | "letter" | "cv", value: unknown): boolean {
   if (!record(value) || !record(value.data)) return false;
   const data = value.data;
+  if (foreignPartFields[kind].some((field) => Object.hasOwn(data, field))) return false;
   if (
     !optional(value.design, record) ||
     !optional(value.elements, elements) ||

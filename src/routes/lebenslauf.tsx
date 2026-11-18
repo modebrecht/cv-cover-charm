@@ -1,5 +1,5 @@
 import { importDossierProjectSafely } from "@/lib/dossier-import";
-import { parseLegacyDossierPart } from "@/lib/dossier-project-file";
+import { confirmDossierProjectImport, parseLegacyDossierPart } from "@/lib/dossier-project-file";
 import { useDossierChromePalette } from "@/lib/dossier-chrome-palette.browser";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
@@ -863,6 +863,7 @@ function Lebenslauf() {
           },
         };
       }
+      if (!confirmDossierProjectImport(project)) return;
       await importDossierProjectSafely(project);
       window.location.reload();
     } catch {

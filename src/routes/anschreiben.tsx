@@ -1,4 +1,5 @@
 import { importDossierProjectSafely } from "@/lib/dossier-import";
+import { confirmDossierProjectImport, parseDossierProjectText } from "@/lib/dossier-project-file";
 import { useDossierChromePalette } from "@/lib/dossier-chrome-palette.browser";
 import { LETTER_FIELD_IDS } from "@/lib/dossier-semantic-fields";
 import { createFileRoute, Link } from "@tanstack/react-router";
@@ -59,7 +60,6 @@ import {
   COVER_STORAGE_KEY,
   CV_STORAGE_KEY,
   createDossierProject,
-  parseDossierProject,
   readStoredDossierPart,
 } from "@/lib/dossier-project";
 import { readPhoto } from "@/lib/image";
@@ -678,8 +678,12 @@ function Anschreiben() {
   const importDossierProject = async (file: File | undefined) => {
     if (!file) return;
     try {
-      const project = parseDossierProject(JSON.parse(await file.text()) as unknown);
-      if (!project) throw new Error("Keine gültige Dossier-Datei.");
+      const project = parseDossierProjectText(await file.text());
+      if (!project) {
+        setTransferNote({ kind: "error", text: "Diese JSON-Datei enthält kein gültiges Dossier." });
+        return;
+      }
+      if (!confirmDossierProjectImport(project)) return;
       await importDossierProjectSafely(project);
       window.location.reload();
     } catch (error) {

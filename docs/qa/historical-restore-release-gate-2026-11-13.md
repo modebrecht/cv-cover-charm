@@ -136,6 +136,23 @@ Eine allgemeine visuelle Gleichheit mit historischen Word-Dateien und
 Speichern/Wiederöffnen in Microsoft Desktop Word sind damit nicht abgenommen.
 Die beiden Kreisrand-REVIEWS für Terracotta und Studio 3 bleiben separat offen.
 
-Nach diesem Block stehen die konkrete Desktop-Word-Abnahme und die bestehenden
-Kreisrand-REVIEWS an. Eine weitere allgemeine historische Inventur ist dafür
-nicht nötig.
+## Importabsicherung vom 18.11.2026
+
+Die Dateiauswahl in Titelblatt, Brief und CV konnte bereits gespeicherte
+Teile sofort ersetzen. Vor der Übernahme zeigt jetzt auch jeder Editor, welche
+Teile und Einstellungen er aus der Datei lädt. Der Abbruch lässt die
+gespeicherten Entwürfe unverändert. In der Übersicht gilt weiterhin der
+vollständige Ersatz, in den Editoren der Import der enthaltenen Teile.
+
+Eine zweite Lücke betraf falsch zugeordnete Teile innerhalb gültig aussehender
+Projektdateien. Ein CV unter dem Schlüssel `cover` konnte bisher als Titelblatt
+geladen werden. Die gemeinsame Prüfung lehnt solche Zuordnungen sowie
+beschädigte und zu neue Dateien vor dem Schreiben ab. Die SHA-256-Werte aller
+67 Originale wurden erneut geprüft. Der aktuelle Parser akzeptiert sie alle.
+
+Sechs gezielte Browserfälle bestanden lokal. Die drei Editorpfade prüfen
+Abbruch und bestätigten Import. Die beiden unterstützten alten Einzelformate
+laden weiterhin. Beschädigte, zu neue und falsch zugeordnete Dateien zeigen
+eine Fehlermeldung, ohne den vorhandenen Stand zu verändern. Der vollständige
+Import-Workflow vergleicht zusätzlich die tatsächlichen Downloads vor und nach
+dem Reimport.

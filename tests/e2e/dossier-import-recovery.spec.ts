@@ -6,7 +6,10 @@ import { basename } from "node:path";
 import { readZipEntries } from "../../src/lib/docx-next/zip";
 import historicalProjects from "../fixtures/import/historical-projects-28okt.json" with { type: "json" };
 import modernSidebar from "../fixtures/import/modern-sidebar-from-23okt.json" with { type: "json" };
-import { expectUnreviewedDocxBlocked } from "./support/native-docx-fixture";
+import {
+  expectUnreviewedDocxBlocked,
+  waitForNativeEditorSaved,
+} from "./support/native-docx-fixture";
 
 const BASE = "http://127.0.0.1:4173";
 const photo =
@@ -337,7 +340,7 @@ test("malformed supplied part and future format cannot create a backup or alter 
   expect(result.databases.some((db) => db.name === "cv-cover-charm-import-backup-v1")).toBe(false);
 });
 
-test("corrupt settings are rejected through the real file input before confirmation or storage writes", async ({
+test("corrupt parts and settings are rejected before confirmation or storage writes", async ({
   page,
 }) => {
   await boot(page);
@@ -353,6 +356,11 @@ test("corrupt settings are rejected through the real file input before confirmat
     await dialog.dismiss();
   });
   const files = [
+    '{ "version": ',
+    { ...project, version: 99 },
+    { ...project, cover: project.cv },
+    { ...project, cv: project.letter },
+    { ...project, letter: project.cover },
     { ...project, chrome: [] },
     { ...project, pageMargins: { letter: { top: "broken", right: 10, bottom: 10, left: 10 } } },
     { ...project, fieldTypography: { cv: [] } },
@@ -360,9 +368,9 @@ test("corrupt settings are rejected through the real file input before confirmat
   ];
   for (const [index, value] of files.entries()) {
     await page.locator('input[type="file"][accept*="json"]').setInputFiles({
-      name: `corrupt-settings-${index}.json`,
+      name: `corrupt-project-${index}.json`,
       mimeType: "application/json",
-      buffer: Buffer.from(JSON.stringify(value)),
+      buffer: Buffer.from(typeof value === "string" ? value : JSON.stringify(value)),
     });
     await expect.poll(() => dialogs.length).toBe(index + 1);
     expect(dialogs[index].type).toBe("alert");
@@ -1472,6 +1480,7 @@ for (const [route, part, expectedName] of [
             },
             design: { ...project.cv.design, font: "freundlich" },
           };
+    page.once("dialog", (dialog) => dialog.accept());
     const reloaded = page.waitForEvent("domcontentloaded");
     await input.setInputFiles({
       name: `legacy-${part}.json`,
@@ -1599,29 +1608,52 @@ for (const [route, part] of [
   ["lebenslauf", "cv"],
   ["anschreiben", "letter"],
 ] as const) {
-  test(`${route} project input preserves absent neighbours and reloads imported data`, async ({
-    page,
-  }) => {
+  test(`${route} project input confirms before replacing its saved parts`, async ({ page }) => {
     await boot(page);
     await seed(page);
     await page.goto(`${BASE}/${route}`);
-    await page.getByRole("button", { name: "Menü", exact: true }).click();
+    await waitForNativeEditorSaved(page);
+    const menu = page.getByRole("button", { name: "Menü", exact: true });
+    const input = page.locator('input[type="file"][accept*="json"]').first();
+    const file = {
+      name: "partial-project.json",
+      mimeType: "application/json",
+      buffer: Buffer.from(
+        JSON.stringify({
+          kind: project.kind,
+          version: project.version,
+          savedAt: project.savedAt,
+          [part]: project[part],
+        }),
+      ),
+    };
+    const savedParts = () =>
+      page.evaluate(
+        (keys) => keys.map((key) => localStorage.getItem(key)),
+        Object.values(partKeys),
+      );
+    const unchanged = await savedParts();
+    await menu.click();
+    const cancelled = page.waitForEvent("dialog", { timeout: 5000 });
+    await input.setInputFiles(file);
+    const dialog = await cancelled;
+    const message = dialog.message();
+    const type = dialog.type();
+    await dialog.dismiss();
+    expect(type).toBe("confirm");
+    expect(message).toContain(
+      {
+        cover: "Titelblatt",
+        cv: "Lebenslauf",
+        letter: "Motivationsschreiben",
+      }[part],
+    );
+    expect(await savedParts()).toEqual(unchanged);
+    expect(await page.evaluate(() => indexedDB.databases())).toEqual([]);
+    if (!(await input.count())) await menu.click();
+    page.once("dialog", (next) => next.accept());
     const reloaded = page.waitForEvent("domcontentloaded");
-    await page
-      .locator('input[type="file"][accept*="json"]')
-      .first()
-      .setInputFiles({
-        name: "partial-project.json",
-        mimeType: "application/json",
-        buffer: Buffer.from(
-          JSON.stringify({
-            kind: project.kind,
-            version: project.version,
-            savedAt: project.savedAt,
-            [part]: project[part],
-          }),
-        ),
-      });
+    await input.setInputFiles(file);
     await reloaded;
     await expect(page.getByRole("button", { name: "Menü", exact: true })).toBeVisible();
     const parts = await page.evaluate(() => ({

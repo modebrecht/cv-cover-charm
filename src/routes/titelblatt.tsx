@@ -1,5 +1,5 @@
 import { importDossierProjectSafely } from "@/lib/dossier-import";
-import { parseLegacyDossierPart } from "@/lib/dossier-project-file";
+import { confirmDossierProjectImport, parseLegacyDossierPart } from "@/lib/dossier-project-file";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import {
@@ -970,6 +970,7 @@ function Titelblatt() {
           },
         };
       }
+      if (!confirmDossierProjectImport(project)) return;
       await importDossierProjectSafely(project);
       window.location.reload();
     } catch {
