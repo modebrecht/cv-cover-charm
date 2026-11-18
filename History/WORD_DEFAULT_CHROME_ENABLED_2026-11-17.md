@@ -1,10 +1,12 @@
 # Standard-Kopf/Fuss im Word-Export – 17.11.2026
 
-**Aktueller Follow-up:** Die zurückgegebene Word-PDF bestätigt die vollen,
-gleichen Druckfarben. Für die blasse Bearbeitungsansicht existiert jetzt eine
-separate [Prüfdatei mit körperverankerten Farbbändern](../docs/qa/word-body-chrome-2026-11-17.md).
-Ihre Word-Ansicht bleibt bis zur Rückmeldung ungeprüft; der folgende Bericht
-beschreibt weiterhin die normale, vorher veröffentlichte Exportvariante.
+**Aktualisiert am 18.11.2026:** Der Benutzer hat den Farb- und Klickfix
+bestätigt. Zwei schmale Farbbänder sind seit `723d6cb` der normale Standard;
+die vorherige Header-Variante bleibt ausschliesslich als interner Dev-Rückfall.
+Es steht keine erneute Benutzerprüfung dieses Fixes aus. Siehe den
+[aktuellen Nachweis](../docs/qa/word-chrome-default-2026-11-17.md) und den
+[Projektstatus](PROJECT_STATUS_2026-11-18.md).
+Der folgende Bericht dokumentiert den älteren Header-Stand `4523909`.
 
 Produktcommit: [`45239090c89841057765eee1da0d3954141dd04e`](https://github.com/modebrecht/cv-cover-charm/commit/45239090c89841057765eee1da0d3954141dd04e), direkt auf `dev`.
 
@@ -63,7 +65,7 @@ Die ergänzende native Darstellung verwendet LibreOffice. Sie ersetzt keine
 Microsoft-Word-Abnahme. Der alte Word-Rücklauf gehörte zum Kontakt-Header und
 belegt keinen Speichern-/Wiederöffnen-Ablauf dieses neuen Default-DOCX.
 
-## Korrigiertes Prüfpaket
+## Historisches Prüfpaket für den Header-Stand
 
 [Word_Pruefpaket_Modern_Standard_Kopf_Fuss_2026-11-17.zip](https://chatgpt.com/library?file_id=libfile_735203c7ffac81919d17ac19b43ba0ea&account_id=personal)
 ersetzt das frühere Paket unter derselben Dateiidentität, Version 1.
@@ -71,10 +73,11 @@ Es enthält die tatsächlichen DOCX-/PDF-/JSON-Downloads, die beiden Einzel-DOCX
 und eine kurze Anleitung. SHA-256 des ZIP:
 `59f2a56141911d84e8ff0bcc95a4aa2b16dc2cdd73d63010f64d94821b0e0cd4`.
 
-Für die durchgeführte Implementierung und Prüfung wird nichts Weiteres vom
-Benutzer benötigt. Eine spätere Desktop-Word-Prüfung dieses Pakets bleibt eine
-gesonderte Abnahme; inaktive Kopf-/Fusszeilen können dort weiterhin optisch
-abgeblendet sein. Entscheidend ist die Druck-/PDF-Farbe.
+Dieses Paket gehört zum damaligen Header-Stand und wird nicht als neuer
+Prüfauftrag angeboten. Die anschliessend bestätigte Datei
+`02_Word_Farben_Klicken_FIX.docx` und ihr unveränderter normaler Download sind
+im aktuellen Nachweis verzeichnet. Für den bestätigten Farb-/Klickfix wird
+nichts Weiteres vom Benutzer benötigt.
 
 ## Reproduktion und Nachweise
 

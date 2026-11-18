@@ -5,11 +5,13 @@ Variante wird [Standard, die alte bleibt nur als interner Dev-Rückfall](word-ch
 Der folgende Prüfbericht beschreibt die Vorbereitung vor dieser Rückmeldung;
 ein gesonderter Speichern-/Wiederöffnen-Ablauf wird dadurch nicht behauptet.
 
-**Korrigierte Prüfdatei fertig; der tatsächliche Word-Klicktest steht noch aus.**
-Basis `28b72ac` auf `dev`. Dessen sechs automatische Workflows sind erfolgreich.
-Die neue Korrektur bleibt in der vorhandenen ausdrücklich aktivierten
-`compactChromeBodyPaintPreview`-Variante; der normale Download wird erst nach
-Word-Abnahme umgestellt.
+**Aktueller Stand, 18.11.2026:** Farb- und Klickverhalten sind vom Benutzer
+bestätigt; der normale Download verwendet seit `723d6cb` diese Variante.
+Alle sechs Workflows dieses Produktstands sind erfolgreich. Der frühere
+Versuchsparameter ist entfernt; die alte stabile Header-Variante bleibt nur
+über `devCompactChromeInHeader: true` intern verfügbar. Keine neue Prüfung
+der bereits bestätigten Datei anfordern.
+Die technische Vorbereitung dieses Fixes erfolgte auf Basis `28b72ac`.
 
 ## Neue Nebenwirkung und Ursache
 
@@ -59,25 +61,25 @@ entfernt. Das ist ein Dateistrukturnachweis, keine simulierte Word-Mausabnahme.
   Fotos, Rubriklinien, Seitenränder und Textenden visuell geprüft.
 
 Der Renderer verwendet LibreOffice über den kanonischen `render_docx.py`.
-Word-Klickverhalten, Auswahlhervorhebung und Speichern der korrigierten Bytes
-müssen noch in Desktop Word geprüft werden.
+Die anschliessende Benutzerrückmeldung bestätigt die Word-Farb-/Klickansicht.
+Ein ausdrücklich protokollierter Save/Reopen-Lauf dieser Bytes liegt nicht
+vor; die automatische Darstellung ersetzt keinen solchen Nachweis.
 
-## Konkrete Datei und nächster Schritt
+## Bestätigte Datei
 
 [02_Word_Farben_Klicken_FIX.docx](https://chatgpt.com/library?file_id=libfile_7d23b55582f081918f191ed4e67e84e9&account_id=personal)
 
 SHA-256: `65f2f1168b3f7660bd977806859053222adb5983feb9832489b6b8d7acb6128c`.
 Die Datei ersetzt die bisherige Farbansicht-Prüfdatei, Version 1.
 
-Nächster Word-Schritt: öffnen und normal in Brieftext und CV klicken. Prüfen,
-ob der Cursor zuverlässig im Text landet und die Seite ohne seitenhohe
-Grafikmarkierung bleibt. Danach Word-PDF und Speichern prüfen. Erst bei
-erfolgreicher Rückmeldung diese Variante im normalen Download aktivieren.
+Der Benutzer hat die korrigierte Ansicht mit «ohja viel besser» bestätigt.
+Der normale Dossier-Download entspricht dieser Datei bytegenau; der Fix ist
+aktiviert. Es gibt hierfür keinen offenen Wiederholungsauftrag an den Benutzer.
 
 Die bekannte Grenze des Vorgängers bleibt: Die Farbansicht-Korrektur betrifft
 die erste Brief-/CV-Seite; automatische Brief-Folgeseiten behalten ihren
-bisherigen wiederholten Header. Der nächste Chat soll den Klick-Fix anhand
-dieser neuen Bytes beurteilen, nicht nochmals die verworfene Datei anbieten.
+bisherigen wiederholten Header. Die verworfene Vorgängerdatei und das ältere
+Header-Prüfpaket werden nicht erneut zur Abnahme angeboten.
 
 [Grafikrahmen und native Positionen](word-body-click-fix-2026-11-17/drawing-bounds.json)
 · [Sieben native Vergleiche und Datei-Hash](word-body-click-fix-2026-11-17/native-comparison.json)

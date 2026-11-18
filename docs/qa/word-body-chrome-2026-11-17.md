@@ -7,10 +7,11 @@ hervorheben. Der [Klick-Fix mit zwei schmalen Grafikrahmen](word-body-click-fix-
 ersetzt diese Prüfdatei unter derselben Identität, Version 1. Der folgende
 Bericht und sein Hash beschreiben die historische Version 0.
 
-**Konkrete Prüfdatei fertig; Word-Bearbeitungsansicht noch nicht abgenommen.**
-Die neue Variante ist ausdrücklich über `compactChromeBodyPaintPreview: true`
-im vorhandenen App-Export aufrufbar. Der normale Download wird erst nach einer
-Prüfung der Word-Ansicht umgestellt. Basis: `0e65c9f` auf `dev`.
+**Historischer Versuch, verworfen:** Der damalige Parameter
+`compactChromeBodyPaintPreview: true` ist inzwischen entfernt. Der
+anschliessende Fix mit zwei schmalen Bändern wurde vom Benutzer bestätigt und
+ist der normale Standard. Dies ist kein offener Word-Prüfauftrag.
+Basis dieses historischen Versuchs: `0e65c9f` auf `dev`.
 
 ## Benutzerbefund und Ziel
 

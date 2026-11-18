@@ -1,6 +1,7 @@
 # CV Cover Charm – gezielter Handoff, 17.11.2026
 
-> Abschluss: Die Cabin-CV-Abweichung ist auf `e816f95027afe9a8de737a28e5ec1340a6b5a251` behoben und vollständig in CI geprüft. Siehe [Abschluss und aktuelle Grenzen](CABIN_CV_COMPLETED_2026-11-17.md). Der folgende Text bleibt als ursprünglicher Übergabestand erhalten.
+> Aktualisierung 18.11.2026: Cabin-CV und der anschliessende Word-Farb-/Klickfix sind erledigt. Der normale Export entspricht bytegenau der vom Benutzer bestätigten Datei; alle sechs Workflows des Produktstands `723d6cb` sind erfolgreich. Keine erneute Abnahme des alten Pakets verlangen. [Aktueller Status und tatsächliche Restarbeit](PROJECT_STATUS_2026-11-18.md). Der folgende Text ist ausschliesslich der ursprüngliche historische Übergabestand.
+
 ## Startauftrag
 
 Setze diesen Handoff fort. Arbeite direkt auf `dev` in `modebrecht/cv-cover-charm`. Der nächste fachliche Schwerpunkt ist ausschliesslich die verbleibende Cabin-CV-Web/PDF-Abweichung. Lies zuerst die unten verlinkten aktuellen Nachweise. Keine erneute allgemeine Inventur und keine Wiederholung bereits abgeschlossener Versuchsreihen.
@@ -17,18 +18,18 @@ Setze diesen Handoff fort. Arbeite direkt auf `dev` in `modebrecht/cv-cover-char
 
 ## Was abgeschlossen und gesichert ist
 
-| Bereich | Belegter Stand |
-| --- | --- |
-| Neon-CV-Hintergrund | PASS in der aktuellen vollständigen Galerie; maximale gemessene RGB-Kanalabweichung 1,08 bei Grenze 3 |
-| Unabhängige Briefschrift | Eine eigenständig gewählte Briefschrift bleibt beim Laden erhalten. Ein ausdrücklicher neuer Dossier-Schriftwechsel propagiert weiterhin. |
-| PDF-Schriftgrundlinien | Gemeinsamer Rasteradapter verwendet tatsächlichen Font-Ascent statt pauschal Schriftgrösse. Gilt für gemeinsame PDF-Pfade sowie CV-/Titelblatt-Einzeldownloads. |
-| Acht-Schriften-Matrix | 8/8 echte Browser-/Dossier-Downloadabläufe; 24 Seitenpaare: 23 PASS, 1 REVIEW, 0 FAIL |
-| Maschine-CV | RGB-SSIM von 0,87010 auf 0,96004 verbessert |
-| Isolierte Grundlinienproben | Acht Proben, einschliesslich kleiner/kursiver und nicht ganzzahliger Schriften; alle korrigierten Pixelvergleiche exakt 0 Abweichungen |
-| Echte Einzel-PDFs | Maschine-CV und -Titelblatt über normale Downloadmenüs geprüft, je eine Seite; gespeicherte Dokumente unverändert |
-| Vollständige Vorlagengalerie | 39/39 Browserfälle, 117 Seitenpaare: 115 PASS, 2 REVIEW, 0 FAIL |
-| Unit-Tests | 1’539 bestanden, 0 Fehler, 290 Dateien |
-| Weitere Prüfungen | TypeScript, Lint, Formatierung, Produktionsbuild und drei aktuelle CI-Workflows erfolgreich |
+| Bereich                      | Belegter Stand                                                                                                                                                  |
+| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Neon-CV-Hintergrund          | PASS in der aktuellen vollständigen Galerie; maximale gemessene RGB-Kanalabweichung 1,08 bei Grenze 3                                                           |
+| Unabhängige Briefschrift     | Eine eigenständig gewählte Briefschrift bleibt beim Laden erhalten. Ein ausdrücklicher neuer Dossier-Schriftwechsel propagiert weiterhin.                       |
+| PDF-Schriftgrundlinien       | Gemeinsamer Rasteradapter verwendet tatsächlichen Font-Ascent statt pauschal Schriftgrösse. Gilt für gemeinsame PDF-Pfade sowie CV-/Titelblatt-Einzeldownloads. |
+| Acht-Schriften-Matrix        | 8/8 echte Browser-/Dossier-Downloadabläufe; 24 Seitenpaare: 23 PASS, 1 REVIEW, 0 FAIL                                                                           |
+| Maschine-CV                  | RGB-SSIM von 0,87010 auf 0,96004 verbessert                                                                                                                     |
+| Isolierte Grundlinienproben  | Acht Proben, einschliesslich kleiner/kursiver und nicht ganzzahliger Schriften; alle korrigierten Pixelvergleiche exakt 0 Abweichungen                          |
+| Echte Einzel-PDFs            | Maschine-CV und -Titelblatt über normale Downloadmenüs geprüft, je eine Seite; gespeicherte Dokumente unverändert                                               |
+| Vollständige Vorlagengalerie | 39/39 Browserfälle, 117 Seitenpaare: 115 PASS, 2 REVIEW, 0 FAIL                                                                                                 |
+| Unit-Tests                   | 1’539 bestanden, 0 Fehler, 290 Dateien                                                                                                                          |
+| Weitere Prüfungen            | TypeScript, Lint, Formatierung, Produktionsbuild und drei aktuelle CI-Workflows erfolgreich                                                                     |
 
 Die beiden Galerie-REVIEW sind **Terracotta-CV und Studio-3-CV, Foto-Kreisränder**. Der zusätzliche **Cabin-CV-REVIEW gehört zur separaten Schriftmatrix**. Diese Ergebnisse nicht zusammenzählen oder die unterschiedlichen Prüfumfänge vermischen.
 

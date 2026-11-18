@@ -1,0 +1,131 @@
+{
+  "verified_on": "2026-11-18",
+  "repository": "modebrecht/cv-cover-charm",
+  "query": "is:issue is:open",
+  "count": 24,
+  "limit": 100,
+  "complete_page": true,
+  "note": "Open issue inventory, not an acceptance queue or completion percentage. Broad issue criteria were not all re-tested in this status update.",
+  "issues": [
+    {
+      "issue_number": 207,
+      "title": "[Masterliste #39][P1] JSON: JSON-Abwärtskompatibilität & verlustfreier Projekt-Restore",
+      "url": "https://github.com/modebrecht/cv-cover-charm/issues/207"
+    },
+    {
+      "issue_number": 187,
+      "title": "[Masterliste #38][P1] FOTO: Native Sidebar Foto-Fidelity",
+      "url": "https://github.com/modebrecht/cv-cover-charm/issues/187"
+    },
+    {
+      "issue_number": 208,
+      "title": "[Masterliste #35] PDF: PDF-Druckbereich-Preflight / Override",
+      "url": "https://github.com/modebrecht/cv-cover-charm/issues/208"
+    },
+    {
+      "issue_number": 206,
+      "title": "[Masterliste #34] BRIEF: Anschreiben mit 2 Seiten",
+      "url": "https://github.com/modebrecht/cv-cover-charm/issues/206"
+    },
+    {
+      "issue_number": 205,
+      "title": "[Masterliste #33] CV: Alles auf 1 Seiten, Alles auf 2 Seiten",
+      "url": "https://github.com/modebrecht/cv-cover-charm/issues/205"
+    },
+    {
+      "issue_number": 204,
+      "title": "[Masterliste #32] WEB/PDF: Web ↔ PDF visuelle Konsistenz (39 Templates)",
+      "url": "https://github.com/modebrecht/cv-cover-charm/issues/204"
+    },
+    {
+      "issue_number": 193,
+      "title": "[Masterliste #31] FONT: Cabin → Trebuchet MS → Liberation Sans Font-Policy",
+      "url": "https://github.com/modebrecht/cv-cover-charm/issues/193"
+    },
+    {
+      "issue_number": 190,
+      "title": "[Masterliste #30] QA: Finale Architektur- und Produktabnahme",
+      "url": "https://github.com/modebrecht/cv-cover-charm/issues/190"
+    },
+    {
+      "issue_number": 192,
+      "title": "[Masterliste #28] DOCX: DOCX Next als regulären Produkt-Export freigeben",
+      "url": "https://github.com/modebrecht/cv-cover-charm/issues/192"
+    },
+    {
+      "issue_number": 189,
+      "title": "[Masterliste #26] QA: Vollständige Acceptance-Matrix",
+      "url": "https://github.com/modebrecht/cv-cover-charm/issues/189"
+    },
+    {
+      "issue_number": 203,
+      "title": "[Masterliste #25] DOCX: Echte Microsoft-Word-QA",
+      "url": "https://github.com/modebrecht/cv-cover-charm/issues/203"
+    },
+    {
+      "issue_number": 202,
+      "title": "[Masterliste #24] DOCX: LibreOffice-QA einschliesslich Save/Reopen",
+      "url": "https://github.com/modebrecht/cv-cover-charm/issues/202"
+    },
+    {
+      "issue_number": 201,
+      "title": "[Masterliste #20] LAYOUT: Header, Footer, Hintergründe und Motive",
+      "url": "https://github.com/modebrecht/cv-cover-charm/issues/201"
+    },
+    {
+      "issue_number": 200,
+      "title": "[Masterliste #19] LAYOUT: Pagination-Matrix kurz/lang, 1–2+ Seiten",
+      "url": "https://github.com/modebrecht/cv-cover-charm/issues/200"
+    },
+    {
+      "issue_number": 198,
+      "title": "[Masterliste #18] FOTO: Foto- und Bildmatrix (Crop, Form, Rahmen)",
+      "url": "https://github.com/modebrecht/cv-cover-charm/issues/198"
+    },
+    {
+      "issue_number": 199,
+      "title": "[Masterliste #17] FONT: Font-Matrix und Fallbacks",
+      "url": "https://github.com/modebrecht/cv-cover-charm/issues/199"
+    },
+    {
+      "issue_number": 197,
+      "title": "[Masterliste #16] COVER: Template-Familien über generische Konfiguration",
+      "url": "https://github.com/modebrecht/cv-cover-charm/issues/197"
+    },
+    {
+      "issue_number": 196,
+      "title": "[Masterliste #14] DOCX: DOCX Next Stress- und Edge-Cases",
+      "url": "https://github.com/modebrecht/cv-cover-charm/issues/196"
+    },
+    {
+      "issue_number": 195,
+      "title": "[Masterliste #9] QA: Template × CV-Layout Fixtures automatisieren",
+      "url": "https://github.com/modebrecht/cv-cover-charm/issues/195"
+    },
+    {
+      "issue_number": 188,
+      "title": "[Masterliste #8] DOCX: Sidebar-Matrix kurz/lang und links/rechts",
+      "url": "https://github.com/modebrecht/cv-cover-charm/issues/188"
+    },
+    {
+      "issue_number": 191,
+      "title": "[Masterliste #7] DOCX: Generische native Sidebar links/rechts",
+      "url": "https://github.com/modebrecht/cv-cover-charm/issues/191"
+    },
+    {
+      "issue_number": 194,
+      "title": "[Masterliste #6] CV: CV-Kompositionsmatrix: Layout und Vorlage unabhängig",
+      "url": "https://github.com/modebrecht/cv-cover-charm/issues/194"
+    },
+    {
+      "issue_number": 227,
+      "title": "QA: Visual-Parity-x39-Run <WEB><PDF><DOCX>",
+      "url": "https://github.com/modebrecht/cv-cover-charm/issues/227"
+    },
+    {
+      "issue_number": 226,
+      "title": "CV: Masonry Lücken intelligent füllen automatiwsch",
+      "url": "https://github.com/modebrecht/cv-cover-charm/issues/226"
+    }
+  ]
+}

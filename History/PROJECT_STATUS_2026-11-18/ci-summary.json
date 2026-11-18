@@ -1,0 +1,267 @@
+{
+  "verified_on": "2026-11-18",
+  "repository": "modebrecht/cv-cover-charm",
+  "product_sha": "723d6cbc7cba88e9b0415144e91f46b1e91e58ba",
+  "note": "Read-only observation of completed workflows; targeted reruns used unchanged product code. Optional skipped jobs are not passed tests.",
+  "runs": [
+    {
+      "id": 44142442375,
+      "name": "Dossier Regression",
+      "head_sha": "723d6cbc7cba88e9b0415144e91f46b1e91e58ba",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 2,
+      "html_url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44142442375"
+    },
+    {
+      "id": 44142442515,
+      "name": "Template Contact Integrity",
+      "head_sha": "723d6cbc7cba88e9b0415144e91f46b1e91e58ba",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "html_url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44142442515"
+    },
+    {
+      "id": 44142442336,
+      "name": "DOCX Next Stable Sidebar",
+      "head_sha": "723d6cbc7cba88e9b0415144e91f46b1e91e58ba",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 2,
+      "html_url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44142442336"
+    },
+    {
+      "id": 44142442481,
+      "name": "Dossier Visual Parity",
+      "head_sha": "723d6cbc7cba88e9b0415144e91f46b1e91e58ba",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "html_url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44142442481"
+    },
+    {
+      "id": 44142442321,
+      "name": "CV measured page fit",
+      "head_sha": "723d6cbc7cba88e9b0415144e91f46b1e91e58ba",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "html_url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44142442321"
+    },
+    {
+      "id": 44142441441,
+      "name": "pages build and deployment",
+      "head_sha": "723d6cbc7cba88e9b0415144e91f46b1e91e58ba",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "html_url": "https://github.com/modebrecht/cv-cover-charm/actions/runs/44142441441"
+    }
+  ],
+  "regression_jobs": [
+    {
+      "id": 134261567664,
+      "name": "fast-checks",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134261568942,
+      "name": "native-print-benchmark",
+      "status": "completed",
+      "conclusion": "skipped"
+    },
+    {
+      "id": 134261569004,
+      "name": "Browser smoke - dossier-flow",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134261569375,
+      "name": "Browser smoke - pdf-consent",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134261569472,
+      "name": "Browser smoke - cv-pdf-dom",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134261569511,
+      "name": "Browser smoke - letter-m8-edge",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134261569568,
+      "name": "Browser smoke - word-default-chrome",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134261569776,
+      "name": "Browser smoke - cv-pdf-core",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134261570004,
+      "name": "Browser smoke - letter-m1-m5",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134261570349,
+      "name": "Browser smoke - cv-pdf-parity",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134261571134,
+      "name": "Browser smoke - cv-m9-pagination",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134261571260,
+      "name": "Browser smoke - cv-pdf-paint",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134261571786,
+      "name": "Browser smoke - fresh-dossier-templates",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134261571788,
+      "name": "Browser smoke - templates-layout",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134261571913,
+      "name": "Browser smoke - m9-responsive",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134266701468,
+      "name": "publish-regression-status",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "native_jobs": [
+    {
+      "id": 134259212238,
+      "name": "stable-comparison",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134259214621,
+      "name": "supported-sidebar",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134259215577,
+      "name": "entry-flow-content",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134259215986,
+      "name": "Integrated template - citrus",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134259216227,
+      "name": "Integrated template - studio",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134259216512,
+      "name": "Integrated template - neon",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134259216878,
+      "name": "Integrated template - verlauf",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134259216944,
+      "name": "Integrated template - gallery",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134259218236,
+      "name": "Integrated template - aurora",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134259282454,
+      "name": "Integrated template - edelDark",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134259294365,
+      "name": "Integrated template - edge",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134259297245,
+      "name": "picture-identity",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134259301121,
+      "name": "Integrated template - terracotta",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134259303335,
+      "name": "Integrated template - studio2",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 134259308809,
+      "name": "app-body-content",
+      "status": "completed",
+      "conclusion": "skipped"
+    }
+  ],
+  "initial_failures": [
+    {
+      "workflow_run_id": 44142442375,
+      "job_id": 134249242523,
+      "error": "Timeout 90000ms waiting for PDF download in dossier-letter-preflight.spec.ts; 90 passed, 1 failed",
+      "local_unchanged_reproduction": "1 passed (40.3s)",
+      "resolution": "Targeted job rerun passed on same SHA; no assertion or product changes"
+    },
+    {
+      "workflow_run_id": 44142442336,
+      "job_id": 134248548649,
+      "error": "Completed original gotoRange selection unavailable after three bounded imports",
+      "resolution": "Targeted job rerun passed on same SHA; no assertion or product changes"
+    }
+  ]
+}

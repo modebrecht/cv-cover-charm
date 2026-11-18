@@ -59,18 +59,23 @@ gespeichert», wie die bisherigen unabhängigen Word-Tests. Der vollständige
 Zustandsvergleich vor/nach dem Download bleibt erhalten; keine Datenabweichung
 wird aus der Erwartung entfernt.
 
-Beim Basiscommit `f2b325c` waren fünf Workflows erfolgreich. Die Dossier-
-Regression scheiterte in `templates-layout` bei der Installation der Browser-
-Systempakete (APT, Exit 100), vor den Tests dieser Gruppe. Die anderen Gruppen
-einschliesslich der Word-Downloads bestanden. Neue automatische Läufe prüfen
-den jetzigen Standard; ein noch ausstehender CI-Status wird nicht als grün
-behauptet.
+**CI-Abschluss, verifiziert am 18.11.2026:** Alle sechs Workflows des
+Produktcommits `723d6cbc7cba88e9b0415144e91f46b1e91e58ba` sind erfolgreich,
+einschliesslich der normalen Word-Downloads. Die erste Dossier-Regression
+enthielt einen PDF-Download-Timeout, der native Vergleich einen Fehler beim
+Erfassen einer alten `gotoRange`-Diagnose. Beide betroffenen Jobs bestanden
+nach gezieltem Wiederanlauf auf unverändertem Produktcode. Der einzelne
+PDF-Fall bestand zuvor auch lokal unverändert. Die anfänglichen Fehler bleiben
+als solche vermerkt; Prüfbedingungen und Toleranzen wurden nicht geändert.
+[Alle Läufe und Jobstatus](../../History/PROJECT_STATUS_2026-11-18/ci-summary.json).
 
 ## Verbleibende Grenze
 
 Die Bestätigung betrifft die Farben und die nun brauchbare Word-Klickansicht.
 Ein neuer, ausdrücklich beobachteter Speichern-/Wiederöffnen-Ablauf wurde nicht
-geliefert. Die Body-Farbbänder gelten weiterhin für die erste Brief-/CV-Seite;
+geliefert. Dies ist eine dokumentierte Nachweisgrenze und kein offener
+Wiederholungsauftrag für den bestätigten Farb-/Klickfix. Die Body-Farbbänder
+gelten weiterhin für die erste Brief-/CV-Seite;
 automatische Brief-Folgeseiten behalten ihren wiederholten Header. Der Benutzer
 hat keinen zusätzlichen sichtbaren Umschalter gewünscht.
 

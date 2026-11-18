@@ -1,8 +1,9 @@
 # Cabin-CV abgeschlossen – 17.11.2026
 
-**Aktueller Word-Stand:** Die kompakte Standard-Kopfzeile ist inzwischen im
-normalen Modern-Sidebar-DOCX-Download unterstützt; siehe
-[Umsetzungsnachweis und korrektes Prüfpaket](WORD_DEFAULT_CHROME_ENABLED_2026-11-17.md).
+**Aktualisiert am 18.11.2026:** Der Farb-/Klickfix im normalen
+Modern-Sidebar-DOCX ist vom Benutzer bestätigt. Eine erneute Prüfung des alten
+Word-Pakets ist kein nächster Auftrag. Siehe
+[aktueller Projektstatus](PROJECT_STATUS_2026-11-18.md).
 
 > Historischer Ausgangsbefund des Word-Follow-ups: Das frühere Paket verwendete einen Kontakt-Header. Die damalige Default-Word-Sperre ist inzwischen behoben; die [ursprüngliche Diagnose](WORD_DEFAULT_CHROME_2026-11-17.md) bleibt dokumentiert.
 
@@ -39,13 +40,13 @@ ersetzen weder die Rohwerte noch die beiden REVIEW.
 
 Alle sechs ausgelösten Workflows sind abgeschlossen und erfolgreich:
 
-| Workflow | Nachweis |
-| --- | --- |
-| Dossier Regression | [44003830434](https://github.com/modebrecht/cv-cover-charm/actions/runs/44003830434) |
-| Web PDF photo gallery | [44003830500](https://github.com/modebrecht/cv-cover-charm/actions/runs/44003830500) |
-| Dossier Visual Parity | [44003830505](https://github.com/modebrecht/cv-cover-charm/actions/runs/44003830505) |
+| Workflow                   | Nachweis                                                                             |
+| -------------------------- | ------------------------------------------------------------------------------------ |
+| Dossier Regression         | [44003830434](https://github.com/modebrecht/cv-cover-charm/actions/runs/44003830434) |
+| Web PDF photo gallery      | [44003830500](https://github.com/modebrecht/cv-cover-charm/actions/runs/44003830500) |
+| Dossier Visual Parity      | [44003830505](https://github.com/modebrecht/cv-cover-charm/actions/runs/44003830505) |
 | Template Contact Integrity | [44003830497](https://github.com/modebrecht/cv-cover-charm/actions/runs/44003830497) |
-| Photo dossier variants | [44003830483](https://github.com/modebrecht/cv-cover-charm/actions/runs/44003830483) |
+| Photo dossier variants     | [44003830483](https://github.com/modebrecht/cv-cover-charm/actions/runs/44003830483) |
 | Pages build and deployment | [44003828791](https://github.com/modebrecht/cv-cover-charm/actions/runs/44003828791) |
 
 Die Regression bestätigt zwölf erfolgreiche Browsergruppen, schnelle Prüfungen
@@ -73,11 +74,12 @@ oder Grundlinienrunde ohne neuen konkreten Fehler starten. Die beiden
 Foto-Kreisrand-REVIEW bleiben eigenständige, bekannte Befunde; die bisherigen
 Variantenversuche nicht erneut bei null beginnen.
 
-Der nächste ausstehende Abnahmeschritt ist **Speichern und Wiederöffnen des
-bereits vorhandenen Word-Prüfpakets in Microsoft Desktop Word**. Dafür ist
-eine Arbeitsumgebung mit Desktop Word nötig. Browser, Chromium-PDF und
-LibreOffice ersetzen diese Prüfung nicht. Das vorhandene Paket verwenden;
-kein neues kleines Prüfpaket ohne neuen Anlass erstellen.
+Die frühere Aufforderung zur Prüfung des alten Word-Pakets ist überholt.
+Der später bestätigte Farb-/Klickfix ist im normalen Export aktiv. Ein
+ausdrücklich protokollierter Save/Reopen-Lauf der neuen Bytes liegt weiterhin
+nicht vor; diese Nachweisgrenze wird nicht als erneuter Benutzerauftrag oder
+Blockade der weiteren technischen Arbeit behandelt. Automatische Renderer
+werden weiterhin nicht als Microsoft-Word-Nachweis ausgegeben.
 
 Lange Dossiers, Spiegelvarianten und zusätzliche historische Projekte sind
 durch die kurze Modern-Schriftmatrix weiterhin nicht pauschal freigegeben.
