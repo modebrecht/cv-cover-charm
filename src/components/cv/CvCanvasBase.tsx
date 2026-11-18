@@ -1193,9 +1193,9 @@ export function CvCanvas({
 
   /**
    * Flow-Packing keeps ordinary half-width sections in safe rows. Consecutive
-   * Masonry sections instead form two independent vertical columns; each next
-   * section is assigned to the currently shorter measured column. Row counts
-   * provide the initial assignment until every rubric in the group is measured.
+   * Masonry sections form two independent vertical columns. Row counts provide
+   * an initial assignment. With measured heights, a contiguous split can reduce
+   * the taller column without moving sections across page boundaries.
    */
   const packSectionUnits = (units: SectionUnit[]): Row[] => {
     const packed: Row[] = [];
@@ -1258,8 +1258,10 @@ export function CvCanvas({
         return;
       }
       const measured = masonry.every((item) => (masonryHeights[item.key] ?? 0) > 0);
-      const columns = cvFlowColumns(masonry, (item) =>
-        measured ? masonryHeights[item.key]! : item.rows.length,
+      const columns = cvFlowColumns(
+        masonry,
+        (item) => (measured ? masonryHeights[item.key]! : item.rows.length),
+        { balanceMeasuredHeights: measured },
       );
       const render = (parts: Row[][]) => (
         <div

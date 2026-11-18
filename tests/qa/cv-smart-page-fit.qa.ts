@@ -146,11 +146,11 @@ for (const targetPage of [1, 2] as const) {
     if (targetPage === 2) await page.setViewportSize({ width: 390, height: 844 });
     const data = unevenMasonryFixture(targetPage);
     const root = await load(page, data, "classic");
-    const thirdInColumn = (column: number) =>
+    const rubricInColumn = (rubric: string, column: number) =>
       root.locator(
-        `[data-cv-measure-page] [data-cv-masonry-column="${column}"] [data-cv-rubric="custom:short-c"]`,
+        `[data-cv-measure-page] [data-cv-masonry-column="${column}"] [data-cv-rubric="${rubric}"]`,
       );
-    await expect(thirdInColumn(2)).toHaveCount(1);
+    await expect(rubricInColumn("custom:short-c", 2)).toHaveCount(1);
     const before = await saved(page);
     const outputs = [];
     for (const selector of [documentRoots("cv").web, documentRoots("cv").canonical]) {
@@ -227,7 +227,9 @@ for (const targetPage of [1, 2] as const) {
     await section
       .locator('input[data-dossier-field-id="cv.entry.custom:tall-a:tall-a-entry.description"]')
       .fill("Kurzer Eintrag.");
-    await expect(thirdInColumn(1)).toHaveCount(1);
+    // The two shorter rubrics now fit together in the first column.
+    await expect(rubricInColumn("custom:short-b", 1)).toHaveCount(1);
+    await expect(rubricInColumn("custom:short-c", 2)).toHaveCount(1);
     await expect
       .poll(async () => (await saved(page)).data.customSections[0].entries[0].beschreibung)
       .toBe("Kurzer Eintrag.");
@@ -237,7 +239,8 @@ for (const targetPage of [1, 2] as const) {
     expect(after).toEqual(expected);
     await page.reload();
     await waitEditorReady(page);
-    await expect(thirdInColumn(1)).toHaveCount(1);
+    await expect(rubricInColumn("custom:short-b", 1)).toHaveCount(1);
+    await expect(rubricInColumn("custom:short-c", 2)).toHaveCount(1);
     await expect.poll(() => saved(page)).toEqual(after);
     await writeFile(
       `${directory}/measured-masonry-page-${targetPage}.json`,
@@ -245,6 +248,88 @@ for (const targetPage of [1, 2] as const) {
     );
   });
 }
+
+test("measured Masonry leaves the taller final rubric its own column", async ({ page }, info) => {
+  const data = unevenMasonryFixture();
+  data.sectionOrder = ["person", "custom:short-b", "custom:short-c", "custom:tall-a"];
+  await load(page, data, "classic");
+  await expect(page.locator('[role="status"][title="Automatisch gespeichert"]')).toBeVisible();
+  const before = await saved(page);
+  const heights = [];
+
+  for (const selector of [documentRoots("cv").web, documentRoots("cv").canonical]) {
+    const sheet = page.locator(selector).first().locator("[data-cv-page]").first();
+    await expect(
+      sheet.locator('[data-cv-masonry-column="1"] [data-cv-rubric="custom:short-c"]'),
+    ).toHaveCount(1);
+    const columns = await sheet.locator("[data-cv-masonry-column]").evaluateAll((nodes) =>
+      nodes.map((column) =>
+        Array.from(column.querySelectorAll<HTMLElement>("[data-cv-rubric]"), (rubric) => ({
+          key: rubric.dataset.cvRubric,
+          height: rubric.getBoundingClientRect().height,
+        })),
+      ),
+    );
+    expect(columns.map((column) => column.map(({ key }) => key))).toEqual([
+      ["custom:short-b", "custom:short-c"],
+      ["custom:tall-a"],
+    ]);
+    const [[short, medium], [tall]] = columns;
+    expect(short.height).toBeLessThan(medium.height);
+    const previousHeight = Math.max(short.height + tall.height, medium.height);
+    const actualHeight = Math.max(short.height + medium.height, tall.height);
+    expect(previousHeight - actualHeight).toBeGreaterThan(10);
+    heights.push({ selector, previousHeight, actualHeight });
+    const output = await collectDocument(page, selector, "cv");
+    expect(output).toHaveLength(1);
+    expect(output[0].issues).toEqual([]);
+  }
+
+  await page.getByRole("button", { name: "Download", exact: true }).click();
+  const downloading = page.waitForEvent("download");
+  await page.getByRole("menuitem", { name: "PDF", exact: true }).click();
+  const directory = "artifacts/smart-fit-29okt";
+  await mkdir(directory, { recursive: true });
+  const filename = resolve(`${directory}/measured-masonry-final-tall.pdf`);
+  await (await downloading).saveAs(filename);
+  const { getDocument } = await import("pdfjs-dist/legacy/build/pdf.mjs");
+  const task = getDocument({
+    data: new Uint8Array(await readFile(filename)),
+    disableFontFace: true,
+  });
+  try {
+    const pdf = await task.promise;
+    expect(pdf.numPages).toBe(1);
+    const content = await (await pdf.getPage(1)).getTextContent();
+    const items = content.items.filter((item) => "str" in item);
+    const [short, medium, tall] = [
+      "Kurzes Projekt",
+      "Weiteres Projekt",
+      "Ausführliches Projekt",
+    ].map((title) => {
+      const matches = items.filter((item) => item.str === title);
+      expect(matches).toHaveLength(1);
+      return matches[0];
+    });
+    expect(short.transform[4]).toBeCloseTo(medium.transform[4], 0);
+    expect(tall.transform[4]).toBeGreaterThan(short.transform[4] + 50);
+  } finally {
+    await task.destroy();
+  }
+  await page.reload();
+  await waitEditorReady(page);
+  await expect.poll(() => saved(page)).toEqual(before);
+  await expect(
+    page
+      .locator(documentRoots("cv").web)
+      .first()
+      .locator('[data-cv-page] [data-cv-masonry-column="2"] [data-cv-rubric="custom:tall-a"]'),
+  ).toHaveCount(1);
+  await info.attach("masonry-height-comparison", {
+    body: JSON.stringify(heights),
+    contentType: "application/json",
+  });
+});
 
 async function unchangedOnePage(
   page: Page,
