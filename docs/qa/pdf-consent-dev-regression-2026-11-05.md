@@ -3,6 +3,11 @@
 Fortsetzung von [#208](https://github.com/modebrecht/cv-cover-charm/issues/208),
 auf `dev` ab `3c7348714653117e2dcacf5002e38abccf3ff53e`.
 
+Die Freigabegrenzen unten beschreiben den Stand vom 05.11.2026. Der spätere
+[Produktvertrag zum Gesamt-PDF](pdf-dossier-advisory-2026-11-07.md) beschreibt
+die bestehende, einmalige Bestätigung für den vollständigen einseitigen Brief
+im Gesamtdossier und die Prüfung der übrigen Dossierteile.
+
 Der bestehende Workflow `Automatic PDF preflight acceptance` führt die
 Freigabetests auf passenden Pull Requests, früheren `fix/pdf-preflight-*`-Branches
 und bei manuellem Start aus. Direkte Pushes auf `dev` lösen ihn nicht aus.

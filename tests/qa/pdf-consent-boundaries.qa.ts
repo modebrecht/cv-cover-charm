@@ -1128,17 +1128,28 @@ test("combined raster clone preserves images and free shapes before a valid down
       selector: '[data-cv-page="1"] [data-block-id="custom-qa-cv-shape"] > :first-child',
       label: "Lebenslauf",
     },
+    {
+      selector: '[data-dossier-document="cover"] [data-block-id="custom-qa-cover-image"]',
+      css: "left: 95% !important",
+      label: "Titelblatt",
+    },
+    {
+      selector: '[data-cv-page="1"] [data-block-id="custom-qa-cv-shape"]',
+      css: "left: 95% !important",
+      label: "Lebenslauf",
+    },
   ];
   const evidence = [];
   for (const fault of faults) {
     const style = await page.addStyleTag({
-      content: `@media(max-width:800px){${fault.selector}{display:none!important}}`,
+      content: `@media(max-width:800px){${fault.selector}{${fault.css ?? "display:none!important"}}}`,
     });
     expect((await inspect()).status).toBe("pass");
     await expect(button).toBeEnabled();
     const failure = await download();
-    expect(failure).toContain("PDF-Raster");
+    expect(failure, fault.selector).toContain("PDF-Raster");
     expect(failure).toContain(fault.label);
+    if (fault.css) expect(failure).toContain("ausserhalb der Seite");
     expect(downloads).toEqual([]);
     evidence.push({ ...fault, failure });
     await style.evaluate((node) => node.parentNode?.removeChild(node));

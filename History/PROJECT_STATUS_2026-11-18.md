@@ -60,31 +60,30 @@ Sammelkriterien; daraus folgt weder eine neue Regression noch ein neuer
 Prüfauftrag. Die Anzahl ist keine Prozentanzeige des Projektfortschritts.
 [Inventar der 24 offenen Issues](PROJECT_STATUS_2026-11-18/open-issues.json).
 
-| Issue                                                                                 | Erledigter Teil                                                                                                             | Verbleibender Umfang                                                                                                                  |
-| ------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| [#201 Header/Footer](https://github.com/modebrecht/cv-cover-charm/issues/201)         | Gleiche volle Farben und brauchbare Klickansicht im bestätigten Modern-Sidebar-Fall; Standard und interner Rückfall geprüft | Weitere Vorlagen/Motive und automatische Folgeseiten sind durch diesen einzelnen Fix nicht pauschal abgedeckt                         |
-| [#203 Desktop Word](https://github.com/modebrecht/cv-cover-charm/issues/203)          | Aktueller Farb-/Klickfall bestätigt; normale Downloadbytes identisch                                                        | Vollständige Word-Matrix aller Layoutfamilien bleibt ein grösserer technischer Prüfbereich; kein Wiederholungsauftrag für diesen Fall |
-| [#192 regulärer DOCX-Export](https://github.com/modebrecht/cv-cover-charm/issues/192) | Unterstütztes Modern/Sans/Sidebar-Profil verwendet bereits den normalen Download auf `dev`                                  | Keine Freigabe aller Vorlagen und keine Promotion nach `main` oder `render`                                                           |
-| [#208 PDF-Preflight](https://github.com/modebrecht/cv-cover-charm/issues/208)         | Begrenzte einmalige Brief-Freigabe, Schutz gegen veraltete Freigaben und reguläre CI-Gruppe erfolgreich                     | Ein allgemeiner Dossier-Override ist weiterhin nicht belegt; harte Fehler bleiben gesperrt                                            |
-| [#204 Web/PDF](https://github.com/modebrecht/cv-cover-charm/issues/204)               | Cabin-CV behoben; letzte vollständige Galerie 39/39 Fälle, 115 PASS, 2 REVIEW, 0 FAIL bei 117 Seitenpaaren                  | Die beiden Foto-Kreisrand-REVIEW betreffen Terracotta-CV und Studio-3-CV; keine neue allgemeine Schriftprüfung erforderlich           |
+| Issue                                                                                 | Erledigter Teil                                                                                                                                              | Verbleibender Umfang                                                                                                                  |
+| ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------- |
+| [#201 Header/Footer](https://github.com/modebrecht/cv-cover-charm/issues/201)         | Gleiche volle Farben und brauchbare Klickansicht im bestätigten Modern-Sidebar-Fall; Standard und interner Rückfall geprüft                                  | Weitere Vorlagen/Motive und automatische Folgeseiten sind durch diesen einzelnen Fix nicht pauschal abgedeckt                         |
+| [#203 Desktop Word](https://github.com/modebrecht/cv-cover-charm/issues/203)          | Aktueller Farb-/Klickfall bestätigt; normale Downloadbytes identisch                                                                                         | Vollständige Word-Matrix aller Layoutfamilien bleibt ein grösserer technischer Prüfbereich; kein Wiederholungsauftrag für diesen Fall |
+| [#192 regulärer DOCX-Export](https://github.com/modebrecht/cv-cover-charm/issues/192) | Unterstütztes Modern/Sans/Sidebar-Profil verwendet bereits den normalen Download auf `dev`                                                                   | Keine Freigabe aller Vorlagen und keine Promotion nach `main` oder `render`                                                           |
+| [#208 PDF-Preflight](https://github.com/modebrecht/cv-cover-charm/issues/208)         | Einmalige Bestätigung beim vollständigen einseitigen Brief, auch im Gesamtdossier. Seitenrandprüfung für Bildrahmen und freie CV-Elemente im Raster ergänzt. | Bei fehlenden, abgeschnittenen oder noch nicht geladenen Inhalten bleibt der Export gesperrt.                                         |
+| [#204 Web/PDF](https://github.com/modebrecht/cv-cover-charm/issues/204)               | Cabin-CV behoben; letzte vollständige Galerie 39/39 Fälle, 115 PASS, 2 REVIEW, 0 FAIL bei 117 Seitenpaaren                                                   | Die beiden Foto-Kreisrand-REVIEW betreffen Terracotta-CV und Studio-3-CV; keine neue allgemeine Schriftprüfung erforderlich           |
 
 Die übrigen Issues wurden hier inventarisiert, nicht neu vollständig geprüft
 oder geschlossen. Breite Sammelissues bleiben offen, solange ihre tatsächlich
 weitergehenden Kriterien nicht belegt sind. Ihre erledigten Teilbereiche
 werden dadurch nicht erneut zur Benutzerabnahme gestellt.
 
-## Nächster technischer Schwerpunkt
+## Fortsetzung von #208
 
-Die Farb-/Klickarbeit und ihre beiden CI-Restprüfungen sind abgeschlossen.
-Bei der Fortsetzung von #208 zuerst den vorhandenen Produktvertrag und die
-bereits bestandenen Tests verwenden: begrenzte Standalone-Brief-Freigabe,
-Gesamtdossier ohne allgemeinen Override, harte Fehler weiter gesperrt.
-Den noch offenen Dossier-Umfang konkret eingrenzen, bevor neue Änderungen
-oder zusätzliche Prüffälle eingeführt werden. Keine neue Word-Datei und keine
-alten Engine-/Branch-Versuchsreihen hierfür starten.
+Die frühere Zusammenfassung hat die schon vorhandene Bestätigung beim
+Gesamt-PDF übersehen. Eine erneute Prüfung hat eine Lücke zwischen Vorschau
+und Raster gezeigt. Der Export prüft jetzt Seitenränder während der
+Rastererzeugung. Der [Produktvertrag und die Prüfergebnisse zum Gesamt-PDF](../docs/qa/pdf-dossier-advisory-2026-11-07.md)
+halten das Verhalten fest. Die 24 Issues oben sind die Momentaufnahme vor
+dieser Fortsetzung.
 
 Nachweise:
 [Word-Standard und interne Rückfalloption](../docs/qa/word-chrome-default-2026-11-17.md),
 [bestätigter Klickfix](../docs/qa/word-body-click-fix-2026-11-17.md),
 [Cabin-Abschluss](CABIN_CV_COMPLETED_2026-11-17.md),
-[bestehende PDF-Freigabegrenzen](../docs/qa/pdf-consent-dev-regression-2026-11-05.md).
+[PDF-Freigabe beim Gesamtdossier](../docs/qa/pdf-dossier-advisory-2026-11-07.md).

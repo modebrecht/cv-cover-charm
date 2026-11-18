@@ -41,6 +41,20 @@ const outside = (a: DOMRect, b: DOMRect) =>
   a.top < b.top - 1.5 ||
   a.bottom > b.bottom + 1.5;
 
+function pdfAssetFramesOutsidePage(page: HTMLElement, pageRect = page.getBoundingClientRect()) {
+  const frames = page.hasAttribute("data-cv-page")
+    ? Array.from(
+        page.querySelectorAll<HTMLElement>(
+          "[data-cv-free-section], [data-cv-elements] [data-block-id], [data-cv-photo]",
+        ),
+      )
+    : Array.from(page.querySelectorAll<HTMLImageElement>("[data-block-id] img")).map(
+        // The cover image can deliberately extend beyond its crop frame.
+        (image) => image.closest<HTMLElement>("[data-block-id]")!,
+      );
+  return frames.some((frame) => outside(frame.getBoundingClientRect(), pageRect));
+}
+
 const transparentInk = (color: string) =>
   /^rgba\([^)]*,\s*0(?:\.0+)?\)$|\/\s*0(?:\.0+)?\s*\)$/.test(color);
 
@@ -304,6 +318,10 @@ export function pdfVisualCloneGuard(page: HTMLElement) {
       (portrait && !requiredImageMatches(clone, cvPortraitSelector, portrait, clone, true))
     )
       throw error();
+    if (!letter && pdfAssetFramesOutsidePage(clone))
+      throw new Error(
+        `Im PDF-Raster für ${label} liegt ein freies Element oder Foto ausserhalb der Seite. Bitte das Layout prüfen.`,
+      );
   };
 }
 
@@ -779,28 +797,15 @@ export function inspectPdfPreflight(
           pageIndex,
           "text",
         );
-      const imageAndFreeBoxes =
-        documentKind === "cv"
-          ? Array.from(
-              sheet.querySelectorAll<HTMLElement>(
-                "[data-cv-free-section], [data-cv-elements] [data-block-id], [data-cv-photo]",
-              ),
-            )
-          : // Cover photos deliberately crop/zoom inside their frame. Validate
-            // that printable frame, rather than the oversized source image.
-            Array.from(sheet.querySelectorAll<HTMLImageElement>("[data-block-id] img")).map(
-              (image) => image.closest<HTMLElement>("[data-block-id]")!,
-            );
-      for (const node of imageAndFreeBoxes)
-        if (outside(node.getBoundingClientRect(), rect))
-          add(
-            "physical-overflow",
-            "blocked",
-            `${documentKind === "cv" ? "Lebenslauf" : "Titelblatt"} Seite ${pageIndex + 1}: Ein freies Element oder Foto liegt ausserhalb der Seite.`,
-            documentKind,
-            pageIndex,
-            "free-element/image",
-          );
+      if (pdfAssetFramesOutsidePage(sheet, rect))
+        add(
+          "physical-overflow",
+          "blocked",
+          `${documentKind === "cv" ? "Lebenslauf" : "Titelblatt"} Seite ${pageIndex + 1}: Ein freies Element oder Foto liegt ausserhalb der Seite.`,
+          documentKind,
+          pageIndex,
+          "free-element/image",
+        );
     }
   }
   if (letter) {
