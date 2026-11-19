@@ -289,6 +289,26 @@ test("Sidebar tint is structural and page motifs remain below the reading plane 
   }
 });
 
+test("tinted Sidebar and motifs paint above non-white CV paper on both page types", () => {
+  const { source, metrics } = setup();
+  source.cv.design.paperColor = "#fafafa";
+  metrics.sourceKey = JSON.stringify(source);
+  const { cv } = build(source, metrics);
+  for (const first of [true, false]) {
+    const layers = compositePagePaint(cv, first)!.layers!;
+    expect(layers[0]).toMatchObject({ id: "cv.artwork.paper", fill: { color: "FAFAFA" } });
+    expect(layers.find((layer) => layer.id.startsWith("cv.artwork.sidebar-surface"))).toMatchObject(
+      {
+        fill: {
+          color: first
+            ? metrics.surfaces.first.sidebarColor
+            : metrics.surfaces.continuation.sidebarColor,
+        },
+      },
+    );
+  }
+});
+
 test("invalid surfaces and marker formatting reject before rendering", () => {
   for (const mutation of ["missing-surfaces", "invalid-alpha", "invalid-marker"] as const) {
     const { source, metrics } = setup();

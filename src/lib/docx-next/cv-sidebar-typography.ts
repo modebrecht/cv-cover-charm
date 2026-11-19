@@ -533,7 +533,9 @@ export function applyCvSidebarTypography(
   // App compact bands span both tracks and paint above the Sidebar surface.
   part.artwork.push(...paint);
   part.artwork.forEach((a) => {
-    if (a.paintLayer === undefined) a.paintLayer = 40;
+    // The full-page paper must sit below the motif, reading plane and rail.
+    if (a.id === "cv.artwork.paper") a.paintLayer = 0;
+    else a.paintLayer ??= 40;
   });
   part.footer = [];
   if (part.firstFooter) part.firstFooter = [];
