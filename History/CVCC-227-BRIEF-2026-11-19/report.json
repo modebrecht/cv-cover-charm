@@ -1,0 +1,612 @@
+{
+  "issue": 227,
+  "sourceCommit": "b2024ae1575e053e055e5d5a05c5f392b8283361",
+  "browser": "Playwright 1.56.1 / Chromium 141.0.7390.37",
+  "writer": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+  "overall": "REVIEW",
+  "catalog": [
+    {
+      "id": "brief",
+      "name": "Brief",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "klassisch",
+      "name": "Editorial",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "modern",
+      "name": "Modern",
+      "regularDocx": "ELIGIBLE",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "freundlich",
+      "name": "Warm",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "edel",
+      "name": "Edel",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "colorful",
+      "name": "Colorful",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "blockig",
+      "name": "Blockig",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "serioes",
+      "name": "Seriös",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "human",
+      "name": "Human",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "welle",
+      "name": "Horizont",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "terracotta",
+      "name": "Kolumne",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "REVIEW"
+      }
+    },
+    {
+      "id": "pastell",
+      "name": "Rahmen",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "sonne",
+      "name": "Sonne",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "studio",
+      "name": "Studio",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "neon",
+      "name": "Neon",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "aurora",
+      "name": "Aurora",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "verlauf",
+      "name": "Verlauf",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "citrus",
+      "name": "Citrus",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "edge",
+      "name": "Edge",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "glow",
+      "name": "Glow",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "monoLuxe",
+      "name": "Mono Luxe",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "horizon",
+      "name": "Horizon",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "sunrise",
+      "name": "Sunrise",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "forestFlow",
+      "name": "Forest Flow",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "violetPulse",
+      "name": "Violet Pulse",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "studio2",
+      "name": "Studio 2",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "studio3",
+      "name": "Studio 3",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "REVIEW"
+      }
+    },
+    {
+      "id": "warm2",
+      "name": "Warm 2",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "warm3",
+      "name": "Warm 3",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "verlauf2",
+      "name": "Verlauf 2",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "verlauf3",
+      "name": "Verlauf 3",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "ledger",
+      "name": "Ledger",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "prism",
+      "name": "Prism",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "gallery",
+      "name": "Gallery",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "orbit",
+      "name": "Orbit",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "ribbon",
+      "name": "Ribbon",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "cove",
+      "name": "Cove",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "diagonal",
+      "name": "Diagonal",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    },
+    {
+      "id": "edelDark",
+      "name": "Edel Dark",
+      "regularDocx": "BLOCKED",
+      "historicalWebPdf": {
+        "cover": "PASS",
+        "letter": "PASS",
+        "cv": "PASS"
+      }
+    }
+  ],
+  "catalogArtifact": 14533857163,
+  "modernReportArtifact": 14533892885,
+  "historicalWebPdfCommit": "e816f95027afe9a8de737a28e5ec1340a6b5a251",
+  "modernSmoke": [
+    {
+      "id": "cover",
+      "original": "PASS"
+    },
+    {
+      "id": "cv-crop-left",
+      "original": "FAIL",
+      "qaCandidate": "PASS"
+    },
+    {
+      "id": "cv-crop-right",
+      "original": "FAIL",
+      "qaCandidate": "PASS"
+    },
+    {
+      "id": "letter",
+      "original": "PASS"
+    }
+  ],
+  "defaultFixture": {
+    "fonts": ["freundlich", "freundlich", "freundlich"],
+    "cvLayout": "classic",
+    "regularDocx": "BLOCKED",
+    "preview": {
+      "error": "Error: Brief DOCX Next: Nicht unterstützte Schrift oder Textformatierung in «eyebrow». Der Test unterstützt Sans, normal/fett und westeuropäische Zeichen.",
+      "dataUnchanged": true
+    },
+    "browserStats": {
+      "startTime": "2026-11-19T14:48:43.092Z",
+      "duration": 36071.068,
+      "expected": 1,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "appPdfPages": 3,
+    "maxWebToExportDomDeltaMm": 0.0,
+    "artifactsSha256": {
+      "01-Brief--cover.png": "4cca7207cc0ba53558e85803d65534953247ba63277ff7b97669c407533e0095",
+      "01-Brief--cv.png": "76e8efbe2268e6568b31f306805caf35a0e5a0beb5cc1a43fc97c0cecde88569",
+      "01-Brief--letter.png": "68807ad8ade5d1245e003694c4809f186d55adc8259bbe347e1d2600244ece5a",
+      "01-Brief.json": "54656b393cdcf7e0175570708522a5834dde16bfe219c9dc6b89811bee910985",
+      "01-Brief.pdf": "88616c98ad78579a7cd387cee58c7e5386d9347b222936d57345fd8599eff94a",
+      "docx-preview-result.json": "d8c669911dbb2f3c2799bb1e7047cf465e44168d8dc396503834eda8c622f91a",
+      "fixture.json": "058087b038999879d4794d1b1885be50ceb2eb2a1a2fd9c4e8e71392b5aa3b4b",
+      "results.json": "e5735ea862c01aae4c6fe78ef315d1ebb1fbdb3b026b4ffb25046170294fe7d2",
+      "saved-inputs.json": "664acc944ece511978d60e76d803c0ba43477adaecced8e55ab98dfc51ac6dd6"
+    }
+  },
+  "sansFixture": {
+    "fonts": ["sans", "sans", "sans"],
+    "cvLayout": "classic",
+    "regularDocx": "BLOCKED",
+    "preview": {
+      "template": "brief",
+      "issues": [],
+      "dataUnchanged": true
+    },
+    "browserStats": {
+      "startTime": "2026-11-19T14:49:20.058Z",
+      "duration": 29642.115999999998,
+      "expected": 1,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "appPdfPages": 3,
+    "maxWebToExportDomDeltaMm": 0.0,
+    "artifactsSha256": {
+      "01-Brief--cover.png": "bcf349f2b77f36640879d020906f285138d40c0b1d1b942707f8f4b54cb25ac7",
+      "01-Brief--cv.png": "bcc6f134085ae76d2f4696b074d17875066f3604dafb2b59c682e3196e2833c0",
+      "01-Brief--letter.png": "09288bfae0b5950c31bcd5847a2fcc362d8bad0e89af5f2950a689602095696c",
+      "01-Brief.docx": "5ed970bcec9999f43be04536bd55449b0947afccefe6170cc9257d706ee1ab8e",
+      "01-Brief.json": "6d6002b98edf7e6b94f3f6b6fcc4f1804b1e4ad85432c2c5e0d4b336f8067a49",
+      "01-Brief.pdf": "d07559c57fae062529995b74930996db984695e71f87a7ececdc3de44e165c60",
+      "docx-preview-result.json": "b06f4a531e97767aba99d72bba3125633eea88e520bf96de6b87655645d457d6",
+      "fixture.json": "c68b7c7b2d1abc958fefcf7993c7442baceba10e042fccdbea76a0e88248d2d0",
+      "results.json": "6c192d718d530bb928e95944339f567e1c9a6f246707d41fd17b59d5bb3c8f65",
+      "saved-inputs.json": "457a4f9c37a67467a7740509bafbafae8295a30130b98fe5429f80957440c6a3"
+    }
+  },
+  "writerPdfSha256": "cd99ba899c5d107996798b70075ba7e4780eeec42cbe9a785e2fb5f5bc657ae7",
+  "writerPages": 3,
+  "packageStructure": {
+    "sections": 3,
+    "contentControls": 80,
+    "tables": 9
+  },
+  "sansPages": [
+    {
+      "part": "cover",
+      "writerText": {
+        "uniqueWebLinesChecked": 16,
+        "unmatched": []
+      },
+      "appPdfText": {
+        "status": "raster cover; reviewed visually"
+      },
+      "webPhotoFrameMm": [
+        128.94816593198993, 40.980479185218165, 51.97929785894207, 51.976652938557436
+      ],
+      "writerImageBoxesMm": [
+        {
+          "sourcePixels": [431, 431],
+          "boxMm": [128.06, 40.04, 181.95, 93.93]
+        },
+        {
+          "sourcePixels": [160, 200],
+          "boxMm": [123.53, 19.51, 193.71, 107.17]
+        }
+      ],
+      "textTopMm": {},
+      "edgeRgb": {
+        "Web": {
+          "top": [255.0, 255.0, 255.0],
+          "bottom": [255.0, 255.0, 255.0]
+        },
+        "App-PDF": {
+          "top": [255.0, 255.0, 255.0],
+          "bottom": [255.0, 255.0, 255.0]
+        },
+        "DOCX in Writer": {
+          "top": [255.0, 255.0, 255.0],
+          "bottom": [255.0, 255.0, 255.0]
+        }
+      }
+    },
+    {
+      "part": "letter",
+      "writerText": {
+        "uniqueWebLinesChecked": 18,
+        "unmatched": []
+      },
+      "appPdfText": {
+        "uniqueWebLinesChecked": 18,
+        "unmatched": []
+      },
+      "webPhotoFrameMm": null,
+      "writerImageBoxesMm": [],
+      "textTopMm": {
+        "Guten Tag Herr Weber": {
+          "appPdf": [106.97],
+          "writer": [115.82]
+        },
+        "Freundliche Grüsse": {
+          "appPdf": [173.06],
+          "writer": [185.97]
+        }
+      },
+      "edgeRgb": {
+        "Web": {
+          "top": [18.3, 18.3, 18.3],
+          "bottom": [76.0, 86.0, 100.0]
+        },
+        "App-PDF": {
+          "top": [18.0, 18.0, 18.0],
+          "bottom": [77.0, 85.7, 100.7]
+        },
+        "DOCX in Writer": {
+          "top": [255.0, 255.0, 255.0],
+          "bottom": [255.0, 255.0, 255.0]
+        }
+      }
+    },
+    {
+      "part": "cv",
+      "writerText": {
+        "uniqueWebLinesChecked": 47,
+        "unmatched": []
+      },
+      "appPdfText": {
+        "uniqueWebLinesChecked": 47,
+        "unmatched": []
+      },
+      "webPhotoFrameMm": [
+        158.18600440806046, 23.988270814781835, 31.82481895465995, 31.823199577025825
+      ],
+      "writerImageBoxesMm": [
+        {
+          "sourcePixels": [119, 119],
+          "boxMm": [156.0, 23.99, 190.01, 58.0]
+        }
+      ],
+      "textTopMm": {
+        "Volleyball": {
+          "appPdf": [184.84],
+          "writer": [199.83]
+        },
+        "Herr Thomas Weber": {
+          "appPdf": [230.03],
+          "writer": [248.3]
+        }
+      },
+      "edgeRgb": {
+        "Web": {
+          "top": [18.3, 18.3, 18.3],
+          "bottom": [76.0, 86.0, 100.0]
+        },
+        "App-PDF": {
+          "top": [18.0, 18.0, 18.0],
+          "bottom": [77.0, 85.7, 100.7]
+        },
+        "DOCX in Writer": {
+          "top": [255.0, 255.0, 255.0],
+          "bottom": [255.0, 255.0, 255.0]
+        }
+      }
+    }
+  ]
+}

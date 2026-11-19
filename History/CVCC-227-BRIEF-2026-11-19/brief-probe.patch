@@ -1,0 +1,100 @@
+--- a/tests/qa/web-pdf-gallery.qa.ts
++++ b/tests/qa/web-pdf-gallery.qa.ts
+@@ -16 +16,2 @@
+-const out = "artifacts/web-pdf-gallery";
++const variant = process.env.CVCC_227_FONT ?? "default";
++const out = `artifacts/cvcc227-brief-${variant}`;
+@@ -42,0 +44,6 @@
++    if (variant === "sans") {
++      stored.cover.font = "sans";
++      stored.letter.design.font = "sans";
++      stored.letter.design.fontOverride = "sans";
++      stored.cv.design.font = "sans";
++    }
+@@ -95,0 +103 @@
++  if (item.id !== "brief") continue;
+@@ -180,0 +189,67 @@
++    const readSavedDocuments = () =>
++      page.evaluate(() =>
++        [
++          "titelblatt:v3",
++          "anschreiben:v1",
++          "lebenslauf:v1",
++          "bewerbungsdossier:chrome:v1",
++          "lebenslauf:layout:v1",
++          "lebenslauf:photo:v2",
++          "lebenslauf:photo-place:v1",
++        ].map((key) => localStorage.getItem(key)),
++      );
++    const appPdfSource = await readSavedDocuments();
++    await page.goto(`${BASE_URL}/?docx-next-brief-qa=1`, { waitUntil: "networkidle" });
++    expect(await readSavedDocuments()).toEqual(appPdfSource);
++    await writeFile(
++      join(out, "saved-inputs.json"),
++      JSON.stringify(
++        appPdfSource.map((value, index) =>
++          index === 4 || value === null ? value : JSON.parse(value),
++        ),
++        null,
++        2,
++      ),
++    );
++    const result = await page.evaluate(async () => {
++      const keys = ["titelblatt:v3", "anschreiben:v1", "lebenslauf:v1"];
++      const before = keys.map((key) => localStorage.getItem(key));
++      const importPath = "/src/lib/brief-docx-next-export.ts";
++      const { createSavedBriefDocxNext } = await import(importPath);
++      try {
++        const { blob, model } = await createSavedBriefDocxNext();
++        return {
++          bytes: Array.from(new Uint8Array(await blob.arrayBuffer())),
++          template: model.templateId,
++          issues: model.issues,
++          dataUnchanged:
++            JSON.stringify(before) === JSON.stringify(keys.map((key) => localStorage.getItem(key))),
++        };
++      } catch (err) {
++        return {
++          error: String(err),
++          dataUnchanged:
++            JSON.stringify(before) === JSON.stringify(keys.map((key) => localStorage.getItem(key))),
++        };
++      }
++    });
++    const { bytes, ...meta } = result;
++    await writeFile(join(out, "docx-preview-result.json"), JSON.stringify(meta, null, 2));
++    if (variant === "sans") {
++      expect(meta).toEqual({ template: "brief", issues: [], dataUnchanged: true });
++      expect(bytes?.slice(0, 4)).toEqual([0x50, 0x4b, 0x03, 0x04]);
++      await writeFile(join(out, `${base}.docx`), Buffer.from(bytes!));
++    } else {
++      expect(meta.dataUnchanged).toBe(true);
++      expect(meta.error).toMatch(/Nicht unterstützte Schrift oder Textformatierung in «eyebrow»/);
++      expect(bytes).toBeUndefined();
++    }
++    expect(await readSavedDocuments()).toEqual(appPdfSource);
++
++    await page.goto(BASE_URL, { waitUntil: "networkidle" });
++    await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
++    const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
++    const docx = dialog.getByRole("radio", { name: "Bearbeitbares Dossier (DOCX)" });
++    await expect(docx).toBeDisabled();
++    await expect(dialog).toContainText("Modern");
++    await writeFile(join(out, "product-gate.txt"), await dialog.innerText());
+--- a/tests/qa/playwright.web-pdf-gallery.config.ts
++++ b/tests/qa/playwright.web-pdf-gallery.config.ts
+@@ -13,2 +13,12 @@
+-  reporter: [["line"], ["json", { outputFile: resolve("artifacts/web-pdf-gallery/results.json") }]],
+-  outputDir: resolve("test-results/web-pdf-gallery"),
++  reporter: [
++    ["line"],
++    [
++      "json",
++      {
++        outputFile: resolve(
++          `artifacts/cvcc227-brief-${process.env.CVCC_227_FONT ?? "default"}/results.json`,
++        ),
++      },
++    ],
++  ],
++  outputDir: resolve("test-results/cvcc227-brief"),
