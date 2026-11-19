@@ -8,16 +8,26 @@ import {
   applyGalleryCase,
   assertGalleryCatalog,
   galleryBaseName,
+  galleryBatchIndex,
   seedCanonicalDossier,
+  selectedGalleryCases,
   waitEditorReady,
   type CanonicalDossier,
 } from "../e2e/support/dossier-gallery-shared";
+import {
+  captureGalleryDocx,
+  galleryFixtureForDocx,
+  galleryInputHash,
+} from "./dossier-gallery-docx";
 
-const out = "artifacts/web-pdf-gallery";
+const parityDir = process.env.DOSSIER_VISUAL_PARITY_DIR;
+const out = parityDir ?? "artifacts/web-pdf-gallery";
+const batch = galleryBatchIndex("DOSSIER_VISUAL_PARITY_BATCH_INDEX");
+if (batch !== null && !parityDir) throw Error("Set DOSSIER_VISUAL_PARITY_DIR for a parity batch.");
 const geometryToleranceMm = 0.3;
 let stored: CanonicalDossier;
 
-test.beforeAll(async ({ browser }) => {
+test.beforeAll(async ({ browser }, { workerIndex }) => {
   assertGalleryCatalog();
   await mkdir(out, { recursive: true });
   const page = await browser.newPage();
@@ -52,7 +62,10 @@ test.beforeAll(async ({ browser }) => {
           imgY: 70,
         },
       };
-    await writeFile(join(out, "fixture.json"), JSON.stringify(stored, null, 2));
+    await writeFile(
+      join(out, parityDir ? `fixture-${workerIndex}.json` : "fixture.json"),
+      JSON.stringify(stored, null, 2),
+    );
     await writeFile(
       join(out, "SOURCE_SHA.txt"),
       execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }),
@@ -92,17 +105,21 @@ async function measure(sheet: Locator) {
   });
 }
 
-for (const [index, item] of GALLERY_CASES.entries()) {
+for (const { item, globalIndex: index } of selectedGalleryCases(batch)) {
   test(`Web/PDF photo reference ${index + 1}/39 ${item.id}`, async ({ page }) => {
     const base = galleryBaseName(index, item.label);
-    await applyGalleryCase(page, stored, item);
-    await page.evaluate(() => {
-      localStorage.setItem(
-        "lebenslauf:photo:v2",
-        JSON.stringify({ shape: "circle", zoom: 1.35, x: 30, y: 70, borderWidth: 0.3 }),
-      );
-      localStorage.setItem("lebenslauf:photo-place:v1", JSON.stringify({ mode: "auto" }));
-    });
+    await applyGalleryCase(page, parityDir ? galleryFixtureForDocx(stored, item.id) : stored, item);
+    await page.evaluate(
+      (useSidebar) => {
+        if (useSidebar) localStorage.setItem("lebenslauf:layout:v1", "modern");
+        localStorage.setItem(
+          "lebenslauf:photo:v2",
+          JSON.stringify({ shape: "circle", zoom: 1.35, x: 30, y: 70, borderWidth: 0.3 }),
+        );
+        localStorage.setItem("lebenslauf:photo-place:v1", JSON.stringify({ mode: "auto" }));
+      },
+      !!parityDir && item.id === "modern",
+    );
     const web = [];
     for (const [kind, route, selector] of [
       ["cover", "titelblatt", 'main [data-dossier-document="cover"]'],
@@ -124,6 +141,7 @@ for (const [index, item] of GALLERY_CASES.entries()) {
       web.push({ kind, ...(await measure(sheet)) });
     }
     await page.goto(BASE_URL, { waitUntil: "networkidle" });
+    const inputHash = parityDir ? await galleryInputHash(page) : undefined;
     await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
     const root = page.locator("[data-dossier-pdf-canvas]");
     const button = page
@@ -178,5 +196,13 @@ for (const [index, item] of GALLERY_CASES.entries()) {
     const pending = page.waitForEvent("download");
     await button.click();
     await (await pending).saveAs(join(out, `${base}.pdf`));
+    if (parityDir) {
+      const docx = await captureGalleryDocx(page, out, base, item.id);
+      expect(await galleryInputHash(page)).toBe(inputHash);
+      await writeFile(
+        join(out, `${base}--docx-status.json`),
+        JSON.stringify({ base, template: item.id, label: item.label, inputHash, docx }, null, 2),
+      );
+    }
   });
 }

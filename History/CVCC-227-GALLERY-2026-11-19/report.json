@@ -1,0 +1,1593 @@
+{
+  "source_sha": "228b12d0011e56d4c2b8e6ae43aae976933b8fbc",
+  "docx_coverage": "partial",
+  "counts": {
+    "templates": 39,
+    "regular_docx_exports": 1,
+    "regular_docx_blocked": 38,
+    "preview_docx_exports": 1,
+    "web_pdf_pairs": 117,
+    "pages_with_docx": 6
+  },
+  "renderer_versions": [
+    "Python 3.12.14",
+    "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+    "PyMuPDF 1.26.6",
+    "Pillow 13.0.0",
+    "NumPy 2.3.5",
+    "scikit-image 0.25.2"
+  ],
+  "templates": [
+    {
+      "base": "01-Brief",
+      "template": "brief",
+      "label": "Brief",
+      "input_hash": "4cba6ff33c57a397fe9530c8f1860cb46125b55dda3ddbe402bcd8e01809c057",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "exported",
+          "file": "01-Brief--preview.docx",
+          "sha256": "5ed970bcec9999f43be04536bd55449b0947afccefe6170cc9257d706ee1ab8e"
+        }
+      }
+    },
+    {
+      "base": "02-Editorial",
+      "template": "klassisch",
+      "label": "Editorial",
+      "input_hash": "2ef12780098b1e372287408b83721c6b5ce3c881e147faec231ac35061edeb17",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "03-Modern",
+      "template": "modern",
+      "label": "Modern",
+      "input_hash": "9614506443256e4b50a0b9c734cbd1212c2ce6a8cd1b6b33e0070f20be5e3df2",
+      "docx": {
+        "regular": {
+          "status": "exported",
+          "file": "03-Modern--regular.docx",
+          "sha256": "5dceb83135b92b565983e71b08a04bedacc0bcb16fe35481da8b1d8abd53efc0"
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "04-Warm",
+      "template": "freundlich",
+      "label": "Warm",
+      "input_hash": "47f82274b9a1769e15980f7f31af4a0cb99f5d0be50891540017f740425fb82f",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "05-Edel",
+      "template": "edel",
+      "label": "Edel",
+      "input_hash": "91809378b779fa8ccebc5df1e894d056871af268c47f977a8828d500c279773c",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "06-Colorful",
+      "template": "colorful",
+      "label": "Colorful",
+      "input_hash": "8cbfcec23fcef2e4769717ce473128c8b018543cfb2598a4cb9d0df3fe728d25",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "07-Blockig",
+      "template": "blockig",
+      "label": "Blockig",
+      "input_hash": "c36fdc85b0668f6ff381d93a547e1c67ee412793935d2f710b88493616453874",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "08-Serios",
+      "template": "serioes",
+      "label": "Seriös",
+      "input_hash": "63fe64f77fb3080d4088860e04ff9eb189dee16cde9dc57ac089da1cf2654392",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "09-Human",
+      "template": "human",
+      "label": "Human",
+      "input_hash": "df09af6b4030e7333ce5cbe4449d230d50fddca5061fb1f7bbc8437fbbdecf76",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "10-Horizont",
+      "template": "welle",
+      "label": "Horizont",
+      "input_hash": "3e5a01929e792d2483d29bc597ef2865d40a7d63152beab5509ee900cbb7cf9e",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "11-Kolumne",
+      "template": "terracotta",
+      "label": "Kolumne",
+      "input_hash": "f8361f7633bd08c3e81cb2a880c4c9e999f3150ca4397e3a74792c5f85ee5dcd",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "12-Rahmen",
+      "template": "pastell",
+      "label": "Rahmen",
+      "input_hash": "59545c8d7b1934f6867c402ba4c4523b1b360964632be2dc451b738d838cd348",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "13-Sonne",
+      "template": "sonne",
+      "label": "Sonne",
+      "input_hash": "bb47fcc5905092bb9b9878a0846d4ec8b346f3c319d231f7da24b048427dfc09",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "14-Studio",
+      "template": "studio",
+      "label": "Studio",
+      "input_hash": "6df80479e1399f80446f7ce5f7d7ad19adbac94148244fca8ddbfc748d5d6752",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "15-Neon",
+      "template": "neon",
+      "label": "Neon",
+      "input_hash": "f6580945b012a60a4e69e092125c71aded0aaeeef7b23dddb4ab3fe9de4c0fd5",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "16-Aurora",
+      "template": "aurora",
+      "label": "Aurora",
+      "input_hash": "b93f5d492f916e345dc8c573444234a9a6603d4044a27e6811467688a26e1aa7",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "17-Verlauf",
+      "template": "verlauf",
+      "label": "Verlauf",
+      "input_hash": "8fc72b81ef04126a5cff16d56fd5cab726e018f692d46f9b1b1354a4cb94d7cf",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "18-Citrus",
+      "template": "citrus",
+      "label": "Citrus",
+      "input_hash": "c42cf9441bd8ae95c9d7b62aef88037e8435c5079de82e780f4f17f59af0e79b",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "19-Edge",
+      "template": "edge",
+      "label": "Edge",
+      "input_hash": "6ff3a550c59505c59dc2ffae0df0f10b7416259fc69a3abe43a26ef28414cf71",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "20-Glow",
+      "template": "glow",
+      "label": "Glow",
+      "input_hash": "053cc2121be095fc0823a3caaf0e65105e65b7ebcab3efca0d9bdd96ddc1cd3e",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "21-Mono-Luxe",
+      "template": "monoLuxe",
+      "label": "Mono Luxe",
+      "input_hash": "be86b8d8383d06987637aa056a86a2a584d7028599d0de0a31314cd5681a793b",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "22-Horizon",
+      "template": "horizon",
+      "label": "Horizon",
+      "input_hash": "2bd3721fc8fcbe660dbf241a1e3ae7f321ffbebea2236850e641199889dbc6a9",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "23-Sunrise",
+      "template": "sunrise",
+      "label": "Sunrise",
+      "input_hash": "cb17292bf7389eedcabf1f206c5cbe0cb76ba5790a4c9f4fabcf3b8b8e24c8d2",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "24-Forest-Flow",
+      "template": "forestFlow",
+      "label": "Forest Flow",
+      "input_hash": "8252b7e87fca96ad9efc405df7e7cb279f764eb42790e2ee5c87c4c5a74ed5b7",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "25-Violet-Pulse",
+      "template": "violetPulse",
+      "label": "Violet Pulse",
+      "input_hash": "00ac5f508a97856dedfb6f977898a03b9cf5b1db042084e90b06f76af791212b",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "26-Studio-2",
+      "template": "studio2",
+      "label": "Studio 2",
+      "input_hash": "401291467766b60baa1ad88e4644a1d10fce78e4065db40e05a6f95a55d72b93",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "27-Studio-3",
+      "template": "studio3",
+      "label": "Studio 3",
+      "input_hash": "6d8ec0c455c92874d5e9005ff2f74c6de39edb7c6f272f5782a1267d206cbe5e",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "28-Warm-2",
+      "template": "warm2",
+      "label": "Warm 2",
+      "input_hash": "a9148a305c57a3541006be8f2044f77acb8437d8e2971af8c645c66655002cd3",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "29-Warm-3",
+      "template": "warm3",
+      "label": "Warm 3",
+      "input_hash": "9847e87cd8f6b2748c449bf86912ea8645bbed81b318d0d1c11aff03f7bb31d1",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "30-Verlauf-2",
+      "template": "verlauf2",
+      "label": "Verlauf 2",
+      "input_hash": "bbc05653b6fd6530bf8b454680062b834bf73976f7ee0218301d743bf65c4800",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "31-Verlauf-3",
+      "template": "verlauf3",
+      "label": "Verlauf 3",
+      "input_hash": "de5b3d90233e8d7653062ac6d0845656b8813cbf1797165f699ed6c7a177ba9b",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "32-Ledger",
+      "template": "ledger",
+      "label": "Ledger",
+      "input_hash": "d0d2804289a58777013090faec10026aa9bd50133f770eccfa6c92c09785589b",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "33-Prism",
+      "template": "prism",
+      "label": "Prism",
+      "input_hash": "456036a2e3f922b34299a7d238459e541bdd953cbfde8caee4881445957f8423",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "34-Gallery",
+      "template": "gallery",
+      "label": "Gallery",
+      "input_hash": "654c2373cc484228bd0363d9a0d998fd7dcd7b4e691f067b650f169d9c43fdcc",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "35-Orbit",
+      "template": "orbit",
+      "label": "Orbit",
+      "input_hash": "77769d3499fd95e574b1be49d5013309902b758c4121824b3d2e1aad4d4ff150",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "36-Ribbon",
+      "template": "ribbon",
+      "label": "Ribbon",
+      "input_hash": "44e691c22d23e0ca95951864c71be7aa41e7f5ea07378086b5dfa15170e58c9b",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "37-Cove",
+      "template": "cove",
+      "label": "Cove",
+      "input_hash": "90e271fa231a3d82ff82d67e03867000bb1d156b55846c8c73f80b9ebb9c42df",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "38-Diagonal",
+      "template": "diagonal",
+      "label": "Diagonal",
+      "input_hash": "93519b7b60ac6f796dc91a682887df29fdc898051beaab3b96a257ffc92c2a2f",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    },
+    {
+      "base": "39-Edel-Dark",
+      "template": "edelDark",
+      "label": "Edel Dark",
+      "input_hash": "0f81dffcc646bff75317689b18f31ff38bea8d385e956322f4909b317d0ffff3",
+      "docx": {
+        "regular": {
+          "status": "blocked",
+          "reason": "Word (DOCX): Der Word-Download unterstützt momentan die Vorlage «Modern» mit seitlicher Spalte im Lebenslauf."
+        },
+        "preview": {
+          "status": "not-configured"
+        }
+      }
+    }
+  ],
+  "pages": [
+    {
+      "base": "01-Brief",
+      "label": "Brief",
+      "page": "cover",
+      "docx_source": "preview",
+      "web_pdf": 0.9978744779645634,
+      "web_pdf_layout": 0.9979051789759057,
+      "web_docx": 0.9320147780305194,
+      "pdf_docx": 0.9295513380766907,
+      "web_docx_layout": 0.9330369021125148,
+      "pdf_docx_layout": 0.930618392482615
+    },
+    {
+      "base": "01-Brief",
+      "label": "Brief",
+      "page": "letter",
+      "docx_source": "preview",
+      "web_pdf": 0.9969829514389117,
+      "web_pdf_layout": 0.9969261447863283,
+      "web_docx": 0.7227816155275598,
+      "pdf_docx": 0.7210578633749679,
+      "web_docx_layout": 0.7227874917615629,
+      "pdf_docx_layout": 0.7210047531655063
+    },
+    {
+      "base": "01-Brief",
+      "label": "Brief",
+      "page": "cv",
+      "docx_source": "preview",
+      "web_pdf": 0.9895341391182487,
+      "web_pdf_layout": 0.9894962878514183,
+      "web_docx": 0.5736852599650599,
+      "pdf_docx": 0.5699559261958362,
+      "web_docx_layout": 0.5744371555856184,
+      "pdf_docx_layout": 0.5706735269451965
+    },
+    {
+      "base": "02-Editorial",
+      "label": "Editorial",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9953539193296788,
+      "web_pdf_layout": 0.9954797250885082
+    },
+    {
+      "base": "02-Editorial",
+      "label": "Editorial",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9957422687611016,
+      "web_pdf_layout": 0.9958277726973744
+    },
+    {
+      "base": "02-Editorial",
+      "label": "Editorial",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9917645646918732,
+      "web_pdf_layout": 0.9918877574748991
+    },
+    {
+      "base": "03-Modern",
+      "label": "Modern",
+      "page": "cover",
+      "docx_source": "regular",
+      "web_pdf": 0.9980248353855569,
+      "web_pdf_layout": 0.9979802795877923,
+      "web_docx": 0.9431542802515748,
+      "pdf_docx": 0.9418707436422477,
+      "web_docx_layout": 0.9409633758369543,
+      "pdf_docx_layout": 0.9395233401212266
+    },
+    {
+      "base": "03-Modern",
+      "label": "Modern",
+      "page": "letter",
+      "docx_source": "regular",
+      "web_pdf": 0.9967172577380823,
+      "web_pdf_layout": 0.9965687613763344,
+      "web_docx": 0.8611675752870749,
+      "pdf_docx": 0.8629085930029573,
+      "web_docx_layout": 0.8607509677071414,
+      "pdf_docx_layout": 0.8627698495476012
+    },
+    {
+      "base": "03-Modern",
+      "label": "Modern",
+      "page": "cv",
+      "docx_source": "regular",
+      "web_pdf": 0.9942831766057005,
+      "web_pdf_layout": 0.9941174180640207,
+      "web_docx": 0.7919556569026859,
+      "pdf_docx": 0.7927257194209977,
+      "web_docx_layout": 0.7890915018197215,
+      "pdf_docx_layout": 0.7900565490575931
+    },
+    {
+      "base": "04-Warm",
+      "label": "Warm",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9947091884221697,
+      "web_pdf_layout": 0.9965340122077635
+    },
+    {
+      "base": "04-Warm",
+      "label": "Warm",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9950771222133232,
+      "web_pdf_layout": 0.9953145568876254
+    },
+    {
+      "base": "04-Warm",
+      "label": "Warm",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9885320838783334,
+      "web_pdf_layout": 0.9887175946028763
+    },
+    {
+      "base": "05-Edel",
+      "label": "Edel",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9934341283853528,
+      "web_pdf_layout": 0.9932949793343216
+    },
+    {
+      "base": "05-Edel",
+      "label": "Edel",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9886482866477762,
+      "web_pdf_layout": 0.9888366561727179
+    },
+    {
+      "base": "05-Edel",
+      "label": "Edel",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9814345483959851,
+      "web_pdf_layout": 0.9820377952012627
+    },
+    {
+      "base": "06-Colorful",
+      "label": "Colorful",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9967507838356987,
+      "web_pdf_layout": 0.9963410609121277
+    },
+    {
+      "base": "06-Colorful",
+      "label": "Colorful",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9956438765871541,
+      "web_pdf_layout": 0.9956093102996396
+    },
+    {
+      "base": "06-Colorful",
+      "label": "Colorful",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9753128108468099,
+      "web_pdf_layout": 0.9749287107322842
+    },
+    {
+      "base": "07-Blockig",
+      "label": "Blockig",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9959968935821499,
+      "web_pdf_layout": 0.9961693132966175
+    },
+    {
+      "base": "07-Blockig",
+      "label": "Blockig",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9940283080999935,
+      "web_pdf_layout": 0.993981713558122
+    },
+    {
+      "base": "07-Blockig",
+      "label": "Blockig",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9907146751601342,
+      "web_pdf_layout": 0.9907845688601213
+    },
+    {
+      "base": "08-Serios",
+      "label": "Seriös",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9935846760910544,
+      "web_pdf_layout": 0.9932494448771142
+    },
+    {
+      "base": "08-Serios",
+      "label": "Seriös",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9956773811953806,
+      "web_pdf_layout": 0.9955904483804014
+    },
+    {
+      "base": "08-Serios",
+      "label": "Seriös",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9900342923181277,
+      "web_pdf_layout": 0.9898615290501751
+    },
+    {
+      "base": "09-Human",
+      "label": "Human",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9961378636848225,
+      "web_pdf_layout": 0.9961837685416707
+    },
+    {
+      "base": "09-Human",
+      "label": "Human",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9958596250981433,
+      "web_pdf_layout": 0.9958244918802243
+    },
+    {
+      "base": "09-Human",
+      "label": "Human",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9902057465678329,
+      "web_pdf_layout": 0.9901072980316833
+    },
+    {
+      "base": "10-Horizont",
+      "label": "Horizont",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9972122584180672,
+      "web_pdf_layout": 0.9972817032370344
+    },
+    {
+      "base": "10-Horizont",
+      "label": "Horizont",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9955262506518129,
+      "web_pdf_layout": 0.9954782968638795
+    },
+    {
+      "base": "10-Horizont",
+      "label": "Horizont",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.987883638482055,
+      "web_pdf_layout": 0.9877911514604097
+    },
+    {
+      "base": "11-Kolumne",
+      "label": "Kolumne",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9966018737815975,
+      "web_pdf_layout": 0.9965562003626345
+    },
+    {
+      "base": "11-Kolumne",
+      "label": "Kolumne",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9958339160560638,
+      "web_pdf_layout": 0.9958345182280024
+    },
+    {
+      "base": "11-Kolumne",
+      "label": "Kolumne",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9910837259632793,
+      "web_pdf_layout": 0.9908707816831376
+    },
+    {
+      "base": "12-Rahmen",
+      "label": "Rahmen",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9959908821797526,
+      "web_pdf_layout": 0.9959612662945231
+    },
+    {
+      "base": "12-Rahmen",
+      "label": "Rahmen",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9964362136309983,
+      "web_pdf_layout": 0.9964743915498756
+    },
+    {
+      "base": "12-Rahmen",
+      "label": "Rahmen",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9886037442433414,
+      "web_pdf_layout": 0.9887400160539133
+    },
+    {
+      "base": "13-Sonne",
+      "label": "Sonne",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9961617974763913,
+      "web_pdf_layout": 0.9955188790410963
+    },
+    {
+      "base": "13-Sonne",
+      "label": "Sonne",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9954058525304313,
+      "web_pdf_layout": 0.9954710839386824
+    },
+    {
+      "base": "13-Sonne",
+      "label": "Sonne",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9914260303340073,
+      "web_pdf_layout": 0.9915816513804708
+    },
+    {
+      "base": "14-Studio",
+      "label": "Studio",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9955953820834935,
+      "web_pdf_layout": 0.9959236135865404
+    },
+    {
+      "base": "14-Studio",
+      "label": "Studio",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9945224502534028,
+      "web_pdf_layout": 0.9946215255522108
+    },
+    {
+      "base": "14-Studio",
+      "label": "Studio",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9923355693625799,
+      "web_pdf_layout": 0.9923962083321766
+    },
+    {
+      "base": "15-Neon",
+      "label": "Neon",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9936463145028481,
+      "web_pdf_layout": 0.9958284710326508
+    },
+    {
+      "base": "15-Neon",
+      "label": "Neon",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9949039559886387,
+      "web_pdf_layout": 0.9951324019017069
+    },
+    {
+      "base": "15-Neon",
+      "label": "Neon",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.988236641023092,
+      "web_pdf_layout": 0.9883200664530825
+    },
+    {
+      "base": "16-Aurora",
+      "label": "Aurora",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.994219353191244,
+      "web_pdf_layout": 0.9948306258759734
+    },
+    {
+      "base": "16-Aurora",
+      "label": "Aurora",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9953653588552172,
+      "web_pdf_layout": 0.9955319494969566
+    },
+    {
+      "base": "16-Aurora",
+      "label": "Aurora",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9914559989315826,
+      "web_pdf_layout": 0.9913153826421597
+    },
+    {
+      "base": "17-Verlauf",
+      "label": "Verlauf",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9899244473590891,
+      "web_pdf_layout": 0.9931423806534974
+    },
+    {
+      "base": "17-Verlauf",
+      "label": "Verlauf",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9949843057209263,
+      "web_pdf_layout": 0.9953725919405003
+    },
+    {
+      "base": "17-Verlauf",
+      "label": "Verlauf",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9921790675392671,
+      "web_pdf_layout": 0.9922732595180799
+    },
+    {
+      "base": "18-Citrus",
+      "label": "Citrus",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9939110987400458,
+      "web_pdf_layout": 0.9947043025462157
+    },
+    {
+      "base": "18-Citrus",
+      "label": "Citrus",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9935488831343514,
+      "web_pdf_layout": 0.9947636664450039
+    },
+    {
+      "base": "18-Citrus",
+      "label": "Citrus",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9915161341247622,
+      "web_pdf_layout": 0.991925792313099
+    },
+    {
+      "base": "19-Edge",
+      "label": "Edge",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9964510685458466,
+      "web_pdf_layout": 0.996812495947813
+    },
+    {
+      "base": "19-Edge",
+      "label": "Edge",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9950093605070901,
+      "web_pdf_layout": 0.9950694408122169
+    },
+    {
+      "base": "19-Edge",
+      "label": "Edge",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9910635686627064,
+      "web_pdf_layout": 0.991201088104127
+    },
+    {
+      "base": "20-Glow",
+      "label": "Glow",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9964870046443735,
+      "web_pdf_layout": 0.9968265118668804
+    },
+    {
+      "base": "20-Glow",
+      "label": "Glow",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9958417473169963,
+      "web_pdf_layout": 0.9958043903173237
+    },
+    {
+      "base": "20-Glow",
+      "label": "Glow",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9940388399223821,
+      "web_pdf_layout": 0.994057778236114
+    },
+    {
+      "base": "21-Mono-Luxe",
+      "label": "Mono Luxe",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.996742244213228,
+      "web_pdf_layout": 0.9969332429511569
+    },
+    {
+      "base": "21-Mono-Luxe",
+      "label": "Mono Luxe",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9956992123841916,
+      "web_pdf_layout": 0.9957037057588686
+    },
+    {
+      "base": "21-Mono-Luxe",
+      "label": "Mono Luxe",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9909715894262524,
+      "web_pdf_layout": 0.9908116457444271
+    },
+    {
+      "base": "22-Horizon",
+      "label": "Horizon",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9797524565712933,
+      "web_pdf_layout": 0.9824506594296295
+    },
+    {
+      "base": "22-Horizon",
+      "label": "Horizon",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9957889627148364,
+      "web_pdf_layout": 0.9958055200611282
+    },
+    {
+      "base": "22-Horizon",
+      "label": "Horizon",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9834327294368524,
+      "web_pdf_layout": 0.9836054366617569
+    },
+    {
+      "base": "23-Sunrise",
+      "label": "Sunrise",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9897242574737083,
+      "web_pdf_layout": 0.9898137295667172
+    },
+    {
+      "base": "23-Sunrise",
+      "label": "Sunrise",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9955304313902099,
+      "web_pdf_layout": 0.9956807005061198
+    },
+    {
+      "base": "23-Sunrise",
+      "label": "Sunrise",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9859373391307139,
+      "web_pdf_layout": 0.9869059207727323
+    },
+    {
+      "base": "24-Forest-Flow",
+      "label": "Forest Flow",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.99415857371216,
+      "web_pdf_layout": 0.9947013906231497
+    },
+    {
+      "base": "24-Forest-Flow",
+      "label": "Forest Flow",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9956510607123015,
+      "web_pdf_layout": 0.9956621504886972
+    },
+    {
+      "base": "24-Forest-Flow",
+      "label": "Forest Flow",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9912608482174727,
+      "web_pdf_layout": 0.9913180067494097
+    },
+    {
+      "base": "25-Violet-Pulse",
+      "label": "Violet Pulse",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9861105249413895,
+      "web_pdf_layout": 0.9920575909434871
+    },
+    {
+      "base": "25-Violet-Pulse",
+      "label": "Violet Pulse",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9956205240103072,
+      "web_pdf_layout": 0.9954038889401708
+    },
+    {
+      "base": "25-Violet-Pulse",
+      "label": "Violet Pulse",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9910325174257825,
+      "web_pdf_layout": 0.9908024606013315
+    },
+    {
+      "base": "26-Studio-2",
+      "label": "Studio 2",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9926320029809453,
+      "web_pdf_layout": 0.9935887572592077
+    },
+    {
+      "base": "26-Studio-2",
+      "label": "Studio 2",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9957476940078656,
+      "web_pdf_layout": 0.9958137829761731
+    },
+    {
+      "base": "26-Studio-2",
+      "label": "Studio 2",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9915716393987747,
+      "web_pdf_layout": 0.9917063689765051
+    },
+    {
+      "base": "27-Studio-3",
+      "label": "Studio 3",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9941321492282386,
+      "web_pdf_layout": 0.9948514216314402
+    },
+    {
+      "base": "27-Studio-3",
+      "label": "Studio 3",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9957801474396709,
+      "web_pdf_layout": 0.9958303775295495
+    },
+    {
+      "base": "27-Studio-3",
+      "label": "Studio 3",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9922785275820413,
+      "web_pdf_layout": 0.9923378645421691
+    },
+    {
+      "base": "28-Warm-2",
+      "label": "Warm 2",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.993219497064024,
+      "web_pdf_layout": 0.9953404897006866
+    },
+    {
+      "base": "28-Warm-2",
+      "label": "Warm 2",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9954683788642403,
+      "web_pdf_layout": 0.9955453547368003
+    },
+    {
+      "base": "28-Warm-2",
+      "label": "Warm 2",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9928186953182689,
+      "web_pdf_layout": 0.9928927361219307
+    },
+    {
+      "base": "29-Warm-3",
+      "label": "Warm 3",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9938846610159834,
+      "web_pdf_layout": 0.9949815763926084
+    },
+    {
+      "base": "29-Warm-3",
+      "label": "Warm 3",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9956274265606817,
+      "web_pdf_layout": 0.9956859441096331
+    },
+    {
+      "base": "29-Warm-3",
+      "label": "Warm 3",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9915478419795329,
+      "web_pdf_layout": 0.9916846930423627
+    },
+    {
+      "base": "30-Verlauf-2",
+      "label": "Verlauf 2",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9785154053126205,
+      "web_pdf_layout": 0.9804451060125329
+    },
+    {
+      "base": "30-Verlauf-2",
+      "label": "Verlauf 2",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9956797005742458,
+      "web_pdf_layout": 0.9956385445104686
+    },
+    {
+      "base": "30-Verlauf-2",
+      "label": "Verlauf 2",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.986048809010986,
+      "web_pdf_layout": 0.9869564936660374
+    },
+    {
+      "base": "31-Verlauf-3",
+      "label": "Verlauf 3",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9782312359338873,
+      "web_pdf_layout": 0.980616966688792
+    },
+    {
+      "base": "31-Verlauf-3",
+      "label": "Verlauf 3",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9956154895647614,
+      "web_pdf_layout": 0.9957731000097606
+    },
+    {
+      "base": "31-Verlauf-3",
+      "label": "Verlauf 3",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9852444900893426,
+      "web_pdf_layout": 0.9839289704599055
+    },
+    {
+      "base": "32-Ledger",
+      "label": "Ledger",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9960152674422366,
+      "web_pdf_layout": 0.996120649008057
+    },
+    {
+      "base": "32-Ledger",
+      "label": "Ledger",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9950694262196499,
+      "web_pdf_layout": 0.9950637559879874
+    },
+    {
+      "base": "32-Ledger",
+      "label": "Ledger",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9897936020216039,
+      "web_pdf_layout": 0.99008678281966
+    },
+    {
+      "base": "33-Prism",
+      "label": "Prism",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9954237485505187,
+      "web_pdf_layout": 0.9957061333199467
+    },
+    {
+      "base": "33-Prism",
+      "label": "Prism",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.995357145336139,
+      "web_pdf_layout": 0.9952957760387445
+    },
+    {
+      "base": "33-Prism",
+      "label": "Prism",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9918138419978938,
+      "web_pdf_layout": 0.9915662575276233
+    },
+    {
+      "base": "34-Gallery",
+      "label": "Gallery",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.994194648757139,
+      "web_pdf_layout": 0.9942977032182053
+    },
+    {
+      "base": "34-Gallery",
+      "label": "Gallery",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9964362451670369,
+      "web_pdf_layout": 0.9964744204569632
+    },
+    {
+      "base": "34-Gallery",
+      "label": "Gallery",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9889684429260575,
+      "web_pdf_layout": 0.9890963190659445
+    },
+    {
+      "base": "35-Orbit",
+      "label": "Orbit",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9950961420635357,
+      "web_pdf_layout": 0.9951973231702249
+    },
+    {
+      "base": "35-Orbit",
+      "label": "Orbit",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9954827665537974,
+      "web_pdf_layout": 0.9953106286566533
+    },
+    {
+      "base": "35-Orbit",
+      "label": "Orbit",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9918340303170791,
+      "web_pdf_layout": 0.9916629566576972
+    },
+    {
+      "base": "36-Ribbon",
+      "label": "Ribbon",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9962348745610253,
+      "web_pdf_layout": 0.9963293897675127
+    },
+    {
+      "base": "36-Ribbon",
+      "label": "Ribbon",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9949848589561513,
+      "web_pdf_layout": 0.994979185373041
+    },
+    {
+      "base": "36-Ribbon",
+      "label": "Ribbon",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9915815291281075,
+      "web_pdf_layout": 0.9916123297307509
+    },
+    {
+      "base": "37-Cove",
+      "label": "Cove",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9952119348805395,
+      "web_pdf_layout": 0.995657675168868
+    },
+    {
+      "base": "37-Cove",
+      "label": "Cove",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9946124743264578,
+      "web_pdf_layout": 0.9945252359601312
+    },
+    {
+      "base": "37-Cove",
+      "label": "Cove",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9912186497186282,
+      "web_pdf_layout": 0.9912141503459785
+    },
+    {
+      "base": "38-Diagonal",
+      "label": "Diagonal",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9975127021015077,
+      "web_pdf_layout": 0.9974888368653437
+    },
+    {
+      "base": "38-Diagonal",
+      "label": "Diagonal",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9966542841223553,
+      "web_pdf_layout": 0.9966553936487941
+    },
+    {
+      "base": "38-Diagonal",
+      "label": "Diagonal",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.99087596899706,
+      "web_pdf_layout": 0.9907717307813316
+    },
+    {
+      "base": "39-Edel-Dark",
+      "label": "Edel Dark",
+      "page": "cover",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9886956268973014,
+      "web_pdf_layout": 0.9886030938994798
+    },
+    {
+      "base": "39-Edel-Dark",
+      "label": "Edel Dark",
+      "page": "letter",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9948431166263517,
+      "web_pdf_layout": 0.9950490247617966
+    },
+    {
+      "base": "39-Edel-Dark",
+      "label": "Edel Dark",
+      "page": "cv",
+      "docx_source": "unavailable",
+      "web_pdf": 0.9906113801078157,
+      "web_pdf_layout": 0.9904573325476937
+    }
+  ],
+  "local_verification": {
+    "tested_qa_tree": "773bc7311d123133f589356d9a31bb6a9d234ab5",
+    "playwright": "1.56.1",
+    "chromium": "141.0.7390.37",
+    "browser_results": {
+      "startTime": "2026-11-19T15:25:58.492Z",
+      "duration": 580774.596,
+      "expected": 39,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "batch_sizes": [4, 4, 4, 4, 4, 4, 4, 4, 4, 3],
+    "rejected_invalid_inputs": [
+      "different commit SHA",
+      "missing batch",
+      "missing exported DOCX",
+      "unreported DOCX",
+      "wrong DOCX digest"
+    ]
+  }
+}

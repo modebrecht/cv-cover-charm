@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """Build a visual parity report for the 39 dossier templates.
 
-Inputs must come from the same repository SHA:
-- visible Web gallery: 117 PNGs + MANIFEST.txt
-- PDF gallery: 39 three-page PDFs
-- DOCX gallery: 39 three-page DOCX files
+Each browser batch captures visible Web pages, a real PDF download and the
+observed DOCX availability from the same saved fixture. It supplies a DOCX
+only for regular downloads and configured internal previews.
 
 The script converts PDF/DOCX to normalized A4 PNGs, computes SSIM for
 Web<->PDF, Web<->DOCX and PDF<->DOCX, and emits CSV/Markdown plus visual
@@ -16,6 +15,8 @@ from __future__ import annotations
 import argparse
 import csv
 import hashlib
+import json
+import re
 import shutil
 import subprocess
 import sys
@@ -23,6 +24,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from statistics import mean
 from typing import Iterable
+from zipfile import ZipFile
 
 import fitz
 import numpy as np
@@ -46,8 +48,20 @@ ANALYSIS_SIZE = (265, 375)
 @dataclass(frozen=True)
 class TemplateCase:
     base: str
+    template: str
     label: str
-    web_files: dict[str, str]
+    directory: Path
+    input_hash: str
+    docx: dict
+
+    @property
+    def docx_kind(self) -> str | None:
+        return next((kind for kind, row in self.docx.items() if row["status"] == "exported"), None)
+
+    @property
+    def docx_path(self) -> Path | None:
+        kind = self.docx_kind
+        return self.directory / self.docx[kind]["file"] if kind else None
 
 
 def run(cmd: list[str], *, timeout: int = 180) -> subprocess.CompletedProcess[str]:
@@ -69,26 +83,64 @@ def require_command(name: str) -> None:
         raise RuntimeError(f"Required command not found: {name}")
 
 
-def parse_web_manifest(path: Path) -> list[TemplateCase]:
-    if not path.is_file():
-        raise RuntimeError(f"Missing Web manifest: {path}")
+def read_gallery_cases(directories: list[Path], sha: str) -> list[TemplateCase]:
+    if not re.fullmatch(r"[0-9a-f]{40}", sha):
+        raise RuntimeError("Expected a full SHA for visual parity sources")
     cases: list[TemplateCase] = []
-    for raw in path.read_text(encoding="utf-8").splitlines():
-        line = raw.strip()
-        if not line or line.startswith("Bewerbungsdossier") or line.startswith("Format:"):
-            continue
-        parts = [part.strip() for part in line.split("|")]
-        if len(parts) != 5:
-            raise RuntimeError(f"Unexpected Web manifest row: {raw}")
-        base, label, cover, letter, cv = parts
-        cases.append(
-            TemplateCase(base=base, label=label, web_files={"cover": cover, "letter": letter, "cv": cv})
-        )
+    for directory in directories:
+        if (directory / "SOURCE_SHA.txt").read_text().strip() != sha:
+            raise RuntimeError(f"Source SHA does not match for {directory}")
+        expected_docx: set[Path] = set()
+        expected_web: set[Path] = set()
+        expected_pdf: set[Path] = set()
+        records = sorted(directory.glob("*--docx-status.json"))
+        if not records:
+            raise RuntimeError(f"No DOCX status records in {directory}")
+        for path in records:
+            item = json.loads(path.read_text())
+            base = item["base"]
+            if not re.fullmatch(r"\d{2}-[A-Za-z0-9_-]+", base) or path.name != f"{base}--docx-status.json":
+                raise RuntimeError(f"Invalid template key in {path}")
+            if not re.fullmatch(r"[0-9a-f]{64}", item["inputHash"]):
+                raise RuntimeError(f"Missing input hash for {base}")
+            docx = item["docx"]
+            if set(docx) != {"regular", "preview"}:
+                raise RuntimeError(f"Missing or unknown DOCX paths for {base}")
+            for kind, empty_status in (("regular", "blocked"), ("preview", "not-configured")):
+                row = docx[kind]
+                if row["status"] == empty_status:
+                    if "file" in row or (kind == "regular" and not row.get("reason", "").strip()):
+                        raise RuntimeError(f"Invalid {kind} status for {base}")
+                    continue
+                file = f"{base}--{kind}.docx"
+                if row["status"] != "exported" or row.get("file") != file:
+                    raise RuntimeError(f"Unexpected {kind} record for {base}")
+                document = directory / file
+                if hashlib.sha256(document.read_bytes()).hexdigest() != row["sha256"]:
+                    raise RuntimeError(f"DOCX digest mismatch for {file}")
+                with ZipFile(document) as package:
+                    if package.testzip() or not {
+                        "[Content_Types].xml", "word/document.xml", "word/styles.xml",
+                        "word/_rels/document.xml.rels",
+                    }.issubset(package.namelist()):
+                        raise RuntimeError(f"Incomplete DOCX package {file}")
+                expected_docx.add(document)
+            if all(row["status"] == "exported" for row in docx.values()):
+                raise RuntimeError(f"Multiple comparison sources for {base}")
+            expected_pdf.add(directory / f"{base}.pdf")
+            expected_web.update(directory / f"{base}--{kind}.png" for kind in PAGE_KINDS)
+            cases.append(TemplateCase(base, item["template"], item["label"], directory, item["inputHash"], docx))
+        for pattern, expected in (("*.docx", expected_docx), ("*.pdf", expected_pdf), ("*.png", expected_web)):
+            if set(directory.glob(pattern)) != expected:
+                raise RuntimeError(f"Unexpected or missing {pattern} sources in {directory}")
     if len(cases) != 39:
-        raise RuntimeError(f"Expected 39 Web manifest rows, found {len(cases)}")
-    if len({case.base for case in cases}) != 39:
-        raise RuntimeError("Web manifest contains duplicate template keys")
-    return cases
+        raise RuntimeError(f"Expected 39 template status records, found {len(cases)}")
+    if (
+        {case.base[:2] for case in cases} != {f"{i:02d}" for i in range(1, 40)}
+        or len({case.template for case in cases}) != 39
+    ):
+        raise RuntimeError("Gallery contains duplicate or missing template keys")
+    return sorted(cases, key=lambda case: case.base)
 
 
 def save_normalized_rgb(rgb: Image.Image, target: Path) -> None:
@@ -129,14 +181,16 @@ def rasterize_pdf(pdf: Path, out_dir: Path, base: str) -> dict[str, Path]:
     finally:
         document.close()
 
-def convert_all_docx_to_pdf(docx_dir: Path, cases: list[TemplateCase], out_dir: Path) -> dict[str, Path]:
+def convert_all_docx_to_pdf(cases: list[TemplateCase], out_dir: Path) -> dict[str, Path]:
+    files = {case.base: path for case in cases if (path := case.docx_path) is not None}
+    if not files:
+        return {}
+    require_command("libreoffice")
     out_dir.mkdir(parents=True, exist_ok=True)
     profile = out_dir / "lo-profile"
     profile_uri = profile.resolve().as_uri()
-    docx_files = [docx_dir / f"{case.base}.docx" for case in cases]
-    missing = [path for path in docx_files if not path.is_file()]
-    if missing:
-        raise RuntimeError(f"Missing DOCX files: {', '.join(path.name for path in missing)}")
+    for path in files.values():
+        (out_dir / f"{path.stem}.pdf").unlink(missing_ok=True)
 
     try:
         run(
@@ -152,7 +206,7 @@ def convert_all_docx_to_pdf(docx_dir: Path, cases: list[TemplateCase], out_dir: 
                 "pdf",
                 "--outdir",
                 str(out_dir),
-                *[str(path) for path in docx_files],
+                *[str(path) for path in files.values()],
             ],
             timeout=600,
         )
@@ -160,11 +214,11 @@ def convert_all_docx_to_pdf(docx_dir: Path, cases: list[TemplateCase], out_dir: 
         shutil.rmtree(profile, ignore_errors=True)
 
     result: dict[str, Path] = {}
-    for case in cases:
-        pdf = out_dir / f"{case.base}.pdf"
+    for base, source in files.items():
+        pdf = out_dir / f"{source.stem}.pdf"
         if not pdf.is_file() or pdf.stat().st_size < 1000:
-            raise RuntimeError(f"LibreOffice did not create a usable PDF for {case.base}.docx")
-        result[case.base] = pdf
+            raise RuntimeError(f"LibreOffice did not create a usable PDF for {source.name}")
+        result[base] = pdf
     return result
 
 def analysis_arrays(path: Path) -> tuple[np.ndarray, np.ndarray]:
@@ -177,10 +231,9 @@ def analysis_arrays(path: Path) -> tuple[np.ndarray, np.ndarray]:
         return rgb, gray
 
 
-def pair_scores(web: Path, pdf: Path, docx: Path) -> dict[str, float]:
+def pair_scores(web: Path, pdf: Path, docx: Path | None) -> dict[str, float]:
     web_rgb, web_gray = analysis_arrays(web)
     pdf_rgb, pdf_gray = analysis_arrays(pdf)
-    docx_rgb, docx_gray = analysis_arrays(docx)
 
     def rgb_ssim(a: np.ndarray, b: np.ndarray) -> float:
         return float(structural_similarity(a, b, data_range=255, channel_axis=2))
@@ -188,14 +241,19 @@ def pair_scores(web: Path, pdf: Path, docx: Path) -> dict[str, float]:
     def layout_ssim(a: np.ndarray, b: np.ndarray) -> float:
         return float(structural_similarity(a, b, data_range=255))
 
-    return {
+    scores = {
         "web_pdf": rgb_ssim(web_rgb, pdf_rgb),
-        "web_docx": rgb_ssim(web_rgb, docx_rgb),
-        "pdf_docx": rgb_ssim(pdf_rgb, docx_rgb),
         "web_pdf_layout": layout_ssim(web_gray, pdf_gray),
-        "web_docx_layout": layout_ssim(web_gray, docx_gray),
-        "pdf_docx_layout": layout_ssim(pdf_gray, docx_gray),
     }
+    if docx:
+        docx_rgb, docx_gray = analysis_arrays(docx)
+        scores.update(
+            web_docx=rgb_ssim(web_rgb, docx_rgb),
+            pdf_docx=rgb_ssim(pdf_rgb, docx_rgb),
+            web_docx_layout=layout_ssim(web_gray, docx_gray),
+            pdf_docx_layout=layout_ssim(pdf_gray, docx_gray),
+        )
+    return scores
 
 
 def assert_no_exact_duplicate_images(
@@ -207,7 +265,9 @@ def assert_no_exact_duplicate_images(
     for row in rows:
         base = str(row["base"])
         page = str(row["page"])
-        path = image_lookup[(base, page, source)]
+        path = image_lookup.get((base, page, source))
+        if path is None:
+            continue
         digest = hashlib.sha256(path.read_bytes()).hexdigest()
         by_digest.setdefault((page, digest), []).append(base)
     duplicates = [
@@ -249,37 +309,47 @@ def create_template_sheet(case: TemplateCase, rows: list[dict[str, object]], ima
     col_gap = 14
     row_gap = 18
     width = margin * 2 + thumb_w * 3 + col_gap * 2
-    height = title_h + margin + 3 * (row_caption_h + thumb_h) + 2 * row_gap + margin
+    content_top = title_h + margin + 20
+    height = content_top + 3 * (row_caption_h + thumb_h) + 2 * row_gap + margin
     sheet = Image.new("RGB", (width, height), "white")
     draw = ImageDraw.Draw(sheet)
     draw.text((margin, 12), f"{case.base} — {case.label}   |   Web / PDF / DOCX", fill="black")
-    for col, label in enumerate(("WEB (visible site)", "PDF", "DOCX / LibreOffice")):
+    docx_label = {
+        "regular": "DOCX / LibreOffice (regular)",
+        "preview": "DOCX / LibreOffice (internal preview)",
+        None: "DOCX unavailable",
+    }[case.docx_kind]
+    for col, label in enumerate(("WEB (visible site)", "PDF", docx_label)):
         x = margin + col * (thumb_w + col_gap)
         draw.text((x, title_h), label, fill="black")
     row_lookup = {str(row["page"]): row for row in rows}
-    y = title_h + margin + 20
+    y = content_top
     for kind in PAGE_KINDS:
         row = row_lookup[kind]
         draw.text(
             (margin, y),
             (
-                f"{kind.upper()}  Web↔PDF {row['web_pdf']:.3f}   "
-                f"Web↔DOCX {row['web_docx']:.3f}   PDF↔DOCX {row['pdf_docx']:.3f}"
+                f"{kind.upper()}  Web↔PDF {format_score(row.get('web_pdf'))}   "
+                f"Web↔DOCX {format_score(row.get('web_docx'))}   "
+                f"PDF↔DOCX {format_score(row.get('pdf_docx'))}"
             ),
             fill="black",
         )
         y += row_caption_h
         for col, source in enumerate(("web", "pdf", "docx")):
-            thumb = resize_for_sheet(image_map[source][kind], thumb_w)
-            x = margin + col * (thumb_w + col_gap)
-            sheet.paste(thumb, (x, y))
+            if source in image_map:
+                thumb = resize_for_sheet(image_map[source][kind], thumb_w)
+                x = margin + col * (thumb_w + col_gap)
+                sheet.paste(thumb, (x, y))
         y += thumb_h + row_gap
     target.parent.mkdir(parents=True, exist_ok=True)
     sheet.save(target, "JPEG", quality=84, optimize=True)
 
 
 def create_worst_sheet(rows: list[dict[str, object]], pair: str, image_lookup: dict[tuple[str, str, str], Path], target: Path, count: int = 12) -> None:
-    worst = sorted(rows, key=lambda row: float(row[pair]))[:count]
+    worst = sorted((row for row in rows if pair in row), key=lambda row: float(row[pair]))[:count]
+    if not worst:
+        return
     left, right = pair.split("_")
     thumb_w = 210
     thumb_h = round(TARGET_SIZE[1] * thumb_w / TARGET_SIZE[0])
@@ -294,7 +364,12 @@ def create_worst_sheet(rows: list[dict[str, object]], pair: str, image_lookup: d
         y0 = (index // cols) * cell_h
         base = str(row["base"])
         page = str(row["page"])
-        draw.text((x0 + 6, y0 + 4), f"{base} {page}  {PAIR_LABELS[pair]} {row[pair]:.3f}", fill="black")
+        source = f" ({row['docx_source']})" if "docx" in pair else ""
+        draw.text(
+            (x0 + 6, y0 + 4),
+            f"{base} {page}  {PAIR_LABELS[pair]}{source} {row[pair]:.3f}",
+            fill="black",
+        )
         a = resize_for_sheet(image_lookup[(base, page, left)], thumb_w)
         b = resize_for_sheet(image_lookup[(base, page, right)], thumb_w)
         canvas.paste(a, (x0 + 6, y0 + 30))
@@ -303,22 +378,23 @@ def create_worst_sheet(rows: list[dict[str, object]], pair: str, image_lookup: d
     canvas.save(target, "JPEG", quality=84, optimize=True)
 
 
-def average(rows: Iterable[dict[str, object]], key: str) -> float:
-    values = [float(row[key]) for row in rows]
-    return mean(values) if values else float("nan")
+def format_score(value: object) -> str:
+    return "—" if value is None else f"{float(value):.3f}"
+
+
+def average(rows: Iterable[dict[str, object]], key: str) -> str:
+    values = [float(row[key]) for row in rows if key in row]
+    return format_score(mean(values) if values else None)
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--web-dir", type=Path, required=True)
-    parser.add_argument("--pdf-dir", type=Path, required=True)
-    parser.add_argument("--docx-dir", type=Path, required=True)
+    parser.add_argument("--batch-dir", type=Path, nargs="+", required=True)
+    parser.add_argument("--sha", required=True)
     parser.add_argument("--out-dir", type=Path, required=True)
     args = parser.parse_args()
 
-    require_command("libreoffice")
-
-    cases = parse_web_manifest(args.web_dir / "MANIFEST.txt")
+    cases = read_gallery_cases(args.batch_dir, args.sha)
     args.out_dir.mkdir(parents=True, exist_ok=True)
     normalized = args.out_dir / "normalized"
     pdf_png_dir = normalized / "pdf"
@@ -329,43 +405,40 @@ def main() -> int:
     rows: list[dict[str, object]] = []
     image_lookup: dict[tuple[str, str, str], Path] = {}
 
-    print("Converting 39 DOCX files through LibreOffice...", flush=True)
-    docx_pdfs = convert_all_docx_to_pdf(args.docx_dir, cases, docx_pdf_dir)
+    docx_pdfs = convert_all_docx_to_pdf(cases, docx_pdf_dir)
+    print(f"Converted {len(docx_pdfs)} DOCX files through LibreOffice.", flush=True)
 
     for index, case in enumerate(cases, start=1):
         print(f"[{index:02d}/39] {case.base} {case.label}", flush=True)
-        pdf = args.pdf_dir / f"{case.base}.pdf"
-        docx = args.docx_dir / f"{case.base}.docx"
-        if not pdf.is_file():
-            raise RuntimeError(f"Missing PDF: {pdf}")
-        if not docx.is_file():
-            raise RuntimeError(f"Missing DOCX: {docx}")
+        pdf_pages = rasterize_pdf(case.directory / f"{case.base}.pdf", pdf_png_dir, case.base)
+        docx_pages = (
+            rasterize_pdf(docx_pdfs[case.base], docx_png_dir, case.base)
+            if case.base in docx_pdfs
+            else {}
+        )
 
-        pdf_pages = rasterize_pdf(pdf, pdf_png_dir, case.base)
-        docx_pdf = docx_pdfs[case.base]
-        docx_pages = rasterize_pdf(docx_pdf, docx_png_dir, case.base)
-
-        template_images: dict[str, dict[str, Path]] = {"web": {}, "pdf": pdf_pages, "docx": docx_pages}
+        template_images: dict[str, dict[str, Path]] = {"web": {}, "pdf": pdf_pages}
+        if docx_pages:
+            template_images["docx"] = docx_pages
         template_rows: list[dict[str, object]] = []
         for kind in PAGE_KINDS:
-            source_web = args.web_dir / case.web_files[kind]
-            if not source_web.is_file():
-                raise RuntimeError(f"Missing Web screenshot: {source_web}")
+            source_web = case.directory / f"{case.base}--{kind}.png"
             normalized_web = web_png_dir / f"{case.base}--{kind}.png"
             normalize_image(source_web, normalized_web)
             template_images["web"][kind] = normalized_web
 
-            scores = pair_scores(normalized_web, pdf_pages[kind], docx_pages[kind])
+            scores = pair_scores(normalized_web, pdf_pages[kind], docx_pages.get(kind))
             row = {
                 "base": case.base,
                 "label": case.label,
                 "page": kind,
+                "docx_source": case.docx_kind or "unavailable",
                 **scores,
             }
             rows.append(row)
             template_rows.append(row)
-            for source in ("web", "pdf", "docx"):
-                image_lookup[(case.base, kind, source)] = template_images[source][kind]
+            for source, pages in template_images.items():
+                image_lookup[(case.base, kind, source)] = pages[kind]
 
         create_template_sheet(
             case,
@@ -383,72 +456,99 @@ def main() -> int:
     for source in ("web", "pdf", "docx"):
         assert_no_exact_duplicate_images(source, rows, image_lookup)
 
-    metrics_path = args.out_dir / "metrics.csv"
-    with metrics_path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=["base", "label", "page", *PAIR_KEYS, *LAYOUT_KEYS])
+    fields = ["base", "label", "page", "docx_source", *PAIR_KEYS, *LAYOUT_KEYS]
+    with (args.out_dir / "metrics.csv").open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fields)
         writer.writeheader()
         for row in rows:
-            writer.writerow(
-                {
-                    **row,
-                    **{key: f"{float(row[key]):.6f}" for key in (*PAIR_KEYS, *LAYOUT_KEYS)},
-                }
-            )
+            writer.writerow({
+                **row,
+                **{key: f"{float(row[key]):.6f}" for key in (*PAIR_KEYS, *LAYOUT_KEYS) if key in row},
+            })
 
     for pair in PAIR_KEYS:
         create_worst_sheet(rows, pair, image_lookup, args.out_dir / f"worst-{pair.replace('_', '-vs-')}.jpg")
 
     versions = renderer_versions()
+    counts = {
+        "templates": len(cases),
+        "regular_docx_exports": sum(case.docx_kind == "regular" for case in cases),
+        "regular_docx_blocked": sum(case.docx["regular"]["status"] == "blocked" for case in cases),
+        "preview_docx_exports": sum(case.docx_kind == "preview" for case in cases),
+        "web_pdf_pairs": len(rows),
+        "pages_with_docx": sum(row["docx_source"] != "unavailable" for row in rows),
+    }
+    report = {
+        "source_sha": args.sha,
+        "docx_coverage": "complete" if len(docx_pdfs) == len(cases) else "partial",
+        "counts": counts,
+        "renderer_versions": versions,
+        "templates": [
+            {
+                "base": case.base, "template": case.template, "label": case.label,
+                "input_hash": case.input_hash, "docx": case.docx,
+            }
+            for case in cases
+        ],
+        "pages": rows,
+    }
+    (args.out_dir / "report.json").write_text(
+        json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8",
+    )
     summary_lines = [
         "# Dossier Visual Parity x39",
         "",
-        "All 39 templates, each with cover / letter / CV (117 page comparisons).",
-        "Web means the visible editor preview, not the hidden PDF export canvas.",
-        "Primary scores are **RGB SSIM** after A4 normalization; 1.000 means pixel-identical.",
-        "A separate grayscale **layout SSIM** helps distinguish geometry/text drift from color/theme drift.",
-        "Low scores are reported for QA and do not fail the workflow; malformed, missing, or exact-duplicate source pages do fail.",
+        f"Source: `{args.sha}`",
+        f"DOCX comparison coverage: **{report['docx_coverage'].upper()}**.",
+        "",
+        f"- Web/PDF: **{counts['web_pdf_pairs']} page pairs**.",
+        f"- Regular DOCX: **{counts['regular_docx_exports']} exported**, **{counts['regular_docx_blocked']} expected blocks**.",
+        f"- Internal DOCX previews: **{counts['preview_docx_exports']} exported**.",
+        f"- DOCX comparisons in LibreOffice: **{counts['pages_with_docx']} pages**.",
+        "",
+        "Each comparison uses the same saved input within a template. Modern and Brief use Sans.",
+        "Blank scores indicate unavailable outputs. SSIM describes raster similarity.",
+        "Internal previews and LibreOffice renders carry no desktop Word acceptance.",
         "",
         "## Renderer versions",
         "",
         *[f"- {version}" for version in versions],
         "",
-        "## Overall — RGB visual SSIM",
+        "## Mean RGB visual SSIM",
         "",
-        "| Pair | Mean SSIM |",
-        "|---|---:|",
+        "| Coverage | Web ↔ PDF | Web ↔ DOCX | PDF ↔ DOCX |",
+        "| --- | ---: | ---: | ---: |",
+        f"| All Web/PDF pages | {average(rows, 'web_pdf')} | — | — |",
     ]
-    for pair in PAIR_KEYS:
-        summary_lines.append(f"| {PAIR_LABELS[pair]} | {average(rows, pair):.3f} |")
+    for kind in ("regular", "preview"):
+        group = [row for row in rows if row["docx_source"] == kind]
+        summary_lines.append(f"| DOCX {kind} | {' | '.join(average(group, key) for key in PAIR_KEYS)} |")
 
-    summary_lines += ["", "## Overall — grayscale layout SSIM", "", "| Pair | Mean SSIM |", "|---|---:|"]
-    for pair in PAIR_KEYS:
-        summary_lines.append(f"| {PAIR_LABELS[pair]} | {average(rows, pair + '_layout'):.3f} |")
-
-    summary_lines += ["", "## By page type — RGB visual SSIM", "", "| Page | Web ↔ PDF | Web ↔ DOCX | PDF ↔ DOCX |", "|---|---:|---:|---:|"]
-    for kind in PAGE_KINDS:
-        kind_rows = [row for row in rows if row["page"] == kind]
-        summary_lines.append(
-            f"| {kind} | {average(kind_rows, 'web_pdf'):.3f} | {average(kind_rows, 'web_docx'):.3f} | {average(kind_rows, 'pdf_docx'):.3f} |"
-        )
-
-    summary_lines += ["", "## By page type — grayscale layout SSIM", "", "| Page | Web ↔ PDF | Web ↔ DOCX | PDF ↔ DOCX |", "|---|---:|---:|---:|"]
-    for kind in PAGE_KINDS:
-        kind_rows = [row for row in rows if row["page"] == kind]
-        summary_lines.append(
-            f"| {kind} | {average(kind_rows, 'web_pdf_layout'):.3f} | {average(kind_rows, 'web_docx_layout'):.3f} | {average(kind_rows, 'pdf_docx_layout'):.3f} |"
-        )
-
-    summary_lines += ["", "## Per-template mean — RGB visual SSIM", "", "| Template | Web ↔ PDF | Web ↔ DOCX | PDF ↔ DOCX |", "|---|---:|---:|---:|"]
+    summary_lines += [
+        "", "## Per-template mean RGB visual SSIM", "",
+        "| Template | Regular DOCX | Internal preview | Web ↔ PDF | Web ↔ DOCX | PDF ↔ DOCX |",
+        "| --- | --- | --- | ---: | ---: | ---: |",
+    ]
     for case in cases:
         case_rows = [row for row in rows if row["base"] == case.base]
+        scores = " | ".join(average(case_rows, key) for key in PAIR_KEYS)
         summary_lines.append(
-            f"| {case.base} — {case.label} | {average(case_rows, 'web_pdf'):.3f} | {average(case_rows, 'web_docx'):.3f} | {average(case_rows, 'pdf_docx'):.3f} |"
+            f"| {case.base} — {case.label} | {case.docx['regular']['status']} | "
+            f"{case.docx['preview']['status']} | {scores} |"
         )
 
     for pair in PAIR_KEYS:
-        summary_lines += ["", f"## Lowest 12 — {PAIR_LABELS[pair]}", "", "| Template | Page | SSIM |", "|---|---|---:|"]
-        for row in sorted(rows, key=lambda item: float(item[pair]))[:12]:
-            summary_lines.append(f"| {row['base']} — {row['label']} | {row['page']} | {float(row[pair]):.3f} |")
+        ranked = sorted((row for row in rows if pair in row), key=lambda row: float(row[pair]))
+        summary_lines += [
+            "", f"## Lowest similarities — {PAIR_LABELS[pair]}", "",
+            "| Template | Page | DOCX evidence | RGB SSIM | Layout SSIM |",
+            "| --- | --- | --- | ---: | ---: |",
+        ]
+        for row in ranked[:12]:
+            summary_lines.append(
+                f"| {row['base']} | {row['page']} | {row['docx_source']} | "
+                f"{format_score(row[pair])} | {format_score(row[pair + '_layout'])} |"
+            )
 
     (args.out_dir / "SUMMARY.md").write_text("\n".join(summary_lines) + "\n", encoding="utf-8")
     print("\n".join(summary_lines[:36]))
