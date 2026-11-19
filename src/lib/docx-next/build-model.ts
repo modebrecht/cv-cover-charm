@@ -912,7 +912,13 @@ export function buildDossierDocModel(
           ),
         };
       });
-    for (const key of cvSectionOrder(data)) {
+    const cvSections = cvSectionOrder(data);
+    const measuredMasonryColumns = readingRows
+      ? capturedInteriorMetrics?.cvMasonryColumns
+      : undefined;
+    if (measuredMasonryColumns?.length)
+      cvSections.sort((a, b) => cvSectionLayout(data, a).page - cvSectionLayout(data, b).page);
+    for (const key of cvSections) {
       let blocks: DocBlock[] = [],
         title = "";
       if (key === "person") {
@@ -1958,9 +1964,11 @@ export function buildDossierDocModel(
       !capturedInteriorMetrics?.rubrics
     )
       throw Error("DOCX Next: Rubrik-Abstandstest benötigt Modern und frische Messwerte.");
-    if (readingRows) composeCvReadingColumns(cvPart, data);
+    if (readingRows)
+      composeCvReadingColumns(cvPart, data, capturedInteriorMetrics.cvMasonryColumns);
     ownFlowSurfaceSpacing(cvPart, { readingColumns: readingRows });
-  } else if (includeCv && readingRows) composeCvReadingColumns(cvPart, data);
+  } else if (includeCv && readingRows)
+    composeCvReadingColumns(cvPart, data, capturedInteriorMetrics?.cvMasonryColumns);
   // Only use measured roles for complete, matching editable paragraphs.
   // Compound rows with distinct field styles and measured pills keep their own
   // native composition; letter, cover, Sidebar and saved input are untouched.

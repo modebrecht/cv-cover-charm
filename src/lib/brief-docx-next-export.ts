@@ -245,7 +245,9 @@ export async function createSavedAuthoredCoverDocxNext(
       candidate.inspectNativeInteriors && chrome
         ? await (
             await import("./docx-next-interior-metrics.browser")
-          ).captureInteriorTextMetrics(snapshot, fonts.profile)
+          ).captureInteriorTextMetrics(snapshot, fonts.profile, {
+            ...(candidate.cvContentComposition === "reading-rows" ? { cvMasonry: true } : {}),
+          })
         : undefined;
     unchanged();
     fonts.verify();

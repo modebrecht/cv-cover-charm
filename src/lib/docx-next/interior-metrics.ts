@@ -21,6 +21,8 @@ export type HeaderMeasurement = {
 export type InteriorTextMetrics = {
   /** Document-owned CSS zoom, independent of the editor/browser view. */
   cvFlowScale?: number;
+  /** Left and right section IDs from each unfragmented classic CV Masonry group. */
+  cvMasonryColumns?: [string[], string[]][];
   version: 1;
   sourceKey: string;
   profile: string;

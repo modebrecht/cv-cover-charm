@@ -36,7 +36,7 @@ const rgb = (value: string) => {
 export async function captureInteriorTextMetrics(
   source: DossierAppSnapshot,
   profile: string,
-  capture: { headersOnly?: true; scope?: "cv" | "letter" } = {},
+  capture: { headersOnly?: true; scope?: "cv" | "letter"; cvMasonry?: true } = {},
 ): Promise<InteriorTextMetrics> {
   if (
     (!capture.scope && source.cover.template !== "modern") ||
@@ -394,6 +394,23 @@ export async function captureInteriorTextMetrics(
         requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
       );
       result.cvFlowScale = cvReadingFlowZoom(host);
+      if (capture.cvMasonry) {
+        result.cvMasonryColumns = Array.from(
+          host.querySelectorAll("[data-cv-measure-page] [data-cv-section-masonry]"),
+          (group) => {
+            if (group.getAttribute("data-cv-masonry-measured") !== "true")
+              throw Error("DOCX Next: Die Masonry-Spalten sind noch nicht gemessen.");
+            const sections = (column: number) =>
+              Array.from(
+                group.querySelectorAll<HTMLElement>(
+                  `[data-cv-masonry-column="${column}"] [data-cv-rubric]`,
+                ),
+                (rubric) => `cv.section.${rubric.dataset.cvRubric}`,
+              );
+            return [sections(1), sections(2)];
+          },
+        );
+      }
       if (hasPills) result.rubrics = {};
       for (const el of hasPills
         ? Array.from(

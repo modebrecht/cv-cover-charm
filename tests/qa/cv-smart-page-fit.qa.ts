@@ -331,6 +331,135 @@ test("measured Masonry leaves the taller final rubric its own column", async ({ 
   });
 });
 
+for (const secondPage of [false, true]) {
+  test(`classic Masonry Word preview matches measured columns on page ${secondPage ? 2 : 1}`, async ({
+    page,
+  }) => {
+    const data = unevenMasonryFixture(secondPage ? 2 : 1);
+    data.sectionOrder = ["person", "custom:short-b", "custom:short-c", "custom:tall-a"];
+    if (secondPage) {
+      data.sectionOrder.splice(2, 0, "referenzen");
+      data.sectionLayouts!.referenzen = {
+        page: 1,
+        width: "full",
+        packing: "rows",
+        positioning: "flow",
+      };
+    }
+    const input = {
+      ...approvedProject,
+      cv: {
+        ...approvedProject.cv,
+        data,
+        portableState: { ...approvedProject.cv.portableState, layout: "classic" },
+      },
+    };
+    page.on("dialog", (dialog) => dialog.accept());
+    await page.goto(BASE_URL);
+    const reloaded = page.waitForEvent("domcontentloaded", { timeout: 20_000 });
+    await page.locator('input[type="file"][accept*="json"]').setInputFiles({
+      name: "masonry-word.json",
+      mimeType: "application/json",
+      buffer: Buffer.from(JSON.stringify(input)),
+    });
+    await reloaded;
+    await page.goto(`${BASE_URL}/lebenslauf`);
+    await waitEditorReady(page);
+    await page.evaluate(() => document.fonts.ready);
+    await expect(page.locator('[role="status"][title="Automatisch gespeichert"]')).toBeVisible();
+    const before = await saved(page);
+    const expected = [["custom:short-b", "custom:short-c"], ["custom:tall-a"]];
+    const pageIndex = secondPage ? 1 : 0;
+    for (const selector of [documentRoots("cv").web, documentRoots("cv").canonical]) {
+      const group = page
+        .locator(selector)
+        .first()
+        .locator(`[data-cv-page="${pageIndex}"] [data-cv-masonry-measured="true"]`);
+      await expect(group).toHaveCount(1);
+      const visible = await group.evaluate((el) =>
+        Array.from(el.children, (column) =>
+          Array.from(column.querySelectorAll<HTMLElement>("[data-cv-rubric]"), (rubric) =>
+            rubric.getAttribute("data-cv-rubric"),
+          ),
+        ),
+      );
+      expect(visible).toEqual(expected);
+    }
+
+    const directory = "artifacts/smart-fit-29okt";
+    await mkdir(directory, { recursive: true });
+    await page.getByRole("button", { name: "Download", exact: true }).click();
+    const downloading = page.waitForEvent("download");
+    await page.getByRole("menuitem", { name: "PDF", exact: true }).click();
+    const pdfPath = `${directory}/pdf-masonry-page-${pageIndex + 1}.pdf`;
+    await (await downloading).saveAs(pdfPath);
+    const { getDocument } = await import("pdfjs-dist/legacy/build/pdf.mjs");
+    const task = getDocument({
+      data: new Uint8Array(await readFile(pdfPath)),
+      disableFontFace: true,
+    });
+    const pdf = await task.promise;
+    try {
+      expect(pdf.numPages).toBe(pageIndex + 1);
+      const content = await (await pdf.getPage(pageIndex + 1)).getTextContent();
+      const items = content.items.filter((item) => "str" in item);
+      const [short, medium, tall] = [
+        "Kurzes Projekt",
+        "Weiteres Projekt",
+        "Ausführliches Projekt",
+      ].map((title) => {
+        const matches = items.filter((item) => item.str === title);
+        expect(matches).toHaveLength(1);
+        return matches[0];
+      });
+      expect(short.transform[4]).toBeCloseTo(medium.transform[4], 0);
+      expect(medium.transform[5]).toBeLessThan(short.transform[5]);
+      expect(tall.transform[4]).toBeGreaterThan(short.transform[4] + 50);
+    } finally {
+      await task.destroy();
+    }
+
+    const result = await page.evaluate(async () => {
+      const exporter = "/src/lib/brief-docx-next-export.ts";
+      const renderer = "/src/lib/docx-next/renderer.ts";
+      const source = "/src/lib/docx-next/app-source.ts";
+      const { createSavedAuthoredCoverDocxNext } = await import(exporter);
+      const { renderDossierDocx } = await import(renderer);
+      const { savedAppDocxNextAvailability } = await import(source);
+      const { model } = await createSavedAuthoredCoverDocxNext("modern", true, {
+        inspectNativeInteriors: true,
+        cvContentComposition: "reading-rows",
+      });
+      const blob = await renderDossierDocx(model, { part: "cv", allowUnacceptedModelIssues: true });
+      return {
+        bytes: Array.from(new Uint8Array(await blob.arrayBuffer())),
+        productAvailability: savedAppDocxNextAvailability("cv"),
+      };
+    });
+    expect(result.productAvailability).toMatchObject({ available: false });
+    expect(result.productAvailability.reason).toContain("mit seitlicher Spalte");
+    expect(await saved(page)).toEqual(before);
+
+    const bytes = Uint8Array.from(result.bytes);
+    const entry = readZipEntries(bytes).find((item) => item.name === "word/document.xml");
+    const xml = new TextDecoder().decode(entry?.bytes);
+    const pages = xml.split('<w:br w:type="page"/>');
+    expect(pages).toHaveLength(secondPage ? 2 : 1);
+    if (secondPage) expect(pages[0]).toContain("Herr Thomas Weber");
+    const table = pages[pageIndex].match(/<w:tc(?:>|\s)[\s\S]*?<\/w:tc>/g) ?? [];
+    const columns = table
+      .map((cell) =>
+        Array.from(
+          cell.matchAll(/<w:tag w:val="cv\.entry\.(custom:[^:"]+):[^"]+\.description"\/>/g),
+          ([, section]) => section,
+        ),
+      )
+      .filter((column) => column.length);
+    expect(columns).toEqual(expected);
+    await writeFile(`${directory}/word-masonry-page-${pageIndex + 1}.docx`, bytes);
+  });
+}
+
 async function unchangedOnePage(
   page: Page,
   before: Awaited<ReturnType<typeof saved>>,

@@ -1,13 +1,15 @@
 import { cvSectionLayout, cvSectionOrder, type CvData } from "@/components/cv/types";
 import { cvFlowColumns } from "@/lib/cv-flow-columns";
+import type { InteriorTextMetrics } from "./interior-metrics";
 import { parallelFlowTable } from "./parallel-flow";
 import { walkBlocks, type DocBlock, type DocumentPart, type SectionBlock } from "./model";
 
-/** Lower the saved compact sections to existing native cells, never page images.
- * This native candidate uses semantic row estimates. Web/PDF refine Masonry
- * with browser-measured rubric heights once the layout is available.
- */
-export function composeCvReadingColumns(part: DocumentPart, data: CvData) {
+/** Lower the saved compact sections to native cells using the Web column capture when supplied. */
+export function composeCvReadingColumns(
+  part: DocumentPart,
+  data: CvData,
+  measuredGroups?: InteriorTextMetrics["cvMasonryColumns"],
+) {
   const layouts = new Map(
     cvSectionOrder(data).map((key) => [`cv.section.${key}`, cvSectionLayout(data, key)]),
   );
@@ -36,13 +38,31 @@ export function composeCvReadingColumns(part: DocumentPart, data: CvData) {
       items.push(next);
       index++;
     }
-    const columns = masonry
-      ? cvFlowColumns(
+    let columns = [items.slice(0, 1), items.slice(1)];
+    if (masonry && items.length > 1) {
+      if (measuredGroups) {
+        const sections = new Map(items.map((section) => [section.id, section]));
+        const measured = measuredGroups.find((group) => {
+          const ids = group.flat();
+          return (
+            ids.length === sections.size &&
+            new Set(ids).size === sections.size &&
+            ids.every((id) => sections.has(id))
+          );
+        });
+        if (!measured)
+          throw Error(
+            "DOCX Next: Gemessene Masonry-Spalten stimmen nicht mit den Rubriken überein.",
+          );
+        columns = measured.map((column) => column.map((id) => sections.get(id)!));
+      } else {
+        columns = cvFlowColumns(
           items,
           (section) =>
             (section.heading ? 1 : 0) + section.blocks.filter((b) => b.kind !== "rule").length,
-        )
-      : [items.slice(0, 1), items.slice(1)];
+        );
+      }
+    }
     const tracks = columns.map((sections) => ({
       weight: 1,
       blocks: sections.map((section) => {

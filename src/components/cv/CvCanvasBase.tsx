@@ -1266,6 +1266,7 @@ export function CvCanvas({
       const render = (parts: Row[][]) => (
         <div
           data-cv-section-masonry
+          data-cv-masonry-measured={measured ? "true" : "false"}
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
