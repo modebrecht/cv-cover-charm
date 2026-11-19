@@ -191,3 +191,82 @@ Source DOCX SHA-256 values for this run:
 
 [LibreOffice QA #202](https://github.com/modebrecht/cv-cover-charm/issues/202) ·
 [Desktop Word QA #203](https://github.com/modebrecht/cv-cover-charm/issues/203)
+
+## Pinned Writer roundtrip — 2026-11-19
+
+LibreOfficeKit **25.8.7.3**, build `580(Build:3)`, was reconstructed from the
+project's 50 hash-pinned packages and 12 Liberation fonts. The archived Ubuntu
+packages also supplied four dependency libraries missing from the Debian host.
+The native roundtrip used the same two photographed Modern downloads above and
+eight new left/right App downloads with 17, 18 and 19 entries, including both
+18-entry cases with varied description lengths. The `src` tree at `58f2561`
+matches the product commit `48d391f` used for the original photographs.
+
+| Variant | Before save | After Writer saves |
+| --- | --- | --- |
+| Regular download | The two original crop cases omit three entries and the end reference. Both varied cases omit entries 10 through 18 and the end reference. | The missing content remains. The two crop cases retain all 107 body field tags and text on both cycles in the stable Kit. The earlier Dev CLI flattened most body controls. |
+| Existing detached candidate | Visible entries and reference return. Page allocation matches for varied descriptions. Title deviation reaches 2.291 mm. | The full-page header bitmap paints after the contact text and hides it. The PDF text layer still contains the three rows. The bottom crop is pixel-identical. |
+| Compact table, normal picture | All ten cases retain the station text. The ordinary-length cases match pagination with a maximum title shift of 1.913 mm. The varied cases flow to four pages instead of five. | The simple no-zoom picture has a visibly different crop after the first save, in both the regular download and the two candidates. Its image-pattern agreement drops to 0.6875. |
+| Combined diagnostic | 10/10 pass content, page allocation, reference, heading line, header and photo checks. | 10/10 pass the same checks after each of two saves and reopens. Every body field tag/value and every decoded source photograph pixel survives all 30 observations. |
+
+The combined diagnostic keeps the three-column grid, its heading owners and
+the first table row. For the ordinary fixtures it moves whole entries to a
+second native row starting at the middle entry on the second measured page.
+This row flows naturally. Splitting at the very first entry of the second
+measured page pulled entries 7 and 16 forward in both 18-entry controls.
+For the longer cases the diagnostic opens aligned tables at the App PDF's
+measured page starts. The fixtures start new pages at entries 4, 9, 14 and
+the reference. The table-only variant and extra `cantSplit` flags failed
+the measured page allocation check.
+The diagnostic removes excess empty spacing before the first experience lead,
+normalizes the existing station boundaries and sets the verified empty footer
+distance to zero. The mirrored photo uses a margin-relative offset with the
+same declared page position. The horizontal displacement in Writer falls
+from 19.843 mm to 0.258 mm.
+
+The rounded native picture was isolated separately from the table. A plain
+rectangle retains the crop on both saves but changes the frame shape. A custom
+rounded path still shows the first-save crop change. In the combined diagnostic
+the existing `nativePictureTileGraphic` helper places the original bitmap in a
+rounded drawing shape and applies the saved crop via the fill transform. It
+preserves all original RGBA pixels and the visual crop. The result has eight
+three-page cases and two five-page cases. Across source and two save phases
+there are 102 rendered pages. Maximum title displacement is 1.938 mm and the
+lowest photo-pattern agreement is 0.9062, with the existing 2 mm and 0.90
+limits. The final replay passed 30/30 observations with the default paper
+setting and 30/30 with `#fafafa`. Both browser source runs passed 13/13 tests.
+
+The two varied cases also passed a live Writer edit through its native API.
+Changing the final title `P202Praxis18` to `P202Einsatz18` in each saved copy
+kept five pages, the other 106 body fields, the reference, header/bottom raster
+and decoded photo intact. Writer still drops the six header-row wrapper tags
+from the saved markup, including with block-level row wrappers. The contact
+rows remain visible and the header crops stay pixel-identical.
+The final test counts body tags separately and lists missing header tags in
+the report. The picture is a filled shape, so the Desktop Word editing and
+replacement behaviour still needs its own check. The combined diagnostic
+is invoked through the standalone QA script below.
+
+### Repeat the stable proof
+
+Run the existing full browser suite against the local app on port 4173 to
+produce a fresh, same-commit source directory. Include the cover, letter and
+template catalog so the existing source validation can check all pairs.
+
+```sh
+DOSSIER_QA_SUITE=full SEMANTIC_PARITY_DIR=artifacts/long-proof-source \
+  playwright test tests/e2e/dossier-semantic-parity.spec.ts --workers=1
+python scripts/docx-next-stable-sidebar-setup.py artifacts/long-proof-engine
+python scripts/dossier_qa_long_roundtrip.py \
+  --source-dir artifacts/long-proof-source \
+  --engine artifacts/long-proof-engine/runtime \
+  --out-dir artifacts/long-proof-results
+```
+
+The roundtrip script writes QA copies, pinned renders and `RESULTS.json` into
+a new output directory. It verifies the input hashes, the live engine version,
+the established visual/layout gates, body field values and original RGBA
+pixels. It reuses the regular export's first and continuation page crops as
+the pixel references for the native header and footer. The report retains
+each phase independently so a second successful save cannot cover up a
+first-save mismatch.
