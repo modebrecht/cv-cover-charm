@@ -314,8 +314,11 @@ export function LetterRichTextEditor({
   const readToolbarState = () => {
     const editor = editorRef.current;
     const selection = window.getSelection();
+    // Blur can rebuild the editor DOM and move the browser's selection to its
+    // start. Scroll and resize must not replace the range saved for the toolbar.
     if (
       !editor ||
+      !editor.contains(document.activeElement) ||
       !selection?.rangeCount ||
       !selection.anchorNode ||
       !editor.contains(selection.anchorNode)

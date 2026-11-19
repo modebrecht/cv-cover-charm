@@ -2,6 +2,7 @@ import type { DocBlock, DocumentPart, Paragraph, TableBlock } from "./model";
 import type { DossierAppSnapshot } from "./source";
 import { nativeTextHeightMm } from "./layouts";
 import { resolveLetterPalette } from "@/components/letter/letter-paper";
+import { letterPageGeometry } from "@/components/letter/layout-system";
 import { datedFlowAfterMm as tableFlowAfterMm, NATIVE_BOUNDARY_HEIGHT_MM } from "./flow-boundaries";
 import { resolveDossierChromeSnapshot } from "@/lib/dossier-resolved-chrome";
 import { DEFAULT_DOSSIER_CHROME_STATE } from "@/lib/dossier-chrome";
@@ -61,9 +62,11 @@ export function sourceLetterFlowInputIssue(
  */
 export function composeSourceLetterFlow(part: DocumentPart, source: DossierAppSnapshot): void {
   const { data, design } = source.letter;
-  const compact =
-    resolveDossierChromeSnapshot(source, source.settings.chrome ?? DEFAULT_DOSSIER_CHROME_STATE)
-      .letter.options.headerMode === "compact";
+  const { options: chrome } = resolveDossierChromeSnapshot(
+    source,
+    source.settings.chrome ?? DEFAULT_DOSSIER_CHROME_STATE,
+  ).letter;
+  const compact = chrome.headerMode === "compact";
   const fail = (): never => {
     throw Error("DOCX Next: Source-Letter-Fluss unterstützt nur einfache Modern/Sans-Briefe.");
   };
@@ -125,6 +128,15 @@ export function composeSourceLetterFlow(part: DocumentPart, source: DossierAppSn
   if (senders.some((p) => p.runs.map((r) => r.text).join("") !== senderValues[p.id])) fail();
   part.page.margins.left = 24;
   part.page.margins.right = 23;
+  // A painted compact footer already occupies its source band. Empty Word
+  // footer stories must not keep the larger legacy text-footer reserve.
+  if (chrome.footerMode === "compact" && !part.footer.length && !part.firstFooter?.length) {
+    part.page.margins.bottom = letterPageGeometry(data, design, {
+      chromeOptions: chrome,
+      pageMargins: null,
+    }).content.bottom;
+    part.page.footerDistanceMm = 0;
+  }
   const attachments = paragraphs.some((p) => p.id === "letter.attachments-heading");
   const muted = resolveLetterPalette(design).muted.slice(1).toUpperCase();
   const set = (p: Paragraph, sizePt: number, lineHeight: number, beforeMm = 0, afterMm = 0) => {

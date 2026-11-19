@@ -1170,6 +1170,67 @@ test.describe("M5.8 dossier regression", () => {
     expect(saved).toContain("<td>");
   });
 
+  test("letter table insertion keeps the caret paragraph while the picker has focus during resize", async ({
+    page,
+  }) => {
+    await seedCoreDossier(page);
+    await page.goto(`${BASE_URL}/anschreiben`);
+    await expect(page.getByRole("button", { name: "Download", exact: true })).toHaveAttribute(
+      "data-editor-ready",
+      "true",
+    );
+    const body = page.getByRole("textbox", { name: "Brieftext" });
+    await body.focus();
+    await body.evaluate((element) => {
+      // Chromium can leave native bold markup until blur canonicalizes it.
+      element.innerHTML = "<div>Erster Absatz</div><div><b>Zweiter Absatz</b></div>";
+      element.dispatchEvent(new InputEvent("input", { bubbles: true, inputType: "insertText" }));
+      const range = document.createRange();
+      range.selectNodeContents(element.children[1]);
+      range.collapse(false);
+      const selection = window.getSelection()!;
+      selection.removeAllRanges();
+      selection.addRange(range);
+      element.dispatchEvent(new MouseEvent("mouseup", { bubbles: true }));
+    });
+    await page.getByRole("button", { name: "Tabelle", exact: true }).click();
+    const cell = page.getByRole("gridcell", { name: "Tabelle 2 × 3 einfügen" });
+    await cell.focus();
+    await expect(body.locator("strong")).toHaveText("Zweiter Absatz");
+    const viewport = page.viewportSize()!;
+    await page.setViewportSize({ ...viewport, height: viewport.height + 2 });
+    await page.evaluate(
+      () =>
+        new Promise<void>((resolve) =>
+          requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+        ),
+    );
+    await cell.press("Enter");
+    await expect(body.locator(":scope > *")).toHaveText([
+      "Erster Absatz",
+      "Zweiter Absatz",
+      "",
+      "",
+    ]);
+    await expect(body.locator(":scope > :nth-child(3)[data-letter-table] td")).toHaveCount(6);
+    await expect
+      .poll(() =>
+        page.evaluate(() => {
+          const stored = JSON.parse(localStorage.getItem("anschreiben:v1") ?? "{}");
+          return stored.data?.richTextHtml;
+        }),
+      )
+      .toMatch(/Erster Absatz.*Zweiter Absatz.*<table data-letter-table>/);
+    await page.reload();
+    await expect(body.locator(":scope > *")).toHaveText([
+      "Erster Absatz",
+      "Zweiter Absatz",
+      "",
+      "",
+    ]);
+    await expect(body.locator(":scope > :nth-child(3)[data-letter-table] td")).toHaveCount(6);
+  });
+
   test("start screen keeps JSON available, unlocks complete PDF and retains the Word profile gate", async ({
     page,
   }) => {

@@ -1,5 +1,5 @@
 import { expect, test, type Page, type TestInfo } from "@playwright/test";
-import { copyFile } from "node:fs/promises";
+import { copyFile, readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { paginationFixture, type PaginationFixture } from "./pagination-fixtures";
 import {
@@ -7,6 +7,8 @@ import {
   DOSSIER_CHROME_STORAGE_KEY,
 } from "../../src/lib/dossier-chrome";
 import { normalizeContent } from "./pagination-assertions";
+import { importNativeDossier, waitForNativeEditorSaved } from "../e2e/support/native-docx-fixture";
+import { readZipEntries } from "../../src/lib/docx-next/zip";
 import {
   auditDocument,
   collectDocument,
@@ -124,6 +126,114 @@ test("two-page letter exports the same split paragraph, header and final attachm
   await copyFile(join(evidenceDir, `${name}.pdf`), info.outputPath(`${name}.pdf`));
   await attach(info, result);
 });
+
+for (const headerMode of ["compact", "contact"] as const) {
+  test(`two-page Modern letter preserves the ${headerMode} profile through PDF and DOCX downloads`, async ({
+    page,
+  }, info) => {
+    const sentences = Array.from(
+      { length: 38 },
+      (_, index) =>
+        `QABODY${String(index + 1).padStart(3, "0")} Ich plante die Arbeitsschritte, dokumentierte die Ergebnisse und besprach die nächsten Aufgaben im Team.`,
+    );
+    const input = await importNativeDossier(page, (project) => {
+      Object.assign(project.letter.data, {
+        empfaengerFirma: "QARECIPIENT001 Fachstelle für Informatik und digitale Lernangebote",
+        betreff:
+          "QASUBJECT001 Bewerbung um eine Lehrstelle als Informatikerin EFZ für Applikationsentwicklung und betriebliche Lernsysteme",
+        text:
+          headerMode === "compact"
+            ? sentences.join(" ")
+            : Array.from({ length: 7 }, (_, index) =>
+                sentences.slice(index * 6, (index + 1) * 6).join(" "),
+              ).join("\n\n"),
+        gruss: "QACLOSING001 Freundliche Grüsse",
+        unterschrift: "QASIGNATURE001 Lea Müller",
+        beilagen: [
+          "QAENCLOSURE001 Lebenslauf",
+          "QAENCLOSURE002 Zeugnisse und Leistungsnachweise",
+          "QAENCLOSURE003 Praktikumsbestätigung",
+        ],
+      });
+      project.chrome.shared.headerMode = headerMode;
+    });
+    await page.goto("http://127.0.0.1:4173/anschreiben");
+    await waitForNativeEditorSaved(page);
+    await page.evaluate(() => document.fonts.ready);
+    const roots = documentRoots("letter");
+    const sheets = page.locator(`${roots.web} ${roots.pages}`);
+    await expect(sheets).toHaveCount(2);
+    const body = await sheets.locator('[data-letter-pdf-richtext="body"]').allTextContents();
+    expect(body.every((part) => part.includes("QABODY"))).toBe(true);
+    expect(normalizeContent(body.join(""))).toBe(normalizeContent(input.letter.data.text));
+    for (const [index, sheet] of (await sheets.all()).entries()) {
+      await expect(sheet.locator('[data-dossier-chrome="letter"]')).toHaveAttribute(
+        "data-dossier-effective-header-mode",
+        headerMode,
+      );
+      await expect(sheet.locator('[data-dossier-footer="compact"]')).toHaveCount(1);
+      await sheet.screenshot({
+        path: info.outputPath(`modern-${headerMode}-web-${index + 1}.png`),
+      });
+    }
+    const storage = await page.evaluate(() => ({
+      "anschreiben:v1": localStorage.getItem("anschreiben:v1")!,
+    }));
+    const sequence = [
+      "QARECIPIENT001",
+      "QASUBJECT001",
+      ...sentences.map((sentence) => sentence.split(" ")[0]),
+      "QACLOSING001",
+      "QASIGNATURE001",
+      "QAENCLOSURE001",
+      "QAENCLOSURE002",
+      "QAENCLOSURE003",
+    ];
+    const fixture: PaginationFixture = {
+      storage,
+      markers: { letter: sequence, cv: [] },
+      sequences: { letter: [sequence], cv: [] },
+      segments: { letter: sentences, cv: [] },
+    };
+    await expect.poll(() => status(page)).toBe("pass");
+    const name = `modern-${headerMode}-letter-word`;
+    const result = await auditDocument(page, fixture, "letter", name);
+    expect(result.findings).toEqual([]);
+    expect(result.pdf?.pages.map(({ text }) => normalizeContent(text))).toEqual(
+      result.web.map(({ text }) => normalizeContent(text)),
+    );
+    await copyFile(join(evidenceDir, `${name}.pdf`), info.outputPath(`${name}.pdf`));
+
+    await openDownload(page);
+    const docx = page.getByRole("menuitem", { name: "DOCX", exact: true });
+    await expect(docx).toBeEnabled();
+    const downloading = page.waitForEvent("download");
+    await docx.click();
+    const path = info.outputPath(`${name}.docx`);
+    await (await downloading).saveAs(path);
+    const entry = readZipEntries(await readFile(path)).find(
+      ({ name }) => name === "word/document.xml",
+    );
+    const xml = new TextDecoder().decode(entry?.bytes);
+    const wordBody = Array.from(
+      xml.matchAll(/<w:t(?:\s[^>]*)?>([^<]*)<\/w:t>/g),
+      ([, value]) => value,
+    ).join("");
+    expect(wordBody.match(/QA[A-Z]+\d{3}/g)).toEqual(sequence);
+    expect(normalizeContent(wordBody)).toContain(normalizeContent(input.letter.data.text));
+    const tags = Array.from(xml.matchAll(/<w:tag w:val="([^"]+)"\/>/g), ([, id]) => id);
+    expect(tags).toContain("letter.subject");
+    expect(tags).toContain("letter.signature");
+    expect(tags.filter((id) => id.startsWith("letter.body.paragraph:"))).toEqual(
+      input.letter.data.text.split("\n").map((_, index) => `letter.body.paragraph:${index}`),
+    );
+    expect(xml.match(/<w:pgMar [^>]+\/>/)?.[0]).toContain('w:bottom="283"');
+    expect(await page.evaluate(() => localStorage.getItem("anschreiben:v1"))).toBe(
+      storage["anschreiben:v1"],
+    );
+    await attach(info, result);
+  });
+}
 
 test("fabricated consent cannot call the actual PDF API", async ({ page }, info) => {
   await loadLetter(page);

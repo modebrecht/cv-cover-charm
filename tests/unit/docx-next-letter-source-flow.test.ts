@@ -62,6 +62,8 @@ test("source flow is opt-in and does not mutate saved input or adjacent parts", 
   assert.equal(field(candidate, "letter.body.paragraph:0").afterMm, 0);
   assert.equal(candidate.letter.page.margins.left, 24);
   assert.equal(candidate.letter.page.margins.right, 23);
+  assert.equal(candidate.letter.page.margins.bottom, 5);
+  assert.equal(candidate.letter.page.footerDistanceMm, 0);
   assert.deepEqual(buildDossierDocModel(input, options), baseline);
   validateDossierDocModel(candidate);
 });
@@ -205,6 +207,7 @@ test("unsupported rich text, user typography, images and custom spacing fail clo
 test("compact chrome retains native sender fields in the body with the Web recipient gap", () => {
   const { input } = setup();
   input.settings.chrome = structuredClone(DEFAULT_DOSSIER_CHROME_STATE);
+  input.settings.chrome.shared.footerHeightMm = 8;
   const before = structuredClone(input);
   const model = buildDossierDocModel(input, {
     exportPart: "letter",
@@ -232,6 +235,8 @@ test("compact chrome retains native sender fields in the body with the Web recip
   assert.equal(gap?.kind === "spacer" && gap.heightMm, 6);
   assert.ok(model.letter.header.every((p) => p.runs.every((r) => !r.text.trim())));
   assert.deepEqual(model.letter.footer, []);
+  assert.equal(model.letter.page.margins.bottom, 9);
+  assert.equal(model.letter.page.footerDistanceMm, 0);
   assert.deepEqual(input, before);
   validateDossierDocModel(model);
 });
