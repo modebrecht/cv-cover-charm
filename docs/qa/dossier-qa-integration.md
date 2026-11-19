@@ -148,3 +148,46 @@ was created. render and main remain at their pre-integration SHAs.
 
 This completes the bounded QA integration and cleanup preparation. Product
 exports are unchanged, and 39-Next release remains BLOCKED.
+
+## Modern long CV follow-up — 2026-11-19
+
+Two regular Modern CV downloads at `48d391f` use the `cv-crop-left` and
+`cv-crop-right` browser fixtures with `p.cv.design.paperColor = "#fafafa"`.
+The App PDF and all variants below rendered on three A4 pages per case.
+LibreOfficeDev 26.8.0.0.alpha0 (`2c87e51e`) produced the native renders.
+
+| DOCX variant | Visible titles / 18 | End reference | Layout observation |
+| --- | ---: | --- | --- |
+| Regular download | 15 | Missing | All 18 entries and the reference are in `word/document.xml`. |
+| Only change the empty footer distance from 680 to 0 twips | 16 | Missing | The footer setting alone leaves missing content. |
+| Add a table row before entry 9 | 18 | Present | Entries 6 and 15 move to the following pages relative to the App PDF. |
+| Add the row and set footer distance to 0 | 18 | Present | App page allocation matches. Maximum same-page title deviation is 3.588 mm and the mirrored photo is 19.843 mm off horizontally. |
+| Existing body-flow candidate via `make_candidate` | 18 | Present | App page allocation and photo gates pass. Maximum title deviation is 2.265 mm against the 2 mm limit. |
+
+The row test splits the existing outer table at the ninth complete main-column
+entry. It moves the following main blocks into a second row at the same widths,
+keeps the sidebar in the first row and removes vertical cell padding in the
+new row. It adds no page break. This isolates the long outer row from the
+footer setting and the guarded candidate's separate photo correction. The
+eighth-entry boundary is a diagnostic input for these fixtures. All tested
+edits touch only `word/document.xml` and retain the text, all 107 content
+control tags and all eight drawing names before any native save.
+
+### Save and reopen
+
+Saving the regular download once through the Writer filter `Office Open XML
+Text` leaves 0 of 107 body content controls on the left and 2 of 107 on the
+right. The existing candidate retains 0 on both sides. The row split with the
+footer edit retains 0 on the left and 2 on the right. The two candidate variants
+still show all 18 entries and the reference after two save/reopen cycles on
+both sides. Visible text and serialized field identity give different results
+in this engine. The photographed cases still need a round trip in the pinned
+stable Writer engine and in Desktop Word before a production change is ready.
+
+Source DOCX SHA-256 values for this run:
+
+- Left `f3c7b68dbbf539e0db61161c80a7f93ecd1516f6b604f2baab367cc4c53494a6`
+- Right `5061166130fb4317a340d7de230c962276402bccdfaeaa4a02608304e43b2db6`
+
+[LibreOffice QA #202](https://github.com/modebrecht/cv-cover-charm/issues/202) ·
+[Desktop Word QA #203](https://github.com/modebrecht/cv-cover-charm/issues/203)
