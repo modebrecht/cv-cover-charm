@@ -32,4 +32,20 @@ Die interne gemeinsame Sidebar-Komposition mit normalem Word-Bild ergibt bei bei
 
 Die vorhandene gemessene Sidebar-Typografie stoppt bei diesen Vorlagen an transparenten Farbflächen. Bei Kolumne sind der kompakte Kopf und Fuss transparent. Studio 3 hat zusätzlich eine transparente Lesefläche über der Vorlagengrafik. Die nächste Reproduktion kann die Textmessung unabhängig von der zuständigen Farbfläche ausführen und anschliessend den ersten Seitenumbruch und den Fotoanker einzeln prüfen.
 
+### Lokaler Versuch mit Sans und korrigierten DOCX-Kopien
+
+Bei einer Kopie pro Vorlage wurde Sans ausdrücklich in den synthetischen Eingaben gespeichert. Die Testmessung zeichnete transparente Flächen ohne Füllung auf. Die daraus erzeugten DOCX-Dateien hatten drei Seiten, doch Writer zeigte im PDF nur 14 der 18 Praxiseinträge und keine Endreferenz. Das DOCX enthielt weiterhin alle Texte.
+
+| Prüfung nach der Korrektur                 | Kolumne · Sidebar rechts | Studio 3 · Sidebar rechts |
+| ------------------------------------------ | ------------------------ | ------------------------- |
+| Praxisstationen pro Seite                  | 6 / 9 / 3                | 4 / 8 / 6                 |
+| Prüfmarken wie im App-PDF                  | 20/20                    | 20/20                     |
+| Vollständige Beschreibungen am Titel       | 18/18                    | 18/18                     |
+| Erhaltene Feldwerte nach zweimal Speichern | 111/111                  | 111/111                   |
+| Grösste Abweichung am Fotorahmen           | 0,020 mm                 | 0,009 mm                  |
+
+Für den Versuch erhielten die DOCX-Kopien eine weitere Zeile in der vorhandenen Tabelle. Die neue Zeile beginnt in der Mitte der zweiten App-Seite vor Praxisstation 11 bei Kolumne und vor Praxisstation 09 bei Studio 3. Der Abstand der leeren Fusszeile wurde auf 0 mm gesetzt. Bei Studio 3 kamen der gemessene Abstand zum Namen (10,3 mm), der weitere Abstand vor der Familie (26,9 mm) und der gemessene Kontaktabstand in der Sidebar (45,7 mm) hinzu. Das Foto erhielt die gemessenen Rahmenmasse und einen horizontalen Anker relativ zum Seitenrand. Vier Farbstichproben im Foto blieben bei beiden Wiederöffnungen innerhalb von zwei RGB-Stufen zur synthetischen Vorlage.
+
+Der Versuch bearbeitete Kopien der DOCX-Dateien. In der Testsuite auf `dev` läuft der Standard-Vergleich automatisch. Für Sidebar rechts sind die Übernahme ins DOCX-Modell, der Test mit gemischten Textlängen und die Word-Desktop-Abnahme offen.
+
 [#194](https://github.com/modebrecht/cv-cover-charm/issues/194) · [#195](https://github.com/modebrecht/cv-cover-charm/issues/195) · [#227](https://github.com/modebrecht/cv-cover-charm/issues/227)
