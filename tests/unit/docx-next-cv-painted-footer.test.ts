@@ -20,6 +20,41 @@ function webBottom(input: DossierAppSnapshot) {
   }).bottom;
 }
 
+test("classic CV reading rows reserve only the painted compact footer when its text is empty", () => {
+  const input = structuredClone(compactSource) as unknown as DossierAppSnapshot;
+  input.cv.design.template = "terracotta";
+  input.cv.design.chromeContent = {};
+  input.settings.chrome!.shared.footerHeightMm = 8;
+  input.settings.chrome!.shared.footerBackgroundColor = "#fedcba";
+  input.settings.margins = {
+    ...input.settings.margins,
+    cv: { top: 24, left: 78, right: 20, bottom: 13 },
+  };
+  const options = {
+    exportPart: "cv",
+    cvContentComposition: "reading-rows",
+    cvFooterComposition: "painted-compact",
+  } as const;
+  expect(() => buildDossierDocModel(input, { cvFooterComposition: "painted-compact" })).toThrow(
+    "expliziten Lesefluss-Test",
+  );
+  const empty = buildDossierDocModel(input, options).cv;
+  expect(empty.footer).toEqual([]);
+  expect(empty.page.footerDistanceMm).toBe(0);
+  expect(empty.page.margins.bottom).toBe(webBottom(input));
+  expect(empty.artwork.find(({ id }) => id === "cv.artwork.footer")).toMatchObject({
+    yMm: 289,
+    heightMm: 8,
+  });
+
+  input.cv.design.chromeContent = { footerTextEnabled: true, footerText: "Eigene Fusszeile" };
+  const authored = buildDossierDocModel(input, options).cv;
+  expect(authored.footer.flatMap(({ runs }) => runs).map(({ text }) => text)).toContain(
+    "Eigene Fusszeile",
+  );
+  expect(authored.page.footerDistanceMm).toBe(12);
+});
+
 test("painted compact CV uses the Web footer budget and retains custom footer heights and saved values", () => {
   for (const height of [null, 8, 18]) {
     const input = structuredClone(compactSource) as unknown as DossierAppSnapshot;

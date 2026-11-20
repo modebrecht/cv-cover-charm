@@ -54,7 +54,7 @@ import { composeTwoPageCvSidebar } from "./cv-sidebar-two-page";
 import type { CvSidebarTextMetrics } from "./cv-sidebar-text-metrics";
 import { cvSidebarGeometry, cvSidebarPhotoWidthMm } from "@/components/cv/sidebar-geometry";
 import { sidebarPlan } from "@/components/cv/intelligence";
-import { cvFrameFor } from "@/components/cv/archetype";
+import { cvContentBox, cvFrameFor } from "@/components/cv/archetype";
 import {
   chromeTextHeight,
   composeCompactMasthead,
@@ -64,7 +64,10 @@ import {
 } from "./template-composition";
 import { ensureFirstHeader } from "./page-artwork";
 import { templateMotifs, composePageMotifs } from "./template-motifs";
-import { DEFAULT_DOSSIER_CHROME_STATE } from "@/lib/dossier-chrome";
+import {
+  DEFAULT_DOSSIER_CHROME_STATE,
+  dossierFooterVisualHeightMmForOptions,
+} from "@/lib/dossier-chrome";
 import { CV_FLOW_LAYOUTS, cvWordLayout, datedEntryBlocks, nativeTextWidthMm } from "./layouts";
 import { wordFont as fontForKey, createFontResolver } from "./fonts";
 import { richLetterBlocks } from "./rich-text";
@@ -93,6 +96,8 @@ export type BuildModelOptions = {
   letterFlowComposition?: "source-lines";
   /** Shared flowing-CV trial: native date/language rows and semantic lists. */
   cvContentComposition?: "reading-rows";
+  /** Use the Web reserve for an empty painted footer in the explicit CV reading trial. */
+  cvFooterComposition?: "painted-compact";
   /** Explicit one-template Word trial; no default serialization change. */
   cvRubricSpacing?: "previous-block";
   /** Separate measured header candidate, captured at the app boundary. */
@@ -225,6 +230,12 @@ export function buildDossierDocModel(
     (!readingRows || cvVariant !== "classic" || cv.design.useElements)
   )
     throw Error("DOCX Next: Lesefluss-Test benötigt ein klassisches CV ohne freie Elemente.");
+  const usePaintedReadingFooter = options.cvFooterComposition === "painted-compact";
+  if (
+    options.cvFooterComposition !== undefined &&
+    (!usePaintedReadingFooter || !includeCv || !readingRows)
+  )
+    throw Error("DOCX Next: Gemalte CV-Fusszeile benötigt den expliziten Lesefluss-Test.");
   if (readingRows) {
     const personLayout = cvSectionLayout(cv.data, "person");
     if (
@@ -1391,6 +1402,12 @@ export function buildDossierDocModel(
     for (const target of interiorParts) {
       const scope = target.id as "letter" | "cv";
       const { options, contact, content } = resolved[scope];
+      const paintedReadingFooter =
+        scope === "cv" &&
+        usePaintedReadingFooter &&
+        options.footerMode === "compact" &&
+        !content.footerTitle?.trim() &&
+        !content.footerText?.trim();
       const bandPolicy = template.chrome.band;
       const authoredChrome = chromeState.sync ? chromeState.shared : chromeState[scope];
       const explicitHeaderSurface =
@@ -1616,7 +1633,7 @@ export function buildDossierDocModel(
       target.header = header(options.headerContinuationMode ?? options.headerMode, "");
       if (options.headerDifferentFirstPage)
         target.firstHeader = header(options.headerMode, ".first");
-      if (options.footerMode !== "none") {
+      if (options.footerMode !== "none" && !paintedReadingFooter) {
         const typography = {
           font,
           sizePt: options.footerFontSizePt ?? 8,
@@ -1672,12 +1689,15 @@ export function buildDossierDocModel(
                 template.chrome.lineMetricFactor,
               ),
             );
-      const footerHeight =
-        options.footerMode === "none"
+      const footerHeight = paintedReadingFooter
+        ? dossierFooterVisualHeightMmForOptions(options)
+        : options.footerMode === "none"
           ? 0
           : Math.max(options.footerHeightMm ?? 0, chromeTextHeight(target.footer, width));
       target.page.headerDistanceMm += options.headerContentOffsetYMm ?? 0;
-      target.page.footerDistanceMm -= options.footerContentOffsetYMm ?? 0;
+      target.page.footerDistanceMm = paintedReadingFooter
+        ? 0
+        : target.page.footerDistanceMm - (options.footerContentOffsetYMm ?? 0);
       if (headerHeight)
         target.page.margins.top =
           Math.max(target.page.margins.top, target.page.headerDistanceMm) +
@@ -1685,7 +1705,21 @@ export function buildDossierDocModel(
           (options.headerGapMm ?? 4);
       if (scope === "cv" && headerHeight)
         cvHeaderReserveMm = headerHeight + (options.headerGapMm ?? 4);
-      if (footerHeight)
+      if (paintedReadingFooter) {
+        // The empty native story breaks section inheritance. Its distance is zero
+        // so only the painted band's Web reserve consumes CV body space.
+        target.page.margins.bottom = cvContentBox(
+          cvFrameFor(cv.design.template),
+          0,
+          "classic",
+          cv.design.sidebarPct,
+          options,
+          {
+            pageMargins: settings.margins?.cv ?? null,
+            continuationTopMarginMm: settings.cvContinuationTopMarginMm ?? null,
+          },
+        ).bottom;
+      } else if (footerHeight)
         target.page.margins.bottom =
           Math.max(target.page.margins.bottom, target.page.footerDistanceMm) + footerHeight;
       const band = (surface: "header" | "footer", heightMm: number) => {
