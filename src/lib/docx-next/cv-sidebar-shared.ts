@@ -292,3 +292,52 @@ export function composeSharedCvSidebar(
   }
   part.blocks = [...outside, ...pagePictures, table];
 }
+
+/** Move whole experience entries into another flowing row of the same measured grid. */
+export function continueCvSidebarAtExperience(part: DocumentPart, entryId: string): void {
+  const body = part.blocks.find((block) => block.kind === "table" && block.id === "cv.sidebar");
+  if (
+    part.layout.mode !== "sidebar" ||
+    part.layout.side !== "right" ||
+    body?.kind !== "table" ||
+    body.bodyBoundary !== "section-start" ||
+    body.rows.length !== 1 ||
+    part.footer.length ||
+    part.firstFooter?.length
+  )
+    throw Error(
+      "DOCX Next Sidebar-Fortsetzung benötigt das gemessene Raster mit leerer Fusszeile.",
+    );
+  const row = body.rows[0];
+  const main = row.cells[0];
+  const sectionIndex = main.findIndex((block) => block.id === "cv.section.erfahrung");
+  const experience = main[sectionIndex];
+  if (experience?.kind !== "section" || experience.width !== "full" || experience.startPage !== 1)
+    throw Error(
+      "DOCX Next Sidebar-Fortsetzung benötigt fliessende Praxiseinträge im Hauptbereich.",
+    );
+  const entryIndex = experience.blocks.findIndex(
+    (block) => block.kind === "entry" && block.id === `cv.entry.erfahrung:${entryId}`,
+  );
+  if (entryIndex < 1)
+    throw Error("DOCX Next Sidebar-Fortsetzung benötigt einen vollständigen Folgeeintrag.");
+
+  const continuation = {
+    ...experience,
+    id: `${experience.id}.continuation`,
+    heading: undefined,
+    blocks: experience.blocks.slice(entryIndex),
+  };
+  row.cells[0] = [
+    ...main.slice(0, sectionIndex),
+    { ...experience, blocks: experience.blocks.slice(0, entryIndex) },
+  ];
+  body.rows.push({
+    keepTogether: false,
+    cells: [[continuation, ...main.slice(sectionIndex + 1)], [], []],
+    cellDecorations: row.cellDecorations?.map((cell) =>
+      cell ? { ...cell, paddingTopMm: 0, paddingBottomMm: 0 } : undefined,
+    ),
+  });
+  part.page.footerDistanceMm = 0;
+}

@@ -48,7 +48,7 @@ import type { CoverTextMetrics } from "@/components/cover/text-metrics";
 import { composeCover } from "./cover-composition";
 import { applyContinuationMargin, applyFlowPageTops } from "./continuation-margin";
 import { composeCvSidebar } from "./cv-sidebar-composition";
-import { composeSharedCvSidebar } from "./cv-sidebar-shared";
+import { composeSharedCvSidebar, continueCvSidebarAtExperience } from "./cv-sidebar-shared";
 import { applyCvSidebarTypography } from "./cv-sidebar-typography";
 import { composeTwoPageCvSidebar } from "./cv-sidebar-two-page";
 import type { CvSidebarTextMetrics } from "./cv-sidebar-text-metrics";
@@ -125,6 +125,8 @@ export type BuildModelOptions = {
   cvPhotoComposition?: "ordinary-picture";
   /** Fresh source-bound Web typography; internal shared Sidebar candidate only. */
   cvSidebarTextMetrics?: CvSidebarTextMetrics;
+  /** Start a second flowing table row at a measured experience entry in the internal trial. */
+  cvSidebarContinuationEntryId?: string;
   /** Explicit QA only. Requires fresh semantic page membership for the Sidebar body. */
   cvTwoPagePreview?: true;
   /** Unaccepted native identity separation for first-page header/footer stories. */
@@ -203,6 +205,16 @@ export function buildDossierDocModel(
     throw Error("DOCX Next ordinary CV picture requires shared Sidebar composition");
   if (options.cvSidebarTextMetrics && options.cvSidebarComposition !== "shared-body-stories")
     throw Error("DOCX Next: Sidebar-Schriftwerte benötigen den expliziten gemeinsamen Kandidaten.");
+  if (
+    options.cvSidebarContinuationEntryId !== undefined &&
+    (exportPart !== "cv" ||
+      !capturedSidebarMetrics ||
+      options.cvTwoPagePreview ||
+      !["terracotta", "studio3"].includes(cv.design.template))
+  )
+    throw Error(
+      "DOCX Next Sidebar-Fortsetzung benötigt die interne CV-Prüfung mit frischen Messwerten.",
+    );
   if (
     options.chromeFirstPageIdentity !== undefined &&
     options.chromeFirstPageIdentity !== "distinct-stories"
@@ -2026,6 +2038,8 @@ export function buildDossierDocModel(
     cvPart.blocks = scaleCvReadingFlow(cvPart, capturedInteriorMetrics.cvFlowScale);
   if (includeCv && options.cvSidebarTextMetrics)
     applyCvSidebarTypography(cvPart, input, options.cvSidebarTextMetrics);
+  if (options.cvSidebarContinuationEntryId !== undefined)
+    continueCvSidebarAtExperience(cvPart, options.cvSidebarContinuationEntryId);
   if (twoPageMembership) composeTwoPageCvSidebar(cvPart, twoPageMembership);
   if (options.letterFlowComposition && includeLetter) {
     if (options.letterFlowComposition !== "source-lines")

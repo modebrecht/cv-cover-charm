@@ -74,11 +74,19 @@ export function validateDossierDocModel(model: DossierDocModel): void {
                 (block.bodyBoundaryKeepNext === undefined ||
                   block.bodyBoundaryKeepNext === false))) &&
             !block.position &&
-            block.rows.length === 1 &&
-            block.rows[0].cells.length === 3 &&
-            block.rows[0].cells[1].length === 0 &&
-            block.rows[0].keepTogether === false &&
-            !block.rows[0].cellRowSpans),
+            (block.rows.length === 1 ||
+              (block.rows.length === 2 &&
+                block.bodyBoundary === "section-start" &&
+                part.layout.side === "right" &&
+                block.rows[1].cells[0]?.length > 0 &&
+                block.rows[1].cells[2]?.length === 0)) &&
+            block.rows.every(
+              (row) =>
+                row.cells.length === 3 &&
+                row.cells[1].length === 0 &&
+                row.keepTogether === false &&
+                !row.cellRowSpans,
+            )),
       )
     )
       throw new Error(`DOCX Next sidebar requires native parallel flow: ${part.id}`);

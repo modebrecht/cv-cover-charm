@@ -1,9 +1,6 @@
 import { expect, test } from "@playwright/test";
-import { execFile } from "node:child_process";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import { pathToFileURL } from "node:url";
-import { promisify } from "node:util";
 import type { CvData, CvDesign } from "../../src/components/cv/types";
 import { KOLUMNE, STUDIO_3 } from "../../src/lib/docx-next/templates";
 import { parityStorage } from "../e2e/support/cv-parity-fixture";
@@ -14,8 +11,8 @@ import {
 } from "../e2e/support/cv-pdf-photo-crop";
 import { BASE_URL, waitEditorReady } from "../e2e/support/dossier-gallery-shared";
 import { normalizeContent } from "./pagination-assertions";
+import { readPages, writer } from "./docx-writer";
 
-const run = promisify(execFile);
 const out = "artifacts/classic-docx-pagination";
 const cases = [
   { template: "terracotta", label: "Kolumne Standard", bodyPt: KOLUMNE.typography.bodyPt },
@@ -23,34 +20,6 @@ const cases = [
 ].flatMap((testCase) =>
   (["reference", "variable-length"] as const).map((variant) => ({ ...testCase, variant })),
 );
-
-async function readPages(path: string) {
-  const { getDocument } = await import("pdfjs-dist/legacy/build/pdf.mjs");
-  const task = getDocument({
-    data: new Uint8Array(await readFile(path)),
-    disableFontFace: true,
-  });
-  const pdf = await task.promise;
-  try {
-    const pages = [];
-    for (let n = 1; n <= pdf.numPages; n++) {
-      const content = await (await pdf.getPage(n)).getTextContent();
-      pages.push(content.items.flatMap((item) => ("str" in item ? [item.str] : [])).join(" "));
-    }
-    return pages;
-  } finally {
-    await task.destroy();
-  }
-}
-
-async function writer(source: string, target: string, format: "docx" | "pdf") {
-  const engine = process.env.CLASSIC_CV_QA_LO_KIT;
-  if (!engine) throw new Error("Set CLASSIC_CV_QA_LO_KIT to the LibreOfficeKit QA adapter.");
-  const uri = (path: string) => pathToFileURL(resolve(path)).href;
-  await run(engine, [uri(target + "-profile"), uri(source), uri(target), format], {
-    timeout: 120_000,
-  });
-}
 
 for (const { template, label, bodyPt, variant } of cases) {
   test(`${label} DOCX reading flow: ${variant}`, async ({ page }) => {

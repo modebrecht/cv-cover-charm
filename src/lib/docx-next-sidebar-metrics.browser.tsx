@@ -39,6 +39,7 @@ function solidSurface(el: HTMLElement) {
   const css = getComputedStyle(el);
   if (css.backgroundImage !== "none" || css.mixBlendMode !== "normal" || css.filter !== "none")
     throw Error("DOCX Next: Sidebar-Fläche benötigt eine geprüfte Vollfarbe.");
+  if (css.backgroundColor === "rgba(0, 0, 0, 0)") return { color: "FFFFFF", opacity: 0 };
   return { color: rgb(css.backgroundColor), opacity: Number(css.opacity) };
 }
 
@@ -370,11 +371,25 @@ export async function captureCvSidebarTextMetrics(
       );
       if (!el) throw Error("DOCX Next: Kompakte Sidebar-Zone fehlt.");
       const css = getComputedStyle(el);
-      const border = zone === "header" ? css.borderBottomWidth : css.borderTopWidth;
+      const borderMm = mm(number(zone === "header" ? css.borderBottomWidth : css.borderTopWidth));
+      if (
+        css.opacity === "0" ||
+        (css.backgroundColor === "rgba(0, 0, 0, 0)" &&
+          css.backgroundImage === "none" &&
+          borderMm === 0)
+      ) {
+        result.compactChrome[zone] = {
+          heightMm: 0,
+          color: "FFFFFF",
+          borderMm: 0,
+          borderColor: "FFFFFF",
+        };
+        continue;
+      }
       result.compactChrome[zone] = {
         heightMm: mm(number(css.height)),
         color: rgb(css.backgroundColor),
-        borderMm: mm(number(border)),
+        borderMm,
         borderColor: rgb(zone === "header" ? css.borderBottomColor : css.borderTopColor),
       };
     }

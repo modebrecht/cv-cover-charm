@@ -48,6 +48,19 @@ Für den Versuch erhielten die DOCX-Kopien eine weitere Zeile in der vorhandenen
 
 Die Wiederholung mit kurzen, mittleren und langen Beschreibungen hielt dieselben Prüfkriterien in beiden Vorlagen nach zweimal Speichern ein. Kolumne verteilte sich auf 7 / 9 / 2 Praxisstationen, Studio 3 auf 5 / 9 / 4. Die zusätzliche Tabellenzeile begann in der Mitte der zweiten App-Seite vor Praxisstation 12 bei Kolumne und vor Praxisstation 10 bei Studio 3. Die Referenz blieb in allen Fällen auf Seite 3.
 
-Der Versuch bearbeitete Kopien der DOCX-Dateien. In der Testsuite auf `dev` läuft der Standard-Vergleich automatisch. Für Sidebar rechts sind die Übernahme ins DOCX-Modell, die Prüfung mit den unveränderten Vorlagenschriften und die Word-Desktop-Abnahme offen.
+Der Versuch bearbeitete Kopien der DOCX-Dateien. Der nächste Schritt übernimmt den Tabellenfluss in die Modellerzeugung.
+
+### Tabellenfluss im DOCX-Modell
+
+Der interne Sidebar-Prüfexport verwendet die gemessene Typografie und erhält als Trennstelle einen vollständigen Praxiseintrag aus der Mitte der zweiten Web-Seite. Das DOCX-Modell schiebt die folgenden Einträge und die Referenz in eine zusätzliche Zeile im bestehenden Raster. Die Sidebar bleibt in der ersten Zeile. Die zweite Zeile fliesst ohne erzwungenen Seitenwechsel. Die leere native Fusszeile erhält 0 mm Abstand. Transparente gemessene Flächen bleiben transparent.
+
+Die vier synthetischen Sans-Fälle erzeugen in LibreOffice Writer dreiseitige PDFs mit allen 18 vollständigen Praxiseinträgen und der Endreferenz. Für Kolumne stimmen alle 20 Seitenzuordnungen mit dem App-PDF überein. Bei Studio 3 verschieben sich zwei beziehungsweise drei Einträge auf frühere Seiten. Die Kopfanpassung aus dem vorangehenden Kopienvergleich fehlt in diesem Modellschritt. Die Testsuite prüft zwei Speicherzyklen und die enthaltenen Feldwerte.
+
+```bash
+CV_QA_LO_KIT=/absoluter/pfad/zu/lo-kit \
+  npx playwright test --config tests/qa/playwright.sidebar-docx.config.ts
+```
+
+Die Übernahme der Kopf- und Fotoabstände, die Prüfung mit den unveränderten Vorlagenschriften und die Word-Desktop-Abnahme stehen aus.
 
 [#194](https://github.com/modebrecht/cv-cover-charm/issues/194) · [#195](https://github.com/modebrecht/cv-cover-charm/issues/195) · [#227](https://github.com/modebrecht/cv-cover-charm/issues/227)
