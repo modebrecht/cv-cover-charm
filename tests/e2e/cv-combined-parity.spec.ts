@@ -1,5 +1,6 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 import { readFile } from "node:fs/promises";
+import { CV_LAYOUT_PICKER_OPTIONS } from "../../src/components/cv/layout";
 import { parityStorage, SELECTION_TARGETS } from "./support/cv-parity-fixture";
 import { pdfSelectionBoxes } from "./support/pdf-selection-boxes";
 const BASE = "http://127.0.0.1:4173";
@@ -133,7 +134,7 @@ async function textPages(path: string) {
   }
 }
 
-for (const template of [
+const defaultParityTemplates = [
   "studio3",
   "studio2",
   "ledger",
@@ -142,16 +143,35 @@ for (const template of [
   "prism",
   "neon",
   "citrus",
+];
+const layoutParityCases = ["terracotta", "studio3"].flatMap((template) =>
+  CV_LAYOUT_PICKER_OPTIONS.map((option) => ({ template, option })),
+);
+
+for (const { template, option } of [
+  ...defaultParityTemplates.map((template) => ({ template, option: undefined })),
+  ...layoutParityCases,
 ]) {
-  test(`cold combined dossier matches visible and standalone CV; PDF selection follows raster: ${template}`, async ({
+  const label = option ? `${template} / ${option.name}` : template;
+  test(`cold combined dossier matches visible and standalone CV; PDF selection follows raster: ${label}`, async ({
     page,
     browser,
   }) => {
     test.setTimeout(150_000);
     const storage = parityStorage(template);
+    if (option) {
+      storage["lebenslauf:layout:v1"] = option.layout;
+      storage["lebenslauf:info-position:v1"] = option.infoPosition ?? "standard";
+      storage["lebenslauf:photo-place:v1"] = JSON.stringify({ mode: "auto" });
+    }
     await seed(page, storage);
     const { cv, dialog } = await openCombined(page);
     await expect(cv).toHaveAttribute("data-cv-template", template);
+    if (option) {
+      await expect(cv).toHaveAttribute("data-cv-variant", option.layout);
+      await expect(cv).toHaveAttribute("data-cv-info-position", option.infoPosition ?? "standard");
+      await expect(cv.locator('[data-cv-page="0"] [data-cv-photo] img')).toHaveCount(1);
+    }
     await settled(page, cv);
     const canonical = await geometry(cv);
     const expectedBoxes = await ranges(cv.locator('[data-cv-page="0"]'), SELECTION_TARGETS);
