@@ -5,6 +5,11 @@ import {
   type CvLayoutPickerOption,
 } from "../../src/components/cv/layout";
 import { parityStorage, SELECTION_TARGETS } from "./support/cv-parity-fixture";
+import {
+  expectPdfPhotoCrop,
+  expectPreviewPhotoCrop,
+  usePhotoCropFixture,
+} from "./support/cv-pdf-photo-crop";
 import { pdfSelectionBoxes } from "./support/pdf-selection-boxes";
 const BASE = "http://127.0.0.1:4173";
 
@@ -246,6 +251,7 @@ for (const { template, sidebar, option } of [
     const storage = parityStorage(template, true, sidebar);
     if (option) {
       useLayoutOption(storage, option);
+      usePhotoCropFixture(storage);
     } else if (sidebar) {
       // Keep the free photo inside the otherwise empty lower Sidebar. The old
       // x=150/y=4 placement overlapped the title after mirroring. That unsafe
@@ -279,6 +285,7 @@ for (const { template, sidebar, option } of [
     expect(domDistribution.some((item) => item.pages[0] > 0)).toBe(true);
     const context = await browser.newContext();
     let standaloneText: string[];
+    let photoPoints: number[][] | undefined;
     try {
       const preview = await context.newPage();
       await seed(preview, storage);
@@ -302,11 +309,13 @@ for (const { template, sidebar, option } of [
           preview.locator('[data-dossier-document="cv"][data-export-mode="true"]').first(),
         ),
       ).toEqual(canonical);
+      if (option) photoPoints = await expectPreviewPhotoCrop(visible.locator('[data-cv-page="0"]'));
       await preview.getByRole("button", { name: "Download", exact: true }).click();
       const promise = preview.waitForEvent("download", { timeout: 120_000 });
       await preview.getByRole("menuitem", { name: "PDF", exact: true }).click();
       const path = await (await promise).path();
       standaloneText = await textPages(path!);
+      if (photoPoints) await expectPdfPhotoCrop(path!, 1, photoPoints);
     } finally {
       await context.close();
     }
@@ -314,6 +323,7 @@ for (const { template, sidebar, option } of [
     await dialog.getByRole("button", { name: "PDF herunterladen", exact: true }).click();
     const path = await (await promise).path();
     const combined = (await textPages(path!)).slice(2);
+    if (photoPoints) await expectPdfPhotoCrop(path!, 3, photoPoints);
     expect(combined).toHaveLength(canonical.length);
     expect(standaloneText!).toHaveLength(canonical.length);
     expect(distribution(combined)).toEqual(domDistribution);
