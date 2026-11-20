@@ -3,7 +3,11 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import type { CvData, CvDesign } from "../../src/components/cv/types";
 import { parityStorage } from "../e2e/support/cv-parity-fixture";
-import { usePhotoCropFixture } from "../e2e/support/cv-pdf-photo-crop";
+import {
+  expectPdfPhotoCrop,
+  expectPreviewPhotoCrop,
+  usePhotoCropFixture,
+} from "../e2e/support/cv-pdf-photo-crop";
 import { BASE_URL, waitEditorReady } from "../e2e/support/dossier-gallery-shared";
 import { readDocxDocument, readPages, writer } from "./docx-writer";
 import { normalizeContent } from "./pagination-assertions";
@@ -39,6 +43,7 @@ for (const template of ["terracotta", "studio3"]) {
       const visible = page.locator('[data-dossier-document="cv"][data-export-mode="false"]');
       await expect(visible).toHaveAttribute("data-cv-variant", "modern");
       await expect(visible).toHaveAttribute("data-cv-info-position", "mirrored");
+      const photoPoints = await expectPreviewPhotoCrop(visible.locator('[data-cv-page="0"]'));
       const continuationEntry = await visible
         .locator(
           '[data-cv-page="1"] [data-dossier-field-id^="cv.entry.erfahrung:"][data-dossier-field-id$=".title"]',
@@ -57,6 +62,7 @@ for (const template of ["terracotta", "studio3"]) {
       await page.getByRole("menuitem", { name: "PDF", exact: true }).click();
       const appPath = resolve(directory, "app.pdf");
       await (await download).saveAs(appPath);
+      await expectPdfPhotoCrop(appPath, 1, photoPoints);
 
       const exported = await page.evaluate(async (entryId) => {
         const project = (await import(
@@ -101,7 +107,7 @@ for (const template of ["terracotta", "studio3"]) {
         const fonts = await prepareBriefFontProfile([]);
         try {
           source.settings.fontPolicy = { availableFonts: ["Liberation Sans"] };
-          const metrics = await captureCvSidebarTextMetrics(source, fonts.profile);
+          const metrics = await captureCvSidebarTextMetrics(source, fonts.profile, false, true);
           const model = buildDossierDocModel(source, {
             exportPart: "cv",
             cvSidebarComposition: "shared-body-stories",
@@ -183,9 +189,10 @@ for (const template of ["terracotta", "studio3"]) {
         const pdfPath = resolve(directory, `${phase}.pdf`);
         await writer(docxPath, pdfPath, "pdf");
         rendered.push(await inspect(pdfPath));
+        await expectPdfPhotoCrop(pdfPath, 1, photoPoints);
       }
       expect(rendered.slice(1)).toEqual([rendered[0], rendered[0]]);
-      if (template === "terracotta") expect(rendered[0]).toEqual(app);
+      expect(rendered).toEqual([app, app, app]);
 
       const xml = await Promise.all(files.map(readDocxDocument));
       const [before, ...reopened] = await page.evaluate((xml) => {

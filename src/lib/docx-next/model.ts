@@ -97,6 +97,8 @@ export type ImageBlock = {
   nativeOwner?: "page-frame" | "page-picture";
   /** Automatic ordinary photo follows the opening flow paragraph, without a page-Y offset. */
   verticalOrigin?: "paragraph";
+  /** Project measured page coordinates onto a margin-X and opening-paragraph-Y anchor. */
+  measuredPageAnchor?: true;
   /** Explicitly opted-in QA page picture: no Word text wrap. */
   wrapMode?: "none";
   sourceLayout?: ElementSourceLayout;

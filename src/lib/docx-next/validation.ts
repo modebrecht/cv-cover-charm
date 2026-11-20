@@ -442,6 +442,17 @@ export function validateDossierDocModel(model: DossierDocModel): void {
         throw Error(`DOCX Next invalid ordinary picture vertical anchor ${block.id}`);
       if (
         block.kind === "image" &&
+        block.measuredPageAnchor !== undefined &&
+        (block.measuredPageAnchor !== true ||
+          block.nativeOwner !== "page-picture" ||
+          block.wrapMode !== "none" ||
+          block.verticalOrigin !== undefined ||
+          block.xMm + block.widthMm > part.page.widthMm ||
+          block.yMm + block.widthMm * (block.frame?.heightRatio ?? 1) > part.page.heightMm)
+      )
+        throw Error(`DOCX Next invalid measured page picture anchor ${block.id}`);
+      if (
+        block.kind === "image" &&
         block.wrapMode !== undefined &&
         (block.wrapMode !== "none" ||
           block.placement !== "free" ||

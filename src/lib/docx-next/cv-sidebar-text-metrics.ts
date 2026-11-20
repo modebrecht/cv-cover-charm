@@ -1,10 +1,17 @@
 import type { TextStyle } from "./model";
 
+export type CvSidebarOpeningMetrics = {
+  headerInsetMm: number;
+  headerReserveMm: number;
+  photo?: { xMm: number; yMm: number; widthMm: number; gapAfterMm: number };
+};
+
 /** Fresh effective CSS styles and optional semantic page membership for the explicit QA export. */
 export type CvSidebarTextMetrics = {
   version: 3;
   sourceKey: string;
   profile: string;
+  opening?: CvSidebarOpeningMetrics;
   /** A field on both sheets is ambiguous and cannot be used to split native rows. */
   fieldPages?: Record<string, 1 | 2 | "ambiguous">;
   /** Contact paint/text stays owned by the existing measured-header composition. */

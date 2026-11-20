@@ -73,6 +73,7 @@ export async function captureCvSidebarTextMetrics(
   source: DossierAppSnapshot,
   profile: string,
   captureTwoPages = false,
+  captureOpening = false,
 ): Promise<CvSidebarTextMetrics> {
   if (
     cvWordLayout(source.settings.cvLayout) !== "sidebar" ||
@@ -332,6 +333,34 @@ export async function captureCvSidebarTextMetrics(
       result.referenceGapMm =
         mm(number(getComputedStyle(references).columnGap)) * cvDocumentZoom(references);
     const pages = host.querySelectorAll<HTMLElement>("[data-cv-page]");
+    if (captureOpening) {
+      const page = pages[0];
+      const main = page?.querySelector("[data-cv-main]")?.getBoundingClientRect();
+      const header = page?.querySelector("[data-cv-main] [data-cv-header]");
+      const end =
+        header?.querySelector("[data-cv-subtitle]") ?? header?.querySelector("[data-cv-name]");
+      if (!main || !header || !end)
+        throw Error("DOCX Next Sidebar-Kopf konnte nicht gemessen werden.");
+      const box = header.getBoundingClientRect();
+      const sidebarPhoto = page.querySelector<HTMLElement>(
+        "[data-cv-sidebar-content] > [data-cv-photo]",
+      );
+      result.opening = {
+        headerInsetMm: mm(Math.max(0, box.top - main.top)),
+        headerReserveMm: mm(Math.max(0, box.bottom - end.getBoundingClientRect().bottom)),
+      };
+      if (sidebarPhoto) {
+        const sheet = page.getBoundingClientRect();
+        const photo = sidebarPhoto.getBoundingClientRect();
+        result.opening.photo = {
+          xMm: mm(photo.left - sheet.left),
+          yMm: mm(photo.top - sheet.top),
+          widthMm: mm(photo.width),
+          gapAfterMm:
+            mm(number(getComputedStyle(sidebarPhoto).marginBottom)) * cvDocumentZoom(sidebarPhoto),
+        };
+      }
+    }
     if (captureTwoPages) {
       if (pages.length !== 2) throw new DocxDownloadError(CV_TWO_PAGE_PREVIEW_ERROR);
       const membership: NonNullable<CvSidebarTextMetrics["fieldPages"]> = Object.create(null);

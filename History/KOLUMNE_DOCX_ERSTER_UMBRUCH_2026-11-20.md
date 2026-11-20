@@ -61,6 +61,12 @@ CV_QA_LO_KIT=/absoluter/pfad/zu/lo-kit \
   npx playwright test --config tests/qa/playwright.sidebar-docx.config.ts
 ```
 
-Die Übernahme der Kopf- und Fotoabstände, die Prüfung mit den unveränderten Vorlagenschriften und die Word-Desktop-Abnahme stehen aus.
+### Kopfhöhe und Fotoanker im Prüfexport
+
+Die Messung übernimmt den Abstand vor dem Kopf und den freien Raum unter dem Namen aus der ersten Web-Seite. Der Modellaufbau reserviert ausserdem die gemessene Bildhöhe und den Abstand zum folgenden Sidebar-Text. Das native Bild nutzt horizontal den Seitenrand und vertikal den ersten Absatz als Bezug.
+
+Alle vier Sidebar-Fälle treffen auf drei Seiten sämtliche 20 Seitenzuordnungen des App-PDFs. Pro Fall bleiben alle 18 Beschreibungen und 111 Feldwerte nach zweimal Speichern und Wiederöffnen in Writer erhalten. Die vier Stichproben des Fotoausschnitts stimmen an den vorgesehenen Seitenpunkten. Die Kanten des Bildrahmens liegen in den Writer-PDFs innerhalb von 0,1 mm zur Webvorschau.
+
+Der Nachweis gilt für den internen Prüfexport mit gemessener Sans-Typografie. Die Vorlagenschriften und Microsoft Word Desktop stehen für diese Sidebar-Fälle zur Prüfung aus.
 
 [#194](https://github.com/modebrecht/cv-cover-charm/issues/194) · [#195](https://github.com/modebrecht/cv-cover-charm/issues/195) · [#227](https://github.com/modebrecht/cv-cover-charm/issues/227)
