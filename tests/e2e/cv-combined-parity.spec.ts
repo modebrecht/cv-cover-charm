@@ -1,6 +1,9 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 import { readFile } from "node:fs/promises";
-import { CV_LAYOUT_PICKER_OPTIONS } from "../../src/components/cv/layout";
+import {
+  CV_LAYOUT_PICKER_OPTIONS,
+  type CvLayoutPickerOption,
+} from "../../src/components/cv/layout";
 import { parityStorage, SELECTION_TARGETS } from "./support/cv-parity-fixture";
 import { pdfSelectionBoxes } from "./support/pdf-selection-boxes";
 const BASE = "http://127.0.0.1:4173";
@@ -148,6 +151,18 @@ const layoutParityCases = ["terracotta", "studio3"].flatMap((template) =>
   CV_LAYOUT_PICKER_OPTIONS.map((option) => ({ template, option })),
 );
 
+function useLayoutOption(storage: Record<string, string>, option: CvLayoutPickerOption) {
+  storage["lebenslauf:layout:v1"] = option.layout;
+  storage["lebenslauf:info-position:v1"] = option.infoPosition ?? "standard";
+  storage["lebenslauf:photo-place:v1"] = JSON.stringify({ mode: "auto" });
+}
+
+async function expectLayoutOption(cv: Locator, option: CvLayoutPickerOption) {
+  await expect(cv).toHaveAttribute("data-cv-variant", option.layout);
+  await expect(cv).toHaveAttribute("data-cv-info-position", option.infoPosition ?? "standard");
+  await expect(cv.locator('[data-cv-page="0"] [data-cv-photo] img')).toHaveCount(1);
+}
+
 for (const { template, option } of [
   ...defaultParityTemplates.map((template) => ({ template, option: undefined })),
   ...layoutParityCases,
@@ -159,19 +174,11 @@ for (const { template, option } of [
   }) => {
     test.setTimeout(150_000);
     const storage = parityStorage(template);
-    if (option) {
-      storage["lebenslauf:layout:v1"] = option.layout;
-      storage["lebenslauf:info-position:v1"] = option.infoPosition ?? "standard";
-      storage["lebenslauf:photo-place:v1"] = JSON.stringify({ mode: "auto" });
-    }
+    if (option) useLayoutOption(storage, option);
     await seed(page, storage);
     const { cv, dialog } = await openCombined(page);
     await expect(cv).toHaveAttribute("data-cv-template", template);
-    if (option) {
-      await expect(cv).toHaveAttribute("data-cv-variant", option.layout);
-      await expect(cv).toHaveAttribute("data-cv-info-position", option.infoPosition ?? "standard");
-      await expect(cv.locator('[data-cv-page="0"] [data-cv-photo] img')).toHaveCount(1);
-    }
+    if (option) await expectLayoutOption(cv, option);
     await settled(page, cv);
     const canonical = await geometry(cv);
     const expectedBoxes = await ranges(cv.locator('[data-cv-page="0"]'), SELECTION_TARGETS);
@@ -226,14 +233,20 @@ for (const { template, option } of [
   });
 }
 
-for (const sidebar of [false, true]) {
-  test(`long CV preserves page and marker distribution in preview, standalone and combined PDF; sidebar=${sidebar}`, async ({
+for (const { template, sidebar, option } of [
+  ...[false, true].map((sidebar) => ({ template: "gallery", sidebar, option: undefined })),
+  ...layoutParityCases.map((item) => ({ ...item, sidebar: false })),
+]) {
+  const label = option ? `${template} / ${option.name}` : `sidebar=${sidebar}`;
+  test(`long CV preserves page and marker distribution in preview, standalone and combined PDF; ${label}`, async ({
     page,
     browser,
   }) => {
     test.setTimeout(180_000);
-    const storage = parityStorage("gallery", true, sidebar);
-    if (sidebar) {
+    const storage = parityStorage(template, true, sidebar);
+    if (option) {
+      useLayoutOption(storage, option);
+    } else if (sidebar) {
       // Keep the free photo inside the otherwise empty lower Sidebar. The old
       // x=150/y=4 placement overlapped the title after mirroring. That unsafe
       // case is checked separately below and must stay blocked.
@@ -244,6 +257,8 @@ for (const sidebar of [false, true]) {
     }
     await seed(page, storage);
     const { cv, dialog } = await openCombined(page);
+    await expect(cv).toHaveAttribute("data-cv-template", template);
+    if (option) await expectLayoutOption(cv, option);
     await settled(page, cv);
     const canonical = await geometry(cv);
     expect(canonical.length).toBeGreaterThan(1);
@@ -255,7 +270,7 @@ for (const sidebar of [false, true]) {
     const distribution = (pages: string[]) =>
       targets.map((target) => ({
         target,
-        pages: pages.flatMap((text, i) => (text.includes(target) ? [i] : [])),
+        pages: pages.flatMap((text, i) => Array<number>(text.split(target).length - 1).fill(i)),
       }));
     const domDistribution = distribution(canonical.map((p) => p.text ?? ""));
     for (const item of domDistribution)
@@ -294,7 +309,6 @@ for (const sidebar of [false, true]) {
     expect(standaloneText!).toHaveLength(canonical.length);
     expect(distribution(combined)).toEqual(domDistribution);
     expect(distribution(standaloneText!)).toEqual(domDistribution);
-    for (const target of targets) expect(combined.join(" ").split(target)).toHaveLength(2);
   });
 }
 
