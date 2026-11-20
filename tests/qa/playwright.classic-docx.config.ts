@@ -4,8 +4,8 @@ import pagination from "./playwright.pagination.config";
 
 export default defineConfig({
   ...pagination,
-  testMatch: "kolumne-docx-pagination.qa.ts",
+  testMatch: "classic-docx-pagination.qa.ts",
   workers: 1,
   reporter: "line",
-  outputDir: resolve("test-results/kolumne-docx-pagination"),
+  outputDir: resolve("test-results/classic-docx-pagination"),
 });

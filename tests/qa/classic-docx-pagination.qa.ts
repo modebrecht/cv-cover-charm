@@ -5,7 +5,7 @@ import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { promisify } from "node:util";
 import type { CvData, CvDesign } from "../../src/components/cv/types";
-import { KOLUMNE } from "../../src/lib/docx-next/templates";
+import { KOLUMNE, STUDIO_3 } from "../../src/lib/docx-next/templates";
 import { parityStorage } from "../e2e/support/cv-parity-fixture";
 import {
   expectPdfPhotoCrop,
@@ -16,7 +16,13 @@ import { BASE_URL, waitEditorReady } from "../e2e/support/dossier-gallery-shared
 import { normalizeContent } from "./pagination-assertions";
 
 const run = promisify(execFile);
-const out = "artifacts/kolumne-docx-pagination";
+const out = "artifacts/classic-docx-pagination";
+const cases = [
+  { template: "terracotta", label: "Kolumne Standard", bodyPt: KOLUMNE.typography.bodyPt },
+  { template: "studio3", label: "Studio 3 Standard", bodyPt: STUDIO_3.typography.bodyPt },
+].flatMap((testCase) =>
+  (["reference", "variable-length"] as const).map((variant) => ({ ...testCase, variant })),
+);
 
 async function readPages(path: string) {
   const { getDocument } = await import("pdfjs-dist/legacy/build/pdf.mjs");
@@ -38,20 +44,20 @@ async function readPages(path: string) {
 }
 
 async function writer(source: string, target: string, format: "docx" | "pdf") {
-  const engine = process.env.KOLUMNE_QA_LO_KIT;
-  if (!engine) throw new Error("Set KOLUMNE_QA_LO_KIT to the LibreOfficeKit QA adapter.");
+  const engine = process.env.CLASSIC_CV_QA_LO_KIT;
+  if (!engine) throw new Error("Set CLASSIC_CV_QA_LO_KIT to the LibreOfficeKit QA adapter.");
   const uri = (path: string) => pathToFileURL(resolve(path)).href;
   await run(engine, [uri(target + "-profile"), uri(source), uri(target), format], {
     timeout: 120_000,
   });
 }
 
-for (const variant of ["reference", "variable-length"] as const) {
-  test(`Kolumne Standard DOCX reading flow: ${variant}`, async ({ page }) => {
+for (const { template, label, bodyPt, variant } of cases) {
+  test(`${label} DOCX reading flow: ${variant}`, async ({ page }) => {
     test.setTimeout(240_000);
-    const directory = resolve(out, variant);
+    const directory = resolve(out, template, variant);
     await mkdir(directory, { recursive: true });
-    const storage = parityStorage("terracotta", true);
+    const storage = parityStorage(template, true);
     const cv: { data: CvData; design: CvDesign } = JSON.parse(storage["lebenslauf:v1"]);
     cv.design.sidebarPct = 0.3;
     if (variant === "variable-length")
@@ -153,8 +159,9 @@ for (const variant of ["reference", "variable-length"] as const) {
         entryFragments,
         trackingPt,
         photo: { widthMm: photo.width * toX, gapMm: (name.left - photo.right) * toX },
+        openingInsetMm: halfMm((photo.top - main.top) * toY),
       };
-    }, KOLUMNE.typography.bodyPt);
+    }, bodyPt);
     expect(Object.keys(fit.dateWidths).length).toBeGreaterThanOrEqual(cv.data.erfahrung.length);
     const photoPoints = await expectPreviewPhotoCrop(visible.locator('[data-cv-page="0"]'));
     const appPdf = resolve(directory, "app.pdf");
@@ -218,6 +225,14 @@ for (const variant of ["reference", "variable-length"] as const) {
         cvFooterComposition: "painted-compact",
         cvContactComposition: "compact-grid",
       });
+      // Studio 3's masthead moves the opening photo and text down inside the
+      // body box. Keep the continuation margins and insert the measured gap once.
+      if (fit.openingInsetMm > 0)
+        candidate.cv.blocks.unshift({
+          kind: "spacer",
+          id: "cv.qa.opening-inset",
+          heightMm: fit.openingInsetMm,
+        });
       for (const block of walkBlocks(candidate.cv.blocks)) {
         if (
           block.kind === "image" &&
