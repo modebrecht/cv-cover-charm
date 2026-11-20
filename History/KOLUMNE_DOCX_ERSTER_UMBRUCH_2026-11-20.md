@@ -46,6 +46,8 @@ Bei einer Kopie pro Vorlage wurde Sans ausdrücklich in den synthetischen Eingab
 
 Für den Versuch erhielten die DOCX-Kopien eine weitere Zeile in der vorhandenen Tabelle. Die neue Zeile beginnt in der Mitte der zweiten App-Seite vor Praxisstation 11 bei Kolumne und vor Praxisstation 09 bei Studio 3. Der Abstand der leeren Fusszeile wurde auf 0 mm gesetzt. Bei Studio 3 kamen der gemessene Abstand zum Namen (10,3 mm), der weitere Abstand vor der Familie (26,9 mm) und der gemessene Kontaktabstand in der Sidebar (45,7 mm) hinzu. Das Foto erhielt die gemessenen Rahmenmasse und einen horizontalen Anker relativ zum Seitenrand. Vier Farbstichproben im Foto blieben bei beiden Wiederöffnungen innerhalb von zwei RGB-Stufen zur synthetischen Vorlage.
 
-Der Versuch bearbeitete Kopien der DOCX-Dateien. In der Testsuite auf `dev` läuft der Standard-Vergleich automatisch. Für Sidebar rechts sind die Übernahme ins DOCX-Modell, der Test mit gemischten Textlängen und die Word-Desktop-Abnahme offen.
+Die Wiederholung mit kurzen, mittleren und langen Beschreibungen hielt dieselben Prüfkriterien in beiden Vorlagen nach zweimal Speichern ein. Kolumne verteilte sich auf 7 / 9 / 2 Praxisstationen, Studio 3 auf 5 / 9 / 4. Die zusätzliche Tabellenzeile begann in der Mitte der zweiten App-Seite vor Praxisstation 12 bei Kolumne und vor Praxisstation 10 bei Studio 3. Die Referenz blieb in allen Fällen auf Seite 3.
+
+Der Versuch bearbeitete Kopien der DOCX-Dateien. In der Testsuite auf `dev` läuft der Standard-Vergleich automatisch. Für Sidebar rechts sind die Übernahme ins DOCX-Modell, die Prüfung mit den unveränderten Vorlagenschriften und die Word-Desktop-Abnahme offen.
 
 [#194](https://github.com/modebrecht/cv-cover-charm/issues/194) · [#195](https://github.com/modebrecht/cv-cover-charm/issues/195) · [#227](https://github.com/modebrecht/cv-cover-charm/issues/227)
