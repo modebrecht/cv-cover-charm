@@ -287,7 +287,16 @@ for (const { template, sidebar, option } of [
         .locator('[data-dossier-document="cv"][data-export-mode="false"]')
         .first();
       await settled(preview, visible);
-      expect(await geometry(visible)).toEqual(canonical);
+      // Scaling the preview can round a position to a different Chromium subpixel.
+      // Compare its box coordinates to within 0.05 mm.
+      const expectedPreview = canonical.map((page) => ({
+        ...page,
+        nodes: page.nodes.map((node) => ({
+          ...node,
+          box: node.box.map((coordinate) => expect.closeTo(coordinate, 1)),
+        })),
+      }));
+      expect(await geometry(visible)).toEqual(expectedPreview);
       expect(
         await geometry(
           preview.locator('[data-dossier-document="cv"][data-export-mode="true"]').first(),
