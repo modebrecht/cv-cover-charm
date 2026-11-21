@@ -226,6 +226,21 @@ test("mixed dossier header modes stay blocked while independent single exports r
   expect(() => assertAppDocxNextSource(source, "cv")).not.toThrow();
 });
 
+test("contact letters may switch continuation modes while the CV gate reflects its supported modes", () => {
+  for (const headerContinuationMode of ["compact", "none"] as const) {
+    const { source } = setup();
+    const chrome = source.settings.chrome!;
+    chrome.shared.headerMode = "contact";
+    chrome.shared.headerDifferentFirstPage = true;
+    chrome.shared.headerContinuationMode = headerContinuationMode;
+    expect(() => assertAppDocxNextSource(source, "letter")).not.toThrow();
+    expect(() => assertAppDocxNextSource(source, "cv")).toThrow(/auch auf Folgeseiten/);
+    expect(() => assertAppDocxNextSource(source)).toThrow(/auch auf Folgeseiten/);
+    chrome.shared.headerDifferentFirstPage = false;
+    expect(() => assertAppDocxNextSource(source)).not.toThrow();
+  }
+});
+
 test("normal export dialog offers one plainly labelled Word download without technical variants", () => {
   const html = renderToStaticMarkup(
     <DossierExportDialog

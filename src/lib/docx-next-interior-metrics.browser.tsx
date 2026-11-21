@@ -15,6 +15,7 @@ import { compositeTextColor } from "./docx-next/colors";
 import { effectiveDossierFont } from "./dossier-theme";
 import { CvCanvas, resolveCvChromeContact } from "@/components/cv/CvCanvas";
 import { dossierContactFromCv } from "./dossier-contact-data";
+import { effectiveDossierHeaderModeForOptions } from "./dossier-chrome";
 import { resolveCvRubricOptions } from "@/components/cv/citrus-rubric";
 import { cvContentBox, cvFrameFor } from "@/components/cv/archetype";
 import { letterPageGeometry } from "@/components/letter/layout-system";
@@ -146,19 +147,33 @@ export async function captureInteriorTextMetrics(
         await document.fonts.ready;
         const sheet = host.querySelector<HTMLElement>("[data-cv-page]")!;
         const base = sheet.getBoundingClientRect();
-        const background = host.querySelector<HTMLElement>(
-          "[data-dossier-contact-header-background], [data-dossier-continuation-contact-header]",
-        );
-        const inkBox = host.querySelector<HTMLElement>(
-          "[data-dossier-integrated-contact], [data-dossier-continuation-contact]",
-        );
+        const headerMode =
+          scope === "letter" ? effectiveDossierHeaderModeForOptions(options, pageIndex) : "contact";
+        const background =
+          headerMode === "none"
+            ? null
+            : host.querySelector<HTMLElement>(
+                headerMode === "compact"
+                  ? "[data-dossier-compact-header]"
+                  : "[data-dossier-contact-header-background], [data-dossier-continuation-contact-header]",
+              );
+        const inkBox =
+          headerMode === "contact"
+            ? host.querySelector<HTMLElement>(
+                "[data-dossier-integrated-contact], [data-dossier-continuation-contact]",
+              )
+            : null;
         const footer = host.querySelector<HTMLElement>('[data-dossier-footer="compact"]');
-        if (!background || !inkBox || !footer)
-          throw Error("DOCX Next: Kontakt-Header ist nicht messbar.");
-        const bs = getComputedStyle(background),
+        if (
+          !footer ||
+          (headerMode !== "none" && !background) ||
+          (headerMode === "contact" && !inkBox)
+        )
+          throw Error("DOCX Next: Kopf- oder Fusszeile ist nicht messbar.");
+        const bs = background ? getComputedStyle(background) : null,
           fs = getComputedStyle(footer);
         const capture: HeaderMeasurement = {
-          heightMm: mm(background.getBoundingClientRect().height),
+          heightMm: background ? mm(background.getBoundingClientRect().height) : 0,
           bodyTopMm:
             scope === "cv"
               ? cvContentBox(
@@ -177,9 +192,9 @@ export async function captureInteriorTextMetrics(
                   chromeOptions: options,
                   pageMargins: source.settings.margins?.letter ?? null,
                 }).content.top,
-          background: rgb(bs.backgroundColor),
-          borderColor: rgb(bs.borderBottomColor),
-          borderMm: mm(parseFloat(bs.borderBottomWidth)),
+          background: bs ? rgb(bs.backgroundColor) : "000000",
+          borderColor: bs ? rgb(bs.borderBottomColor) : "000000",
+          borderMm: bs ? mm(parseFloat(bs.borderBottomWidth)) : 0,
           footer: {
             heightMm: mm(footer.getBoundingClientRect().height),
             background: rgb(fs.backgroundColor),
@@ -190,6 +205,10 @@ export async function captureInteriorTextMetrics(
           frames: [],
           icons: [],
         };
+        if (!inkBox) {
+          measurements.push(capture);
+          continue;
+        }
         const suffix = pageIndex ? "continuation" : "first";
         const walker = document.createTreeWalker(inkBox, NodeFilter.SHOW_TEXT);
         let textNode: Node | null,

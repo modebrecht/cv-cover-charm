@@ -14,6 +14,14 @@ Der reguläre Gesamtdossier-Download ergibt vier Seiten in Writer. Der Brief lie
 
 Mit LibreOffice 25.8.7.3 wurden beide Einzelbriefe und das Gesamtdossier je zweimal gespeichert und wieder geöffnet. Alle zwölf geprüften Briefseitenpaare sind pixelidentisch zu den jeweiligen Ausgangs-DOCX-Renderings. Microsoft Word Desktop steht für diese Kontaktkopf-Abnahme aus.
 
+### Kontaktkopf auf Seite 1 und anderer Kopf auf Folgeseiten
+
+Der Modern-Brief übernimmt einen kompakten oder ausgeblendeten Folgekopf jetzt im regulären DOCX-Export. Die Messung übernimmt Höhe, Farbe und Seitenrand der tatsächlichen Folgekopfzeile aus der Vorschau. Kontaktfelder werden auf der ersten Seite gesetzt.
+
+Vier Browserfälle prüfen die regulären PDF- und DOCX-Downloads mit kompaktem Kopf, Kontaktkopf sowie den beiden neuen Folgen ab Kontaktkopf. Bei beiden neuen Varianten bestätigt Writer die Satzverteilung 18 / 20 und speichert den Einzelbrief zweimal mit pixelgleichen Seiten. Im Gesamtdossier mit separat eingestellten Briefköpfen bestätigen App-PDF und Writer bei beiden Varianten dieselben vier Seiten und Briefabschnitte. Der kompakte Streifen hat in App-PDF und Writer die gemessene Farbe RGB 17 / 24 / 40. Beim ausgeblendeten Kopf hat dieselbe Stelle die Papierfarbe RGB 250 / 250 / 250.
+
+Der reguläre DOCX-Lebenslauf mit Kontaktkopf erfordert auch auf Folgeseiten den Kontaktkopf. Die Download-Verfügbarkeit prüft das bei CV- und Gesamtdossier-Exporten.
+
 ## Prüfstand vom 19.11.2026
 
 Am 19.11.2026 für [#206](https://github.com/modebrecht/cv-cover-charm/issues/206)

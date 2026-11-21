@@ -127,8 +127,13 @@ test("two-page letter exports the same split paragraph, header and final attachm
   await attach(info, result);
 });
 
-for (const headerMode of ["compact", "contact"] as const) {
-  test(`two-page Modern letter preserves the ${headerMode} profile through PDF and DOCX downloads`, async ({
+for (const [profile, headerMode, continuation] of [
+  ["compact", "compact", undefined],
+  ["contact", "contact", undefined],
+  ["contact-to-compact", "contact", "compact"],
+  ["contact-to-none", "contact", "none"],
+] as const) {
+  test(`two-page Modern letter preserves the ${profile} profile through PDF and DOCX downloads`, async ({
     page,
   }, info) => {
     const sentences = Array.from(
@@ -156,6 +161,12 @@ for (const headerMode of ["compact", "contact"] as const) {
         ],
       });
       project.chrome.shared.headerMode = headerMode;
+      if (continuation) {
+        Object.assign(project.chrome.shared, {
+          headerDifferentFirstPage: true,
+          headerContinuationMode: continuation,
+        });
+      }
     });
     await page.goto("http://127.0.0.1:4173/anschreiben");
     await waitForNativeEditorSaved(page);
@@ -169,7 +180,7 @@ for (const headerMode of ["compact", "contact"] as const) {
     for (const [index, sheet] of (await sheets.all()).entries()) {
       await expect(sheet.locator('[data-dossier-chrome="letter"]')).toHaveAttribute(
         "data-dossier-effective-header-mode",
-        headerMode,
+        index === 0 ? headerMode : (continuation ?? headerMode),
       );
       await expect(sheet.locator('[data-dossier-footer="compact"]')).toHaveCount(1);
       await sheet.screenshot({
@@ -196,7 +207,7 @@ for (const headerMode of ["compact", "contact"] as const) {
       segments: { letter: sentences, cv: [] },
     };
     await expect.poll(() => status(page)).toBe("pass");
-    const name = `modern-${headerMode}-letter-word`;
+    const name = `modern-${profile}-letter-word`;
     const result = await auditDocument(page, fixture, "letter", name);
     expect(result.findings).toEqual([]);
     expect(result.pdf?.pages.map(({ text }) => normalizeContent(text))).toEqual(

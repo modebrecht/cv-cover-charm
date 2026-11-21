@@ -1,7 +1,11 @@
 import type { DossierAppSnapshot } from "./source";
 import type { DocumentPart, DecorativeShape } from "./model";
 import { interiorMetricsKey, type InteriorTextMetrics } from "./interior-metrics";
-import type { DossierChromeContact, DossierChromeOptions } from "@/lib/dossier-chrome";
+import {
+  effectiveDossierHeaderModeForOptions,
+  type DossierChromeContact,
+  type DossierChromeOptions,
+} from "@/lib/dossier-chrome";
 import { applyCvPaintedFooterReserve } from "./cv-painted-footer";
 
 /** Reuses fixed-page native paragraphs and the existing decorative page asset.
@@ -65,6 +69,11 @@ export function composeMeasuredHeaders(
   for (const repeat of ["first", "continuation"] as const) {
     const m = values[repeat],
       prefix = `${part.id}.measured.${repeat}`;
+    const headerMode =
+      part.id === "letter"
+        ? effectiveDossierHeaderModeForOptions(options, repeat === "first" ? 0 : 1)
+        : "contact";
+    const invalidHeight = headerMode === "none" ? m.heightMm !== 0 : m.heightMm <= 0;
     if (
       ![
         m.heightMm,
@@ -74,7 +83,7 @@ export function composeMeasuredHeaders(
         m.footer.borderMm,
         m.footer.opacity,
       ].every(Number.isFinite) ||
-      m.heightMm <= 0 ||
+      invalidHeight ||
       m.borderMm < 0 ||
       m.borderMm > m.heightMm ||
       m.bodyTopMm < m.heightMm ||
@@ -83,6 +92,8 @@ export function composeMeasuredHeaders(
       m.footer.opacity > 1
     )
       throw Error("DOCX Next: Ungültige gemessene Headergeometrie.");
+    if (headerMode !== "contact" && (m.frames.length || m.icons.length))
+      throw Error("DOCX Next: Unerwartete Kontaktfelder in der Kopfzeile.");
     paint(prefix + ".header", repeat, 0, m.heightMm - m.borderMm, m.background);
     paint(prefix + ".header-edge", repeat, m.heightMm - m.borderMm, m.borderMm, m.borderColor);
     paint(
@@ -102,7 +113,7 @@ export function composeMeasuredHeaders(
       m.footer.opacity,
     );
     const expected = new Map(
-      Object.entries(contact)
+      (headerMode === "contact" ? Object.entries(contact) : [])
         .filter(
           ([key, value]) =>
             value.trim() &&
