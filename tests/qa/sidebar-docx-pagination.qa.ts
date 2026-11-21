@@ -13,7 +13,7 @@ import { readDocxDocument, readTextPages, writer } from "./docx-writer";
 import { normalizeContent } from "./pagination-assertions";
 
 for (const template of ["terracotta", "studio3"]) {
-  for (const variant of ["reference", "mixed-lengths"] as const) {
+  for (const variant of ["reference", "mixed-lengths", "template-font"] as const) {
     test(`${template} Sidebar rechts preserves every native entry: ${variant}`, async ({
       page,
     }) => {
@@ -23,14 +23,19 @@ for (const template of ["terracotta", "studio3"]) {
       const storage = parityStorage(template, true, true);
       const cv: { data: CvData; design: CvDesign } = JSON.parse(storage["lebenslauf:v1"]);
       cv.design.sidebarPct = 0.3;
-      cv.design.font = "sans";
+      if (variant !== "template-font") cv.design.font = "sans";
       if (variant === "mixed-lengths")
         for (const [i, entry] of cv.data.erfahrung.entries()) {
           if (i % 3 === 0) entry.beschreibung = entry.beschreibung.split(". ")[0] + ".";
           if (i % 3 === 1)
             entry.beschreibung += " Das Ergebnis wurde anschliessend gemeinsam getestet.";
         }
-      storage["lebenslauf:v1"] = JSON.stringify(cv);
+      storage["lebenslauf:v1"] = JSON.stringify({
+        ...cv,
+        // The editor stores null for the template's font. An omitted key
+        // belongs to the legacy Cabin migration.
+        design: { ...cv.design, font: variant === "template-font" ? null : cv.design.font },
+      });
       storage["lebenslauf:photo-place:v1"] = JSON.stringify({ mode: "auto" });
       usePhotoCropFixture(storage);
       await page.addInitScript((values) => {
@@ -106,7 +111,8 @@ for (const template of ["terracotta", "studio3"]) {
         );
         const fonts = await prepareBriefFontProfile([]);
         try {
-          source.settings.fontPolicy = { availableFonts: ["Liberation Sans"] };
+          if (source.cv.design.font === "sans")
+            source.settings.fontPolicy = { availableFonts: ["Liberation Sans"] };
           const metrics = await captureCvSidebarTextMetrics(source, fonts.profile, false, true);
           const model = buildDossierDocModel(source, {
             exportPart: "cv",
@@ -130,6 +136,7 @@ for (const template of ["terracotta", "studio3"]) {
             footerDistance: model.cv.page.footerDistanceMm,
             unchanged: saved() === before,
             available: savedAppDocxNextAvailability("cv").available,
+            savedFont: source.cv.design.font ?? null,
           };
         } finally {
           fonts.dispose();
@@ -141,6 +148,7 @@ for (const template of ["terracotta", "studio3"]) {
         footerDistance: 0,
         unchanged: true,
         available: false,
+        savedFont: variant === "template-font" ? null : "sans",
       });
 
       const markers = [
@@ -214,6 +222,9 @@ for (const template of ["terracotta", "studio3"]) {
       }
 
       const xml = await Promise.all(files.map(readDocxDocument));
+      if (variant === "template-font") {
+        for (const doc of xml) expect(doc).toContain('w:ascii="Arial"');
+      }
       const [before, ...reopened] = await page.evaluate((xml) => {
         const w = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
         const parser = new DOMParser();

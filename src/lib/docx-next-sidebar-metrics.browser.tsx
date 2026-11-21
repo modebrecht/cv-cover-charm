@@ -8,6 +8,7 @@ import { normalizeCvPhotoPlacement } from "@/components/cv/photo-place";
 import { normalizeDossierPhotoStyle } from "./dossier-photo";
 import { resolveCvPalette } from "@/components/cv/cv-paper";
 import { resolveDossierChromeSnapshot } from "./dossier-resolved-chrome";
+import { effectiveDossierFont } from "./dossier-theme";
 import {
   DEFAULT_DOSSIER_CHROME_STATE,
   effectiveDossierHeaderModeForOptions,
@@ -77,10 +78,13 @@ export async function captureCvSidebarTextMetrics(
 ): Promise<CvSidebarTextMetrics> {
   if (
     cvWordLayout(source.settings.cvLayout) !== "sidebar" ||
-    source.cv.design.font !== "sans" ||
+    (source.cv.design.font !== "sans" &&
+      (!captureOpening ||
+        effectiveDossierFont(source.cv.design.template, source.cv.design.font) !==
+          FONT_STACKS.sans)) ||
     !profile.startsWith("brief-sans-v1;")
   )
-    throw Error("DOCX Next: Sidebar-Schriftprüfung benötigt einen gespeicherten Sans-Entwurf.");
+    throw Error("DOCX Next: Sidebar-Schriftprüfung benötigt das geprüfte Sans-Profil.");
   const resolved = resolveDossierChromeSnapshot(
     source,
     source.settings.chrome ?? DEFAULT_DOSSIER_CHROME_STATE,

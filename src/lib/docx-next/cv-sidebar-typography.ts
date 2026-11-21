@@ -6,6 +6,8 @@ import { datedEntryBlocks, tableColumnWidths, nativeTextHeightMm } from "./layou
 import { interiorMetricsKey } from "./interior-metrics";
 import { resolveDossierChromeSnapshot } from "@/lib/dossier-resolved-chrome";
 import { resolveCvRubricOptions } from "@/components/cv/citrus-rubric";
+import { FONT_STACKS } from "@/components/cover/types";
+import { effectiveDossierFont } from "@/lib/dossier-theme";
 import { cvFrameFor, cvSurface } from "@/components/cv/archetype";
 import { MODERN_SHEET_CIRCLE } from "@/components/dossier/sheet-geometry";
 import { datedFlowAfterMm, NATIVE_BOUNDARY_HEIGHT_MM } from "./flow-boundaries";
@@ -40,7 +42,10 @@ export function applyCvSidebarTypography(
       "DOCX Next: Sidebar-Schriftwerte unterstützen nur unverrückte Rubriken ohne Pills.",
     );
   if (
-    source.cv.design.font !== "sans" ||
+    (source.cv.design.font !== "sans" &&
+      (!metrics.opening ||
+        effectiveDossierFont(source.cv.design.template, source.cv.design.font) !==
+          FONT_STACKS.sans)) ||
     resolved.options.headerMode !== (contactHeaders ? "contact" : "compact") ||
     effectiveDossierHeaderModeForOptions(resolved.options, 1) !== resolved.options.headerMode ||
     resolved.options.footerMode !== "compact" ||

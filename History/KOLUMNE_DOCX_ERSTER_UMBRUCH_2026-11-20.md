@@ -71,6 +71,10 @@ Alle vier Sidebar-Fälle treffen auf drei Seiten sämtliche 20 Seitenzuordnungen
 
 Der Prüfexport verwendet die linke Kante und Breite der Sidebar-Textspalte aus der Webvorschau. Die Überschriften übernehmen zusätzlich den gemessenen Einzug neben der Farblinie. Bei Studio 3 schrumpft der horizontale Versatz der geprüften Textanfänge von bis zu 10,42 mm auf höchstens 0,11 mm. Bei Kolumne beträgt die maximale Abweichung 0,07 mm. Die Prüfung vergleicht pro Datei sechs Textanfänge mit dem App-PDF, unmittelbar nach dem Export und nach zwei Writer-Speicherzyklen. Alle vier Sidebar-Fälle behalten die 20 Seitenzuordnungen, 111 Feldwerte und den geprüften Fotoausschnitt.
 
-Der Nachweis gilt für den internen Prüfexport mit gemessener Sans-Typografie. Die Vorlagenschriften und Microsoft Word Desktop stehen für diese Sidebar-Fälle zur Prüfung aus.
+### Gespeicherte Vorlagenschrift
+
+Je ein Fall für Studio 3 und Kolumne speichert die Vorlagenschrift ausdrücklich als `font: null`. Beide Vorlagen lösen diese Einstellung im Browser zur gemeinsamen Sans-Schrift auf. Die Messung prüft weiterhin die Schriftbreite der einzelnen Felder. Die DOCX-Dateien deklarieren Arial. Der Linux-Prüflauf rendert sie mit Liberation Sans. Beide Fälle behalten nach zwei Writer-Speicherzyklen die drei Seiten, alle 20 Seitenzuordnungen, 111 Feldwerte und den Fotoausschnitt.
+
+Ein historischer Entwurf ohne gespeicherten `font`-Schlüssel lädt Cabin. Dafür sind Schrift- und Umbruchtreue in diesem Prüfpfad weiterhin offen. Microsoft Word Desktop steht für die Sidebar-Fälle separat zur Abnahme aus.
 
 [#194](https://github.com/modebrecht/cv-cover-charm/issues/194) · [#195](https://github.com/modebrecht/cv-cover-charm/issues/195) · [#227](https://github.com/modebrecht/cv-cover-charm/issues/227)
