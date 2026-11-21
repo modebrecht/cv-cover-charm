@@ -364,12 +364,13 @@ export async function renderDossierDocx(
               pageOrigin ? inset : 0,
               Math.min(page.heightMm - finalHeight - inset, value.yMm),
             );
-      const horizontal = value.measuredPageAnchor ? "margin" : pageOrigin ? "page" : "column";
+      const relativeToMargin = value.measuredPageAnchor && page.margins.left > 0;
+      const horizontal = relativeToMargin ? "margin" : pageOrigin ? "page" : "column";
       const vertical = value.measuredPageAnchor
-        ? "paragraph"
+        ? (value.verticalOrigin ?? "paragraph")
         : (value.verticalOrigin ??
           (authoredParagraphOffsets ? "line" : pageOrigin ? "page" : "paragraph"));
-      const offsetX = value.measuredPageAnchor ? x - page.margins.left : x;
+      const offsetX = relativeToMargin ? x - page.margins.left : x;
       const offsetY = value.measuredPageAnchor ? y - page.margins.top : y;
       drawing = `<wp:anchor ${distances} simplePos="0" relativeHeight="${paintLayer ?? id}" behindDoc="${behind ? 1 : 0}" locked="0" layoutInCell="${value.nativeOwner === "page-picture" ? 0 : 1}" allowOverlap="${behind || noTextWrap ? 1 : 0}"><wp:simplePos x="0" y="0"/><wp:positionH relativeFrom="${horizontal}"><wp:posOffset>${emu(offsetX)}</wp:posOffset></wp:positionH><wp:positionV relativeFrom="${vertical}"><wp:posOffset>${emu(offsetY)}</wp:posOffset></wp:positionV>${extent}${behind || noTextWrap ? "<wp:wrapNone/>" : '<wp:wrapSquare wrapText="bothSides"/>'}${properties}${picture}</wp:anchor>`;
     }

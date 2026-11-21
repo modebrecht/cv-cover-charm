@@ -69,10 +69,7 @@ export function composeMeasuredHeaders(
   for (const repeat of ["first", "continuation"] as const) {
     const m = values[repeat],
       prefix = `${part.id}.measured.${repeat}`;
-    const headerMode =
-      part.id === "letter"
-        ? effectiveDossierHeaderModeForOptions(options, repeat === "first" ? 0 : 1)
-        : "contact";
+    const headerMode = effectiveDossierHeaderModeForOptions(options, repeat === "first" ? 0 : 1);
     const invalidHeight = headerMode === "none" ? m.heightMm !== 0 : m.heightMm <= 0;
     if (
       ![

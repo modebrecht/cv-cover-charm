@@ -16,6 +16,7 @@ export function composeSharedCvSidebar(
   automaticSidePhotoWidthMm?: number,
   ordinaryPicture = false,
   twoPagePreview = false,
+  differentContactContinuation = false,
 ): void {
   if (part.layout.mode !== "sidebar") throw Error("DOCX Next shared grid requires Sidebar");
   const { rail, mainText, sideText } = first;
@@ -119,13 +120,23 @@ export function composeSharedCvSidebar(
             nativeOwner: "page-picture",
             gapMm: 0,
             xMm: area.leftMm + borderOutsetMm,
-            yMm: 0,
-            verticalOrigin: "paragraph",
-            // Word's square wrap can constrain the right photo to the main
-            // table column. Its existing reserved area owns text clearance.
-            ...(sideRight && target === side && block.id === "cv.person.photo"
-              ? { wrapMode: "none" as const }
-              : {}),
+            // The opening paragraph follows the recurring inset. A photo with a
+            // different follow-up header needs its own stable first-page offset.
+            ...(differentContactContinuation
+              ? {
+                  yMm: area.topMm + borderOutsetMm,
+                  verticalOrigin: "margin",
+                  measuredPageAnchor: true,
+                  wrapMode: "none",
+                }
+              : {
+                  yMm: 0,
+                  verticalOrigin: "paragraph",
+                  // Square wrap can constrain the mirrored photo to the main column.
+                  ...(sideRight && target === side && block.id === "cv.person.photo"
+                    ? { wrapMode: "none" as const }
+                    : {}),
+                }),
             sourceLayout: {
               xMm: area.leftMm,
               yMm: area.topMm,

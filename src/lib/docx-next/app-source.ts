@@ -23,10 +23,7 @@ import {
   readStoredDossierPart,
 } from "@/lib/dossier-project";
 import { resolveDossierChromeSnapshot } from "@/lib/dossier-resolved-chrome";
-import {
-  DEFAULT_DOSSIER_CHROME_STATE,
-  effectiveDossierHeaderModeForOptions,
-} from "@/lib/dossier-chrome";
+import { DEFAULT_DOSSIER_CHROME_STATE } from "@/lib/dossier-chrome";
 import { captureDossierDocxNextSnapshot } from "./snapshot";
 import type { DossierAppSnapshot, DossierCvSource } from "./source";
 import { CV_EXPLICIT_SECOND_PAGE_ERROR, DocxDownloadError } from "./download-error";
@@ -158,14 +155,6 @@ export function assertAppDocxNextSource(
     );
   if (!part && chrome.letter.options.headerMode !== chrome.cv.options.headerMode)
     throw new DocxDownloadError("Bitte in Brief und Lebenslauf denselben Kopfzeilenmodus wählen.");
-  if (
-    includes("cv") &&
-    chrome.cv.options.headerMode === "contact" &&
-    effectiveDossierHeaderModeForOptions(chrome.cv.options, 1) !== "contact"
-  )
-    throw new DocxDownloadError(
-      "Bitte für den Word-Download im Lebenslauf auch auf Folgeseiten den Kontaktkopf wählen oder das PDF herunterladen.",
-    );
   if (
     (part ? [chrome[part]] : [chrome.letter, chrome.cv]).some(
       ({ options, content }) =>

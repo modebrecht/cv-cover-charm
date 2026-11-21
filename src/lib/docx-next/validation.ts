@@ -441,17 +441,18 @@ export function validateDossierDocModel(model: DossierDocModel): void {
           block.gapMm !== 0 ||
           (block.wrapMode !== undefined &&
             (block.wrapMode !== "none" ||
-              part.layout.side !== "right" ||
               block.id !== "cv.person.photo" ||
-              block.xMm < part.page.widthMm / 2)))
+              (block.verticalOrigin !== "margin" &&
+                (part.layout.side !== "right" || block.xMm < part.page.widthMm / 2)))))
       )
         throw Error(`DOCX Next ordinary picture must be outside cells and controls ${block.id}`);
       if (
         block.kind === "image" &&
         block.verticalOrigin !== undefined &&
-        (block.verticalOrigin !== "paragraph" ||
-          block.nativeOwner !== "page-picture" ||
-          block.yMm !== 0)
+        (block.nativeOwner !== "page-picture" ||
+          (block.verticalOrigin === "margin"
+            ? !block.measuredPageAnchor || block.yMm < part.page.margins.top
+            : block.verticalOrigin !== "paragraph" || block.yMm !== 0))
       )
         throw Error(`DOCX Next invalid ordinary picture vertical anchor ${block.id}`);
       if (
@@ -460,7 +461,7 @@ export function validateDossierDocModel(model: DossierDocModel): void {
         (block.measuredPageAnchor !== true ||
           block.nativeOwner !== "page-picture" ||
           block.wrapMode !== "none" ||
-          block.verticalOrigin !== undefined ||
+          (block.verticalOrigin !== undefined && block.verticalOrigin !== "margin") ||
           block.xMm + block.widthMm > part.page.widthMm ||
           block.yMm + block.widthMm * (block.frame?.heightRatio ?? 1) > part.page.heightMm)
       )

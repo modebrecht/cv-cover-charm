@@ -56,7 +56,7 @@ export function applyCvSidebarTypography(
         effectiveDossierFont(source.cv.design.template, source.cv.design.font) !==
           FONT_STACKS.sans)) ||
     resolved.options.headerMode !== (contactHeaders ? "contact" : "compact") ||
-    effectiveDossierHeaderModeForOptions(resolved.options, 1) !== resolved.options.headerMode ||
+    (!contactHeaders && effectiveDossierHeaderModeForOptions(resolved.options, 1) !== "compact") ||
     resolved.options.footerMode !== "compact" ||
     Object.values(resolved.content).some((v) => v?.trim()) ||
     resolved.options.headerGradientColor ||

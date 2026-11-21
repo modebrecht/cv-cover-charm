@@ -108,7 +108,7 @@ export async function captureCvSidebarTextMetrics(
     throw Error("DOCX Next: Sidebar-Schriftprüfung unterstützt linksbündigen Text und Blocksatz.");
   if (
     !["compact", "contact"].includes(options.headerMode) ||
-    effectiveDossierHeaderModeForOptions(options, 1) !== options.headerMode ||
+    (!contactHeaders && effectiveDossierHeaderModeForOptions(options, 1) !== "compact") ||
     options.footerMode !== "compact" ||
     Object.values(content).some((v) => v?.trim()) ||
     options.headerGradientColor ||
@@ -360,6 +360,15 @@ export async function captureCvSidebarTextMetrics(
       result.referenceGapMm =
         mm(number(getComputedStyle(references).columnGap)) * cvDocumentZoom(references);
     const pages = host.querySelectorAll<HTMLElement>("[data-cv-page]");
+    // The continuous Sidebar row can drop its final entries in Writer on long CVs (#202).
+    if (
+      contactHeaders &&
+      effectiveDossierHeaderModeForOptions(options, 1) !== "contact" &&
+      pages.length > 2
+    )
+      throw new DocxDownloadError(
+        "Der Word-Download mit anderer Folgekopfzeile unterstützt derzeit bis zu zwei CV-Seiten. Bitte verwende für diesen Lebenslauf den PDF-Download.",
+      );
     if (captureOpening) {
       const page = pages[0];
       const main = page?.querySelector("[data-cv-main]")?.getBoundingClientRect();

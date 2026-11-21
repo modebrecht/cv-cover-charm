@@ -270,3 +270,28 @@ pixels. It reuses the regular export's first and continuation page crops as
 the pixel references for the native header and footer. The report retains
 each phase independently so a second successful save cannot cover up a
 first-save mismatch.
+
+## Modern CV continuation header — 2026-11-21
+
+The normal Word downloads for a Modern Sidebar CV now read the saved compact
+or hidden continuation header when the first page has a contact header. This
+applies to the standalone CV and the dossier. The CV and letter can have their
+own continuation settings while sharing their first-page header mode.
+
+The first-page portrait keeps its authored position through shorter continuation
+margins. Its vertical offset is relative to the section margin and its left or
+right placement matches the sidebar grid. It remains an ordinary editable
+picture. The browser regression covers both download routes and checks the
+continuation paint, native contact fields, end reference and portrait anchor.
+
+Pinned Writer opened all four regular downloads with the expected photo
+position, continuation header and complete CV text. Writer 25.8.7.3 changes
+the sample's rounded picture crop on saving. The same photo in the existing
+contact-only export acquires the same `fillRect` and the same distorted crop.
+
+The three-page check reproduced [#202](https://github.com/modebrecht/cv-cover-charm/issues/202)
+with the usual contact continuation and with a compact continuation. Writer
+showed 15 of 17 stations and omitted the end reference, although the DOCX
+contained every field. The newly supported continuation choices therefore use
+the PDF fallback when the measured CV exceeds two pages. Desktop Word
+verification is still open.

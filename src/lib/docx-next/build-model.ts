@@ -67,6 +67,7 @@ import { templateMotifs, composePageMotifs } from "./template-motifs";
 import {
   DEFAULT_DOSSIER_CHROME_STATE,
   dossierFooterVisualHeightMmForOptions,
+  effectiveDossierHeaderModeForOptions,
 } from "@/lib/dossier-chrome";
 import { CV_FLOW_LAYOUTS, cvWordLayout, datedEntryBlocks, nativeTextWidthMm } from "./layouts";
 import { wordFont as fontForKey, createFontResolver } from "./fonts";
@@ -1913,6 +1914,8 @@ export function buildDossierDocModel(
           : undefined,
         options.cvPhotoComposition === "ordinary-picture",
         twoPageMembership !== undefined,
+        capturedSidebarMetrics?.contactHeaders === true &&
+          effectiveDossierHeaderModeForOptions(chrome.cv.options, 1) !== "contact",
       );
     } else {
       composeCvSidebar(

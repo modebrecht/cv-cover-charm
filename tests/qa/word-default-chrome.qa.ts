@@ -5,10 +5,31 @@ import { join } from "node:path";
 import project from "../fixtures/import/modern-sidebar-from-23okt.json" with { type: "json" };
 import { DEFAULT_DOSSIER_CHROME_STATE } from "../../src/lib/dossier-chrome";
 import { readZipEntries } from "../../src/lib/docx-next/zip";
-import { waitForNativeEditorSaved } from "../e2e/support/native-docx-fixture";
+import { importNativeDossier, waitForNativeEditorSaved } from "../e2e/support/native-docx-fixture";
 
 const out = "artifacts/word-default-chrome";
 const base = "http://127.0.0.1:4173";
+
+function configureContactCv(input: typeof project, mode: "compact" | "none", count: number) {
+  input.chrome.sync = false;
+  Object.assign(input.chrome.cv, {
+    headerDifferentFirstPage: true,
+    headerContinuationMode: mode,
+    headerHeightMm: null,
+    headerBackgroundColor: "#183456",
+  });
+  input.cv.portableState.mirrored = mode === "none";
+  input.cv.portableState.infoPosition = mode === "none" ? "mirrored" : "standard";
+  input.cv.data.erfahrung = Array.from({ length: count }, (_, index) => ({
+    id: `follow-up-${index}`,
+    zeit: "2026",
+    titel: `WordPraxis${index + 1}`,
+    ort: "Beispiel AG, Hubersdorf",
+    beschreibung:
+      "Support und kleine Automatisierungen. Zusammenarbeit im Team und sorgfältige Dokumentation der Arbeitsschritte.",
+  }));
+  input.cv.data.referenzen[0].name = "WordEndreferenz";
+}
 
 // This release regression uses default chrome with the supported Modern Sidebar
 // layout. The application-wide default CV layout has a separate contract.
@@ -218,3 +239,102 @@ test("Modern default chrome exports through normal PDF, Word and JSON downloads"
     ),
   );
 });
+
+test("a three-page contact CV with a different follow-up keeps its PDF download", async ({
+  page,
+}) => {
+  await importNativeDossier(page, (input) => configureContactCv(input, "compact", 17));
+  await page.goto(`${base}/lebenslauf`, { waitUntil: "networkidle" });
+  await waitForNativeEditorSaved(page);
+  await expect(page.locator('[data-export-mode="false"] [data-cv-page]')).toHaveCount(3);
+  await page.getByRole("button", { name: "Download", exact: true }).click();
+  await page.getByRole("menuitem", { name: "DOCX", exact: true }).click();
+  await expect(page.getByRole("alert").filter({ hasText: /bis zu zwei CV-Seiten/ })).toBeVisible();
+  await expect(page.getByRole("menuitem", { name: "PDF", exact: true })).toBeEnabled();
+});
+
+for (const mode of ["compact", "none"] as const) {
+  test(`contact CV with ${mode} follow-up exports through both Word menus`, async ({
+    page,
+  }, info) => {
+    await importNativeDossier(page, (input) => configureContactCv(input, mode, 10));
+    await page.goto(`${base}/lebenslauf`, { waitUntil: "networkidle" });
+    await waitForNativeEditorSaved(page);
+    const sheets = page.locator('[data-export-mode="false"] [data-cv-page]');
+    await expect(sheets).toHaveCount(2);
+    await expect(sheets.last().locator("[data-dossier-effective-header-mode]")).toHaveAttribute(
+      "data-dossier-effective-header-mode",
+      mode,
+    );
+    await expect(sheets.last()).toContainText("WordEndreferenz");
+    await page.getByRole("button", { name: "Download", exact: true }).click();
+    const [single] = await Promise.all([
+      page.waitForEvent("download"),
+      page.getByRole("menuitem", { name: "DOCX", exact: true }).click(),
+    ]);
+
+    await page.goto(base, { waitUntil: "networkidle" });
+    await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
+    const dialog = page.getByRole("dialog", { name: "Dossier herunterladen" });
+    await dialog.getByRole("radio", { name: "Bearbeitbares Dossier (DOCX)", exact: true }).click();
+    const [combined] = await Promise.all([
+      page.waitForEvent("download"),
+      dialog.getByRole("button", { name: "DOCX herunterladen" }).click(),
+    ]);
+
+    for (const [part, download] of [
+      ["single", single],
+      ["combined", combined],
+    ] as const) {
+      await download.saveAs(info.outputPath(`${part}.docx`));
+      const entries = readZipEntries(await readFile((await download.path())!));
+      const bytes = (name: string) => entries.find((entry) => entry.name === name)!.bytes;
+      const xml = (name: string) => new TextDecoder().decode(bytes(name));
+      expect(xml("word/cv-header-first.xml")).toContain("cv.person.address");
+      expect(xml("word/cv-header.xml")).not.toMatch(/cv\.person\.(?:name|address|email)/);
+      if (part === "combined")
+        expect(xml("word/letter-header.xml")).toContain("letter.sender.address");
+      const body = xml("word/document.xml");
+      expect(body).toContain(">WordEndreferenz<");
+      const photos = [...body.matchAll(/<wp:anchor\b[\s\S]*?<\/wp:anchor>/g)].filter(([anchor]) =>
+        /<wp:docPr[^>]+name="cv\.person\.photo"/.test(anchor),
+      );
+      expect(photos).toHaveLength(1);
+      const photo = photos[0][0];
+      expect(photo).toContain("<wp:wrapNone/>");
+      const top = Number(
+        photo.match(/<wp:positionV relativeFrom="margin"><wp:posOffset>(\d+)/)?.[1],
+      );
+      const margins = [...body.matchAll(/<w:pgMar\b[^>]*w:top="(\d+)"/g)].at(-1)!;
+      expect(top / 36000 + (Number(margins[1]) * 25.4) / 1440).toBeCloseTo(52, 1);
+      const paintFile = xml("word/_rels/cv-header.xml.rels").match(
+        /Target="(media\/decoration-\d+\.png)"/,
+      )![1];
+      const color = await page.evaluate(
+        async (data) => {
+          const image = await createImageBitmap(
+            new Blob([new Uint8Array(data)], { type: "image/png" }),
+          );
+          const canvas = document.createElement("canvas");
+          canvas.width = canvas.height = 1;
+          const ctx = canvas.getContext("2d")!;
+          ctx.drawImage(
+            image,
+            Math.floor(image.width / 2),
+            Math.floor((image.height * 2) / 297),
+            1,
+            1,
+            0,
+            0,
+            1,
+            1,
+          );
+          return Array.from(ctx.getImageData(0, 0, 1, 1).data.slice(0, 3));
+        },
+        Array.from(bytes(`word/${paintFile}`)),
+      );
+      if (mode === "compact") expect(color).toEqual([24, 52, 86]);
+      else expect(color.every((value) => value >= 248)).toBe(true);
+    }
+  });
+}

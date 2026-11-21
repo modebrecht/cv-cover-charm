@@ -95,11 +95,11 @@ export type ImageBlock = {
   coordinateOrigin?: "content" | "page";
   /** Sidebar page image: legacy picture frame, or ordinary unwrapped body picture. */
   nativeOwner?: "page-frame" | "page-picture";
-  /** Automatic ordinary photo follows the opening flow paragraph, without a page-Y offset. */
-  verticalOrigin?: "paragraph";
-  /** Project measured page coordinates onto a margin-X and opening-paragraph-Y anchor. */
+  /** Ordinary photos can follow the opening paragraph or the section's top margin. */
+  verticalOrigin?: "paragraph" | "margin";
+  /** Project measured page coordinates onto native page or section-relative anchors. */
   measuredPageAnchor?: true;
-  /** Explicitly opted-in QA page picture: no Word text wrap. */
+  /** The body flow reserves space for the picture independently of text wrap. */
   wrapMode?: "none";
   sourceLayout?: ElementSourceLayout;
 };

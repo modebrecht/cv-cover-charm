@@ -147,8 +147,7 @@ export async function captureInteriorTextMetrics(
         await document.fonts.ready;
         const sheet = host.querySelector<HTMLElement>("[data-cv-page]")!;
         const base = sheet.getBoundingClientRect();
-        const headerMode =
-          scope === "letter" ? effectiveDossierHeaderModeForOptions(options, pageIndex) : "contact";
+        const headerMode = effectiveDossierHeaderModeForOptions(options, pageIndex);
         const background =
           headerMode === "none"
             ? null
