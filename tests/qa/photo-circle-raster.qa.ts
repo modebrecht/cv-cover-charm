@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { jsPDF } from "jspdf";
+import { PDF_RASTER_CANVAS_EVENT } from "../../src/lib/html2canvas-export";
 import {
   applyGalleryCase,
   BASE_URL,
@@ -42,29 +43,33 @@ for (const id of ["terracotta", "studio3"]) {
     await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
     const source = page.locator("[data-dossier-pdf-canvas] [data-cv-page]").first();
     await expect(source.locator("[data-cv-photo] img")).toHaveCount(1);
-    const raster = await source.evaluate(async (source) => {
-      const modulePath = "/src/lib/html2canvas-export.ts";
-      const canvasPath = "/node_modules/.vite/deps/html2canvas-pro.js";
-      const normalize = (await import(modulePath)).normalizeCssZoomForHtml2Canvas;
-      const html2canvas = (await import(canvasPath)).default;
-      const canvas = await html2canvas(source, {
-        scale: 3,
-        width: 794,
-        height: 1123,
-        windowWidth: 794,
-        windowHeight: 1123,
-        scrollX: 0,
-        scrollY: 0,
-        backgroundColor: "#ffffff",
-        logging: false,
-        onclone: (_document: Document, clone: HTMLElement) => normalize(clone),
+    const captured = await page.evaluateHandle((eventName) => {
+      const canvases: HTMLCanvasElement[] = [];
+      document.documentElement.dataset.pdfRasterDiagnostics = "true";
+      window.addEventListener(eventName, (event) => {
+        const { canvas } = (event as CustomEvent<{ canvas: HTMLCanvasElement }>).detail;
+        canvases.push(canvas);
       });
+      return canvases;
+    }, PDF_RASTER_CANVAS_EVENT);
+    const button = page
+      .getByRole("dialog")
+      .getByRole("button", { name: "PDF herunterladen", exact: true });
+    await expect(button).toBeEnabled();
+    const pending = page.waitForEvent("download");
+    await button.click();
+    await pending;
+    const raster = await captured.evaluate((canvases) => {
+      const [canvas] = canvases;
+      if (canvases.length !== 1 || canvas.width !== 794 * 3 || canvas.height !== 1123 * 3)
+        throw Error("Expected one CV export canvas at 288 dpi.");
       return {
         png: canvas.toDataURL("image/png"),
         jpeg94: canvas.toDataURL("image/jpeg", 0.94),
         jpeg100: canvas.toDataURL("image/jpeg", 1),
       };
     });
+    await captured.dispose();
     await writeFile(
       join(out, `${id}-raster3.png`),
       Buffer.from(raster.png.split(",")[1], "base64"),

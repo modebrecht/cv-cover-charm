@@ -81,11 +81,14 @@ def main():
                 "pdf_sha256": hashlib.sha256(pdf.read_bytes()).hexdigest(),
                 "image_sha256": hashlib.sha256(image.read_bytes()).hexdigest(),
             })
-        rows.append({"template": template, "status": "REVIEW",
+        actual_score = next(v["smoothed_rgb_ssim"] for v in variants if v["encoding"] == "jpeg94")
+        rows.append({"template": template, "status": "PASS" if actual_score >= PHOTO_SSIM_MIN else "REVIEW",
                      "actual_raw_rgb_ssim": image_score(web, actual),
                      "actual_pdf_sha256": hashlib.sha256(actual_pdf.read_bytes()).hexdigest(),
                      "variants": variants, "source": diagnostic})
-    report = {"source_sha": source, "status": "REVIEW", "cases": rows,
+    report = {"source_sha": source,
+              "status": "PASS" if all(row["status"] == "PASS" for row in rows) else "REVIEW",
+              "cases": rows,
               "limits": {"photo_ssim": PHOTO_SSIM_MIN, "smoothing_px": PHOTO_SMOOTHING_PX},
               "versions": {"pymupdf": fitz.VersionBind, "pillow": PIL.__version__,
                            "numpy": np.__version__},
@@ -100,7 +103,8 @@ def main():
         lines += [f"| {row['template']} | {v['encoding']} | {v['raw_rgb_ssim']:.5f} | "
                   f"{v['smoothed_rgb_ssim']:.5f} | {v['single_raster_pdf_bytes']} |"
                   for v in row["variants"]]
-    lines += ["", "The two production cases remain REVIEW. Neither thresholds nor masking change.",
+    lines += ["", f"Production photo status at the {PHOTO_SSIM_MIN:g} SSIM threshold: "
+              + ", ".join(f"{row['template']} {row['status']}" for row in rows) + ".",
               "Variant PDFs contain one raster page; byte counts are not full-dossier sizes."]
     (OUT / "REPORT.md").write_text("\n".join(lines) + "\n")
     print("\n".join(lines))

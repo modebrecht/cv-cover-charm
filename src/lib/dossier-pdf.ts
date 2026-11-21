@@ -3,7 +3,10 @@ import { letterPageOverflows, printableTextClips } from "@/components/letter/pre
 import { PAGE, PDF } from "@/default-config";
 import { addCvTextLayer } from "@/lib/cv-pdf-text";
 import { normalizeCvRubricPillsForPdf } from "@/lib/cv-pdf-rubric";
-import { normalizeCssZoomForHtml2Canvas } from "@/lib/html2canvas-export";
+import {
+  emitPdfRasterCanvasDiagnostic,
+  normalizeCssZoomForHtml2Canvas,
+} from "@/lib/html2canvas-export";
 import { downloadBlob } from "@/lib/download";
 import { registerCabinPdfFonts } from "@/lib/pdf-fonts";
 import { renderPdfRaster } from "@/lib/pdf-raster";
@@ -383,6 +386,7 @@ async function addRasterPage(
       }
     },
   });
+  if (cvTextSource) emitPdfRasterCanvasDiagnostic(canvas, page);
   pdf.addImage(
     canvas.toDataURL("image/jpeg", PDF.QUALITY),
     "JPEG",
