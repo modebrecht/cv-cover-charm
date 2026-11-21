@@ -7,6 +7,8 @@ import { datedFlowAfterMm as tableFlowAfterMm, NATIVE_BOUNDARY_HEIGHT_MM } from 
 import { resolveDossierChromeSnapshot } from "@/lib/dossier-resolved-chrome";
 import { DEFAULT_DOSSIER_CHROME_STATE } from "@/lib/dossier-chrome";
 
+const MAX_KEPT_LETTER_FLOW_MM = 80;
+
 /** The source-only part of the existing renderer gate also drives download availability. */
 export function sourceLetterFlowInputIssue(
   source: DossierAppSnapshot,
@@ -171,13 +173,17 @@ export function composeSourceLetterFlow(part: DocumentPart, source: DossierAppSn
     const gap = part.blocks.find((b) => b.kind === "spacer" && b.id === "letter.recipient.gap");
     if (gap?.kind === "spacer") gap.heightMm = 6;
   }
-  // Extend the template's existing short-tail keep policy by one ordinary
-  // final paragraph. A long paragraph still splits naturally and cannot drag
-  // an unbounded group onto a new page.
-  const lastBody = [...bodies].reverse().find((p) => p.runs.some((r) => r.text.trim()));
+  const textBodies = bodies.filter((p) => p.runs.some((r) => r.text.trim()));
+  // The Web flow prefers paragraph boundaries after text has started on a page.
+  // Keep short middle paragraphs intact. The opening paragraph flows under
+  // the address, and the closing paragraph follows the conclusion's keep rule.
+  for (const body of textBodies.slice(1, -1)) {
+    if (nativeTextHeightMm([body], width) <= MAX_KEPT_LETTER_FLOW_MM) body.keepLines = true;
+  }
+  const lastBody = textBodies.at(-1);
   if (lastBody) {
     const tail = paragraphs.slice(paragraphs.indexOf(lastBody));
-    if (nativeTextHeightMm(tail, width) <= 80)
+    if (nativeTextHeightMm(tail, width) <= MAX_KEPT_LETTER_FLOW_MM)
       bodies.slice(bodies.indexOf(lastBody)).forEach((p) => {
         p.keepNext = true;
       });

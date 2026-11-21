@@ -1,5 +1,21 @@
 # Zwei Seiten im regulären DOCX-Briefexport
 
+## Nachprüfung vom 21.11.2026
+
+Im Modern-Anschreiben mit Kontaktkopf endete Seite 1 in LibreOffice beim 20. Satz. In Web und App-PDF begann der vierte Absatz geschlossen auf Seite 2. Der reguläre DOCX-Export schützt jetzt kurze mittlere Absätze mit Words Absatzoption `w:keepLines`. Ein langer Absatz kann über mehrere Seiten fliessen. Für den Kontaktkopf mit sieben Absätzen setzt der Export das Attribut bei fünf Absätzen.
+
+| Geprüfter Download | Web und App-PDF | Writer vor der Korrektur | Writer nach der Korrektur |
+| --- | --- | --- | --- |
+| Einzelbrief mit kompaktem Kopf | 18 / 20 Sätze | 18 / 20 Sätze | 18 / 20 Sätze |
+| Einzelbrief mit Kontaktkopf | 18 / 20 Sätze | 20 / 18 Sätze | 18 / 20 Sätze |
+| Brief im Gesamtdossier mit Kontaktkopf | 18 / 20 Sätze | 20 / 18 Sätze | 18 / 20 Sätze |
+
+Der reguläre Gesamtdossier-Download ergibt vier Seiten in Writer. Der Brief liegt auf Seiten 2 und 3. Er enthält alle 38 Sätze in der erwarteten Reihenfolge sowie Empfänger, Betreff, Abschluss und die drei Beilagen auf den vorgesehenen Seiten.
+
+Mit LibreOffice 25.8.7.3 wurden beide Einzelbriefe und das Gesamtdossier je zweimal gespeichert und wieder geöffnet. Alle zwölf geprüften Briefseitenpaare sind pixelidentisch zu den jeweiligen Ausgangs-DOCX-Renderings. Microsoft Word Desktop steht für diese Kontaktkopf-Abnahme aus.
+
+## Prüfstand vom 19.11.2026
+
 Am 19.11.2026 für [#206](https://github.com/modebrecht/cv-cover-charm/issues/206)
 geprüft. Zwei gespeicherte Modern/Sans-Anschreiben mit längerem Empfänger,
 mehrzeiligem Betreff, 38 nummerierten Sätzen und drei Beilagen wurden über die

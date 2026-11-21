@@ -139,6 +139,24 @@ test("a short final paragraph can accompany the existing letter tail without fix
   assert.equal(field(m, "letter.body.paragraph:2").keepNext, false);
 });
 
+test("native pagination keeps short middle paragraphs together and lets a long one split", () => {
+  const { input, options } = setup();
+  input.letter.data.text = [
+    "Erster Absatz.",
+    "Kurzer mittlerer Absatz zum Projekt. ".repeat(4).trim(),
+    "Langer synthetischer Testtext. ".repeat(150).trim(),
+    "Abschliessender Absatz.",
+  ].join("\n\n");
+  options.interiorTextMetrics!.sourceKey = options.cvSidebarTextMetrics!.sourceKey =
+    JSON.stringify(input);
+  const m = buildDossierDocModel(input, { ...options, letterFlowComposition: "source-lines" });
+  for (const [index, keepLines] of [false, false, true, false, false, false, false].entries()) {
+    const p = field(m, `letter.body.paragraph:${index}`);
+    assert.equal(p.keepLines, keepLines);
+    assert.ok(paragraph(p).includes(`<w:keepLines w:val="${Number(keepLines)}"/>`));
+  }
+});
+
 test("trailing blank lines stay with a bounded conclusion", () => {
   const { input, options } = setup();
   input.letter.data.text += "\n\n";
