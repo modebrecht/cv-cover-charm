@@ -34,6 +34,7 @@ import { planPartSections, type PlannedSection } from "./section-plan";
 import { tableColumnWidths } from "./layouts";
 import { nativeTextShapeRun } from "./native-text-shape";
 import { nativePictureFrameRun } from "./native-picture-frame";
+import { halfWidthRubricRow } from "./cv-half-width-row";
 import {
   nativePictureTileGraphic,
   pictureWithCropFallback,
@@ -383,7 +384,14 @@ export async function renderDossierDocx(
               pageOrigin ? inset : 0,
               Math.min(page.heightMm - finalHeight - inset, value.yMm),
             );
-      const relativeToMargin = value.measuredPageAnchor && page.margins.left > 0;
+      // Writer includes the left margin in a page-relative picture offset
+      // inside the mirrored CV table. Preserve the authored position explicitly.
+      const relativeToMargin =
+        page.margins.left > 0 &&
+        (value.measuredPageAnchor ||
+          (value.nativeOwner === "page-picture" &&
+            value.verticalOrigin === "paragraph" &&
+            value.wrapMode === "none"));
       const horizontal = relativeToMargin ? "margin" : pageOrigin ? "page" : "column";
       const vertical = value.measuredPageAnchor
         ? (value.verticalOrigin ?? "paragraph")
@@ -903,15 +911,7 @@ export async function renderDossierDocx(
           index++;
         }
         result += table(
-          {
-            kind: "table",
-            id: `${block.id}.half-row`,
-            widths: [1, 1, 1],
-            columnWidthsMm: [null, 6, null],
-            indentMm,
-            rows: [{ cells: [cells[0], [], cells[1]], keepTogether: false }],
-            decoration: { borderColor: "FFFFFF", borderWidthMm: 0, paddingXMm: 0, paddingYMm: 0 },
-          },
+          halfWidthRubricRow(`${block.id}.half-row`, cells[0], cells[1], indentMm),
           widthMm,
           page,
           cumulativeGrid,

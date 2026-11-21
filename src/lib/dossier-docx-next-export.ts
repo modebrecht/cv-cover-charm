@@ -1,5 +1,8 @@
 import { resolveDossierChromeSnapshot } from "./dossier-resolved-chrome";
-import { DEFAULT_DOSSIER_CHROME_STATE } from "./dossier-chrome";
+import {
+  DEFAULT_DOSSIER_CHROME_STATE,
+  effectiveDossierHeaderModeForOptions,
+} from "./dossier-chrome";
 import { normalizedCoverLabels, coverTextPresentation } from "@/components/cover/presentation";
 import { captureCoverTextMetrics } from "@/components/cover/resolve";
 import { FONT_STACKS, lineText } from "@/components/cover/types";
@@ -22,6 +25,7 @@ import { walkBlocks, type DossierDocModel, type DocumentPart } from "./docx-next
 import type { DossierAppSnapshot } from "./docx-next/source";
 import type { CoverTextMetrics } from "@/components/cover/text-metrics";
 import type { CvSidebarTextMetrics } from "./docx-next/cv-sidebar-text-metrics";
+import { composeLongCvSidebar } from "./docx-next/cv-sidebar-continuation";
 import type { InteriorTextMetrics } from "./docx-next/interior-metrics";
 
 export function buildAppDocxNextModel(
@@ -43,11 +47,11 @@ export function buildAppDocxNextModel(
   if (includeCv && !measured.sidebar) throw new Error("DOCX Next: CV-Schriftmesswerte fehlen.");
   if ((includeLetter || includeCv) && !measured.interior)
     throw new Error("DOCX Next: Header-Schriftmesswerte fehlen.");
-  const compactChrome =
-    (includeLetter || includeCv) &&
-    resolveDossierChromeSnapshot(source, source.settings.chrome ?? DEFAULT_DOSSIER_CHROME_STATE)[
-      includeLetter ? "letter" : "cv"
-    ].options.headerMode === "compact";
+  const chrome =
+    includeLetter || includeCv
+      ? resolveDossierChromeSnapshot(source, source.settings.chrome ?? DEFAULT_DOSSIER_CHROME_STATE)
+      : undefined;
+  const compactChrome = chrome?.[includeLetter ? "letter" : "cv"].options.headerMode === "compact";
   const model = buildDossierDocModel(source, {
     ...(part ? { exportPart: part } : {}),
     coverComposition: "authored-frames",
@@ -67,6 +71,17 @@ export function buildAppDocxNextModel(
     chromeFirstPageIdentity: "distinct-stories",
     ...(includeLetter ? { letterFlowComposition: "source-lines" } : {}),
   });
+  if (chrome && includeCv && measured.sidebar?.longFlow && !options?.cvTwoPagePreview) {
+    const composed = composeLongCvSidebar(model.cv, measured.sidebar.longFlow);
+    if (
+      !composed &&
+      measured.sidebar.contactHeaders &&
+      effectiveDossierHeaderModeForOptions(chrome.cv.options, 1) !== "contact"
+    )
+      throw new DocxDownloadError(
+        "Dieser Lebenslauf kann mit der gewählten Folgekopfzeile derzeit nicht zuverlässig als Word-Datei exportiert werden. Bitte verwende den PDF-Download.",
+      );
+  }
   // The accepted compact bands are ordinary body-owned drawings. Keep the
   // previous header-owned version only as an explicit development fallback;
   // the independent two-page CV experiment retains its existing composition.

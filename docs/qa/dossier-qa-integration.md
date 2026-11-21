@@ -249,9 +249,10 @@ is invoked through the standalone QA script below.
 
 ### Repeat the stable proof
 
-Run the existing full browser suite against the local app on port 4173 to
-produce a fresh, same-commit source directory. Include the cover, letter and
-template catalog so the existing source validation can check all pairs.
+For this historical diagnostic, run the full browser suite against the
+single-row exporter at `d12fc36475cc609546e01ecef7ec8c220bc1214b` on port 4173.
+Include the cover, letter and template catalog so the existing source
+validation can check all pairs.
 
 ```sh
 DOSSIER_QA_SUITE=full SEMANTIC_PARITY_DIR=artifacts/long-proof-source \
@@ -320,4 +321,26 @@ was 0.88 mm in the very wide 3× zoom control. Browser checks verify that both
 representations point to the same image relationship inside one anchor.
 
 Microsoft Word Desktop picture editing and saving still need native review.
-The long-CV visibility defect is tracked separately. [#202](https://github.com/modebrecht/cv-cover-charm/issues/202)
+
+## Flowing Modern CV download — 2026-11-22
+
+The standard Sidebar DOCX uses the measured preview to bound native table rows
+at whole entries on CVs with three or more pages. The editor can paginate the
+rows as text changes. Mixed contact and compact or hidden follow-up heads use
+the same flow in the standalone CV and the full dossier. The mirrored Sidebar
+portrait uses an offset relative to the left margin to preserve its authored
+position in Writer.
+
+Adjacent half-width sections can continue as the same pair of columns. A
+four-page school and experience fixture with 18 entries showed all text across
+five Writer pages both at first open and after saving.
+
+For fresh downloads, `dossier_qa.py` checks the actual native render for every
+station, long-description markers, rubric rules, the final reference and the
+portrait. The report includes the measured position and pagination. The
+`--frozen` run still replays the historical diagnostic with its original gates.
+Writer can flow long descriptions onto a different number of pages than the
+App PDF. Desktop Word still needs its own native check.
+
+[LibreOffice QA #202](https://github.com/modebrecht/cv-cover-charm/issues/202) ·
+[Desktop Word QA #203](https://github.com/modebrecht/cv-cover-charm/issues/203)

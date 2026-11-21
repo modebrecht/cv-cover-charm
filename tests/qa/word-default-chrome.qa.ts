@@ -20,6 +20,10 @@ function configureContactCv(input: typeof project, mode: "compact" | "none", cou
   });
   input.cv.portableState.mirrored = mode === "none";
   input.cv.portableState.infoPosition = mode === "none" ? "mirrored" : "standard";
+  fillCvExperience(input, count);
+}
+
+function fillCvExperience(input: typeof project, count: number) {
   input.cv.data.erfahrung = Array.from({ length: count }, (_, index) => ({
     id: `follow-up-${index}`,
     zeit: "2026",
@@ -240,28 +244,20 @@ test("Modern default chrome exports through normal PDF, Word and JSON downloads"
   );
 });
 
-test("a three-page contact CV with a different follow-up keeps its PDF download", async ({
-  page,
-}) => {
-  await importNativeDossier(page, (input) => configureContactCv(input, "compact", 17));
-  await page.goto(`${base}/lebenslauf`, { waitUntil: "networkidle" });
-  await waitForNativeEditorSaved(page);
-  await expect(page.locator('[data-export-mode="false"] [data-cv-page]')).toHaveCount(3);
-  await page.getByRole("button", { name: "Download", exact: true }).click();
-  await page.getByRole("menuitem", { name: "DOCX", exact: true }).click();
-  await expect(page.getByRole("alert").filter({ hasText: /bis zu zwei CV-Seiten/ })).toBeVisible();
-  await expect(page.getByRole("menuitem", { name: "PDF", exact: true })).toBeEnabled();
-});
-
-for (const mode of ["compact", "none"] as const) {
-  test(`contact CV with ${mode} follow-up exports through both Word menus`, async ({
+for (const [mode, count] of [
+  ["compact", 10],
+  ["none", 10],
+  ["compact", 17],
+  ["none", 17],
+] as const) {
+  test(`contact CV with ${count} entries and ${mode} follow-up exports through both Word menus`, async ({
     page,
   }, info) => {
-    await importNativeDossier(page, (input) => configureContactCv(input, mode, 10));
+    await importNativeDossier(page, (input) => configureContactCv(input, mode, count));
     await page.goto(`${base}/lebenslauf`, { waitUntil: "networkidle" });
     await waitForNativeEditorSaved(page);
     const sheets = page.locator('[data-export-mode="false"] [data-cv-page]');
-    await expect(sheets).toHaveCount(2);
+    await expect(sheets).toHaveCount(count === 10 ? 2 : 3);
     await expect(sheets.last().locator("[data-dossier-effective-header-mode]")).toHaveAttribute(
       "data-dossier-effective-header-mode",
       mode,
@@ -295,6 +291,9 @@ for (const mode of ["compact", "none"] as const) {
       if (part === "combined")
         expect(xml("word/letter-header.xml")).toContain("letter.sender.address");
       const body = xml("word/document.xml");
+      expect(body.match(/>WordPraxis\d+</g)).toEqual(
+        Array.from({ length: count }, (_, index) => `>WordPraxis${index + 1}<`),
+      );
       expect(body).toContain(">WordEndreferenz<");
       const photos = [...body.matchAll(/<wp:anchor\b[\s\S]*?<\/wp:anchor>/g)].filter(([anchor]) =>
         /<wp:docPr[^>]+name="cv\.person\.photo"/.test(anchor),
@@ -347,3 +346,31 @@ for (const mode of ["compact", "none"] as const) {
     }
   });
 }
+
+test("adjacent half-width rubrics keep their native columns across long CV rows", async ({
+  page,
+}) => {
+  await importNativeDossier(page, (input) => {
+    fillCvExperience(input, 18);
+    const half = { width: "half", page: 1, positioning: "flow", packing: "rows" } as const;
+    input.cv.data.sectionLayouts = { schule: half, erfahrung: half };
+  });
+  await page.goto(`${base}/lebenslauf`, { waitUntil: "networkidle" });
+  await waitForNativeEditorSaved(page);
+  await expect(page.locator('[data-export-mode="false"] [data-cv-page]')).toHaveCount(4);
+  await page.getByRole("button", { name: "Download", exact: true }).click();
+  const [download] = await Promise.all([
+    page.waitForEvent("download", { timeout: 35_000 }),
+    page.getByRole("menuitem", { name: "DOCX", exact: true }).click(),
+  ]);
+  const entries = readZipEntries(await readFile((await download.path())!));
+  const body = new TextDecoder().decode(
+    entries.find((entry) => entry.name === "word/document.xml")!.bytes,
+  );
+  expect(body).toContain('w:tblCaption w:val="cv.section.schule.half-row.1"');
+  expect(body.match(/>WordPraxis\d+</g)).toEqual(
+    Array.from({ length: 18 }, (_, index) => `>WordPraxis${index + 1}<`),
+  );
+  expect(body).toContain(">WordEndreferenz<");
+  expect(body).not.toContain('<w:br w:type="page"/>');
+});

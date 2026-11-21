@@ -105,6 +105,10 @@ class DossierQA(unittest.TestCase):
         self.assertTrue(qa.acceptance([{'original':{'status':'FAIL'}, 'candidate':{'status':'PASS'}}]))
         self.assertFalse(qa.acceptance([{'original':{'status':'FAIL'}}]))
 
+    def test_visual_result_does_not_mask_an_incomplete_download(self):
+        self.assertFalse(qa.acceptance([{'original': {'status': 'PASS'}, 'download_content': {'status': 'FAIL'}}]))
+        self.assertTrue(qa.acceptance([{'original': {'status': 'FAIL'}, 'download_content': {'status': 'PASS'}}]))
+
     def test_missing_sources_write_blocked_report_and_return_nonzero(self):
         with tempfile.TemporaryDirectory() as tmp:
             out = Path(tmp)/'out'

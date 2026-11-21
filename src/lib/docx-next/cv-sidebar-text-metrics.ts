@@ -26,6 +26,8 @@ export type CvSidebarTextMetrics = {
   cabin?: true;
   /** A field on both sheets is ambiguous and cannot be used to split native rows. */
   fieldPages?: Record<string, 1 | 2 | "ambiguous">;
+  /** First visible page of each field, used to find whole-row boundaries. */
+  longFlow?: { pageCount: number; fieldStarts: Record<string, number> };
   /** Contact paint/text stays owned by the existing measured-header composition. */
   contactHeaders?: true;
   fields: Record<

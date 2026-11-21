@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
-"""Fixed Modern LibreOffice QA: original baseline and guarded diagnostic copy.
-
-This never changes product exports. A failing original stays FAIL even when
-its synthetic QA candidate passes. Only candidate regressions and invalid
-inputs block this bounded suite; 39-template Next approval remains BLOCKED.
-"""
+"""Check fresh Modern downloads in Writer and replay the frozen diagnostic."""
 from __future__ import annotations
 
 import argparse
@@ -25,7 +20,7 @@ import dossier_qa_core as core
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURES = ROOT / 'tests/fixtures/dossier-qa'
 MANIFEST_SHA256 = 'f71e0dc361aafabbfb21f517cc1c3e72348e8638292d8348d67e4a5ded7033d1'
-SCOPE = 'Synthetic Modern 17/18/19 entries only; QA copies, no product fix or Word approval. 39-Next: BLOCKED (Modern eligible, 38 blocked).'
+SCOPE = 'Synthetic Modern 17/18/19 entries only. 39-Next: BLOCKED (Modern eligible, 38 blocked).'
 
 
 def compact(text):
@@ -163,16 +158,41 @@ def evaluate(app, actual, count, mirrored, pdf, control_edges=None, varied=False
 
 def acceptance(rows):
     # Execution success alone can never override failed candidate gates.
-    return bool(rows) and all(r.get('candidate', r.get('original', {})).get('status') == 'PASS' for r in rows)
+    return bool(rows) and all(
+        r.get('candidate', r.get('download_content', r.get('original', {}))).get('status') == 'PASS'
+        for r in rows
+    )
 
 
-def contact_sheet(folder, target):
-    groups = [('App', folder / 'app'), ('Original LO', folder / 'original'), ('QA candidate', folder / 'candidate')]
+def download_content_result(docx, app, native, count):
+    with ZipFile(docx) as archive:
+        root = core._lo_context_parse_part(archive.read('word/document.xml'))
+    ns, w = core._production_spacing_NS, core._production_spacing_W
+    sidebar = root.find('w:body/w:tbl/w:tblPr/w:tblCaption[@w:val="cv.sidebar"]/../..', ns)
+    rows = len(sidebar.findall('w:tr', ns)) if sidebar is not None else 0
+    page_breaks = root.findall('.//w:br[@w:type="page"]', ns) + root.findall('.//w:pageBreakBefore', ns)
+    checks = {
+        'flowing_grid': rows > 1 and not page_breaks and root.find('w:body/w:sectPr/w:pgMar', ns).get(w + 'footer') == '0',
+        'source_content': core.content([core.docx_text(docx)], count)['status'] == 'PASS',
+        'app_content': app['content']['status'] == 'PASS',
+        'writer_content': native['actual']['content']['status'] == 'PASS',
+        'descriptions': not native['missing_description_markers'],
+        'reference': all(native['gates'][key] == 'PASS' for key in ('reference_line', 'reference_group')),
+        'rubric_rules': native['gates']['four_section_lines'] == 'PASS',
+        'portrait': native['comparison']['photo']['status'] == 'PASS',
+    }
+    return {'status': 'PASS' if all(checks.values()) else 'FAIL', 'checks': checks, 'rows': rows}
+
+
+def contact_sheet(folder, target, include_candidate=True):
+    groups = [('App', folder / 'app'), ('Original LO', folder / 'original')]
+    if include_candidate:
+        groups.append(('QA candidate', folder / 'candidate'))
     images = [(label, sorted(f for f in p.glob('render-*.png') if re.fullmatch(r'render-\d+\.png', f.name))) for label, p in groups]
     pages = max((len(v) for _, v in images), default=0)
     if not pages:
         return
-    sheet = Image.new('RGB', (900, 30 + pages * 425), '#ddd')
+    sheet = Image.new('RGB', (len(images) * 300, 30 + pages * 425), '#ddd')
     draw = ImageDraw.Draw(sheet)
     for col, (label, paths) in enumerate(images):
         draw.text((col * 300 + 8, 8), label, fill='black')
@@ -184,13 +204,19 @@ def contact_sheet(folder, target):
 
 def write_report(out, report):
     (out / 'RESULTS.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n')
+    frozen = report['source_kind'] == 'frozen'
+    gate = 'candidate' if frozen else 'download_content'
+    column = 'QA candidate' if frozen else 'Native download content'
     lines = ['# Bounded Modern QA', '', SCOPE, '',
-             '| Case | Original LO baseline | QA candidate |', '|---|---|---|']
-    lines += [f"| {r['id']} | {r.get('original', {}).get('status', 'BLOCKED')} | {r.get('candidate', {}).get('status', 'N/A')} |" for r in report['cases']]
+             f'| Case | App and Writer visual comparison | {column} |', '|---|---|---|']
+    lines += [f"| {r['id']} | {r.get('original', {}).get('status', 'BLOCKED')} | {r.get(gate, {}).get('status', 'N/A')} |" for r in report['cases']]
     lines += ['', 'Suite acceptance: **' + report['status'] + '**',
               'Native conversions: ' + str(len(report['conversions'])),
               'Implementation: `' + report['implementation_sha'] + '`',
-              'Known original FAIL results remain failures; candidate PASS releases no product export.']
+              ('The frozen diagnostic verifies the historical layout.' if frozen else
+               'The native download gate checks flowing rows, every station, the end reference, rubric rules and the portrait. '
+               'Visual comparison reports pagination and position differences.'),
+              'Microsoft Word Desktop requires its own verification.']
     if report.get('error'):
         lines += ['', report['error']]
     (out / 'SUMMARY.md').write_text('\n'.join(lines) + '\n')
@@ -247,7 +273,7 @@ def main(argv=None):
                     core.measure(retained_pdf, app_folder, 'render', count)
             row = {'id': meta['id'], 'source_sha256': core.digest(docx), 'origin': meta.get('origin', {'source_export_sha': sha}), 'app': app}
             report['cases'].append(row)
-            variants = ['original', 'control', 'candidate'] if count else ['original']
+            variants = ['original', 'control', 'candidate'] if count and args.frozen else ['original']
             control_edges = None
             for variant in variants:
                 dest = folder / variant
@@ -271,14 +297,17 @@ def main(argv=None):
                     row[variant] = evaluate(app, actual, count, meta['mirrored'], pdf,
                         control_edges=core.page_edges(pdf) if variant == 'original' else control_edges,
                         varied=meta.get('varied_text', False))
+                    if not args.frozen:
+                        row['download_content'] = download_content_result(docx, app, row[variant], count)
                 else:
                     # Covers and letters have no synthetic CV markers/photo.
                     row['original'] = simple_document_result(
                         visible_text(app_pdf, app_folder), visible_text(pdf, dest),
                         core.docx_text(docx), meta['markers'], actual['pages'] == app['pages'])
 
-            contact_sheet(folder, folder / 'comparison.jpg')
-            print(meta['id'], 'original', row['original']['status'], 'candidate', row.get('candidate', {}).get('status', 'N/A'), flush=True)
+            contact_sheet(folder, folder / 'comparison.jpg', include_candidate=bool(count and args.frozen))
+            gate = 'candidate' if args.frozen else 'download_content'
+            print(meta['id'], 'original', row['original']['status'], gate, row.get(gate, {}).get('status', 'N/A'), flush=True)
         report['status'] = 'PASS' if acceptance(report['cases']) else 'FAIL'
     except (OSError, ValueError, RuntimeError, KeyError, TypeError, BadZipFile, ParseError, subprocess.SubprocessError) as exc:
         report['status'] = 'BLOCKED'

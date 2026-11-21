@@ -78,6 +78,13 @@ for (const name of [
     expect(photoAnchor).toContain('behindDoc="0"');
     expect(photoAnchor).toContain(`allowOverlap="${inFront ? 1 : 0}"`);
     if (inFront) expect(photoAnchor).not.toContain("<wp:wrapSquare");
+    if (name === "photo-right") {
+      const x = Math.round((picture.xMm - model.cv.page.margins.left) * 36000);
+      expect(photoAnchor).toContain(
+        `<wp:positionH relativeFrom="margin"><wp:posOffset>${x}</wp:posOffset>`,
+      );
+      expect(photoAnchor).toContain('<wp:positionV relativeFrom="paragraph">');
+    }
     expect(xml).not.toContain('<w:tag w:val="cv.person.photo"');
     expect(xml).not.toContain("<wps:wsp>");
     expect(

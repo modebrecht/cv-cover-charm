@@ -84,15 +84,16 @@ export function validateDossierDocModel(model: DossierDocModel): void {
                   block.bodyBoundaryKeepNext === false))) &&
             !block.position &&
             (block.rows.length === 1 ||
-              (block.rows.length === 2 &&
+              (block.rows.length > 1 &&
                 block.bodyBoundary === "section-start" &&
-                part.layout.side === "right" &&
-                block.rows[1].cells[0]?.length > 0 &&
-                block.rows[1].cells[2]?.length === 0)) &&
+                part.page.footerDistanceMm === 0 &&
+                !part.footer.length &&
+                !part.firstFooter?.length)) &&
             block.rows.every(
-              (row) =>
+              (row, index) =>
                 row.cells.length === 3 &&
                 row.cells[1].length === 0 &&
+                (index === 0 || row.cells[0].length > 0 || row.cells[2].length > 0) &&
                 row.keepTogether === false &&
                 !row.cellRowSpans,
             )),
