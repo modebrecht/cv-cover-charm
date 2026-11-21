@@ -1,5 +1,6 @@
 import type html2canvas from "html2canvas-pro";
 import type { Options } from "html2canvas-pro";
+import { snapCvCirclePhotoForPdf } from "@/lib/pdf-cv-circle-photo";
 
 /** html2canvas-pro 2.3 paints alphabetic text at Range.top + fontSize.
  * Browser ranges use the actual font ascent, which differs across fallback
@@ -41,7 +42,14 @@ export async function renderPdfRaster(
     else stroke(text, x, adjustedY(text, y), maxWidth);
   };
   try {
-    return await render(element, { ...options, canvas });
+    return await render(element, {
+      ...options,
+      canvas,
+      onclone: async (document, clonedElement) => {
+        await options.onclone?.(document, clonedElement);
+        await snapCvCirclePhotoForPdf(clonedElement, scale);
+      },
+    });
   } finally {
     // Methods were installed on this newly created context only. No canvas
     // prototype or third-party library is modified, even if rendering fails.

@@ -100,3 +100,16 @@ wieder entfernen; sie gehören nicht in die normale Testauswahl.
 
 Der letzte vollständige Galeriestand bleibt **115 PASS / 2 REVIEW / 0 FAIL**.
 Dieser Diagnoseblock ist kein erneuter vollständiger 39er-Lauf.
+
+## Nachtrag vom 21.11.2026
+
+Ein unabhängiger Canvas-Versuch bestätigte die Rundung als Ursache der sichtbaren Konturabweichung. Chromium malte bei 288 dpi die automatisch platzierten Kreisrahmen an den einzeln auf ganze CSS-Pixel gerundeten Kanten. Die direkt aus den ungerundeten DOM-Massen gezeichnete Variante erreichte für Kolumne 0,9465 und für Studio 3 0,9426 RGB-SSIM. Mit gerundetem Rahmen und gerundetem Bildausschnitt erreichten dieselben Referenzen vor der PDF-Komprimierung 0,9978 und 0,9986.
+
+Der PDF-Export zeichnet automatisch platzierte Kreisfotos in Kolumne und Studio 3 im vorhandenen Layoutkasten des Klons. Er rundet den Rahmen und die vier Kanten des proportional beschnittenen Bildes vor der Erstellung der PDF-Rasterseite. Die reale PDF-Gegenprüfung verwendet die bestehende synthetische Galerie und dieselbe Bewertungsgrenze von 0,95.
+
+| CV       | Foto-RGB-SSIM vorher | Foto-RGB-SSIM im neuen PDF | Geometrieabweichung |
+| -------- | -------------------- | -------------------------- | ------------------- |
+| Kolumne  | 0,9306               | 0,9688                     | 0 mm                |
+| Studio 3 | 0,9484               | 0,9859                     | 0 mm                |
+
+Beide zuvor markierten CV-Seiten bestehen den gezielten Vergleich mit den tatsächlich heruntergeladenen Dossier-PDFs. Die Foto-Scores auf den beiden Titelblättern sind gegenüber dem früheren Galerielauf identisch.
