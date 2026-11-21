@@ -115,3 +115,23 @@ test("front wrapping stays restricted to the mirrored right-side ordinary photo"
   image.wrapMode = "none";
   expect(() => validateDossierDocModel(model)).toThrow(/outside cells/);
 });
+
+test("the fallback keeps crops unchanged when a shape fill is unnecessary or too imprecise", async () => {
+  const model = buildDossierDocModel(sidebarFixture("photo-left"), options);
+  const photo = model.cv.blocks.find((block) => block.id === "cv.person.photo") as ImageBlock;
+  const frame = { ...photo.frame!, zoom: 1 };
+  for (const [settings, normalizer] of [
+    [{ ...frame, heightRatio: 0.5 }, normalizeImage],
+    [{ ...frame, heightRatio: 1, radiusMm: 0 }, normalizeImage],
+    [
+      { ...frame, heightRatio: 1.25, radiusMm: 1.5, zoom: 3, xPct: 100 },
+      async () => ({ ...(await normalizeImage()), widthPx: 10000, heightPx: 100 }),
+    ],
+  ] as const) {
+    photo.frame = settings;
+    const render = { allowUnacceptedModelIssues: true, normalizeImage: normalizer };
+    const base = new Uint8Array(await (await renderDossierDocx(model, render)).arrayBuffer());
+    const candidate = await renderDossierDocx(model, { ...render, cvPhotoCropFallback: true });
+    expect(new Uint8Array(await candidate.arrayBuffer())).toEqual(base);
+  }
+});

@@ -295,3 +295,29 @@ showed 15 of 17 stations and omitted the end reference, although the DOCX
 contained every field. The newly supported continuation choices therefore use
 the PDF fallback when the measured CV exceeds two pages. Desktop Word
 verification is still open.
+
+## Modern CV cropped picture roundtrip — 2026-11-21
+
+The normal Modern Sidebar DOCX download stores one editable picture with its
+native crop for Word. The alternate shape fill uses the same full bitmap and
+the same drawing anchor. In Writer, it avoids the conversion that replaced the
+source bitmap and distorted the visible crop at the first save.
+
+The fill chooses a centre or edge origin to minimise the effect of Writer's
+whole-percent offset rounding. The ordinary picture markup remains the sole
+rendering when the photo has no crop, has square corners, or would
+expose an adjacent tile or exceed the 2 mm photo tolerance. The long-CV
+diagnostic reads the native picture choice when it consumes a new download.
+[LibreOffice bitmap offset implementation](https://docs.libreoffice.org/oox/html/fillproperties_8cxx_source.html)
+
+Writer 25.8.7.3 (Kit) and 26.8.0.0.alpha0 (CLI) rendered both regular routes
+with compact and hidden follow-up heads. Nine additional single-CV downloads
+covered contact and compact heads, circle and rounded rectangle, border,
+pan and 3× zoom, very tall/wide input, and an uncropped control. All 13
+downloads preserved source RGBA pixels, visible text and page count through
+two saves and reopens in both engines. The largest measured crop displacement
+was 0.88 mm in the very wide 3× zoom control. Browser checks verify that both
+representations point to the same image relationship inside one anchor.
+
+Microsoft Word Desktop picture editing and saving still need native review.
+The long-CV visibility defect is tracked separately. [#202](https://github.com/modebrecht/cv-cover-charm/issues/202)

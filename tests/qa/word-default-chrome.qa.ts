@@ -302,6 +302,15 @@ for (const mode of ["compact", "none"] as const) {
       expect(photos).toHaveLength(1);
       const photo = photos[0][0];
       expect(photo).toContain("<wp:wrapNone/>");
+      const choice = photo.match(/<mc:Choice Requires="a14">([\s\S]*?)<\/mc:Choice>/)?.[1];
+      const fallback = photo.match(/<mc:Fallback>([\s\S]*?)<\/mc:Fallback>/)?.[1];
+      expect(choice).toContain("<pic:pic>");
+      expect(choice).toContain('<a:srcRect l="0" t="8333" r="0" b="8333"/>');
+      expect(fallback).toContain("<a:tile ");
+      expect(fallback).toMatch(/<a:tile tx="0" ty="0" [^>]*algn="ctr"/);
+      const original = choice?.match(/<a:blip r:embed="([^"]+)"/)?.[1];
+      expect(original).toBeTruthy();
+      expect(fallback).toContain(`<a:blip r:embed="${original}"/>`);
       const top = Number(
         photo.match(/<wp:positionV relativeFrom="margin"><wp:posOffset>(\d+)/)?.[1],
       );

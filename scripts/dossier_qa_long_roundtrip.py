@@ -24,6 +24,7 @@ NS = {
     'wp': 'http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing',
     'a': 'http://schemas.openxmlformats.org/drawingml/2006/main',
     'r': 'http://schemas.openxmlformats.org/officeDocument/2006/relationships',
+    'mc': 'http://schemas.openxmlformats.org/markup-compatibility/2006',
 }
 W, A, WP, R = ('{' + NS[key] + '}' for key in ('w', 'a', 'wp', 'r'))
 DOCUMENT = 'word/document.xml'
@@ -51,10 +52,25 @@ def header_tags(package):
                    for tag in ET.fromstring(package.read(name)).iter(W + 'tag')})
 
 
+def picture_graphic(anchor):
+    alternate = anchor.find('mc:AlternateContent', NS)
+    if alternate is None:
+        graphic = anchor.find('a:graphic', NS)
+        check(graphic is not None, 'Missing portrait graphic')
+        return graphic, graphic
+    primary = alternate.find('mc:Choice/a:graphic', NS)
+    fallback = alternate.find('mc:Fallback/a:graphic', NS)
+    check(primary is not None and fallback is not None, 'Missing alternate portrait graphic')
+    return alternate, primary
+
+
 def portrait(package, root):
     anchor, = root.xpath('.//wp:anchor[wp:docPr/@name="cv.person.photo"]', namespaces=NS)
-    blip, = anchor.findall('.//a:blip', NS)
+    _, graphic = picture_graphic(anchor)
+    blip, = graphic.findall('.//a:blip', NS)
     relation = blip.get(R + 'embed')
+    check({blip.get(R + 'embed') for blip in anchor.findall('.//a:blip', NS)} == {relation},
+          'Portrait alternatives reference different assets')
     rels = ET.fromstring(package.read('word/_rels/document.xml.rels'))
     target, = [rel.get('Target') for rel in rels if rel.get('Id') == relation]
     check(re.fullmatch(r'media/[^/]+', target), 'Unexpected portrait relationship')
@@ -148,9 +164,10 @@ def tile_graphic(anchor, relation, pixels, margins, bun):
         offset.text = str(int(offset.text) - left_emu)
         x.set('relativeFrom', 'margin')
     extent = anchor.find('wp:extent', NS)
-    rect, = anchor.findall('.//a:srcRect', NS)
-    geometry, = anchor.findall('.//a:prstGeom', NS)
-    check(geometry.get('prst') == 'roundRect' and anchor.find('.//a:ln', NS) is None,
+    container, graphic = picture_graphic(anchor)
+    rect, = graphic.findall('.//a:srcRect', NS)
+    geometry, = graphic.findall('.//a:prstGeom', NS)
+    check(geometry.get('prst') == 'roundRect' and graphic.find('.//a:ln', NS) is None,
           'Expected a synthetic rounded portrait without an outline')
     adj = geometry.find('a:avLst/a:gd', NS).get('fmla')
     style = {'widthMm': int(extent.get('cx')) / 36000, 'heightMm': int(extent.get('cy')) / 36000,
@@ -161,7 +178,7 @@ def tile_graphic(anchor, relation, pixels, margins, bun):
     native = subprocess.check_output([bun, '--eval', TILE_SCRIPT, '--', json.dumps(args)],
                                      cwd=ROOT, text=True, timeout=45)
     wrapper = ET.fromstring(f'<root xmlns:a="{NS["a"]}" xmlns:r="{NS["r"]}">{native}</root>')
-    anchor.replace(anchor.find('a:graphic', NS), wrapper[0])
+    anchor.replace(container, wrapper[0])
 
 
 def candidate(row, source, app_pdf, output, bun):

@@ -34,7 +34,12 @@ import { planPartSections, type PlannedSection } from "./section-plan";
 import { tableColumnWidths } from "./layouts";
 import { nativeTextShapeRun } from "./native-text-shape";
 import { nativePictureFrameRun } from "./native-picture-frame";
-import { nativePictureTileGraphic, PICTURE_RANGE_MARKER } from "./native-picture-fill";
+import {
+  nativePictureTileGraphic,
+  pictureWithCropFallback,
+  roundedCropFallbackOrigin,
+  PICTURE_RANGE_MARKER,
+} from "./native-picture-fill";
 import { nativeVMLAvatarRun } from "./native-vml-avatar";
 import { flowSurfacePaint } from "./flow-surface";
 import {
@@ -74,6 +79,8 @@ export type RenderOptions = {
   directPictureOwnership?: boolean;
   /** Research only: rich-text keeps the picture; rich-text-tile uses a filled shape and hidden range marker. */
   directPictureVariant?: "picture" | "rich-text" | "rich-text-tile";
+  /** Keep rounded CV crops available in editors that rewrite cropped photos as shape fills. */
+  cvPhotoCropFallback?: true;
   rasterizeDecoration?: DecorationRasterizer;
   onDecorationFailure?: (id: string, error: unknown) => void;
 };
@@ -313,7 +320,10 @@ export async function renderDossierDocx(
     authoredParagraphOffsets = false,
     noTextWrap = false,
     exactFreeOffsets = false,
-    tileSource?: { widthPx: number; heightPx: number },
+    fill?: {
+      mode: "tile" | "crop-fallback";
+      source: Pick<NormalizedImage, "widthPx" | "heightPx">;
+    },
   ): string {
     if (
       paintLayer !== undefined &&
@@ -333,9 +343,18 @@ export async function renderDossierDocx(
       geometry.shape === "roundRect"
         ? `<a:gd name="adj" fmla="val ${geometry.cornerAdjustment}"/>`
         : "";
-    const picture = tileSource
-      ? nativePictureTileGraphic(geometry, tileSource, rid)
-      : `<a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic><pic:nvPicPr><pic:cNvPr id="${id}" name="${xml(value.id)}"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="${rid}"/><a:srcRect l="${crop.left}" t="${crop.top}" r="${crop.right}" b="${crop.bottom}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm><a:prstGeom prst="${geometry.shape}"><a:avLst>${corners}</a:avLst></a:prstGeom>${outline}</pic:spPr></pic:pic></a:graphicData></a:graphic>`;
+    const cropAsset = fill?.mode === "crop-fallback" ? fill.source : undefined;
+    const alternateCrop = cropAsset && roundedCropFallbackOrigin(geometry);
+    const blip = alternateCrop
+      ? `<a:blip r:embed="${rid}"><a:extLst><a:ext uri="{28A0092B-C50C-407E-A947-70E740481C1C}"><a14:useLocalDpi val="0"/></a:ext></a:extLst></a:blip>`
+      : `<a:blip r:embed="${rid}"/>`;
+    const picture = `<a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic><pic:nvPicPr><pic:cNvPr id="${id}" name="${xml(value.id)}"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill>${blip}<a:srcRect l="${crop.left}" t="${crop.top}" r="${crop.right}" b="${crop.bottom}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm><a:prstGeom prst="${geometry.shape}"><a:avLst>${corners}</a:avLst></a:prstGeom>${outline}</pic:spPr></pic:pic></a:graphicData></a:graphic>`;
+    const graphic =
+      fill?.mode === "tile"
+        ? nativePictureTileGraphic(geometry, fill.source, rid)
+        : alternateCrop
+          ? pictureWithCropFallback(picture, geometry, cropAsset, rid, alternateCrop)
+          : picture;
     // Word paints picture outlines outside the image's fill bounds. Reserve the
     // complete stroke on each edge so an inline line box cannot clip its paint.
     const paintExtent = emu(geometry.borderWidthMm);
@@ -344,7 +363,7 @@ export async function renderDossierDocx(
     const distances = `distT="${emu(value.gapMm)}" distB="${emu(value.gapMm)}" distL="${emu(value.gapMm)}" distR="${emu(value.gapMm)}"`;
     let drawing: string;
     if (value.placement === "inline")
-      drawing = `<wp:inline ${distances}>${extent}${properties}${picture}</wp:inline>`;
+      drawing = `<wp:inline ${distances}>${extent}${properties}${graphic}</wp:inline>`;
     else {
       const pageOrigin = value.coordinateOrigin === "page";
       const originWidth = pageOrigin ? page.widthMm : widthMm;
@@ -372,7 +391,7 @@ export async function renderDossierDocx(
           (authoredParagraphOffsets ? "line" : pageOrigin ? "page" : "paragraph"));
       const offsetX = relativeToMargin ? x - page.margins.left : x;
       const offsetY = value.measuredPageAnchor ? y - page.margins.top : y;
-      drawing = `<wp:anchor ${distances} simplePos="0" relativeHeight="${paintLayer ?? id}" behindDoc="${behind ? 1 : 0}" locked="0" layoutInCell="${value.nativeOwner === "page-picture" ? 0 : 1}" allowOverlap="${behind || noTextWrap ? 1 : 0}"><wp:simplePos x="0" y="0"/><wp:positionH relativeFrom="${horizontal}"><wp:posOffset>${emu(offsetX)}</wp:posOffset></wp:positionH><wp:positionV relativeFrom="${vertical}"><wp:posOffset>${emu(offsetY)}</wp:posOffset></wp:positionV>${extent}${behind || noTextWrap ? "<wp:wrapNone/>" : '<wp:wrapSquare wrapText="bothSides"/>'}${properties}${picture}</wp:anchor>`;
+      drawing = `<wp:anchor ${distances} simplePos="0" relativeHeight="${paintLayer ?? id}" behindDoc="${behind ? 1 : 0}" locked="0" layoutInCell="${value.nativeOwner === "page-picture" ? 0 : 1}" allowOverlap="${behind || noTextWrap ? 1 : 0}"><wp:simplePos x="0" y="0"/><wp:positionH relativeFrom="${horizontal}"><wp:posOffset>${emu(offsetX)}</wp:posOffset></wp:positionH><wp:positionV relativeFrom="${vertical}"><wp:posOffset>${emu(offsetY)}</wp:posOffset></wp:positionV>${extent}${behind || noTextWrap ? "<wp:wrapNone/>" : '<wp:wrapSquare wrapText="bothSides"/>'}${properties}${graphic}</wp:anchor>`;
     }
     return `<w:r><w:drawing>${drawing}</w:drawing></w:r>`;
   }
@@ -388,6 +407,12 @@ export async function renderDossierDocx(
       undefined,
       false,
       value.wrapMode === "none",
+      false,
+      options.cvPhotoCropFallback &&
+        value.id === "cv.person.photo" &&
+        value.nativeOwner === "page-picture"
+        ? { mode: "crop-fallback", source: media.asset }
+        : undefined,
     );
   }
   function ownedImageRun(value: ImageBlock, widthMm: number, page: DocumentPart["page"]): string {
@@ -417,7 +442,9 @@ export async function renderDossierDocx(
           false,
           value.wrapMode === "none",
           true,
-          options.directPictureVariant === "rich-text-tile" ? media.asset : undefined,
+          options.directPictureVariant === "rich-text-tile"
+            ? { mode: "tile", source: media.asset }
+            : undefined,
         );
         const owner = options.directPictureVariant?.startsWith("rich-text")
           ? richTextPictureControl

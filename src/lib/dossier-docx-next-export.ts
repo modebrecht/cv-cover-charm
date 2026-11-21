@@ -202,6 +202,7 @@ export async function createSavedDossierDocxNext(
     const blob = await renderDossierDocx(model, {
       part,
       allowUnacceptedModelIssues: true,
+      ...(includeCv && !options?.cvTwoPagePreview ? { cvPhotoCropFallback: true } : {}),
       onDecorationFailure: () => {
         throw new DocxDownloadError(
           `Ein Gestaltungselement konnte nicht erstellt werden. Bitte versuche den Download erneut.`,
