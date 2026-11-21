@@ -104,6 +104,19 @@ Für alle vier Fälle wurde Cabin in die DOCX-Kopie eingebettet. Der Versuch ent
 
 Writer lief ohne die lokale Cabin-Schrift und mit einem frischen Profil pro Datei. Ohne Einbettung verwendete Writer Noto Sans. Die beiden gleich langen Fälle ergaben vier Seiten und 13/20 passende Seitenzuordnungen bei Kolumne sowie 15/20 bei Studio 3. Die gemischten Fälle blieben dreiseitig, wichen aber mit 14/20 beziehungsweise 17/20 Zuordnungen vom App-PDF ab. Mit Einbettung verwendete Writer Cabin. Alle vier Dateien hatten beim Öffnen und nach zweimal Speichern **drei Seiten und 20/20 passende Seitenzuordnungen**. Alle 111 Feldwerte und 18 Beschreibungen blieben erhalten. Der Fotorahmen lag in den drei Prüfschritten am selben Ort wie im Vergleich mit installierter Schrift. Die vier Fotostichproben wichen um höchstens zwei RGB-Stufen ab.
 
-Der Test verwendet geänderte DOCX-Kopien. Die automatische Einbettung im Next-Prüfexport und die Abnahme mit Microsoft Word Desktop stehen aus.
+Dieser Versuch verwendete nachträglich geänderte DOCX-Kopien.
+
+### Automatische Cabin-Einbettung im Prüfexport
+
+Der interne Prüfexport übernimmt nun Cabin oder Arial aus der Browsermessung je Feld. Er schreibt die vier Cabin-Schriftschnitte und ihre Beziehungen beim Erstellen des DOCX-Pakets. Die Prüfung stellt sicher, dass sich aus allen eingebetteten Dateien die ursprünglichen TTF-Bytes wiederherstellen lassen. Ohne den Aufruf für den internen Prüfexport oder bei einer fehlenden Schriftdatei bricht die Ausgabe ab.
+
+Die vier Fälle oben wurden mit den automatisch erzeugten DOCX-Dateien in Writer 25.8.7.3 ohne lokal installiertes Cabin wiederholt. Alle behalten drei Seiten, 20/20 Seitenzuordnungen, 111 Feldwerte, 18 vollständige Beschreibungen und den geprüften Fotoausschnitt über zwei Speicherzyklen. Der reguläre Download bleibt für diese beiden Vorlagen gesperrt. Die Desktop-Word-Abnahme steht aus.
+
+Zur Wiederholung der Cabin-Fälle benötigt der Linux-Prüfrechner `fc-match`, `pdffonts` und den vorhandenen LibreOfficeKit-Adapter. Cabin soll im Writer-System fehlen.
+
+```bash
+CV_QA_LO_KIT=/absoluter/pfad/zu/lo-kit \
+  npx playwright test --config tests/qa/playwright.sidebar-docx.config.ts --grep cabin-legacy
+```
 
 [#194](https://github.com/modebrecht/cv-cover-charm/issues/194) · [#195](https://github.com/modebrecht/cv-cover-charm/issues/195) · [#227](https://github.com/modebrecht/cv-cover-charm/issues/227)

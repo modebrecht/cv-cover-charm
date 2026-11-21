@@ -1,4 +1,13 @@
 import type { TextStyle } from "./model";
+import type { DossierAppSnapshot } from "./source";
+
+export function canMeasureCabinSidebar(source: DossierAppSnapshot) {
+  return (
+    source.cv.design.font === "freundlich" &&
+    ["terracotta", "studio3"].includes(source.cv.design.template) &&
+    source.settings.sidebarSide === "right"
+  );
+}
 
 export type CvSidebarOpeningMetrics = {
   headerInsetMm: number;
@@ -13,6 +22,8 @@ export type CvSidebarTextMetrics = {
   sourceKey: string;
   profile: string;
   opening?: CvSidebarOpeningMetrics;
+  /** Explicit mirrored-CV trial with the bundled Cabin faces. */
+  cabin?: true;
   /** A field on both sheets is ambiguous and cannot be used to split native rows. */
   fieldPages?: Record<string, 1 | 2 | "ambiguous">;
   /** Contact paint/text stays owned by the existing measured-header composition. */

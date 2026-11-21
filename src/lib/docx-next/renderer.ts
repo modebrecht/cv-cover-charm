@@ -37,6 +37,11 @@ import { nativePictureFrameRun } from "./native-picture-frame";
 import { nativePictureTileGraphic, PICTURE_RANGE_MARKER } from "./native-picture-fill";
 import { nativeVMLAvatarRun } from "./native-vml-avatar";
 import { flowSurfacePaint } from "./flow-surface";
+import {
+  loadCabinFontParts,
+  OBFUSCATED_FONT_CONTENT_TYPE,
+  type DossierDocxFontLoader,
+} from "../docx-cabin-fonts";
 import { parallelFlowTable } from "./parallel-flow";
 import { imageZoneTable } from "./image-zone";
 import { cellProperties, planCellRowSpans } from "./native-cell";
@@ -63,6 +68,8 @@ export type RenderOptions = {
   part?: DocumentPart["id"];
   normalizeImage?: ImageNormalizer;
   allowUnacceptedModelIssues?: boolean;
+  /** Supply the four bundled faces for the internal Cabin CV trial outside a browser. */
+  cabinFontLoader?: DossierDocxFontLoader;
   /** Research only: one anchored picture instead of a picture inside a text frame. */
   directPictureOwnership?: boolean;
   /** Research only: rich-text keeps the picture; rich-text-tile uses a filled shape and hidden range marker. */
@@ -98,6 +105,12 @@ export async function renderDossierDocx(
       `DOCX Next has unaccepted model issues: ${model.issues.map((issue) => issue.code).join(", ")}`,
     );
   validateDossierDocModel(model);
+  const embeddedCabin = model.fonts.embedding === "cabin";
+  if (embeddedCabin && !options.allowUnacceptedModelIssues)
+    throw new Error("DOCX Next Cabin embedding requires diagnostic opt-in");
+  const cabinParts = embeddedCabin ? await loadCabinFontParts(options.cabinFontLoader) : [];
+  if (embeddedCabin && !cabinParts.length)
+    throw new Error("DOCX Next: Die Cabin-Schriften fehlen für die Einbettung.");
   if (parts.some((part) => part.firstFooter !== undefined) && !options.allowUnacceptedModelIssues)
     throw new Error("DOCX Next first footer identity is unaccepted; diagnostic opt-in required");
   if (model.floatingTableTextFlow !== undefined && !options.allowUnacceptedModelIssues)
@@ -1030,7 +1043,7 @@ export async function renderDossierDocx(
   pkg.add(
     "word/settings.xml",
     WORD_PART_TYPES.settings,
-    `${DECL}<w:settings xmlns:w="${W}"><w:embedTrueTypeFonts w:val="0"/><w:autoHyphenation w:val="0"/><w:doNotHyphenateCaps/><w:compat>${blocks.some((block) => block.kind === "table" && block.position) ? '<w:doNotBreakWrappedTables w:val="0"/>' : ""}<w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/>${model.floatingTableTextFlow === "all-pages" ? '<w:compatSetting w:name="allowTextAfterFloatingTableBreak" w:uri="http://schemas.microsoft.com/office/word" w:val="1"/>' : ""}</w:compat>${sources.size ? "<w:doNotAutoCompressPictures/>" : ""}</w:settings>`,
+    `${DECL}<w:settings xmlns:w="${W}"><w:embedTrueTypeFonts w:val="${embeddedCabin ? "1" : "0"}"/><w:autoHyphenation w:val="0"/><w:doNotHyphenateCaps/><w:compat>${blocks.some((block) => block.kind === "table" && block.position) ? '<w:doNotBreakWrappedTables w:val="0"/>' : ""}<w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/>${model.floatingTableTextFlow === "all-pages" ? '<w:compatSetting w:name="allowTextAfterFloatingTableBreak" w:uri="http://schemas.microsoft.com/office/word" w:val="1"/>' : ""}</w:compat>${sources.size ? "<w:doNotAutoCompressPictures/>" : ""}</w:settings>`,
   );
   const fonts = new Set<string>([model.theme.font]);
   for (const part of parts)
@@ -1043,7 +1056,13 @@ export async function renderDossierDocx(
       ...(part.headerFrames ?? []),
     ]))
       if (block.kind === "paragraph") block.runs.forEach((value) => fonts.add(value.style.font));
-  pkg.add("word/fontTable.xml", WORD_PART_TYPES.fontTable, fontTableXml(fonts));
+  if (embeddedCabin && !fonts.has("Cabin"))
+    throw new Error("DOCX Next: Cabin fehlt im gemessenen Lebenslauf.");
+  pkg.add("word/fontTable.xml", WORD_PART_TYPES.fontTable, fontTableXml(fonts, embeddedCabin));
+  for (const { partName, relId, bytes } of cabinParts) {
+    pkg.add(partName, OBFUSCATED_FONT_CONTENT_TYPE, bytes);
+    pkg.relate("word/fontTable.xml", relId, "font", partName.slice("word/".length));
+  }
   pkg.add("word/numbering.xml", WORD_PART_TYPES.numbering, numbering.xml);
   for (const type of ["styles", "settings", "fontTable", "numbering"])
     pkg.relate("word/document.xml", type, type, `${type}.xml`);

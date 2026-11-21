@@ -51,7 +51,7 @@ import { composeCvSidebar } from "./cv-sidebar-composition";
 import { composeSharedCvSidebar, continueCvSidebarAtExperience } from "./cv-sidebar-shared";
 import { applyCvSidebarTypography } from "./cv-sidebar-typography";
 import { composeTwoPageCvSidebar } from "./cv-sidebar-two-page";
-import type { CvSidebarTextMetrics } from "./cv-sidebar-text-metrics";
+import { canMeasureCabinSidebar, type CvSidebarTextMetrics } from "./cv-sidebar-text-metrics";
 import { cvSidebarGeometry, cvSidebarPhotoWidthMm } from "@/components/cv/sidebar-geometry";
 import { sidebarPlan } from "@/components/cv/intelligence";
 import { cvContentBox, cvFrameFor } from "@/components/cv/archetype";
@@ -153,6 +153,14 @@ export function buildDossierDocModel(
     includeCv = includes("cv");
   const capturedInteriorMetrics = options.interiorTextMetrics;
   const capturedSidebarMetrics = options.cvSidebarTextMetrics;
+  const cabinSidebar = capturedSidebarMetrics?.cabin === true;
+  if (
+    cabinSidebar &&
+    (!options.cvSidebarContinuationEntryId ||
+      !capturedSidebarMetrics?.opening ||
+      !canMeasureCabinSidebar(input))
+  )
+    throw Error("DOCX Next: Cabin benötigt die interne Prüfung einer gespiegelten CV-Sidebar.");
   const twoPageMembership = options.cvTwoPagePreview
     ? capturedSidebarMetrics?.fieldPages
     : undefined;
@@ -348,13 +356,14 @@ export function buildDossierDocModel(
   const fonts = createFontResolver(settings.fontPolicy);
   const wordFont = (key: Parameters<typeof fontForKey>[0], fallback: string) =>
     fonts.resolve(fontForKey(key, fallback));
+  const cvFont = cabinSidebar ? "sans" : (cv.design.font ?? letter.design.fontOverride);
   const theme = {
     font: wordFont(
       exportPart === "cover"
         ? undefined
         : exportPart === "letter"
           ? (letter.design.fontOverride ?? letter.design.font)
-          : (cv.design.font ?? letter.design.fontOverride),
+          : cvFont,
       template.typography.font,
     ),
     ink: color(cover.colors.ink, template.colors.ink),
@@ -2084,7 +2093,7 @@ export function buildDossierDocModel(
             },
     templateId: template.id,
     theme,
-    fonts: fonts.result(),
+    fonts: { ...fonts.result(), embedding: cabinSidebar ? "cabin" : "disabled" },
     cover: coverPart,
     letter: letterPart,
     cv: cvPart,

@@ -15,12 +15,15 @@ import {
 } from "./dossier-chrome";
 import { cvDocumentZoom } from "./docx-next-cv-zoom.browser";
 import { isolateMeasurementZoom } from "./docx-next-measurement-host.browser";
-import { briefFontTextSupported } from "./docx-next/brief-fonts.browser";
+import { briefFontTextSupported, fontDeadline } from "./docx-next/brief-fonts.browser";
 import { interiorMetricsKey } from "./docx-next/interior-metrics";
 import { compositeTextColor } from "./docx-next/colors";
 import { cvWordLayout } from "./docx-next/layouts";
 import { CV_TWO_PAGE_PREVIEW_ERROR, DocxDownloadError } from "./docx-next/download-error";
-import type { CvSidebarTextMetrics } from "./docx-next/cv-sidebar-text-metrics";
+import {
+  canMeasureCabinSidebar,
+  type CvSidebarTextMetrics,
+} from "./docx-next/cv-sidebar-text-metrics";
 import type { DossierAppSnapshot } from "./docx-next/source";
 
 const mm = (px: number) => (px * 25.4) / 96;
@@ -76,9 +79,11 @@ export async function captureCvSidebarTextMetrics(
   captureTwoPages = false,
   captureOpening = false,
 ): Promise<CvSidebarTextMetrics> {
+  const cabin = captureOpening && !captureTwoPages && canMeasureCabinSidebar(source);
   if (
     cvWordLayout(source.settings.cvLayout) !== "sidebar" ||
-    (source.cv.design.font !== "sans" &&
+    (!cabin &&
+      source.cv.design.font !== "sans" &&
       (!captureOpening ||
         effectiveDossierFont(source.cv.design.template, source.cv.design.font) !==
           FONT_STACKS.sans)) ||
@@ -91,6 +96,8 @@ export async function captureCvSidebarTextMetrics(
   );
   const { options, contact, content } = resolved.cv;
   const contactHeaders = options.headerMode === "contact";
+  if (cabin && contactHeaders)
+    throw Error("DOCX Next: Die Cabin-Prüfung benötigt einen kompakten Kopf.");
   const rubric = resolveCvRubricOptions(source.cv.design);
   if (rubric.pill || rubric.horizontalMm !== 0 || rubric.contentIndentMm !== 0)
     throw Error(
@@ -114,6 +121,7 @@ export async function captureCvSidebarTextMetrics(
     version: 3,
     sourceKey: interiorMetricsKey(source),
     profile,
+    ...(cabin ? { cabin: true as const } : {}),
     ...(contactHeaders ? { contactHeaders: true as const } : {}),
     fields: {},
     headings: {},
@@ -160,6 +168,17 @@ export async function captureCvSidebarTextMetrics(
         />,
       ),
     );
+    if (cabin) {
+      const faces = await fontDeadline(
+        Promise.all(
+          ["400", "700", "italic 400", "italic 700"].map((style) =>
+            document.fonts.load(`${style} 16px "Cabin"`),
+          ),
+        ),
+      );
+      if (faces.some((matches) => !matches.length))
+        throw Error("DOCX Next: Die Cabin-Schriften fehlen für die Sidebar-Messung.");
+    }
     await document.fonts.ready;
     await new Promise<void>((resolve) =>
       requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
@@ -168,8 +187,8 @@ export async function captureCvSidebarTextMetrics(
     if (!canvas) throw Error("DOCX Next: Sidebar-Schriftmessung nicht verfügbar.");
     const paper = resolveCvPalette(source.cv.design).paper.replace("#", "").toUpperCase();
     const normalFactors = new Map<string, number>();
-    const normalFactor = (css: CSSStyleDeclaration, weight: number) => {
-      const font = `${css.fontStyle} ${weight >= 600 ? 700 : 400} 2048px ${FONT_STACKS.sans}`;
+    const normalFactor = (css: CSSStyleDeclaration, weight: number, stack: string) => {
+      const font = `${css.fontStyle} ${weight >= 600 ? 700 : 400} 2048px ${stack}`;
       if (!normalFactors.has(font)) {
         const probe = document.createElement("span");
         probe.style.cssText =
@@ -215,9 +234,11 @@ export async function captureCvSidebarTextMetrics(
       )
         throw Error(`DOCX Next: Nicht unterstützte Sidebar-Typografie (${id}).`);
       const shown = css.textTransform === "uppercase" ? text.toUpperCase() : text;
+      const useCabin = cabin && /^["']?Cabin["']?(?:,|$)/i.test(css.fontFamily);
+      const stack = useCabin ? '"Cabin"' : FONT_STACKS.sans;
       canvas.font = `${css.fontStyle} ${weight} 48px ${css.fontFamily}`;
       const sourceWidth = canvas.measureText(shown).width;
-      canvas.font = `${css.fontStyle} ${weight >= 600 ? 700 : 400} 48px ${FONT_STACKS.sans}`;
+      canvas.font = `${css.fontStyle} ${weight >= 600 ? 700 : 400} 48px ${stack}`;
       if (Math.abs(sourceWidth - canvas.measureText(shown).width) > 0.01)
         throw Error(`DOCX Next: Sidebar-Ersatzschrift ist nicht geprüft (${id}).`);
       let opacity = 1;
@@ -228,7 +249,7 @@ export async function captureCvSidebarTextMetrics(
       )
         opacity *= Number(getComputedStyle(node).opacity);
       const style = {
-        font: "Arial",
+        font: useCabin ? "Cabin" : "Arial",
         sizePt: sizePx * 0.75 * zoom,
         color: compositeTextColor(rgb(css.color), paper, opacity),
         bold: weight >= 600,
@@ -255,7 +276,7 @@ export async function captureCvSidebarTextMetrics(
         style,
         documentScale: zoom,
         lineHeightPt: linePx * 0.75 * zoom,
-        normalLineHeightFactor: normalFactor(css, weight),
+        normalLineHeightFactor: normalFactor(css, weight, stack),
         beforeMm,
         afterMm: mm(number(css.marginBottom)) * zoom,
       };
@@ -285,7 +306,6 @@ export async function captureCvSidebarTextMetrics(
           rowCss.flexWrap === "wrap" &&
           ruleCss !== null &&
           number(ruleCss.width) >= number(rowCss.width) - 0.5;
-        canvas.font = `${css.fontStyle} ${weight >= 600 ? 700 : 400} ${sizePx}px ${FONT_STACKS.sans}`;
         result.headings[id] = {
           beforeMm: mm(number(s.marginTop)) * zoom,
           afterMm: mm(number(s.marginBottom)) * zoom,

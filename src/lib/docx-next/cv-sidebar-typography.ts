@@ -1,4 +1,4 @@
-import type { CvSidebarTextMetrics } from "./cv-sidebar-text-metrics";
+import { canMeasureCabinSidebar, type CvSidebarTextMetrics } from "./cv-sidebar-text-metrics";
 import type { DocBlock, DocumentPart, Paragraph, TableBlock } from "./model";
 import type { DossierAppSnapshot } from "./source";
 import { cvPersonalInfoRows } from "@/lib/cv-personal-info";
@@ -36,13 +36,17 @@ export function applyCvSidebarTypography(
     source.settings.chrome ?? DEFAULT_DOSSIER_CHROME_STATE,
   ).cv;
   const contactHeaders = metrics.contactHeaders === true;
+  const cabin = metrics.cabin === true && !!metrics.opening && canMeasureCabinSidebar(source);
+  const supportsFont = (font: string) => font === "Arial" || (cabin && font === "Cabin");
   const rubric = resolveCvRubricOptions(source.cv.design);
   if (rubric.pill || rubric.horizontalMm !== 0 || rubric.contentIndentMm !== 0)
     throw Error(
       "DOCX Next: Sidebar-Schriftwerte unterstützen nur unverrückte Rubriken ohne Pills.",
     );
   if (
-    (source.cv.design.font !== "sans" &&
+    (metrics.cabin && (!cabin || contactHeaders)) ||
+    (!cabin &&
+      source.cv.design.font !== "sans" &&
       (!metrics.opening ||
         effectiveDossierFont(source.cv.design.template, source.cv.design.font) !==
           FONT_STACKS.sans)) ||
@@ -95,7 +99,7 @@ export function applyCvSidebarTypography(
     if (
       !id.startsWith("cv.") ||
       !field.text.trim() ||
-      s.font !== "Arial" ||
+      !supportsFont(s.font) ||
       ![
         s.sizePt,
         s.trackingPt ?? 0,
@@ -155,7 +159,7 @@ export function applyCvSidebarTypography(
     });
     p.beforeMm = field.beforeMm;
     p.afterMm = field.afterMm;
-    if (p.runs.some((r) => r.style.font !== "Arial")) fail(p.id);
+    if (p.runs.some((r) => !supportsFont(r.style.font))) fail(p.id);
     // CSS specifies baseline advance in font-size units. Native "multiple"
     // uses the font's normal line, including its intrinsic leading. Convert
     // between those bases without exact line boxes or smaller text.

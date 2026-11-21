@@ -38,11 +38,11 @@ Brief's standalone letter base uses `letter.design.font`, matching `LetterCanvas
 
 ## Embedding decision
 
-Embedding is **disabled** in this candidate. The model records that decision and package settings explicitly disable TrueType embedding. Next generates no font payload or embedding relationships and performs no network font fetch. Export therefore works with an unavailable font-asset service. An enabled embedding policy is currently unsupported and rejected rather than silently ignored.
+The standard font policy keeps embedding disabled. Standard Next exports require no font asset requests. The diagnostic export of a measured and mirrored Kolumne or Studio 3 CV can embed the four bundled Cabin faces. The trial takes its font families from the browser measurement, so individual fields can retain Arial. The renderer requires a diagnostic opt-in and stops if any Cabin face is unavailable.
 
-The four distributed Cabin faces have a local SIL Open Font License 1.1 file and OS/2 `fsType = 0`. The inventory records their byte counts and SHA-256 hashes and the license hash. The license permits embedding subject to its conditions; the [OpenType OS/2 specification](https://learn.microsoft.com/en-us/typography/opentype/spec/os2) defines the font's embedding bits. This file audit supports a possible later implementation but does not validate obfuscated font parts, application behavior, editing rights or save/reopen in Word. Proprietary system fonts are not redistributed. Legacy Cabin embedding remains isolated to the temporary legacy export.
+The four distributed Cabin faces have a local SIL Open Font License 1.1 file and OS/2 `fsType = 0`. The inventory records their byte counts and SHA-256 hashes and the license hash. The license permits embedding subject to its conditions. The font's embedding bits are defined in the [OpenType OS/2 specification](https://learn.microsoft.com/en-us/typography/opentype/spec/os2). Legacy and Next use the same Cabin font data and obfuscation. Next adds the four font parts and relationships as part of package generation.
 
-Do not enable embedding until the package implementation, licensing conditions, missing-asset behavior and Windows/macOS Word editing/save/reopen have separate evidence. This checkpoint tests the disabled/offline path; it does not claim an enabled-embedding failure path exists.
+Windows and macOS Word editing and save/reopen remain open for the diagnostic files. The browser and Writer checks cover the package, font availability and pagination. [Measured CV verification](../../History/KOLUMNE_DOCX_ERSTER_UMBRUCH_2026-11-20.md)
 
 ## QA and remaining acceptance
 

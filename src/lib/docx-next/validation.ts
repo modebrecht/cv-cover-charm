@@ -31,10 +31,19 @@ export function validateDossierDocModel(model: DossierDocModel): void {
   if (model.floatingTableTextFlow !== undefined && model.floatingTableTextFlow !== "all-pages")
     throw new Error("DOCX Next invalid floating table continuation policy");
   fontDefinition(model.theme.font);
-  if (model.fonts.embedding !== "disabled")
+  const embeddedCabin = model.fonts.embedding === "cabin";
+  if (
+    (model.fonts.embedding !== "disabled" && !embeddedCabin) ||
+    (embeddedCabin &&
+      (model.exportPart !== "cv" ||
+        model.cv.layout.mode !== "sidebar" ||
+        model.cv.layout.side !== "right" ||
+        !["terracotta", "studio3"].includes(model.templateId)))
+  )
     throw new Error("DOCX Next unsupported font embedding policy");
   const ids = new Set<string>();
   for (const part of [model.cover, model.letter, model.cv]) {
+    const cabinInCv = embeddedCabin && part.id === "cv";
     if (
       (part.headerFrames?.length || part.headerImages?.length) &&
       (part.id === "cover" ||
@@ -225,7 +234,12 @@ export function validateDossierDocModel(model: DossierDocModel): void {
           s.outlineMm >= s.heightMm ||
           !/^[0-9A-F]{6}$/.test(s.ink) ||
           part.page.margins.left + (block.indentMm ?? 0) < 0 ||
-          block.runs.some((r) => r.style.font !== "Arial" || /[\r\n\t]/.test(r.text))
+          block.runs.some(
+            (r) =>
+              (r.style.font !== "Arial" &&
+                !(cabinInCv && s.variant === "rule" && r.style.font === "Cabin")) ||
+              /[\r\n\t]/.test(r.text),
+          )
         )
           throw Error("DOCX Next invalid flowing rubric surface");
         if (
@@ -336,7 +350,7 @@ export function validateDossierDocModel(model: DossierDocModel): void {
           throw new Error(`DOCX Next invalid list marker style ${block.id}`);
         if (block.controlPlacement !== undefined && block.controlPlacement !== "inline")
           throw new Error(`DOCX Next invalid paragraph control placement ${block.id}`);
-        block.runs.forEach((run) => fontDefinition(run.style.font));
+        block.runs.forEach((run) => fontDefinition(run.style.font, cabinInCv));
         if (
           ![block.beforeMm, block.afterMm, block.lineHeight].every(Number.isFinite) ||
           Math.min(block.beforeMm, block.afterMm) < 0 ||

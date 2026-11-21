@@ -49,7 +49,9 @@ const DEFINITIONS: readonly FontDefinition[] = Object.entries(WORD_FONTS).flatMa
     return [{ name: value.font, fallback: value.fallback, family, pitch }];
   },
 );
-export function fontDefinition(name: string): FontDefinition {
+export function fontDefinition(name: string, allowCabin = false): FontDefinition {
+  if (allowCabin && name === "Cabin")
+    return { name, fallback: "Trebuchet MS", family: "swiss", pitch: "variable" };
   const primary = DEFINITIONS.find((font) => font.name === name);
   if (primary) return primary;
   const alternative = DEFINITIONS.find((font) => font.fallback === name);
@@ -64,7 +66,7 @@ export type FontSelection = {
   reason: "requested" | "unavailable";
 };
 export type FontPolicyResult = {
-  embedding: "disabled";
+  embedding: "disabled" | "cabin";
   availability: "target-application" | "supplied";
   selections: FontSelection[];
 };

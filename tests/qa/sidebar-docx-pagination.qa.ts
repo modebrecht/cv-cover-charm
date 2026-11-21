@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
-import { mkdir, writeFile } from "node:fs/promises";
+import { execFileSync } from "node:child_process";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import type { CvData, CvDesign } from "../../src/components/cv/types";
 import { parityStorage } from "../e2e/support/cv-parity-fixture";
@@ -11,9 +12,17 @@ import {
 import { BASE_URL, waitEditorReady } from "../e2e/support/dossier-gallery-shared";
 import { readDocxDocument, readTextPages, writer } from "./docx-writer";
 import { normalizeContent } from "./pagination-assertions";
+import { obfuscateOoxmlFont } from "../../src/lib/docx-cabin-fonts";
+import { readZipEntries } from "../../src/lib/docx-next/zip";
 
 for (const template of ["terracotta", "studio3"]) {
-  for (const variant of ["reference", "mixed-lengths", "template-font"] as const) {
+  for (const variant of [
+    "reference",
+    "mixed-lengths",
+    "template-font",
+    "cabin-legacy",
+    "cabin-legacy-mixed",
+  ] as const) {
     test(`${template} Sidebar rechts preserves every native entry: ${variant}`, async ({
       page,
     }) => {
@@ -23,8 +32,10 @@ for (const template of ["terracotta", "studio3"]) {
       const storage = parityStorage(template, true, true);
       const cv: { data: CvData; design: CvDesign } = JSON.parse(storage["lebenslauf:v1"]);
       cv.design.sidebarPct = 0.3;
-      cv.design.font = "sans";
-      if (variant === "mixed-lengths")
+      const cabin = variant.startsWith("cabin-");
+      if (cabin) delete cv.design.font;
+      else cv.design.font = "sans";
+      if (variant === "mixed-lengths" || variant === "cabin-legacy-mixed")
         for (const [i, entry] of cv.data.erfahrung.entries()) {
           if (i % 3 === 0) entry.beschreibung = entry.beschreibung.split(". ")[0] + ".";
           if (i % 3 === 1)
@@ -136,6 +147,22 @@ for (const template of ["terracotta", "studio3"]) {
             cvSidebarContinuationEntryId: entryId,
           });
           const table = model.cv.blocks.find((b) => b.kind === "table" && b.id === "cv.sidebar");
+          const cabinFailures = metrics.cabin
+            ? await Promise.all([
+                renderDossierDocx(model).then(
+                  () => "",
+                  (error) => String(error),
+                ),
+                renderDossierDocx(model, {
+                  allowUnacceptedModelIssues: true,
+                  cabinFontLoader: async (file) =>
+                    file === "Cabin-Italic.ttf" ? null : new Uint8Array([1]),
+                }).then(
+                  () => "",
+                  (error) => String(error),
+                ),
+              ])
+            : undefined;
           const blob = await renderDossierDocx(model, {
             part: "cv",
             allowUnacceptedModelIssues: true,
@@ -151,6 +178,8 @@ for (const template of ["terracotta", "studio3"]) {
             unchanged: saved() === before,
             available: savedAppDocxNextAvailability("cv").available,
             savedFont: source.cv.design.font ?? null,
+            embedding: model.fonts.embedding,
+            cabinFailures,
           };
         } finally {
           fonts.dispose();
@@ -162,8 +191,14 @@ for (const template of ["terracotta", "studio3"]) {
         footerDistance: 0,
         unchanged: true,
         available: false,
-        savedFont: variant === "template-font" ? null : "sans",
+        savedFont: variant === "template-font" ? null : cabin ? "freundlich" : "sans",
+        embedding: cabin ? "cabin" : "disabled",
       });
+      if (cabin)
+        expect(exported.cabinFailures).toEqual([
+          expect.stringContaining("diagnostic opt-in"),
+          expect.stringContaining("Cabin konnte nicht vollständig geladen werden"),
+        ]);
 
       const markers = [
         "Sekundarschule, Niveau A",
@@ -218,9 +253,38 @@ for (const template of ["terracotta", "studio3"]) {
       }
 
       const app = await inspect(appPath);
-      expect(app.sidebarFontFamilies).toEqual(sidebarMarkers.map(() => "sans-serif"));
+      if (!cabin) expect(app.sidebarFontFamilies).toEqual(sidebarMarkers.map(() => "sans-serif"));
       const sourceDocx = resolve(directory, "source.docx");
-      await writeFile(sourceDocx, Buffer.from(exported.bytes));
+      const bytes = Buffer.from(exported.bytes);
+      await writeFile(sourceDocx, bytes);
+      const parts = new Map(readZipEntries(bytes).map(({ name, bytes }) => [name, bytes]));
+      const partText = (name: string) => new TextDecoder().decode(parts.get(name));
+      expect(partText("word/settings.xml")).toContain(
+        `<w:embedTrueTypeFonts w:val="${cabin ? "1" : "0"}"/>`,
+      );
+      if (cabin) {
+        expect(
+          execFileSync("fc-match", ["--format=%{family}", "Cabin"], { encoding: "utf8" }),
+        ).not.toMatch(/\bCabin\b/);
+        const table = partText("word/fontTable.xml");
+        const relationships = partText("word/_rels/fontTable.xml.rels");
+        const contentTypes = partText("[Content_Types].xml");
+        for (const face of ["Regular", "Bold", "Italic", "BoldItalic"]) {
+          const rel = `rIdCabin${face}`;
+          const file = `Cabin-${face}.odttf`;
+          const key = table.match(new RegExp(`r:id="${rel}" w:fontKey="([^"]+)"`))?.[1];
+          expect(key).toBeTruthy();
+          expect(relationships).toContain(`Id="${rel}"`);
+          expect(relationships).toContain(`Target="fonts/${file}"`);
+          expect(contentTypes).toContain(`PartName="/word/fonts/${file}"`);
+          const embedded = parts.get(`word/fonts/${file}`);
+          expect(embedded).toBeDefined();
+          const font = await readFile(`public/fonts/Cabin-${face}.ttf`);
+          expect(Buffer.from(obfuscateOoxmlFont(embedded!, key!)).equals(font)).toBe(true);
+        }
+      } else {
+        expect(parts.has("word/_rels/fontTable.xml.rels")).toBe(false);
+      }
       const files = [sourceDocx];
       const rendered = [];
       for (const phase of ["source", "save-1", "save-2"]) {
@@ -232,6 +296,11 @@ for (const template of ["terracotta", "studio3"]) {
         const pdfPath = resolve(directory, `${phase}.pdf`);
         await writer(docxPath, pdfPath, "pdf");
         const result = await inspect(pdfPath);
+        if (cabin) {
+          const usedFonts = execFileSync("pdffonts", [pdfPath], { encoding: "utf8" });
+          expect(usedFonts).toContain("Cabin-Regular");
+          expect(usedFonts).toContain("Cabin-Bold");
+        }
         expect(result.locations).toEqual(app.locations);
         result.sidebarX.forEach((xMm, index) =>
           expect(Math.abs(xMm - app.sidebarX[index]), sidebarMarkers[index]).toBeLessThan(0.5),
@@ -243,6 +312,10 @@ for (const template of ["terracotta", "studio3"]) {
       const xml = await Promise.all(files.map(readDocxDocument));
       if (variant === "template-font") {
         for (const doc of xml) expect(doc).toContain('w:ascii="Arial"');
+      }
+      if (cabin) {
+        for (const doc of xml) expect(doc).toContain('w:ascii="Cabin"');
+        if (template === "terracotta") expect(xml[0]).toContain('w:ascii="Arial"');
       }
       const [before, ...reopened] = await page.evaluate((xml) => {
         const w = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
@@ -266,7 +339,8 @@ for (const template of ["terracotta", "studio3"]) {
             .sort(),
         );
       }, xml);
-      expect(before.length).toBeGreaterThan(markers.length);
+      if (cabin) expect(before).toHaveLength(111);
+      else expect(before.length).toBeGreaterThan(markers.length);
       expect(reopened).toEqual([before, before]);
       await writeFile(
         resolve(directory, "evidence.json"),
