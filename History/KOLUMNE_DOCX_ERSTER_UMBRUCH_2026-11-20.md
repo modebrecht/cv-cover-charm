@@ -77,6 +77,33 @@ Je ein Fall für Studio 3 und Kolumne speichert die Vorlagenschrift ausdrücklic
 
 Die Sidebar-Tests wählen «Passend zur Vorlage» im Editor und laden den Entwurf neu. Die ausdrücklich gespeicherte Wahl bleibt auch bei einer konkreten Anschreibenschrift erhalten. Eine danach gewählte konkrete Schrift wird weiterhin ans Anschreiben übertragen. Die unsichtbare Textebene des App-PDFs ordnet die geprüften Sans-Schriften Helvetica zu. Die sichtbaren Buchstaben stammen aus dem Browser.
 
-Ein historischer Entwurf ohne gespeicherten `font`-Schlüssel lädt Cabin. Ein lokaler Writer-Versuch mit geänderter Schrift in DOCX-Kopien hielt die Seitenzuordnung bei Studio 3. Bei Kolumne verschoben sich drei Praxiseinträge. Im Browser verwendet der Kolumne-Dokumenttitel weiterhin den Helvetica-/Arial-Stack. Für die Cabin-Fälle bleibt die automatische Umsetzung offen. Microsoft Word Desktop steht für die Sidebar-Fälle separat zur Abnahme aus.
+Der Browser lud beide Vorlagen aus dem tatsächlich heruntergeladenen Dossier-JSON in einen geleerten Speicher. Die Wahl «Passend zur Vorlage», die separate Times-Schrift des Anschreibens und die gespiegelte Sidebar blieben erhalten. Fünf historische Projekte und drei reguläre DOCX-Downloads nach Import bestanden auf demselben Produktstand `5222b95`.
+
+Alle acht ausdrücklichen Schriftwahlen wurden zusätzlich mit echten Dossier-PDF-Downloads verglichen. Alle 24 Web/PDF-Seitenpaare bestanden. Die Textauszüge der CV-Seiten bestätigen Helvetica für Sans und seine Varianten, Times für beide Serifeneinstellungen, Courier für die Maschinenschrift und Cabin für «Freundlich».
+
+Die automatische Web/PDF-Galerie auf diesem Stand erfasste 39 Vorlagen und 117 Seitenpaare. Der ausgewertete Bericht enthält 115 PASS und 2 REVIEW. Die beiden REVIEW bleiben die Foto-Kreisränder bei Kolumne und Studio 3. Der Neon-CV besteht. [CI-Galerie](https://github.com/modebrecht/cv-cover-charm/actions/runs/44894915207)
+
+### Lokaler Vergleich für alte Entwürfe mit Cabin
+
+Ein historischer Entwurf ohne gespeicherten `font`-Schlüssel lädt Cabin. Ein pauschaler Schriftwechsel in einer DOCX-Kopie verschob bei Kolumne drei Praxiseinträge. Die Browsermessung ergab für zehn Kolumne-Felder den Helvetica-/Arial-Stack, darunter den Dokumenttitel und Rubriktexte. Die übrigen 101 Felder verwenden Cabin. Bei Studio 3 verwenden alle 111 gemessenen Felder Cabin.
+
+Ein lokaler Versuch übernahm die gemessene Schrift und Zeilenhöhe je Feld. Die DOCX-Kopien deklarieren für Kolumne Arial und Cabin, für Studio 3 verwenden die gemessenen Felder Cabin. Die beiden Studio-3-Rubriken mit gezeichneter Linie erhielten die Cabin-Schrift direkt in ihren DOCX-Feldern. Writer 25.8.7.3 hatte die vier Cabin-Schriften aus dem Projekt lokal verfügbar und verwendete Liberation Sans für Arial. Die Writer-PDFs bestätigten die verwendeten Schriftfamilien.
+
+| Vorlage und Beschreibungen | Praxisstationen pro Seite | Seitenzuordnungen wie im App-PDF | Erhaltene Feldwerte nach zweimal Speichern |
+| -------------------------- | ------------------------- | -------------------------------- | ------------------------------------------ |
+| Kolumne, gleich lang       | 6 / 9 / 3                 | 20/20                            | 111/111                                    |
+| Kolumne, gemischt          | 7 / 9 / 2                 | 20/20                            | 111/111                                    |
+| Studio 3, gleich lang      | 4 / 8 / 6                 | 20/20                            | 111/111                                    |
+| Studio 3, gemischt         | 5 / 9 / 4                 | 20/20                            | 111/111                                    |
+
+Alle vier Kopien hielten den Fotoausschnitt und die vollständigen 18 Beschreibungen in Writer. Die geprüften Sidebar-Textanfänge lagen nach zweimal Speichern innerhalb von 0,11 mm zum App-PDF.
+
+### Cabin ohne installierte Schrift
+
+Für alle vier Fälle wurde Cabin in die DOCX-Kopie eingebettet. Der Versuch entfernte die deaktivierte Einstellung `w:embedTrueTypeFonts` aus der Kopie und verwendete die vorhandene Legacy-Funktion `embedCabinFontsInDossierDocxBlob`. Die vier über `fontTable.xml` referenzierten Schriftdateien der ersten beiden Kopien ergaben nach Rückwandlung dieselben Bytes wie die vier TTF-Dateien im Projekt.
+
+Writer lief ohne die lokale Cabin-Schrift und mit einem frischen Profil pro Datei. Ohne Einbettung verwendete Writer Noto Sans. Die beiden gleich langen Fälle ergaben vier Seiten und 13/20 passende Seitenzuordnungen bei Kolumne sowie 15/20 bei Studio 3. Die gemischten Fälle blieben dreiseitig, wichen aber mit 14/20 beziehungsweise 17/20 Zuordnungen vom App-PDF ab. Mit Einbettung verwendete Writer Cabin. Alle vier Dateien hatten beim Öffnen und nach zweimal Speichern **drei Seiten und 20/20 passende Seitenzuordnungen**. Alle 111 Feldwerte und 18 Beschreibungen blieben erhalten. Der Fotorahmen lag in den drei Prüfschritten am selben Ort wie im Vergleich mit installierter Schrift. Die vier Fotostichproben wichen um höchstens zwei RGB-Stufen ab.
+
+Der Test verwendet geänderte DOCX-Kopien. Die automatische Einbettung im Next-Prüfexport und die Abnahme mit Microsoft Word Desktop stehen aus.
 
 [#194](https://github.com/modebrecht/cv-cover-charm/issues/194) · [#195](https://github.com/modebrecht/cv-cover-charm/issues/195) · [#227](https://github.com/modebrecht/cv-cover-charm/issues/227)
