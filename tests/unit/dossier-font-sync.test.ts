@@ -75,6 +75,12 @@ describe("CV and motivation-letter font sync", () => {
     expect(JSON.parse(result.letter ?? "{}").data.text).toBe("Brief bleibt erhalten");
   });
 
+  test("keeps an explicit CV template choice when the letter has a concrete font", () => {
+    const cv = JSON.stringify({ design: { font: null } });
+    const letter = JSON.stringify({ design: { font: "freundlich" } });
+    expect(reconcileDossierFontTexts(cv, letter)).toEqual({ font: null, cv, letter });
+  });
+
   test("uses the CV as the one-time tie-breaker for an old conflicting pair", () => {
     const cv = JSON.stringify({ version: 6, design: { font: "freundlich" } });
     const letter = JSON.stringify({ version: 1, design: { font: "sans" } });

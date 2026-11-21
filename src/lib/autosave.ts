@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { FontKey } from "@/components/cover/types";
 import {
-  dossierFontFromSerialized,
+  dossierFontChoiceFromSerialized,
   propagateDossierFontFrom,
   reconcileStoredDossierFonts,
 } from "@/lib/dossier-font-sync";
@@ -54,7 +54,8 @@ export function useForeignWrite(storageKey: string) {
   /** Nach jedem eigenen Schreibvorgang aufrufen. */
   const markWritten = useCallback(
     (text: string) => {
-      const font = dossierFontFromSerialized(text);
+      const choice = dossierFontChoiceFromSerialized(text);
+      const font = choice ?? null;
       const previousFont = lastFont.current;
       const firstObservation = previousFont === undefined;
 
@@ -62,11 +63,11 @@ export function useForeignWrite(storageKey: string) {
       lastFont.current = font;
 
       // The first observation is hydration. If that stored draft has no
-      // concrete font, the editor may normalize it to its visual default on
+      // font choice, the editor may normalize it to its visual default on
       // the first autosave (e.g. letter {} -> sans). That one normalization is
       // not a user choice and must not rewrite the sibling document.
       if (firstObservation) {
-        suppressFirstNormalizedFont.current = font === null;
+        suppressFirstNormalizedFont.current = choice === undefined;
         return;
       }
 

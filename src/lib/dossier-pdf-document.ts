@@ -1,4 +1,4 @@
-import { migrateCvDesign } from "@/components/cv/design";
+import { migrateCvDesign, type SavedCvDesign } from "@/components/cv/design";
 import { buildBlocks, type StyleOverrides } from "@/components/cover/layouts";
 import {
   EMPTY_META,
@@ -226,7 +226,7 @@ export function cvPdfDocumentFromSaved(raw: unknown): CvPdfDocument | null {
     ...incomingData,
     person: { ...emptyCv.person, ...(incomingData.person ?? {}) },
   };
-  const incomingDesign = isRecord(raw.design) ? (raw.design as Partial<CvDesign>) : {};
+  const incomingDesign = isRecord(raw.design) ? (raw.design as Partial<SavedCvDesign>) : {};
   const template = normalizeActiveTemplateId(incomingDesign.template ?? draft.template);
   const design: CvDesign = {
     template,

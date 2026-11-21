@@ -20,10 +20,14 @@ function parseSaved(text: string | null): RecordLike | null {
   }
 }
 
-export function dossierFontFromSerialized(text: string | null): FontKey | null {
+export function dossierFontChoiceFromSerialized(text: string | null): FontKey | null | undefined {
   const saved = parseSaved(text);
   const design = saved && isRecord(saved.design) ? saved.design : null;
-  return validFont(design?.font);
+  return design?.font === null ? null : (validFont(design?.font) ?? undefined);
+}
+
+export function dossierFontFromSerialized(text: string | null): FontKey | null {
+  return dossierFontChoiceFromSerialized(text) ?? null;
 }
 
 function withFont(
@@ -76,7 +80,10 @@ export function reconcileDossierFontTexts(
   cvText: string | null,
   letterText: string | null,
 ): ReconciledDossierFonts {
-  const cvFont = dossierFontFromSerialized(cvText);
+  const cvFont = dossierFontChoiceFromSerialized(cvText);
+  // A saved null is the CV editor's explicit template choice. Missing
+  // legacy fields can still inherit a concrete font from the letter.
+  if (cvFont === null) return { font: null, cv: cvText, letter: letterText };
   const letterFont = dossierFontFromSerialized(letterText);
   const font = cvFont ?? letterFont;
   if (!font) return { font: null, cv: cvText, letter: letterText };

@@ -14,6 +14,8 @@ import { Section } from "@/components/cover/Section";
 import { TemplatePicker } from "@/components/cover/TemplatePicker";
 import {
   migrateCvDesign,
+  cvDesignForSave,
+  type SavedCvDesign,
   CV_DEFAULT_BG_OPACITY as DEFAULT_BG_OPACITY,
 } from "@/components/cv/design";
 import { useTemplateQaTemplateSwitch } from "@/lib/template-qa-switch";
@@ -193,7 +195,7 @@ function defaultColors(template: TemplateId): Record<string, string> {
 type Saved = {
   version: number;
   data: CvData;
-  design: CvDesign;
+  design: SavedCvDesign;
   elements: CustomField[];
   /**
    * Abweichungen vom Vorgabestil je eigenem Element.
@@ -580,7 +582,7 @@ function Lebenslauf() {
     (): Saved => ({
       version: SAVE_VERSION,
       data,
-      design,
+      design: cvDesignForSave(design),
       elements,
       elementStyles,
       coverFingerprint: lastCoverFingerprint,
@@ -853,7 +855,9 @@ function Lebenslauf() {
               ...saved.data,
               person: { ...emptyCv.person, ...saved.data?.person },
             }),
-            design: saved.design ? migrateCvDesign(design, saved.design, saved.version) : design,
+            design: cvDesignForSave(
+              saved.design ? migrateCvDesign(design, saved.design, saved.version) : design,
+            ),
             elements: Array.isArray(saved.elements) ? saved.elements : elements,
             elementStyles: saved.elementStyles ?? elementStyles,
             coverFingerprint:

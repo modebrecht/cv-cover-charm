@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import { migrateCvDesign } from "../../src/components/cv/design";
+import { cvDesignForSave, migrateCvDesign } from "../../src/components/cv/design";
 import { cvPdfDocumentFromSaved } from "../../src/lib/dossier-pdf-document";
 import { emptyCv, type CvDesign } from "../../src/components/cv/types";
 
@@ -28,4 +28,16 @@ test("canonical print uses the editor migration for absent, explicit and legacy 
         expect(print?.design.bgOpacity).toBe(visible.bgOpacity);
         expect(print?.design.template).toBe(visible.template);
       }
+});
+
+test("round-trip retains the template font choice and continues to migrate absent legacy fonts", () => {
+  const { font: _font, ...template } = current;
+  const stored = JSON.parse(JSON.stringify(cvDesignForSave(template)));
+  expect(stored.font).toBeNull();
+  expect(migrateCvDesign(current, stored, 6).font).toBeUndefined();
+  expect(
+    cvPdfDocumentFromSaved({ version: 6, data: emptyCv, design: stored })?.design.font,
+  ).toBeUndefined();
+  expect(migrateCvDesign(current, template, 6).font).toBe("freundlich");
+  expect(cvDesignForSave(current).font).toBe("freundlich");
 });

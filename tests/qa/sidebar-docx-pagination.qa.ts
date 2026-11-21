@@ -23,26 +23,40 @@ for (const template of ["terracotta", "studio3"]) {
       const storage = parityStorage(template, true, true);
       const cv: { data: CvData; design: CvDesign } = JSON.parse(storage["lebenslauf:v1"]);
       cv.design.sidebarPct = 0.3;
-      if (variant !== "template-font") cv.design.font = "sans";
+      cv.design.font = "sans";
       if (variant === "mixed-lengths")
         for (const [i, entry] of cv.data.erfahrung.entries()) {
           if (i % 3 === 0) entry.beschreibung = entry.beschreibung.split(". ")[0] + ".";
           if (i % 3 === 1)
             entry.beschreibung += " Das Ergebnis wurde anschliessend gemeinsam getestet.";
         }
-      storage["lebenslauf:v1"] = JSON.stringify({
-        ...cv,
-        // The editor stores null for the template's font. An omitted key
-        // belongs to the legacy Cabin migration.
-        design: { ...cv.design, font: variant === "template-font" ? null : cv.design.font },
-      });
+      storage["lebenslauf:v1"] = JSON.stringify(cv);
       storage["lebenslauf:photo-place:v1"] = JSON.stringify({ mode: "auto" });
       usePhotoCropFixture(storage);
       await page.addInitScript((values) => {
+        if (sessionStorage.getItem("sidebar-docx-qa-seeded")) return;
         Object.entries(values).forEach(([key, value]) => localStorage.setItem(key, value));
+        sessionStorage.setItem("sidebar-docx-qa-seeded", "true");
       }, storage);
       await page.goto(BASE_URL + "/lebenslauf", { waitUntil: "networkidle" });
       await waitEditorReady(page);
+      if (variant === "template-font") {
+        const showFonts = async () => {
+          const toggle = page.locator(
+            '[data-editor-section-title="Schrift"] [data-editor-section-toggle]',
+          );
+          if ((await toggle.getAttribute("aria-expanded")) !== "true") await toggle.click();
+          return page.getByLabel(/Schriftart gesamtes Dossier/);
+        };
+        const savedFont = () =>
+          page.evaluate(() => JSON.parse(localStorage.getItem("lebenslauf:v1")!).design.font);
+        await (await showFonts()).selectOption("template");
+        await expect.poll(savedFont).toBeNull();
+        await page.reload({ waitUntil: "networkidle" });
+        await waitEditorReady(page);
+        await expect(await showFonts()).toHaveValue("template");
+        expect(await savedFont()).toBeNull();
+      }
       await page.evaluate(() => document.fonts.ready);
 
       const visible = page.locator('[data-dossier-document="cv"][data-export-mode="false"]');
@@ -189,17 +203,22 @@ for (const template of ["terracotta", "studio3"]) {
             : afterTitle;
           expect(description, entry.titel).toContain(normalizeContent(entry.beschreibung));
         }
-        const sidebarX = sidebarMarkers.map((marker) => {
+        const sidebar = sidebarMarkers.map((marker) => {
           const item = text[0].find((part) =>
             part.str.trim().toLowerCase().startsWith(marker.toLowerCase()),
           );
           if (!item) throw Error(`Missing first-page sidebar text ${marker} in ${path}`);
-          return (item.transform[4] * 25.4) / 72;
+          return item;
         });
-        return { locations, sidebarX };
+        return {
+          locations,
+          sidebarX: sidebar.map((item) => (item.transform[4] * 25.4) / 72),
+          sidebarFontFamilies: sidebar.map((item) => item.fontFamily),
+        };
       }
 
       const app = await inspect(appPath);
+      expect(app.sidebarFontFamilies).toEqual(sidebarMarkers.map(() => "sans-serif"));
       const sourceDocx = resolve(directory, "source.docx");
       await writeFile(sourceDocx, Buffer.from(exported.bytes));
       const files = [sourceDocx];
@@ -253,6 +272,13 @@ for (const template of ["terracotta", "studio3"]) {
         resolve(directory, "evidence.json"),
         JSON.stringify({ continuationEntry, app, rendered, fieldCount: before.length }, null, 2),
       );
+      if (variant === "template-font") {
+        const letterFont = () =>
+          page.evaluate(() => JSON.parse(localStorage.getItem("anschreiben:v1")!).design.font);
+        expect(await letterFont()).toBe("sans");
+        await page.getByLabel(/Schriftart gesamtes Dossier/).selectOption("freundlich");
+        await expect.poll(letterFont).toBe("freundlich");
+      }
     });
   }
 }

@@ -72,7 +72,7 @@ function pdfFontForFamily(value: string): PdfFont {
   const family = value.toLowerCase();
   if (family.includes("cabin")) return "Cabin";
   if (
-    family.includes("serif") ||
+    family.replaceAll("sans-serif", "").includes("serif") ||
     family.includes("georgia") ||
     family.includes("times") ||
     family.includes("garamond") ||

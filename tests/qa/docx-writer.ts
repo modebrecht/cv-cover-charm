@@ -17,7 +17,11 @@ export async function readTextPages(path: string) {
     const pages = [];
     for (let n = 1; n <= pdf.numPages; n++) {
       const content = await (await pdf.getPage(n)).getTextContent();
-      pages.push(content.items.filter((item) => "str" in item));
+      pages.push(
+        content.items
+          .filter((item) => "str" in item)
+          .map((item) => ({ ...item, fontFamily: content.styles[item.fontName]?.fontFamily })),
+      );
     }
     return pages;
   } finally {
