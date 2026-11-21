@@ -2048,11 +2048,7 @@ export function buildDossierDocModel(
   if (includeCv && options.cvSidebarTextMetrics)
     applyCvSidebarTypography(cvPart, input, options.cvSidebarTextMetrics);
   if (options.cvSidebarContinuationEntryId !== undefined)
-    continueCvSidebarAtExperience(
-      cvPart,
-      options.cvSidebarContinuationEntryId,
-      capturedSidebarMetrics?.opening,
-    );
+    continueCvSidebarAtExperience(cvPart, options.cvSidebarContinuationEntryId);
   if (twoPageMembership) composeTwoPageCvSidebar(cvPart, twoPageMembership);
   if (options.letterFlowComposition && includeLetter) {
     if (options.letterFlowComposition !== "source-lines")

@@ -2,6 +2,7 @@ import { expect, test, type Locator } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
 import { execFileSync } from "node:child_process";
 import { join } from "node:path";
+import { CV_INFO_POSITION_STORAGE_KEY } from "../../src/components/cv/layout";
 import {
   BASE_URL,
   GALLERY_CASES,
@@ -18,6 +19,7 @@ import {
   captureGalleryDocx,
   galleryFixtureForDocx,
   galleryInputHash,
+  hasGalleryCvPreview,
 } from "./dossier-gallery-docx";
 
 const parityDir = process.env.DOSSIER_VISUAL_PARITY_DIR;
@@ -108,17 +110,23 @@ async function measure(sheet: Locator) {
 for (const { item, globalIndex: index } of selectedGalleryCases(batch)) {
   test(`Web/PDF photo reference ${index + 1}/39 ${item.id}`, async ({ page }) => {
     const base = galleryBaseName(index, item.label);
+    const mirrored = !!parityDir && hasGalleryCvPreview(item.id);
     await applyGalleryCase(page, parityDir ? galleryFixtureForDocx(stored, item.id) : stored, item);
     await page.evaluate(
-      (useSidebar) => {
+      ({ useSidebar, mirrored, infoPositionKey }) => {
         if (useSidebar) localStorage.setItem("lebenslauf:layout:v1", "modern");
+        if (mirrored) localStorage.setItem(infoPositionKey, "mirrored");
         localStorage.setItem(
           "lebenslauf:photo:v2",
           JSON.stringify({ shape: "circle", zoom: 1.35, x: 30, y: 70, borderWidth: 0.3 }),
         );
         localStorage.setItem("lebenslauf:photo-place:v1", JSON.stringify({ mode: "auto" }));
       },
-      !!parityDir && item.id === "modern",
+      {
+        useSidebar: mirrored || (!!parityDir && item.id === "modern"),
+        mirrored,
+        infoPositionKey: CV_INFO_POSITION_STORAGE_KEY,
+      },
     );
     const web = [];
     for (const [kind, route, selector] of [
@@ -129,6 +137,10 @@ for (const { item, globalIndex: index } of selectedGalleryCases(batch)) {
       await page.goto(`${BASE_URL}/${route}`, { waitUntil: "networkidle" });
       await waitEditorReady(page);
       await page.evaluate(() => document.fonts.ready);
+      if (kind === "cv" && mirrored)
+        await expect(
+          page.locator('[data-dossier-document="cv"][data-export-mode="false"]'),
+        ).toHaveAttribute("data-cv-info-position", "mirrored");
       const sheets = page.locator(selector);
       // These fixed short references must stay on one physical page per part.
       await expect(sheets).toHaveCount(1);

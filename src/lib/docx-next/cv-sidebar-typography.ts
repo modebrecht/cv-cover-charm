@@ -1,4 +1,8 @@
-import { canMeasureCabinSidebar, type CvSidebarTextMetrics } from "./cv-sidebar-text-metrics";
+import {
+  canMeasureCabinSidebar,
+  type CvSidebarOpeningMetrics,
+  type CvSidebarTextMetrics,
+} from "./cv-sidebar-text-metrics";
 import type { DocBlock, DocumentPart, Paragraph, TableBlock } from "./model";
 import type { DossierAppSnapshot } from "./source";
 import { cvPersonalInfoRows } from "@/lib/cv-personal-info";
@@ -12,6 +16,7 @@ import { cvFrameFor, cvSurface } from "@/components/cv/archetype";
 import { MODERN_SHEET_CIRCLE } from "@/components/dossier/sheet-geometry";
 import { datedFlowAfterMm, NATIVE_BOUNDARY_HEIGHT_MM } from "./flow-boundaries";
 import { compositeTextColor } from "./colors";
+import { imageZoneExtent } from "./image-zone";
 import {
   DEFAULT_DOSSIER_CHROME_STATE,
   effectiveDossierHeaderModeForOptions,
@@ -576,6 +581,58 @@ export function applyCvSidebarTypography(
   part.chrome.borderColor = undefined;
   part.pagePaintComposition = "single-asset";
   part.pagePaintCoverage = "native-grid";
+  if (metrics.opening) applySidebarOpening(part, body, header, metrics.opening);
+}
+
+function applySidebarOpening(
+  part: DocumentPart,
+  body: TableBlock,
+  header: Paragraph,
+  opening: CvSidebarOpeningMetrics,
+) {
+  const lead = body.bodyBoundaryLeadByCellMm;
+  if (
+    part.layout.mode !== "sidebar" ||
+    part.layout.side !== "right" ||
+    body.bodyBoundary !== "section-start" ||
+    body.rows.length !== 1 ||
+    !lead ||
+    ![opening.headerInsetMm, opening.headerReserveMm].every(
+      (mm) => Number.isFinite(mm) && mm >= 0 && mm < part.page.heightMm,
+    )
+  )
+    throw Error("DOCX Next ungültige Sidebar-Kopfmessung.");
+
+  lead[0] += opening.headerInsetMm;
+  header.afterMm += opening.headerReserveMm;
+  if (!opening.photo) return;
+
+  const picture = part.blocks.find(
+    (block) => block.kind === "image" && block.id === "cv.person.photo",
+  );
+  const { xMm, yMm, widthMm, gapAfterMm } = opening.photo;
+  if (
+    picture?.kind !== "image" ||
+    picture.nativeOwner !== "page-picture" ||
+    picture.verticalOrigin !== "paragraph" ||
+    picture.wrapMode !== "none" ||
+    !picture.sourceLayout ||
+    !picture.frame ||
+    ![xMm, yMm, widthMm, gapAfterMm].every((mm) => Number.isFinite(mm) && mm >= 0) ||
+    widthMm <= 0
+  )
+    throw Error("DOCX Next ungültige Sidebar-Fotomessung.");
+  const old = imageZoneExtent(picture);
+  const heightMm = widthMm * picture.frame.heightRatio;
+  const oldPhotoEndMm = picture.sourceLayout.yMm + old.heightMm + 2 * old.borderOutsetMm + 3;
+  const measuredPhotoEndMm = yMm + heightMm + gapAfterMm;
+  lead[2] += measuredPhotoEndMm - oldPhotoEndMm;
+  picture.xMm = xMm;
+  picture.yMm = yMm;
+  picture.widthMm = widthMm;
+  picture.verticalOrigin = undefined;
+  picture.measuredPageAnchor = true;
+  picture.sourceLayout = { xMm, yMm, widthMm, minimumHeightMm: heightMm };
 }
 
 function findParagraph(blocks: DocBlock[], id: string): Paragraph | undefined {

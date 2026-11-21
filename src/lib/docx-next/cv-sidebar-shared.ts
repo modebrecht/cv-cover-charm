@@ -4,7 +4,6 @@ import { walkBlocks } from "./model";
 import { imageZoneExtent } from "./image-zone";
 import { compositeTextColor } from "./colors";
 import { CV_EXPLICIT_SECOND_PAGE_ERROR, DocxDownloadError } from "./download-error";
-import type { CvSidebarOpeningMetrics } from "./cv-sidebar-text-metrics";
 
 /** Two complete native stories on the authored page grid. No browser pagination. */
 export function composeSharedCvSidebar(
@@ -295,11 +294,7 @@ export function composeSharedCvSidebar(
 }
 
 /** Move whole experience entries into another flowing row of the same measured grid. */
-export function continueCvSidebarAtExperience(
-  part: DocumentPart,
-  entryId: string,
-  opening?: CvSidebarOpeningMetrics,
-): void {
+export function continueCvSidebarAtExperience(part: DocumentPart, entryId: string): void {
   const body = part.blocks.find((block) => block.kind === "table" && block.id === "cv.sidebar");
   if (
     part.layout.mode !== "sidebar" ||
@@ -326,53 +321,6 @@ export function continueCvSidebarAtExperience(
   );
   if (entryIndex < 1)
     throw Error("DOCX Next Sidebar-Fortsetzung benötigt einen vollständigen Folgeeintrag.");
-
-  if (opening) {
-    const lead = body.bodyBoundaryLeadByCellMm;
-    const paragraphs = walkBlocks(main).filter((block) => block.kind === "paragraph");
-    const header =
-      paragraphs.find((block) => block.id === "cv.person.subtitle") ??
-      paragraphs.find((block) => block.id === "cv.person.name");
-    if (
-      !lead ||
-      !header ||
-      ![opening.headerInsetMm, opening.headerReserveMm].every(
-        (mm) => Number.isFinite(mm) && mm >= 0 && mm < part.page.heightMm,
-      )
-    )
-      throw Error("DOCX Next ungültige Sidebar-Kopfmessung.");
-
-    lead[0] += opening.headerInsetMm;
-    header.afterMm += opening.headerReserveMm;
-    if (opening.photo) {
-      const picture = part.blocks.find(
-        (block) => block.kind === "image" && block.id === "cv.person.photo",
-      );
-      const { xMm, yMm, widthMm, gapAfterMm } = opening.photo;
-      if (
-        picture?.kind !== "image" ||
-        picture.nativeOwner !== "page-picture" ||
-        picture.verticalOrigin !== "paragraph" ||
-        picture.wrapMode !== "none" ||
-        !picture.sourceLayout ||
-        !picture.frame ||
-        ![xMm, yMm, widthMm, gapAfterMm].every((mm) => Number.isFinite(mm) && mm >= 0) ||
-        widthMm <= 0
-      )
-        throw Error("DOCX Next ungültige Sidebar-Fotomessung.");
-      const old = imageZoneExtent(picture);
-      const heightMm = widthMm * picture.frame.heightRatio;
-      const oldPhotoEndMm = picture.sourceLayout.yMm + old.heightMm + 2 * old.borderOutsetMm + 3;
-      const measuredPhotoEndMm = yMm + heightMm + gapAfterMm;
-      lead[2] += measuredPhotoEndMm - oldPhotoEndMm;
-      picture.xMm = xMm;
-      picture.yMm = yMm;
-      picture.widthMm = widthMm;
-      picture.verticalOrigin = undefined;
-      picture.measuredPageAnchor = true;
-      picture.sourceLayout = { xMm, yMm, widthMm, minimumHeightMm: heightMm };
-    }
-  }
 
   const continuation = {
     ...experience,

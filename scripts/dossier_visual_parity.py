@@ -63,6 +63,13 @@ class TemplateCase:
         kind = self.docx_kind
         return self.directory / self.docx[kind]["file"] if kind else None
 
+    @property
+    def docx_pages(self) -> tuple[str, ...]:
+        kind = self.docx_kind
+        if kind is None:
+            return ()
+        return ("cv",) if self.docx[kind].get("part") == "cv" else PAGE_KINDS
+
 
 def run(cmd: list[str], *, timeout: int = 180) -> subprocess.CompletedProcess[str]:
     result = subprocess.run(
@@ -109,12 +116,14 @@ def read_gallery_cases(directories: list[Path], sha: str) -> list[TemplateCase]:
             for kind, empty_status in (("regular", "blocked"), ("preview", "not-configured")):
                 row = docx[kind]
                 if row["status"] == empty_status:
-                    if "file" in row or (kind == "regular" and not row.get("reason", "").strip()):
+                    if "file" in row or "part" in row or (kind == "regular" and not row.get("reason", "").strip()):
                         raise RuntimeError(f"Invalid {kind} status for {base}")
                     continue
                 file = f"{base}--{kind}.docx"
                 if row["status"] != "exported" or row.get("file") != file:
                     raise RuntimeError(f"Unexpected {kind} record for {base}")
+                if "part" in row and (kind != "preview" or row["part"] != "cv"):
+                    raise RuntimeError(f"Unexpected {kind} DOCX scope for {base}")
                 document = directory / file
                 if hashlib.sha256(document.read_bytes()).hexdigest() != row["sha256"]:
                     raise RuntimeError(f"DOCX digest mismatch for {file}")
@@ -160,17 +169,21 @@ def normalize_image(source: Path, target: Path) -> None:
         save_normalized_rgb(image.convert("RGB"), target)
 
 
-def rasterize_pdf(pdf: Path, out_dir: Path, base: str) -> dict[str, Path]:
+def rasterize_pdf(
+    pdf: Path, out_dir: Path, base: str, page_kinds: tuple[str, ...] = PAGE_KINDS,
+) -> dict[str, Path]:
     out_dir.mkdir(parents=True, exist_ok=True)
     document = fitz.open(pdf)
     try:
-        if document.page_count != 3:
-            raise RuntimeError(f"{pdf.name}: expected 3 PDF pages, found {document.page_count}")
+        if document.page_count != len(page_kinds):
+            raise RuntimeError(
+                f"{pdf.name}: expected {len(page_kinds)} PDF pages, found {document.page_count}"
+            )
 
         result: dict[str, Path] = {}
         scale = 96.0 / 72.0
         matrix = fitz.Matrix(scale, scale)
-        for page_number, kind in enumerate(PAGE_KINDS):
+        for page_number, kind in enumerate(page_kinds):
             page = document.load_page(page_number)
             pix = page.get_pixmap(matrix=matrix, alpha=False)
             target = out_dir / f"{base}--{kind}.png"
@@ -319,6 +332,8 @@ def create_template_sheet(case: TemplateCase, rows: list[dict[str, object]], ima
         "preview": "DOCX / LibreOffice (internal preview)",
         None: "DOCX unavailable",
     }[case.docx_kind]
+    if case.docx_pages == ("cv",):
+        docx_label = "DOCX / LibreOffice (CV preview)"
     for col, label in enumerate(("WEB (visible site)", "PDF", docx_label)):
         x = margin + col * (thumb_w + col_gap)
         draw.text((x, title_h), label, fill="black")
@@ -337,8 +352,8 @@ def create_template_sheet(case: TemplateCase, rows: list[dict[str, object]], ima
         )
         y += row_caption_h
         for col, source in enumerate(("web", "pdf", "docx")):
-            if source in image_map:
-                thumb = resize_for_sheet(image_map[source][kind], thumb_w)
+            if path := image_map.get(source, {}).get(kind):
+                thumb = resize_for_sheet(path, thumb_w)
                 x = margin + col * (thumb_w + col_gap)
                 sheet.paste(thumb, (x, y))
         y += thumb_h + row_gap
@@ -412,7 +427,7 @@ def main() -> int:
         print(f"[{index:02d}/39] {case.base} {case.label}", flush=True)
         pdf_pages = rasterize_pdf(case.directory / f"{case.base}.pdf", pdf_png_dir, case.base)
         docx_pages = (
-            rasterize_pdf(docx_pdfs[case.base], docx_png_dir, case.base)
+            rasterize_pdf(docx_pdfs[case.base], docx_png_dir, case.base, case.docx_pages)
             if case.base in docx_pdfs
             else {}
         )
@@ -432,13 +447,14 @@ def main() -> int:
                 "base": case.base,
                 "label": case.label,
                 "page": kind,
-                "docx_source": case.docx_kind or "unavailable",
+                "docx_source": case.docx_kind if kind in docx_pages else "unavailable",
                 **scores,
             }
             rows.append(row)
             template_rows.append(row)
             for source, pages in template_images.items():
-                image_lookup[(case.base, kind, source)] = pages[kind]
+                if kind in pages:
+                    image_lookup[(case.base, kind, source)] = pages[kind]
 
         create_template_sheet(
             case,
@@ -475,12 +491,13 @@ def main() -> int:
         "regular_docx_exports": sum(case.docx_kind == "regular" for case in cases),
         "regular_docx_blocked": sum(case.docx["regular"]["status"] == "blocked" for case in cases),
         "preview_docx_exports": sum(case.docx_kind == "preview" for case in cases),
+        "cv_only_previews": sum(case.docx_pages == ("cv",) for case in cases),
         "web_pdf_pairs": len(rows),
         "pages_with_docx": sum(row["docx_source"] != "unavailable" for row in rows),
     }
     report = {
         "source_sha": args.sha,
-        "docx_coverage": "complete" if len(docx_pdfs) == len(cases) else "partial",
+        "docx_coverage": "complete" if counts["pages_with_docx"] == len(rows) else "partial",
         "counts": counts,
         "renderer_versions": versions,
         "templates": [
@@ -503,7 +520,8 @@ def main() -> int:
         "",
         f"- Web/PDF: **{counts['web_pdf_pairs']} page pairs**.",
         f"- Regular DOCX: **{counts['regular_docx_exports']} exported**, **{counts['regular_docx_blocked']} expected blocks**.",
-        f"- Internal DOCX previews: **{counts['preview_docx_exports']} exported**.",
+        f"- Internal DOCX previews: **{counts['preview_docx_exports']} exported**, "
+        f"{counts['cv_only_previews']} CV-only.",
         f"- DOCX comparisons in LibreOffice: **{counts['pages_with_docx']} pages**.",
         "",
         "Each comparison uses the same saved input within a template. Modern and Brief use Sans.",
@@ -532,9 +550,12 @@ def main() -> int:
     for case in cases:
         case_rows = [row for row in rows if row["base"] == case.base]
         scores = " | ".join(average(case_rows, key) for key in PAIR_KEYS)
+        preview = case.docx["preview"]["status"]
+        if case.docx_pages == ("cv",):
+            preview += " (CV only)"
         summary_lines.append(
             f"| {case.base} — {case.label} | {case.docx['regular']['status']} | "
-            f"{case.docx['preview']['status']} | {scores} |"
+            f"{preview} | {scores} |"
         )
 
     for pair in PAIR_KEYS:

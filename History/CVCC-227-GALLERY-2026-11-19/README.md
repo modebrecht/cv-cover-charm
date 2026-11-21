@@ -23,6 +23,16 @@ Der reguläre Modern-DOCX rendert im geprüften Kurzfall in LibreOffice auf drei
 
 Beim internen Brief-DOCX bleiben die zuvor dokumentierten Unterschiede bei Kopf- und Fussbändern sowie Abständen sichtbar. [Brief-Prüfung](../CVCC-227-BRIEF-2026-11-19/README.md)
 
+## Ergänzung vom 21.11.2026
+
+Die Galerie vergleicht für Kolumne und Studio 3 zusätzlich den kurzen Lebenslauf mit Sans und rechter Sidebar. Die Prüfung lädt Web, App-PDF und den internen DOCX-Export aus demselben gespeicherten Entwurf. Die DOCX-Datei umfasst je eine Lebenslaufseite. Cover und Brief erhalten für diese beiden Vorlagen ausschliesslich Web/PDF-Werte. Bei beiden Vorlagen sperrt der normale Dossier-DOCX-Dialog den Export.
+
+Die erste kurze Studio-3-Probe zeigte den Namen 10,4 mm und die Kontaktadresse 45,9 mm zu weit oben. Der interne Export übernimmt jetzt die gemessene Position des Kopfs und des Fotos bereits beim Aufbau der ersten Seite. Im Writer-Vergleich liegen die vertikalen Abweichungen bei 3,6 mm für den Namen und 1,8 mm für die Kontaktadresse. Der PDF/DOCX-RGB-SSIM steigt im CV-Vergleich bei Studio 3 von 0,593 auf 0,791 und bei Kolumne von 0,775 auf 0,840.
+
+Beide langen Cabin-Quelldateien sind bytegleich zur zuvor geprüften Version. In LibreOffice 25.8.7.3 stimmen die drei Seiten, das Foto und die Inhaltszuordnung auch nach je zwei Speicherzyklen.
+
+Der Bericht erfasst den Umfang im DOCX-Status als `part: "cv"` und verlangt bei der Konvertierung genau eine Seite. Der dreiseitige Studio-3-Fall mit eingebettetem Cabin hat eine eigene Word-Desktop-Abnahme.
+
 ## Reproduktion
 
 Der Workflow `Dossier Visual Parity` verwendet dafür `qa_suite=gallery`. Ein vollständiger lokaler Lauf nutzt dieselbe Testkonfiguration. Playwright 1.56.1 und Chromium 141 entsprechen der bestehenden Web/PDF-Fotogalerie. Der bisherige Modern-Smoke-Modus verwendet weiterhin seinen Playwright-Stand.
