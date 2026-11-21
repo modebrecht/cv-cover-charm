@@ -285,6 +285,9 @@ export async function captureCvSidebarTextMetrics(
         result.headings[id] = {
           beforeMm: mm(number(s.marginTop)) * zoom,
           afterMm: mm(number(s.marginBottom)) * zoom,
+          ...(captureOpening && el.closest("[data-cv-sidebar-content]")
+            ? { textInsetMm: mm(number(css.borderLeftWidth) + number(css.paddingLeft)) * zoom }
+            : {}),
           ...(ruleCss && ruleCss.display !== "none"
             ? {
                 rule: {
@@ -345,12 +348,16 @@ export async function captureCvSidebarTextMetrics(
       const sidebarPhoto = page.querySelector<HTMLElement>(
         "[data-cv-sidebar-content] > [data-cv-photo]",
       );
+      const sheet = page.getBoundingClientRect();
+      const sidebar = page.querySelector("[data-cv-sidebar-content]")?.getBoundingClientRect();
       result.opening = {
         headerInsetMm: mm(Math.max(0, box.top - main.top)),
         headerReserveMm: mm(Math.max(0, box.bottom - end.getBoundingClientRect().bottom)),
+        ...(sidebar
+          ? { sidebarText: { leftMm: mm(sidebar.left - sheet.left), widthMm: mm(sidebar.width) } }
+          : {}),
       };
       if (sidebarPhoto) {
-        const sheet = page.getBoundingClientRect();
         const photo = sidebarPhoto.getBoundingClientRect();
         result.opening.photo = {
           xMm: mm(photo.left - sheet.left),

@@ -9,7 +9,7 @@ import {
   usePhotoCropFixture,
 } from "../e2e/support/cv-pdf-photo-crop";
 import { BASE_URL, waitEditorReady } from "../e2e/support/dossier-gallery-shared";
-import { readDocxDocument, readPages, writer } from "./docx-writer";
+import { readDocxDocument, readTextPages, writer } from "./docx-writer";
 import { normalizeContent } from "./pagination-assertions";
 
 for (const template of ["terracotta", "studio3"]) {
@@ -148,8 +148,17 @@ for (const template of ["terracotta", "studio3"]) {
         ...cv.data.erfahrung.map(({ titel }) => titel),
         "Referenzmarker",
       ];
+      const sidebarMarkers = [
+        "Kontakt",
+        cv.data.person.adresse,
+        cv.data.person.plzOrt,
+        cv.data.person.telefon,
+        "Sprachen",
+        "Hobbys",
+      ];
       async function inspect(path: string) {
-        const pages = (await readPages(path)).map(normalizeContent);
+        const text = await readTextPages(path);
+        const pages = text.map((page) => normalizeContent(page.map((item) => item.str).join(" ")));
         const locations = Object.fromEntries(
           markers.map((marker) => {
             const name = normalizeContent(marker);
@@ -172,7 +181,14 @@ for (const template of ["terracotta", "studio3"]) {
             : afterTitle;
           expect(description, entry.titel).toContain(normalizeContent(entry.beschreibung));
         }
-        return locations;
+        const sidebarX = sidebarMarkers.map((marker) => {
+          const item = text[0].find((part) =>
+            part.str.trim().toLowerCase().startsWith(marker.toLowerCase()),
+          );
+          if (!item) throw Error(`Missing first-page sidebar text ${marker} in ${path}`);
+          return (item.transform[4] * 25.4) / 72;
+        });
+        return { locations, sidebarX };
       }
 
       const app = await inspect(appPath);
@@ -188,11 +204,14 @@ for (const template of ["terracotta", "studio3"]) {
         }
         const pdfPath = resolve(directory, `${phase}.pdf`);
         await writer(docxPath, pdfPath, "pdf");
-        rendered.push(await inspect(pdfPath));
+        const result = await inspect(pdfPath);
+        expect(result.locations).toEqual(app.locations);
+        result.sidebarX.forEach((xMm, index) =>
+          expect(Math.abs(xMm - app.sidebarX[index]), sidebarMarkers[index]).toBeLessThan(0.5),
+        );
+        rendered.push(result);
         await expectPdfPhotoCrop(pdfPath, 1, photoPoints);
       }
-      expect(rendered.slice(1)).toEqual([rendered[0], rendered[0]]);
-      expect(rendered).toEqual([app, app, app]);
 
       const xml = await Promise.all(files.map(readDocxDocument));
       const [before, ...reopened] = await page.evaluate((xml) => {

@@ -62,6 +62,26 @@ export function applyCvSidebarTypography(
   const fail = (id: string): never => {
     throw Error(`DOCX Next: Ungültige oder unvollständige Sidebar-Schriftwerte (${id}).`);
   };
+  if (metrics.opening?.sidebarText && part.layout.side === "right") {
+    const { leftMm, widthMm } = metrics.opening.sidebarText;
+    const [main, gap, rail] = tableColumnWidths(
+      body,
+      part.page.widthMm - part.page.margins.left - part.page.margins.right,
+    );
+    const padding = body.rows[0].cellDecorations?.[2];
+    const left = leftMm - (part.page.margins.left + main + gap);
+    const right = rail - left - widthMm;
+    // CSS uses subpixel sheet widths; allow that rounding at the native cell edges.
+    if (
+      !padding ||
+      ![left, right, widthMm].every(Number.isFinite) ||
+      Math.min(left, right) < -0.1 ||
+      widthMm < 10
+    )
+      fail("sidebarText");
+    padding!.paddingLeftMm = Math.max(0, left);
+    padding!.paddingRightMm = Math.max(0, right);
+  }
   const seen = new Set<string>();
   const paragraphWidths = new Map<Paragraph, number>();
   const dateHeights = new Map<TableBlock, number>();
@@ -168,6 +188,10 @@ export function applyCvSidebarTypography(
     if (heading) {
       if (![heading.beforeMm, heading.afterMm].every((n) => Number.isFinite(n) && n >= 0))
         fail(p.id);
+      const inset = heading.textInsetMm ?? 0;
+      if (!Number.isFinite(inset) || inset < 0 || inset >= widthMm) fail(p.id);
+      if (inset) p.indentMm = (p.indentMm ?? 0) + inset;
+      widthMm -= inset;
       p.beforeMm += heading.beforeMm;
       p.afterMm += heading.afterMm;
       if (heading.rule) {

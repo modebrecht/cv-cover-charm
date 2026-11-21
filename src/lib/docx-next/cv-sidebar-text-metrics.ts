@@ -3,6 +3,7 @@ import type { TextStyle } from "./model";
 export type CvSidebarOpeningMetrics = {
   headerInsetMm: number;
   headerReserveMm: number;
+  sidebarText?: { leftMm: number; widthMm: number };
   photo?: { xMm: number; yMm: number; widthMm: number; gapAfterMm: number };
 };
 
@@ -35,6 +36,7 @@ export type CvSidebarTextMetrics = {
     {
       beforeMm: number;
       afterMm: number;
+      textInsetMm?: number;
       rule?: {
         /** A wrapped Sidebar title gives its rule a complete following row. */
         placement?: "below";

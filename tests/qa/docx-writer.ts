@@ -6,7 +6,7 @@ import { promisify } from "node:util";
 
 const run = promisify(execFile);
 
-export async function readPages(path: string) {
+export async function readTextPages(path: string) {
   const { getDocument } = await import("pdfjs-dist/legacy/build/pdf.mjs");
   const task = getDocument({
     data: new Uint8Array(await readFile(path)),
@@ -14,15 +14,19 @@ export async function readPages(path: string) {
   });
   const pdf = await task.promise;
   try {
-    const pages: string[] = [];
+    const pages = [];
     for (let n = 1; n <= pdf.numPages; n++) {
       const content = await (await pdf.getPage(n)).getTextContent();
-      pages.push(content.items.flatMap((item) => ("str" in item ? [item.str] : [])).join(" "));
+      pages.push(content.items.filter((item) => "str" in item));
     }
     return pages;
   } finally {
     await task.destroy();
   }
+}
+
+export async function readPages(path: string) {
+  return (await readTextPages(path)).map((page) => page.map((item) => item.str).join(" "));
 }
 
 export async function writer(source: string, target: string, format: "docx" | "pdf") {

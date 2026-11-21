@@ -67,6 +67,10 @@ Die Messung übernimmt den Abstand vor dem Kopf und den freien Raum unter dem Na
 
 Alle vier Sidebar-Fälle treffen auf drei Seiten sämtliche 20 Seitenzuordnungen des App-PDFs. Pro Fall bleiben alle 18 Beschreibungen und 111 Feldwerte nach zweimal Speichern und Wiederöffnen in Writer erhalten. Die vier Stichproben des Fotoausschnitts stimmen an den vorgesehenen Seitenpunkten. Die Kanten des Bildrahmens liegen in den Writer-PDFs innerhalb von 0,1 mm zur Webvorschau.
 
+### Horizontale Ausrichtung des Sidebar-Texts
+
+Der Prüfexport verwendet die linke Kante und Breite der Sidebar-Textspalte aus der Webvorschau. Die Überschriften übernehmen zusätzlich den gemessenen Einzug neben der Farblinie. Bei Studio 3 schrumpft der horizontale Versatz der geprüften Textanfänge von bis zu 10,42 mm auf höchstens 0,11 mm. Bei Kolumne beträgt die maximale Abweichung 0,07 mm. Die Prüfung vergleicht pro Datei sechs Textanfänge mit dem App-PDF, unmittelbar nach dem Export und nach zwei Writer-Speicherzyklen. Alle vier Sidebar-Fälle behalten die 20 Seitenzuordnungen, 111 Feldwerte und den geprüften Fotoausschnitt.
+
 Der Nachweis gilt für den internen Prüfexport mit gemessener Sans-Typografie. Die Vorlagenschriften und Microsoft Word Desktop stehen für diese Sidebar-Fälle zur Prüfung aus.
 
 [#194](https://github.com/modebrecht/cv-cover-charm/issues/194) · [#195](https://github.com/modebrecht/cv-cover-charm/issues/195) · [#227](https://github.com/modebrecht/cv-cover-charm/issues/227)
