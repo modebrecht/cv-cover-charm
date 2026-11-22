@@ -71,11 +71,9 @@ for (const [side, pageNumber] of [
       input.cv.portableState.mirrored = side === "right";
       input.cv.portableState.infoPosition = side === "right" ? "mirrored" : "standard";
       if (pageNumber === 2)
-        input.cv.data.sectionLayouts.hobbys = {
-          page: 2,
-          width: "full",
-          positioning: "flow",
-          packing: "rows",
+        input.cv.data.sectionLayouts = {
+          ...input.cv.data.sectionLayouts,
+          hobbys: { page: 2, width: "full", positioning: "flow", packing: "rows" },
         };
       input.cv.data.hobbys = markers.map(
         (marker) =>
