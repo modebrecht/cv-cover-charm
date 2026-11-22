@@ -1583,9 +1583,8 @@ export function buildDossierDocModel(
         }
         return [...custom, ...contactFields];
       };
-      const firstMode = options.headerDifferentFirstPage
-        ? options.headerMode
-        : (options.headerContinuationMode ?? options.headerMode);
+      const firstMode = effectiveDossierHeaderModeForOptions(options, 0);
+      const continuationMode = effectiveDossierHeaderModeForOptions(options, 1);
       if (firstMode === "contact") {
         const coveredIds = new Set<string>();
         const coverField = (
@@ -1652,9 +1651,8 @@ export function buildDossierDocModel(
           });
         }
       }
-      target.header = header(options.headerContinuationMode ?? options.headerMode, "");
-      if (options.headerDifferentFirstPage)
-        target.firstHeader = header(options.headerMode, ".first");
+      target.header = header(continuationMode, "");
+      if (options.headerDifferentFirstPage) target.firstHeader = header(firstMode, ".first");
       if (options.footerMode !== "none" && !paintedReadingFooter) {
         const typography = {
           font,
@@ -1692,7 +1690,7 @@ export function buildDossierDocModel(
       };
       const width = target.page.widthMm - target.page.margins.left - target.page.margins.right;
       const headerHeight =
-        firstMode === "none" && (options.headerContinuationMode ?? options.headerMode) === "none"
+        firstMode === "none" && continuationMode === "none"
           ? 0
           : Math.max(
               options.headerHeightMm ?? 0,
@@ -1774,7 +1772,7 @@ export function buildDossierDocModel(
           partColors,
           theme.accent,
           firstMode,
-          options.headerContinuationMode ?? options.headerMode,
+          continuationMode,
           headerHeight,
           explicitHeaderSurface,
           scope === "cv" ? cv.design.bgOpacity : 1,

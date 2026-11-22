@@ -374,3 +374,35 @@ test("adjacent half-width rubrics keep their native columns across long CV rows"
   expect(body).toContain(">WordEndreferenz<");
   expect(body).not.toContain('<w:br w:type="page"/>');
 });
+
+test("the saved follow-up header mode stays inactive when all CV pages use the same contact header", async ({
+  page,
+}, info) => {
+  await importNativeDossier(page, (input) => {
+    configureContactCv(input, "compact", 18);
+    input.chrome.cv.headerDifferentFirstPage = false;
+  });
+  await page.goto(`${base}/lebenslauf`, { waitUntil: "networkidle" });
+  await waitForNativeEditorSaved(page);
+  const sheets = page.locator('[data-export-mode="false"] [data-cv-page]');
+  await expect(sheets.nth(2)).toBeVisible();
+  await expect(sheets.last().locator("[data-dossier-effective-header-mode]")).toHaveAttribute(
+    "data-dossier-effective-header-mode",
+    "contact",
+  );
+  await page.getByRole("button", { name: "Download", exact: true }).click();
+  const [download] = await Promise.all([
+    page.waitForEvent("download", { timeout: 35_000 }),
+    page.getByRole("menuitem", { name: "DOCX", exact: true }).click(),
+  ]);
+  await download.saveAs(info.outputPath("every-page-contact.docx"));
+  const parts = readZipEntries(await readFile((await download.path())!));
+  const xml = (name: string) =>
+    new TextDecoder().decode(parts.find((part) => part.name === name)!.bytes);
+  expect(xml("word/cv-header-first.xml")).toContain("cv.person.address");
+  expect(xml("word/cv-header.xml")).toContain("cv.person.address");
+  const body = xml("word/document.xml");
+  expect(body).not.toContain("cv.person.address");
+  expect(body.match(/>WordPraxis\d+</g)).toHaveLength(18);
+  expect(body).toContain(">WordEndreferenz<");
+});

@@ -331,6 +331,10 @@ the same flow in the standalone CV and the full dossier. The mirrored Sidebar
 portrait uses an offset relative to the left margin to preserve its authored
 position in Writer.
 
+When the first page uses the same header as the following pages, the saved
+choice of a different follow-up mode stays inactive in the DOCX. Contact fields
+remain in the native header on every page.
+
 Adjacent half-width sections can continue as the same pair of columns. A
 four-page school and experience fixture with 18 entries showed all text across
 five Writer pages both at first open and after saving.
