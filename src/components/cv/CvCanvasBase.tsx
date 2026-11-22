@@ -21,6 +21,7 @@ import {
 } from "@/components/cover/types";
 import { resolveCvPlacement } from "./placement";
 import { cvSidebarGeometry, cvSidebarPhotoWidthMm } from "./sidebar-geometry";
+import { cvSidebarOverflowMessage, cvSidebarTextClips } from "./sidebar-overflow";
 import type { CvPresentation } from "./presentation";
 import { cvSectionTitleFontSizePx } from "./reading-defaults";
 import { alphaHex, cvVisualPolicy, sidebarPlan, smartNameSize } from "./intelligence";
@@ -2557,6 +2558,11 @@ export function CvCanvas({
             id: `main-clipped:${pageIndex}`,
             message: `Auf Seite ${pageIndex + 1} ragt Inhalt aus dem druckbaren Bereich und könnte im PDF abgeschnitten werden.`,
           });
+        if (!exportMode && cvSidebarTextClips(page))
+          add({
+            id: `sidebar-clipped:${pageIndex}`,
+            message: cvSidebarOverflowMessage(pageIndex + 1),
+          });
       }
       const freeSectionsFound = Array.from(
         root.querySelectorAll<HTMLElement>("[data-cv-free-section]"),
@@ -2642,7 +2648,7 @@ export function CvCanvas({
     const observer = new ResizeObserver(scheduleReport);
     observer.observe(root);
     for (const node of root.querySelectorAll<HTMLElement>(
-      "[data-cv-page], [data-cv-main], [data-cv-free-section], [data-block-id]",
+      "[data-cv-page], [data-cv-main], [data-cv-sidebar-content], [data-cv-free-section], [data-block-id]",
     ))
       observer.observe(node);
     return () => {

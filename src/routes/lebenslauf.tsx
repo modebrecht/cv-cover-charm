@@ -22,6 +22,7 @@ import { useTemplateQaTemplateSwitch } from "@/lib/template-qa-switch";
 import { ColorChooser } from "@/components/cover/ColorChooser";
 import { ScaledPreview } from "@/components/cover/ScaledPreview";
 import { CvCanvas, type CvLayoutWarning } from "@/components/cv/CvCanvas";
+import { CvSidebarOverflowError, cvSidebarTextClips } from "@/components/cv/sidebar-overflow";
 import { CvPageMarginsControl } from "@/components/cv/CvPageMarginsControl";
 import { CitrusRubricControls } from "@/components/cv/CitrusRubricControls";
 import { cvReadingDefaults } from "@/components/cv/reading-defaults";
@@ -899,6 +900,7 @@ function Lebenslauf() {
     if (!exportRef.current || downloading) return;
     setDownloading(true);
     try {
+      await document.fonts?.ready;
       await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
       const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
         import("html2canvas-pro"),
@@ -906,6 +908,10 @@ function Lebenslauf() {
       ]);
       const pages = Array.from(exportRef.current.querySelectorAll<HTMLElement>("[data-cv-page]"));
       if (!pages.length) throw new Error("keine Seiten");
+      const checkSidebar = (page: HTMLElement, index: number) => {
+        if (cvSidebarTextClips(page)) throw new CvSidebarOverflowError(index + 1);
+      };
+      pages.forEach(checkSidebar);
 
       const pdf = new jsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
       await registerCabinPdfFonts(pdf);
@@ -923,7 +929,8 @@ function Lebenslauf() {
           backgroundColor: "#ffffff",
           useCORS: true,
           onclone: (_clonedDocument, clonedPage) => {
-            normalizeCssZoomForHtml2Canvas(clonedPage as HTMLElement);
+            normalizeCssZoomForHtml2Canvas(clonedPage);
+            checkSidebar(clonedPage, i);
           },
         });
         emitPdfRasterCanvasDiagnostic(canvas, pages[i]);
@@ -942,8 +949,11 @@ function Lebenslauf() {
       downloadBlob(pdf.output("blob"), `${fileBase()}.pdf`);
       setStatus({ kind: "ok", text: `PDF mit ${pages.length} Seite(n) heruntergeladen` });
     } catch (e) {
-      console.error(e);
-      setStatus({ kind: "error", text: "PDF konnte nicht erstellt werden." });
+      if (!(e instanceof CvSidebarOverflowError)) console.error(e);
+      setStatus({
+        kind: "error",
+        text: e instanceof CvSidebarOverflowError ? e.message : "PDF konnte nicht erstellt werden.",
+      });
     } finally {
       setDownloading(false);
     }

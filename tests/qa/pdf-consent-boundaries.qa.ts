@@ -56,6 +56,79 @@ async function status(page: Page) {
   });
 }
 
+for (const [side, pageNumber] of [
+  ["left", 1],
+  ["right", 2],
+] as const) {
+  test(`standalone CV prevents a clipped ${side} sidebar PDF on page ${pageNumber} and exports every moved entry`, async ({
+    page,
+  }, info) => {
+    const markers = Array.from(
+      { length: 36 },
+      (_, index) => `QAHOBBY${String(index + 1).padStart(3, "0")}`,
+    );
+    await importNativeDossier(page, (input) => {
+      input.cv.portableState.mirrored = side === "right";
+      input.cv.portableState.infoPosition = side === "right" ? "mirrored" : "standard";
+      if (pageNumber === 2)
+        input.cv.data.sectionLayouts.hobbys = {
+          page: 2,
+          width: "full",
+          positioning: "flow",
+          packing: "rows",
+        };
+      input.cv.data.hobbys = markers.map(
+        (marker) =>
+          `${marker} Fotografie und gemeinsame Projekte mit klaren Arbeitsschritten und Verantwortung.`,
+      );
+    });
+    await page.goto("http://127.0.0.1:4173/lebenslauf", { waitUntil: "networkidle" });
+    await waitForNativeEditorSaved(page);
+    const preview = page.locator(documentRoots("cv").web);
+    const sidebar = preview.locator(
+      `[data-cv-page="${pageNumber - 1}"] [data-cv-sidebar-side="${side}"]`,
+    );
+    await expect(sidebar).toContainText(markers.at(-1)!);
+    expect(await sidebar.evaluate((rail) => rail.scrollHeight > rail.clientHeight)).toBe(true);
+    const warning = `Auf Seite ${pageNumber} wird Text in der seitlichen Spalte abgeschnitten`;
+    await expect(page.getByText(warning)).toBeVisible();
+
+    const downloads: string[] = [];
+    page.on("download", (file) => downloads.push(file.suggestedFilename()));
+    await openDownload(page);
+    await normal(page).click();
+    await expect(page.getByRole("status").filter({ hasText: warning })).toBeVisible();
+    expect(downloads).toEqual([]);
+
+    const hobbies = page.locator('[data-editor-section-title="Hobbys & Interessen"]');
+    const section = hobbies.getByRole("button", { name: /Hobbys & Interessen/ });
+    if ((await section.getAttribute("aria-expanded")) !== "true") await section.click();
+    await hobbies.getByRole("button", { name: "Main", exact: true }).click();
+    await expect(
+      preview.locator("[data-cv-page] [data-cv-main]").getByText(markers.at(-1)!),
+    ).toBeVisible();
+    await openDownload(page);
+    const [download] = await Promise.all([page.waitForEvent("download"), normal(page).click()]);
+    const filename = info.outputPath(`sidebar-${side}-recovered.pdf`);
+    await download.saveAs(filename);
+    const { getDocument } = await import("pdfjs-dist/legacy/build/pdf.mjs");
+    const loading = getDocument({ data: new Uint8Array(await readFile(filename)) });
+    const pdf = await loading.promise;
+    try {
+      const texts = await Promise.all(
+        Array.from({ length: pdf.numPages }, async (_, index) => {
+          const { items } = await (await pdf.getPage(index + 1)).getTextContent();
+          return items.map((item) => ("str" in item ? item.str : "")).join(" ");
+        }),
+      );
+      expect(texts.join(" ").match(/QAHOBBY\d{3}/g)).toEqual(markers);
+      expect(downloads).toHaveLength(1);
+    } finally {
+      await loading.destroy();
+    }
+  });
+}
+
 test("two-page letter exports the same split paragraph, header and final attachments as the editor", async ({
   page,
 }, info) => {
