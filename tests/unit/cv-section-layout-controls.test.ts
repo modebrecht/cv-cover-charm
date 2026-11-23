@@ -35,7 +35,7 @@ describe("CV section position and layout controls", () => {
 
   test("renders custom rubrics in the sidebar and preserves their portable placement", () => {
     expect(canvas).toContain("customSideKeys");
-    expect(canvas).toContain("sideCustomEntries(key)");
+    expect(canvas).toMatch(/\bsideCustomEntries\(key(?:,|\))/);
     expect(canvas).toContain("resolveCvPlacement(placements, key)");
     expect(portable).toContain("Object.entries(parsed)");
     expect(portable).toContain("isCustomSectionKey(key)");

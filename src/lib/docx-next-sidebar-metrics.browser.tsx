@@ -210,11 +210,13 @@ export async function captureCvSidebarTextMetrics(
       ...host.querySelectorAll<HTMLElement>(
         "[data-cv-measure-page] [data-cv-name], [data-cv-measure-page] [data-dossier-field-id], [data-cv-page] [data-cv-name], [data-cv-page] [data-dossier-field-id]",
       ),
-    ].sort(
-      (a, b) =>
-        Number(!!b.closest("[data-cv-measure-page]")) -
-        Number(!!a.closest("[data-cv-measure-page]")),
-    );
+    ]
+      .filter((field) => !field.closest("[data-cv-sidebar-flow-measure]"))
+      .sort(
+        (a, b) =>
+          Number(!!b.closest("[data-cv-measure-page]")) -
+          Number(!!a.closest("[data-cv-measure-page]")),
+      );
     for (const el of fields) {
       if (!el.closest("[data-cv-main], [data-cv-sidebar]")) continue;
       const id = el.hasAttribute("data-cv-name") ? "cv.person.name" : el.dataset.dossierFieldId!;

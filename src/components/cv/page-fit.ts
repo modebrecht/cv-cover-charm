@@ -318,7 +318,7 @@ export function measureCvPageFitSidebarFits(canvas: HTMLElement | null): boolean
 }
 
 /** Exact one-page trial: use the paginator's own measured height, including
- * grouped/Masonry rows, plus the actual first-page Sidebar. No text estimates
+ * grouped/Masonry rows, plus the unsplit first-page Sidebar. No text estimates
  * or zoom-dependent pixel budgets participate in this decision. */
 export function measureCvOnePageDemand(canvas: HTMLElement | null): number | null {
   const main = canvas?.querySelector<HTMLElement>("[data-cv-measure-page] [data-cv-main]");
@@ -326,7 +326,9 @@ export function measureCvOnePageDemand(canvas: HTMLElement | null): number | nul
   const capacity = Number(main?.dataset.cvFlowCapacityPx);
   if (!Number.isFinite(used) || !Number.isFinite(capacity) || used < 0 || capacity <= 0)
     return null;
-  const rail = canvas?.querySelector<HTMLElement>('[data-cv-page="0"] [data-cv-sidebar]');
+  const rail =
+    canvas?.querySelector<HTMLElement>('[data-cv-sidebar-flow-measure="0"] [data-cv-sidebar]') ??
+    canvas?.querySelector<HTMLElement>('[data-cv-page="0"] [data-cv-sidebar]');
   const content = rail?.querySelector<HTMLElement>("[data-cv-sidebar-content]");
   if (!rail) return used / capacity;
   if (!content) return null;
