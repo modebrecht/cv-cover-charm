@@ -2807,7 +2807,13 @@ export function CvCanvas({
                     marginBottom: sidePlan.compact ? "3.8mm" : "5.3mm",
                   }}
                 >
-                  <img src={p.foto ?? undefined} alt="" style={dossierPhotoCropStyle(photoStyle)} />
+                  {measurement !== "flow" && (
+                    <img
+                      src={p.foto ?? undefined}
+                      alt=""
+                      style={dossierPhotoCropStyle(photoStyle)}
+                    />
+                  )}
                 </div>
               )}
               {hasContact && (
