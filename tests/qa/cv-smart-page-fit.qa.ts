@@ -629,7 +629,8 @@ for (const side of ["left", "right"]) {
     }));
     data.hobbys = Array.from({ length: 8 }, (_, i) => `Langfristiges kreatives Hobby ${i + 1}`);
     const root = await load(page, data, "modern", side);
-    await expect(root.locator("[data-cv-page]")).toHaveCount(2);
+    // With the saved page-two placements, the full Sidebar flows onto page three.
+    await expect(root.locator("[data-cv-page]")).toHaveCount(3);
     await autoFit(page);
     await expect(root.locator("[data-cv-page]")).toHaveCount(2);
     // The measured two-column planner may keep languages on page one while
