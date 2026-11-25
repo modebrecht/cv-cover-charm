@@ -1545,15 +1545,13 @@ export function CvCanvas({
   const measureRef = useRef<HTMLDivElement>(null);
   const [mainPages, setPages] = useState<Row[][]>([rows]);
   const [sidebarPages, setSidebarPages] = useState<CvSidebarPage[] | null>(null);
-  const flowingSidebarSections = contentSectionKeys.filter(
-    (key) =>
-      resolveCvPlacement(placements, key) === "side" &&
-      cvSectionLayout(data, key).positioning === "flow",
-  );
   const sidebarFlow =
     layout === "modern" &&
-    flowingSidebarSections.length > 0 &&
-    flowingSidebarSections.every((key) => cvSectionLayout(data, key).width === "full");
+    contentSectionKeys.some(
+      (key) =>
+        resolveCvPlacement(placements, key) === "side" &&
+        cvSectionLayout(data, key).positioning === "flow",
+    );
   const pages = useMemo(() => {
     const sideCount = sidebarFlow ? (sidebarPages?.length ?? 0) : 0;
     return sideCount > mainPages.length
@@ -1935,17 +1933,6 @@ export function CvCanvas({
       firstSideKey,
     };
   };
-
-  const sideSectionStyle = (
-    key: Exclude<CvLayoutSectionKey, "person">,
-    measureAll = false,
-    order = contentSectionKeys.indexOf(key),
-  ): React.CSSProperties => ({
-    gridColumn: !measureAll && cvSectionLayout(data, key).width === "half" ? "span 1" : "1 / -1",
-    order: order + 10,
-    minWidth: 0,
-    overflowWrap: "anywhere",
-  });
 
   const sideHeading = (key: CvLayoutSectionKey, text: string, first = false) => (
     <div
@@ -2720,8 +2707,14 @@ export function CvCanvas({
     } = presence;
     const sectionOrder: readonly string[] = ranges ? Object.keys(ranges) : contentSectionKeys;
     const originalPresence = ranges ? [sidePresence(0), sidePresence(1)] : undefined;
-    const sectionStyle = (key: Exclude<CvLayoutSectionKey, "person">) =>
-      sideSectionStyle(key, measureAll, sectionOrder.indexOf(key));
+    const sectionStyle = (key: Exclude<CvLayoutSectionKey, "person">): React.CSSProperties => ({
+      gridColumn:
+        ranges?.[key]?.[2] ??
+        (!measureAll && cvSectionLayout(data, key).width === "half" ? "span 1" : "1 / -1"),
+      order: sectionOrder.indexOf(key) + 10,
+      minWidth: 0,
+      overflowWrap: "anywhere",
+    });
     const sectionHeading = (key: Exclude<CvLayoutSectionKey, "person">, title: string) => {
       if ((ranges?.[key]?.[0] ?? 0) > 0) return null;
       const origin = originalPresence?.[cvSectionLayout(data, key).page - 1] ?? presence;

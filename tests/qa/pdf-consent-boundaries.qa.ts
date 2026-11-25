@@ -65,16 +65,43 @@ async function openLongSidebar(
   page: Page,
   side: "left" | "right",
   firstPage: 1 | 2,
-  width: "full" | "half",
+  width: "full" | "half" | "mixed",
 ) {
   const project = await importNativeDossier(page, (input) => {
     input.cv.portableState.mirrored = side === "right";
     input.cv.portableState.infoPosition = side === "right" ? "mirrored" : "standard";
-    if (firstPage === 2 || width === "half")
+    if (firstPage === 2 || width !== "full")
       input.cv.data.sectionLayouts = {
         ...input.cv.data.sectionLayouts,
-        hobbys: { page: firstPage, width, positioning: "flow", packing: "rows" },
+        hobbys: {
+          page: firstPage,
+          width: width === "half" ? "half" : "full",
+          positioning: "flow",
+          packing: "rows",
+        },
       };
+    if (width === "mixed") {
+      const half = { page: firstPage, width: "half", positioning: "flow", packing: "rows" };
+      input.cv.data.sectionLayouts = {
+        ...input.cv.data.sectionLayouts,
+        sprachen: half,
+        staerken: half,
+      };
+      const order = input.cv.data.sectionOrder.filter(
+        (key) => !["hobbys", "sprachen", "staerken"].includes(key),
+      );
+      const pair = side === "left" ? ["sprachen", "staerken"] : ["staerken", "sprachen"];
+      order.splice(order.indexOf("referenzen"), 0, "hobbys", ...pair);
+      input.cv.data.sectionOrder = order;
+      input.cv.data.sprachen = [
+        {
+          id: "qa-half-language",
+          name: "QALANG",
+          niveau: "Grundkenntnisse im Schriftlichen und im täglichen Austausch",
+        },
+      ];
+      input.cv.data.staerken = ["QAPOWER"];
+    }
     input.cv.data.hobbys = hobbyMarkers.map(
       (marker) =>
         `${marker} Fotografie und gemeinsame Projekte mit klaren Arbeitsschritten und Verantwortung.`,
@@ -85,7 +112,7 @@ async function openLongSidebar(
   return project;
 }
 
-async function pdfHobbies(filename: string) {
+async function pdfSidebarMarkers(filename: string, markers = /QAHOBBY\d{3}/g) {
   const { getDocument } = await import("pdfjs-dist/legacy/build/pdf.mjs");
   const loading = getDocument({
     data: new Uint8Array(await readFile(filename)),
@@ -100,7 +127,7 @@ async function pdfHobbies(filename: string) {
           items
             .map((item) => ("str" in item ? item.str : ""))
             .join(" ")
-            .match(/QAHOBBY\d{3}/g) ?? []
+            .match(markers) ?? []
         );
       }),
     );
@@ -144,7 +171,7 @@ for (const [side, pageNumber] of [
     const [download] = await Promise.all([page.waitForEvent("download"), normal(page).click()]);
     const filename = info.outputPath(`sidebar-${side}-recovered.pdf`);
     await download.saveAs(filename);
-    expect((await pdfHobbies(filename)).flat()).toEqual(hobbyMarkers);
+    expect((await pdfSidebarMarkers(filename)).flat()).toEqual(hobbyMarkers);
     expect(downloads).toHaveLength(1);
   });
 
@@ -179,7 +206,7 @@ for (const [side, pageNumber] of [
     const [download] = await Promise.all([page.waitForEvent("download"), normal(page).click()]);
     const filename = info.outputPath(`sidebar-${side}-flow.pdf`);
     await download.saveAs(filename);
-    expect(await pdfHobbies(filename)).toEqual(before);
+    expect(await pdfSidebarMarkers(filename)).toEqual(before);
     await page.reload({ waitUntil: "networkidle" });
     await waitForNativeEditorSaved(page);
     await expect.poll(distribution).toEqual(before);
@@ -214,7 +241,86 @@ for (const [side, pageNumber] of [
       const [dossier] = await Promise.all([page.waitForEvent("download"), combined.click()]);
       const combinedFilename = info.outputPath("dossier-sidebar-flow.pdf");
       await dossier.saveAs(combinedFilename);
-      expect((await pdfHobbies(combinedFilename)).slice(-before.length)).toEqual(before);
+      expect((await pdfSidebarMarkers(combinedFilename)).slice(-before.length)).toEqual(before);
+    }
+  });
+
+  test(`mixed-width ${side} sidebar flows full-width entries and keeps paired rubrics together`, async ({
+    page,
+  }, info) => {
+    const project = await openLongSidebar(page, side, pageNumber, "mixed");
+    const preview = page.locator(documentRoots("cv").web);
+    const rails = preview.locator(`[data-cv-page] [data-cv-sidebar-side="${side}"]`);
+    const distribution = () =>
+      rails.evaluateAll((nodes) =>
+        nodes.map((node) => node.textContent?.match(/QAHOBBY\d{3}/g) ?? []),
+      );
+    await expect
+      .poll(async () => (await distribution()).filter((items) => items.length).length)
+      .toBeGreaterThan(1);
+    const before = await distribution();
+    expect(before.flat()).toEqual(hobbyMarkers);
+    expect(before.findIndex((items) => items.length)).toBe(pageNumber - 1);
+
+    const pair = rails.locator(
+      '[data-cv-fit-section="sprachen"], [data-cv-fit-section="staerken"]',
+    );
+    await expect(pair).toHaveCount(2);
+    const [language, strength] = await pair.evaluateAll((nodes) =>
+      nodes.map((node) => {
+        const { top, left, width } = node.getBoundingClientRect();
+        return {
+          page: Number(node.closest("[data-cv-page]")?.getAttribute("data-cv-page")),
+          top,
+          left,
+          width,
+        };
+      }),
+    );
+    expect(language.page).toBeGreaterThan(pageNumber - 1);
+    expect(strength.page).toBe(language.page);
+    expect(strength.top).toBeCloseTo(language.top, 1);
+    const [first, second] = side === "left" ? [language, strength] : [strength, language];
+    expect(second.left).toBeGreaterThanOrEqual(first.left + first.width - 1);
+    expect(
+      await rails.evaluateAll((nodes) =>
+        nodes.every((node) => node.scrollHeight <= node.clientHeight + 1),
+      ),
+    ).toBe(true);
+    await page.reload({ waitUntil: "networkidle" });
+    await waitForNativeEditorSaved(page);
+    await expect.poll(distribution).toEqual(before);
+    const layouts = await page.evaluate(
+      () => JSON.parse(localStorage.getItem("lebenslauf:v1")!).data.sectionLayouts,
+    );
+    expect(layouts).toEqual(project.cv.data.sectionLayouts);
+
+    if (side === "right") {
+      await page.goto("http://127.0.0.1:4173/");
+      await page.getByRole("button", { name: /Gesamtdossier herunterladen/ }).click();
+    } else {
+      await openDownload(page);
+    }
+    const exportButton =
+      side === "left"
+        ? normal(page)
+        : page
+            .getByRole("dialog", { name: "Dossier herunterladen" })
+            .getByRole("button", { name: /^(PDF herunterladen|Dossier herunterladen)$/ });
+    const [download] = await Promise.all([page.waitForEvent("download"), exportButton.click()]);
+    const filename = info.outputPath(`sidebar-${side}-mixed.pdf`);
+    await download.saveAs(filename);
+    const pdfPages = await pdfSidebarMarkers(filename, /QAHOBBY\d{3}|QALANG|QAPOWER/g);
+    const coverAndLetter = side === "right" ? 2 : 0;
+    expect(pdfPages).toHaveLength(coverAndLetter + before.length);
+    expect(pdfPages.slice(0, coverAndLetter).flat()).toEqual([]);
+    const fromPdf = pdfPages.slice(coverAndLetter);
+    expect(fromPdf.map((tokens) => tokens.filter((token) => token.startsWith("QAHOBBY")))).toEqual(
+      before,
+    );
+    for (const marker of ["QALANG", "QAPOWER"]) {
+      expect(fromPdf.flat().filter((item) => item === marker)).toHaveLength(1);
+      expect(fromPdf[language.page]).toContain(marker);
     }
   });
 }
